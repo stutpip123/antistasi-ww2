@@ -105,7 +105,7 @@ if (not(_typeX in sniperUnits)) then
 		_unit setskill ["courage",_skill + 0.2];
 		_unit setskill ["commanding",_skill + 0.2];
 		_hasIntel = (random 100 < 15);
-		_unit addAction ["Search for Intel", {[_hasIntel, "Small"] execVM retrieveIntel.sqf;},nil,4,false,true,"","(isPlayer _this) and ((!alive _target) or (_target getVariable['surrendered', false])) and (_this == _this getVariable ['owner',objNull])",4]};
+		_unit addAction ["Search for Intel", {[_hasIntel, "Small"] execVM retrieveIntel.sqf;},nil,4,false,true,"","(isPlayer _this) and ((!alive _target) or (_target getVariable['surrendered', false])) and (_this == _this getVariable ['owner',objNull])",4];
 		};
 	};
 
