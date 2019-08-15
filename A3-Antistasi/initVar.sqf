@@ -7,7 +7,7 @@
 diag_log format ["%1: [Antistasi]: initVar Started.",servertime];
 antistasiVersion = "v 1.4c1.05";
 
-debug = false;//debug variable, not useful for everything..
+debug = false;//debug Variable, actually usefull for debuging intel
 
 cleantime = 3600;//time to delete dead bodies, vehicles etc..
 distanceSPWN = 1000;//initial spawn distance. Less than 1Km makes parked vehicles spawn in your nose while you approach.
@@ -404,6 +404,10 @@ injuredSounds =
 	"a3\sounds_f\characters\human-sfx\Person2\P2_moan_19_words.wss"
 ];
 medicAnims = ["AinvPknlMstpSnonWnonDnon_medic_1","AinvPknlMstpSnonWnonDnon_medic0","AinvPknlMstpSnonWnonDnon_medic1","AinvPknlMstpSnonWnonDnon_medic2"];
+
+intelBuidings = [["Land_Cargo_Tower_V1_No1_F","Land_Cargo_Tower_V3_F","Land_Cargo_Tower_V1_No5_F","Land_Cargo_Tower_V1_No7_F","Land_Cargo_Tower_V1_No4_F","Land_Cargo_Tower_V1_F","Land_Cargo_Tower_V1_No2_F","Land_Cargo_Tower_V1_No6_F","Land_Cargo_Tower_V2_F","Land_Cargo_Tower_V1_No3_F"], ["Land_Cargo_HQ_V3_F","Land_Cargo_HQ_V1_F","Land_Cargo_HQ_V2_F"]];
+intelDeskOffset = [[[-2.59106,-3.74121,2.88818],0],[[4.76489,3.95068,-2.86576],180]];
+intelOffset = [[[0.500977,-0.0258789,0.531177],-148.395],[[-0.5,-0.0742188,0.412336],166.164]];
 
 _getMissionPath = [] execVM "initGetMissionPath.sqf";
 waitUntil
