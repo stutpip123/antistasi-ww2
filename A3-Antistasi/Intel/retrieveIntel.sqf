@@ -85,9 +85,50 @@ if(_intelType == "Big") then
 
   _pointSum = 0;
 
+  {
+    _friendX = _x;
+    if (captive _friendX) then
+    {
+      [_friendX,false] remoteExec ["setCaptive",0,_friendX];
+      _friendX setCaptive false;
+    };
+  } forEach [200, 0, _intel, teamPlayer] call A3A_fnc_distanceUnits;
+
+  _spawnDistance = distanceSPWN;
+  if(_isTrap) then
+  {
+    //Spawn in mortars, kill da fools, muhahaha :D
+    _base = nil;
+    {
+      _marker = _x;
+      if(_marker distance2D _intel > _spawnDistance && {_marker distance2D _intel < 3 * _spawnDistance && {spawner getVariable _marker == 2}}) exitWith
+      {
+        _base = _marker;
+      };
+    } forEach (airportsX + outposts);
+
+    _groupX = createGroup _sideX;
+  	_typeUnit = if (_sideX==Occupants) then {staticCrewOccupants} else {staticCrewInvaders};
+  	_typeVehX = if (_sideX == Occupants) then {NATOMortar} else {CSATMortar};
+    _mortarMag = getArray (configFile >> "CfgVehicles" >> _typeVehX >> "Turrets" >> "MainTurret" >> "magazines");
+  	_pos = [_positionX] call A3A_fnc_mortarPos;
+  	_veh = _typeVehX createVehicle _pos;
+  	_unit = _groupX createUnit [_typeUnit, _positionX, [], 0, "NONE"];
+  	_unit moveInGunner _veh;
+    [] spawn
+    {
+      sleep 1;
+
+    };
+
+
+  };
+
   _intel setVariable ["ActionNeeded", false];
   _errorText = "";
   _errorChance = 0;
+
+  _enemyCounter = 0;
 
   while {_pointSum <= _neededPoints} do
   {
@@ -106,7 +147,7 @@ if(_intelType == "Big") then
     {
       if(random 1000 < _errorChance) then
       {
-        //Something went wrong, generating error message to force player to move to the intel laptop
+        //"Something went wrong, oopsie", generating error message to force player to move to the intel laptop
         _actionNeed = true;
         _intel setVariable ["ActionNeeded", true];
         _error = selectRandomWeighted ["Err_Sml_01", 0.25, "Err_Sml_02", 0.2, "Err_Sml_03", 0.15, "Err_Med_01", 0.15, "Err_Med_02", 0.15, "Err_Lar_01", 0.1];
@@ -116,7 +157,7 @@ if(_intelType == "Big") then
         {
           case ("Err_Sml_01"):
           {
-            _errorText = "Data Fragment Error. File {002451%12-215502%} have to be confirmed manually!";
+            _errorText = "Data Fragment Error. File {002451%12-215502%} has to be confirmed manually!";
             _actionText = "Confirm file";
             _penalty = 150 + random 100;
           };
@@ -146,10 +187,10 @@ if(_intelType == "Big") then
           };
           case ("Err_Lar_01"):
           {
-            _errorText = "Critical Error in network infrastructur, Data Overflow, Server returned ErrorCode: CRITICAL_PROCESS_DIED";
+            _errorText = "Critical Error in network infrastructur. Server returned ErrorCode: CRITICAL_PROCESS_DIED";
             _actionText = "Restart server process";
             _penalty = 600 + random 250;
-          }
+          };
         };
         _intel addAction [_actionText, {(_this select 0) setVariable ["ActionNeeded", false]; (_this select 0) removeAction (_this select 2);},nil,4,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4];
         _pointSum -= _penalty;
@@ -158,27 +199,57 @@ if(_intelType == "Big") then
       };
     };
 
-    _UAVHacker = (_playerList findIf {_x getUnitTrait "UAVHacker"} != -1);
+    //Sending in enemy troups to secure the terminal
+    if(_enemyCounter > 10) then
+    {
+      {
+        _x doMove (getPos _intel);
+      } forEach ([300, 0, _intel, Invaders] call A3A_fnc_distanceUnits);
+      {
+        _x doMove (getPos _intel);
+      } forEach ([300, 0, _intel, Occupants] call A3A_fnc_distanceUnits);
+      _enemyCounter = 0;
+    }
+    else
+    {
+      _enemyCounter++;
+    };
+
     if(_actionNeed) then
     {
       {[petros,"intelError", _errorText] remoteExec ["A3A_fnc_commsMP",_x]} forEach _playerList;
     }
     else
     {
+      _UAVHacker = (_playerList findIf {_x getUnitTrait "UAVHacker"} != -1);
       if(_UAVHacker) then {_pointSum += _pointsPerSecond * 2;} else {_pointSum += _pointsPerSecond;};
-      {[petros,"hint", format ["Download at %1 %!", str (_pointSum/_neededPoints)]] remoteExec ["A3A_fnc_commsMP",_x]} forEach _playerList;
+      {
+        [petros,"hint", format ["Download at %1 %!", str (_pointSum/_neededPoints)]] remoteExec ["A3A_fnc_commsMP",_x]
+      } forEach _playerList;
     };
-
   };
 
   _intel setVariable ["ActionNeeded", nil];
 
   if(_pointSum > _neededPoints) then
   {
-    [petros,"hint","You managed to download the intel!"] remoteExec ["A3A_fnc_commsMP",_x]} forEach ([20,0,_intel,teamPlayer] call A3A_fnc_distanceUnits);
-    {if (_x distance2D _intel < 20) then {[10,_x] call A3A_fnc_playerScoreAdd}} forEach (allPlayers - (entities "HeadlessClient_F"));
-    [5, theBoss] call A3A_fnc_playerScoreAdd;
-    _intel removeAction _searchAction;
-    //Show intel content
+    if(_hasIntel) then
+    {
+      {
+        [petros,"hint","You managed to download the intel!"] remoteExec ["A3A_fnc_commsMP",_x]
+      } forEach ([20,0,_intel,teamPlayer] call A3A_fnc_distanceUnits);
+      {
+        if (_x distance2D _intel < 20) then {[10,_x] call A3A_fnc_playerScoreAdd}
+      } forEach (allPlayers - (entities "HeadlessClient_F"));
+      [5, theBoss] call A3A_fnc_playerScoreAdd;
+      _intel removeAction _searchAction;
+      //Show intel content
+    }
+    else
+    {
+      {
+        [petros,"hint","The Data says: Die rebel scum!"] remoteExec ["A3A_fnc_commsMP",_x]
+      } forEach ([20,0,_intel,teamPlayer] call A3A_fnc_distanceUnits);
+    };
   };
 };
