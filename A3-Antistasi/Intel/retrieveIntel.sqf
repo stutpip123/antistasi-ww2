@@ -1,4 +1,16 @@
-params ["_hasIntel", "_intelType","_isTrap", "_intel", "_caller", "_searchAction"];
+_preCheck = _this select 0;
+if(_preCheck == "Small") then
+{
+  params ["_intelType", "_hasIntel", "_squadLeader", "_caller", "_searchAction"];
+};
+if(_preCheck == "Medium") then
+{
+  params ["_intelType", "_intel"];
+};
+if(_preCheck == "Big") then
+{
+  params ["_intelType", "_marker", "_isTrap", "_intel", "_searchAction"];
+};
 
 if(_intelType == "Small") then
 {
@@ -48,7 +60,7 @@ if(_intelType == "Small") then
   if(_caller getVariable ["success", false]) then
   {
     _caller setVariable ["success", nil];
-    _intel removeAction _searchAction;
+    _squadLeader removeAction _searchAction;
     if(_hasIntel) then
     {
       hint "Search completed, intel found!";
@@ -69,6 +81,9 @@ if(_intelType == "Medium") then
 };
 if(_intelType == "Big") then
 {
+  _side = sidesX getVariable _marker;
+  _isAirport = (_marker in airportsX);
+
   //Hack laptop to get intel
   _pointsPerSecond = 25;
   if(tierWar > 4) then
@@ -100,34 +115,81 @@ if(_intelType == "Big") then
     //Spawn in mortars, kill da fools, muhahaha :D
     _base = nil;
     {
-      _marker = _x;
-      if(_marker distance2D _intel > _spawnDistance && {_marker distance2D _intel < 3 * _spawnDistance && {spawner getVariable _marker == 2}}) exitWith
+      _markerX = _x;
+      if(sidesX getVariable [_markerX, teamPlayer] == _side && {_markerX distance2D _intel > _spawnDistance && {_markerX distance2D _intel < 3 * _spawnDistance && {spawner getVariable _markerX == 2}}}) exitWith
       {
-        _base = _marker;
+        _base = _markerX;
       };
     } forEach (airportsX + outposts);
 
-    _groupX = createGroup _sideX;
-  	_typeUnit = if (_sideX==Occupants) then {staticCrewOccupants} else {staticCrewInvaders};
-  	_typeVehX = if (_sideX == Occupants) then {NATOMortar} else {CSATMortar};
-    _mortarMag = getArray (configFile >> "CfgVehicles" >> _typeVehX >> "Turrets" >> "MainTurret" >> "magazines");
-  	_pos = [_positionX] call A3A_fnc_mortarPos;
-  	_veh = _typeVehX createVehicle _pos;
-  	_unit = _groupX createUnit [_typeUnit, _positionX, [], 0, "NONE"];
-  	_unit moveInGunner _veh;
-    [] spawn
+
+    [_intel, _marker, _side] spawn
     {
+
+      _groupX = createGroup _side;
+    	_typeUnit = if (_sideX == Occupants) then {staticCrewOccupants} else {staticCrewInvaders};
+    	_typeVehX = if (_sideX == Occupants) then {NATOMortar} else {CSATMortar};
+
+      //_mortarMag = getArray (configFile >> "CfgVehicles" >> _typeVehX >> "Turrets" >> "MainTurret" >> "magazines");
+
+      _pos = [_positionX] call A3A_fnc_mortarPos;
+    	_veh = _typeVehX createVehicle _pos;
+    	_unit = _groupX createUnit [_typeUnit, _positionX, [], 0, "NONE"];
+    	_unit moveInGunner _veh;
+
       sleep 1;
+      _unit doArtilleryFire [(getPos _intel), "8Rnd_82mm_Mo_shells", 8];
+      //This currently only works for vanilla, I have no idea to ensure a modded mortar uses explosive rounds
+      //And the use of smoke rounds for a deadly trap is kinda useless
 
+      //Wait for rounds to be fired
+      sleep 15;
+
+      waitUntil{sleep 10; (spawner getVariable _marker) == 2};
+      deleteVehicleCrew _unit;
+      deleteVehicle _veh;
     };
-
-
+  }
+  else
+  {
+    _noAttackChance = 0.2;
+    if(_isAirport) then
+    {
+      _noAttackChance = 0;
+    }
+    else
+    {
+      if(tierWar > 3) then {_noAttackChance -= 0.02 * tierWar;};
+    }
+    _largeAttackChance = 0.2;
+    if(_isAirport) then
+    {
+      _noAttackChance = 0.4;
+    }
+    else
+    {
+      if(tierWar > 3) then {_noAttackChance += 0.02 * tierWar;};
+    }
+    _attack = selectRandomWeighted ["No", _noAttackChance, "Small", 0.6, "Large", _largeAttackChance];
+    _largeAttack = (_attack == "Large");
+    if(_attack != "No") then
+    {
+      _attackType = "";
+      if(tierWar < 5) then
+      {
+        _attackType = "Normal";
+      }
+      else
+      {
+        _attackType = selectRandomWeighted ["Normal", 0.6, "Tank", 0.4];
+      };
+      [[_marker, _side, _attackType, _largeAttack],"A3A_fnc_patrolCA"] remoteExec ["A3A_fnc_scheduler",2];
+    };
   };
 
   _intel setVariable ["ActionNeeded", false];
   _errorText = "";
   _errorChance = 0;
-
   _enemyCounter = 0;
 
   while {_pointSum <= _neededPoints} do
