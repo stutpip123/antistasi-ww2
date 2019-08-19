@@ -16,17 +16,13 @@ _allBuildings = nearestObjects [(getMarkerPos _markerX),["House"], _maxSize, tru
 
 if(count _allBuildings == 0) exitWith {diag_log "IntelPlacement: No buildings found around marker!"};
 
-_index = -1;
-_index = _allBuildings findIf {(typeOf _x) in (intelBuidings select 0)};
-_isTower = true;
-if(_index == -1) then
-{
-  _index = _allBuildings findIf {(typeOf _x) in (intelBuidings select 1)};
-  _isTower = false;
-};
+_suitableBuildings = [];
+_suitableBuildings = _allBuildings select {(typeOf _x) in (intelBuidings select 0) || {(typeOf _x) in (intelBuidings select 1)}};
 
-if(_index == -1) exitWith {diag_log "IntelPlacement: No suitable buildings found to place intel in!"};
-_building = _allBuildings select _index;
+if(count _suitableBuildings == 0) exitWith {diag_log "IntelPlacement: No suitable buildings found to place intel in!"};
+
+_building = selectRandom _suitableBuildings;
+_isTower = ((typeOf _building) in (intelBuidings select 0));
 
 //Placing the intel
 _relValues = nil;
