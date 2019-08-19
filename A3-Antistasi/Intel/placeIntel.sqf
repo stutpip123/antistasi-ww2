@@ -58,13 +58,13 @@ _intel setPosWorld ((getPosWorld _desk) vectorAdd _offsetVector);
 
 if(_intelType == "Medium") then
 {
-  _intel addAction ["Take Intel", {[true, _intelType, false] execVM retrieveIntel.sqf;},nil,4,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4];
+  _intel addAction ["Take Intel", {[true, _intelType, false] spawn A3A_fnc_retrieveIntel;},nil,4,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4];
 };
 if(_intelType == "Big") then
 {
   _isTrap = (random 100 < (2 * tierWar));
   if(_isTrap) then {diag_log "IntelPlacement: Set up a little surprise for the players!"};
-  _intel addAction ["Download Intel", {[!_isTrap, _intelType, _isTrap] execVM retrieveIntel.sqf;},nil,4,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4];
+  _intel addAction ["Download Intel", {[!_isTrap, _intelType, _isTrap] spawn A3A_fnc_retrieveIntel;},nil,4,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4];
 };
 
 [_markerX, _desk, _intel] spawn

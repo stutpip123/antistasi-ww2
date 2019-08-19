@@ -164,7 +164,14 @@ class A3A
         class VEHdespawner {file="CREATE\VEHdespawner.sqf";};
         class wavedCA {file="CREATE\wavedCA.sqf";};
 	}
-	
+
+  class Intel
+  {
+        class placeIntel {file="Intel\placeIntel.sqf";};
+        class retrieveIntel {file="Intel\retrieveIntel.sqf";};
+  }
+
+
 	class Debugging
 	{
 		class spawnDebuggingLoop {file="Debugging\spawnDebuggingLoop.sqf";};
@@ -175,7 +182,7 @@ class A3A
 	{
 		class mineDialog {file="Dialogs\mineDialog.sqf";};
 	}
-	
+
 	class Garage
 	{
 		//Public API - Call these to do things
@@ -197,7 +204,7 @@ class A3A
 		class attemptPlaceVehicle {file="Garage\private\attemptPlaceVehicle.sqf";};
 		class displayVehiclePlacementMessage {file="Garage\private\displayVehiclePlacementMessage.sqf";};
 		class handleVehPlacementCancelled {file="Garage\private\handleVehPlacementCancelled.sqf";};
-		
+
 		class vehPlacementCleanup {file="Garage\private\vehPlacementCleanup.sqf";};
 	}
 
@@ -275,7 +282,7 @@ class A3A
         class isMedic {file="Revive\isMedic.sqf";};
         class respawn {file="Revive\respawn.sqf";};
 	}
-	
+
 	class Save
 	{
         class playerHasSave {file="statSave\playerHasSave.sqf";};
@@ -283,7 +290,7 @@ class A3A
         class savePlayer {file="statSave\savePlayer.sqf";};
         class loadPreviousSession {file="statSave\loadPreviousSession.sqf";};
 	}
-	
+
 	class Utility
 	{
         class dateToTimeString {file="dateToTimeString.sqf";};

@@ -235,6 +235,12 @@ _groups pushBack (_ret select 0);
 _vehiclesX append (_ret select 1);
 _soldiers append (_ret select 2);
 
+if(random 100 < (50 + tierWar * 3)) then
+{
+	_large = (random 100 < (40 + tierWar * 2));
+	[_markerX, _large] spawn A3A_fnc_placeIntel;
+};
+
 if (!_busy) then
 	{
 	_buildings = nearestObjects [_positionX, ["Land_LandMark_F","Land_runway_edgelight"], _size / 2];
@@ -352,5 +358,3 @@ if (!(_x in staticsToSave)) then
 	if ((!([distanceSPWN-_size,1,_x,teamPlayer] call A3A_fnc_distanceUnits))) then {deleteVehicle _x}
 	};
 } forEach _vehiclesX;
-
-
