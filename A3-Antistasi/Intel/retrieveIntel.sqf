@@ -122,6 +122,14 @@ if(_intelType == "Big") then
       };
     } forEach (airportsX + outposts);
 
+    [] spawn
+    {
+      _time = 5 + random 20;
+      sleep _time;
+      {
+        [petros,"hint","Its a trap, run!"] remoteExec ["A3A_fnc_commsMP",_x]
+      } forEach ([300,0,_intel,teamPlayer] call A3A_fnc_distanceUnits);
+    }
 
     [_intel, _marker, _side] spawn
     {
@@ -205,7 +213,7 @@ if(_intelType == "Big") then
     };
     _actionNeed = _intel getVariable ["ActionNeeded", false];
 
-    if(!_actionNeed) then
+    if(!_actionNeed && {!_isTrap}) then
     {
       if(random 1000 < _errorChance) then
       {
