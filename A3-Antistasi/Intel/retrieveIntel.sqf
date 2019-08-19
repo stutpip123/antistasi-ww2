@@ -160,7 +160,7 @@ if(_intelType == "Big") then
     else
     {
       if(tierWar > 3) then {_noAttackChance -= 0.02 * tierWar;};
-    }
+    };
     _largeAttackChance = 0.2;
     if(_isAirport) then
     {
@@ -169,7 +169,7 @@ if(_intelType == "Big") then
     else
     {
       if(tierWar > 3) then {_noAttackChance += 0.02 * tierWar;};
-    }
+    };
     _attack = selectRandomWeighted ["No", _noAttackChance, "Small", 0.6, "Large", _largeAttackChance];
     _largeAttack = (_attack == "Large");
     if(_attack != "No") then
