@@ -1,7 +1,7 @@
 _preCheck = _this select 0;
 if(_preCheck == "Small") then
 {
-  params ["_intelType", "_hasIntel", "_squadLeader", "_caller", "_searchAction"];
+  params ["_intelType", "_squadLeader", "_hasIntel", "_caller", "_searchAction"];
 };
 if(_preCheck == "Medium") then
 {
@@ -9,8 +9,10 @@ if(_preCheck == "Medium") then
 };
 if(_preCheck == "Big") then
 {
-  params ["_intelType", "_marker", "_isTrap", "_intel", "_searchAction"];
+  params ["_intelType", "_intel", "_marker", "_isTrap", "_searchAction"];
 };
+
+
 
 if(_intelType == "Small") then
 {
@@ -23,8 +25,7 @@ if(_intelType == "Small") then
   _caller setVariable ["cancelSearch",false];
 
   _caller playMoveNow selectRandom medicAnims;
-
-  _actionX = _caller addAction ["Cancel Search", {(_this select 1) setVariable ["cancelSearch",true]},nil,6,true,true,"","(isPlayer _this)"];
+  _cancelAction = _caller addAction ["Cancel Search", {(_this select 1) setVariable ["cancelSearch",true]},nil,6,true,true,"","(isPlayer _this)"];
 
   _caller addEventHandler ["AnimDone",
 	{
@@ -48,8 +49,7 @@ if(_intelType == "Small") then
 
   _caller setVariable ["searchTime",nil];
   _caller setVariable ["animsDone",nil];
-
-  _caller removeAction _actionX;
+  _caller removeAction _cancelAction;
 
   if(_caller getVariable ["cancelSearch", false]) then
   {
@@ -295,7 +295,8 @@ if(_intelType == "Big") then
 
   if(_pointSum > _neededPoints) then
   {
-    if(_hasIntel) then
+    _intel removeAction _searchAction;
+    if(!_isTrap) then
     {
       {
         [petros,"hint","You managed to download the intel!"] remoteExec ["A3A_fnc_commsMP",_x]
@@ -304,7 +305,6 @@ if(_intelType == "Big") then
         if (_x distance2D _intel < 20) then {[10,_x] call A3A_fnc_playerScoreAdd}
       } forEach (allPlayers - (entities "HeadlessClient_F"));
       [5, theBoss] call A3A_fnc_playerScoreAdd;
-      _intel removeAction _searchAction;
       //Show intel content
     }
     else
