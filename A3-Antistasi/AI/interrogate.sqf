@@ -25,11 +25,9 @@ sleep 5;
 
 if (round random 100 < _chance) then
 	{
-	_unit globalChat "Okay, I'll tell you everything I know";
-	[_unit] call A3A_fnc_intelFound;
+	_unit globalChat "Okay, I would, but it is currently not implemented, sorry :(";
 	}
 else
 	{
 	_unit globalChat "Screw you!";
 	};
-
