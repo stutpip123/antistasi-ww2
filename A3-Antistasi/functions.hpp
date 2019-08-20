@@ -169,6 +169,7 @@ class A3A
   {
         class placeIntel {file="Intel\placeIntel.sqf";};
         class retrieveIntel {file="Intel\retrieveIntel.sqf";};
+        class showIntel {file="Intel\showIntel.sqf";};
   }
 
 
