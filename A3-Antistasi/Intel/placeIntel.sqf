@@ -8,6 +8,7 @@ if(!(_markerX  in airportsX || {_markerX in outposts})) exitWith {diag_log "Inte
 if(_intelType != "Medium" && _intelType != "Big") exitWith {diag_log format ["IntelPlacement: Inteltype not accepted, expected 'Medium' or 'Big', got %1", _intelType];};
 
 //Search for building to place intel in
+_side = sidesX getVariable _markerX;
 _size = markerSize _markerX;
 _maxSize = (_size select 0) max (_size select 1);
 _maxSize *= 2;
@@ -58,13 +59,13 @@ _intel setPosWorld ((getPosWorld _desk) vectorAdd _offsetVector);
 
 if(_intelType == "Medium") then
 {
-  _intel addAction ["Take Intel", {[true, _intelType, false] spawn A3A_fnc_retrieveIntel;},nil,4,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4];
+  _intel addAction ["Take Intel", {[_intelType, _intel, _side] spawn A3A_fnc_retrieveIntel;},nil,4,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4];
 };
 if(_intelType == "Big") then
 {
   _isTrap = (random 100 < (2 * tierWar));
   if(_isTrap) then {diag_log "IntelPlacement: Set up a little surprise for the players!"};
-  _intel addAction ["Download Intel", {[!_isTrap, _intelType, _isTrap] spawn A3A_fnc_retrieveIntel;},nil,4,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4];
+  _intel addAction ["Download Intel", {[_intelType, _intel, _markerX, _isTrap, (_this select 2)] spawn A3A_fnc_retrieveIntel;},nil,4,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4];
 };
 
 [_markerX, _desk, _intel] spawn

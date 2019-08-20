@@ -1,18 +1,16 @@
 _preCheck = _this select 0;
 if(_preCheck == "Small") then
 {
-  params ["_intelType", "_squadLeader", "_hasIntel", "_caller", "_searchAction"];
+  params ["_intelType", "_squadLeader", "_side", "_hasIntel", "_caller", "_searchAction"];
 };
 if(_preCheck == "Medium") then
 {
-  params ["_intelType", "_intel"];
+  params ["_intelType", "_intel", "_side"];
 };
 if(_preCheck == "Big") then
 {
   params ["_intelType", "_intel", "_marker", "_isTrap", "_searchAction"];
 };
-
-
 
 if(_intelType == "Small") then
 {
