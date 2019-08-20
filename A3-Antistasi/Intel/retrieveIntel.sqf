@@ -127,7 +127,7 @@ if(_intelType == "Big") then
       {
         [petros,"hint","Its a trap, run!"] remoteExec ["A3A_fnc_commsMP",_x]
       } forEach ([300,0,_intel,teamPlayer] call A3A_fnc_distanceUnits);
-    }
+    };
 
     [_intel, _marker, _side] spawn
     {
@@ -143,7 +143,7 @@ if(_intelType == "Big") then
     	_unit = _groupX createUnit [_typeUnit, _positionX, [], 0, "NONE"];
     	_unit moveInGunner _veh;
 
-      sleep 1;
+      sleep 5;
       _unit doArtilleryFire [(getPos _intel), "8Rnd_82mm_Mo_shells", 8];
       //This currently only works for vanilla, I have no idea to ensure a modded mortar uses explosive rounds
       //And the use of smoke rounds for a deadly trap is kinda useless
