@@ -5,6 +5,14 @@ _mrkOrigin = _this select 1;
 _numberX = _this select 2;
 _sideX = _this select 3;
 diag_log format ["[Antistasi] Spawning PatrolReinforcement. Dest:%1, Orig:%2, Size:%3, Side: %4",_mrkDestination,_mrkOrigin,_numberX,_sideX];
+if(_sideX == Occupants) then
+{
+	reinfPatrolOcc pushBack _mrkOrigin;
+}
+else
+{
+	reinfPatrolInv pushBack _mrkOrigin;
+};
 _posDestination = getMarkerPos _mrkDestination;
 _posOrigin = getMarkerPos _mrkOrigin;
 
@@ -144,6 +152,7 @@ else
 reinfPatrols = reinfPatrols + 1; publicVariable "reinfPatrols";
 _groupX setVariable ["reinfMarker",_mrkDestination];
 _groupX setVariable ["originX",_mrkOrigin];
+_groupX setVariable ["patrolArray", [_sideX, _mrkOrigin]];
 {
 _x addEventHandler ["Killed",
 	{
@@ -154,6 +163,16 @@ _x addEventHandler ["Killed",
 		reinfPatrols = reinfPatrols - 1; publicVariable "reinfPatrols";
 		_originX = _groupX getVariable "originX";
 		_destinationX = _groupX getVariable "reinfMarker";
+		_patrol = _groupX getVariable "patrolArray";
+		if((_patrol select 0) == Occupants) then
+		{
+			reinfPatrolOcc = reinfPatrolOcc - [(_patrol select 1)];
+		}
+		else
+		{
+			reinfPatrolInv = reinfPatrolInv - [(_patrol select 1)];
+		};
+
 		if (((sidesX getVariable [_originX,sideUnknown] == Occupants) and (sidesX getVariable [_destinationX,sideUnknown] == Occupants)) or ((sidesX getVariable [_originX,sideUnknown] == Invaders) and (sidesX getVariable [_destinationX,sideUnknown] == Invaders))) then
 			{
 			_killzones = killZones getVariable [_originX,[]];

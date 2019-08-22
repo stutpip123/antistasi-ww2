@@ -9,7 +9,7 @@ if(_side == Occupants) then {_sideName = nameOccupants} else {_sideName = nameIn
 
 if(_intelType == "Small") then
 {
-  _intelContent = selectRandomWeighted ["Patrols", 0.4, /*"Reinforce", 0.4,*/ "Cars", 0.2];
+  _intelContent = selectRandomWeighted ["Patrols", 0.4, "Reinforce", 0.4, "Cars", 0.2];
   switch (_intelContent) do
   {
     case ("Patrols"):
@@ -35,15 +35,41 @@ if(_intelType == "Small") then
     };
     case ("Reinforce"):
     {
-      //Currently not available, needs further implementation
-        if(_side == Occupants) then
+      _reinf = [];
+      if(_side == Occupants) then
+      {
+        if(count reinfPatrolOcc > 3) then
         {
-
+          _reinf = reinfPatrolOcc select [0,1,2];
         }
         else
         {
-
+          _reinf = +reinfPatrolOcc;
         };
+      }
+      else
+      {
+        if(count reinfPatrolInv > 3) then
+        {
+          _reinf = reinfPatrolInv select [0,1,2];
+        }
+        else
+        {
+          _reinf = +reinfPatrolInv;
+        };
+      };
+      if(count _reinf == 0) then
+      {
+        _text = format ["%1 is currently performing no reinforcement patrols!", _sideName];
+      }
+      else
+      {
+        _text = format ["%1 is currently performing reinforcement patrols to %2", _sideName, name (_reinf select 0)];
+        for "_i" from 1 to ((count _reinf) - 1) do
+        {
+          _text = format ["%1 and %2", _text, name (_reinf select _i)];
+        };
+      };
     };
     case ("Cars"):
     {
@@ -150,17 +176,18 @@ if(_intelType == "Big") then
 {
   if(["AS"] call BIS_fnc_taskExists) then
   {
-    _intelContent = selectRandomWeighted ["Traitor", 0.2, "WeaponTech", 0.3, "BlackTech", 0.3 /*, "Attack", 0.2*/];
+    _intelContent = selectRandomWeighted ["Traitor", 0.2, "WeaponTech", 0.3, "BlackTech", 0.3, "Attack", 0.2];
   }
   else
   {
-    _intelContent = selectRandomWeighted ["WeaponTech", 0.4, "BlackTech", 0.4 /*, "Attack", 0.2 */];
+    _intelContent = selectRandomWeighted ["WeaponTech", 0.4, "BlackTech", 0.4 , "Attack", 0.2];
   };
   switch (_intelContent) do
   {
     case ("Traitor"):
     {
-        //Somehow win the traitor mission
+      _text = "You found data on the family of a traitor, we don't think he will do any more trouble";
+      traitorIntel = true; publicVariable "traitorIntel";
     };
     case ("WeaponTech"):
     {

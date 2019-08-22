@@ -409,6 +409,9 @@ intelBuidings = [["Land_Cargo_Tower_V1_No1_F","Land_Cargo_Tower_V3_F","Land_Carg
 intelDeskOffset = [[[-2.59106,-3.74121,2.88818],0],[[4.76489,3.95068,-2.86576],180]];
 intelOffset = [[[0.500977,-0.0258789,0.531177],-148.395],[[-0.5,-0.0742188,0.412336],166.164]];
 
+reinfPatrolOcc = [];
+reinfPatrolInv = [];
+
 _getMissionPath = [] execVM "initGetMissionPath.sqf";
 waitUntil
 {
