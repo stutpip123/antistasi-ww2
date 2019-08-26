@@ -134,7 +134,7 @@ if (not alive _traitor || traitorIntel) then
 
 	if(traitorIntel && (not alive _traitor)) then
 	{
-		{[petros,"hint","Someone found some intel on the traitors family, he will not do any problems any more!"] remoteExec ["A3A_fnc_commsMP",_x]} forEach ([500,0,_traitor,teamPlayer] call A3A_fnc_distanceUnits);
+		{[petros,"hint","Someone found some intel on the traitors family, he will not cause any problems any more!"] remoteExec ["A3A_fnc_commsMP",_x]} forEach ([500,0,_traitor,teamPlayer] call A3A_fnc_distanceUnits);
 		doStop _groupTraitor;
 		doGetOut _traitor;
 		[_traitor] call A3A_fnc_surrenderAction;

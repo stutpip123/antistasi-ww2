@@ -7,11 +7,11 @@ _sideX = _this select 3;
 diag_log format ["[Antistasi] Spawning PatrolReinforcement. Dest:%1, Orig:%2, Size:%3, Side: %4",_mrkDestination,_mrkOrigin,_numberX,_sideX];
 if(_sideX == Occupants) then
 {
-	reinfPatrolOcc pushBack _mrkOrigin;
+	reinfPatrolOcc pushBack _mrkDestination;
 }
 else
 {
-	reinfPatrolInv pushBack _mrkOrigin;
+	reinfPatrolInv pushBack _mrkDestination;
 };
 _posDestination = getMarkerPos _mrkDestination;
 _posOrigin = getMarkerPos _mrkOrigin;
@@ -152,7 +152,7 @@ else
 reinfPatrols = reinfPatrols + 1; publicVariable "reinfPatrols";
 _groupX setVariable ["reinfMarker",_mrkDestination];
 _groupX setVariable ["originX",_mrkOrigin];
-_groupX setVariable ["patrolArray", [_sideX, _mrkOrigin]];
+_groupX setVariable ["patrolArray", [_sideX, _mrkDestination]];
 {
 _x addEventHandler ["Killed",
 	{
