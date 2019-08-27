@@ -5,13 +5,13 @@ diag_log "Antistasi: Starting placement of intel";
 //Catch invalid cases
 if(isNil "_markerX") exitWith {diag_log "IntelPlacement: No marker given for intel placement!";};
 if(!(_markerX  in airportsX || {_markerX in outposts})) exitWith {diag_log "IntelPlacement: Marker position not suited for intel!";};
-if(_intelType != "Medium" && _intelType != "Big") exitWith {diag_log format ["IntelPlacement: Inteltype not accepted, expected 'Medium' or 'Big', got %1", _intelType];};
+if((_intelType != "Medium") && {_intelType != "Big"}) exitWith {diag_log format ["IntelPlacement: Inteltype not accepted, expected 'Medium' or 'Big', got %1", _intelType];};
 
 //Search for building to place intel in
 _side = sidesX getVariable _markerX;
 _size = markerSize _markerX;
 _maxSize = (_size select 0) max (_size select 1);
-_maxSize *= 2;
+_maxSize = _maxSize * 2;
 
 _allBuildings = nearestObjects [(getMarkerPos _markerX),["House"], _maxSize, true];
 
