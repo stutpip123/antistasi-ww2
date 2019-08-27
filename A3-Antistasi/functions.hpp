@@ -29,7 +29,6 @@ class A3A
         class fogCheck {file="fogCheck.sqf";};
         class garbageCleaner {file="garbageCleaner.sqf";};
         class garrisonInfo {file="garrisonInfo.sqf";};
-        class intelFound {file="intelFound.sqf";};
         class isFrontline {file="isFrontline.sqf";};
         class isTheSameIsland {file="isTheSameIsland.sqf";};
         class localizar {file="localizar.sqf";};
