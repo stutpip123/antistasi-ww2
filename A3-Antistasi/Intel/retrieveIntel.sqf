@@ -86,11 +86,11 @@ if(_intelType == "Big") then
   _pointsPerSecond = 25;
   if(tierWar > 4) then
   {
-    _pointsPerSecond -= (tierWar * 2);
+    _pointsPerSecond = _pointsPerSecond - (tierWar * 2);
   }
   else
   {
-    if(tierWar > 2) then {_pointsPerSecond -= tierWar};
+    if(tierWar > 2) then {_pointsPerSecond = _pointsPerSecond - tierWar};
   };
   _neededPoints = 1000 + random 1000;
   //Min war tier (40 sec - 80 sec) with UAV Hacker (20 sec - 40 sec)
@@ -149,10 +149,10 @@ if(_intelType == "Big") then
       //And the use of smoke rounds for a deadly trap is kinda useless
 
       //Wait for rounds to be fired
-      sleep 15;
+      sleep 60;
 
-      waitUntil{sleep 10; (spawner getVariable _marker) == 2};
-      deleteVehicleCrew _unit;
+      waitUntil{sleep 10; ((spawner getVariable _marker) == 2)};
+      _veh deleteVehicleCrew _unit;
       deleteVehicle _veh;
     };
   }
@@ -165,20 +165,20 @@ if(_intelType == "Big") then
     }
     else
     {
-      if(tierWar > 3) then {_noAttackChance -= 0.02 * tierWar;};
+      if(tierWar > 3) then {_noAttackChance = _noAttackChance - 0.02 * tierWar;};
     };
     _largeAttackChance = 0.2;
     if(_isAirport) then
     {
-      _noAttackChance = 0.4;
+      _largeAttackChance = 0.4;
     }
     else
     {
-      if(tierWar > 3) then {_noAttackChance += 0.02 * tierWar;};
+      if(tierWar > 3) then {_largeAttackChance = _largeAttackChance + 0.02 * tierWar;};
     };
     _attack = selectRandomWeighted ["No", _noAttackChance, "Small", 0.6, "Large", _largeAttackChance];
     _largeAttack = (_attack == "Large");
-    if(_attack != "No") then
+    if(!(_attack == "No")) then
     {
       _attackType = "";
       if(tierWar < 5) then
@@ -201,7 +201,7 @@ if(_intelType == "Big") then
   while {_pointSum <= _neededPoints} do
   {
     sleep 1;
-    _errorChance += 6;
+    _errorChance = _errorChance + 6;
     _playerList = [20, 0, _intel, teamPlayer] call A3A_fnc_distanceUnits;
 
     if({[_x] call A3A_fnc_canFight} count _playerList == 0) exitWith
@@ -261,7 +261,7 @@ if(_intelType == "Big") then
           };
         };
         _intel addAction [_actionText, {(_this select 0) setVariable ["ActionNeeded", false]; (_this select 0) removeAction (_this select 2);},nil,4,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4];
-        _pointSum -= _penalty;
+        _pointSum = _pointSum - _penalty;
         if(_pointSum < 0) then {_pointSum = 0};
         _errorChance = 0;
       };
@@ -280,7 +280,7 @@ if(_intelType == "Big") then
     }
     else
     {
-      _enemyCounter++;
+      _enemyCounter = _enemyCounter + 1;
     };
 
     if(_actionNeed) then
@@ -290,9 +290,9 @@ if(_intelType == "Big") then
     else
     {
       _UAVHacker = (_playerList findIf {_x getUnitTrait "UAVHacker"} != -1);
-      if(_UAVHacker) then {_pointSum += _pointsPerSecond * 2;} else {_pointSum += _pointsPerSecond;};
+      if(_UAVHacker) then {_pointSum = _pointSum + (_pointsPerSecond * 2);} else {_pointSum = _pointSum + _pointsPerSecond;};
       {
-        [petros,"hint", format ["Download at %1 %!", str (_pointSum/_neededPoints)]] remoteExec ["A3A_fnc_commsMP",_x]
+        [petros,"hint", format ["Download at %1%!", str (_pointSum/_neededPoints)]] remoteExec ["A3A_fnc_commsMP",_x]
       } forEach _playerList;
     };
   };

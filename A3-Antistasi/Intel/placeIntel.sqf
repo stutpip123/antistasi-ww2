@@ -5,7 +5,7 @@ diag_log "Antistasi: Starting placement of intel";
 //Catch invalid cases
 if(isNil "_markerX") exitWith {diag_log "IntelPlacement: No marker given for intel placement!";};
 if(!(_markerX  in airportsX || {_markerX in outposts})) exitWith {diag_log "IntelPlacement: Marker position not suited for intel!";};
-if((_intelType != "Medium") && {_intelType != "Big"}) exitWith {diag_log format ["IntelPlacement: Inteltype not accepted, expected 'Medium' or 'Big', got %1", _intelType];};
+if(!(_intelType == "Medium" || {_intelType == "Big"})) exitWith {diag_log format ["IntelPlacement: Inteltype not accepted, expected 'Medium' or 'Big', got %1", str _intelType];};
 
 //Search for building to place intel in
 _side = sidesX getVariable _markerX;
