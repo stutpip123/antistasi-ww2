@@ -13,6 +13,22 @@ NATOMortar = "rhsgref_cdf_reg_m252";
 staticATOccupants = "rhsgref_cdf_SPG9M";
 staticAAOccupants = "rhsgref_cdf_Igla_AA_pod";
 
+//NATO PvP Loadouts
+NATOPlayerLoadouts = [
+	//Team Leader
+	"rhsgref_cdf_para_squadleader",
+	//Medic
+	"rhsgref_cdf_para_medic",
+	//Autorifleman
+	"rhsgref_cdf_para_autorifleman",
+	//Marksman
+	"rhsgref_cdf_para_marksman",
+	//Anti-tank Scout
+	"rhsgref_cdf_para_grenadier",
+	//Anti-tank Scout
+	"rhsgref_cdf_para_grenadier"
+];
+
 vehNATOPVP = ["rhsgref_ins_g_uaz","rhsgref_ins_g_uaz_open","rhsgref_BRDM2UM_ins_g","rhsgref_ins_g_uaz_dshkm_chdkz"];//This array contains the vehicles Nato-PvP players can spawn near their flag.
 
 vehNATOLightArmed = ["rhsgref_cdf_uaz_ags","rhsgref_cdf_reg_uaz_dshkm","rhsgref_cdf_reg_uaz_spg9","rhsgref_BRDM2_HQ"];
@@ -31,10 +47,11 @@ vehNATORBoat = "I_Boat_Transport_01_F";
 vehNATOBoats = [vehNATOBoat,vehNATORBoat];
 vehNATOPlane = "rhs_l159_CDF";
 vehNATOPlaneAA = "rhsgref_cdf_mig29s";
+vehNATOTransportPlanes = [];
 vehNATOPatrolHeli = "rhsgref_cdf_reg_Mi8amt";
 vehNATOTransportHelis = ["rhsgref_cdf_reg_Mi8amt"];
 vehNATOAttackHelis = ["rhsgref_cdf_Mi24D","rhsgref_cdf_Mi35","rhsgref_cdf_reg_Mi17Sh","rhsgref_mi24g_CAS"];
-vehNATOAir = vehNATOTransportHelis + vehNATOAttackHelis + [vehNATOPlane,vehNATOPlaneAA];
+vehNATOAir = vehNATOTransportHelis + vehNATOAttackHelis + [vehNATOPlane,vehNATOPlaneAA] + vehNATOTransportPlanes;
 vehNATOUAV = "I_UAV_02_dynamicLoadout_F";
 vehNATOUAVSmall = "I_UAV_01_F";
 vehNATOMRLS = "rhsgref_cdf_reg_BM21";
@@ -53,7 +70,7 @@ groupsNATOAA = ["rhsgref_cdf_reg_grenadier","rhsgref_cdf_reg_machinegunner","rhs
 groupsNATOAT = ["rhsgref_cdf_reg_grenadier","rhsgref_cdf_reg_machinegunner","rhsgref_cdf_reg_grenadier_rpg","rhsgref_cdf_reg_grenadier_rpg"];
 groupsNATOmid = [["rhsgref_cdf_reg_grenadier","rhsgref_cdf_reg_machinegunner","rhsgref_cdf_reg_rifleman","rhsgref_cdf_reg_rifleman_rpg75"],groupsNATOAA,groupsNATOAT];//["B_T_InfTeam","B_T_InfTeam_AA","B_T_InfTeam_AT"];///
 NATOSquad = ["rhsgref_cdf_reg_grenadier","rhsgref_cdf_reg_machinegunner","rhsgref_cdf_reg_machinegunner","rhsgref_cdf_reg_rifleman_rpg75","rhsgref_cdf_reg_rifleman_akm","rhsgref_cdf_reg_rifleman_rpg75","rhsgref_cdf_reg_grenadier","rhsgref_cdf_reg_medic"];//"B_T_InfSquad";//
-NATOSpecOp = ["rhsgref_cdf_para_grenadier_rpg","rhsgref_cdf_para_squadleader","rhsgref_cdf_para_grenadier","rhsgref_cdf_para_machinegunner_m249","rhsgref_cdf_para_marksman","rhsgref_cdf_para_engineer","rhsgref_cdf_para_specialist_at","rhsgref_cdf_para_medic"];//(configfile >> "CfgGroups" >> "West" >> "BLU_CTRG_F" >> "Infantry" >> "CTRG_InfSquad");
+NATOSpecOp = ["rhsgref_cdf_para_grenadier_rpg","rhsgref_cdf_para_squadleader","rhsgref_cdf_para_grenadier","rhsgref_cdf_para_autorifleman","rhsgref_cdf_para_marksman","rhsgref_cdf_para_engineer","rhsgref_cdf_para_specialist_aa","rhsgref_cdf_para_medic"];//(configfile >> "CfgGroups" >> "West" >> "BLU_CTRG_F" >> "Infantry" >> "CTRG_InfSquad");
 factionMaleOccupants = "";
 groupsNATOSquad = [NATOSquad,["rhsgref_cdf_reg_grenadier","rhsgref_cdf_reg_machinegunner","rhsgref_cdf_reg_machinegunner","rhsgref_cdf_reg_rifleman","rhsgref_cdf_reg_rifleman_rpg75","rhsgref_cdf_reg_specialist_aa","rhsgref_cdf_reg_specialist_aa","rhsgref_cdf_reg_medic"],["rhsgref_cdf_reg_grenadier","rhsgref_cdf_reg_machinegunner","rhsgref_cdf_reg_machinegunner","rhsgref_cdf_reg_rifleman_akm","rhsgref_cdf_reg_rifleman_rpg75","rhsgref_ins_g_grenadier_rpg","rhsgref_cdf_reg_medic","rhsgref_ins_g_grenadier_rpg"],["rhsgref_cdf_reg_grenadier","rhsgref_cdf_reg_machinegunner","rhsgref_cdf_reg_machinegunner","rhsgref_cdf_reg_rifleman","rhsgref_cdf_reg_rifleman_rpg75","rhsgref_cdf_reg_medic","rhsgref_ins_g_engineer","rhsgref_ins_g_saboteur"]]; //[NATOSquad,"B_T_InfSquad_Weapons"];///
 

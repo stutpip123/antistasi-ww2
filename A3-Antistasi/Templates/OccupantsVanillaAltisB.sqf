@@ -13,6 +13,22 @@ staticATOccupants = "I_static_AT_F";
 staticAAOccupants = "I_static_AA_F";
 NATOPilot = "I_Helipilot_F";
 
+//NATO PvP Loadouts
+NATOPlayerLoadouts = [
+	//Team Leader
+	["rhs_gref_teamLeader"] call A3A_fnc_getLoadout,
+	//Medic
+	["rhs_gref_medic"] call A3A_fnc_getLoadout,
+	//Autorifleman
+	["rhs_gref_breacher"] call A3A_fnc_getLoadout,
+	//Marksman
+	["rhs_gref_sniper"] call A3A_fnc_getLoadout,
+	//Anti-tank Scout
+	["rhs_gref_demolition"] call A3A_fnc_getLoadout,
+	//Anti-tank Scout
+	["rhs_gref_demolition"] call A3A_fnc_getLoadout
+];
+
 vehNATOPVP = ["I_MRAP_03_F","I_MRAP_03_hmg_F"];//This array contains the vehicles Nato-PvP players can spawn near their flag.
 
 vehNATOLightArmed = ["I_MRAP_03_hmg_F"];
@@ -31,10 +47,11 @@ vehNATORBoat = "I_Boat_Transport_01_F";
 vehNATOBoats = [vehNATOBoat,vehNATORBoat];
 vehNATOPlane = "I_Plane_Fighter_03_dynamicLoadout_F";
 vehNATOPlaneAA = "I_Plane_Fighter_04_F";
+vehNATOTransportPlanes = [];
 vehNATOPatrolHeli = "I_Heli_light_03_unarmed_F";
 vehNATOTransportHelis = ["I_Heli_Transport_02_F","I_Heli_light_03_unarmed_F"];
 vehNATOAttackHelis = ["I_Heli_light_03_dynamicLoadout_F"];
-vehNATOAir = vehNATOTransportHelis + vehNATOAttackHelis + [vehNATOPlane,vehNATOPlaneAA];
+vehNATOAir = vehNATOTransportHelis + vehNATOAttackHelis + [vehNATOPlane,vehNATOPlaneAA] + vehNATOTransportPlanes;
 vehNATOUAV = "I_UAV_02_dynamicLoadout_F";
 vehNATOUAVSmall = "I_UAV_01_F";
 vehNATOMRLS = "I_Truck_02_MRL_F";

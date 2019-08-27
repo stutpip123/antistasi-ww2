@@ -1,6 +1,5 @@
 #include "Garage\defineCommon.inc"
-diag_log format ["%1: [Antistasi]: initPlayerLocal Started.",servertime];
-
+diag_log format ["%1: [Antistasi] | INFO | initPlayerLocal Started.",servertime];
 if (hasInterface) then
 	{
 	waitUntil {!isNull player};
@@ -17,7 +16,7 @@ if (isMultiplayer) then
 		call compile preprocessFileLineNumbers "initFuncs.sqf";
 		call compile preprocessFileLineNumbers "initVar.sqf";
 		waitUntil {!isNil "initVar"};
-		diag_log format ["%1: [Antistasi]: MP Client | Version : %2.",servertime, antistasiVersion];
+		diag_log format ["%1: [Antistasi] | INFO | MP Client | Version : %2.",servertime, antistasiVersion];
 		}
 	else
 		{
@@ -40,31 +39,36 @@ if (isMultiplayer) then
 	//waitUntil {scriptdone _introshot};
 	disableUserInput true;
 	cutText ["Waiting for Players and Server Init","BLACK",0];
-	diag_log format ["%1: [Antistasi]: MP Client | Waiting for Server...",servertime];
+	diag_log format ["%1: [Antistasi] | INFO | MP Client | Waiting for Server...",servertime];
 	waitUntil {(!isNil "serverInitDone")};
 	cutText ["Starting Mission","BLACK IN",0];
-	diag_log format ["%1: [Antistasi]: MP Client | Server loaded..",servertime];
-	diag_log format ["%1: [Antistasi]: MP Client | JIP?: %2",servertime,_isJip];
+	diag_log format ["%1: [Antistasi] | INFO | MP Client | Server loaded..",servertime];
+	diag_log format ["%1: [Antistasi] | INFO | MP Client | JIP?: %2",servertime,_isJip];
 	if (hasTFAR) then {[] execVM "orgPlayers\radioJam.sqf"};//reestablecer cuando controle las variables
 	tkPunish = if ("tkPunish" call BIS_fnc_getParamValue == 1) then {true} else {false};
 	if ((side player == teamPlayer) and tkPunish) then
+	{
+		private _firedHandlerTk = 
 		{
-		player addEventHandler ["Fired",
-			{
 			_typeX = _this select 1;
 			if ((_typeX == "Put") or (_typeX == "Throw")) then
-				{
+			{
 				if (player distance petros < 50) then
-					{
+				{
 					deleteVehicle (_this select 6);
 					if (_typeX == "Put") then
-						{
-						if (player distance petros < 10) then {[player,60] spawn A3A_fnc_punishment};
-						};
+					{
+						if (player distance petros < 10) then {[player, 20, 0.34] remoteExec ["A3A_fnc_punishment",player];};
 					};
 				};
-			}];
+			};
 		};
+		player addEventHandler ["Fired", _firedHandlerTk];
+		if (hasACE) then 
+		{
+			["ace_firedPlayer", _firedHandlerTk ] call CBA_fnc_addEventHandler;
+		};
+	};
 	if (!isNil "placementDone") then {_isJip = true};//workaround for BIS fail on JIP detection
 	}
 else
@@ -131,40 +135,33 @@ if (player getVariable ["pvp",false]) exitWith
 	if ((!_isJIP) or !pvpEnabled) then
 		{
 		["noPvP",false,1,false,false] call BIS_fnc_endMission;
-		diag_log "Antistasi: PvP player kicked because he is not jipping or PvP slots are disabled";
+		diag_log format ["%1: [Antistasi] | INFO | PvP player kicked because he is not jipping or PvP slots are disabled.",servertime];
 		}
 	else
 		{
 		if (not([player] call A3A_fnc_isMember)) then
 			{
 			["noPvP",false,1,false,false] call BIS_fnc_endMission;
-			diag_log "Antistasi: PvP player kicked because he is not member";
+			diag_log format ["%1: [Antistasi] | INFO | PvP player kicked because he is not member.",servertime];
 			}
 		else
 			{
 			if ({(side group _x != teamPlayer)} count playableUnits > {(side group _x == teamPlayer)} count playableUnits) then
 				{
 				["noPvP",false,1,false,false] call BIS_fnc_endMission;
-				diag_log "Antistasi: PvP player kicked because PvP players number is equal to non PvP";
+				diag_log format ["%1: [Antistasi] | INFO | PvP player kicked because PvP players number is equal to non PvP.",servertime];
 				}
 			else
 				{
 				[player] remoteExec ["A3A_fnc_playerHasBeenPvPCheck",2];
-				diag_log "Antistasi: PvP player logged in, doing server side checks if the player has been rebel recently";
+				diag_log format ["%1: [Antistasi] | INFO | PvP player logged in, doing server side checks if the player has been rebel recently.",servertime];
 				};
 			};
 		};
-	if (side player == Occupants) then
-		{
-		if (activeUSAF) then {[player] call A3A_fnc_RHSdress};
-		}
-	else
-		{
-		if (activeAFRF) then {[player] call A3A_fnc_RHSdress};
-		};
+	[player] call A3A_fnc_dress;
 	if (hasACE) then {[] call A3A_fnc_ACEpvpReDress};
 	respawnTeamPlayer setMarkerAlphaLocal 0;
-	
+
 	player addEventHandler ["GetInMan", {_this call A3A_fnc_ejectPvPPlayerIfInvalidVehicle}];
 	player addEventHandler ["SeatSwitchedMan", {[_this select 0, assignedVehicleRole (_this select 0) select 0, _this select 2] call A3A_fnc_ejectPvPPlayerIfInvalidVehicle}];
 	player addEventHandler ["InventoryOpened",
@@ -219,76 +216,98 @@ stragglers = creategroup teamPlayer;
 player setUnitTrait ["camouflageCoef",0.8];
 player setUnitTrait ["audibleCoef",0.8];
 
-if (activeGREF) then {[player] call A3A_fnc_RHSdress};
-player setUnitLoadout ((getUnitLoadout player) call A3A_fnc_stripGearFromLoadout);
+//Give the player the base loadout.
+[player] call A3A_fnc_dress;
+//Add a maplight if we're running ACE, because it can be really dark.
+if (hasACE) then {
+	player addItem "ACE_Flashlight_XL50";
+};
 player setvariable ["compromised",0];
-player addEventHandler ["FiredMan",
+player addEventHandler 
+[
+	"FiredMan",
 	{
-	_player = _this select 0;
-	if (captive _player) then
+		_player = _this select 0;
+		if (captive _player) then
 		{
-		//if ({((side _x== Invaders) or (side _x== Occupants)) and (_x knowsAbout player > 1.4)} count allUnits > 0) then
-		if ({if (((side _x == Occupants) or (side _x == Invaders)) and (_x distance player < 300)) exitWith {1}} count allUnits > 0) then
+			//if ({((side _x== Invaders) or (side _x== Occupants)) and (_x knowsAbout player > 1.4)} count allUnits > 0) then
+			if ({if (((side _x == Occupants) or (side _x == Invaders)) and (_x distance player < 300)) exitWith {1}} count allUnits > 0) then
 			{
-			[_player,false] remoteExec ["setCaptive",0,_player];
-			_player setCaptive false;
+				[_player,false] remoteExec ["setCaptive",0,_player];
+				_player setCaptive false;
 			}
-		else
+			else
 			{
-			_city = [citiesX,_player] call BIS_fnc_nearestPosition;
-			_size = [_city] call A3A_fnc_sizeMarker;
-			_dataX = server getVariable _city;
-			if (random 100 < _dataX select 2) then
+				_city = [citiesX,_player] call BIS_fnc_nearestPosition;
+				_size = [_city] call A3A_fnc_sizeMarker;
+				_dataX = server getVariable _city;
+				if (random 100 < _dataX select 2) then
 				{
-				if (_player distance getMarkerPos _city < _size * 1.5) then
+					if (_player distance getMarkerPos _city < _size * 1.5) then
 					{
-					[_player,false] remoteExec ["setCaptive",0,_player];
-					_player setCaptive false;
-					if (vehicle _player != _player) then
+						[_player,false] remoteExec ["setCaptive",0,_player];
+						_player setCaptive false;
+						if (vehicle _player != _player) then
 						{
-						{if (isPlayer _x) then {[_x,false] remoteExec ["setCaptive",0,_x]; _x setCaptive false}} forEach ((assignedCargo (vehicle _player)) + (crew (vehicle _player)) - [player]);
+							{if (isPlayer _x) then {[_x,false] remoteExec ["setCaptive",0,_x]; _x setCaptive false}} forEach ((assignedCargo (vehicle _player)) + (crew (vehicle _player)) - [player]);
 						};
 					};
 				};
 			};
 		}
 	}
-	];
-player addEventHandler ["InventoryOpened",
+];
+player addEventHandler 
+[
+	"HandleDamage",
 	{
-	private ["_playerX","_containerX","_typeX"];
-	_control = false;
-	_playerX = _this select 0;
-	if (captive _playerX) then
+		_victim = _this select 0;
+		_damage = _this select 2;
+		_instigator = _this select 6;
+		if(!isNull _instigator && isPlayer _instigator && _victim != _instigator && side _instigator == teamPlayer && _damage > 0.9) then
 		{
-		_containerX = _this select 1;
-		_typeX = typeOf _containerX;
-		if (((_containerX isKindOf "Man") and (!alive _containerX)) or (_typeX == NATOAmmoBox) or (_typeX == CSATAmmoBox)) then
-		if (((_containerX isKindOf "CAManBase") and (!alive _containerX)) or (_typeX == NATOAmmoBox) or (_typeX == CSATAmmoBox)) then
+			[_instigator, 20, 0.34] remoteExec ["A3A_fnc_punishment",_instigator];
+			hint format["%1 hurt you!",_instigator];
+		};
+	}
+];
+player addEventHandler 
+[
+	"InventoryOpened",
+	{
+		private ["_playerX","_containerX","_typeX"];
+		_control = false;
+		_playerX = _this select 0;
+		if (captive _playerX) then
+		{
+			_containerX = _this select 1;
+			_typeX = typeOf _containerX;
+			if (((_containerX isKindOf "Man") and (!alive _containerX)) or (_typeX == NATOAmmoBox) or (_typeX == CSATAmmoBox)) then
 			{
-			if ({if (((side _x== Invaders) or (side _x== Occupants)) and (_x knowsAbout _playerX > 1.4)) exitWith {1}} count allUnits > 0) then
+				if ({if (((side _x== Invaders) or (side _x== Occupants)) and (_x knowsAbout _playerX > 1.4)) exitWith {1}} count allUnits > 0) then
 				{
-				[_playerX,false] remoteExec ["setCaptive",0,_playerX];
-				_playerX setCaptive false;
+					[_playerX,false] remoteExec ["setCaptive",0,_playerX];
+					_playerX setCaptive false;
 				}
-			else
+				else
 				{
-				_city = [citiesX,_playerX] call BIS_fnc_nearestPosition;
-				_size = [_city] call A3A_fnc_sizeMarker;
-				_dataX = server getVariable _city;
-				if (random 100 < _dataX select 2) then
+					_city = [citiesX,_playerX] call BIS_fnc_nearestPosition;
+					_size = [_city] call A3A_fnc_sizeMarker;
+					_dataX = server getVariable _city;
+					if (random 100 < _dataX select 2) then
 					{
-					if (_playerX distance getMarkerPos _city < _size * 1.5) then
+						if (_playerX distance getMarkerPos _city < _size * 1.5) then
 						{
-						[_playerX,false] remoteExec ["setCaptive",0,_playerX];
-						_playerX setCaptive false;
+							[_playerX,false] remoteExec ["setCaptive",0,_playerX];
+							_playerX setCaptive false;
 						};
 					};
 				};
 			};
 		};
 	_control
-	}];
+	}
+];
 /*
 player addEventHandler ["InventoryClosed",
 	{
@@ -505,7 +524,7 @@ if (_isJip) then
 		{
 		_nul = [] execVM "Dialogs\firstLoad.sqf";
 		};
-	diag_log format ["%1: [Antistasi]: MP Client | JIP Client Loaded.",servertime];
+	diag_log format ["%1: [Antistasi] | INFO | MP Client | JIP Client Loaded.",servertime];
 	player setPos (getMarkerPos respawnTeamPlayer);
 	}
 else
@@ -532,7 +551,7 @@ else
 		    		{
 		    		_nul = [true] execVM "Dialogs\firstLoad.sqf";
 			    	};
-				diag_log format ["%1: [Antistasi]: MP Client | Client load finished.",servertime];
+				diag_log format ["%1: [Antistasi] | INFO | MP Client | Client load finished.",servertime];
 		    	}
 		    else
 		    	{
@@ -629,7 +648,7 @@ mapX allowDamage false;
 mapX addAction ["Game Options", {hint format ["Antistasi - %2\n\nVersion: %1\n\nDifficulty: %3\nUnlock Weapon Number: %4\nLimited Fast Travel: %5",antistasiVersion,worldName,if (skillMult == 1) then {"Normal"} else {if (skillMult == 0.5) then {"Easy"} else {"Hard"}},minWeaps,if (limitedFT) then {"Yes"} else {"No"}]; nul=CreateDialog "game_options";},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull]) and (side (group _this) == teamPlayer)"];
 mapX addAction ["Map Info", {nul = [] execVM "cityinfo.sqf";},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull]) and (side (group _this) == teamPlayer)"];
 mapX addAction ["Move this asset", "moveHQObject.sqf",nil,0,false,true,"","(_this == theBoss)"];
-if (isMultiplayer) then {mapX addAction ["AI Load Info", "[] remoteExec [""A3A_fnc_AILoadInfo"",2]",nil,0,false,true,"","(_this == theBoss)"]};
+if (isMultiplayer) then {mapX addAction ["AI Load Info", "[] remoteExec [""A3A_fnc_AILoadInfo"",2]",nil,0,false,true,"","((_this == theBoss) || (serverCommandAvailable ""#logout""))"]};
 _nul = [player] execVM "OrgPlayers\unitTraits.sqf";
 groupPetros = group petros;
 groupPetros setGroupIdGlobal ["Petros","GroupColor4"];
@@ -637,7 +656,7 @@ petros setIdentity "friendlyX";
 petros setName "Petros";
 petros disableAI "MOVE";
 petros disableAI "AUTOTARGET";
-petros addAction ["Mission Request", {nul=CreateDialog "mission_menu";},nil,0,false,true,"","_this == theBoss"];
+petros addAction ["Mission Request", {nul=CreateDialog "mission_menu";},nil,0,false,true,"","([player] call A3A_fnc_isMember)"];
 
 disableSerialization;
 //1 cutRsc ["H8erHUD","PLAIN",0,false];

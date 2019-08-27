@@ -13,6 +13,22 @@ NATOMortar = "RHS_M252_USMC_WD";
 staticATOccupants = "RHS_TOW_TriPod_USMC_WD";
 staticAAOccupants = "RHS_Stinger_AA_pod_D";
 
+//NATO PvP Loadouts
+NATOPlayerLoadouts = [
+	//Team Leader
+	["rhs_usaf_teamLeader"] call A3A_fnc_getLoadout,
+	//Medic
+	["rhs_usaf_medic"] call A3A_fnc_getLoadout,
+	//Autorifleman
+	["rhs_usaf_machineGunner"] call A3A_fnc_getLoadout,
+	//Marksman
+	["rhs_usaf_marksman"] call A3A_fnc_getLoadout,
+	//Anti-tank Scout
+	["rhs_usaf_AT"] call A3A_fnc_getLoadout,
+	//Anti-tank Scout
+	["rhs_usaf_rifleman"] call A3A_fnc_getLoadout
+];
+
 vehNATOPVP = ["rhsusf_m1025_w_s","rhsusf_m998_w_s_2dr","rhsusf_m998_w_s_2dr_fulltop","rhsusf_m998_w_s_4dr","rhsusf_m1025_w_s_m2"];//This array contains the vehicles Nato-PvP players can spawn near their flag.
 
 vehNATOLightArmed = ["rhsusf_m1025_w_s_m2","rhsusf_CGRCAT1A2_M2_usmc_wd","rhsusf_CGRAT1A2_Mk19_usmc_wd","rhsusf_M1117_W","rhsusf_M1220_M2_usarmy_wd","rhsusf_M1237_M2_usarmy_wd","rhsusf_M1238A1_M2_socom_d","rhsusf_m1045_w_s"];
@@ -31,10 +47,11 @@ vehNATORBoat = "B_T_Boat_Transport_01_F";
 vehNATOBoats = [vehNATOBoat,vehNATORBoat,"rhsusf_m113_usarmy_MK19","rhsusf_m113_usarmy"];
 vehNATOPlane = "RHS_A10_AT";
 vehNATOPlaneAA = "rhsusf_f22";
+vehNATOTransportPlanes = ["RHS_C130J"];
 vehNATOPatrolHeli = "RHS_MELB_MH6M";
-vehNATOTransportHelis = ["RHS_UH60M_d","RHS_CH_47F","rhsusf_CH53E_USMC_GAU21",vehNATOPatrolHeli,"RHS_C130J"];
+vehNATOTransportHelis = ["RHS_UH60M_d","RHS_CH_47F","rhsusf_CH53E_USMC_GAU21",vehNATOPatrolHeli];
 vehNATOAttackHelis = ["RHS_MELB_AH6M_L","RHS_AH64D_wd","RHS_UH1Y","RHS_AH1Z_wd"];
-vehNATOAir = vehNATOTransportHelis + vehNATOAttackHelis + [vehNATOPlane,vehNATOPlaneAA];
+vehNATOAir = vehNATOTransportHelis + vehNATOAttackHelis + [vehNATOPlane,vehNATOPlaneAA] + vehNATOTransportPlanes;
 vehNATOUAV = "B_UAV_02_F";//ok
 vehNATOUAVSmall = "B_UAV_01_F";
 vehNATOMRLS = "rhsusf_m109_usarmy";

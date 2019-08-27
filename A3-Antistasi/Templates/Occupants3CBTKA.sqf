@@ -15,6 +15,22 @@ NATOMortar = "UK3CB_TKA_I_D30";
 staticATOccupants = "UK3CB_TKA_I_Kornet";
 staticAAOccupants = "UK3CB_TKA_I_Igla_AA_pod";
 
+//NATO PvP Loadouts
+NATOPlayerLoadouts = [
+	//Team Leader
+	"UK3CB_TKA_B_SF_SL",
+	//Medic
+	"UK3CB_TKA_B_SF_MD",
+	//Autorifleman
+	"UK3CB_TKA_B_SF_AR",
+	//Marksman
+	"UK3CB_TKA_B_SF_MK",
+	//Anti-tank Scout
+	"UK3CB_TKA_B_SF_LAT",
+	//Anti-tank Scout
+	"UK3CB_TKA_B_SF_LAT"
+];
+
 vehNATOPVP = ["UK3CB_BAF_MAN_HX60_Container_Servicing_Air_Green","UK3CB_BAF_LandRover_Hard_FFR_Green_B_Tropical","UK3CB_BAF_LandRover_Snatch_FFR_Green_A_Tropical","UK3CB_BAF_LandRover_Soft_FFR_Green_B_Tropical","UK3CB_BAF_LandRover_WMIK_HMG_FFR_Green_B_Tropical_RM"];//This array contains the vehicles Nato-PvP players can spawn near their flag.
 
 vehNATOLightArmed = ["UK3CB_TKA_I_LR_M2","UK3CB_TKA_I_LR_AGS30","UK3CB_TKA_I_LR_SPG9","UK3CB_TKA_I_GAZ_Vodnik_PKT","UK3CB_TKA_I_LR_SF_M2","UK3CB_TKA_I_LR_SF_AGS30","UK3CB_TKA_I_BTR40_MG","UK3CB_TKA_I_BRDM2","UK3CB_TKA_I_BRDM2_ATGM"];
@@ -33,10 +49,11 @@ vehNATORBoat = "UK3CB_TKA_I_RHIB_Gunboat";
 vehNATOBoats = [vehNATOBoat,vehNATORBoat];
 vehNATOPlane = "UK3CB_TKA_I_Su25SM_CAS";
 vehNATOPlaneAA = "UK3CB_TKA_I_L39_AA";
+vehNATOTransportPlanes = [];
 vehNATOPatrolHeli = "UK3CB_TKA_I_UH1H_M240";
 vehNATOTransportHelis = ["UK3CB_TKA_I_Mi8","UK3CB_TKA_I_Mi8AMT",vehNATOPatrolHeli,"UK3CB_TKA_I_UH1H"];
 vehNATOAttackHelis = ["UK3CB_TKA_I_UH1H_M240","UK3CB_TKA_I_Mi_24P","UK3CB_TKA_I_Mi_24V","UK3CB_TKA_I_Mi8AMTSh"];
-vehNATOAir = vehNATOTransportHelis + vehNATOAttackHelis + [vehNATOPlane,vehNATOPlaneAA];
+vehNATOAir = vehNATOTransportHelis + vehNATOAttackHelis + [vehNATOPlane,vehNATOPlaneAA] + vehNATOTransportPlanes;
 vehNATOUAV = "B_UAV_02_F";
 vehNATOUAVSmall = "B_UAV_01_F";
 vehNATOMRLS = "UK3CB_TKA_I_BM21";
