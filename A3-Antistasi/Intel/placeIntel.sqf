@@ -1,11 +1,11 @@
 params["_markerX", "_intelType"];
 
-diag_log "Antistasi: Starting placement of intel";
+diag_log "PlaceIntel: Starting placement of intel";
 
 //Catch invalid cases
 if(isNil "_markerX") exitWith {diag_log "IntelPlacement: No marker given for intel placement!";};
 if(!(_markerX  in airportsX || {_markerX in outposts})) exitWith {diag_log "IntelPlacement: Marker position not suited for intel!";};
-if(!(_intelType == "Medium" || {_intelType == "Big"})) exitWith {diag_log format ["IntelPlacement: Inteltype not accepted, expected 'Medium' or 'Big', got %1", str _intelType];};
+if(!(_intelType isEqualType "") || {_intelType != "Medium" && _intelType != "Big"}) exitWith {diag_log format ["IntelPlacement: Inteltype not accepted, expected 'Medium' or 'Big', got %1", str _intelType];};
 
 //Search for building to place intel in
 _side = sidesX getVariable _markerX;
@@ -60,12 +60,14 @@ _intel setPosWorld ((getPosWorld _desk) vectorAdd _offsetVector);
 if(_intelType == "Medium") then
 {
   _intel addAction ["Take Intel", {[_intelType, _intel, _side] spawn A3A_fnc_retrieveIntel;},nil,4,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4];
+  diag_log "PlaceIntel: Intel placed, type of intel is medium";
 };
 if(_intelType == "Big") then
 {
   _isTrap = (random 100 < (2 * tierWar));
-  if(_isTrap) then {diag_log "IntelPlacement: Set up a little surprise for the players!"};
+  if(_isTrap) then {diag_log "PlaceIntel: Set up a little surprise for the players!"};
   _intel addAction ["Download Intel", {[_intelType, _intel, _markerX, _isTrap, (_this select 2)] spawn A3A_fnc_retrieveIntel;},nil,4,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4];
+  diag_log "PlaceIntel: Intel placed, type of intel is big";
 };
 
 [_markerX, _desk, _intel] spawn
@@ -73,4 +75,5 @@ if(_intelType == "Big") then
   waitUntil{sleep 10; (spawner getVariable (_this select 0) == 2)};
   deleteVehicle (_this select 1);
   if(!isNil {_this select 2}) then {deleteVehicle (_this select 2)};
+  diag_log "IntelPlacement: Intel deleted!";
 }

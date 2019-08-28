@@ -231,7 +231,7 @@ if (spawner getVariable _markerX != 2) then
 } forEach _posAT;
 
 _ret = [_markerX,_size,_sideX,_frontierX] call A3A_fnc_milBuildings;
- 
+
 {[_x] call A3A_fnc_AIVEHinit} forEach (_ret select 1);
 {[_x,_markerX] call A3A_fnc_NATOinit} forEach (_ret select 2);
 
@@ -241,7 +241,7 @@ _soldiers append (_ret select 2);
 
 if(random 100 < (50 + tierWar * 3)) then
 {
-	_large = (random 100 < (40 + tierWar * 2));
+	_large = if(random 100 < (40 + tierWar * 2)) then {"Big"} else {"Medium"};
 	[_markerX, _large] spawn A3A_fnc_placeIntel;
 };
 
@@ -254,15 +254,15 @@ if (!_busy) then
 		{
 		_pos = _runwaySpawnLocation select 0;
 		_ang = _runwaySpawnLocation select 1;
-		
+
 		_heliPos = [_pos, 30,_ang + 90] call BIS_fnc_relPos;
 		_heliPos = [_heliPos, 20,_ang] call BIS_fnc_relPos;
-		 
+
 		_groupX = createGroup _sideX;
 		_groups pushBack _groupX;
 		_countX = 0;
 		_taxiwayPosSelection = 0;
-		
+
 		while {(spawner getVariable _markerX != 2) and (_countX < 5)} do
 			{
 			_typeVehX = if (_sideX == Occupants) then {selectRandom (vehNATOAir select {[_x] call A3A_fnc_vehAvailable})} else {selectRandom (vehCSATAir select {[_x] call A3A_fnc_vehAvailable})};
@@ -270,15 +270,15 @@ if (!_busy) then
 			private _veh = objNull;
 			if (_typeVehX isKindOf "Helicopter") then {
 				_veh = createVehicle [_typeVehX, _heliPos, [],3, "NONE"];
-				_vehiclesX pushBack (createVehicle ["Land_HelipadCircle_F", getPosATL _veh, [],0, "CAN_COLLIDE"]);		
+				_vehiclesX pushBack (createVehicle ["Land_HelipadCircle_F", getPosATL _veh, [],0, "CAN_COLLIDE"]);
 				_veh setDir (_ang + 90);
-				_heliPos = [_heliPos, 50, _ang] call BIS_fnc_relPos;				
+				_heliPos = [_heliPos, 50, _ang] call BIS_fnc_relPos;
 			} else {
 				_veh = createVehicle [_typeVehX, _pos, [],3, "NONE"];
 				_veh setDir (_ang);
 				_pos = [_pos, 50,_ang] call BIS_fnc_relPos;
 			};
-			
+
 			_vehiclesX pushBack _veh;
 			_nul = [_veh] call A3A_fnc_AIVEHinit;
 			_countX = _countX + 1;
