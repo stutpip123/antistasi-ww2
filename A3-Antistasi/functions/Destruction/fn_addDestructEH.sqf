@@ -1,5 +1,13 @@
 params ["_object"];
 
+/*  Adds the needed EH to the destruction object
+*   Params:
+*     _object : OBJECT : The object you want to add the EH to
+*
+*   Returns:
+*     Nothing
+*/
+
 //Object hit by a bullet or any other projectile
 _object addEventHandler
 [
