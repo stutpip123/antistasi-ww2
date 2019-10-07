@@ -22,10 +22,10 @@ _object setDir _dir;
 _object setPosWorld _pos;
 
 //Set the important values
-_object setVariable ["_destructPoints", _destructPoints];
-_object setVariable ["_canMove", _canMove];
-_object setVariable ["_canExplode", _canExplode];
-_object setVariable ["_destructMarker", _marker];
+_object setVariable ["destructPoints", _destructPoints];
+_object setVariable ["canMove", _canMove];
+_object setVariable ["canExplode", _canExplode];
+_object setVariable ["destructMarker", _marker];
 
 //Add the EventHandlers
 [_object] call A3A_fnc_addDestructEH;
