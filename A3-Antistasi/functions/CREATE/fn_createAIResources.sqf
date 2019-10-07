@@ -164,14 +164,17 @@ if (not(_markerX in destroyedSites)) then
 			sleep 0.5;
 			_civ addEventHandler ["Killed",
 				{
+					_markerX = (_this select 0) getVariable "markerX";
+					[_markerX, 20] call A3A_fnc_addDestructPoints;
+
+					/*
 					if (({alive _x} count (units group (_this select 0))) == 0) then
 					{
-						_markerX = (_this select 0) getVariable "markerX";
 						_nameX = [_markerX] call A3A_fnc_localizar;
 						destroyedSites pushBackUnique _markerX;
 						publicVariable "destroyedSites";
 						["TaskFailed", ["", format ["%1 Destroyed",_nameX]]] remoteExec ["BIS_fnc_showNotification",[teamPlayer,civilian]];
-					};
+					};*/
 				}];
 		};
 		//_nul = [_markerX,_civs] spawn destroyCheck;
