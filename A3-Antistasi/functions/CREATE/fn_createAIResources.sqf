@@ -165,7 +165,7 @@ if (not(_markerX in destroyedSites)) then
 			_civ addEventHandler ["Killed",
 				{
 					_markerX = (_this select 0) getVariable "markerX";
-					[_markerX, 20] call A3A_fnc_addDestructPoints;
+					[_markerX, 10] call A3A_fnc_addDestructPoints;
 
 					/*
 					if (({alive _x} count (units group (_this select 0))) == 0) then
