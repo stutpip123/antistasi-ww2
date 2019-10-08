@@ -9,6 +9,9 @@ params ["_marker", "_points"];
 *     Nothing
 */
 
+//Marker is locked, cannot add further points
+if(server getVariable [format ["%1_locked", _marker], false]) exitWith {};
+
 _currentDestruct = server getVariable [format ["%1_destruct", _marker], 0];
 
 _isDestroyed = _currentDestruct >= 100;
