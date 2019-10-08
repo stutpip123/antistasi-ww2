@@ -44,7 +44,7 @@ if(_canExplode) then
         _direction = (getPos _object) vectorFromTo (getPos _x);
         //Add a bit to the z coordinate to have it flying around
         _direction set [2, (_direction select 2) + 0.5];
-        _velocity = _velocity vectorAdd (_direction vectorMultiply (_initialForce * (2/_distance)));
+        _velocity = (velocity _object) vectorAdd (_direction vectorMultiply (_initialForce * (2/_distance)));
 
         //Add explosion velocity
         _x setVelocity _velocity;
