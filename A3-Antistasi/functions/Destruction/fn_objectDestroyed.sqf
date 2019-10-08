@@ -23,10 +23,11 @@ if(_canExplode) then
 {
   //Object will go BOOM!
 
-  private _explosion = "DemoCharge_Remote_Ammo_Scripted" createVehicle (getPos _object);
-
   //Sleep as a fuse
   sleep (random 5);
+
+  private _explosion = "DemoCharge_Remote_Ammo_Scripted" createVehicle (getPos _object);
+
 
   //Boom
   _explosion setDamage 1;
@@ -43,7 +44,7 @@ if(_canExplode) then
         _direction = (getPos _object) vectorFromTo (getPos _x);
         //Add a bit to the z coordinate to have it flying around
         _direction set [2, (_direction select 2) + 0.5];
-        _velocity = _direction vectorMultiply (_initialForce * (2/_distance));
+        _velocity = _velocity vectorAdd (_direction vectorMultiply (_initialForce * (2/_distance)));
 
         //Add explosion velocity
         _x setVelocity _velocity;
