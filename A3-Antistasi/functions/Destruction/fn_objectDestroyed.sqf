@@ -10,6 +10,10 @@ params ["_object"];
 
 _object allowDamage false;
 
+//Remove all eventHandler
+_object removeAllEventHandlers "Hit";
+_object removeAllEventHandlers "Explosion";
+
 private _destructPoints = _object getVariable ["destructPoints", 0];
 private _destructMarker = _object getVariable ["destructMarker", ""];
 

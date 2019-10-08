@@ -127,6 +127,8 @@ params ["_markerArray"];
 
   diag_log format ["Found %1 S, %2 L, %3 M, %4 S, points are %5", count _factoryBuildingsSpecial, count _factoryBuildingsLarge, count _factoryBuildingsMedium, count _factoryBuildingsSmall, str _points];
 
+  private _markerBuildings = [];
+
   private _counter = 0;
   {
     _array = _x;
@@ -135,9 +137,12 @@ params ["_markerArray"];
         _building setVariable ["destructPoints", (_points select _counter)];
         _building setVariable ["destructMarker", _marker];
         [_building] call A3A_fnc_addBuildingEH;
+        _markerBuildings pushBack _building;
     } forEach _array;
     _counter = _counter + 1;
   } forEach [_factoryBuildingsLarge, _factoryBuildingsMedium, _factoryBuildingsSmall, _factoryBuildingsSpecial];
+
+  private _compObjects = [];
 
   //Place objects, but max 3
   _storageCount = count _storageBuildings min 3;
@@ -153,6 +158,10 @@ params ["_markerArray"];
 
     //Select composition and build it
     private _comp = selectRandom destructCompositions;
-    [_comp, _storPos, _storDir, _marker] spawn A3A_fnc_createDestructionComposition;
+    _compObjects append ([_comp, _storPos, _storDir, _marker] spawn A3A_fnc_createDestructionComposition);
   };
+
+  server getVariable [format ["%1_buildings", _marker], _markerBuildings];
+  server getVariable [format ["%1_objects", _marker], _compObjects];
+
 } forEach _markerArray;
