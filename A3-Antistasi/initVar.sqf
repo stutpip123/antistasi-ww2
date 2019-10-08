@@ -168,7 +168,7 @@ unlockedSN = [];
 ////////////////////////////////////
 //     BEGIN MOD DETECTION       ///
 ////////////////////////////////////
-call A3A_fnc_initDisabledMods; 
+call A3A_fnc_initDisabledMods;
 diag_log format ["%1: [Antistasi] | INFO | initVar | Starting Mod Detection",servertime];
 //Faction MODs
 hasRHS = false;
@@ -801,6 +801,12 @@ outpostStaticsTiers = [0.4, 0.7, 1];
 otherUpdateTiers = [3, 7];
 otherStaticsTiers = [0.3, 1];
 [] call A3A_fnc_initPreference;
+
+//Compositions for resources/factories
+destructCompositions =
+[
+
+];
 
 ////////////////////////////////////
 // DECLARE VARIBALES FOR CLIENTS ///
