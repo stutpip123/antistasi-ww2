@@ -20,6 +20,7 @@ private _factorySmall =
 ];
 
 //These buildings have space to place objects in them
+//THESE ARE ALSO USED IN rebuildSite, UPDATE BOTH!
 private _storageTypes =
 [
   "Land_i_Shed_Ind_F", "Land_Shed_Small_F", "Land_Shed_Big_F", "Land_SM_01_shed_F",
@@ -148,7 +149,7 @@ params ["_markerArray"];
   _storageCount = count _storageBuildings min 3;
 
   //Place the objects
-  for "_i" from 1 to _storagePlacements do
+  for "_i" from 1 to _storageCount do
   {
     //Select building and get needed infos
     private _storage = _storageBuildings deleteAt (round (random (_storageCount - 1)));
