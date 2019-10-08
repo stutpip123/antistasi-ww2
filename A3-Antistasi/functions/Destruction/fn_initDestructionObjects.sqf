@@ -133,6 +133,7 @@ params ["_markerArray"];
     {
         _building = _x;
         _building setVariable ["destructPoints", (_points select _counter)];
+        _building setVariable ["destructMarker", _marker];
         [_building] call A3A_fnc_addBuildingEH;
     } forEach _array;
     _counter = _counter + 1;
