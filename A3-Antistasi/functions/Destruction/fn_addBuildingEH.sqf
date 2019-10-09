@@ -1,41 +1,43 @@
 params ["_building"];
 
 _building addEventHandler
-["Hit",
+["HandleDamage",
   {
-    _building = _this select 0;
-    _damage = _this select 2;
-    _currentDamage = damage _building;
+    params ["_object", "_selection", "_damage", "_source", "_projectile"];
 
-    //Damage by direct hit is reduced, don't waste ammo on it
-    _damage = _damage * 0.2;
+    _currentDamage = damage _object;
+    _addedDamage = (_damage - _currentDamage) max 0;
 
-    if(_damage + _currentDamage > 1) then
+    switch (true) do
     {
-      //Building destroyed, will handle this in another class
-      [_building] spawn A3A_fnc_objectDestroyed;
+      case (_projectile isKindOf "RocketCore");
+      case (_projectile isKindOf "MissileCore"):
+      {
+        _addedDamage = _addedDamage * 4;
+      };
+      case (_projectile isKindOf "ShellCore"):
+      {
+        _addedDamage = _addedDamage * 10;
+      };
+      case (_projectile isKindOf "TimeBombCore"):
+      {
+        _addedDamage = _addedDamage * 0.25;
+      };
+      case (_projectile == ""):
+      {
+        _addedDamage = _addedDamage * 1.5;
+      };
     };
 
-    _damage
-  }
-];
+    _damage = _currentDamage + _addedDamage;
 
-_building addEventHandler
-["Explosion",
-  {
-    params ["_building", "_damage"];
-
-    _current = damage _object;
-
-    //Explosion damage is doubled, to avoid wasting explosives on buildings
-    _damage = _damage * 2;
-
-    if(_damage + _current > 1) then
+    if(_damage >= 1) then
     {
-      //Building destroyed, will handle this in another class
-      [_building] spawn A3A_fnc_objectDestroyed;
+      [_object] spawn A3A_fnc_objectDestroyed;
     };
 
-    _damage
+    diag_log format ["Hit damage occured for %1 || Overall damage %2 || Was hit by %3", _addedDamage, _damage, str _projectile];
+
+    _damage;
   }
 ];

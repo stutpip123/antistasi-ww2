@@ -94,7 +94,7 @@ params ["_markerArray"];
   private _points = [150, 90, 50, 200];
 
   //Reduce points if too many special buildings
-  if(count _factoryBuildingsSpecial > 1) then
+  if(count _factoryBuildingsSpecial > 0) then
   {
     _points set [0, (_points select 0) * 0.8];
     _points set [1, (_points select 1) * 0.7];
@@ -102,7 +102,7 @@ params ["_markerArray"];
   };
 
   //Reducing points if too many large buildings
-  if(count _factoryBuildingsLarge > 3) then
+  if(count _factoryBuildingsLarge > 1) then
   {
     _points set [0, (_points select 0) * 0.6];
     _points set [1, (_points select 1) * 0.75];
@@ -110,14 +110,14 @@ params ["_markerArray"];
   };
 
   //Reducing points if too many medium buildings
-  if(count _factoryBuildingsMedium > 4) then
+  if(count _factoryBuildingsMedium > 2) then
   {
     _points set [1, (_points select 1) * 0.6];
     _points set [2, (_points select 2) * 0.7];
   };
 
   //Reducing points if too many small buidings
-  if(count _factoryBuildingsSmall > 6) then
+  if(count _factoryBuildingsSmall > 3) then
   {
     _points set [2, (_points select 2) * 0.5];
   };
@@ -126,7 +126,7 @@ params ["_markerArray"];
   _points set [1, (_points select 1) max 40];
   _points set [2, (_points select 2) max 15];
 
-  diag_log format ["Found %1 S, %2 L, %3 M, %4 S, points are %5", count _factoryBuildingsSpecial, count _factoryBuildingsLarge, count _factoryBuildingsMedium, count _factoryBuildingsSmall, str _points];
+  diag_log format ["%6: Found %1 S, %2 L, %3 M, %4 S, points are %5", count _factoryBuildingsSpecial, count _factoryBuildingsLarge, count _factoryBuildingsMedium, count _factoryBuildingsSmall, str _points, _marker];
 
   private _markerBuildings = [];
 

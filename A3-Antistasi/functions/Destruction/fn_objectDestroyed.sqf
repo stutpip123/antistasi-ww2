@@ -13,6 +13,7 @@ _object allowDamage false;
 //Remove all eventHandler
 _object removeAllEventHandlers "Hit";
 _object removeAllEventHandlers "Explosion";
+_object removeAllEventHandlers "HandleDamage";
 
 private _destructPoints = _object getVariable ["destructPoints", 0];
 private _destructMarker = _object getVariable ["destructMarker", ""];
@@ -21,6 +22,8 @@ if(_destructMarker == "") exitWith
 {
   diag_log "ObjectDestroyed: destructMarker on object is not set!";
 };
+
+diag_log format ["Object %1 destroyed, adding %2 points on %3", typeOf _object, _destructPoints, _destructMarker];
 
 private _canExplode = _object getVariable ["canExplode", false];
 if(_canExplode) then
