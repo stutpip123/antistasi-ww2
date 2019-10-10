@@ -43,6 +43,7 @@ private _objects = [];
     {
       _xType = typeOf _x;
       _relData = [_mainWorldPos, _mainVectorDir, _mainVectorSide, _x] call fnc_getRelPos;
+      _relData pushBack (getDir _x);
       _points = _x getVariable ["destructPoints", 0];
       _canExplode = _x getVariable ["canExplode", false];
       _canMove = _x getVariable ["canMove", false];
