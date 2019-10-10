@@ -805,7 +805,26 @@ otherStaticsTiers = [0.3, 1];
 //Compositions for resources/factories
 destructCompositions =
 [
-
+	[
+		["Land_JetEngineStarter_01_F",35,false,false],
+		[
+			["Land_DieselGroundPowerUnit_01_F",[-11.7953,4.15613,-0.317805],15,false,false],["Land_MetalBarrel_F",[8.98798,3.22564,-0.741843],5,true,true],
+			["Land_MetalBarrel_F",[6.79032,4.04325,-0.741843],5,true,true],["Land_MetalBarrel_F",[5.44237,4.97359,-0.741843],5,true,true]
+		]
+	],
+	[
+		["Truck_01_Rack_F",0,false,false],
+		[
+			["Land_MetalBarrel_F",[13.2741,1.97089,-0.367381],5,true,true],["Land_MetalBarrel_F",[18.6254,1.21219,-0.367395],5,true,true],
+			["Land_MetalBarrel_F",[43.8509,0.526465,-0.36783],5,true,true],["Land_MetalBarrel_F",[146.714,0.590806,-0.367475],5,true,true],
+			["Land_MetalBarrel_F",[-61.0141,0.578314,-0.367834],5,true,true],["Land_MetalBarrel_F",[-131.996,0.73384,-0.368137],5,true,true],
+			["Land_MetalBarrel_F",[-25.8817,1.16681,-0.367888],5,true,true],["Land_MetalBarrel_F",[-14.5155,1.98749,-0.36772],5,true,true]
+		]
+	],
+	[
+		["Land_Device_assembled_F",30,false,false],
+		[]
+	]
 ];
 
 ////////////////////////////////////
