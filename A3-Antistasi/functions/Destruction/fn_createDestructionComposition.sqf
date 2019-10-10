@@ -16,7 +16,7 @@ private _objects = [_main];
   _subPos set [2, (_worldPosMain select 2) + (_relData select 2)];
 
   //Creating the object
-  private _subObj = [_x select 0, _marker, _subPos, _relData select 3, _x select 1, _x select 3, _x select 2] call A3A_fnc_createDestructionObject;
+  private _subObj = [_x select 0, _marker, _subPos, _mainDir + (_relData select 3) , _x select 1, _x select 3, _x select 2] call A3A_fnc_createDestructionObject;
   _objects pushBack _subObj;
 } forEach (_comp select 1);
 
