@@ -34,16 +34,17 @@ private _mainWorldPos = getPosWorld _mainObject;
 private _mainVectorDir = vectorDir _mainObject;
 _mainVectorDir set [2, 0];
 private _mainVectorSide = _mainVectorDir vectorCrossProduct (vectorUp _mainObject);
+private _mainDir = getDir _mainObject;
 
 //Processing the other objects
-private _allObjects = (getPos _mainObject) nearObjects 50;
+private _allObjects = (getPos _mainObject) nearObjects 20;
 private _objects = [];
 {
     if(_x != _mainObject && {!(_x isKindOf "Man")}) then
     {
       _xType = typeOf _x;
       _relData = [_mainWorldPos, _mainVectorDir, _mainVectorSide, _x] call fnc_getRelPos;
-      _relData pushBack (getDir _x);
+      _relData pushBack ((getDir _x) - _mainDir);
       _points = _x getVariable ["destructPoints", 0];
       _canExplode = _x getVariable ["canExplode", false];
       _canMove = _x getVariable ["canMove", false];
