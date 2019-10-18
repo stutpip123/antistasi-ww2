@@ -1,57 +1,34 @@
 params ["_object"];
 
-//TEMP, should replace the model, currently just deletes it
+/*  Updates the visuals to give a better player feedback when they destroyed something
+*   Parameter:
+*     _object : OBJECT : The object, that needs a visual update
+*
+*   Returns:
+*     Nothing
+*/
 
-
-//deleteVehicle _object;
-
+//TODO add more types
 switch (typeOf _object) do
 {
   case ("Land_Device_assembled_F"):
   {
-    //_smoke = "test_EmptyObjectForSmoke" createVehicle (getPosWorld _object);
+    //Maybe use a smoke grenade for this?
     _smoke = createVehicle ["test_EmptyObjectForSmoke", (getPos _object), [], 0, "CAN_COLLIDE"];
-    /*
-      _ps1 = "#particlesource" createVehicleLocal (getPos _object);
-      _ps1 setParticleParams
-      [
-        ["\ca\Data\ParticleEffects\FireAndSmokeAnim\SmokeAnim.p3d", 8, 3, 1],
-        "",
-        "Billboard",
-        1,
-        3,
-        [0,0,0],
-        [0,0, 1.5],
-        0,
-        10,
-        7.9,
-        0.066,
-        [2, 6, 12],
-        [[0.5, 0.5, 0.5, 0.3], [0.75, 0.75, 0.75, 0.15], [1, 1, 1, 0]],
-        [0.125],
-        1,
-        0,
-        "",
-        "",
-        _this
-      ];
-
-      _ps1 setParticleRandom
-      [
-        1,
-        [0.5, 0.5, 0.25],
-        [0, 0, 0],
-        1,
-        0.02,
-        [0, 0, 0, 0.1],
-        0.01,
-        0.03,
-        10
-      ];
-
-      _ps1 setParticleCircle [0.5, [0, 0, 0]];
-      _ps1 setDropInterval 0.1;
-    */
+    [_smoke, _object] spawn
+    {
+      private _smoke = _this select 0;
+      private _marker = (_this select 1) getVariable ["destructMarker", ""];
+      private _counter = 0;
+      waitUntil
+      {
+        sleep 10;
+        _counter = _counter + 1;
+        (_counter > (15 * 6)) ||
+        {spawner getVariable [_marker, 1] == 2}
+      };  //Wait until either the marker despawns or 15 minutes past
+      deleteVehicle _smoke;
+    };
   };
   case ("Land_MetalBarrel_F"):
   {

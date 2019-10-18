@@ -12,7 +12,8 @@ _objects = server getVariable [format ["%1_objects", _marker], []];
 //Reset all buildings
 _buildings = server getVariable [format ["%1_buildings", _marker], []];
 {
-    _x setDamage 0;
+    [_x] call A3A_fnc_repairRuinedBuilding;
+    [_x] call A3A_fnc_addBuildingEH;
 } forEach _buildings;
 
 //Create new assets
