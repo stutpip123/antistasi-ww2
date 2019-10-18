@@ -164,6 +164,8 @@ unlockedAA = [];
 unlockedMG = [];
 unlockedGL = [];
 unlockedSN = [];
+initVest = [];
+initGrenades = [];
 
 ////////////////////////////////////
 //     BEGIN MOD DETECTION       ///
@@ -327,19 +329,19 @@ if (!hasIFA) then
 				if (has3CB) then
 					{
 					//3CB REBEL Template
-					call compile preProcessFileLineNumbers "Templates\3CB_Reb_CCM_Arid.sqf";
+					call compile preProcessFileLineNumbers "Templates\3CB_Reb_TTF_Arid.sqf";
 					}
 					else
 					{
 						if (teamPlayer == independent) then
 							{
 							//RHS REBEL Template
-							call compile preProcessFileLineNumbers "Templates\RHS_Reb_CDF_Arid.sqf";
+							call compile preProcessFileLineNumbers "Templates\RHS_Reb_NAPA_Arid.sqf";
 							}
 							else
 							{
 							//RHS BLUFOR REBEL Template
-							call compile preProcessFileLineNumbers "Templates\RHS_Reb_NAPA_Arid.sqf";
+							call compile preProcessFileLineNumbers "Templates\RHS_Reb_CDF_Arid.sqf";
 							};
 					};
 			};
@@ -453,6 +455,8 @@ unlockedItems append civilianUniform;
 unlockedItems append civilianHeadgear;
 unlockedItems append civilianVest;
 unlockedItems append civilianGlasses;
+unlockedItems append initVest;
+unlockedMagazines append initGrenades;
 
 ////////////////////////////////////
 //      ACE ITEMS LIST           ///
