@@ -213,6 +213,7 @@ class A3A
 		class addDestructPoints {};
 		class createDestructionComposition {};
 		class createDestructionObject {};
+		class findRelPos {};
 		class initDestructionObjects {};
 		class objectDestroyed {};
 		class rebuildSite {};
@@ -432,7 +433,7 @@ class A3A
 	{
 		class getLoadout {};
 	};
-	
+
 	class Undercover
 	{
 		class initUndercover {};
