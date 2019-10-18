@@ -10,6 +10,7 @@ petros allowdamage false;
 ["difficultyX"] call fn_LoadStat;
 ["gameMode"] call fn_LoadStat;
 ["destroyedSites"] call fn_LoadStat;
+["destructPoints"] call fn_LoadStat;
 ["minesX"] call fn_LoadStat;
 ["countCA"] call fn_LoadStat;
 ["antennas"] call fn_LoadStat;

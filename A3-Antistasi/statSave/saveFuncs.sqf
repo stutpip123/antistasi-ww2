@@ -185,7 +185,24 @@ fn_SetStat =
 			forceWeatherChange
 			};
 		if(_varName == 'resourcesFIA') then {server setVariable ["resourcesFIA",_varValue,true]};
-		if(_varName == 'destroyedSites') then {destroyedSites = +_varValue; publicVariable "destroyedSites"};
+		if(_varName == 'destroyedSites') then
+		{
+			//Sets the sites as destroyed
+			destroyedSites = +_varValue;
+			publicVariable "destroyedSites";
+
+			//Inits the compositions for the remaining sites
+			private _remaining = (resourcesX + factories) - destroyedSites;
+			{
+			    [_x] call A3A_fnc_rebuildSite;
+			} forEach _remaining;
+		};
+		if(_varName == 'destructPoints') then
+		{
+			{
+			    server setVariable [format ["%1_destruct", (_x select 0)], (_x select 1)];
+			} forEach _varValue;
+		};
 		if(_varName == 'skillFIA') then
 			{
 			skillFIA = _varValue; publicVariable "skillFIA";

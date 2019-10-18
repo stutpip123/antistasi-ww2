@@ -25,6 +25,14 @@ private ["_garrison"];
 ["dateX", date] call fn_SaveStat;
 ["skillFIA", skillFIA] call fn_SaveStat;
 ["destroyedSites", destroyedSites] call fn_SaveStat;
+private _destructPoints = [];
+{
+	private _points = server getVariable [format ["%1_destruct", _x], 0];
+	private _locked = server getVariable [format ["%1_locked", _x], false];
+	if(_locked) then {_points = 0}; //Site is about to be repaired
+	_destructPoints pushBack [_x, _points];
+} forEach (factories + resourcesX);
+["destructPoints", _destructPoints] call fn_SaveStat;
 ["distanceSPWN", distanceSPWN] call fn_SaveStat;
 ["civPerc", civPerc] call fn_SaveStat;
 ["chopForest", chopForest] call fn_SaveStat;
