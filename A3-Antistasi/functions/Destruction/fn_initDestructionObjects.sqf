@@ -159,7 +159,7 @@ params ["_markerArray"];
 
     //Select composition and build it
     private _comp = selectRandom destructCompositions;
-    _compObjects append ([_comp, _storPos, _storDir, _marker] spawn A3A_fnc_createDestructionComposition);
+    _compObjects append ([_comp, _storPos, _storDir, _marker] call A3A_fnc_createDestructionComposition);
   };
 
   server getVariable [format ["%1_buildings", _marker], _markerBuildings];

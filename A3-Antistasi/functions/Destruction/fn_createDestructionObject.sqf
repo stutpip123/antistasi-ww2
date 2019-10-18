@@ -1,4 +1,4 @@
-params ["_objectType", "_marker", "_pos", "_dir", "_destructPoints", "_canMove", "_canExplode"];
+params ["_objectType", "_marker", "_pos", "_dir", "_destructPoints", "_canMove", "_canExplode", ["_isMain", false]];
 
 /*  Creates a single object of a destruction composition
 *   Params:
@@ -9,13 +9,27 @@ params ["_objectType", "_marker", "_pos", "_dir", "_destructPoints", "_canMove",
 *     _destructPoints : NUMBER : The amount of destruction points the object should add
 *     _canMove : BOOLEAN : Indicates if the object should get a velocity from nearby explosions
 *     _canExplode : BOOLEAN : Indicates if the object should explode on destruction
+*     _isMain : BOOLEAN : The main object of a composition will be spawned differently
 *
 *   Returns:
 *     _object : OBJECT : The object created by this parameters
 */
 
-//Spawn in at [0,0,0], then set the objects pos and dir
-private _object = createVehicle [_objectType, [0,0,0], [], 0, "CAN_COLLIDE"];
+private _object = objNull;
+
+if(_isMain) then
+{
+  //Find suitable position by script right now
+  _object = createVehicle [_objectType, _pos, [], 0, "NONE"];
+  _pos = getPosWorld _object;
+}
+else
+{
+  //Spawn in at [0,0,0], then set the objects pos and dir
+  _object = createVehicle [_objectType, [0,0,0], [], 0, "CAN_COLLIDE"];
+};
+
+//Set object pos and dir
 _object setDir _dir;
 _object setPosWorld _pos;
 _object allowDamage false;
