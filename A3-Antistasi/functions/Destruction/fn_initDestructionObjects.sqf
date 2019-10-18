@@ -38,9 +38,6 @@ params ["_markerArray"];
   _marker = _x;
   _markerPos = getMarkerPos _marker;
 
-  //Start with 40% given by the civi workes
-  _points = 40;
-
   //Search all buildings on the marker
   _markerSize = getMarkerSize _marker;
   _radius = sqrt ((_markerSize select 0) * (_markerSize select 0) + (_markerSize select 1) * (_markerSize select 1));
