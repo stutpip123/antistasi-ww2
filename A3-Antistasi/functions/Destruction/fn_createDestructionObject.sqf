@@ -14,17 +14,20 @@ params ["_objectType", "_marker", "_pos", "_dir", "_destructPoints", "_canMove",
 *     _object : OBJECT : The object created by this parameters
 */
 
-//Spawn and set the objects pos and dir
-private _object = createVehicle [_objectType, _pos, [], 0, "CAN_COLLIDE"];
+//Spawn in at [0,0,0], then set the objects pos and dir
+private _object = createVehicle [_objectType, [0,0,0], [], 0, "CAN_COLLIDE"];
 _object setDir _dir;
 _object setPosWorld _pos;
+_object allowDamage false;
 
-if(_destructPoints == 0) then
+if(debug) then
 {
-  //Asset is just decoration
-  _object allowDamage false;
-}
-else
+  diag_log format ["Create destruct object of type %1 at %2 with direction %3", _objectType, _pos, _dir];
+};
+
+//If destuct points are 0, the object is just a visual enhancement and features not gameplay effect
+//Therefor it should not allow damage and cannot be destroyed
+if(_destructPoints != 0) then
 {
   //Set the important values
   _object setVariable ["destructPoints", _destructPoints];
@@ -34,6 +37,13 @@ else
 
   //Add the EventHandlers
   [_object] call A3A_fnc_addDestructEH;
+
+  //Enable damage again
+  _object spawn
+  {
+    sleep 5;
+    _this allowDamage true;
+  };
 };
 
-_object
+_object;
