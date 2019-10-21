@@ -6,10 +6,21 @@ _building addEventHandler
     params ["_object", "_selection", "_damage", "_source", "_projectile"];
 
     _currentDamage = damage _object;
+
+    if(_currentDamage >= 1) exitWith
+    {
+      _currentDamage;
+    };
+
     _addedDamage = (_damage - _currentDamage) max 0;
 
     switch (true) do
     {
+      case (_projectile == ""):
+      {
+        //Indirect damage, used for explosions and fall damage and so on
+        _addedDamage = _addedDamage * 0.25;
+      };
       case (_projectile isKindOf "RocketCore");
       case (_projectile isKindOf "MissileCore"):
       {

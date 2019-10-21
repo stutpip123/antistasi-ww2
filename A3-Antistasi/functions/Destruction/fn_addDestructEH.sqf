@@ -17,6 +17,12 @@ _object addEventHandler
     params ["_object", "_selection", "_damage", "_source", "_projectile"];
 
     _currentDamage = damage _object;
+
+    if(_currentDamage >= 1) exitWith
+    {
+      _currentDamage;
+    };
+
     _addedDamage = (_damage - _currentDamage) max 0;
 
     switch (true) do
@@ -25,7 +31,7 @@ _object addEventHandler
       case (_projectile isKindOf "BulletCore"):
       {
         //20 is just debug, change back to 2
-        _addedDamage = _addedDamage * 20;
+        _addedDamage = _addedDamage * 2;
       };
 
       //Slightly improve damage by grenades
@@ -33,6 +39,12 @@ _object addEventHandler
       case (_projectile isKindOf "Grenade"):
       {
         _addedDamage = _addedDamage * 1.5;
+      };
+
+      case (_projectile == ""):
+      {
+        //Indirect damage, used for explosions and fall damage and so on
+        _addedDamage = _addedDamage * 1.25;
       };
 
       //Reduce damage of all other sources
@@ -50,7 +62,7 @@ _object addEventHandler
       [_object] spawn A3A_fnc_objectDestroyed;
     };
 
-    hint format ["Hit damage occured for %1\nOverall damage %2\nWas hit by %3", _addedDamage, _damage, str _projectile];
+    diag_log format ["Hit damage occured for %1 || Overall damage %2 || Was hit by %3", _addedDamage, _damage, str _projectile];
 
     _damage;
   }
