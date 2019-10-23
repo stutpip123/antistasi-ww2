@@ -26,7 +26,7 @@ private _storageTypes =
   "Land_SM_01_shed_unfinished_F", "Land_SM_01_shelter_narrow_F", "Land_SM_01_shelter_wide_F"
 ];
 
-_storageBuildings = nearestObjects [_markerPos, _storageTypes, _radius, true];
+_storageBuildings = nearestObjects [getMarkerPos _marker, _storageTypes, 250, true];
 
 
 private _compObjects = [];
@@ -45,5 +45,5 @@ for "_i" from 1 to _storageCount do
 
   //Select composition and build it
   private _comp = selectRandom destructCompositions;
-  _compObjects append ([_comp, _storPos, _storDir, _marker] spawn A3A_fnc_createDestructionComposition);
+  _compObjects append ([_comp, _storPos, _storDir, _marker] call A3A_fnc_createDestructionComposition);
 };
