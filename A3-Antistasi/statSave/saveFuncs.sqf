@@ -191,11 +191,13 @@ fn_SetStat =
 			destroyedSites = +_varValue;
 			publicVariable "destroyedSites";
 
-			//Inits the compositions for the remaining sites
-			private _remaining = (resourcesX + factories) - destroyedSites;
 			{
-			    [_x] call A3A_fnc_rebuildSite;
-			} forEach _remaining;
+				//Delete all objects from the marker
+				private _objects = server getVariable [format ["%1_objects", _marker], []];
+				{
+						deleteVehicle _x;
+				} forEach _objects;
+			} forEach destroyedSites;
 		};
 		if(_varName == 'destructPoints') then
 		{
