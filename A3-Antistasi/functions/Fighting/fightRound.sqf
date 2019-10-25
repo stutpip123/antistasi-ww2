@@ -1,10 +1,11 @@
 //Gather all units which are currently in the fight
-//Needed information [SIDE, [UnitData]]
+//Needed information [[SIDE, [UnitData]], [SIDE, [UnitData]]]
 //UnitData = [[Comp1, pos], [Comp2, pos], [Comp3, pos]]
 //CompX = [Unit1, Unit2, Vehicle1]
 //UnitX/VehicleX = [type, health, attacks, weapons, actions, boni, mali]
 //attacks = [[0, weapon], [3, weapon], [4, weapon]
 //weapons = [weapon1, currentMag, ammo, ammoType]
+//Ammotype = [name, airFrcition, damge, penetration, ...]
 
 //Categorize the units
 private _occupantsHaveAir = false;
