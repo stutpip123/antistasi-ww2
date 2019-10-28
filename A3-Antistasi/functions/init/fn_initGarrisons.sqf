@@ -166,6 +166,7 @@ if (debug) then {
 [_mrkCSAT, resourcesX, "loc_rock", "Resources"] spawn _fnc_initMarker;
 [resourcesX, "Resource"] spawn _fnc_initGarrison;							//Old system
 [resourcesX, "Other", [0,0,0]] spawn A3A_fnc_createGarrison;	//New system
+[resourcesX] spawn A3A_fnc_initDestructionObjects;
 
 if (debug) then {
 	diag_log format ["%1: [Antistasi] | DEBUG | initGarrisons.sqf | Setting up Factory stuff.", servertime];
@@ -174,6 +175,7 @@ if (debug) then {
 [_mrkCSAT, factories, "u_installation", "Factory"] spawn _fnc_initMarker;
 [factories, "Factory"] spawn _fnc_initGarrison;
 [factories, "Other", [0,0,0]] spawn A3A_fnc_createGarrison;
+[factories] spawn A3A_fnc_initDestructionObjects;
 
 if (debug) then {
 	diag_log format ["%1: [Antistasi] | DEBUG | initGarrisons.sqf | Setting up Outpost stuff.", servertime];

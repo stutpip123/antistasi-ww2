@@ -206,6 +206,20 @@ class A3A
 		class spawnDebuggingLoop {};
 	};
 
+	class Destruction
+	{
+		class addBuildingEH {};
+		class addDestructEH {};
+		class addDestructPoints {};
+		class createDestructionComposition {};
+		class createDestructionObject {};
+		class findRelPos {};
+		class initDestructionObjects {};
+		class objectDestroyed {};
+		class rebuildSite {};
+		class setDestroyedModel {};
+	};
+
 	class Dialogs
 	{
 		class buyVehicle {};

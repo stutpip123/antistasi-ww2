@@ -643,6 +643,33 @@ otherUpdateTiers = [3, 7];
 otherStaticsTiers = [0.3, 1];
 [] call A3A_fnc_initPreference;
 
+//Compositions for resources/factories
+destructCompositions =
+[
+	[
+		["Land_JetEngineStarter_01_F",35,false,false],
+		[
+			["Land_DieselGroundPowerUnit_01_F",[-11.7953,4.15613,-0.317805,-179.806],15,false,false],["Land_MetalBarrel_F",[8.98798,3.22564,-0.741843,-90.1778],5,true,true],
+			["Land_MetalBarrel_F",[6.79032,4.04325,-0.741843,-90.1759],5,true,true],["Land_MetalBarrel_F",[5.44237,4.97359,-0.741843,-90.1778],5,true,true]
+		]
+	],
+	[
+		["Truck_01_Rack_F",0,false,false],
+		[
+			["Land_MetalBarrel_F",[13.2824,1.97042,-0.367574,-90.1821],5,true,true],["Land_MetalBarrel_F",[18.6378,1.21172,-0.367634,-90.1835],5,true,true],
+			["Land_MetalBarrel_F",[43.8928,0.526113,-0.367574,-90.1856],5,true,true],["Land_MetalBarrel_F",[146.745,0.591214,-0.367863,-90.1764],5,true,true],
+			["Land_MetalBarrel_F",[-61.0514,0.578077,-0.367547,-272.091],5,true,true],["Land_MetalBarrel_F",[-132.019,0.734166,-0.367959,-272.091],5,true,true],
+			["Land_MetalBarrel_F",[-25.8872,1.16637,-0.367688,-272.093],5,true,true],["Land_MetalBarrel_F",[-14.5139,1.98701,-0.367429,-272.095],5,true,true]
+		]
+	],
+	[
+		["Land_Device_assembled_F",30,false,false],
+		[
+
+		]
+	]
+];
+
 ////////////////////////////////////
 // DECLARE VARIBALES FOR CLIENTS ///
 ////////////////////////////////////
