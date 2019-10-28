@@ -172,6 +172,7 @@ fn_SetStat = {
 			} forEach _varValue;
 		};
 		if(_varName == 'skillFIA') then
+		{
 			skillFIA = _varValue; publicVariable "skillFIA";
 			{
 				_costs = server getVariable _x;
