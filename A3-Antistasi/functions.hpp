@@ -314,13 +314,13 @@ class A3A
 		class ACEpvpReDress {};
 		class ammunitionTransfer {};
 		class arsenalManage {};
-		class boxAAF {};
 		class checkRadiosUnlocked {};
 		class configSort {};
 		class crateLootParams {};
 		class CSATCrate {};
 		class dress {};
 		class empty {};
+		class equipmentClassToCategories {};
 		class equipmentSort {};
 		class getRadio {};
 		class itemSort {};
@@ -329,6 +329,7 @@ class A3A
 		class NATOCrate {};
 		class randomRifle {};
 		class transfer {};
+		class unlockEquipment {};
 		class vehicleSort {};
 	};
 
@@ -431,7 +432,10 @@ class A3A
 
 	class Templates
 	{
+		class aceModCompat {};
 		class getLoadout {};
+		class ifaModCompat {};
+		class rhsModCompat {};
 	};
 
 	class Undercover
@@ -443,6 +447,7 @@ class A3A
 	class Utility
 	{
 		class basicBackpack {};
+		class createDataObject {};
 		class dateToTimeString {};
 	};
 
@@ -450,7 +455,6 @@ class A3A
 	{
 		class cityinfo {};
 		class credits {};
-		class getArrayMrks {};
 		class initDisabledMods {};
 		class initGarrisons {};
 		class initGetMissionPath {};
