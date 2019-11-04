@@ -56,3 +56,64 @@ Finalizing cyclic spawn
 Improve the replenish function to get actual results
 Reorder convoys on despawn (Reassign vehicles if one is destroyed and so on)
 Reorder all parameters in the same order
+
+
+
+================================================================================
+AI Ideas
+================================================================================
+
+Asymmetric style
+
+AI character : Balanced, Increase, Influence (default NATO), Progress (default CSAT) or Random
+
+Funding
+- Balanced : Gets the same amount of funds every tick, no increase or decrease possible
+- Increase : Funding raises with the war level
+- Influence : Funding is bound to the amount of sites under faction control
+- Progress : Low basic income, bonus every time the faction captures something
+- Random : Random amount every tick
+
+Target selection
+- Balanced : Each site and mission has the same priority
+- Increase : Like balanced
+- Influence : Targets sites with high income first, support missions high priority, military missions low priority
+- Progress : Targets weakest or most important sites first, support missions low priority, military missions low priority
+- Random : Target selection is random, mission priority is random
+
+Aggro behavior
+- Balanced : Aggro is balanced through all parts
+- Increase : Aggro will slightly increase over the game, behavior as balanced
+- Influence : Aggro by civilian parts is increased, aggro by military parts is decreased
+- Progress : Aggro by civilian parts is disabled, aggro by military parts is highly increased
+- Random : Aggro is randomly done
+
+AI fighting : Balanced (default NATO), Aggressive (default CSAT), Defensive, Tactical, Random
+
+Unit compositions
+- Balanced : Units compositions will contain air and land vehicles as well as various groups
+- Aggressive : Armored vehicles and heavy helicopters, no unarmed vehicles
+- Defensive : Mostly APCs, high chance for AA and drones
+- Tactical : Unit composition based on target, high chance for sniper, mortar or explosives teams
+- Random : Purely random compositions
+
+Attack frequency
+- Balanced : One attack every 10 to 30 minutes
+- Aggressive : Will attack every time it has enough units to form a attack force
+- Defensive : Tend to no attacks at all, one in an hour
+- Tactical : Multiple attacks on several sites in an AO at the same time, then longer pause
+- Random : Attacks are randomly scheduled
+
+Fighting style attack
+- Balanced : Standard attack without any special attributes
+- Aggressive : Attacks with airstrikes, mortar and heavy weapons, will destroy houses and kill civilians on their way
+- Defensive : Standard attack, will approach silently (not by airdropping from a helicopter)
+- Tactical : Will harass units as long as possible, will only go in if site is nearly cleared
+- Random : Attacks will follow no rules
+
+Fighting style defense
+- Balanced : Standard defense script
+- Aggressive : Will engage with everything available on the site, will instantly call for support
+- Defensive : Will fortify the positions with AA, AT and mortar, will try to keep attack away instead of killing them
+- Tactical : Will flank the attacker from multiple position and lay out mines
+- Random : Defender will follow random procedures
