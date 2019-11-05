@@ -211,7 +211,6 @@ if(_type == "patrol") then
 if(_type == "reinforce") then
 {
   _arguments params ["_canReinf"];
-  diag_log format ["CanReinf is %1", str _canReinf];
   _possibleBases = _canReinf select {[_x, _destination] call A3A_fnc_shouldReinforce};
   if((count _possibleBases) != 0) then
   {
