@@ -1,7 +1,5 @@
 params ["_marker"];
 
-_marker = "marker_0";
-
 //Calculated marker pos and radius
 private _markerSize = markerSize _marker;
 private _radius = (_markerSize select 0) * (_markerSize select 0) + (_markerSize select 1) * (_markerSize select 1);
