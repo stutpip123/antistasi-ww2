@@ -1,20 +1,19 @@
 params ["_marker"];
 
+//Make sure it is running in unscheduled environment
+if(!canSuspend) exitWith
+{
+  [_marker] spawn A3A_fnc_findBuildings;
+};
+
 //Calculated marker pos and radius
 private _markerSize = markerSize _marker;
 private _radius = (_markerSize select 0) * (_markerSize select 0) + (_markerSize select 1) * (_markerSize select 1);
 _radius = sqrt _radius;
 private _pos = getMarkerPos _marker;
 
-//Search for nearby buildings
-_buildings = nearestObjects [_pos, ["House"], 500, true];
-
-//Sort buildings for the ones that are in the marker array and can be destructed
-_buildings = _buildings select
-{
-  (getPos _x) inArea _marker &&                                                           //Building on the actual marker @Spoffy should buildings near it should count too?
-  {(getText (configFile >> "CfgVehicles" >> (typeOf _x) >> "destrType")) != "DestructNo"} //Only buildings that can be destroyed
-};
+//Get the buildings and automatically replace bad buildings
+_buildings = [_marker, _radius] call A3A_fnc_findMarkerBuildings;
 
 //Calculate the size of each building and calculates sum of all buildings
 private _sizeSum = 0;

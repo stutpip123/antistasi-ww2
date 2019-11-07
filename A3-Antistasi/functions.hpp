@@ -214,6 +214,7 @@ class A3A
 		class createDestructionComposition {};
 		class createDestructionObject {};
 		class findBuildings {};
+		class findMarkerBuildings {};
 		class findRelPos {};
 		class initDestructionObjects {};
 		class objectDestroyed {};

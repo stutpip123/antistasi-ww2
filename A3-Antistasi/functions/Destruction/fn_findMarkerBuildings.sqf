@@ -9,7 +9,10 @@ private _buildingObjects = [];
   {
     if(typeOf _building != "") then
     {
-      _buildingObjects pushBack _building;
+      if((getText (configFile >> "CfgVehicles" >> (typeOf _building) >> "destrType")) != "DestructNo") then
+      {
+        _buildingObjects pushBack _building;
+      };
     }
     else
     {
