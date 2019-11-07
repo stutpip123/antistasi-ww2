@@ -1,3 +1,5 @@
+private _debugTime = time;
+
 //Large building, will result in 75 - 150 points
 private _factoryLarge =
 [
@@ -163,3 +165,6 @@ params ["_markerArray"];
   server getVariable [format ["%1_objects", _marker], _compObjects];
 
 } forEach _markerArray;
+
+private _timeDiff = time - _debugTime;
+diag_log format ["Init code took %1 seconds", _timeDiff];

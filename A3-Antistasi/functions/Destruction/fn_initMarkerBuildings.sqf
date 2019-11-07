@@ -3,7 +3,7 @@ params ["_marker"];
 //Make sure it is running in unscheduled environment
 if(!canSuspend) exitWith
 {
-  [_marker] spawn A3A_fnc_findBuildings;
+  [_marker] spawn A3A_fnc_initMarkerBuildings;
 };
 
 //Calculated marker pos and radius
@@ -13,7 +13,7 @@ _radius = sqrt _radius;
 private _pos = getMarkerPos _marker;
 
 //Get the buildings and automatically replace bad buildings
-_buildings = [_marker, _radius] call A3A_fnc_findMarkerBuildings;
+_buildings = ([_marker, _radius] call A3A_fnc_findMarkerBuildings) select 0;
 
 //Calculate the size of each building and calculates sum of all buildings
 private _sizeSum = 0;
@@ -36,12 +36,20 @@ private _buildingSize = [];
 } forEach _buildings;
 
 private _buildingCount = count _buildings;
-private _buildingPoints = round (0.1786 * (_buildingCount * _buildingCount) + 7 * _buildingCount + 62.8214);
-//  points = 0.1786 * x^2 + 7 * x + 62.8214 with x = amount of buildings
-//  for x = 1 => ~ 70
-//  for x = 5 => ~ 100
-//  for x = 15 => ~ 200
-//  ~ due to rounding errors
+private _buildingPoints = 0;
+if(_buildingCount <= 5) then
+{
+  //x = 1 => 70
+  //x = 5 => 100
+  _buildingPoints = 1.25 * (_buildingCount * _buildingCount) + 68.75;
+}
+else
+{
+  //x = 5 => 100
+  //x = 25 => 1000
+  //x = 100 => 1350
+  _buildingPoints = -0.0007 * (_buildingCount * _buildingCount) + 14.814 * _buildingCount - 25.945;
+};
 
 //Distribute points to buildings based on max points and size
 private _markerBuildings = [];
@@ -51,11 +59,11 @@ private _markerBuildings = [];
 
     //Calculate the points for the building
     //Calculation is based on the building size to sizeSum and a fixed parted being a building of all building
-    //The size part however is weighted double
+    //The size part however is weighted different
     private _points = round ((((2 * (_size / _sizeSum)) + (1 / _buildingCount)) / 3) * _buildingPoints);
     _building setVariable ["destructPoints", _points];
     _building setVariable ["destructMarker", _marker];
-    //[_building] call A3A_fnc_addBuildingEH;
+    [_building] call A3A_fnc_addBuildingEH;
     _markerBuildings pushBack _building;
 
     private _buildMarker = createMarker [str (random 10000), getPos _building];
@@ -66,4 +74,4 @@ private _markerBuildings = [];
 
 //server getVariable [format ["%1_buildings", _marker], _markerBuildings];
 
-hint format ["Found %1 buildings!\nPoints distributed: %2", _buildingCount, _buildingPoints];
+hint format ["%3\nFound %1 buildings!\nPoints distributed: %2", _buildingCount, _buildingPoints, _marker];

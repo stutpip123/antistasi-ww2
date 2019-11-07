@@ -1,7 +1,16 @@
-params ["_marker", "_radius"]
+params ["_marker", "_radius"];
 
 private _buildings = nearestTerrainObjects [getMArkerPos _marker, ["House"], _radius, false, false];
+
+//These buildings have space to place objects in them
+private _storageTypes =
+[
+  "Land_i_Shed_Ind_F", "Land_Shed_Small_F", "Land_Shed_Big_F", "Land_SM_01_shed_F",
+  "Land_SM_01_shed_unfinished_F", "Land_SM_01_shelter_narrow_F", "Land_SM_01_shelter_wide_F"
+];
+
 private _buildingObjects = [];
+private _storageBuildings = [];
 {
   private _building = _x;
   private _pos = getPosWorld _building;
@@ -12,6 +21,10 @@ private _buildingObjects = [];
       if((getText (configFile >> "CfgVehicles" >> (typeOf _building) >> "destrType")) != "DestructNo") then
       {
         _buildingObjects pushBack _building;
+        if((typeOf _building) in _storageTypes) then
+        {
+          _storageBuildings pushBack _building;
+        };
       };
     }
     else
@@ -49,4 +62,5 @@ private _buildingObjects = [];
   };
 } forEach _buildings;
 
-_buildingObjects;
+private _result = [_buildingObjects, _storageBuildings];
+_result;
