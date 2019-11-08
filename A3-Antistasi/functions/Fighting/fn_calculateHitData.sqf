@@ -40,7 +40,7 @@ private _missChance = 1 - _hitChance;
 private _criticalChance = 0.2 * _hitChance;
 private _hitChance = _hitChance - _criticalChance;
 
-private _baseDamage = 0.2; //Calculate that based on distance and bullet
+private _baseDamage = 0.2; //Calculate that based on distance and bullet and veloctiy
 
 private _overallDamage = 0;
 private _hitCount = 0;
