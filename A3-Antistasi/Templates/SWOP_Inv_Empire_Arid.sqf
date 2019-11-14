@@ -2,10 +2,10 @@
 //       NAMES AND FLAGS         ///
 ////////////////////////////////////
 //Name Used for notifications
-nameInvaders = "CSAT";
+nameInvaders = "Galactic Empire";
 
 //SF Faction
-factionMaleInvaders = "OPF_V_F";
+factionMaleInvaders = "EMPIRE";
 //Miltia Faction
 if (gameMode == 4) then {factionFIA = ""};
 
@@ -13,8 +13,8 @@ if (gameMode == 4) then {factionFIA = ""};
 CSATFlag = "Flag_CSAT_F";
 CSATFlagTexture = "\A3\Data_F\Flags\Flag_CSAT_CO.paa";
 flagCSATmrk = "flag_CSAT";
-if (isServer) then {"CSAT_carrier" setMarkerText "CSAT Carrier"};
-	
+if (isServer) then {"CSAT_carrier" setMarkerText "Star Destroyer"};
+
 //Loot Crate
 CSATAmmoBox = "O_supplyCrate_F";
 
@@ -24,39 +24,39 @@ CSATAmmoBox = "O_supplyCrate_F";
 //PvP Loadouts
 CSATPlayerLoadouts = [
 	//Team Leader
-	"O_T_Recon_TL_F",
+	"SWOP_imp_DeathTrooperLeader",
 	//Medic
-	"O_T_Recon_Medic_F",
+	"SWOP_imp_DeathTrooper",
 	//Autorifleman
-	"O_Soldier_AR_F",
+	"SWOP_imp_DeathTrooperHB",
 	//Marksman
-	"O_T_Recon_M_F",
+	"SWOP_Scout_sniper",
 	//Anti-tank Scout
-	"O_T_Recon_LAT_F",
+	"SWOP_Storm_Shoretrooper_AA",
 	//AT2
-	"O_T_Recon_LAT_F"
+	"SWOP_Storm_Shoretrooper_AA"
 ];
 
 //PVP Player Vehicles
-vehCSATPVP = ["O_MRAP_02_F","O_LSV_02_unarmed_F","O_MRAP_02_hmg_F","O_LSV_02_armed_F"];
+vehCSATPVP = ["SWOP_LIUV","SW_SpeederBike","SW_SpeederBikeIMPw"];
 
 ////////////////////////////////////
 //             UNITS             ///
 ////////////////////////////////////
 //Military Units
-CSATGrunt = "O_Soldier_F";
-CSATOfficer = "O_Officer_F";
-CSATBodyG = "O_V_Soldier_hex_F";
-CSATCrew = "O_Crew_F";
-CSATMarksman = "O_Soldier_M_F";
-staticCrewInvaders = "O_support_MG_F";
-CSATPilot = "O_Pilot_F";
+CSATGrunt = "SWOP_Sand_Stormtrooper";
+CSATOfficer = "SWOP_Storm_CAP";
+CSATBodyG = "SWOP_Spec_shocktrooper_e";
+CSATCrew = "SWOP_Storm_crewman";
+CSATMarksman = "SWOP_Sand_Stormtrooper_t";
+staticCrewInvaders = "SWOP_Sand_Stormtrooper";
+CSATPilot = "SWOP_Navy_Pilot";
 
 //Militia Units
 if (gameMode == 4) then
 	{
-	FIARifleman = "O_soldierU_F";
-	FIAMarksman = "O_soldierU_M_F";
+	FIARifleman = "SWOP_Storm_StormtrooperC";
+	FIAMarksman = "SWOP_Storm_StormtrooperC_t";
 	};
 
 ////////////////////////////////////
@@ -64,24 +64,24 @@ if (gameMode == 4) then
 ////////////////////////////////////
 //Military Groups
 //Teams
-groupsCSATSentry = ["O_soldier_GL_F","O_soldier_F"];
-groupsCSATSniper = ["O_sniper_F","O_spotter_F"];
-groupsCSATsmall = [groupsCSATSentry,["O_recon_M_F","O_recon_F"],groupsCSATSniper];
+groupsCSATSentry = ["SWOP_Sand_Stormtrooper_Corp","SWOP_Sand_Stormtrooper"];
+groupsCSATSniper = ["SWOP_Scout_sniper","SWOP_Scout_scout"];
+groupsCSATsmall = [groupsCSATSentry,["SWOP_Scout_sergeant","SWOP_Scout_trooper"],groupsCSATSniper];
 //Fireteams
-groupsCSATAA = ["O_soldier_TL_F","O_soldier_AA_F","O_soldier_AA_F","O_soldier_AAA_F"];
-groupsCSATAT = ["O_soldier_TL_F","O_soldier_AT_F","O_soldier_AT_F","O_soldier_AAT_F"];
-groupsCSATmid = [["O_soldier_TL_F","O_soldier_AR_F","O_soldier_GL_F","O_soldier_LAT_F"],groupsCSATAA,groupsCSATAT];
+groupsCSATAA = ["SWOP_Sand_Stormtrooper_TL","SWOP_Sand_Stormtrooper_AA","SWOP_Sand_Stormtrooper_AA","SWOP_Sand_Stormtrooper"];
+groupsCSATAT = ["SWOP_Sand_Stormtrooper_TL","SWOP_Sand_Stormtrooper_AA","SWOP_Sand_Stormtrooper_AA","SWOP_Sand_Stormtrooper"];
+groupsCSATmid = [["SWOP_Sand_Stormtrooper_TL","SWOP_Sand_Stormtrooper_dlt","SWOP_Sand_Stormtrooper_Corp","SWOP_Sand_Stormtrooper_AA"],groupsCSATAA,groupsCSATAT];
 //Squads
-CSATSquad = ["O_soldier_SL_F","O_soldier_F","O_soldier_LAT_F","O_soldier_M_F","O_soldier_TL_F","O_soldier_AR_F","O_soldier_A_F","O_medic_F"];
-CSATSpecOp = ["O_V_Soldier_TL_hex_F","O_V_Soldier_JTAC_hex_F","O_V_Soldier_M_hex_F","O_V_Soldier_Exp_hex_F","O_V_Soldier_LAT_hex_F","O_V_Soldier_Medic_hex_F"];
+CSATSquad = ["SWOP_Sand_Stormtrooper_SL","SWOP_Sand_Stormtrooper","SWOP_Sand_Stormtrooper_AA","SWOP_Sand_Stormtrooper_t","SWOP_Sand_Stormtrooper_TL","SWOP_Sand_Stormtrooper_dlt","SWOP_Sand_Stormtrooper","SWOP_Storm_jumper"];
+CSATSpecOp = ["SWOP_imp_DeathTrooperLeader","SWOP_imp_DeathTrooperTD","SWOP_imp_DeathTrooperHB","SWOP_imp_DeathTrooper","SWOP_Storm_Shoretrooper_AA","SWOP_imp_DeathTrooper"];
 groupsCSATSquad =
 	[
 	CSATSquad,
-	["O_soldier_SL_F","O_soldier_AR_F","O_soldier_GL_F","O_soldier_M_F","O_soldier_AT_F","O_soldier_AAT_F","O_soldier_A_F","O_medic_F"],
-	["O_soldier_SL_F","O_soldier_LAT_F","O_soldier_TL_F","O_soldier_AR_F","O_soldier_A_F","O_Support_Mort_F","O_Support_AMort_F","O_medic_F"],
-	["O_soldier_SL_F","O_soldier_LAT_F","O_soldier_TL_F","O_soldier_AR_F","O_soldier_A_F","O_Support_MG_F","O_Support_AMG_F","O_medic_F"],
-	["O_soldier_SL_F","O_soldier_LAT_F","O_soldier_TL_F","O_soldier_AR_F","O_soldier_A_F","O_soldier_AA_F","O_soldier_AAA_F","O_medic_F"],
-	["O_soldier_SL_F","O_soldier_LAT_F","O_soldier_TL_F","O_soldier_AR_F","O_soldier_A_F","O_engineer_F","O_engineer_F","O_medic_F"]
+	["SWOP_Sand_Stormtrooper_SL","SWOP_Sand_Stormtrooper_dlt","SWOP_Sand_Stormtrooper_Corp","SWOP_Sand_Stormtrooper_t","SWOP_Sand_Stormtrooper_AA","SWOP_Sand_Stormtrooper","SWOP_Sand_Stormtrooper","SWOP_Storm_jumper"],
+	["SWOP_Sand_Stormtrooper_SL","SWOP_Sand_Stormtrooper_AA","SWOP_Sand_Stormtrooper_TL","SWOP_Sand_Stormtrooper_dlt","SWOP_Sand_Stormtrooper","SWOP_Sand_Stormtrooper","SWOP_Sand_Stormtrooper","SWOP_Storm_jumper"],
+	["SWOP_Sand_Stormtrooper_SL","SWOP_Sand_Stormtrooper_AA","SWOP_Sand_Stormtrooper_TL","SWOP_Sand_Stormtrooper_dlt","SWOP_Sand_Stormtrooper","SWOP_Sand_Stormtrooper","SWOP_Sand_Stormtrooper","SWOP_Storm_jumper"],
+	["SWOP_Sand_Stormtrooper_SL","SWOP_Sand_Stormtrooper_AA","SWOP_Sand_Stormtrooper_TL","SWOP_Sand_Stormtrooper_dlt","SWOP_Sand_Stormtrooper","SWOP_Sand_Stormtrooper_AA","SWOP_Sand_Stormtrooper","SWOP_Storm_jumper"],
+	["SWOP_Sand_Stormtrooper_SL","SWOP_Sand_Stormtrooper_AA","SWOP_Sand_Stormtrooper_TL","SWOP_Sand_Stormtrooper_dlt","SWOP_Sand_Stormtrooper","SWOP_Sand_Stormtrooper_t","SWOP_Sand_Stormtrooper","SWOP_Storm_jumper"]
 	];
 
 //Militia Groups
@@ -90,23 +90,23 @@ if (gameMode == 4) then
 	//Teams
 	groupsFIASmall =
 		[
-		["O_SoldierU_GL_F",FIARifleman],
+		["SWOP_Storm_StormtrooperC_dlt",FIARifleman],
 		[FIAMarksman,FIARifleman],
-		["O_soldierU_M_F","O_SoldierU_GL_F"]
+		["SWOP_Storm_StormtrooperC_t","SWOP_Storm_StormtrooperC_dlt"]
 		];
 	//Fireteams
 	groupsFIAMid =
 		[
-		["O_SoldierU_SL_F","O_SoldierU_GL_F","O_soldierU_AR_F",FIAMarksman],
-		["O_SoldierU_SL_F","O_SoldierU_GL_F","O_soldierU_AR_F","O_soldierU_LAT_F"],
-		["O_SoldierU_SL_F","O_SoldierU_GL_F","O_soldierU_AR_F","O_engineer_U_F"]
+		["SWOP_Navy_Green_Cap","SWOP_Storm_StormtrooperC_dlt","SWOP_Storm_StormtrooperC",FIAMarksman],
+		["SWOP_Navy_Green_Cap","SWOP_Storm_StormtrooperC_dlt","SWOP_Storm_StormtrooperC","SWOP_Storm_magmatrooper_AA"],
+		["SWOP_Navy_Green_Cap","SWOP_Storm_StormtrooperC_dlt","SWOP_Storm_StormtrooperC","SWOP_Storm_StormtrooperC_t"]
 		];
 	//Squads
-	FIASquad = ["O_SoldierU_SL_F","O_soldierU_AR_F","O_SoldierU_GL_F",FIARifleman,FIARifleman,FIAMarksman,"O_soldierU_LAT_F","O_soldierU_medic_F"];
+	FIASquad = ["SWOP_Navy_Green_Cap","SWOP_Storm_StormtrooperC_t","SWOP_Storm_StormtrooperC_dlt",FIARifleman,FIARifleman,FIAMarksman,"SWOP_Storm_magmatrooper_AA","SWOP_Storm_jumper"];
 	groupsFIASquad =
 		[
 		FIASquad,
-		["O_SoldierU_SL_F","O_soldierU_AR_F","O_SoldierU_GL_F",FIARifleman,"O_soldierU_A_F","O_soldierU_exp_F","O_soldierU_LAT_F","O_soldierU_medic_F"]
+		["SWOP_Navy_Green_Cap","SWOP_Storm_StormtrooperC_t","SWOP_Storm_StormtrooperC_dlt",FIARifleman,"SWOP_Storm_StormtrooperC","SWOP_Storm_StormtrooperC","SWOP_Storm_magmatrooper_AA","SWOP_Storm_jumper"]
 		];
 	};
 
@@ -115,34 +115,34 @@ if (gameMode == 4) then
 ////////////////////////////////////
 //Military Vehicles
 //Lite
-vehCSATBike = "O_Quadbike_01_F";
-vehCSATLightArmed = ["O_MRAP_02_hmg_F","O_MRAP_02_gmg_F","O_LSV_02_armed_F"];
-vehCSATLightUnarmed = ["O_MRAP_02_F","O_LSV_02_unarmed_F"];
+vehCSATBike = "SW_SpeederBike";
+vehCSATLightArmed = ["SWOP_LIUV"];
+vehCSATLightUnarmed = ["SW_SpeederBikeIMPw"];
 vehCSATTrucks = ["O_Truck_03_transport_F","O_Truck_03_covered_F"];
 vehCSATAmmoTruck = "O_Truck_03_ammo_F";
 vehCSATLight = vehCSATLightArmed + vehCSATLightUnarmed;
 //Armored
-vehCSATAPC = ["O_APC_Wheeled_02_rcws_v2_F","O_APC_Tracked_02_cannon_F"];
-vehCSATTank = "O_MBT_02_cannon_F";
-vehCSATAA = "O_APC_Tracked_02_AA_F";
+vehCSATAPC = ["O_SWOP_HoverT_1","O_SWOP_HoverTf_1","O_SWOP_HoverTa_1"];
+vehCSATTank = "O_JM_TX130m1_1";
+vehCSATAA = "ATSTst";
 vehCSATAttack = vehCSATAPC + [vehCSATTank];
 //Boats
 vehCSATBoat = "O_Boat_Armed_01_hmg_F";
 vehCSATRBoat = "O_Boat_Transport_01_F";
-vehCSATBoats = [vehCSATBoat,vehCSATRBoat,"O_APC_Wheeled_02_rcws_v2_F"];
+vehCSATBoats = [vehCSATBoat,vehCSATRBoat,"O_SWOP_HoverT_1"];
 //Planes
-vehCSATPlane = "O_Plane_CAS_02_dynamicLoadout_F";
-vehCSATPlaneAA = "O_Plane_Fighter_02_F";
-vehCSATTransportPlanes = ["O_T_VTOL_02_infantry_F"];
+vehCSATPlane = "swop_tietorpe";
+vehCSATPlaneAA = "swop_tie_int";
+vehCSATTransportPlanes = ["swop_lambda"];
 //Heli
-vehCSATPatrolHeli = "O_Heli_Light_02_unarmed_F";
-vehCSATTransportHelis = ["O_Heli_Transport_04_bench_F",vehCSATPatrolHeli];
-vehCSATAttackHelis = ["O_Heli_Attack_02_dynamicLoadout_F","O_Heli_Attack_02_F"];
+vehCSATPatrolHeli = "swop_LAAT";
+vehCSATTransportHelis = ["swop_LAATmk2",vehCSATPatrolHeli];
+vehCSATAttackHelis = ["swop_LAAT","swop_LAATmk2"];
 //UAV
 vehCSATUAV = "O_UAV_02_F";
 vehCSATUAVSmall = "O_UAV_01_F";
 //Artillery
-vehCSATMRLS = "O_MBT_02_arty_F";
+vehCSATMRLS = "O_SWOP_HoverTr_1";
 vehCSATMRLSMags = "32Rnd_155mm_Mo_shells";
 //Combined Arrays
 vehCSATNormal = vehCSATLight + vehCSATTrucks + [vehCSATAmmoTruck, "O_Truck_03_fuel_F", "O_Truck_03_medical_F", "O_Truck_03_repair_F"];
@@ -151,18 +151,18 @@ vehCSATAir = vehCSATTransportHelis + vehCSATAttackHelis + [vehCSATPlane,vehCSATP
 //Militia Vehicles
 if (gameMode == 4) then
 	{
-	vehFIAArmedCar = "O_MRAP_02_hmg_F";
+	vehFIAArmedCar = "SW_SpeederBike";
 	vehFIATruck = "O_Truck_02_transport_F";
-	vehFIACar = "O_MRAP_02_F";
+	vehFIACar = "SW_SpeederBikeIMPw";
 	};
 
 ////////////////////////////////////
 //        STATIC WEAPONS         ///
 ////////////////////////////////////
 //Assembled Statics
-CSATMG = "O_HMG_01_high_F";
-staticATInvaders = "O_static_AT_F";
-staticAAInvaders = "O_static_AA_F";
+CSATMG = "PORTABLEGUN_Rep";
+staticATInvaders = "HighTur";
+staticAAInvaders = "Hoth_Dishturret";
 CSATMortar = "O_Mortar_01_F";
 
 //Static Weapon Bags
