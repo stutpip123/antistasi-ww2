@@ -1,15 +1,13 @@
-//Call to Blufor Alits Template
-if (side petros == west) exitWith {call compile preProcessFileLineNumbers "Templates\Vanilla_Occ_AAF_Altis.sqf"};
 ////////////////////////////////////
 //       NAMES AND FLAGS         ///
 ////////////////////////////////////
 //Name Used for notifications
-nameOccupants = "NATO";
+nameOccupants = "Rebel Alliance";
 
 //Police Faction
-factionGEN = "BLU_GEN_F";
+factionGEN = "REBELLION";
 //SF Faction
-factionMaleOccupants = "BLU_CTRG_F";
+factionMaleOccupants = "REBELLION";
 //Miltia Faction
 if ((gameMode != 4) and (!hasFFAA)) then {factionFIA = ""};
 
@@ -17,7 +15,7 @@ if ((gameMode != 4) and (!hasFFAA)) then {factionFIA = ""};
 NATOFlag = "Flag_NATO_F";
 NATOFlagTexture = "\A3\Data_F\Flags\Flag_NATO_CO.paa";
 flagNATOmrk = "flag_NATO";
-if (isServer) then {"NATO_carrier" setMarkerText "NATO Carrier"};
+if (isServer) then {"NATO_carrier" setMarkerText "Rebel Alliance Flagship"};
 
 //Loot Crate
 NATOAmmobox = "B_supplyCrate_F";
@@ -42,56 +40,56 @@ NATOPlayerLoadouts = [
 ];
 
 //PVP Player Vehicles
-vehNATOPVP = ["B_T_MRAP_01_F","B_MRAP_01_hmg_F"];
+vehNATOPVP = ["O_Swop_landspeeder_1","SW_SpeederBikeR"];
 
 ////////////////////////////////////
 //             UNITS             ///
 ////////////////////////////////////
 //Military Units
-NATOGrunt = "B_Soldier_F";
-NATOOfficer = "B_Officer_F";
-NATOOfficer2 = "B_G_officer_F";
-NATOBodyG = "B_Patrol_Soldier_TL_F";
-NATOCrew = "B_Crew_F";
+NATOGrunt = "Swop_rebel_desert_a280";
+NATOOfficer = "Swop_rebel_desert_serg";
+NATOOfficer2 = "Swop_rebel_desert_com";
+NATOBodyG = "Swop_Chewbacca";
+NATOCrew = "Swop_rebel_navy_pil_b";
 NATOUnarmed = "B_G_Survivor_F";
-NATOMarksman = "B_Sharpshooter_F";
-staticCrewOccupants = "B_support_MG_F";
-NATOPilot = "B_Helipilot_F";
+NATOMarksman = "Swop_rebel_desert_jumper";
+staticCrewOccupants = "Swop_rebel_desert_a280";
+NATOPilot = "Swop_rebel_navy_pil";
 
 //Militia Units
 if ((gameMode != 4) and (!hasFFAA)) then
 	{
-	FIARifleman = "B_Soldier_lite_F";
-	FIAMarksman = "B_soldier_M_F";
+	FIARifleman = "Swop_rebel_desert_a280";
+	FIAMarksman = "Swop_rebel_desert_jumper";
 	};
 
 //Police Units
-policeOfficer = "B_GEN_Commander_F";
-policeGrunt = "B_GEN_Soldier_F";
+policeOfficer = "Swop_rebel_navy_of";
+policeGrunt = "Swop_rebel_navy_a280";
 
 ////////////////////////////////////
 //            GROUPS             ///
 ////////////////////////////////////
 //Military Groups
 //Teams
-groupsNATOSentry = ["B_soldier_GL_F",NATOGrunt];
-groupsNATOSniper = ["B_sniper_F","B_spotter_F"];
-groupsNATOsmall = [groupsNATOSentry,groupsNATOSniper,["B_recon_JTAC_F","B_recon_F"]];
+groupsNATOSentry = ["Swop_rebel_desert_dh17",NATOGrunt];
+groupsNATOSniper = ["Swop_rebel_desert_sniper","Swop_rebel_desert_e11"];
+groupsNATOsmall = [groupsNATOSentry,groupsNATOSniper,["Swop_rebel_desert_jumper","Swop_rebel_desert_e11"]];
 //Fireteams
-groupsNATOAA = ["B_Soldier_TL_F","B_soldier_AA_F","B_soldier_AA_F","B_soldier_AAA_F"];
-groupsNATOAT = ["B_soldier_TL_F","B_soldier_AT_F","B_soldier_AT_F","B_soldier_AAT_F"];
-groupsNATOmid = [["B_soldier_TL_F","B_soldier_AR_F","B_soldier_GL_F","B_soldier_LAT_F"],groupsNATOAA,groupsNATOAT];
+groupsNATOAA = ["Swop_rebel_desert_serg","Swop_rebel_desert_aa","Swop_rebel_desert_aa","Swop_rebel_desert_a280"];
+groupsNATOAT = ["Swop_rebel_desert_serg","Swop_rebel_desert_aa","Swop_rebel_desert_aa","Swop_rebel_desert_a280"];
+groupsNATOmid = [["Swop_rebel_desert_serg","Swop_rebel_desert_assault","Swop_rebel_desert_dh17","Swop_rebel_desert_aa"],groupsNATOAA,groupsNATOAT];
 //Squads
-NATOSquad = ["B_soldier_SL_F",NATOGrunt,"B_soldier_LAT_F",NATOMarksman,"B_soldier_TL_F","B_soldier_AR_F","B_soldier_A_F","B_medic_F"];
-NATOSpecOp = ["B_CTRG_Soldier_TL_tna_F","B_CTRG_Soldier_M_tna_F",NATOBodyG,"B_CTRG_Soldier_LAT_tna_F","B_CTRG_Soldier_JTAC_tna_F","B_CTRG_Soldier_Exp_tna_F","B_CTRG_Soldier_AR_tna_F","B_CTRG_Soldier_Medic_tna_F"];
+NATOSquad = ["Swop_rebel_desert_com",NATOGrunt,"Swop_rebel_desert_aa",NATOMarksman,"Swop_rebel_desert_serg","Swop_rebel_desert_assault","Swop_rebel_desert_dh17","Swop_rebel_desert_med"];
+NATOSpecOp = ["Swop_rebel_magma_com","Swop_rebel_magma_jumper",NATOBodyG,"Swop_rebel_magma_aa","Swop_rebel_magma_dh17","Swop_rebel_magma_demolisher","Swop_rebel_magma_assault","Swop_rebel_magma_med"];
 groupsNATOSquad =
 	[
 	NATOSquad,
-	["B_soldier_SL_F",NATOGrunt,"B_soldier_TL_F","B_soldier_AR_F","B_soldier_A_F","B_support_Mort_F","B_support_AMort_F","B_medic_F"],
-	["B_soldier_SL_F",NATOGrunt,"B_soldier_TL_F","B_soldier_AR_F","B_soldier_A_F","B_support_MG_F","B_support_AMG_F","B_medic_F"],
-	["B_soldier_SL_F",NATOGrunt,"B_soldier_TL_F","B_soldier_AR_F","B_soldier_A_F","B_soldier_AA_F","B_soldier_AAA_F","B_medic_F"],
-	["B_soldier_SL_F",NATOGrunt,"B_soldier_TL_F","B_soldier_AR_F","B_soldier_A_F","B_soldier_AT_F","B_soldier_AAT_F","B_medic_F"],
-	["B_soldier_SL_F",NATOGrunt,"B_soldier_TL_F","B_soldier_AR_F","B_soldier_A_F","B_engineer_F","B_engineer_F","B_medic_F"]
+	["Swop_rebel_desert_com",NATOGrunt,"Swop_rebel_desert_serg","Swop_rebel_desert_assault","Swop_rebel_desert_dh17","Swop_rebel_desert_e11","Swop_rebel_desert_a280","Swop_rebel_desert_med"],
+	["Swop_rebel_desert_com",NATOGrunt,"Swop_rebel_desert_serg","Swop_rebel_desert_assault","Swop_rebel_desert_dh17","Swop_rebel_desert_e11","Swop_rebel_desert_a280","Swop_rebel_desert_med"],
+	["Swop_rebel_desert_com",NATOGrunt,"Swop_rebel_desert_serg","Swop_rebel_desert_assault","Swop_rebel_desert_dh17","Swop_rebel_desert_aa","Swop_rebel_desert_e11","Swop_rebel_desert_med"],
+	["Swop_rebel_desert_com",NATOGrunt,"Swop_rebel_desert_serg","Swop_rebel_desert_assault","Swop_rebel_desert_dh17","Swop_rebel_desert_aa","Swop_rebel_desert_e11","Swop_rebel_desert_med"],
+	["Swop_rebel_desert_com",NATOGrunt,"Swop_rebel_desert_serg","Swop_rebel_desert_assault","Swop_rebel_desert_dh17","Swop_rebel_desert_demolisher","Swop_rebel_desert_demolisher","Swop_rebel_desert_med"]
 	];
 
 //Militia Groups
@@ -100,23 +98,23 @@ if ((gameMode != 4) and (!hasFFAA)) then
 	//Teams
 	groupsFIASmall =
 		[
-		["B_Soldier_GL_F",FIARifleman],
+		["Swop_rebel_desert_dh17",FIARifleman],
 		[FIAMarksman,FIARifleman],
-		["B_Sharpshooter_F","B_soldier_M_F"]
+		["Swop_rebel_desert_jumper","Swop_rebel_desert_a280"]
 		];
 	//Fireteams
 	groupsFIAMid =
 		[
-		["B_Soldier_TL_F","B_Soldier_GL_F","B_soldier_AR_F","B_soldier_M_F"],
-		["B_Soldier_TL_F","B_Soldier_GL_F","B_soldier_AR_F","B_soldier_LAT2_F"],
-		["B_Soldier_TL_F","B_soldier_AR_F","B_soldier_AAA_F","B_soldier_AA_F"]
+		["Swop_rebel_desert_serg","Swop_rebel_desert_dh17","Swop_rebel_desert_assault","Swop_rebel_desert_Jumper"],
+		["Swop_rebel_desert_serg","Swop_rebel_desert_dh17","Swop_rebel_desert_assault","Swop_rebel_desert_aa"],
+		["Swop_rebel_desert_serg","Swop_rebel_desert_assault","Swop_rebel_desert_a280","Swop_rebel_desert_aa"]
 		];
 	//Squads
-	FIASquad = ["B_Soldier_TL_F","B_soldier_AR_F","B_Soldier_GL_F","B_Soldier_lite_F","B_Soldier_lite_F","B_soldier_M_F","B_soldier_LAT2_F","B_medic_F"];
+	FIASquad = ["Swop_rebel_desert_serg","Swop_rebel_desert_assault","Swop_rebel_desert_dh17","Swop_rebel_desert_dh17","Swop_rebel_desert_dh17","Swop_rebel_desert_jumper","Swop_rebel_desert_aa","Swop_rebel_desert_med"];
 	groupsFIASquad =
 		[
 		FIASquad,
-		["B_Soldier_TL_F","B_support_AMG_F","B_Soldier_GL_F","B_Soldier_lite_F","B_support_MG_F","B_soldier_M_F","B_soldier_LAT2_F","B_medic_F"]
+		["Swop_rebel_desert_serg","Swop_rebel_desert_e11","Swop_rebel_desert_dh17","Swop_rebel_desert_dh17","Swop_rebel_desert_mg","Swop_rebel_desert_jumper","Swop_rebel_desert_aa","Swop_rebel_desert_med"]
 		];
 	};
 
@@ -129,59 +127,59 @@ groupsNATOGen = [policeOfficer,policeGrunt];
 ////////////////////////////////////
 //Military Vehicles
 //Lite
-vehNATOBike = "B_Quadbike_01_F";
-vehNATOLightArmed = ["B_MRAP_01_hmg_F"];
-vehNATOLightUnarmed = ["B_T_MRAP_01_F"];
+vehNATOBike = "SW_SpeederBikeR";
+vehNATOLightArmed = ["SW_SpeederBikeR"];
+vehNATOLightUnarmed = ["O_Swop_landspeeder_1"];
 vehNATOTrucks = ["B_Truck_01_transport_F","B_Truck_01_covered_F"];
 vehNATOCargoTrucks = ["B_Truck_01_cargo_F", "B_Truck_01_flatbed_F"];
 vehNATOAmmoTruck = "B_Truck_01_ammo_F";
 vehNATORepairTruck = "B_Truck_01_repair_F";
 vehNATOLight = vehNATOLightArmed + vehNATOLightUnarmed;
 //Armored
-vehNATOAPC = ["B_APC_Wheeled_01_cannon_F","B_APC_Tracked_01_rcws_F"];
-vehNATOTank = "B_MBT_01_cannon_F";
-vehNATOAA = "B_APC_Tracked_01_AA_F";
+vehNATOAPC = ["O_SWOP_HoverT_2","O_SWOP_HoverTf_2"];
+vehNATOTank = "O_SWOP_HoverTa_2";
+vehNATOAA = "O_SWOP_HoverTa_2";
 vehNATOAttack = vehNATOAPC + [vehNATOTank];
 //Boats
 vehNATOBoat = "B_Boat_Armed_01_minigun_F";
 vehNATORBoat = "B_Boat_Transport_01_F";
-vehNATOBoats = [vehNATOBoat,vehNATORBoat,"B_APC_Wheeled_01_cannon_F"];
+vehNATOBoats = [vehNATOBoat,vehNATORBoat,"O_SWOP_HoverT_2"];
 //Planes
-vehNATOPlane = "B_Plane_CAS_01_F";
-vehNATOPlaneAA = "B_Plane_Fighter_01_F";
-vehNATOTransportPlanes = ["B_T_VTOL_01_infantry_F"];
+vehNATOPlane = "swop_ywGreen";
+vehNATOPlaneAA = "swop_xw";
+vehNATOTransportPlanes = ["swop_mf"];
 //Heli
-vehNATOPatrolHeli = "B_Heli_Light_01_F";
-vehNATOTransportHelis = ["B_Heli_Transport_03_F",vehNATOPatrolHeli,"B_Heli_Transport_01_camo_F"];
-vehNATOAttackHelis = ["B_T_VTOL_01_armed_F","B_Heli_Light_01_armed_F","B_Heli_Attack_01_F"];
+vehNATOPatrolHeli = "Swop_Uwing";
+vehNATOTransportHelis = ["Swop_Uwing",vehNATOPatrolHeli,"Swop_Uwing"];
+vehNATOAttackHelis = ["swop_mf","Swop_Uwing","Swop_Uwing"];
 //UAV
 vehNATOUAV = "B_UAV_02_F";
 vehNATOUAVSmall = "B_UAV_01_F";
 //Artillery
-vehNATOMRLS = "B_MBT_01_arty_F";
+vehNATOMRLS = "O_SWOP_HoverTr_2";
 vehNATOMRLSMags = "32Rnd_155mm_Mo_shells";
 //Combined Arrays
-vehNATONormal = vehNATOLight + vehNATOTrucks + [vehNATOAmmoTruck, "B_Truck_01_fuel_F", "B_Truck_01_medical_F", vehNATORepairTruck,"B_APC_Tracked_01_CRV_F"];
+vehNATONormal = vehNATOLight + vehNATOTrucks + [vehNATOAmmoTruck, "B_Truck_01_fuel_F", "B_Truck_01_medical_F", vehNATORepairTruck,"O_SWOP_HoverT_2"];
 vehNATOAir = vehNATOTransportHelis + vehNATOAttackHelis + [vehNATOPlane,vehNATOPlaneAA] + vehNATOTransportPlanes;
 
 //Militia Vehicles
 if ((gameMode != 4) and (!hasFFAA)) then
 	{
-	vehFIAArmedCar = "B_LSV_01_armed_F";
+	vehFIAArmedCar = "O_Swop_landspeeder_1";
 	vehFIATruck = "B_Truck_01_transport_F";
-	vehFIACar = "B_LSV_01_unarmed_F";
+	vehFIACar = "SW_SpeederBikeR";
 	};
 
 //Police Vehicles
-vehPoliceCar = "B_GEN_OFFROAD_01_gen_F";
+vehPoliceCar = "O_Swop_landspeeder_1";
 
 ////////////////////////////////////
 //        STATIC WEAPONS         ///
 ////////////////////////////////////
 //Assembled Statics
-NATOMG = "B_HMG_01_high_F";
-staticATOccupants = "B_static_AT_F";
-staticAAOccupants = "B_static_AA_F";
+NATOMG = "PORTABLEGUN_Rep";
+staticATOccupants = "HighTur";
+staticAAOccupants = "Hoth_Dishturret";
 NATOMortar = "B_Mortar_01_F";
 
 //Static Weapon Bags
@@ -190,8 +188,8 @@ ATStaticNATOB = "B_AT_01_weapon_F";
 AAStaticNATOB = "B_AA_01_weapon_F";
 MortStaticNATOB = "B_Mortar_01_weapon_F";
 //Short Support
-supportStaticNATOB = "B_HMG_01_support_F";
+supportStaticNATOB = "O_HMG_01_support_F";
 //Tall Support
-supportStaticNATOB2 = "B_HMG_01_support_high_F";
+supportStaticNATOB2 = "O_HMG_01_support_high_F";
 //Mortar Support
 supportStaticNATOB3 = "B_Mortar_01_support_F";
