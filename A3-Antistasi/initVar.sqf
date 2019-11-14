@@ -224,6 +224,7 @@ if !(hasIFA) then {
 	switch (true) do {
 		case (!activeGREF): {call compile preProcessFileLineNumbers "Templates\Vanilla_Reb_FIA_Altis.sqf"};
 		case (has3CB): {call compile preProcessFileLineNumbers "Templates\3CB_Reb_TTF_Arid.sqf"};
+		case (hasSWOP): {call compile preProcessFileLineNumbers "Templates\SWOP_Reb_Bandits_Base.sqf"};
 		case (teamPlayer != independent): {call compile preProcessFileLineNumbers "Templates\RHS_Reb_CDF_Arid.sqf"};
 		case (activeGREF): {call compile preProcessFileLineNumbers "Templates\RHS_Reb_NAPA_Arid.sqf"};
 	};
@@ -231,12 +232,14 @@ if !(hasIFA) then {
 	switch (true) do {
 		case (!activeUSAF): {call compile preProcessFileLineNumbers "Templates\Vanilla_Occ_NATO_Altis.sqf"};
 		case (has3CB): {call compile preProcessFileLineNumbers "Templates\BAF_Occ_BAF_Arid.sqf"};
+		case (hasSWOP): {call compile preProcessFileLineNumbers "Templates\SWOP_Occ_Rebels_Arid.sqf"};
 		case (teamPlayer != independent): {call compile preProcessFileLineNumbers "Templates\RHS_Occ_CDF_Arid.sqf"};
 		case (activeUSAF): {call compile preProcessFileLineNumbers "Templates\RHS_Occ_USAF_Arid.sqf"};
 	};
 	//Invader Templates
 	switch (true) do {
 		case (!activeAFRF): {call compile preProcessFileLineNumbers "Templates\Vanilla_Inv_CSAT_Altis.sqf";};
+		case (hasSWOP): {call compile preProcessFileLineNumbers "Templates\SWOP_Inv_Empire_Arid.sqf"};
 		case (has3CB): {call compile preProcessFileLineNumbers "Templates\3CB_Inv_TKM_Arid.sqf"};
 		case (activeAFRF): {call compile preProcessFileLineNumbers "Templates\RHS_Inv_AFRF_Arid.sqf"};
 	};
