@@ -1,26 +1,26 @@
 ////////////////////////////////////
 //       NAMES AND FLAGS         ///
 ////////////////////////////////////
-nameTeamPlayer = "FIA";
+nameTeamPlayer = "Bandits";
 SDKFlag = "Flag_FIA_F";
 SDKFlagTexture = "\A3\Data_F\Flags\Flag_FIA_CO.paa";
-typePetros = "rhsgref_cdf_b_reg_general";
+typePetros = "SWOP_Mando_True_Bobba";
 
 ////////////////////////////////////
 //             UNITS             ///
 ////////////////////////////////////
 //First Entry is Guerilla, Second Entry is Para/Military
-staticCrewTeamPlayer = "B_G_Soldier_unarmed_F";
+staticCrewTeamPlayer = "Swop_Band_week_a280";
 SDKUnarmed = "B_G_Survivor_F";
-SDKSniper = ["rhsgref_cdf_b_reg_marksman","rhsgref_hidf_marksman"];
-SDKATman = ["rhsgref_cdf_b_ngd_grenadier_rpg","rhsgref_cdf_b_reg_grenadier_rpg"];
-SDKMedic = ["rhsgref_cdf_b_ngd_medic","rhsgref_cdf_b_para_medic"];
-SDKMG = ["rhsgref_cdf_b_ngd_machinegunner","rhsgref_cdf_b_reg_machinegunner"];
-SDKExp = ["rhsgref_cdf_b_ngd_engineer","rhsgref_cdf_b_reg_engineer"];
-SDKGL = ["rhsgref_cdf_b_ngd_grenadier","rhsgref_cdf_b_reg_grenadier"];
-SDKMil = ["rhsgref_cdf_b_ngd_rifleman_lite","rhsgref_cdf_b_para_rifleman_lite"];
-SDKSL = ["rhsgref_cdf_b_ngd_squadleader","rhsgref_cdf_b_reg_squadleader"];
-SDKEng = ["rhsgref_cdf_b_ngd_engineer","rhsgref_cdf_b_reg_engineer"];
+SDKSniper = ["Swop_Band_week_sniper","rhsgref_hidf_marksman"];
+SDKATman = ["Swop_Band_week_aa","SWOP_Mando_True_AT"];
+SDKMedic = ["Swop_Band_week_med","SWOP_Mando_True_sold"];
+SDKMG = ["Swop_Band_week_mg","SWOP_Mando_True_mg"];
+SDKExp = ["Swop_Band_week_smug","SWOP_Mando_True_serg"];
+SDKGL = ["Swop_Band_week_serg","SWOP_Mando_True_jumper"];
+SDKMil = ["Swop_Band_week_a280","SWOP_Mando_True_sold"];
+SDKSL = ["Swop_Band_week_com","SWOP_Mando_True_of"];
+SDKEng = ["Swop_Band_week_smug","SWOP_Mando_True_serg"];
 
 ////////////////////////////////////
 //            GROUPS             ///
@@ -43,13 +43,13 @@ soldiersSDK = sdkTier1 + sdkTier2 + sdkTier3;
 //           VEHICLES            ///
 ////////////////////////////////////
 //Military Vehicles
-vehSDKBike = "B_G_Quadbike_01_F";
-vehSDKLightArmed = "rhsgref_cdf_b_reg_uaz_dshkm";
-vehSDKAT = "rhsgref_cdf_b_reg_uaz_spg9";
-vehSDKLightUnarmed = "rhsgref_cdf_b_reg_uaz_open";
+vehSDKBike = "SW_SpeederBike";
+vehSDKLightArmed = "Swop_scavengerspeeder";
+vehSDKAT = "O_Swop_skif_1";
+vehSDKLightUnarmed = "Swop_scavengerspeeder";
 vehSDKTruck = "rhsgref_cdf_b_ural_open";
 //vehSDKHeli = "I_C_Heli_Light_01_civil_F";
-vehSDKPlane = "RHS_AN2_B";
+vehSDKPlane = "Swop_awchl";
 vehSDKBoat = "B_G_Boat_Transport_01_F";
 vehSDKRepair = "rhsgref_cdf_b_ural_repair";
 
@@ -63,9 +63,9 @@ civBoat = "C_Boat_Transport_02_F";
 //        STATIC WEAPONS         ///
 ////////////////////////////////////
 //Assembled Static Weapons
-SDKMGStatic = "rhsgref_cdf_b_DSHKM";
-staticATteamPlayer = "rhsgref_cdf_b_SPG9";
-staticAAteamPlayer = "rhsgref_cdf_b_ZU23";
+SDKMGStatic = "PORTABLEGUN_Rep";
+staticATteamPlayer = "HighTur";
+staticAAteamPlayer = "Hoth_Dishturret";
 SDKMortar = "rhsgref_cdf_b_reg_M252";
 SDKMortarHEMag = "rhs_12Rnd_m821_HE";
 SDKMortarSmokeMag = "rhs_12Rnd_m821_HE";
@@ -89,13 +89,12 @@ supportStaticsSDKB3 = "rhs_M252_Bipod_Bag";
 ATMineMag = "rhs_mine_M19_mag";
 APERSMineMag = "rhsusf_mine_m7a2_mag";
 //Starting Unlocks
-initialRebelEquipment append ["rhsusf_weap_m1911a1","rhs_weap_tt33","rhs_weap_Izh18","rhs_weap_m1garand_sa43","rhs_weap_m72a7"];
-initialRebelEquipment append ["rhs_weap_Izh18","rhs_weap_m1garand_sa43"];
-initialRebelEquipment append ["rhs_weap_m72a7"];
-initialRebelEquipment append ["rhsusf_mag_7x45acp_MHP","rhs_mag_762x25_8","rhsgref_1Rnd_00Buck","rhsgref_1Rnd_Slug","rhsgref_8Rnd_762x63_M2B_M1rifle","rhs_grenade_mkii_mag","rhs_grenade_mki_mag","rhs_mag_rdg2_black","rhs_grenade_m15_mag"];
-initialRebelEquipment append ["B_FieldPack_oli","B_FieldPack_blk","B_FieldPack_ocamo","B_FieldPack_oucamo","B_FieldPack_cbr"];
-initialRebelEquipment append ["rhsgref_chestrig","rhsgref_chicom","rhs_vydra_3m","rhs_vest_pistol_holster","rhs_vest_commander","rhs_6sh46","rhsgref_alice_webbing"];
-initialRebelEquipment append ["rhs_acc_2dpZenit","Binocular"];
+initialRebelEquipment append ["swop_dl18Pistol","swop_dl44Pistol","relbyv10","SW_scattergun"];
+initialRebelEquipment append ["SMG_01_F","SMG_02_F"];
+initialRebelEquipment append ["swop_dl18Pistol_Mag","swop_dl44Pistol_Mag","SW_scattergun_Mag","relbyv10_Mag","Swop_TermDet_G","Swop_SmokeShell"];
+initialRebelEquipment append ["SWOP_B_ITdv_Base","SWOP_B_BlackBackPack_RTdv_Base"];
+initialRebelEquipment append ["SWOP_RemBron","SWOP_RemBron2","SWOP_RemBronf","SWOP_RebSumkBron","SWOP_RebSumkBronFull"];
+initialRebelEquipment append ["ElectroBinocularsB_F","acc_flashlight"];
 //TFAR Unlocks
 if (hasTFAR) then {initialRebelEquipment append ["tf_microdagr","tf_rf7800str"]};
 if (startLR) then {initialRebelEquipment pushBack "tf_rt1523g_rhs"};
