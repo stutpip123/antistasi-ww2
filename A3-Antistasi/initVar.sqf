@@ -129,6 +129,7 @@ activeGREF = false;
 hasFFAA = false;
 hasIFA = false;
 has3CB = false;
+hasSWOP = false,
 //Systems Mods
 hasACE = false;
 hasACEHearing = false;
@@ -159,6 +160,8 @@ if (activeAFRF && activeUSAF && isClass (configFile >> "CfgFactionClasses" >> "r
 if (activeAFRF && activeUSAF && activeGREF && isClass (configfile >> "CfgPatches" >> "UK3CB_BAF_Weapons")) then {has3CB = true; diag_log format ["%1: [Antistasi] | INFO | initVar | 3CB Detected.",servertime];};
 //FFAA Detection
 if (isClass (configfile >> "CfgPatches" >> "ffaa_armas")) then {hasFFAA = true; diag_log format ["%1: [Antistasi] | INFO | initVar | FFAA Detected.",servertime];};
+//SWOP Detection
+if isClass (configFile >> "CfgPatches" >> "Client_SWOP") then {hasSWOP = true; diag_log format ["%1: [Antistasi] | INFO | initVar | SWOP Detected.",servertime];};
 ////////////////////////////////////
 //          MOD CONFIG           ///
 ////////////////////////////////////
@@ -268,14 +271,14 @@ private _civVehConfigs = "(
 
 private _vehIsValid = {
 	params ["_vehConfig"];
-	
+
 	private _mod = _vehConfig call A3A_fnc_getModOfConfigClass;
-	
+
 	//If we have IFA and vehicle is vanilla
 	if(hasIFA && {_mod == ""}) exitWith {
 		false;
 	};
-	
+
 	//Check if mod is disabled
 	!(_vehConfig call A3A_fnc_getModOfConfigClass in disabledMods);
 };
@@ -348,7 +351,7 @@ private _equipmentFilter = {
 
 	private _itemMod = (_configClass call A3A_fnc_getModOfConfigClass);
 	private _itemIsVanilla = [_itemMod] call A3A_fnc_isModNameVanilla;
-	
+
 	//Mod is disabled, remove item.
 	if (_itemMod in disabledMods) exitWith {
 		true;
@@ -430,9 +433,9 @@ private _equipmentFilter = {
 				_remove = true;
 			};
 		};
-	
+
 	};
-	
+
 	_remove;
 };
 
