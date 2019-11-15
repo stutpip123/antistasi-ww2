@@ -8,6 +8,7 @@ _magazines = getArray (configFile >> "CfgVehicles" >> (typeOf _unit) >> "magazin
 *   cfgWeapon dispersion - the dispersion of shots in radians
 *   cfgWeapon burst - burst fire weapon, how many rounds per trigger pull
 *   cfgWeapon burstRangeMax - maximum amount of bullets in a burst
+*   cfgVehicle threat - array to determine threat against different targets
 */
 
 
