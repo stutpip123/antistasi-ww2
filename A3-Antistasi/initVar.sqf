@@ -227,13 +227,13 @@ switch (true) do {
 		call compile preProcessFileLineNumbers "Templates\IFA_Inv_SOV_Temp.sqf";
 		call compile preProcessFileLineNumbers "Templates\IFA_Occ_WEH_Temp.sqf";
 	};
-	
+
 	case (hasStarWars): {
 		call compile preProcessFileLineNumbers "Templates\SWOP_Reb_Bandits_Base.sqf";
 		call compile preProcessFileLineNumbers "Templates\SWOP_Occ_Rebels_Arid.sqf";
 		call compile preProcessFileLineNumbers "Templates\SWOP_Inv_Empire_Arid.sqf";
 	};
-	
+
 	default {
 		//Rebel templates
 		switch (true) do {
@@ -346,7 +346,7 @@ vehTrucks = vehNATOTrucks + vehCSATTrucks + [vehSDKTruck,vehFIATruck];
 vehAA = [vehNATOAA,vehCSATAA];
 vehMRLS = [vehCSATMRLS, vehNATOMRLS];
 vehTransportAir = vehNATOTransportHelis + vehCSATTransportHelis + vehNATOTransportPlanes + vehCSATTransportPlanes;
-vehFastRope = ["O_Heli_Light_02_unarmed_F","B_Heli_Transport_01_camo_F","RHS_UH60M_d","RHS_Mi8mt_vdv","RHS_Mi8mt_vv","RHS_Mi8mt_Cargo_vv"];
+vehFastRope = ["Swop_Laat","Swop_Uwing","O_Heli_Light_02_unarmed_F","B_Heli_Transport_01_camo_F","RHS_UH60M_d","RHS_Mi8mt_vdv","RHS_Mi8mt_vv","RHS_Mi8mt_Cargo_vv"];
 vehUnlimited = vehNATONormal + vehCSATNormal + [vehNATORBoat,vehNATOPatrolHeli,vehCSATRBoat,vehCSATPatrolHeli,vehNATOUAV,vehNATOUAVSmall,NATOMG,NATOMortar,vehCSATUAV,vehCSATUAVSmall,CSATMG,CSATMortar];
 vehFIA = [vehSDKBike,vehSDKLightArmed,SDKMGStatic,vehSDKLightUnarmed,vehSDKTruck,vehSDKBoat,SDKMortar,staticATteamPlayer,staticAAteamPlayer,vehSDKRepair];
 
