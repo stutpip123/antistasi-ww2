@@ -5,7 +5,7 @@
 nameOccupants = "Rebel Alliance";
 
 //Police Faction
-factionGEN = "REBELLION";
+factionGEN = "";
 //SF Faction
 factionMaleOccupants = "REBELLION";
 //Miltia Faction
