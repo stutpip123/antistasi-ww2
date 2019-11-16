@@ -47,16 +47,16 @@ vehSDKBike = "SW_SpeederBike";
 vehSDKLightArmed = "Swop_scavengerspeeder";
 vehSDKAT = "O_Swop_skif_1";
 vehSDKLightUnarmed = "Swop_scavengerspeeder";
-vehSDKTruck = "rhsgref_cdf_b_ural_open";
+vehSDKTruck = "I_G_Van_01_transport_F";
 //vehSDKHeli = "I_C_Heli_Light_01_civil_F";
 vehSDKPlane = "Swop_awchl";
-vehSDKBoat = "B_G_Boat_Transport_01_F";
-vehSDKRepair = "rhsgref_cdf_b_ural_repair";
+vehSDKBoat = "I_G_Boat_Transport_01_F";
+vehSDKRepair = "I_G_Offroad_01_repair_F";
 
 //Civilian Vehicles
 civCar = "C_Offroad_01_F";
-civTruck = "RHS_Ural_Open_Civ_03";
-civHeli = "RHS_Mi8amt_civilian";
+civTruck = "C_Van_01_transport_F";
+civHeli = "C_Heli_Light_01_civil_F";
 civBoat = "C_Boat_Transport_02_F";
 
 ////////////////////////////////////
@@ -66,32 +66,33 @@ civBoat = "C_Boat_Transport_02_F";
 SDKMGStatic = "PORTABLEGUN_Rep";
 staticATteamPlayer = "HighTur";
 staticAAteamPlayer = "Hoth_Dishturret";
-SDKMortar = "rhsgref_cdf_b_reg_M252";
-SDKMortarHEMag = "rhs_12Rnd_m821_HE";
-SDKMortarSmokeMag = "rhs_12Rnd_m821_HE";
+SDKMortar = "I_G_Mortar_01_F";
+SDKMortarHEMag = "8Rnd_82mm_Mo_shells";
+SDKMortarSmokeMag = "8Rnd_82mm_Mo_Smoke_white";
 
 //Static Weapon Bags
-MGStaticSDKB = "RHS_DShkM_Gun_Bag";
-ATStaticSDKB = "RHS_SPG9_Gun_Bag";
-AAStaticSDKB = "no_exists";
-MortStaticSDKB = "rhs_M252_Gun_Bag";
+MGStaticSDKB = "I_HMG_01_high_weapon_F";
+ATStaticSDKB = "I_AT_01_weapon_F";
+AAStaticSDKB = "I_AA_01_weapon_F";
+MortStaticSDKB = "I_Mortar_01_weapon_F";
 //Short Support
-supportStaticSDKB = "RHS_SPG9_Tripod_Bag";
+supportStaticSDKB = "I_HMG_01_support_F";
 //Tall Support
-supportStaticsSDKB2 = "RHS_DShkM_TripodHigh_Bag";
+supportStaticsSDKB2 = "I_HMG_01_support_high_F";
 //Mortar Support
-supportStaticsSDKB3 = "rhs_M252_Bipod_Bag";
+supportStaticsSDKB3 = "I_Mortar_01_support_F";
 
 ////////////////////////////////////
 //             ITEMS             ///
 ////////////////////////////////////
 //Mines
-ATMineMag = "rhs_mine_M19_mag";
-APERSMineMag = "rhsusf_mine_m7a2_mag";
+ATMineMag = "ATMine_Range_Mag";
+APERSMineMag = "APERSMine_Range_Mag";
 //Starting Unlocks
 initialRebelEquipment append ["swop_dl18Pistol","swop_dl44Pistol","relbyv10","SW_scattergun"];
-initialRebelEquipment append ["SMG_01_F","SMG_02_F"];
+initialRebelEquipment append ["SW_scattergun","relbyv10"];
 initialRebelEquipment append ["swop_dl18Pistol_Mag","swop_dl44Pistol_Mag","SW_scattergun_Mag","relbyv10_Mag","Swop_TermDet_G","Swop_SmokeShell"];
+initialRebelEquipment append ["Swop_TermDet_G","Swop_SmokeShell"];
 initialRebelEquipment append ["SWOP_B_ITdv_Base","SWOP_B_BlackBackPack_RTdv_Base"];
 initialRebelEquipment append ["SWOP_RemBron","SWOP_RemBron2","SWOP_RemBronf","SWOP_RebSumkBron","SWOP_RebSumkBronFull"];
 initialRebelEquipment append ["ElectroBinocularsB_F","acc_flashlight"];
