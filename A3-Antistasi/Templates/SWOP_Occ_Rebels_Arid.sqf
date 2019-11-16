@@ -151,7 +151,7 @@ vehNATOTransportPlanes = ["swop_mf"];
 //Heli
 vehNATOPatrolHeli = "Swop_Uwing";
 vehNATOTransportHelis = ["Swop_Uwing",vehNATOPatrolHeli,"Swop_Uwing"];
-vehNATOAttackHelis = ["swop_mf","Swop_Uwing","Swop_Uwing"];
+vehNATOAttackHelis = ["Swop_Uwing","Swop_Uwing"];
 //UAV
 vehNATOUAV = "B_UAV_02_F";
 vehNATOUAVSmall = "B_UAV_01_F";
