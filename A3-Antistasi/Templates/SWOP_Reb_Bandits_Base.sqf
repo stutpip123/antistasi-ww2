@@ -4,7 +4,7 @@
 nameTeamPlayer = "Bandits";
 SDKFlag = "Flag_FIA_F";
 SDKFlagTexture = "\A3\Data_F\Flags\Flag_FIA_CO.paa";
-typePetros = "SWOP_Mando_True_Bobba";
+typePetros = "SWOP_Mando_Protectors_of";
 
 ////////////////////////////////////
 //             UNITS             ///
@@ -89,11 +89,11 @@ supportStaticsSDKB3 = "I_Mortar_01_support_F";
 ATMineMag = "ATMine_Range_Mag";
 APERSMineMag = "APERSMine_Range_Mag";
 //Starting Unlocks
-initialRebelEquipment append ["swop_dl18Pistol","swop_dl44Pistol","relbyv10","SW_scattergun"];
-initialRebelEquipment append ["SW_scattergun","relbyv10"];
-initialRebelEquipment append ["swop_dl18Pistol_Mag","swop_dl44Pistol_Mag","SW_scattergun_Mag","relbyv10_Mag","Swop_TermDet_G","Swop_SmokeShell"];
+initialRebelEquipment append ["swop_dl18Pistol","swop_dl44Pistol","SWOP_TuskenRBlasterRifle","SW_scattergun"];
+initialRebelEquipment append ["SW_scattergun","SWOP_TuskenRBlasterRifle"];
+initialRebelEquipment append ["swop_dl18Pistol_Mag","swop_dl44Pistol_Mag","SW_scattergun_Mag","5Rnd_127x108_Mag","Swop_TermDet_G","Swop_SmokeShell"];
 initialRebelEquipment append ["Swop_TermDet_G","Swop_SmokeShell"];
-initialRebelEquipment append ["SWOP_B_ITdv_Base","SWOP_B_BlackBackPack_RTdv_Base"];
+initialRebelEquipment append ["SWOP_B_BlackBackPack_RTdv_Base"];
 initialRebelEquipment append ["SWOP_RemBron","SWOP_RemBron2","SWOP_RemBronf","SWOP_RebSumkBron","SWOP_RebSumkBronFull"];
 initialRebelEquipment append ["ElectroBinocularsB_F","acc_flashlight"];
 //TFAR Unlocks
