@@ -102,6 +102,13 @@ class Params
           texts[] = {"4 Kmts","5 Kmts","6 Kmts","7 Kmts","8 Kmts","Unlimited"};
           default = 5000;
      };
+	 class allowMembersFactionGarageAccess
+     {
+          title = "Allow members to access the faction garage";
+          texts[] = {"Yes", "No"};
+          values[] = {1,0};
+          default = 1;
+     };
      class allowFT
      {
           title = "Limited Fast Travel";
@@ -242,6 +249,13 @@ class Params
           texts[] = {""};
           default = "";
      };
+	 class truelyRandomCrates
+	 {
+		  title = "[Experimental] Truely Random Crates: Remove all balance checks from Crates";
+		  values[] = {0, 1};
+		  texts[] = {"False", "True"};
+		  default = 0;
+	 };
      class crateWepTypeMax
      {
           title = "Maximum Weapon Types in Crates";
@@ -287,16 +301,16 @@ class Params
      class crateAmmoTypeMax
      {
           title = "Maximum Ammo Types in Crates";
-          values[] = {0,2,4,9};
-          texts[] = {"1","3","5","10"};
-          default = 4;
+          values[] = {0,2,4,6,9,14,19};
+          texts[] = {"1","3","5","7","10","15","20"};
+          default = 6;
      };
      class crateAmmoNumMax
      {
           title = "Maximum Ammo Quantity in Crates";
-          values[] = {0,1,3,5,10,15};
-          texts[] = {"None","1","3","5","10","15"};
-          default = 10;
+          values[] = {0,1,3,5,10,15,20,25,30};
+          texts[] = {"None","1","3","5","10","15","20","25","30"};
+          default = 20;
      };
      class Spacer3
      {
@@ -329,16 +343,16 @@ class Params
      class crateAttachmentTypeMax
      {
           title = "Maximum Attachment Types in Crates";
-          values[] = {0,2,4,9};
-          texts[] = {"1","3","5","10"};
-          default = 2;
+          values[] = {0,2,4,6,9,12,15,19};
+          texts[] = {"1","3","5","7","10","13","16","20"};
+          default = 6;
      };
      class crateAttachmentNumMax
      {
           title = "Maximum Attachment Quantity in Crates";
-          values[] = {0,1,3,5,10,15};
-          texts[] = {"None","1","3","5","10","15"};
-          default = 3;
+          values[] = {0,1,3,5,7,10,15,20,30};
+          texts[] = {"None","1","3","5","7","10","15","20","30"};
+          default = 15;
      };
      class Spacer5
      {
