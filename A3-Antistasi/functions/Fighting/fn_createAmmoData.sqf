@@ -11,9 +11,13 @@ _magazines = getArray (configFile >> "CfgVehicles" >> (typeOf _unit) >> "magazin
 *   cfgVehicle threat - array to determine threat against different targets
 */
 
-
+private _allMags = [];
 {
-  private _magPath = configFile >> "CfgMagazines" >> (typeOf _x);
+  private _mag = _x;
+  private _index = _allMags findIf {(_x select 0) == _mag};
+  if(_index == -1) then
+  {
+    private _magPath = configFile >> "CfgMagazines" >> (typeOf _mag);
     private _ammo = getText (_magPath >> "ammo");
     private _count = parseNumber (getText (_magPath >> "count"));
     private _path = configFile >> "CfgAmmo" >> _ammo;
@@ -27,14 +31,33 @@ _magazines = getArray (configFile >> "CfgVehicles" >> (typeOf _unit) >> "magazin
     private _damageString = format
     [
     "{
-      private _velocity = %1 / (2 + exp (_this * %2));
+      params ['_distance', ['_initVelFactor', -1]];
+      private _initialVelocity = %1;
+      //This is due to the shitty implementation of BIs velocity modification by weapons
+      if(_initVelFactor < 0) then
+      {
+        _initialVelocity = _initialVelocity * _initVelFactor;
+      }
+      else
+      {
+        _initialVelocity = _initVelFactor;
+      };
+      private _velocity = _initialVelocity / (exp (_this * %2));
       private _result = (_velocity / %3) * %4;
       _result;
     }",
     _initialVelocity,
-    _airFriction,
+    (_airFriction * (-1)),  //Negating airFriction to ensure correct behavior
     _typicalVelocity,
     _hit
     ];
     private _damageCode = compile _damageString;
+    private _data = [_mag, [0,0,0], 1, _count, _damageCode];
+    _allMags pushBack _data;
+  }
+  else
+  {
+    _mag = _allMags select _index;
+    _mag set [2, (_mag select 2) + 1];
+  };
 } forEach _magazines;
