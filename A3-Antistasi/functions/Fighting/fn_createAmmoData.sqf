@@ -6,18 +6,19 @@
 #define USE_FOR_HEALING         3102
 #define USE_FOR_REPAIR          3103
 
-params ["_unit"];
+//params ["_unit"];
+private _unit = "B_engineer_F";
 
-_magazines = getArray (configFile >> "CfgVehicles" >> (typeOf _unit) >> "magazines");
-/*  cfgWeapon magazines [] - magazines a weapon can handle
-*   cfgWeapon initSpeed - a speed modifier if > 0 a number 1050 if < 0 a factor 1.1
-*   cfgVehicle weapons [] - list of weapons the unit is carrying
-*   cfgWeapon reloadTime - the time between two shots 1/reloadTime = rof
-*   cfgWeapon dispersion - the dispersion of shots in radians
-*   cfgWeapon burst - burst fire weapon, how many rounds per trigger pull
-*   cfgWeapon burstRangeMax - maximum amount of bullets in a burst
-*   cfgVehicle threat - array to determine threat against different targets
-*/
+_magazines = getArray (configFile >> "CfgVehicles" >> _unit >> "magazines");
+//  cfgWeapon magazines [] - magazines a weapon can handle
+//  cfgWeapon initSpeed - a speed modifier if > 0 a number 1050 if < 0 a factor 1.1
+//  cfgVehicle weapons [] - list of weapons the unit is carrying
+//  cfgWeapon reloadTime - the time between two shots 1/reloadTime = rof
+//  cfgWeapon dispersion - the dispersion of shots in radians
+//  cfgWeapon burst - burst fire weapon, how many rounds per trigger pull
+//  cfgWeapon burstRangeMax - maximum amount of bullets in a burst
+//  cfgVehicle threat - array to determine threat against different targets
+
 
 private _allMags = [];
 {
@@ -25,53 +26,67 @@ private _allMags = [];
   private _index = _allMags findIf {(_x select 0) == _mag};
   if(_index == -1) then
   {
-    private _magPath = configFile >> "CfgMagazines" >> (typeOf _mag);
+    private _magPath = configFile >> "CfgMagazines" >> _mag;
     private _ammo = getText (_magPath >> "ammo");
-    private _count = parseNumber (getText (_magPath >> "count"));
-    private _initialVelocity = getText (_path >> "initSpeed");
+    private _count = getNumber (_magPath >> "count");
+    private _initialVelocity = getNumber (_magPath >> "initSpeed");
 
     private _path = configFile >> "CfgAmmo" >> _ammo;
-    private _usage = getText (_path >> "aiAmmoUsageFlags");
-    private _damage = getText (_path >> "hit");
-    private _typicalVelocity = getText (_path >> "typicalSpeed");
-    private _airFriction = getText (_path >> "airFriction");
+    private _usage = (_path >> "aiAmmoUsageFlags") call BIS_fnc_getCfgData;
+    private _damage = getNumber (_path >> "hit");
+    private _typicalVelocity = getNumber (_path >> "typicalSpeed");
+    //Negating airFriction to ensure correct behavior
+    private _airFriction = getNumber (_path >> "airFriction");
+    private _airFriction = (-1) * _airFriction;
 
-    private _flags = _usage splitString "+ ";
+    diag_log format ["Usage is: %1", _usage];
     private _ammoFlags = [];
+    if(_usage isEqualType 0) then
     {
-      private _flagNumber = parseNumber _x;
-      if(_flagNumber != 0) then
+      _ammoFlags pushBack _usage;
+    }
+    else
+    {
+      private _flags = _usage splitString "+ ";
       {
-        switch (_flagNumber) do
+        private _flagNumber = parseNumber _x;
+        if(_flagNumber != 0) then
         {
-          case (4):
+          switch (_flagNumber) do
           {
-            //Use smokes to cover unit
-            _ammoFlags pushBack USE_FOR_COVER;
-          };
-          case (64):
-          {
-            //Use against units
-            _ammoFlags pushBack USE_AGAINST_UNITS;
-          };
-          case (128):
-          {
-            //Use against unarmored vehicles
-            _ammoFlags pushBack USE_AGAINST_VEHICLES;
-          };
-          case (256):
-          {
-            //Use against air vehicles
-            _ammoFlags pushBack USE_AGAINST_AIR;
-          };
-          case (512):
-          {
-            //Use against armored vehicles
-            _ammoFlags pushBack USE_AGAINST_ARMOR;
+            case (4):
+            {
+              //Use smokes to cover unit
+              _ammoFlags pushBack 3101;
+            };
+            case (64):
+            {
+              //Use against units
+              _ammoFlags pushBack 3201;
+            };
+            case (128):
+            {
+              //Use against unarmored vehicles
+              _ammoFlags pushBack 3202;
+            };
+            case (256):
+            {
+              //Use against air vehicles
+              _ammoFlags pushBack 3204;
+            };
+            case (512):
+            {
+              //Use against armored vehicles
+              _ammoFlags pushBack 3203;
+            };
           };
         };
-      };
-    } forEach _flags;
+      } forEach _flags;
+    };
+
+
+    diag_log str [_mag, _ammo, _count, _initialVelocity, _damage, _typicalVelocity, _airFriction, _ammoFlags];
+
     //TODO there is a maxRange variable, set damage to 0 after that?
     //There is also weaponType determining the type of the used weapon, can be used to calculate hit chances
     //Creates code based on the magazines values, the code is hopefully faster than calculating it by looking up the data
@@ -80,7 +95,6 @@ private _allMags = [];
     "{
       params ['_distance', ['_initVelFactor', -1]];
       private _initialVelocity = %1;
-      //This is due to the shitty implementation of BIs velocity modification by weapons
       if(_initVelFactor < 0) then
       {
         _initialVelocity = _initialVelocity * _initVelFactor;
@@ -94,12 +108,12 @@ private _allMags = [];
       _result;
     }",
     _initialVelocity,
-    (_airFriction * (-1)),  //Negating airFriction to ensure correct behavior
+    _airFriction,
     _typicalVelocity,
     _hit
     ];
-    private _damageCode = compile _damageString;
-    private _data = [_mag, [0,0,0], 1, _count, _damageCode];
+    //private _damageCode = compile _damageString;
+    private _data = [_mag, [0,0,0], 1, _count]; //, _damageCode
     _allMags pushBack _data;
   }
   else
@@ -108,3 +122,10 @@ private _allMags = [];
     _mag set [2, (_mag select 2) + 1];
   };
 } forEach _magazines;
+
+private _result = "";
+{
+  _result = format ["%1%2\n",_result, _x];
+} forEach _allMags;
+
+hint _result;
