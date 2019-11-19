@@ -8,6 +8,11 @@
 
 //params ["_unit"];
 private _unit = "B_engineer_F";
+private _unitPath = configFile >> "CfgVehicles" >> _unit
+private _backpack = getText (_unitPath >> "backpack");
+private _items = getArray (_unitPath >> "Items");
+private _linkedItems = getArray (_unitPath >> "linkedItems");
+private _weapons = getArray (_unitPath >> "weapons");
 
 _magazines = getArray (configFile >> "CfgVehicles" >> _unit >> "magazines");
 //  cfgWeapon magazines [] - magazines a weapon can handle
