@@ -18,7 +18,7 @@ flagNATOmrk = "flag_NATO";
 if (isServer) then {"NATO_carrier" setMarkerText "Rebel Alliance Flagship"};
 
 //Loot Crate
-NATOAmmobox = "B_supplyCrate_F";
+NATOAmmobox = "rebammobox2";
 
 ////////////////////////////////////
 //   PVP LOADOUTS AND VEHICLES   ///
@@ -26,17 +26,23 @@ NATOAmmobox = "B_supplyCrate_F";
 //PvP Loadouts
 NATOPlayerLoadouts = [
 	//Team Leader
-	["vanilla_blufor_teamLeader"] call A3A_fnc_getLoadout,
+	//["vanilla_blufor_teamLeader"] call A3A_fnc_getLoadout,
+		"Swop_rebel_magma_com",
 	//Medic
-	["vanilla_blufor_medic"] call A3A_fnc_getLoadout,
+	//["vanilla_blufor_medic"] call A3A_fnc_getLoadout,
+		"Swop_rebel_magma_com",
 	//Autorifleman
-	["vanilla_blufor_machineGunner"] call A3A_fnc_getLoadout,
+	//["vanilla_blufor_machineGunner"] call A3A_fnc_getLoadout,
+		"Swop_rebel_magma_heavy",
 	//Marksman
-	["vanilla_blufor_marksman"] call A3A_fnc_getLoadout,
+	//["vanilla_blufor_marksman"] call A3A_fnc_getLoadout,
+		"Swop_rebel_magma_sniper",
 	//Anti-tank Scout
-	["vanilla_blufor_AT"] call A3A_fnc_getLoadout,
+	//["vanilla_blufor_AT"] call A3A_fnc_getLoadout,
+		"Swop_rebel_magma_aa",
 	//AT2
-	["vanilla_blufor_rifleman"] call A3A_fnc_getLoadout
+	//["vanilla_blufor_rifleman"] call A3A_fnc_getLoadout
+		"Swop_rebel_magma_aa"
 ];
 
 //PVP Player Vehicles
@@ -147,14 +153,14 @@ vehNATOBoats = [vehNATOBoat,vehNATORBoat,"O_SWOP_HoverT_2"];
 //Planes
 vehNATOPlane = "swop_ywGreen";
 vehNATOPlaneAA = "swop_xw";
-vehNATOTransportPlanes = ["swop_mf"];
+vehNATOTransportPlanes = ["B_T_VTOL_01_infantry_F"];
 //Heli
 vehNATOPatrolHeli = "Swop_Uwing";
-vehNATOTransportHelis = ["Swop_Uwing",vehNATOPatrolHeli,"Swop_Uwing"];
-vehNATOAttackHelis = ["Swop_Uwing","Swop_Uwing"];
+vehNATOTransportHelis = ["Swop_LAATmk2_ARC",vehNATOPatrolHeli];
+vehNATOAttackHelis = ["Swop_LAATmk2_104"];
 //UAV
 vehNATOUAV = "B_UAV_02_F";
-vehNATOUAVSmall = "B_UAV_01_F";
+vehNATOUAVSmall = "B_UAV_02_F";
 //Artillery
 vehNATOMRLS = "O_SWOP_HoverTr_2";
 vehNATOMRLSMags = "32Rnd_155mm_Mo_shells";
