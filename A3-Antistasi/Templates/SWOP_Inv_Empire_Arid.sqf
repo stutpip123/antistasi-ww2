@@ -16,7 +16,7 @@ flagCSATmrk = "flag_CSAT";
 if (isServer) then {"CSAT_carrier" setMarkerText "Star Destroyer"};
 
 //Loot Crate
-CSATAmmoBox = "O_supplyCrate_F";
+CSATAmmoBox = "impammobox2";
 
 ////////////////////////////////////
 //   PVP LOADOUTS AND VEHICLES   ///
@@ -124,7 +124,7 @@ vehCSATLight = vehCSATLightArmed + vehCSATLightUnarmed;
 //Armored
 vehCSATAPC = ["O_SWOP_HoverT_1","O_SWOP_HoverTf_1","O_SWOP_HoverTa_1"];
 vehCSATTank = "O_JM_TX130m1_1";
-vehCSATAA = "ATSTst";
+vehCSATAA = "O_SWOP_HoverTa_1";
 vehCSATAttack = vehCSATAPC + [vehCSATTank];
 //Boats
 vehCSATBoat = "O_Boat_Armed_01_hmg_F";
@@ -132,12 +132,12 @@ vehCSATRBoat = "O_Boat_Transport_01_F";
 vehCSATBoats = [vehCSATBoat,vehCSATRBoat,"O_SWOP_HoverT_1"];
 //Planes
 vehCSATPlane = "swop_tietorpe";
-vehCSATPlaneAA = "swop_tie_int";
+vehCSATPlaneAA = "swop_tie";
 vehCSATTransportPlanes = ["swop_lambda"];
 //Heli
 vehCSATPatrolHeli = "swop_LAAT";
-vehCSATTransportHelis = ["swop_LAATmk2",vehCSATPatrolHeli];
-vehCSATAttackHelis = ["swop_LAAT","swop_LAATmk2"];
+vehCSATTransportHelis = ["swop_lambda",vehCSATPatrolHeli];
+vehCSATAttackHelis = ["swop_LAATmk2_spec"];
 //UAV
 vehCSATUAV = "O_UAV_02_F";
 vehCSATUAVSmall = "O_UAV_01_F";
