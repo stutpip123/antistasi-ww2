@@ -1,18 +1,65 @@
-#define USE_AGAINST_UNITS       3201
-#define USE_AGAINST_VEHICLES    3202
-#define USE_AGAINST_ARMOR       3203
-#define USE_AGAINST_AIR         3204
-#define USE_FOR_COVER           3101
-#define USE_FOR_HEALING         3102
-#define USE_FOR_REPAIR          3103
+#include "defineFighting.inc"
 
 //params ["_unit"];
+//Test line, use only for debug
 private _unit = "B_engineer_F";
-private _unitPath = configFile >> "CfgVehicles" >> _unit
-private _backpack = getText (_unitPath >> "backpack");
-private _items = getArray (_unitPath >> "Items");
-private _linkedItems = getArray (_unitPath >> "linkedItems");
-private _weapons = getArray (_unitPath >> "weapons");
+private _fileName = "fn_createUnitData";
+
+//Check if data was already calculated before, if so abort here
+private _result = server getVariable [format ["data_%1", _unit], []];
+if(!(_result isEqualTo [])) exitWith
+{
+  //Result already calculated before, loaded data from safe
+  [3, format ["Unitdata for %1 loaded, data is %2", _unit, _result], _fileName] call A3A_fnc_log;
+  _result;
+};
+
+private _unitType = NOT_DEFINED;
+private _unitStrength = 1;
+switch (typeOf _unit) do
+{
+  case ("Man"):
+  {
+    _unitType = INFANTRY;
+    _unitStrength = 1;
+  };
+  case ("Tank"):
+  {
+    _unitType = ARMOR;
+    _unitStrength = 8
+  };
+  case ("Vehicle"):
+  {
+    _unitType = VEHICLE;
+    _unitStrength = 4;
+  };
+  case ("Air"):
+  {
+    _unitType = AIR;
+    _unitStrength = 5;
+  }
+};
+
+private _unitVehPath = configFile >> "CfgVehicles" >> _unit;
+private _threat = getArray (_unitVehPath >> "threat");
+
+_threat = _threat vectorMultiply _unitStrength;
+
+//Exit here if simulation level is low
+if(simulationLevel == 0) exitWith
+{
+  _result = [_unit, _unitType, _threat];
+  [3, format ["Unitdata for %1 calculated, data is %2", _unit, _result], _fileName] call A3A_fnc_log;
+  server setVariable [format ["data_%1", _unit], _result]; //Setting data locally, only server calculates fights
+  _result;
+};
+
+//Check weapons next and categorize deeper for simulationLevel == 1
+
+private _backpack = getText (_unitVehPath >> "backpack");
+private _items = getArray (_unitVehPath >> "Items");
+private _linkedItems = getArray (_unitVehPath >> "linkedItems");
+private _weapons = getArray (_unitVehPath >> "weapons");
 
 _magazines = getArray (configFile >> "CfgVehicles" >> _unit >> "magazines");
 //  cfgWeapon magazines [] - magazines a weapon can handle

@@ -20,6 +20,7 @@ recruitCooldown = 0;											//
 savingClient = false;											//
 incomeRep = false;												//
 maxUnits = 140;												//
+simulationLevel = 0;									//Depth of fighting simulation 0 - very fast, 4 - very detailed
 
 ////////////////////////////////////
 //     BEGIN SIDES AND COLORS    ///
