@@ -28,7 +28,6 @@ class A3A
 		class fogCheck {};
 		class garbageCleaner {};
 		class garrisonInfo {};
-		class getModOfConfigClass {};
 		class healAndRepair {};
 		class initPetros {};
 		class intelFound {};
@@ -50,7 +49,6 @@ class A3A
 		class outpostDialog {};
 		class patrolDestinations {};
 		class placementSelection {};
-		class playerHasBeenPvPCheck {};
 		class powerCheck {};
 		class powerReorg {};
 		class prestige {};
@@ -295,6 +293,12 @@ class A3A
 		class underAttack {};
 	};
 
+	class ModsAndDLC {
+		class getModOfConfigClass {};
+		class initDisabledMods {};
+		class isModNameVanilla {};
+	};
+
 	class Ammunition
 	{
 		class ACEpvpReDress {};
@@ -311,6 +315,7 @@ class A3A
 		class getRadio {};
 		class itemSort {};
 		class itemType {};
+		class launcherInfo {};
 		class loot {};
 		class NATOCrate {};
 		class randomRifle {};
@@ -321,16 +326,19 @@ class A3A
 
 	class OrgPlayers
 	{
-		class assigntheBoss {};
 		class donateMoney {};
 		class isMember {};
+		class makePlayerBossIfEligible {};
 		class memberAdd {};
 		class membersList {};
 		class playerScoreAdd {};
+		class promotePlayer {};
 		class ranksMP {};
 		class resourcesPlayer {};
 		class theBossInit {};
+		class theBossToggleEligibility {};
 		class theBossSteal {};
+		class assignBossIfNone {};
 		class tierCheck {};
 	};
 
@@ -360,6 +368,12 @@ class A3A
 		class punishment_release {};
 		class punishment_sentence {};
 		class punishment_warden {};
+	};
+
+	class pvp
+	{
+		class pvpCheck {};
+		class playerHasBeenPvPCheck {};
 	};
 
 	class REINF
@@ -435,13 +449,13 @@ class A3A
 		class basicBackpack {};
 		class createDataObject {};
 		class dateToTimeString {};
+		class log {};
 	};
 
 	class init
 	{
 		class cityinfo {};
 		class credits {};
-		class initDisabledMods {};
 		class initGarrisons {};
 		class initGetMissionPath {};
 		class initSpawnPlaces {};

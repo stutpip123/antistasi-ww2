@@ -87,10 +87,10 @@ fnc_sortPlacementMarker =
 
     //Following marker are handled elsewhere
     case ("respawn");
-    case ("DummyUPSMONMarker");
-    case ("NATO");
-    case ("CSAT");
-    case ("Synd"): {};
+    case ("dummyupsmonmarker");
+    case ("nato");
+    case ("csat");
+    case ("synd"): {};
 
     //Detect placement marker
     case ("airp");
@@ -112,3 +112,9 @@ fnc_sortPlacementMarker =
 {
     [_x select 0, _x select 1] spawn A3A_fnc_initSpawnPlaces;
 } forEach _placementMarker;
+
+//TEMPORARY FIX TO DETECT SPAWN MARKERS
+{
+  _nearestMarker = [spawnPoints, getMarkerPos _x] call BIS_fnc_nearestPosition;
+  server setVariable [format ["spawn_%1", _x], _nearestMarker, true];
+} forEach airportsX;

@@ -18,14 +18,23 @@ private _vests = (jna_dataList select IDC_RSCDISPLAYARSENAL_TAB_VEST) select {_x
 
 private _type = objNull;
 private _magazine = [];
+private _magConfig = objNull;
 private _capacity = objNull;
+private _bullets = objNull;
 private _count = objNull;
 {
 	_type = _x select 0;
-	_capacity = getNumber (configFile >> "CfgMagazines" >> _type >> "count");
-	_bullets = _x select 1;
-	_count = floor (_bullets/_capacity);
-	_magazine pushBack [_type,_count];
+	_magConfig = configFile >> "CfgMagazines" >> _type;
+	_capacity = getNumber (_magConfig >> "count");
+
+	// control unlocking missile launcher magazines
+	// the capacity check is an optimisation to bypass the config check. ~18% perf gain on the loop.
+	if (_capacity != 1 || allowGuidedLaunchers isEqualTo 1 ||
+		{!(getText (_magConfig >> "ammo") isKindOf "MissileBase")}) then {
+		_bullets = _x select 1;
+		_count = floor (_bullets/_capacity);
+		_magazine pushBack [_type,_count];
+	};
 } forEach _magazines;
 
 private _allExceptNVs = _weapons + _explosives + _backpacks + _items + _optics + _helmets + _vests + _magazine;
@@ -35,13 +44,13 @@ private _allExceptNVs = _weapons + _explosives + _backpacks + _items + _optics +
 	if (_x select 1 >= minWeaps) then {
 		private _categories = _item call A3A_fnc_equipmentClassToCategories;
 		
-		if ((allowGuidedLaunchers isEqualTo 1 || {!("MissileLaunchers" in _categories || {"RocketLaunchers" in _categories && {getNumber (configfile >> "CfgWeapons" >> _item >> "canLock") == 0}})}) &&
+		if ((allowGuidedLaunchers isEqualTo 1 || {!("MissileLaunchers" in _categories)}) &&
 		    (allowUnlockedExplosives isEqualTo 1 || !("Explosives" in _categories))) then {
 			
 			_item call A3A_fnc_unlockEquipment;
 			
 			private _name = switch (true) do {
-				case ("Magazines" in _categories): {getText (configFile >> "CfgMagazines" >> _weaponMagazine >> "displayName")};
+				case ("Magazines" in _categories): {getText (configFile >> "CfgMagazines" >> _item >> "displayName")};
 				case ("Backpacks" in _categories): {getText (configFile >> "CfgVehicles" >> _item >> "displayName")};
 				default {getText (configFile >> "CfgWeapons" >> _item >> "displayName")};
 			};

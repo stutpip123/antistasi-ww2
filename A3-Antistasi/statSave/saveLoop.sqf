@@ -15,7 +15,9 @@ private ["_garrison"];
 ["bombRuns", bombRuns] call fn_SaveStat;
 ["smallCAmrk", smallCAmrk] call fn_SaveStat;
 ["membersX", membersX] call fn_SaveStat;
-["antennas", antennasDead] call fn_SaveStat;
+private _antennasDeadPositions = [];
+{ _antennasDeadPositions pushBack getPos _x; } forEach antennasDead;
+["antennas", _antennasDeadPositions] call fn_SaveStat;
 //["mrkNATO", (markersX - controlsX) select {sidesX getVariable [_x,sideUnknown] == Occupants}] call fn_SaveStat;
 ["mrkSDK", (markersX - controlsX - outpostsFIA) select {sidesX getVariable [_x,sideUnknown] == teamPlayer}] call fn_SaveStat;
 ["mrkCSAT", (markersX - controlsX) select {sidesX getVariable [_x,sideUnknown] == Invaders}] call fn_SaveStat;
@@ -93,7 +95,7 @@ _sites = markersX select {sidesX getVariable [_x,sideUnknown] == teamPlayer};
 {
 	_positionX = position _x;
 	if ((alive _x) and !(surfaceIsWater _positionX) and !(isNull _x)) then {
-		_arrayEst pushBack [typeOf _x,getPos _x,getDir _x];
+		_arrayEst pushBack [typeOf _x,getPosATL _x,getDir _x];
 	};
 } forEach staticsToSave;
 

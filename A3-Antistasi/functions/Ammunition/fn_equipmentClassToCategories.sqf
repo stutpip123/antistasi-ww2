@@ -104,15 +104,26 @@ if (_baseCategory == "RocketLaunchers") then {
 };
 
 if (_baseCategory == "MissileLaunchers") then {
-	if (getText (configfile >> "CfgWeapons" >> _className >> "nameSound") == "aalauncher") then {
+	private _launcherInfo = [_className] call A3A_fnc_launcherInfo;
+	
+	//If we can lock air, it's AA.
+	if (_launcherInfo select 1) then {
 		_categories pushBack "AA";
-	} else {
+	};
+	
+	//If we can lock ground, or can't lock either air or ground, it's AT.
+	if (_launcherInfo select 0 || !(_launcherInfo select 0 || _launcherInfo select 1)) then {
 		_categories pushBack "AT";
 	};
 };
 
-if (_baseCategory == "Rifles" && {count (getArray (configfile >> "CfgWeapons" >> _className >> "muzzles")) == 2}) then {
-	_categories pushBack "GrenadeLaunchers";
+if (_baseCategory == "Rifles") then {
+	private _config = configfile >> "CfgWeapons" >> _className;
+	private _muzzles = getArray (_config >> "muzzles");
+	// workaround for RHS having an extra muzzle for "SAFE"
+	if (count _muzzles >= 2 && {"gl" == getText (_config >> (_muzzles select 1) >> "cursorAim")}) then {
+		_categories pushBack "GrenadeLaunchers";
+	};
 };
 
 _categories;

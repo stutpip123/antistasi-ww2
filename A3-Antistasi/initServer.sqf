@@ -1,7 +1,11 @@
 if (!isMultiplayer) exitWith {};
 if (!(isNil "serverInitDone")) exitWith {};
-diag_log format ["%1: [Antistasi] | INFO | Dedicated Server Detected.",servertime];
-diag_log format ["%1: [Antistasi] | INFO | initServer Started.",servertime];
+private _fileName = "initServer.sqf";
+scriptName "initServer.sqf";
+//Define logLevel first thing, so we can start logging appropriately.
+logLevel = "LogLevel" call BIS_fnc_getParamValue; publicVariable "logLevel"; //Sets a log level for feedback, 1=Errors, 2=Information, 3=DEBUG
+[2,"Dedicated server detected",_fileName] call A3A_fnc_log;
+[2,"Server init started",_fileName] call A3A_fnc_log;
 boxX allowDamage false;
 flagX allowDamage false;
 vehicleBox allowDamage false;
@@ -25,16 +29,19 @@ membershipEnabled = if ("membership" call BIS_fnc_getParamValue == 1) then {true
 switchCom = if ("switchComm" call BIS_fnc_getParamValue == 1) then {true} else {false};
 tkPunish = if ("tkPunish" call BIS_fnc_getParamValue == 1) then {true} else {false};
 distanceMission = "mRadius" call BIS_fnc_getParamValue; publicVariable "distanceMission";
-pvpEnabled = if ("allowPvP" call BIS_fnc_getParamValue == 1) then {true} else {false};
+pvpEnabled = if ("allowPvP" call BIS_fnc_getParamValue == 1) then {true} else {false}; publicVariable "pvpEnabled";
 skillMult = "AISkill" call BIS_fnc_getParamValue; publicVariable "skillMult";
 minWeaps = "unlockItem" call BIS_fnc_getParamValue; publicVariable "minWeaps";
 memberOnlyMagLimit = "MemberOnlyMagLimit" call BIS_fnc_getParamValue; publicVariable "memberOnlyMagLimit";
+allowMembersFactionGarageAccess = "allowMembersFactionGarageAccess" call BIS_fnc_getParamValue == 1; publicVariable "allowMembersFactionGarageAccess";
 civTraffic = "civTraffic" call BIS_fnc_getParamValue; publicVariable "civTraffic";
 memberDistance = "memberDistance" call BIS_fnc_getParamValue; publicVariable "memberDistance";
 limitedFT = if ("allowFT" call BIS_fnc_getParamValue == 1) then {true} else {false}; publicVariable "limitedFT";
 napalmEnabled = if ("napalmEnabled" call BIS_fnc_getParamValue == 1) then {true} else {false}; publicVariable "napalmEnabled";
 teamSwitchDelay = "teamSwitchDelay" call BIS_fnc_getParamValue;
 playerMarkersEnabled = ("pMarkers" call BIS_fnc_getParamValue == 1); publicVariable "playerMarkersEnabled";
+minPlayersRequiredforPVP = "minPlayersRequiredforPVP" call BIS_fnc_getParamValue; publicVariable "minPlayersRequiredforPVP";
+
 [] call A3A_fnc_crateLootParams;
 
 //Load Campaign ID if resuming game
@@ -50,7 +57,7 @@ publicVariable "campaignID";
 _nul = call compile preprocessFileLineNumbers "initVar.sqf";
 initVar = true; publicVariable "initVar";
 savingServer = true;
-diag_log format ["%1: [Antistasi] | INFO | MP Version: %2 loaded.",servertime, localize "STR_antistasi_credits_generic_version_text"];
+[2,format ["MP server version: %1",localize "STR_antistasi_credits_generic_version_text"],_fileName] call A3A_fnc_log;
 bookedSlots = floor ((("memberSlots" call BIS_fnc_getParamValue)/100) * (playableSlotsNumber teamPlayer)); publicVariable "bookedSlots";
 _nul = call compile preprocessFileLineNumbers "initFuncs.sqf";
 _nul = call compile preprocessFileLineNumbers "initZones.sqf";
@@ -67,16 +74,18 @@ waitUntil {(count playableUnits) > 0};
 waitUntil {({(isPlayer _x) and (!isNull _x) and (_x == _x)} count allUnits) == (count playableUnits)};//ya estamos todos
 [] spawn A3A_fnc_modBlacklist;
 
-call A3A_fnc_initGarrisons;
 if (loadLastSave) then {
-	diag_log format ["%1: [Antistasi] | INFO | Persitent Load selected.",servertime];
+	[2,"Loading saved data",_fileName] call A3A_fnc_log;
 	["membersX"] call fn_LoadStat;
 	if (isNil "membersX") then {
 		loadLastSave = false;
-		diag_log format ["%1: [Antistasi] | ERROR | initServer.sqf | No previous session detected.",servertime];
+		[2,"No member data found, skipping load",_fileName] call A3A_fnc_log;
 	};
 };
 publicVariable "loadLastSave";
+
+call A3A_fnc_initGarrisons;
+
 if (loadLastSave) then {
 	[] spawn A3A_fnc_loadServer;
 	waitUntil {!isNil"statsLoaded"};
@@ -87,8 +96,8 @@ if (loadLastSave) then {
 	};
 	if (membershipEnabled and (membersX isEqualTo [])) then {
 		[petros,"hint","Membership is enabled but members list is empty. Current players will be added to the member list"] remoteExec ["A3A_fnc_commsMP"];
-		diag_log format ["%1: [Antistasi] | INFO | Session load completed.",servertime];
-		diag_log format ["%1: [Antistasi] | INFO | Membership enabled however there are no members.",servertime];
+		[2,"Previous data loaded",_fileName] call A3A_fnc_log;
+		[2,"Membership enabled, adding current players to list",_fileName] call A3A_fnc_log;
 		membersX = [];
 		{
 			membersX pushBack (getPlayerUID _x);
@@ -116,7 +125,7 @@ else {
 			} forEach playableUnits;
 	}
 	else {
-		diag_log format ["%1: [Antistasi] | INFO | New Session Selected.",servertime];
+		[2,"New session selected",_fileName] call A3A_fnc_log;
 		if (isNil "commanderX") then {commanderX = (playableUnits select 0)};
 		if (isNull commanderX) then {commanderX = (playableUnits select 0)};
 		theBoss = commanderX;
@@ -129,12 +138,12 @@ else {
 	publicVariable "membersX";
 };
 
-diag_log format ["%1: [Antistasi] | INFO | Accepting Players.",servertime];
+[2,"Accepting players",_fileName] call A3A_fnc_log;
 if !(loadLastSave) then {
 	{
 		_x call A3A_fnc_unlockEquipment;
 	} foreach initialRebelEquipment;
-	diag_log format ["%1: [Antistasi] | INFO | Arsenal unlock finished.",servertime];
+	[2,"Initial arsenal unlocks completed",_fileName] call A3A_fnc_log;
 };
 
 [[petros,"hint","Server load finished"],"A3A_fnc_commsMP"] call BIS_fnc_MP;
@@ -151,14 +160,12 @@ addMissionEventHandler ["BuildingChanged", {
 		_oldBuilding setVariable ["ruins", _newBuilding];
 		_newBuilding setVariable ["building", _oldBuilding];
 
-		if !(_oldBuilding in antennas) then {
-			destroyedBuildings pushBack (getPosATL _oldBuilding);
-		};
+		destroyedBuildings pushBack (getPosATL _oldBuilding);
 	};
 }];
 
 serverInitDone = true; publicVariable "serverInitDone";
-diag_log format ["%1: [Antistasi] | INFO | Marking serverInitDone : %2.",servertime, serverInitDone];
+[2,"Setting serverInitDone as true",_fileName] call A3A_fnc_log;
 
 waitUntil {sleep 1;!(isNil "placementDone")};
 distanceXs = [] spawn A3A_fnc_distance;
@@ -175,4 +182,4 @@ savingServer = false;
 		sleep 30;
 	};
 };
-diag_log format ["%1: [Antistasi] | INFO | initServer Completed.",servertime];
+[2,"initServer completed",_fileName] call A3A_fnc_log;
