@@ -63,5 +63,14 @@ private _unitDataTwo = [];
   } forEach _cargo;
 } forEach _unitsTwo;
 
-//Next step is to sort the data into categories
+private _fightData = [teamPlayer, [], Occupants, [], Invaders, []];
+
+private _fightDataOne = [_unitDataOne] call A3A_fnc_unitToFightData;
+private _fightDataTwo = [_unitDataTwo] call A3A_fnc_unitToFightData;
+
+[_fightData, _sideOne, _fightDataOne] call A3A_fnc_setSideData;
+[_fightData, _sideTwo, _fightDataTwo] call A3A_fnc_setSideData;
+
+private _allFights = server getVariable ["fightArray", []];
+_allFights pushBack [format ["fight_%1", _fightID] ,time + 15];
 //Then use this data to have a fight
