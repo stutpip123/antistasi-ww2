@@ -26,8 +26,8 @@ if(simulationLevel == 0) then
             } forEach _units;
         };
     };
-    [3, "Calculated the dealt damage for each faction", _fileName] call A3A_fnc_log;
-    [_damageDealt, "Dealt damage"] call A3A_fnc_logArray;
+    //[3, "Calculated the dealt damage for each faction", _fileName] call A3A_fnc_log;
+    //[_damageDealt, "Dealt damage"] call A3A_fnc_logArray;
 
     //The amount of killed units per team
     private _killedUnits = [[], [], []];
@@ -39,7 +39,7 @@ if(simulationLevel == 0) then
         private _enemyOne = (_team + 1) % 3;
         private _enemyTwo = (_team + 2) % 3;
 
-        [3, format ["Current is %1, enemies are %2 and %3", _current, _enemyOne, _enemyTwo], _fileName] call A3A_fnc_log;
+        //[3, format ["Current is %1, enemies are %2 and %3", _current, _enemyOne, _enemyTwo], _fileName] call A3A_fnc_log;
 
         private _killCount = [0, 0, 0];
         //Check if current team is active
@@ -79,6 +79,31 @@ if(simulationLevel == 0) then
     };
 
     //Deleting units
+    for "_team" from 0 to 2 do
+    {
+        private _killCount = _killedUnits select _team;
+        private _allUnits = _data select _team;
+        for "_kind" from 0 to 2 do
+        {
+            private _count = _killCount select _kind;
+            private _units = _allUnits select _kind;
+            if(_count >= count _units) then
+            {
+                _allUnits set [_kind, []];
+            }
+            else
+            {
+                for "_i" from 1 to _count do
+                {
+                    _units deleteAt 0;
+                };
+            };
+        };
+    };
+
+    [_data, "New data"] call A3A_fnc_logArray;
+
+    //Count units and readd to fight loop if needed
 };
 
 
