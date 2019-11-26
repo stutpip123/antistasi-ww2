@@ -1,3 +1,5 @@
+/*
+
 //Gather all units which are currently in the fight
 //Needed information [[SIDE, [UnitData]], [SIDE, [UnitData]]]
 //UnitData = [[Comp1, pos], [Comp2, pos], [Comp3, pos]]
@@ -42,3 +44,4 @@ private _rebelsTargets = [_occupantsTypes, _invadersTypes] call A3A_fnc_getTarge
 //Execute round damage
 //Create enviroment damage
 //Save all data
+*/

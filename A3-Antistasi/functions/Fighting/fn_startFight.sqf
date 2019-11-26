@@ -5,7 +5,7 @@ private _fileName = "fn_startFight";
 private _fightPos = (_posOne vectorAdd _posTwo) vectorMultiply (1/2);
 private _distance = (_posOne vectorDistance _posTwo) / 2;
 
-private _fightID = random 10000;
+private _fightID = round (random 100000);
 private _fightMarker = createMarker [format ["fight_%1", _fightID], _fightPos];
 _fightMarker setMarkerShape "ELLIPSE";
 _fightMarker setMarkerSize [_distance, _distance];
@@ -93,8 +93,16 @@ private _fightDataTwo = [_unitDataTwo] call A3A_fnc_unitToFightData;
 [_fightData, _sideOne, _fightDataOne] call A3A_fnc_setSideData;
 [_fightData, _sideTwo, _fightDataTwo] call A3A_fnc_setSideData;
 
+waitUntil
+{
+    [3, "Fight loop not yet ready, waiting for it!", _fileName] call A3A_fnc_log;
+    sleep 1;
+    !(isNil "fightLoopReady")
+};
+
 [3, format ["All fight data parsed, saving data as fight %1", _fightID], _fileName] call A3A_fnc_log;
 [_fightData, format ["Fight %1 data", _fightID]] call A3A_fnc_logArray;
 
+server setVariable [format ["fight_%1", _fightID], _fightData];
 private _allFights = server getVariable ["fightArray", []];
 _allFights pushBack [format ["fight_%1", _fightID] ,time + 15];

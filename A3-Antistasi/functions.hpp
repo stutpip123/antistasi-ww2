@@ -227,6 +227,7 @@ class A3A
 		class createFightingActions {};
 		class createMovingAction {};
 		class createUnitData {};
+        class fightLoop {};
 		class fightRound {};
 		class getTargetTypes {};
 		class getWeaponRangeModifier {};
