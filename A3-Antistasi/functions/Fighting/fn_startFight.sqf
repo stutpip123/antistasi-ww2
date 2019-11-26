@@ -84,7 +84,6 @@ private _unitDataTwo = [];
 
 [3, format ["Parsing of units for side %1 finished", _sideTwo], _fileName] call A3A_fnc_log;
 [_unitDataTwo, format ["%1 data", _sideTwo]] call A3A_fnc_logArray;
-/*
 
 private _fightData = [teamPlayer, [], Occupants, [], Invaders, []];
 
@@ -94,7 +93,8 @@ private _fightDataTwo = [_unitDataTwo] call A3A_fnc_unitToFightData;
 [_fightData, _sideOne, _fightDataOne] call A3A_fnc_setSideData;
 [_fightData, _sideTwo, _fightDataTwo] call A3A_fnc_setSideData;
 
+[3, format ["All fight data parsed, saving data as fight %1", _fightID], _fileName] call A3A_fnc_log;
+[_fightData, format ["Fight %1 data", _fightID]] call A3A_fnc_logArray;
+
 private _allFights = server getVariable ["fightArray", []];
 _allFights pushBack [format ["fight_%1", _fightID] ,time + 15];
-//Then use this data to have a fight
-*/

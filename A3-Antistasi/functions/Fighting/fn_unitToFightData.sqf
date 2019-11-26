@@ -1,6 +1,6 @@
 #include "defineFighting.inc"
 
-params [_unitData];
+params ["_unitData"];
 
 private _infUnits = [];
 private _groundVeh = [];

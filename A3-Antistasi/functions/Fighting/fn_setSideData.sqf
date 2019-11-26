@@ -1,4 +1,4 @@
-private ["_mainArray", "_side", "_data"];
+params ["_mainArray", "_side", "_data"];
 
 private _index = 0;
 switch (_side) do
