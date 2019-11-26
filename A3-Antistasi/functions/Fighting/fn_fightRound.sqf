@@ -1,3 +1,101 @@
+params ["_fightNumber"];
+
+private _fileName = "fn_fightRound";
+_data = server getVariable _fightNumber;
+
+if(simulationLevel == 0) then
+{
+    private _damageDealt = [[0,0,0], [0,0,0], [0,0,0]];
+    private _isActive = [false, false, false];
+
+    for "_i" from 0 to 2 do
+    {
+        private _side = _data select _i;
+        for "_kind" from 0 to 2 do
+        {
+            private _units = _side select _kind;
+            {
+                if(!(_isActive select _i)) then
+                {
+                    _isActive set [_i, true];
+                };
+                private _damage = _x select 1;
+
+                //Adding the damage
+                _damageDealt set [_i, (_damageDealt select _i) vectorAdd _damage];
+            } forEach _units;
+        };
+    };
+    [3, "Calculated the dealt damage for each faction", _fileName] call A3A_fnc_log;
+    [_damageDealt, "Dealt damage"] call A3A_fnc_logArray;
+
+    //The amount of killed units per team
+    private _killedUnits = [[], [], []];
+
+    //Dealing damage
+    for "_team" from 0 to 2 do
+    {
+        private _current = _team;
+        private _enemyOne = (_team + 1) % 3;
+        private _enemyTwo = (_team + 2) % 3;
+
+        [3, format ["Current is %1, enemies are %2 and %3", _current, _enemyOne, _enemyTwo], _fileName] call A3A_fnc_log;
+
+        private _killCount = [0, 0, 0];
+        //Check if current team is active
+        if(_isActive select _current) then
+        {
+            private _damageEnemyOne = _damageDealt select _enemyOne;
+            private _damageEnemyTwo = _damageDealt select _enemyTwo;
+
+            if(_isActive select _enemyOne) then
+            {
+                if(_isActive select _enemyTwo) then
+                {
+                    //All active, using only half the damage
+                    _killCount = (_damageEnemyOne vectorMultiply (1/2)) vectorAdd (_damageEnemyTwo vectorMultiply (1/2));
+                }
+                else
+                {
+                    //Only occupants active
+                    _killCount = +(_damageEnemyOne);
+                };
+            }
+            else
+            {
+                //Only invaders active
+                _killCount = +(_damageEnemyTwo);
+            };
+        };
+        //Round numbers (can't have 0.4 death units)
+        _killCount set [0, round (_killCount select 0)];
+        _killCount set [1, round (_killCount select 1)];
+        _killCount set [2, round (_killCount select 2)];
+
+        [3, format ["Killed units for %1 are %2", _current, str _killCount], _fileName] call A3A_fnc_log;
+
+        //Save data
+        _killedUnits set [_current, _killCount];
+    };
+
+    //Deleting units
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 
 //Gather all units which are currently in the fight

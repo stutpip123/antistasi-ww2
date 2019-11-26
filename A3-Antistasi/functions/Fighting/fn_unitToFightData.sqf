@@ -17,10 +17,6 @@ private _airVeh = [];
     {
       _infUnits pushBack [_name, _threatLevel];
     };
-    case (ARMOR):
-    {
-      _armorVeh pushBack [_name, _threatLevel];
-    };
     case (VEHICLE):
     {
       _groundVeh pushBack [_name, _threatLevel];
@@ -32,5 +28,5 @@ private _airVeh = [];
   };
 } forEach _unitData;
 
-private _result = [_infUnits, _armorVeh, _groundVeh, _airVeh];
+private _result = [_infUnits, _groundVeh, _airVeh];
 _result;

@@ -5,16 +5,19 @@ switch (_side) do
 {
   case (teamPlayer):
   {
-    _index = 1;
+    _index = 0;
   };
   case (Occupants):
   {
-    _index = 3;
+    _index = 1;
   };
   case (Invaders):
   {
-    _index = 5;
+    _index = 2;
   };
 };
 
-(_mainArray select _index) append _data;
+for "_i" from 0 to 2 do
+{
+    ((_mainArray select _index) select _i) append (_data select _i);
+};

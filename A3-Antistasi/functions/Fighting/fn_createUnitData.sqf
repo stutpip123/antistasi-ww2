@@ -18,26 +18,21 @@ private _unitType = NOT_DEFINED;
 private _unitStrength = 1;
 switch (true) do
 {
-  case (_unit isKindOf "Man"):
-  {
-    _unitType = INFANTRY;
-    _unitStrength = 1;
-  };
-  case (_unit isKindOf "Tank"):
-  {
-    _unitType = ARMOR;
-    _unitStrength = 8
-  };
-  case (_unit isKindOf "Vehicle"):
-  {
-    _unitType = VEHICLE;
-    _unitStrength = 4;
-  };
-  case (_unit isKindOf "Air"):
-  {
-    _unitType = AIR;
-    _unitStrength = 5;
-  }
+    case (_unit isKindOf "Man"):
+    {
+        _unitType = INFANTRY;
+        _unitStrength = 1;
+    };
+    case (_unit isKindOf "Vehicle"):
+    {
+        _unitType = VEHICLE;
+        _unitStrength = 6;
+    };
+    case (_unit isKindOf "Air"):
+    {
+        _unitType = AIR;
+        _unitStrength = 4;
+    };
 };
 
 private _unitVehPath = configFile >> "CfgVehicles" >> _unit;

@@ -85,7 +85,8 @@ private _unitDataTwo = [];
 [3, format ["Parsing of units for side %1 finished", _sideTwo], _fileName] call A3A_fnc_log;
 [_unitDataTwo, format ["%1 data", _sideTwo]] call A3A_fnc_logArray;
 
-private _fightData = [teamPlayer, [], Occupants, [], Invaders, []];
+//Teamplayer data, Occupants data, Invaders data
+private _fightData = [[[],[],[]], [[],[],[]], [[],[],[]]];
 
 private _fightDataOne = [_unitDataOne] call A3A_fnc_unitToFightData;
 private _fightDataTwo = [_unitDataTwo] call A3A_fnc_unitToFightData;
@@ -96,7 +97,7 @@ private _fightDataTwo = [_unitDataTwo] call A3A_fnc_unitToFightData;
 waitUntil
 {
     [3, "Fight loop not yet ready, waiting for it!", _fileName] call A3A_fnc_log;
-    sleep 1;
+    sleep 5;
     !(isNil "fightLoopReady")
 };
 
@@ -105,4 +106,4 @@ waitUntil
 
 server setVariable [format ["fight_%1", _fightID], _fightData];
 private _allFights = server getVariable ["fightArray", []];
-_allFights pushBack [format ["fight_%1", _fightID] ,time + 15];
+_allFights pushBack [format ["fight_%1", _fightID] ,time + /*15*/ 1]; //DEBUG
