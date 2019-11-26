@@ -3,11 +3,11 @@ diag_log format ["%1: [Antistasi] | INFO | Init Started.",servertime];
 //Do whatever you want with this code, but credit me for the thousand hours spent making this.
 private _fileName = "init.sqf";
 scriptName "init.sqf";
-if (isNil "logLevel") then {logLevel = 2};
+if (isNil "logLevel") then {logLevel = 3};
 [2,"Init SQF started",_fileName] call A3A_fnc_log;
 enableSaving [false,false];
 mapX setObjectTexture [0,"pic.jpg"];
-     
+
 if (!isMultiPlayer) then {
      //Init server parameters
      gameMode = 1;
@@ -35,7 +35,7 @@ if (!isMultiPlayer) then {
      };
      serverID = profileNameSpace getVariable "ss_ServerID";
      publicVariable "serverID";
-     
+
      //Load Campaign ID
      campaignID = profileNameSpace getVariable ["ss_CampaignID",nil];
      if(isNil "campaignID") then {
@@ -43,25 +43,25 @@ if (!isMultiPlayer) then {
                profileNameSpace setVariable ["ss_CampaignID", campaignID];
      };
      publicVariable "campaignID";
-     
-     
+
+
      call compile preprocessFileLineNumbers "initFuncs.sqf";
      //diag_log "Antistasi SP. Funcs init finished";
      call compile preprocessFileLineNumbers "initZones.sqf";//this is the file where you can transport Antistasi to another island
      //diag_log "Antistasi SP. Zones init finished";
      [] spawn A3A_fnc_initPetros;
-     
+
      hcArray = [];
      serverInitDone = true;
      [] spawn A3A_fnc_modBlacklist;
-     
+
      distanceMission = if (hasIFA) then {2000} else {4000};
-     
+
      {
           _x call A3A_fnc_unlockEquipment;
      } foreach initialRebelEquipment;
      [2,"Arsenal Loaded",_fileName] call A3A_fnc_log;
-     
+
      waitUntil {sleep 1;!(isNil "placementDone")};
      distanceXs = [] spawn A3A_fnc_distance;
      [] spawn A3A_fnc_resourcecheck;

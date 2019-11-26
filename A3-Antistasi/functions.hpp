@@ -221,6 +221,21 @@ class A3A
 		class unit_recruit {};
 	};
 
+	class Fighting
+	{
+		class calculateHitData {};
+		class createFightingActions {};
+		class createMovingAction {};
+		class createUnitData {};
+		class fightRound {};
+		class getTargetTypes {};
+		class getWeaponRangeModifier {};
+		class joinFight {};
+		class setSideData {};
+		class startFight {};
+		class unitToFightData {};
+	};
+
 	class Garage
 	{
 		class addToPersonalGarage {};

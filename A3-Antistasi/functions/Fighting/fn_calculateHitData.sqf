@@ -2,7 +2,7 @@
 #define   HIT         102
 #define   CRIT_HIT    103
 
-params ["_target", "_gunType", "_accSkill", "_distance", "_numberOfRounds" "_penetration"]; //Maybe some parameter are missing
+params ["_target", "_gunType", "_accSkill", "_distance", "_numberOfRounds", "_penetration"]; //Maybe some parameter are missing
 
 private _hitChance = 0;
 private _rangeModifier = 1;

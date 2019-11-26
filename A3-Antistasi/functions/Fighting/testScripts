@@ -1,0 +1,4 @@
+//Checks unit data creation for the engineer
+["B_engineer_F"] call A3A_fnc_createUnitData;
+
+[teamPlayer, [5000,5000, 0], [["", [], ["B_engineer_F", "B_engineer_F", "B_engineer_F", "B_engineer_F"]]], Occupants, [5500, 5000, 0], [["", [], ["B_engineer_F", "B_engineer_F", "B_engineer_F"]]]] spawn A3A_fnc_startFight;

@@ -1,8 +1,8 @@
 #include "defineFighting.inc"
 
-//params ["_unit"];
+params ["_unit"];
 //Test line, use only for debug
-private _unit = "B_engineer_F";
+//private _unit = "B_engineer_F";
 private _fileName = "fn_createUnitData";
 
 //Check if data was already calculated before, if so abort here
@@ -16,24 +16,24 @@ if(!(_result isEqualTo [])) exitWith
 
 private _unitType = NOT_DEFINED;
 private _unitStrength = 1;
-switch (typeOf _unit) do
+switch (true) do
 {
-  case ("Man"):
+  case (_unit isKindOf "Man"):
   {
     _unitType = INFANTRY;
     _unitStrength = 1;
   };
-  case ("Tank"):
+  case (_unit isKindOf "Tank"):
   {
     _unitType = ARMOR;
     _unitStrength = 8
   };
-  case ("Vehicle"):
+  case (_unit isKindOf "Vehicle"):
   {
     _unitType = VEHICLE;
     _unitStrength = 4;
   };
-  case ("Air"):
+  case (_unit isKindOf "Air"):
   {
     _unitType = AIR;
     _unitStrength = 5;
@@ -53,6 +53,10 @@ if(simulationLevel == 0) exitWith
   server setVariable [format ["data_%1", _unit], _result]; //Setting data locally, only server calculates fights
   _result;
 };
+
+////////////////////////////////////////////////////////////////////////////////
+/////////////              TESTED UNTIL HERE                   /////////////////
+////////////////////////////////////////////////////////////////////////////////
 
 //Check weapons next and categorize deeper for simulationLevel == 1
 
