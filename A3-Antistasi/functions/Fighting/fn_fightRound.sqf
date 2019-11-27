@@ -101,9 +101,29 @@ if(simulationLevel == 0) then
         };
     };
 
-    [_data, "New data"] call A3A_fnc_logArray;
+    private _winner = [_data] call A3A_fnc_calculateWinner;
 
-    //Count units and readd to fight loop if needed
+    if(_winner == -1) then
+    {
+        //Not sure if really needed
+        server setVariable [_fightNumber, _data];
+
+        [3, "Fight has not yet finished, readding the data to the fight loop!", _fileName] call A3A_fnc_log;
+        private _allFights = server getVariable ["fightArray", []];
+        _allFights pushBack [_fightNumber ,time + 15];
+    }
+    else
+    {
+        if(_winner == 3) then
+        {
+            [3, format ["%1 has no winner, all units are dead, war is cruel", _fightNumber], _fileName] call A3A_fnc_log;
+        }
+        else
+        {
+            [3, format ["Side %1 has won the fight, erasing data", _winner], _fileName] call A3A_fnc_log;
+        };
+        server setVariable [_fightNumber, nil];
+    };
 };
 
 

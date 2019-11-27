@@ -2,3 +2,5 @@
 ["B_engineer_F"] call A3A_fnc_createUnitData;
 
 [teamPlayer, [5000,5000, 0], [["", [], ["B_engineer_F", "B_engineer_F", "B_engineer_F", "B_engineer_F"]]], Occupants, [5500, 5000, 0], [["", [], ["B_engineer_F", "B_engineer_F", "B_engineer_F"]]]] spawn A3A_fnc_startFight;
+
+[Occupants, [15000,15000, 0], ["airport_3"] call A3A_fnc_getGarrison, Invaders, [15500, 15000, 0], ["airport_2"] call A3A_fnc_getGarrison] spawn A3A_fnc_startFight;

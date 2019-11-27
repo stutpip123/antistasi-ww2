@@ -224,6 +224,7 @@ class A3A
 	class Fighting
 	{
 		class calculateHitData {};
+        class calculateWinner {};
 		class createFightingActions {};
 		class createMovingAction {};
 		class createUnitData {};

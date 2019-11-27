@@ -1,8 +1,6 @@
 #include "defineFighting.inc"
 
 params ["_unit"];
-//Test line, use only for debug
-//private _unit = "B_engineer_F";
 private _fileName = "fn_createUnitData";
 
 //Check if data was already calculated before, if so abort here
@@ -21,18 +19,23 @@ switch (true) do
     case (_unit isKindOf "Man"):
     {
         _unitType = INFANTRY;
-        _unitStrength = 1;
+        _unitStrength = 0.6;
     };
-    case (_unit isKindOf "Vehicle"):
+    case (_unit isKindOf "LandVehicle"):
     {
         _unitType = VEHICLE;
-        _unitStrength = 6;
+        _unitStrength = 2;
     };
     case (_unit isKindOf "Air"):
     {
         _unitType = AIR;
-        _unitStrength = 4;
+        _unitStrength = 1.4;
     };
+};
+
+if(_unitType == NOT_DEFINED) then
+{
+    [1, format ["Could not categorize %1!", _unit], _fileName] call A3A_fnc_log;
 };
 
 private _unitVehPath = configFile >> "CfgVehicles" >> _unit;
