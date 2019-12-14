@@ -474,6 +474,9 @@ if (hasRHS) then {
 if (hasFFAA) then {
 	_textX = _textX + ["FFAA Detected\n\nAntistasi detects FFAA in the server config.\nFIA Faction will be replaced by Spanish Armed Forces"];
 };
+if (hasTIOW) then {
+	_textX = _textX + ["TIOW Detected\n\nAntistasi detects TIOW in the server config.\nDepending on the modules will have the following effects.\n\nRenagades: Replaces CSAT by a mix of Cutlists units\n\nThe Imperium of Man: Replaces NATO by a mix of Guardsman units\n\nReplaces FIA with Valhallan units."];
+};
 
 if (hasTFAR or hasACE or hasRHS or hasACRE or hasFFAA) then {
 	[_textX] spawn {
