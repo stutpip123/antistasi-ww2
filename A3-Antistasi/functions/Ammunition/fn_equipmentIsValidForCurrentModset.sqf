@@ -11,7 +11,7 @@ if (_itemMod in disabledMods) exitWith {
 };
 
 //Remove vanilla items if no vanilla sides (IFA handled seperately)
-if (_itemIsVanilla && {has3CB || {activeAFRF && activeGREF && activeUSAF}}) then {
+if (_itemIsVanilla && {has3CB || hasTIOW || {activeAFRF && activeGREF && activeUSAF}}) then {
 	switch (_categories select 0) do {
 		case "Item": {
 			switch (_categories select 1) do {
