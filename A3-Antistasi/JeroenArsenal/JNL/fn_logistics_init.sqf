@@ -226,8 +226,13 @@ jnl_vehicleHardpoints = [
     //TYPE, [left/right,   for/aft,  up/down], seat disabler
         [1,[-0.00610352,-0.5175781,-0.504599],[10,3,11,4,5,2]],
         [1,[0.0383301,-2.51055,-0.504599],[6,7,8,9,12,13]]
-    ]]
+    ]],
 
+	//TIOW
+	[null,[ /*TIOWTODO HardPoints*/
+	//TYPE, [left/right,   for/aft,  up/down], seat disabler
+		[null,[],[]]
+	]]
 ];
 
 //lock seats when cargo is added
@@ -308,6 +313,9 @@ jnl_allowedWeapons = [
 		"\rhsafrf\addons\rhs_heavyweapons\spg9\spg9.p3d",				//RHS SPG-9, facing 75 degrees to the left
 		"\rhsafrf\addons\rhs_heavyweapons\AGS30\AGS_static",			//RHS AGS-30 the russian GMG, facing to the right
 		"rhsafrf\addons\rhs_heavyweapons\igla\igla_AA_pod"				//RHS double Igla launcher
+	]],
+	[null,[/*TIOWTODO Static Weapon Attach List*/
+		null
 	]]
 ];
 
@@ -332,6 +340,7 @@ jnl_attachmentOffset = [
 	["\rhsafrf\addons\rhs_heavyweapons\spg9\spg9.p3d",				[-0.5, 0, 0.00], 		[-0.965926,0.258819,0],	0],		//RHS SPG-9, facing 75 degrees to the left
 	["\rhsafrf\addons\rhs_heavyweapons\AGS30\AGS_static",			[-0.3, 0, 1.20],		[0.939693,-0.34202,0],	0],		//RHS AGS-30 the russian GMG, facing right
 	["rhsafrf\addons\rhs_heavyweapons\igla\igla_AA_pod",			[0.3, 0, 1.50],			[0, 1, 0],				0],		//RHS double Igla launcher
+	/*TIOWTODO Static Weapon Offsets*/
 
 	//medium size crate												//location				//rotation				//type 	//discription
 	["A3\Weapons_F\Ammoboxes\AmmoVeh_F",							[0,0,0.85],				[1,0,0],				1],		//Vehicle ammo create
@@ -343,6 +352,7 @@ jnl_attachmentOffset = [
 	["\A3\Soft_F\Quadbike_01\Quadbike_01_F.p3d",					[0, 0, 1.4],			[0,1,0],				1],		//Quadbike
 	["\WW2\Assets_m\Weapons\Ammoboxes_m\IF_GER_Ammo.p3d",			[0,0,0.85],				[1,0,0],				1],		//ifa ammo
 	["\WW2\Assets_m\Weapons\Ammoboxes_m\IF_SU_Ammo.p3d",			[0,0,0.85],				[1,0,0],				1]		//ifa ammo
+	/*TIOWTODO Loot Crates*/
 ];
 
 
