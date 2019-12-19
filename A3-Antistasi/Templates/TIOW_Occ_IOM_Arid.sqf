@@ -79,9 +79,9 @@ groupsNATOSentry = [NATOBodyG,NATOGrunt];
 groupsNATOSniper = ["TIOW_Valhallan_NCO_1_brown_Blu","TIOW_Valhallan_Trooper_1_brown_Blu"];
 groupsNATOsmall = [groupsNATOSentry,groupsNATOSniper];
 //Fireteams
-groupsNATOAA = ["TIOW_Valhallan_NCO_1_brown_Blu","TIOW_Valhallan_Trooper_2_brown_Blu","TIOW_Valhallan_Trooper_1_brown_Blu","TIOW_Valhallan_Plasmagunner_1_brown_Blu"];
+groupsNATOAA = ["DKoK_Off_1489th","DKoK_GM_WM_1489th","DKoK_GM_1489th","DKoK_GM_1489th_HStubber"];
 groupsNATOAT = ["DKoK_QM_1489th","DKoK_Gren_1489th","DKoK_GM_1489th","DKoK_Gren_1489th_AT"];
-groupsNATOmid = [["TIOW_Valhallan_NCO_1_brown_Blu","TIOW_Valhallan_Stubber_2_brown_Blu","TIOW_Valhallan_Trooper_2_brown_Blu","TIOW_Valhallan_Trooper_1_brown_Blu"],groupsNATOAA,groupsNATOAT];
+groupsNATOmid = [["DKoK_Off_1489th","DKoK_GM_1489th_HStubber","DKoK_GM_1489th","DKoK_GM_1489th"],groupsNATOAA,groupsNATOAT];
 //Squads
 NATOSquad = [NATOOfficer2,NATOOfficer,NATOBodyG,NATOBodyG,NATOGrunt,NATOGrunt,NATOMarksman,NATOMedic];
 NATOSpecOp = [NATOSpec,NATOSpec,NATOSpec,NATOSpec,NATOSpec,NATOSpec,NATOSpec,NATOSpec];
@@ -89,7 +89,7 @@ groupsNATOSquad =
 	[
 	NATOSquad,
 	NATOSquad,
-	["TIOW_Valhallan_NCO_1_brown_Blu","TIOW_Valhallan_Stubber_2_brown_Blu","TIOW_Valhallan_Trooper_2_brown_Blu","TIOW_Valhallan_Trooper_1_brown_Blu","TIOW_Valhallan_Meltagunner_1_brown_Blu","TIOW_Valhallan_Plasmagunner_1_brown_Blu","TIOW_Valhallan_Launcher_1_brown_Blu","TIOW_Priest"],
+	["DKoK_Off_1489th","DKoK_GM_1489th_HStubber","DKoK_GM_1489th","DKoK_GM_1489th","DKoK_GM_1489th","DKoK_GM_1489th","DKoK_GM_1489th_AT","TIOW_Priest"],
 	["TIOW_Comissar_Krieg","DKoK_Off_1489th","DKoK_GM_1489th_HStubber","DKoK_GM_1489th_HStubber","DKoK_GM_WM_1489th","DKoK_GM_1489th","DKoK_Eng_1489th","TIOW_Priest3"]
 	];
 
