@@ -60,11 +60,11 @@ NATOMedic = "TIOW_Cad_Med700th";
 NATOSpec = "TIOW_Cad_Kasr700th";
 
 //Militia Units
-if ((gameMode != 4) and (!hasFFAA)) then
-	{
+if (gameMode != 4) then
+{
 	FIARifleman = "TIOW_Valhallan_Trooper_1_brown_Blu";
 	FIAMarksman = "TIOW_Valhallan_NCO_1_brown_Blu";
-	};
+};
 
 //Police Units
 policeOfficer = "TIOW_Mordian_NCO_1_Blu";
@@ -94,8 +94,8 @@ groupsNATOSquad =
 	];
 
 //Militia Groups
-if ((gameMode != 4) and (!hasFFAA)) then
-	{
+if (gameMode != 4) then
+{
 	//Teams
 	groupsFIASmall =
 		[
@@ -111,7 +111,7 @@ if ((gameMode != 4) and (!hasFFAA)) then
 	//Squads
 	FIASquad = ["DKoK_QM_1489th","DKoK_GM_1489th_HStubber","DKoK_GM_WM_1489th","DKoK_GM_1489th","DKoK_GM_1489th","DKoK_GM_1489th","DKoK_GM_1489th_AT","DKoK_Eng_1489th"];
 	groupsFIASquad = [FIASquad];
-	};
+};
 
 //Police Groups
 //Teams
@@ -158,7 +158,7 @@ vehNATONormal = vehNATOLight + vehNATOTrucks + [vehNATOAmmoTruck, vehNATORepairT
 vehNATOAir = vehNATOTransportHelis + vehNATOAttackHelis + [vehNATOPlane,vehNATOPlaneAA] + vehNATOTransportPlanes;
 
 //Militia Vehicles
-if ((gameMode != 4) and (!hasFFAA)) then
+if (gameMode != 4) then
 	{
 	vehFIAArmedCar = "B_LSV_01_armed_F";
 	vehFIATruck = "B_Truck_01_transport_F";
