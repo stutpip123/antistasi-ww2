@@ -279,6 +279,7 @@ class A3A
 	{
 		class addGarrison {};
 		class addRequested {};
+        class canPlaceLine {};
 		class checkGroupType {};
 		class checkVehicleType {};
 		class countGarrison {};
