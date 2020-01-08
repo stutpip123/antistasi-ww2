@@ -9,16 +9,16 @@ params ["_markerArray", "_type", ["_lose", [0, 0, 0]]];
 *   Returns:
 *     Nothing
 */
+private _fileName = "createGarrison";
 
-private ["_losses", "_preferred", "_garrison", "_requested", "_marker", "_side", "_line", "_start", "_index"];
+private ["_losses", "_garrison", "_requested", "_marker", "_side", "_line", "_start", "_index"];
 
-_preferred = garrison getVariable [format ["%1_preference", _type], objNull];
-while {!(_preferred isEqualType [])} do
-{
-  diag_log format ["CreateGarrison: Preference %1_preference not set yet, waiting for 1 second", _type];
-  sleep 1;
-  _preferred = garrison getVariable [format ["%1_preference", _type], objNull];
-};
+//Gather the needed data
+private _preferred = [garrison, format ["%1_preference", _type]] call A3A_fnc_getServerVariable;
+private _currentPlaces = [spawner, format ["%1_current", _marker]] call A3A_fnc_getServerVariable;
+private _availablePlaces = [spawner, format ["%1_available", _marker]] call A3A_fnc_getServerVariable;
+
+
 {
   _losses = +_lose;
   _garrison = [];
@@ -38,6 +38,8 @@ while {!(_preferred isEqualType [])} do
     _start = ((_preferred select _i) select 0) select [0,3];
     _index = ["LAN", "HEL", "AIR"] findIf {_x == _start};
     //diag_log format ["Start %1 Index %2 Preference %3", _start, _index, str (_preferred select _i)];
+
+
     if(_index == -1 || {(_losses select _index) <= 0}) then
     {
       //TODO init arrays with specific size to avoid resize operations

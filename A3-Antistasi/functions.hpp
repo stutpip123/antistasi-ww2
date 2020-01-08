@@ -5,20 +5,21 @@ class A3A
 		//Main initialisation functions.
 		class initServer {};
 		class initClient {};
-		
+
 		//Other initialisation functions (generally called by the above)
 		class cityinfo {};
 		class credits {};
+        class getServerVariable {};
 		class initFuncs {};
 		class initGarrisons {};
 		class initGetMissionPath {};
 		class initSpawnPlaces {};
-		
+
 		class initVar {};
 		class initVarClient {};
 		class initVarCommon {};
 		class initVarServer {};
-		
+
 		class initZones {};
 		class modBlacklist {};
 		class playerMarkers {};
@@ -27,7 +28,7 @@ class A3A
 		class resourcecheck {};
 		class tags {};
 	};
-	
+
 	class Base
 	{
 		class addActionBreachVehicle {};

@@ -28,30 +28,35 @@ MERGED INTO UNSTABLE AND TESTED BY POT
 SPLIT HERE FOR PR 2.2
 ================================================================================
 
-Add helicopter types for spoffy
+========= Most important =======================================================
+Make standard garrison a fixed size array
+Add check for units to be marked unavailable, if the outpost is not suited to have them
+Add the functions to send troops (remove from garrison)
+Enabling it for player side, not only AI
+Stop the AI from bypassing the economy
+Optimisation for speed and data size
+Improve the AI, which chooses the units
+Handle statics
+Create functions for the "load and wait" codes (code waiting for variables to be set)
+================================================================================
+
+[Won't do] Add helicopter types for spoffy
 [Mostly done, check the FSM]Make the AI follow the pathfinding way
 Clean up code
 Add code documentation
 Improve patrol detection
-Add check for units to be marked unavailable, if the outpost is not suited to have them
 [WIP, needs change in the VCOM routines] EH for the groups to man vehicles
 Cleanup function
-Add the functions to send troops (remove from garrison)
-Enabling it for player side, not only AI
 Reinforcements moves
-Stop the AI from bypassing the economy
-Optimisation for speed and data size
 Improve the convoy system to handle fights
 Rework unit detection system (Squadleader and medics)
-Improve the AI, which chooses the units
 Better troup compositions
 Balancing
-Handle statics
 Handle statics in convoys
 Improve distance script
 Two man team (Sniper Spotter, etc.)
 Finalizing cyclic spawn
-Improve the replenish function to get actual results
+Improve the replenish function
 Reorder convoys on despawn (Reassign vehicles if one is destroyed and so on)
 Reorder all parameters in the same order
 
