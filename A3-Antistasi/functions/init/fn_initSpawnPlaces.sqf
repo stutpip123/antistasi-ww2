@@ -2,6 +2,8 @@
 
 params ["_marker", "_placementMarker"];
 
+private _fileName = "initSpawnPlaces";
+
 private ["_vehicleMarker", "_heliMarker", "_hangarMarker", "_mortarMarker", "_markerPrefix", "_markerSplit", "_first", "_fullName"];
 
 _vehicleMarker = [];
@@ -123,6 +125,7 @@ _vehicleSpawns = [];
       {
         //Cleaning area
         private _radius = sqrt (_length * _length + _width * _width);
+        //TODO wasn't there a hideObjectGlobal? Would replace the following structure
         if (!isMultiplayer) then
         {
           {
@@ -199,8 +202,30 @@ _mortarSpawns = [];
 } forEach _mortarMarker;
 
 _spawns = [_vehicleSpawns, _heliSpawns, _planeSpawns, _mortarSpawns];
+//Amount of available spawn places, amount of statics is currently -1 as not yet handled
+private _spawnCounts = [count _vehicleSpawns, count _heliSpawns, count _planeSpawns, count _mortarSpawns, -1];
 
-//diag_log format ["%1 set to %2", _marker, _spawns];
+[
+    3,
+    format
+    [
+        "%1 can hold %2 ground vehicles, %3 helicopters, %4 airplanes, %5 mortars and %6 statics",
+        _marker,
+        _spawnCounts select 0,
+        _spawnCounts select 1,
+        _spawnCounts select 2,
+        _spawnCounts select 3,
+        _spawnCounts select 4
+    ],
+     _fileName
+] call A3A_fnc_log;
+
 
 //Saving the spawn places
 spawner setVariable [format ["%1_spawns", _marker], _spawns, true];
+
+//Saving the amount of available places
+spawner setVariable [format ["%1_available", _marker], _spawnCounts, true];
+
+//Saving the currently stationed amount (init so 0 for all)
+spawner setVariable [format ["%1_current", _marker], [0, 0, 0, 0, 0], true];
