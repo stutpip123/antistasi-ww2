@@ -9,58 +9,49 @@ params ["_markerArray", "_type", ["_lose", [0, 0, 0]]];
 *   Returns:
 *     Nothing
 */
-private _fileName = "createGarrison";
 
-private ["_losses", "_garrison", "_requested", "_marker", "_side", "_line", "_start", "_index"];
+private _fileName = "createGarrison";
 
 //Gather the needed data
 private _preferred = [garrison, format ["%1_preference", _type]] call A3A_fnc_getServerVariable;
+
 private _currentPlaces = [spawner, format ["%1_current", _marker]] call A3A_fnc_getServerVariable;
 private _availablePlaces = [spawner, format ["%1_available", _marker]] call A3A_fnc_getServerVariable;
 
-
 {
-  _losses = +_lose;
-  _garrison = [];
-  _requested = [];
-  _marker = _x;
-  _side = sidesX getVariable [_marker, sideUnknown];
-  while {_side == sideUnknown} do
-  {
-    diag_log format ["Side unknown for %1, sleeping 1!", _marker];
-    sleep 1;
-    _side = sidesX getVariable [_marker, sideUnknown];
-  };
-  for "_i" from 0 to ((count _preferred) - 1) do
-  {
-    _line = [_preferred select _i, _side] call A3A_fnc_createGarrisonLine;
+    private _losses = +_lose;
+    private _garrison = [];
+    private _requested = [];
+    private _marker = _x;
+    private _side = [sidesX, _marker] call A3A_fnc_getServerVariable;
 
-    _start = ((_preferred select _i) select 0) select [0,3];
-    _index = ["LAN", "HEL", "AIR"] findIf {_x == _start};
-    //diag_log format ["Start %1 Index %2 Preference %3", _start, _index, str (_preferred select _i)];
-
-
-    if(_index == -1 || {(_losses select _index) <= 0}) then
+    for "_i" from 0 to ((count _preferred) - 1) do
     {
-      //TODO init arrays with specific size to avoid resize operations
-      _garrison pushBack _line;
-      _requested pushBack ["", [], []];
-    }
-    else
-    {
-      _losses set [_index, (_losses select _index) - 1];
-      _garrison pushBack ["", [], []];
-      _requested pushBack _line;
+        private _line = [_preferred select _i, _side] call A3A_fnc_createGarrisonLine;
+
+        private _start = ((_preferred select _i) select 0) select [0,3];
+        private _index = ["LAN", "HEL", "AIR"] findIf {_x == _start};
+
+        if(_index == -1 || {(_losses select _index) <= 0}) then
+        {
+            //TODO init arrays with specific size to avoid resize operations
+            _garrison pushBack _line;
+            _requested pushBack ["", [], []];
+        }
+        else
+        {
+            _losses set [_index, (_losses select _index) - 1];
+            _garrison pushBack ["", [], []];
+            _requested pushBack _line;
+        };
     };
-  };
-  garrison setVariable [format ["%1_garrison", _marker], _garrison, true];
-  garrison setVariable [format ["%1_requested", _marker], _requested, true];
 
-  if(debug) then
-  {
-    diag_log format ["Garrison on %1 is now set", _marker];
+    garrison setVariable [format ["%1_garrison", _marker], _garrison, true];
+    garrison setVariable [format ["%1_requested", _marker], _requested, true];
+
+    [3, format ["Garrison on %1 is now set", _marker], _fileName] call A3A_fnc_log;
     [_garrison, format ["%1_garrison", _marker]] call A3A_fnc_logArray;
-  };
 
-  [_marker] call A3A_fnc_updateReinfState;
+    //Updates the marker status if it is able to send reinforcements or needs some
+    [_marker] call A3A_fnc_updateReinfState;
 } forEach _markerArray;
