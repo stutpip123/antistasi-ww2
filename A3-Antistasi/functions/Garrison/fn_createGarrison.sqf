@@ -14,8 +14,6 @@ private _fileName = "createGarrison";
 
 //Gather the needed data
 private _preferred = [garrison, format ["%1_preference", _type]] call A3A_fnc_getServerVariable;
-private _currentPlaces = [spawner, format ["%1_current", _marker]] call A3A_fnc_getServerVariable;
-private _availablePlaces = [spawner, format ["%1_available", _marker]] call A3A_fnc_getServerVariable;
 
 {
     private _losses = +_lose;
@@ -24,20 +22,22 @@ private _availablePlaces = [spawner, format ["%1_available", _marker]] call A3A_
     private _locked = [];
     private _marker = _x;
     private _side = [sidesX, _marker] call A3A_fnc_getServerVariable;
+    private _currentPlaces = [spawner, format ["%1_current", _marker]] call A3A_fnc_getServerVariable;
+    private _availablePlaces = [spawner, format ["%1_available", _marker]] call A3A_fnc_getServerVariable;
 
     for "_i" from 0 to ((count _preferred) - 1) do
     {
         private _line = [_preferred select _i, _side] call A3A_fnc_createGarrisonLine;
 
-        //Check if the line is placable at the given marker
-        private _canPlace = [_line, _currentPlaces, _availablePlaces] call A3A_fnc_canPlaceLine;
-        //Look line for spawner if vehicle cannot be placed (means only cargo units spawn, neither crew nor vehicle)
-        _locked pushBack (!_canPlace);
-
         //Check if the line should be a reinforcements line
         private _start = ((_preferred select _i) select 0) select [0,3];
         private _index = ["LAN", "HEL", "AIR"] findIf {_x == _start};
         private _isReinf = !(_index == -1 || {(_losses select _index) <= 0});
+
+        //Check if the line is placable at the given marker
+        private _canPlace = [_line, _start, _currentPlaces, _availablePlaces] call A3A_fnc_canPlaceLine;
+        //Look line for spawner if vehicle cannot be placed (means only cargo units spawn, neither crew nor vehicle)
+        _locked pushBack (!_canPlace);
 
         switch (true) do
         {

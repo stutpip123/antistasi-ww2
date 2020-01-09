@@ -1,4 +1,4 @@
-params ["_line", "_currentPlaces", "_availablePlaces"];
+params ["_line", "_prefShort", "_currentPlaces", "_availablePlaces"];
 
 //WARNING I hope that passed arrays are call by reference and not by value,
 //if strange errors occurs the currentPlaces are not increased correctly
@@ -7,6 +7,7 @@ params ["_line", "_currentPlaces", "_availablePlaces"];
 *
 *   Params:
 *       _line : ARRAY : The line which should be garrisoned
+*       _prefShort : STRING : The preference of the line, shortened to three letters
 *       _currentPlaces : ARRAY of NUMBERS : The amount of places currently closed by other vehicles
 *       _availablePlaces : ARRAY of NUMBERS : The amount of all places available for this marker
 *
@@ -19,22 +20,19 @@ private _vehicle = _line select 0;
 private _index = -1;
 
 //Calculate place index -1: unknown, 0: car, 1: helicopter, 2: plane
-if(_vehicle == "" || {_vehicle isKindOf "Car"}) then
+switch (_prefShort) do
 {
-    _index = 0;
-}
-else
-{
-    if(_vehicle isKindOf "Helicopter") then
+    case ("LAN"):
+    {
+        _index = 0;
+    };
+    case ("HEL"):
     {
         _index = 1;
-    }
-    else
+    };
+    case ("AIR"):
     {
-        if(_vehicle isKindOf "Plane") then
-        {
-            _index = 2;
-        };
+        _index = 2;
     };
 };
 
@@ -48,7 +46,6 @@ if(_index == -1) exitWith
 _result = (_currentPlaces select _index) < (_availablePlaces select _index);
 if(_result) then
 {
-    //If not call by reference, return that array too
     _currentPlaces set [_index, (_currentPlaces select _index) + 1]
 };
 

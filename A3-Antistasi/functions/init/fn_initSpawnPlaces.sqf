@@ -4,6 +4,8 @@ params ["_marker", "_placementMarker"];
 
 private _fileName = "initSpawnPlaces";
 
+[3, format ["Initiating spawn places for %1 now", _marker], _fileName] call A3A_fnc_log;
+
 private ["_vehicleMarker", "_heliMarker", "_hangarMarker", "_mortarMarker", "_markerPrefix", "_markerSplit", "_first", "_fullName"];
 
 _vehicleMarker = [];

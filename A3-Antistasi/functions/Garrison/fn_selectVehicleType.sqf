@@ -122,7 +122,9 @@ if(count _possibleVehicles == 0) exitWith
     "Empty";
 };
 
-[3, format ["SelectVehicleType: Preselection done, possible vehicles are %1", str _possibleVehicles], _fileName] call A3A_fnc_log;
+[3, format ["Preselection done, possible vehicles are %1", str _possibleVehicles], _fileName] call A3A_fnc_log;
 
 private _result = selectRandom _possibleVehicles;
+
+[3, format ["Result is %1", _result], _fileName] call A3A_fnc_log;
 _result;
