@@ -277,8 +277,9 @@ class A3A
 
 	class Garrison
 	{
-		class addGarrison {};
-		class addRequested {};
+        class addGarrisonLine {};
+		class addToGarrison {};
+		class addToRequested {};
         class canPlaceLine {};
 		class checkGroupType {};
 		class checkVehicleType {};
