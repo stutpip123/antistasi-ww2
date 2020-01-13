@@ -183,4 +183,4 @@ if(count _garrison < count _preferred) then
     };
 };
 
-//TODO _replaced still holds unit which needs to be added to the garrison as over units
+[_marker, _replaced] call A3A_fnc_addToOver;

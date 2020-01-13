@@ -8,177 +8,159 @@ params ["_marker", "_units"];
 *   Returns:
 *     Nothing
 */
+private _fileName = "addToGarrison";
 
-if (isNil "_marker") exitWith {diag_log "AddGarrison: No marker given!"};
-if (isNil "_units") exitWith {diag_log "AddGarrison: No units given!"};
-
-private [];
-
-_garrison = [_marker] call A3A_fnc_getGarrison;
-_requested = [_marker] call A3A_fnc_getRequested;
-_nonReinfUnits = [["", [], []]];
-
-//_random = random 1000;
-//diag_log format ["AddGarrison %1: Before alive is %2", _random, _garrison];
-//diag_log format ["AddGarrison %1: Before dead is %2", _random, _requested];
-
+if (isNil "_marker") exitWith
 {
-  //Selecting the data
-  _vehicle = _x select 0;
-  _crew = _x select 1;
-  _cargo = _x select 2;
-  _isNew = false;
+    [1, "No marker given, check all calls!", _fileName] call A3A_fnc_log;
+};
+if (isNil "_units") exitWith
+{
+    [1, "No units given, check all calls!", _fileName] call A3A_fnc_log;
+};
 
-  if(_vehicle != "") then
-  {
-    _index = _requested findIf {(_x select 0) == _vehicle};
-    if(_index == -1) then
-    {
-      //Vehicle is new, will still be added with crew
-      if(_nonReinfUnits select ((count _nonReinfUnits) - 1) select 0 != "") then
-      {
-        //Current _nonReinfUnits already got a vehicle, add another
-        _nonReinfUnits pushBack [_vehicle, _crew, []];
-      }
-      else
-      {
-        //Current _nonReinfUnits got no vehicle, add there
-        (_nonReinfUnits select ((count _nonReinfUnits) - 1)) set [0, _vehicle];
-        ((_nonReinfUnits select ((count _nonReinfUnits) - 1)) select 1) append _crew;
-      };
-      _isNew = true;
-    }
-    else
-    {
-      //Fill _garrison if needed
-      while {count _garrison <= _index} do
-      {
-        _garrison pushBack ["", [], []];
-      };
+private _garrison = [_marker] call A3A_fnc_getGarrison;
+private _requested = [_marker] call A3A_fnc_getRequested;
 
-      //Replace vehicle
-      (_garrison select _index) set [0, _vehicle];
-      (_requested select _index) set [0, ""];
+//Sorting all new units into one array, formating [name, amount]
+private _sortingUnits = [];
+{
+    private _toAdd = [];
+    private _line = _x;
+
+    //Add the vehicle
+    if(_line select 0 != "") then
+    {
+        _toAdd pushBack (_line select 0);
     };
-  };
-  if(!_isNew) then
-  {
-    //Add crew to existing vehicles
+
+    //Add the crew
     {
-      _crewUnit = _x;
-      _index = _requested findIf {count (_x select 1) > 0};
-      if(_index == -1) then
-      {
-        //Search for vehicle with open crew space
-        _index = _nonReinfUnits findIf {(_x select 0) == "" || {(count (_x select 1)) < ([_x select 0, false] call BIS_fnc_crewCount)}};
-        if(_index == -1) then
+        if(_x != "") then
         {
-          //None found, open another slot
-          _nonReinfUnits pushBack ["", [_crewUnit], []];
-        }
-        else
-        {
-          //Found space, adding crew unit
-          ((_nonReinfUnits select _index) select 1) pushBack _crewUnit;
+            _toAdd pushBack _x;
         };
-      }
-      else
-      {
-        //Fill _garrison if needed
-        while {count _garrison <= _index} do
-        {
-          _garrison pushBack ["", [], []];
-        };
+    } forEach (_line select 1);
 
-        //Replace crew unit
-        ((_garrison select _index) select 1) pushBack _crewUnit;
-        ((_requested select _index) select 1) deleteAt 0; //Can simple deleted first, all crew units are the same !!! RASISM ALERT !!!
-      };
-    } forEach _crew;
-  };
-  if(count _cargo > 0) then
-  {
+    //Add the cargo
     {
-      _cargoUnit = _x;
-      if(_cargoUnit == NATOCrew || _cargoUnit == CSATCrew) then
-      {
-        //Unit is crew member, check crew section
-        _index = _requested findIf {count (_x select 1) > 0};
-        if(_index == -1) then
+        if(_x != "") then
         {
-          //Search for vehicle with open crew space
-          _index = _nonReinfUnits findIf {(_x select 0) == "" || {(count (_x select 1)) < ([_x select 0, false] call BIS_fnc_crewCount)}};
-          if(_index == -1) then
-          {
-            //None found, open another slot
-            _nonReinfUnits pushBack ["", [_cargoUnit], []];
-          }
-          else
-          {
-            //Found space, adding crew unit
-            ((_nonReinfUnits select _index) select 1) pushBack _cargoUnit;
-          };
+            _toAdd pushBack _x;
+        };
+    } forEach (_line select 2);
+
+    //Line sorted, now add units to the array
+    {
+        private _unitName = _x;
+        private _unitIndex = _sortingUnits findIf {(_x select 0) == _unitName};
+        if(_unitIndex == -1) then
+        {
+            //Unit is new in the array, add it
+            _sortingUnits pushBack [_unitName, 1];
         }
         else
         {
-          //Fill _garrison if needed
-          while {count _garrison <= _index} do
-          {
-            _garrison pushBack ["", [], []];
-          };
-
-          //Replace crew unit
-          ((_garrison select _index) select 1) pushBack _cargoUnit;
-          ((_requested select _index) select 1) deleteAt 0; //Can simple deleted first, all crew units are the same !!! RASISM ALERT !!!
+            //Unit is already in the array, increase number
+            private _number = ((_sortingUnits select _unitIndex) select 1) + 1;
+            (_sortingUnits select _unitIndex) set [1, _number];
         };
-      }
-      else
-      {
-        //Unit is combat unit, add as suited
-        _index = _requested findIf {count (_x select 2) > 0 && {_cargoUnit in (_x select 2)}};
-        if(_index == -1) then
-        {
-          _index = _nonReinfUnits findIf {(count (_x select 2)) < 8};
-          if(_index == -1) then
-          {
-            //None found, open another slot
-            _nonReinfUnits pushBack ["", [_cargoUnit], []];
-          }
-          else
-          {
-            //Found space, adding cargo unit
-            ((_nonReinfUnits select _index) select 2) pushBack _cargoUnit;
-          };
-        }
-        else
-        {
-          //Fill _garrison if needed
-          while {count _garrison <= _index} do
-          {
-            _garrison pushBack ["", [], []];
-          };
-
-          //Place combat unit
-          ((_garrison select _index) select 2) pushBack _cargoUnit;
-          private _temp = +((_requested select _index) select 2);
-          private _subIndex = _temp findIf {_x == _cargoUnit};
-          _temp deleteAt _subIndex;
-          (_requested select _index) set [2, _temp];
-        };
-      };
-    } forEach _cargo;
-  };
+    } forEach _toAdd;
 } forEach _units;
 
-//TODO sort units to avoid too much data
-//NonReinfUnits gets discarded currently to avoid too much units and data junk
-//_garrison append _nonReinfUnits;
+//Sorting all requested units, format [name , [[element, type, index], ...]]
+private _sortingReqs = [];
+for "_element" from 0 to ((count _requested) - 1) do
+{
+    private _line = _requested select _element;
+    private _toAdd = [];
 
-//TODO test if that is needed (call by reference)
-garrison setVariable [format ["%1_garrison", _marker], _garrison];
-garrison setVariable [format ["%1_requested", _marker], _requested];
+    //Add the vehicle
+    if(_line select 0 != "") then
+    {
+        _toAdd pushBack [_line select 0, [_element, 0, -1]];
+    };
 
-//diag_log format ["AddGarrison %1: After alive is %2", _random, _garrison];
-//diag_log format ["AddGarrison %1: After dead is %2", _random, _requested];
+    //Add the crew
+    for "_crewIndex" from 0 to ((count (_line select 1)) - 1) do
+    {
+        private _unit = (_line select 1) select _crewIndex;
+        if(_unit != "") then
+        {
+            _toAdd pushBack [_unit, [_element, 1, _crewIndex]];
+        };
+    };
+
+    //Add the cargo
+    for "_cargoIndex" from 0 to ((count (_line select 2)) - 1) do
+    {
+        private _unit = (_line select 2) select _cargoIndex;
+        if(_unit != "") then
+        {
+            _toAdd pushBack [_unit, [_element, 2, _cargoIndex]];
+        };
+    };
+
+    //Line sorted, now add units to the array
+    {
+        private _unitName = _x select 0;
+        private _path = _x select 1;
+
+        private _unitIndex = _sortingReqs findIf {(_x select 0) == _unitName};
+        if(_unitIndex == -1) then
+        {
+            //Unit is new in the array, add it
+            _sortingReqs pushBack [_unitName, _path];
+        }
+        else
+        {
+            //Unit is already in the array, add path
+            ((_sortingReqs select _unitIndex) select 1) pushBack _path;
+        };
+    } forEach _toAdd;
+};
+
+private _overUnits = [];
+{
+    private _unit = _x select 0;
+    private _amount = _x select 1;
+
+    //Sort units in
+    private _unitIndex = _sortingReqs findIf {(_x select 0) == _unit};
+    if (_unitIndex != -1) then
+    {
+        while {_amount > 0} do
+        {
+            if(((_sortingReqs select _unitIndex) select 1) isEqualTo []) exitWith
+            {
+                //No more units needed, exiting
+            };
+
+            private _path = ((_sortingReqs select _unitIndex) select 1) deleteAt 0;
+            private _garElement = _garrison select (_path select 0);
+            private _reqElement = _requested select (_path select 0);
+            if((_path select 1) == 0) then
+            {
+                _garElement set [0, _unit];
+                _reqElement set [0, ""];
+            }
+            else
+            {
+                private _garSubElement = _garElement select (_path select 1);
+                private _reqSubElement = _reqElement select (_path select 1);
+                _garSubElement set [(_path select 2), _unit];
+                _reqSubElement set [(_path select 2), ""];
+            };
+        };
+    };
+
+    //Over units are saved here
+    for "_over" from 1 to _amount do
+    {
+        _overUnits pushBack _unit;
+    };
+} forEach _sortingUnits;
+
+[_marker, _overUnits] call A3A_fnc_addToOver;
 
 [_marker] call A3A_fnc_updateReinfState;

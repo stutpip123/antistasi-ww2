@@ -279,6 +279,7 @@ class A3A
 	{
         class addGarrisonLine {};
 		class addToGarrison {};
+        class addToOver {};
 		class addToRequested {};
         class canPlaceLine {};
 		class checkGroupType {};

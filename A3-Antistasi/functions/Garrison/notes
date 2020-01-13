@@ -34,11 +34,11 @@ SPLIT HERE FOR PR 2.2
 Add the functions to send troops (remove from garrison)
 Enabling it for player side, not only AI
 Stop the AI from bypassing the economy
-Optimisation for speed and data size
+[WIP] Optimisation for speed and data size
 Improve the AI, which chooses the units
 Handle statics
 [DONE] Create functions for the "load and wait" codes, function is called A3A_fnc_getServerVariable
-Handle replaced units in fn_updateGarrison
+[WIP] Handle replaced units in fn_updateGarrison
 Rework addToGarrison and addToRequested
 ================================================================================
 
@@ -66,6 +66,5 @@ Reorder all parameters in the same order
 Files that need a rework
 ================================================================================
 - fn_initSpawnPlaces
-- fn_addToGarrison
 - fn_selectReinfUnits
 - fn_shouldReinforce
