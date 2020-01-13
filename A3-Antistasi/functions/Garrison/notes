@@ -29,16 +29,17 @@ SPLIT HERE FOR PR 2.2
 ================================================================================
 
 ========= Most important =======================================================
-Make standard garrison a fixed size array
-Add check for units to be marked unavailable, if the outpost is not suited to have them
+[WIP] Make standard garrison a fixed size array
+[WIP] Add check for units to be marked unavailable, if the outpost is not suited to have them
 Add the functions to send troops (remove from garrison)
 Enabling it for player side, not only AI
 Stop the AI from bypassing the economy
 Optimisation for speed and data size
 Improve the AI, which chooses the units
 Handle statics
-Create functions for the "load and wait" codes (code waiting for variables to be set)
+[DONE] Create functions for the "load and wait" codes, function is called A3A_fnc_getServerVariable
 Handle replaced units in fn_updateGarrison (TODO at line 165)
+Rework addToGarrison and addToRequested
 ================================================================================
 
 [Won't do] Add helicopter types for spoffy

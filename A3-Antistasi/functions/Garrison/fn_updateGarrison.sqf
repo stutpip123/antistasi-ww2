@@ -1,6 +1,6 @@
 params ["_type", "_marker"];
 
-/*  Checks for updates and updates the garrison if needed. SHOULD BE CALLED AFTER EVERY DESPAWN
+/*  Checks for updates and updates the garrison if needed
 *   Params
 *     _type : STRING : The type of the marker
 *     _marker : STRING : The marker name
@@ -10,6 +10,14 @@ params ["_type", "_marker"];
 */
 
 private _fileName = "updateGarrison";
+
+//Waiting for marker to despawn to avoid some strange edge cases
+if(spawner getVariable _marker != 2) then
+{
+    //Marker is currently spawned in, wait for despawn
+    waitUntil {sleep 10; spawner getVariable _marker == 2};
+};
+
 
 private _preferred = garrison getVariable (format ["%1_preference", _type]);
 private _garrison = garrison getVariable (format ["%1_garrison", _marker]);
