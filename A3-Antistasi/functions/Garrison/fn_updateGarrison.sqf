@@ -22,7 +22,7 @@ if(spawner getVariable _marker != 2) then
 private _preferred = garrison getVariable (format ["%1_preference", _type]);
 private _garrison = garrison getVariable (format ["%1_garrison", _marker]);
 private _requested = garrison getVariable (format ["%1_requested", _marker]);
-private _side = garrison getVariable [_marker, sideUnknown];
+private _side = sidesX getVariable [_marker, sideUnknown];
 
 private _replaced = [];
 
@@ -43,7 +43,7 @@ for "_i" from 0 to ((count _garrison) - 1) do
     if((_garData select 0) == "") then
     {
         //Vehicle is currently killed or there was never one
-        if(![_reqData select 0, _preData select 0] call A3A_fnc_checkVehicleType) then
+        if(!([_reqData select 0, _preData select 0] call A3A_fnc_checkVehicleType)) then
         {
             //Current reinforcements are not matching the wanted type, setting right one
             _newVehicle = [_preData select 0, _side] call A3A_fnc_selectVehicleType;
@@ -53,7 +53,7 @@ for "_i" from 0 to ((count _garrison) - 1) do
     else
     {
         //Vehicle is currently at the marker
-        if(![_garData select 0, _preData select 0] call A3A_fnc_checkVehicleType) then
+        if(!([_garData select 0, _preData select 0] call A3A_fnc_checkVehicleType)) then
         {
             //Current reinforcements are not matching the wanted type, setting right one
             _newVehicle = [_preData select 0, _side] call A3A_fnc_selectVehicleType;
@@ -149,7 +149,7 @@ for "_i" from 0 to ((count _garrison) - 1) do
         };
 
         //Update group if vehicle has been updated
-        if(![_garData select 2, _newVehicle, _preData select 2] call A3A_fnc_checkGroupType) then
+        if(!([_garData select 2, _newVehicle, _preData select 2] call A3A_fnc_checkGroupType)) then
         {
             {
                 //Alive units are saved

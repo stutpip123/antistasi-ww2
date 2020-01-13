@@ -14,7 +14,7 @@ private ["_result", "_vehicleSeats"];
 _result = false;
 
 //Tanks are always combined with an AT team
-if(_vehicle == vehNATOTank || _vehicle == vehCSATTank) exitWith {(_group == groupsNATOAT || {_group == groupsCSATAT})};
+if(_vehicle == vehNATOTank || _vehicle == vehCSATTank) exitWith {(_group isEqualTo groupsNATOAT || {_group isEqualTo groupsCSATAT})};
 
 //AA is always combined with an AA team
 if(_vehicle == vehNATOAA || _vehicle == vehCSATAA) exitWith {(_group == groupsNATOAA || {_group == groupsCSATAA})};
