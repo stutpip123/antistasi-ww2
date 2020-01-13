@@ -213,7 +213,8 @@ fn_SetStat = {
 				garrison setVariable [format ["%1_garrison", (_x select 0)], _x select 1, true];
 				garrison setVariable [format ["%1_requested", (_x select 0)], _x select 2, true];
 				garrison setVariable [format ["%1_over", (_x select 0)], _x select 3, true];
-				[(_x select 0)] call A3A_fnc_updateReinfState;
+                private _side = sidesX getVariable [(_x select 0), teamPlayer];
+				[(_x select 0), _side] call A3A_fnc_updateReinfState;
 			} forEach _varvalue;
 		};
 		if (_varName == 'outpostsFIA') then {

@@ -60,5 +60,5 @@ while {!(_preferred isEqualType [])} do
     [_garrison, format ["%1_garrison", _marker]] call A3A_fnc_logArray;
   };
 
-  [_marker] call A3A_fnc_updateReinfState;
+  [_marker, _side] call A3A_fnc_updateReinfState;
 } forEach _markerArray;

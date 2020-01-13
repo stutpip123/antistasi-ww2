@@ -181,4 +181,5 @@ garrison setVariable [format ["%1_requested", _marker], _requested];
 //diag_log format ["AddGarrison %1: After alive is %2", _random, _garrison];
 //diag_log format ["AddGarrison %1: After dead is %2", _random, _requested];
 
-[_marker] call A3A_fnc_updateReinfState;
+private _side = sidesX getVariable [_marker, teamPlayer];
+[_marker, _side] call A3A_fnc_updateReinfState;
