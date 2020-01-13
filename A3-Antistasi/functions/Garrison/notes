@@ -66,3 +66,6 @@ Reorder all parameters in the same order
 Files that need a rework
 ================================================================================
 - fn_initSpawnPlaces
+- fn_addToGarrison
+- fn_selectReinfUnits
+- fn_shouldReinforce

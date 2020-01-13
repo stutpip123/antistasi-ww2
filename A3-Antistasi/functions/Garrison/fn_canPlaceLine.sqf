@@ -1,8 +1,5 @@
 params ["_line", "_prefShort", "_currentPlaces", "_availablePlaces"];
 
-//WARNING I hope that passed arrays are call by reference and not by value,
-//if strange errors occurs the currentPlaces are not increased correctly
-
 /*  Checks whether the marker can have the vehicle of the line
 *
 *   Params:
@@ -16,6 +13,7 @@ params ["_line", "_prefShort", "_currentPlaces", "_availablePlaces"];
 */
 
 private _fileName = "canPlaceLine";
+
 private _vehicle = _line select 0;
 private _index = -1;
 
