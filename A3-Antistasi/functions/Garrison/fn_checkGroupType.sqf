@@ -14,10 +14,10 @@ private ["_result", "_vehicleSeats"];
 _result = false;
 
 //Tanks are always combined with an AT team
-if(_vehicle == "LAND_TANK") exitWith {(_group == groupsNATOAT || {_group == groupsCSATAT})};
+if(_vehicle == vehNATOTank || _vehicle == vehCSATTank) exitWith {(_group == groupsNATOAT || {_group == groupsCSATAT})};
 
 //AA is always combined with an AA team
-if(_vehicle == "LAND_AIR") exitWith {(_group == groupsNATOAA || {_group == groupsCSATAA})};
+if(_vehicle == vehNATOAA || _vehicle == vehCSATAA) exitWith {(_group == groupsNATOAA || {_group == groupsCSATAA})};
 
 //Check group size to determine
 if(_preference == "SQUAD") then
