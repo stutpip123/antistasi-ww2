@@ -31,7 +31,7 @@ if(_side == sideUnknown) exitWith
     [2, format ["Could not load side for marker %1", _marker], _fileName] call A3A_fnc_log;
 };
 
-for "_i" from 0 to ((count _preferred) - 1) do
+for "_i" from 0 to ((count _garrison) - 1) do
 {
     private _garData = _garrison select _i;
     private _reqData = _requested select _i;
@@ -167,6 +167,19 @@ for "_i" from 0 to ((count _preferred) - 1) do
                 (_garData select 2) pushBack "";
             };
         };
+    };
+};
+
+if(count _garrison < count _preferred) then
+{
+    //Just to make double sure I have to add lines
+    for "_i" from (count _garrison) to ((count _preferred) - 1) do
+    {
+        //Creates a line of units
+        private _line = [_preferred select _i, _side] call A3A_fnc_createGarrisonLine;
+
+        //Adds the line to the garrison data and makes sure that it is reinforcement
+        [_line, _marker, _preferred select _i, [1,1,1]] call A3A_fnc_addGarrisonLine;
     };
 };
 
