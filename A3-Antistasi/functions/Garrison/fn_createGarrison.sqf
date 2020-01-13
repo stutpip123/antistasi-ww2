@@ -20,13 +20,14 @@ private _preferred = [garrison, format ["%1_preference", _type]] call A3A_fnc_ge
     private _garrison = [];
     private _requested = [];
     private _locked = [];
+    private _marker = _x;
+
     garrison setVariable [format ["%1_garrison", _marker], _garrison, true];
     garrison setVariable [format ["%1_requested", _marker], _requested, true];
     garrison setVariable [format ["%1_locked", _marker], _locked, true];
 
-
     private _losses = +_lose;
-    private _marker = _x;
+
     private _side = [sidesX, _marker] call A3A_fnc_getServerVariable;
 
     for "_i" from 0 to ((count _preferred) - 1) do
