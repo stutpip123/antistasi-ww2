@@ -91,5 +91,4 @@ else
 };
 
 //Update reinforcement priority
-private _side = sidesX getVariable [_marker, teamPlayer];
-[_marker, _side] call A3A_fnc_updateReinfState;
+[_marker] call A3A_fnc_updateReinfState;
