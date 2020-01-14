@@ -239,7 +239,7 @@ class FSM
                          "	private _garrison = [typeOf _vehicle, [], []];" \n
                          "	{ (_garrison # 1) pushBack (typeOf _x) } foreach units _crewGroup;" \n
                          "	{ (_garrison # 2) pushBack (typeOf _x) } foreach units _cargoGroup;" \n
-                         "	[_markers # 1, [_garrison]] call A3A_fnc_addGarrison;" \n
+                         "	[_markers # 1, [_garrison]] call A3A_fnc_addToGarrison;" \n
                          "" \n
                          "	// synchronize despawning with the target marker" \n
                          "	// remove this once addGarrison takes control of the units" \n

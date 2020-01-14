@@ -306,7 +306,7 @@ class FSM
                          "	// add units to garrison immediately, otherwise it'll keep sending them" \n
                          "	private _unitTypes = [];" \n
                          "	{ _unitTypes pushBack (typeOf _x) } foreach units _cargoGroup;" \n
-                         "	[_markers # 1, [["""", [], _unitTypes]]] call A3A_fnc_addGarrison;" \n
+                         "	[_markers # 1, [["""", [], _unitTypes]]] call A3A_fnc_addToGarrison;" \n
                          "" \n
                          "	// synchronize despawning with the target marker" \n
                          "	// remove this once addGarrison takes control of the units" \n
