@@ -68,3 +68,4 @@ Files that need a rework
 - fn_initSpawnPlaces
 - fn_selectReinfUnits
 - fn_shouldReinforce
+- fn_landThreatEval
