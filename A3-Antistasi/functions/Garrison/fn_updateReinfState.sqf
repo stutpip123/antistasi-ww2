@@ -87,7 +87,7 @@ if(_owner != teamPlayer) then
     //If units are not depleted, let the outpost send units
     if((_isAirport && _ratio > 0.4) || {_isOutpost && _ratio > 0.8}) then
     {
-        _canReinf pushBackUnique [_marker];
+        _canReinf pushBackUnique _marker;
     }
     else
     {
