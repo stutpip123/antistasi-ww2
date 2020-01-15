@@ -55,15 +55,15 @@ if(_owner != teamPlayer) then
     private _isAirport = _marker in airportsX;
     private _index = _reinfMarker findIf {(_x select 1) == _marker};
 
+    //If in need of reinforcements
     if(_ratio != 1) then
     {
-        //In need of reinforcements
+        //Airports don't get send reinforcements
         if(!_isAirport) then
         {
-            //Airports don't get send reinforcements
             if(_index == -1) then
             {
-                //Add new
+                //Add new entry
                 _reinfMarker pushBack [_ratio, _marker];
             }
             else
