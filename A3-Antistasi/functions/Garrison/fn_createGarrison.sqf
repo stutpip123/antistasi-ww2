@@ -13,7 +13,8 @@ params ["_markerArray", "_type", ["_lose", [0, 0, 0]]];
 private _fileName = "createGarrison";
 
 //Gather the needed data
-private _preferred = [garrison, format ["%1_preference", _type]] call A3A_fnc_getServerVariable;
+while {isNil { garrison getVariable (format ["%1_preference", _type])}} do {sleep 1;};
+private _preferred = garrison getVariable (format ["%1_preference", _type]);
 
 {
     private _losses = +_lose;
@@ -22,8 +23,10 @@ private _preferred = [garrison, format ["%1_preference", _type]] call A3A_fnc_ge
     private _locked = [];
     private _marker = _x;
     private _side = [sidesX, _marker] call A3A_fnc_getServerVariable;
-    private _currentPlaces = [spawner, format ["%1_current", _marker]] call A3A_fnc_getServerVariable;
-    private _availablePlaces = [spawner, format ["%1_available", _marker]] call A3A_fnc_getServerVariable;
+    while {isNil {spawner getVariable (format ["%1_current", _marker])}} do {sleep 1;};
+    private _currentPlaces = spawner getVariable (format ["%1_current", _marker]);
+    while {isNil {garrison getVariable (format ["%1_available", _marker])}} do {sleep 1;};
+    private _availablePlaces = spawner getVariable (format ["%1_available", _marker]);
 
     for "_i" from 0 to ((count _preferred) - 1) do
     {
@@ -56,8 +59,7 @@ private _preferred = [garrison, format ["%1_preference", _type]] call A3A_fnc_ge
                 _garrison pushBack [_line select 0, _line select 1, []];
                 _requested pushBack ["", [], _line select 2];
             };
-            case (!_canPlace && !_isReinf);
-            case (_canPlace && !_isReinf):
+            default
             {
                 //Vehicle can/can't be placed and should be there
                 _garrison pushBack _line;

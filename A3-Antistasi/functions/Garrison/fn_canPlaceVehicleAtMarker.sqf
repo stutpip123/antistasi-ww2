@@ -15,7 +15,7 @@ params ["_line", "_prefShort", "_currentPlaces", "_availablePlaces"];
 *       _result : BOOLEAN : True if the marker can have it, false otherwise
 */
 
-private _fileName = "canPlaceLine";
+private _fileName = "canPlaceVehicleAtMarker";
 private _vehicle = _line select 0;
 private _index = -1;
 
