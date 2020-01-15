@@ -13,7 +13,8 @@ params ["_markerArray", "_type", ["_lose", [0, 0, 0]]];
 private _fileName = "createGarrison";
 
 //Gather the needed data
-private _preferred = [garrison, format ["%1_preference", _type]] call A3A_fnc_getServerVariable;
+while {isNil { garrison getVariable (format ["%1_preference", _type])}} do {sleep 1;};
+private _preferred = garrison getVariable (format ["%1_preference", _type]);
 
 {
     //Creates the data for the marker and saves it to be used later
@@ -29,6 +30,10 @@ private _preferred = [garrison, format ["%1_preference", _type]] call A3A_fnc_ge
     private _losses = +_lose;
 
     private _side = [sidesX, _marker] call A3A_fnc_getServerVariable;
+    while {isNil {spawner getVariable (format ["%1_current", _marker])}} do {sleep 1;};
+    private _currentPlaces = spawner getVariable (format ["%1_current", _marker]);
+    while {isNil {garrison getVariable (format ["%1_available", _marker])}} do {sleep 1;};
+    private _availablePlaces = spawner getVariable (format ["%1_available", _marker]);
 
     for "_i" from 0 to ((count _preferred) - 1) do
     {

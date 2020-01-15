@@ -9,7 +9,6 @@ class A3A
 		//Other initialisation functions (generally called by the above)
 		class cityinfo {};
 		class credits {};
-        class getServerVariable {};
 		class initFuncs {};
 		class initGarrisons {};
 		class initGetMissionPath {};
@@ -281,7 +280,7 @@ class A3A
 		class addToGarrison {};
         class addToOver {};
 		class addToRequested {};
-        class canPlaceLine {};
+        class canPlaceVehicleAtMarker {};
 		class checkGroupType {};
 		class checkVehicleType {};
 		class countGarrison {};
