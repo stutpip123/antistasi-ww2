@@ -30,12 +30,18 @@ SPLIT HERE FOR PR 2.2
 
 ========= Most important =======================================================
 DO NOT MERGE UNTIL THE VCOM UPGRADE IS THERE
+------------ Distance script ---------------------------------------------------
+[WIP] Rework to make it readable
+[WIP] Ensure that only players spawn stuff (as decided on a dev meeting long ago)
+Transfer despawn to marker scripts
+Faster way to check for vehicle
+
 ------------ Unit handling -----------------------------------------------------
 [WIP] Handle replaced units in fn_updateGarrison
 Add the functions to send troops (remove from garrison)
 
 ------------ Unit spawns -------------------------------------------------------
-[WIP] Add check for units to be marked unavailable, if the outpost is not suited to have them
+[DONE] Add check for units to be marked unavailable, if the outpost is not suited to have them
 [WIP] Improve distance script and integrate the spawn script
 Change vehicle getIn EH to handle stolen vehicles correctly
 

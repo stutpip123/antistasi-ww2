@@ -1,6 +1,16 @@
+#define SPAWNED         0
+#define ON_STANDBY      1
+#define DESPAWNED       2
+
 if (!isServer) exitWith{};
 
-//debugperf = false;
+_fnc_checkForEnemy =
+{
+    params ["_array", "_markerPos" , "_distance"];
+    private _index = _array findIf {((getPos _x) distance2D _markerPos) < _distance};
+    private _result = (_index != -1);
+    _result;
+};
 
 waitUntil {!isNil "theBoss"};
 
@@ -17,14 +27,13 @@ while {true} do
     if (_countX > 5) then
     {
         _countX = 0;
-        //TODO remove AI units from this behaviour
-        private _spawners = allUnits select {_x getVariable ["spawner",false]};
+        private _spawners = allPlayers;
         _greenfor = [];
         _blufor = [];
         _opfor = [];
         {
-            private _sideX = side (group _x);
-            switch (_sideX) do
+            private _side = side (group _x);
+            switch (_side) do
             {
                 case (Occupants):
                 {
@@ -42,103 +51,87 @@ while {true} do
         } forEach _spawners;
     };
 
+    //Local variables are faster than server ones
+    private _distanceSpawn = distanceSPWN;
+    private _distanceSpawn2 = distanceSPWN2;
+
+    //TODO maybe exclude markers of whom we know that they are spawned in
     {
         sleep _timeX;
         private _marker = _x;
 
-        _positionMRK = getMarkerPos (_marker);
+        private _positionMRK = getMarkerPos (_marker);
+        private _isForced = (_marker in forcedSpawn);
 
+        private _bluforNear = ([_blufor, _positionMRK, _distanceSpawn] call _fnc_checkForEnemy);
+        private _opforNear = ([_opfor, _positionMRK, _distanceSpawn] call _fnc_checkForEnemy);
+        private _greenforNear = ([_greenfor, _positionMRK, _distanceSpawn] call _fnc_checkForEnemy);
+
+        //If marker is owned by Occupants
         if (sidesX getVariable [_marker,sideUnknown] == Occupants) then
         {
-            if (spawner getVariable _marker != 0) then
+            if (spawner getVariable _marker != SPAWNED) then
             {
-                if (spawner getVariable _marker == 2) then
+                if (spawner getVariable _marker == DESPAWNED) then
                 {
-                    if (({if (_x distance2D _positionMRK < distanceSPWN) exitWith {1}} count _greenfor > 0) or ({if ((_x distance2D _positionMRK < distanceSPWN2)) exitWith {1}} count _opfor > 0) or (_marker in forcedSpawn)) then
+                    if (_isForced || _opforNear || _greenforNear || _bluforNear) then
                     {
-                        spawner setVariable [_marker,0,true];
+                        spawner setVariable [_marker, SPAWNED, true];
                         if (_marker in citiesX) then
                         {
-                            if (({if (_x distance2D _positionMRK < distanceSPWN) exitWith {1}} count _greenfor > 0) or ({if ((isPlayer _x) and (_x distance2D _positionMRK < distanceSPWN2)) exitWith {1}} count _blufor > 0) or (_marker in forcedSpawn)) then {[[_marker],"A3A_fnc_createAICities"] call A3A_fnc_scheduler};
-                            if (not(_marker in destroyedSites)) then
+                            [[_marker],"A3A_fnc_createAICities"] call A3A_fnc_scheduler;
+                            if (!(_marker in destroyedSites)) then
                             {
-                                if (({if ((isPlayer _x) and (_x distance2D _positionMRK < distanceSPWN)) exitWith {1};false} count allUnits > 0) or (_marker in forcedSpawn)) then {[[_marker],"A3A_fnc_createCIV"] call A3A_fnc_scheduler};
+                                [[_marker],"A3A_fnc_createCIV"] call A3A_fnc_scheduler;
                             };
                         }
                         else
                         {
-                            if (_marker in controlsX) then
-                            {
-                                [[_marker],"A3A_fnc_createAIcontrols"] call A3A_fnc_scheduler
-                            }
-                            else
-                            {
-                                if (_marker in airportsX) then
-                                {
-                                    [[_marker],"A3A_fnc_createAIAirplane"] call A3A_fnc_scheduler
-                                }
-                                else
-                                {
-                                    if (((_marker in resourcesX) or (_marker in factories))) then
-                                    {
-                                        [[_marker],"A3A_fnc_createAIResources"] call A3A_fnc_scheduler
-                                    }
-                                    else
-                                    {
-                                        if ((_marker in outposts) or (_marker in seaports)) then
-                                        {
-                                            [[_marker],"A3A_fnc_createAIOutposts"] call A3A_fnc_scheduler
-                                        };
-                                    };
-                                };
-                            };
+                            [[_marker], "A3A_fnc_createAISide"] call A3A_fnc_scheduler;
                         };
                     };
                 }
                 else
                 {
-                    if (({if (_x distance2D _positionMRK < distanceSPWN) exitWith {1}} count _greenfor > 0) or ({if ((_x distance2D _positionMRK < distanceSPWN2)) exitWith {1}} count _opfor > 0) or (_marker in forcedSpawn)) then
+                    //They were on standby, now activated
+                    if (_greenforNear || _opforNear || _isForced || _blufor) then
                     {
-                        spawner setVariable [_marker,0,true];
-                        if (isMultiplayer) then
+                        spawner setVariable [_marker, SPAWNED, true];
+                        //TODO This seems like it could be improved, investigate
                         {
+                            if (_x getVariable ["markerX",""] == _marker) then
                             {
-                                if (_x getVariable ["markerX",""] == _marker) then {if (vehicle _x == _x) then {_x enableSimulationGlobal true}}
-                            } forEach allUnits;
-                        }
-                        else
-                        {
-                            {
-                                if (_x getVariable ["markerX",""] == _marker) then {if (vehicle _x == _x) then {_x enableSimulation true}}
-                            } forEach allUnits;
-                        };
+                                if (vehicle _x == _x) then
+                                {
+                                    _x enableSimulationGlobal true;
+                                };
+                            };
+                        } forEach allUnits;
                     }
                     else
                     {
-                        if (({if (_x distance2D _positionMRK < distanceSPWN1) exitWith {1}} count _greenfor == 0) and ({if ((_x distance2D _positionMRK < distanceSPWN)) exitWith {1}} count _opfor == 0) and (not(_marker in forcedSpawn))) then
+                        //TODO I would like to handle despawn to the marker script, this here should only handle spawns
+                        if (!_isForced && {!_opforNear && {[_greenfor, _positionMRK, _distanceSpawn * 1.3] call _fnc_checkForEnemy}}) then
                         {
-                            spawner setVariable [_marker,2,true];
+                            spawner setVariable [_marker, DESPAWNED, true];
                         };
                     };
                 };
             }
             else
             {
-                if (({if (_x distance2D _positionMRK < distanceSPWN) exitWith {1}} count _greenfor == 0) and ({if ((_x distance2D _positionMRK < distanceSPWN2)) exitWith {1}} count _opfor == 0) and ({if ((isPlayer _x) and (_x distance2D _positionMRK < distanceSPWN2)) exitWith {1}} count _blufor == 0) and (not(_marker in forcedSpawn))) then
+                if (!(_greenforNear || {_opforNear && {_bluforNear}}) && (!_isForced)) then
                 {
-                    spawner setVariable [_marker,1,true];
-                    if (isMultiplayer) then
+                    spawner setVariable [_marker, ON_STANDBY, true];
                     {
+                        if (_x getVariable ["markerX",""] == _marker) then
                         {
-                            if (_x getVariable ["markerX",""] == _marker) then {if (vehicle _x == _x) then {_x enableSimulationGlobal false}}
-                        } forEach allUnits;
-                    }
-                    else
-                    {
-                        {
-                            if (_x getVariable ["markerX",""] == _marker) then {if (vehicle _x == _x) then {_x enableSimulation false}}
-                        } forEach allUnits;
-                    };
+                            if (vehicle _x == _x) then
+                            {
+                                _x enableSimulationGlobal false
+                            };
+                        };
+                    } forEach allUnits;
                 };
             };
         }
@@ -146,147 +139,124 @@ while {true} do
         {
             if (sidesX getVariable [_marker,sideUnknown] == teamPlayer) then
             {
-                if (spawner getVariable _marker != 0) then
+                if (spawner getVariable _marker != SPAWNED) then
                 {
-                    if (spawner getVariable _marker == 2) then
+                    if (spawner getVariable _marker == DESPAWNED) then
                     {
-                        if (({if (_x distance2D _positionMRK < distanceSPWN) exitWith {1}} count _blufor > 0) or ({if (_x distance2D _positionMRK < distanceSPWN) exitWith {1}} count _opfor > 0) or ({if (((_x getVariable ["owner",objNull]) == _x) and (_x distance2D _positionMRK < distanceSPWN2)) exitWith {1}} count _greenfor > 0) or (_marker in forcedSpawn)) then
+                        if (_bluforNear || _opforNear || _greenforNear || _isForced) then
                         {
-                            spawner setVariable [_marker,0,true];
+                            spawner setVariable [_marker, SPAWNED, true];
                             if (_marker in citiesX) then
                             {
-                                //[_marker] remoteExec ["A3A_fnc_createAICities",HCGarrisons];
-                                if (not(_marker in destroyedSites)) then
+                                if (!(_marker in destroyedSites)) then
                                 {
-                                    if (({if ((isPlayer _x) and (_x distance2D _positionMRK < distanceSPWN)) exitWith {1};false} count allUnits > 0) or (_marker in forcedSpawn)) then {[[_marker],"A3A_fnc_createCIV"] call A3A_fnc_scheduler};
+                                    [[_marker], "A3A_fnc_createCIV"] call A3A_fnc_scheduler;
                                 };
                             };
-                            if (_marker in outpostsFIA) then {[[_marker],"A3A_fnc_createFIAOutposts2"] call A3A_fnc_scheduler} else {if (not(_marker in controlsX)) then {[[_marker],"A3A_fnc_createSDKGarrisons"] call A3A_fnc_scheduler}};
+                            if (_marker in outpostsFIA) then
+                            {
+                                [[_marker],"A3A_fnc_createFIAOutposts2"] call A3A_fnc_scheduler;
+                            }
+                            else
+                            {
+                                if (!(_marker in controlsX)) then
+                                {
+                                    [[_marker],"A3A_fnc_createSDKGarrisons"] call A3A_fnc_scheduler;
+                                };
+                            };
                         };
                     }
                     else
                     {
-                        if (({if (_x distance2D _positionMRK < distanceSPWN) exitWith {1}} count _blufor > 0) or ({if (_x distance2D _positionMRK < distanceSPWN) exitWith {1}} count _opfor > 0) or ({if (((_x getVariable ["owner",objNull]) == _x) and (_x distance2D _positionMRK < distanceSPWN2) or (_marker in forcedSpawn)) exitWith {1}} count _greenfor > 0)) then
+                        if (_bluforNear || _opforNear || _greenforNear || _isForced) then
                         {
-                            spawner setVariable [_marker,0,true];
-                            if (isMultiplayer) then
+                            spawner setVariable [_marker, SPAWNED,true];
                             {
+                                if (_x getVariable ["markerX",""] == _marker) then
                                 {
-                                    if (_x getVariable ["markerX",""] == _marker) then {if (vehicle _x == _x) then {_x enableSimulationGlobal true}}
-                                } forEach allUnits;
-                            }
-                            else
-                            {
-                                {
-                                    if (_x getVariable ["markerX",""] == _marker) then {if (vehicle _x == _x) then {_x enableSimulation true}}
-                                } forEach allUnits;
-                            };
+                                    if (vehicle _x == _x) then
+                                    {
+                                        _x enableSimulationGlobal true;
+                                    };
+                                };
+                            } forEach allUnits;
                         }
                         else
                         {
-                            if (({if (_x distance2D _positionMRK < distanceSPWN1) exitWith {1}} count _blufor == 0) and ({if (_x distance2D _positionMRK < distanceSPWN1) exitWith {1}} count _opfor == 0) and ({if (((_x getVariable ["owner",objNull]) == _x) and (_x distance2D _positionMRK < distanceSPWN)) exitWith {1}} count _greenfor == 0) and (not(_marker in forcedSpawn))) then
+                            if (!_bluforNear && !_opforNear && !_greenforNear && !_isForced) then
                             {
-                                spawner setVariable [_marker,2,true];
+                                spawner setVariable [_marker, DESPAWNED, true];
                             };
                         };
                     };
                 }
                 else
                 {
-                    if (({if (_x distance2D _positionMRK < distanceSPWN) exitWith {1}} count _blufor == 0) and ({if (_x distance2D _positionMRK < distanceSPWN) exitWith {1}} count _opfor == 0) and ({if (((_x getVariable ["owner",objNull]) == _x) and (_x distance2D _positionMRK < distanceSPWN2)) exitWith {1}} count _greenfor == 0) and (not(_marker in forcedSpawn))) then
+                    if (!(_bluforNear || _opforNear || _greenforNear || _isForced)) then
                     {
-                        spawner setVariable [_marker,1,true];
-                        if (isMultiplayer) then
+                        spawner setVariable [_marker, ON_STANDBY, true];
                         {
-                            {if (_x getVariable ["markerX",""] == _marker) then {if (vehicle _x == _x) then {_x enableSimulationGlobal false}}} forEach allUnits;
-                        }
-                        else
-                        {
-                            {if (_x getVariable ["markerX",""] == _marker) then {if (vehicle _x == _x) then {_x enableSimulation false}}} forEach allUnits;
-                        };
+                            if (_x getVariable ["markerX",""] == _marker) then
+                            {
+                                if (vehicle _x == _x) then
+                                {
+                                    _x enableSimulationGlobal false;
+                                };
+                            };
+                        } forEach allUnits;
                     };
                 };
             }
             else
             {
-                if (spawner getVariable _marker != 0) then
+                if (spawner getVariable _marker != SPAWNED) then
                 {
-                    if (spawner getVariable _marker == 2) then
+                    if (spawner getVariable _marker == DESPAWNED) then
                     {
-                        if (({if (_x distance2D _positionMRK < distanceSPWN) exitWith {1}} count _greenfor > 0) or ({if (_x distance2D _positionMRK < distanceSPWN2) exitWith {1}} count _blufor > 0) or (_marker in forcedSpawn)) then
+                        if (_greenforNear || _bluforNear || _isForced || _opforNear) then
                         {
-                            spawner setVariable [_marker,0,true];
-                            if (_marker in controlsX) then
-                            {
-                                [[_marker],"A3A_fnc_createAIcontrols"] call A3A_fnc_scheduler
-                            }
-                            else
-                            {
-                                if (_marker in airportsX) then
-                                {
-                                    [[_marker],"A3A_fnc_createAIAirplane"] call A3A_fnc_scheduler
-                                }
-                                else
-                                {
-                                    if (((_marker in resourcesX) or (_marker in factories))) then
-                                    {
-                                        [[_marker],"A3A_fnc_createAIResources"] call A3A_fnc_scheduler
-                                    }
-                                    else
-                                    {
-                                        if ((_marker in outposts) or (_marker in seaports)) then
-                                        {
-                                            [[_marker],"A3A_fnc_createAIOutposts"] call A3A_fnc_scheduler
-                                        };
-                                    };
-                                };
-                            };
+                            spawner setVariable [_marker, SPAWNED, true];
+                            [[_marker], "A3A_fnc_createAISide"] call A3A_fnc_scheduler;
                         };
                     }
                     else
                     {
-                        if (({if (_x distance2D _positionMRK < distanceSPWN) exitWith {1}} count _greenfor > 0) or ({if (_x distance2D _positionMRK < distanceSPWN2) exitWith {1}} count _blufor > 0) or (_marker in forcedSpawn)) then
+                        if (_greenforNear || _bluforNear || _opforNear || _isForced) then
                         {
-                            spawner setVariable [_marker,0,true];
-                            if (isMultiplayer) then
+                            spawner setVariable [_marker, SPAWNED, true];
                             {
+                                if (_x getVariable ["markerX",""] == _marker) then
                                 {
-                                    if (_x getVariable ["markerX",""] == _marker) then {if (vehicle _x == _x) then {_x enableSimulationGlobal true}}
-                                } forEach allUnits;
-                            }
-                            else
-                            {
-                                {
-                                    if (_x getVariable ["markerX",""] == _marker) then {if (vehicle _x == _x) then {_x enableSimulation true}}
-                                } forEach allUnits;
-                            };
+                                    if (vehicle _x == _x) then
+                                    {
+                                        _x enableSimulationGlobal true;
+                                    };
+                                };
+                            } forEach allUnits;
                         }
                         else
                         {
-                            if (({if (_x distance2D _positionMRK < distanceSPWN1) exitWith {1}} count _greenfor == 0) and ({if ((_x distance2D _positionMRK < distanceSPWN)) exitWith {1}} count _blufor == 0) and (not(_marker in forcedSpawn))) then
+                            if (!(_greenforNear || _opforNear || _bluforNear || _isForced)) then
                             {
-                                spawner setVariable [_marker,2,true];
+                                spawner setVariable [_marker, DESPAWNED, true];
                             };
                         };
                     };
                 }
                 else
                 {
-                    if (({if (_x distance2D _positionMRK < distanceSPWN) exitWith {1}} count _greenfor == 0) and ({if ((_x distance2D _positionMRK < distanceSPWN2) and (isPlayer _x)) exitWith {1}} count _opfor == 0) and ({if (_x distance2D _positionMRK < distanceSPWN2) exitWith {1}} count _blufor == 0) and (not(_marker in forcedSpawn))) then
+                    if (!(_greenforNear || _opforNear || _bluforNear || _isForced)) then
                     {
-                        spawner setVariable [_marker,1,true];
-                        if (isMultiplayer) then
+                        spawner setVariable [_marker, ON_STANDBY, true];
                         {
+                            if (_x getVariable ["markerX",""] == _marker) then
                             {
-                                if (_x getVariable ["markerX",""] == _marker) then {if (vehicle _x == _x) then {_x enableSimulationGlobal false}}
-                            } forEach allUnits;
-                        }
-                        else
-                        {
-                            {
-                                if (_x getVariable ["markerX",""] == _marker) then {if (vehicle _x == _x) then {_x enableSimulation false}}
-                            } forEach allUnits;
-                        };
+                                if (vehicle _x == _x) then
+                                {
+                                    _x enableSimulationGlobal false;
+                                };
+                            };
+                        } forEach allUnits;
                     };
                 };
             };
