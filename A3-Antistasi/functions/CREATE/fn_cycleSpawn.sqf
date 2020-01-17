@@ -1,23 +1,29 @@
 params ["_marker", "_patrolMarker", "_flag", "_box"];
 
-if(isNil "_marker") exitWith {diag_log "CycleSpawn: No marker given!"};
+private _fileName = "cycleSpawn";
+if(isNil "_marker") exitWith
+{
+    [2, "No marker given, cannot spawn site", _fileName] call A3A_fnc_log;
+};
 
-private ["_side", "_garrison", "_unitX", "_allSoldiers", "_allVehicles", "_allGroups", "_groupX", "_vehicleType", "_crewArray", "_cargoArray", "_skip"];
+private _side = sidesX getVariable [_marker, sideUnknown];
+if(_side == sideUnknown) exitWith
+{
+    [2, format ["Could not retrieve side for %1", _marker], _fileName] call A3A_fnc_log;
+};
 
-_side = sidesX getVariable [_marker, sideUnknown];
-if(_side == sideUnknown) exitWith {diag_log "CycleSpawn: Marker side resulted in sideUnknown!"};
+[3, format ["Starting cyclic spawn of %1", _marker], _fileName] call A3A_fnc_log;
 
-diag_log "CycleSpawn: Spawning in now!";
+private _garrison = [_marker] call A3A_fnc_getGarrison;
+private _garCount = [_garrison, false] call A3A_fnc_countGarrison;
+private _patrolSize = [_patrolMarker] call A3A_fnc_calculateMarkerArea;
 
-_garrison = [_marker] call A3A_fnc_getGarrison;
-_garCount = [_garrison, false] call A3A_fnc_countGarrison;
-_patrolSize = [_patrolMarker] call A3A_fnc_calculateMarkerArea;
-
+[3, format ["Logging units of %1", _marker], _fileName] call A3A_fnc_log;
 [_garrison, "Garrison"] call A3A_fnc_logArray;
 
-_allSoldiers = [];
-_allVehicles = [];
-_allGroups = [];
+private _allSoldiers = [];
+private _allVehicles = [];
+private _allGroups = [];
 private _stayGroups = [];
 private _patrolGroups = [];
 
@@ -38,11 +44,11 @@ _lineIndex = 0;
     {
       _spawnParameter = [_marker, "Vehicle"] call A3A_fnc_findSpawnPosition;
     };
-    if(_vehicleType isKindOf "Helicopter") then
+    if(_vehicleType isKindOf "Helicopter" && {(_vehicleType != vehNATOUAVSmall) && (_vehicleType != vehCSATUAVSmall)}) then
     {
       _spawnParameter = [_marker, "Heli"] call A3A_fnc_findSpawnPosition;
     };
-    if(_vehicleType isKindOf "Plane") then
+    if(_vehicleType isKindOf "Plane" || {(_vehicleType != vehNATOUAVSmall) || (_vehicleType != vehCSATUAVSmall)}) then
     {
       _spawnParameter = [_marker, "Plane"] call A3A_fnc_findSpawnPosition;
     };
