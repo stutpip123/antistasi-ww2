@@ -1,10 +1,9 @@
-if(!isServer && hasInterface) exitWith {};
 params ["_marker"];
 
 private _fileName = "createAISide";
 
-//Not sure if that ever happens, but it reduces redundance
-if(spawner getVariable _marker == 2) exitWith {};
+//Not sure if that ever happens, but it reduces redundance (Deactivated for debug)
+//if(spawner getVariable _marker == 2) exitWith {};
 
 private _markerPos = getMarkerPos _marker;
 private _markerDir = markerDir _marker;
@@ -43,7 +42,7 @@ _patrolMarker setMarkerColorLocal "ColorRed";
 _patrolMarker setMarkerBrushLocal "DiagGrid";
 //_patrolMarker setMarkerAlphaLocal 0;
 
-private _typeFlag;
+private _typeFlag = "";
 switch (_side) do
 {
     case (Occupants):
@@ -54,7 +53,7 @@ switch (_side) do
     {
         _typeFlag = CSATFlag;
     };
-    case (teamPlayer):
+    default
     {
         _typeFlag = SDKFlag;
     };

@@ -16,7 +16,7 @@ if(_side == sideUnknown) exitWith
 
 private _garrison = [_marker] call A3A_fnc_getGarrison;
 private _locked = garrison getVariable (format ["%1_locked", _marker]);
-private _garCount = [_garrison, false] call A3A_fnc_countGarrison;
+private _garCount = [_garrison, true] call A3A_fnc_countGarrison;
 private _patrolSize = [_patrolMarker] call A3A_fnc_calculateMarkerArea;
 
 [3, format ["Logging units of %1", _marker], _fileName] call A3A_fnc_log;
@@ -30,9 +30,10 @@ private _lineIndex = 0;
     private _vehicleType = _x select 0;
     private _crewArray = _x select 1;
     private _cargoArray = _x select 2;
+    private _spawnParameter = [];
 
     //Check if this vehicle (if there) is locked
-    if ((_locked select _lineIndex) != true) then
+    if (!(_locked select _lineIndex)) then
     {
         private _vehicleGroup = createGroup _side;
         private _vehicle = objNull;
@@ -41,19 +42,27 @@ private _lineIndex = 0;
         if (_vehicleType != "") then
         {
             //Array got a vehicle, spawn it in
-            private _spawnParameter = [];
-            if(_vehicleType isKindOf "Car") then
+
+            //TODO convert to switch and add statics and mortars
+            if(_vehicleType isKindOf "LandVehicle") then
             {
                 _spawnParameter = [_marker, "Vehicle"] call A3A_fnc_findSpawnPosition;
-            };
-            if(_vehicleType isKindOf "Helicopter" && {(_vehicleType != vehNATOUAVSmall) && (_vehicleType != vehCSATUAVSmall)}) then
+            }
+            else
             {
-                _spawnParameter = [_marker, "Heli"] call A3A_fnc_findSpawnPosition;
+                if(_vehicleType isKindOf "Helicopter" && {(_vehicleType != vehNATOUAVSmall) && (_vehicleType != vehCSATUAVSmall)}) then
+                {
+                    _spawnParameter = [_marker, "Heli"] call A3A_fnc_findSpawnPosition;
+                }
+                else
+                {
+                    if(_vehicleType isKindOf "Plane" || {(_vehicleType == vehNATOUAVSmall) || (_vehicleType == vehCSATUAVSmall)}) then
+                    {
+                        _spawnParameter = [_marker, "Plane"] call A3A_fnc_findSpawnPosition;
+                    };
+                };
             };
-            if(_vehicleType isKindOf "Plane" || {(_vehicleType != vehNATOUAVSmall) || (_vehicleType != vehCSATUAVSmall)}) then
-            {
-                _spawnParameter = [_marker, "Plane"] call A3A_fnc_findSpawnPosition;
-            };
+
 
             if(_spawnParameter isEqualType []) then
             {
@@ -115,12 +124,45 @@ private _lineIndex = 0;
         //_spawnParameter = [_marker, NATOCrew] call A3A_fnc_findSpawnPosition;
 
         {
-            private _unitX = _vehicleGroup createUnit [_x, (_spawnParameter select 0), [], 5, "NONE"];
+            if(_x != "") then
+            {
+                private _unitX = _vehicleGroup createUnit [_x, (_spawnParameter select 0), [], 5, "NONE"];
+                //Should work as a local variable needs testing
+                _unitX setVariable ["UnitIndex", (_lineIndex * 10 + 1)];
+                _unitX setVariable ["UnitMarker", _marker];
+
+                //On vehicle death, remove it from garrison
+                _unitX addEventHandler
+                [
+                    "Killed",
+                    {
+                        _unitX = _this select 0;
+                        _id = _unitX getVariable "UnitIndex";
+                        _marker = _unitX getVariable "UnitMarker";
+                        [_marker, typeOf _unitX, _id] call A3A_fnc_addRequested;
+                    }
+                ];
+                sleep 0.25;
+            };
+        } forEach _crewArray;
+
+        //No sure about the parameters, however this must not be merged before the vcom upgrade!!!
+        //[leader _groupX, _marker, "SAFE", "RANDOMUP", "SPAWNED", "NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+    };
+
+    private _groupSoldier = createGroup _side;
+    _allGroups pushBack _groupSoldier;
+    _spawnParameter = [getMarkerPos _marker, 0];
+    {
+        if(_x != "") then
+        {
+            private _unitX = _groupSoldier createUnit [_x, (_spawnParameter select 0), [], 5, "NONE"];
+
             //Should work as a local variable needs testing
-            _unitX setVariable ["UnitIndex", (_lineIndex * 10 + 1)];
+            _unitX setVariable ["UnitIndex", (_lineIndex * 10 + 2)];
             _unitX setVariable ["UnitMarker", _marker];
 
-            //On vehicle death, remove it from garrison
+            //On unit death, remove it from garrison
             _unitX addEventHandler
             [
                 "Killed",
@@ -132,34 +174,7 @@ private _lineIndex = 0;
                 }
             ];
             sleep 0.25;
-        } forEach _crewArray;
-
-        //No sure about the parameters, however this must not be merged before the vcom upgrade!!!
-        //[leader _groupX, _marker, "SAFE", "RANDOMUP", "SPAWNED", "NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
-    };
-
-    private _groupSoldier = createGroup _side;
-    _allGroups pushBack _groupSoldier;
-    _spawnParameter = [getMarkerPos _marker, 0];
-    {
-        private _unitX = _groupSoldier createUnit [_x, (_spawnParameter select 0), [], 5, "NONE"];
-
-        //Should work as a local variable needs testing
-        _unitX setVariable ["UnitIndex", (_lineIndex * 10 + 2)];
-        _unitX setVariable ["UnitMarker", _marker];
-
-        //On unit death, remove it from garrison
-        _unitX addEventHandler
-        [
-            "Killed",
-            {
-                _unitX = _this select 0;
-                _id = _unitX getVariable "UnitIndex";
-                _marker = _unitX getVariable "UnitMarker";
-                [_marker, typeOf _unitX, _id] call A3A_fnc_addRequested;
-            }
-        ];
-        sleep 0.25;
+        };
     } forEach _cargoArray;
     [leader _groupSoldier, _marker, "SAFE", "SPAWNED", "RANDOM", "NOFOLLOW", "NOVEH"] execVM "scripts\UPSMON.sqf";
     _lineIndex = _lineIndex + 1;
@@ -175,7 +190,7 @@ if(_garCount != 0) then
 
 [
     3,
-    format ["The size is %1/ Unit count is %2/ Per Unit is %3", _patrolSize, count _allSoldiers, _sizePerUnit],
+    format ["The size is %1, Unit count is %2, Per Unit is %3", _patrolSize, _garCount, _sizePerUnit],
     _fileName
 ] call A3A_fnc_log;
 

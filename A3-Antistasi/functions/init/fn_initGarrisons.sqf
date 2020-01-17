@@ -1,7 +1,7 @@
 //Original Author: Barbolani
 //Edited and updated by the Antistasi Community Development Team
 scriptName "fn_initGarrisons";
-private _fileName = "fn_initGarrisons";
+private _fileName = "initGarrisons";
 [2,"InitGarrisons started",_fileName] call A3A_fnc_log;
 
 _fnc_initMarker =
@@ -175,42 +175,33 @@ else
 if (!(isNil "loadLastSave") && {loadLastSave}) exitWith {};
 
 
-if (debug) then {
-	diag_log format ["%1: [Antistasi] | DEBUG | initGarrisons.sqf | Setting up Airbase stuff.", servertime];
-};
+[3, "Setting up airbase garrisons", _fileName] call A3A_fnc_log;
 
-[airportsX, "Airport"] call _fnc_initGarrison;								//Old system
+[airportsX, "Airport"] call _fnc_initGarrison;					//Old system
 [airportsX, "Airport", [0,0,0]] call A3A_fnc_createGarrison;	//New system
 
-if (debug) then {
-	diag_log format ["%1: [Antistasi] | DEBUG | initGarrisons.sqf | Setting up Resource stuff.", servertime];
-};
+[3, "Setting up resource garrisons", _fileName] call A3A_fnc_log;
 
-[resourcesX, "Resource"] call _fnc_initGarrison;							//Old system
-[resourcesX, "Other", [0,0,0]] call A3A_fnc_createGarrison;	//New system
+[resourcesX, "Resource"] call _fnc_initGarrison;				//Old system
+[resourcesX, "Other", [0,0,0]] call A3A_fnc_createGarrison;	    //New system
 
-if (debug) then {
-	diag_log format ["%1: [Antistasi] | DEBUG | initGarrisons.sqf | Setting up Factory stuff.", servertime];
-};
+[3, "Setting up factory garrisons", _fileName] call A3A_fnc_log;
 
 [factories, "Factory"] call _fnc_initGarrison;
 [factories, "Other", [0,0,0]] call A3A_fnc_createGarrison;
 
-if (debug) then {
-	diag_log format ["%1: [Antistasi] | DEBUG | initGarrisons.sqf | Setting up Outpost stuff.", servertime];
-};
+[3, "Setting up outpost garrisons", _fileName] call A3A_fnc_log;
 
 [outposts, "Outpost"] call _fnc_initGarrison;
 [outposts, "Outpost", [1,1,0]] call A3A_fnc_createGarrison;
 
-if (debug) then {
-	diag_log format ["%1: [Antistasi] | DEBUG | initGarrisons.sqf | Setting up Seaport stuff.", servertime];
-};
+[3, "Setting up seaport garrisons", _fileName] call A3A_fnc_log;
 
 [seaports, "Seaport"] call _fnc_initGarrison;
 [seaports, "Other", [1,0,0]] call A3A_fnc_createGarrison;
 
 //New system, adding cities
+[3, "Setting up city garrisons", _fileName] call A3A_fnc_log;
 [citiesX, "City", [0,0,0]] call A3A_fnc_createGarrison;
 
 [2,"InitGarrisons completed",_fileName] call A3A_fnc_log;

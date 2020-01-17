@@ -5,14 +5,19 @@
 
 params ["_marker", "_type"];
 
+private _fileName = "findSpawnPosition";
 _result = getMarkerPos _marker;
 
-//diag_log format ["Searching spawn position on %1 for %2", _marker, _type];
+[3, format ["Searching spawn position on %1 for %2", _marker, _type], _fileName] call A3A_fnc_log;
 _spawns = spawner getVariable [format ["%1_spawns", _marker], -1];
 if(_spawns isEqualType -1) exitWith
 {
-  diag_log format ["%1 does not have any spawn positions set!", _marker];
-  -1;
+    [
+        1,
+        format ["%1 does not have any spawn positions set!", _marker],
+        _fileName
+    ] call A3A_fnc_log;
+    -1;
 };
 //[_spawns, "Spawnpoints"] call A3A_fnc_logArray;
 

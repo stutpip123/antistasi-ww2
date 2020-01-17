@@ -22,24 +22,21 @@ private _preferred = garrison getVariable (format ["%1_preference", _type]);
     private _requested = [];
     private _locked = [];
     private _marker = _x;
+    private _losses = +_lose;
+
+    [3, format ["Creating %1 now", _marker], _fileName] call A3A_fnc_log;
 
     garrison setVariable [format ["%1_garrison", _marker], _garrison, true];
     garrison setVariable [format ["%1_requested", _marker], _requested, true];
     garrison setVariable [format ["%1_locked", _marker], _locked, true];
 
-    private _losses = +_lose;
-
-    private _side = [sidesX, _marker] call A3A_fnc_getServerVariable;
-    while {isNil {spawner getVariable (format ["%1_current", _marker])}} do {sleep 1;};
-    private _currentPlaces = spawner getVariable (format ["%1_current", _marker]);
-    while {isNil {garrison getVariable (format ["%1_available", _marker])}} do {sleep 1;};
-    private _availablePlaces = spawner getVariable (format ["%1_available", _marker]);
-
+    while {isNil {sidesX getVariable _marker}} do {sleep 1;};
+    private _side = sidesX getVariable _marker;
     for "_i" from 0 to ((count _preferred) - 1) do
     {
         //Creates a line of units
         private _line = [_preferred select _i, _side] call A3A_fnc_createGarrisonLine;
-
+        [3, "Line prepared, setting it now!", _fileName] call A3A_fnc_log;
         //Adds the line to the garrison data
         [_line, _marker, _preferred select _i, _losses] call A3A_fnc_addGarrisonLine;
     };

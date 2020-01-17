@@ -13,12 +13,17 @@ params ["_line", "_marker", "_preference", ["_losses", [0,0,0]]];
 *       Nothing
 */
 
-private _currentPlaces = [spawner, format ["%1_current", _marker]] call A3A_fnc_getServerVariable;
-private _availablePlaces = [spawner, format ["%1_available", _marker]] call A3A_fnc_getServerVariable;
-
-private _garrison = [garrison, format ["%1_garrison", _marker]] call A3A_fnc_getServerVariable;
-private _requested = [garrison, format ["%1_requested", _marker]] call A3A_fnc_getServerVariable;
-private _locked = [garrison, format ["%1_locked", _marker]] call A3A_fnc_getServerVariable;
+//Blame spoffy for this construct here
+while {isNil {spawner getVariable (format ["%1_current", _marker])}} do {sleep 1; diag_log "a";};
+private _currentPlaces = spawner getVariable (format ["%1_current", _marker]);
+while {isNil {spawner getVariable (format ["%1_available", _marker])}} do {sleep 1; diag_log "b";};
+private _availablePlaces = spawner getVariable (format ["%1_available", _marker]);
+while {isNil {garrison getVariable (format ["%1_garrison", _marker])}} do {sleep 1; diag_log "c";};
+private _garrison = garrison getVariable (format ["%1_garrison", _marker]);
+while {isNil {garrison getVariable (format ["%1_requested", _marker])}} do {sleep 1; diag_log "d";};
+private _requested = garrison getVariable (format ["%1_requested", _marker]);
+while {isNil {garrison getVariable (format ["%1_locked", _marker])}} do {sleep 1; diag_log "e";};
+private _locked = garrison getVariable (format ["%1_locked", _marker]);
 
 //Check if the line should be a reinforcements line
 private _start = (_preference select 0) select [0,3];
@@ -26,7 +31,7 @@ private _index = ["LAN", "HEL", "AIR"] findIf {_x == _start};
 private _isReinf = !(_index == -1 || {(_losses select _index) <= 0});
 
 //Check if the line is placable at the given marker
-private _canPlace = [_line, _start, _currentPlaces, _availablePlaces] call A3A_fnc_canPlaceLine;
+private _canPlace = [_line, _start, _currentPlaces, _availablePlaces] call A3A_fnc_canPlaceVehicleAtMarker;
 //Look line for spawner if vehicle cannot be placed (means only cargo units spawn, neither crew nor vehicle)
 _locked pushBack (!_canPlace);
 
