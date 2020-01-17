@@ -29,19 +29,32 @@ SPLIT HERE FOR PR 2.2
 ================================================================================
 
 ========= Most important =======================================================
-[DONE] Make standard garrison a fixed size array
-[WIP] Add check for units to be marked unavailable, if the outpost is not suited to have them
-Add the functions to send troops (remove from garrison)
-Enabling it for player side, not only AI
-Stop the AI from bypassing the economy
-[WIP] Optimisation for speed and data size
-Improve the AI, which chooses the units
-Handle statics
-[DONE] Create functions for the "load and wait" codes, function is called A3A_fnc_getServerVariable
+DO NOT MERGE UNTIL THE VCOM UPGRADE IS THERE
+------------ Unit handling -----------------------------------------------------
 [WIP] Handle replaced units in fn_updateGarrison
-Rework addToGarrison and addToRequested
+Add the functions to send troops (remove from garrison)
+
+------------ Unit spawns -------------------------------------------------------
+[WIP] Add check for units to be marked unavailable, if the outpost is not suited to have them
+[WIP] Improve distance script and integrate the spawn script
+Change vehicle getIn EH to handle stolen vehicles correctly
+
+------------ Fixed size arrays -------------------------------------------------
+[DONE] Rework addToGarrison and addToRequested
+[DONE] Make standard garrison a fixed size array
+Fix markerChange to work with fixed size arrays
+Fix reinforce selection to actually select stuff
+
+------------ Reinforcements selection ------------------------------------------
+Improve the AI, which chooses the units
+Stop the AI from bypassing the economy
+
+------------ Fix broken stuff --------------------------------------------------
+[WIP] Enabling it for player side, not only AI
+[WIP] Optimisation for speed and data size
 ================================================================================
 
+Handle statics
 [Won't do] Add helicopter types for spoffy
 [Mostly done, check the FSM]Make the AI follow the pathfinding way
 Clean up code
@@ -55,7 +68,6 @@ Rework unit detection system (Squadleader and medics)
 Better troup compositions
 Balancing
 Handle statics in convoys
-Improve distance script
 Two man team (Sniper Spotter, etc.)
 Finalizing cyclic spawn
 Improve the replenish function
