@@ -262,7 +262,7 @@ waitUntil
     };
 
     (_needsSpawn == 0)  //Despawns if _needsSpawn is equal 0
-}
+};
 
 [_marker] call A3A_fnc_freeSpawnPositions;
 

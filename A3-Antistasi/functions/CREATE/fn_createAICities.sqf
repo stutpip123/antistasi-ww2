@@ -83,14 +83,67 @@ else
 	{[_x] spawn A3A_fnc_FIAinitBases; _soldiers pushBack _x} forEach units _grp;} forEach _groups;
 	};
 
+
+//Units fully spawned in, awaiting despawn
+waitUntil
+{
+    sleep 10;
+    private _spawners = allUnits select {_x getVariable ["spawner", false]};
+    private _blufor = [];
+    private _redfor = [];
+    private _greenfor = [];
+    {
+        switch (side (group _x)) do
+        {
+            case (Occupants):
+            {
+                _blufor pushBack _x;
+            };
+            case (Invaders):
+            {
+                _redfor pushBack _x;
+            };
+            case (teamPlayer):
+            {
+                _greenfor pushBack _x;
+            };
+        };
+    } forEach _spawners;
+    private _needsSpawn = [_marker, _blufor, _redfor, _greenfor] call A3A_fnc_needsSpawn;
+    private _markerState = spawner getVariable _marker;
+    if(_markerState != _needsSpawn) then
+    {
+        if((_markerState == 2) && (_needsSpawn == 1)) then
+        {
+            //Enemy to far away, disable AI for now
+            {
+                {
+                    _x enableSimulationGlobal false;
+                } forEach (units _x);
+            } forEach _groups;
+        };
+        if((_markerState == 1) && (_needsSpawn == 2)) then
+        {
+            //Enemy is closing in activate AI for now
+            {
+                {
+                    _x enableSimulationGlobal true;
+                } forEach (units _x);
+            } forEach _groups;
+        };
+        spawner setVariable [_marker, _needsSpawn, true];
+    };
+    (_needsSpawn == 0)  //Despawns if _needsSpawn is equal 0
+};
+
+/*
 waitUntil {sleep 1;((spawner getVariable _markerX == 2)) or ({[_x,_markerX] call A3A_fnc_canConquer} count _soldiers == 0)};
 
 if (({[_x,_markerX] call A3A_fnc_canConquer} count _soldiers == 0) and (_esAAF)) then
 	{
 	[[_positionX,Occupants,"",false],"A3A_fnc_patrolCA"] remoteExec ["A3A_fnc_scheduler",2];
 	};
-
-waitUntil {sleep 1;(spawner getVariable _markerX == 2)};
+*/
 
 {if (alive _x) then {deleteVehicle _x}} forEach _soldiers;
 {deleteGroup _x} forEach _groups;
