@@ -28,22 +28,14 @@ MERGED INTO UNSTABLE AND TESTED BY POT
 SPLIT HERE FOR PR 2.2
 ================================================================================
 
-========= Most important =======================================================
-DO NOT MERGE UNTIL THE VCOM UPGRADE IS THERE
 ------------ Distance script ---------------------------------------------------
 [WIP] Rework to make it readable
 [WIP] Ensure that only players spawn stuff (as decided on a dev meeting long ago)
-Transfer despawn to marker scripts
-Faster way to check for vehicle
-
------------- Unit handling -----------------------------------------------------
-[WIP] Handle replaced units in fn_updateGarrison
-Add the functions to send troops (remove from garrison)
+[WIP] Transfer despawn to marker scripts
 
 ------------ Unit spawns -------------------------------------------------------
 [DONE] Add check for units to be marked unavailable, if the outpost is not suited to have them
 [WIP] Improve distance script and integrate the spawn script
-Change vehicle getIn EH to handle stolen vehicles correctly
 
 ------------ Fixed size arrays -------------------------------------------------
 [DONE] Rework addToGarrison and addToRequested
@@ -51,14 +43,27 @@ Change vehicle getIn EH to handle stolen vehicles correctly
 Fix markerChange to work with fixed size arrays
 Fix reinforce selection to actually select stuff
 
+------------ Unit behavior at outpost ------------------------------------------
+Create a script that crew units are maning their vehicles
+
+================================================================================
+FINISH FOR DEV MEETING 25.1.20
+================================================================================
+
+------------ Distance script ---------------------------------------------------
+Faster way to check for vehicle
+Make roadblocks functioning again
+------------ Unit handling -----------------------------------------------------
+[WIP] Handle replaced units in fn_updateGarrison
+Add the functions to send troops (remove from garrison)
+------------ Unit spawns -------------------------------------------------------
+Change vehicle getIn EH to handle stolen vehicles correctly
 ------------ Reinforcements selection ------------------------------------------
 Improve the AI, which chooses the units
 Stop the AI from bypassing the economy
-
 ------------ Fix broken stuff --------------------------------------------------
 [WIP] Enabling it for player side, not only AI
 [WIP] Optimisation for speed and data size
-================================================================================
 
 Handle statics
 [Won't do] Add helicopter types for spoffy
