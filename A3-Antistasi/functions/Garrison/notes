@@ -36,12 +36,12 @@ SPLIT HERE FOR PR 2.2
 
 ------------ Unit spawns -------------------------------------------------------
 [DONE] Add check for units to be marked unavailable, if the outpost is not suited to have them
-[WIP] Improve distance script and integrate the spawn script
+[DONE] Improve distance script and integrate the spawn script
 
 ------------ Fixed size arrays -------------------------------------------------
 [DONE] Rework addToGarrison and addToRequested
 [DONE] Make standard garrison a fixed size array
-Fix markerChange to work with fixed size arrays
+[DONE] Fix markerChange to work with fixed size arrays
 Fix reinforce selection to actually select stuff
 
 ------------ Unit behavior at outpost ------------------------------------------
@@ -55,6 +55,7 @@ FINISH FOR DEV MEETING 25.1.20
 Faster way to check for vehicle
 Make roadblocks functioning again
 Make civs working again
+Remove spawned in markers
 ------------ Unit handling -----------------------------------------------------
 [WIP] Handle replaced units in fn_updateGarrison
 Add the functions to send troops (remove from garrison)

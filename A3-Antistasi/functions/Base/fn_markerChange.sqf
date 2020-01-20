@@ -74,7 +74,7 @@ else
 	{_soldiers pushBack (typeOf _x)} forEach (allUnits select {(_x distance _positionX < (_size*3)) and (_x getVariable ["spawner",false]) and (side group _x == _winner) and (vehicle _x == _x) and (alive _x)});
 	[_soldiers,_winner,_markerX,0] remoteExec ["A3A_fnc_garrisonUpdate",2];
     */
-    
+
 	//New system =================================================================
 	private _type = "Other";
 	switch (true) do
@@ -84,12 +84,11 @@ else
 		case (_markerX in citiesX): {_type = "City"};
 	};
 	private _preference = garrison getVariable (format ["%1_preference", _type]);
-	private _request = [];
 	for "_i" from 0 to ((count _preference) - 1) do
 	{
-		_request pushBack ([_preference select _i, _winner] call A3A_fnc_createGarrisonLine);
+		private _line = ([_preference select _i, _winner] call A3A_fnc_createGarrisonLine);
+        [_line, _marker, (_preference select _i), [1,1,1]] call A3A_fnc_addGarrisonLine;
 	};
-	garrison setVariable [format ["%1_requested", _markerX], _request, true];
 	//End ========================================================================
 };
 
