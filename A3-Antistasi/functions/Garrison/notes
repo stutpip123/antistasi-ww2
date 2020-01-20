@@ -29,9 +29,9 @@ SPLIT HERE FOR PR 2.2
 ================================================================================
 
 ------------ Distance script ---------------------------------------------------
-[WIP] Rework to make it readable
-[WIP] Ensure that only players spawn stuff (as decided on a dev meeting long ago)
-[WIP] Transfer despawn to marker scripts
+[DONE] Rework to make it readable
+[DONE] Ensure that only players and squadleader spawn stuff
+[DONE] Transfer despawn to marker scripts
 [DONE] Create a script to check for spawn or despawn
 
 ------------ Unit spawns -------------------------------------------------------
