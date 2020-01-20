@@ -153,7 +153,7 @@ while {_currentUnitCount < (_maxUnitSend - 2) && {_maxCargoSpaceNeeded+_maxVehic
         for "_i" from 0 to ((count _reinf) - 1) do
         {
             private _data = _reinf select _i;
-            private _dataCargo = _data select 2;
+            private _dataCargo = (_data select 2) select {_x != ""};
 
             while {count _dataCargo > 0} do
             {

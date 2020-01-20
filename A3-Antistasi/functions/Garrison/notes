@@ -42,7 +42,7 @@ SPLIT HERE FOR PR 2.2
 [DONE] Rework addToGarrison and addToRequested
 [DONE] Make standard garrison a fixed size array
 [DONE] Fix markerChange to work with fixed size arrays
-Fix reinforce selection to actually select stuff
+[DONE] Fix reinforce selection to actually select stuff
 
 ------------ Unit behavior at outpost ------------------------------------------
 Create a script that crew units are maning their vehicles
