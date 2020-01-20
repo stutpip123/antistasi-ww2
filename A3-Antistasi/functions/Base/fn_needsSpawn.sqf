@@ -63,11 +63,11 @@ if(_result != SPAWNED) then
 {
     {
         private _distance = _markerPos distance2D (getPos _x);
-        if(_lookForStandby && {_distance < (1.3 * _spawnDistance)}) then
+        if(_lookForStandby && {_distance < (0.8 * _spawnDistance)}) then
         {
             _result = ON_STANDBY;
         };
-        if(_distance < _spawnDistance) then
+        if(_distance < (0.5 * _spawnDistance)) then
         {
             _result = SPAWNED;
         };
