@@ -211,32 +211,63 @@ if(((_patrolMarkerSize select 0) < (_mainMarkerSize select 0)) || {(_patrolMarke
 };
 _patrolMarker setMarkerSizeLocal _patrolMarkerSize;
 
+//Units fully spawned in, awaiting despawn
+waitUntil
+{
+    sleep 10;
+    private _spawners = allUnits select {_x getVariable ["spawner", false]};
+    private _blufor = [];
+    private _redfor = [];
+    private _greenfor = [];
+    {
+        switch (side (group _x)) do
+        {
+            case (Occupants):
+            {
+                _blufor pushBack _x;
+            };
+            case (Invaders):
+            {
+                _redfor pushBack _x;
+            };
+            case (teamPlayer):
+            {
+                _greenfor pushBack _x;
+            };
+        };
+    } forEach _spawners;
+    private _needsSpawn = [_marker, _blufor, _redfor, _greenfor] call A3A_fnc_needsSpawn;
+    private _markerState = spawner getVariable _marker;
+    if(_markerState != _needsSpawn) then
+    {
+        if((_markerState == 2) && (_needsSpawn == 1)) then
+        {
+            //Enemy to far away, disable AI for now
+            {
+                {
+                    _x enableSimulationGlobal false;
+                } forEach (units _x);
+            } forEach _allGroups;
+        };
+        if((_markerState == 1) && (_needsSpawn == 2)) then
+        {
+            //Enemy is closing in activate AI for now
+            {
+                {
+                    _x enableSimulationGlobal true;
+                } forEach (units _x);
+            } forEach _allGroups;
+        };
+        spawner setVariable [_marker, _needsSpawn, true];
+    };
 
-/*
-waitUntil {sleep 5; (spawner getVariable _marker == 2)};
+    (_needsSpawn == 0)  //Despawns if _needsSpawn is equal 0
+}
 
 [_marker] call A3A_fnc_freeSpawnPositions;
 
 deleteMarker _patrolMarker;
 
 {
-	if (alive _x) then
-	{
-		deleteVehicle _x;
-	};
-} forEach _allSoldiers;
-
-{
-	deleteGroup _x
+	[_x] spawn A3A_fnc_groupDespawner;
 } forEach _allGroups;
-
-{
-	if (!(_x in staticsToSave)) then
-	{
-		if ((!([distanceSPWN, 1, _x, teamPlayer] call A3A_fnc_distanceUnits))) then
-		{
-			deleteVehicle _x;
-		};
-	};
-} forEach _allVehicles;
-*/
