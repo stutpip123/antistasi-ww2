@@ -80,10 +80,12 @@ while {true} do
                         if (_marker in citiesX) then
                         {
                             [[_marker],"A3A_fnc_createAICities"] call A3A_fnc_scheduler;
+                            /*
                             if (!(_marker in destroyedSites)) then
                             {
                                 [[_marker],"A3A_fnc_createCIV"] call A3A_fnc_scheduler;
                             };
+                            */
                         }
                         else
                         {
@@ -148,14 +150,16 @@ while {true} do
                             spawner setVariable [_marker, SPAWNED, true];
                             if (_marker in citiesX) then
                             {
+                                /*
                                 if (!(_marker in destroyedSites)) then
                                 {
                                     [[_marker], "A3A_fnc_createCIV"] call A3A_fnc_scheduler;
                                 };
+                                */
                             };
                             if (_marker in outpostsFIA) then
                             {
-                                [[_marker],"A3A_fnc_createFIAOutposts2"] call A3A_fnc_scheduler;
+                                //[[_marker],"A3A_fnc_createFIAOutposts2"] call A3A_fnc_scheduler;
                             }
                             else
                             {

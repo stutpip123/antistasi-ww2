@@ -32,6 +32,7 @@ SPLIT HERE FOR PR 2.2
 [WIP] Rework to make it readable
 [WIP] Ensure that only players spawn stuff (as decided on a dev meeting long ago)
 [WIP] Transfer despawn to marker scripts
+[DONE] Create a script to check for spawn or despawn
 
 ------------ Unit spawns -------------------------------------------------------
 [DONE] Add check for units to be marked unavailable, if the outpost is not suited to have them
@@ -53,6 +54,7 @@ FINISH FOR DEV MEETING 25.1.20
 ------------ Distance script ---------------------------------------------------
 Faster way to check for vehicle
 Make roadblocks functioning again
+Make civs working again
 ------------ Unit handling -----------------------------------------------------
 [WIP] Handle replaced units in fn_updateGarrison
 Add the functions to send troops (remove from garrison)

@@ -72,6 +72,7 @@ class A3A
 		class mrkUpdate {};
 		class mrkWIN {};
 		class NATOFT {};
+        class needsSpawn {};
 		class numericRank {};
 		class onHeadlessClientDisconnect {};
 		class onPlayerDisconnect {};
