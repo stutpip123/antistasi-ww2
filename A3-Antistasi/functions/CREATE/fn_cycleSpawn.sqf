@@ -211,6 +211,8 @@ if(((_patrolMarkerSize select 0) < (_mainMarkerSize select 0)) || {(_patrolMarke
 };
 _patrolMarker setMarkerSizeLocal _patrolMarkerSize;
 
+[_marker, _allGroups] spawn A3A_fnc_markerAlert;
+
 //Units fully spawned in, awaiting despawn
 waitUntil
 {

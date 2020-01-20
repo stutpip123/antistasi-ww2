@@ -294,6 +294,7 @@ class A3A
 		class getVehicleCrew {};
 		class initPreference {};
 		class logArray {};
+        class markerAlert {};
 		class replenishGarrison {};
 		class selectGroupType {};
 		class selectReinfUnits {};

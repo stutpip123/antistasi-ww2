@@ -9,11 +9,9 @@
 [DONE] Integration with the current system
 [DONE] Map porting on Altis, Tanoa and Malden
 [DONE] Test it for SP, local MP and dedi MP
-
 ================================================================================
 MERGED INTO UNSTABLE AND TESTED BY POT
 ================================================================================
-
 [DONE] Improvement of the cyclic spawn system
 [DONE] Integration into the convoy system, to use reinforce convoys
 [DONE] Improve the convoy system to spawn convoys
@@ -23,29 +21,24 @@ MERGED INTO UNSTABLE AND TESTED BY POT
 [DONE] Write the "AI", which replenishes airports
 [DONE] Rework AIVehInit to work for convoy vehicles - is not needed, it will behave correctly
 [DONE] Add simple fight mechanic for roadblock engagements
-
 ================================================================================
 SPLIT HERE FOR PR 2.2
 ================================================================================
-
 ------------ Distance script ---------------------------------------------------
 [DONE] Rework to make it readable
 [DONE] Ensure that only players and squadleader spawn stuff
 [DONE] Transfer despawn to marker scripts
 [DONE] Create a script to check for spawn or despawn
-
 ------------ Unit spawns -------------------------------------------------------
 [DONE] Add check for units to be marked unavailable, if the outpost is not suited to have them
 [DONE] Improve distance script and integrate the spawn script
-
 ------------ Fixed size arrays -------------------------------------------------
 [DONE] Rework addToGarrison and addToRequested
 [DONE] Make standard garrison a fixed size array
 [DONE] Fix markerChange to work with fixed size arrays
 [DONE] Fix reinforce selection to actually select stuff
-
 ------------ Unit behavior at outpost ------------------------------------------
-Create a script that crew units are maning their vehicles
+[DONE] Create a script that crew units are maning their vehicles
 
 ================================================================================
 FINISH FOR DEV MEETING 25.1.20
