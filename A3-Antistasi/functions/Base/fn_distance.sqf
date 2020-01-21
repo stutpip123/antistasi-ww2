@@ -2,7 +2,7 @@
 #define ON_STANDBY      1
 #define DESPAWNED       2
 
-if (!isServer) exitWith{};
+if (!isServer) exitWith {};
 
 _fnc_checkForEnemy =
 {
@@ -58,7 +58,7 @@ while {true} do
         private _isForced = (_marker in forcedSpawn);
 
         private _markerShouldSpawn = [_marker, _greenfor, _blufor, _opfor] call A3A_fnc_needsSpawn;
-        _markerShouldSpawn = _markerShouldSpawn || _isForced;
+        _markerShouldSpawn = (_markerShouldSpawn != 0) || _isForced;
 
         //If marker is owned by Occupants or Invaders
         if (sidesX getVariable [_marker,sideUnknown] != teamPlayer) then
@@ -113,7 +113,7 @@ while {true} do
                         };
                     };
                 };
-            }:
+            };
         };
     } forEach markersX;
 };

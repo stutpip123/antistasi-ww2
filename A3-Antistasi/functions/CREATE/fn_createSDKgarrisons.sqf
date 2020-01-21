@@ -76,22 +76,22 @@ _groupX = createGroup teamPlayer;
 _groupEst = createGroup teamPlayer;
 _groupMortar = createGroup teamPlayer;
 {
-_index = _garrison findIf {_x in SDKMil};
-if (_index == -1) exitWith {};
-if (typeOf _x == SDKMortar) then
+    _index = _garrison findIf {_x in SDKMil};
+    if (_index == -1) exitWith {};
+    if (typeOf _x == SDKMortar) then
 	{
-	_unit = _groupMortar createUnit [(_garrison select _index), _positionX, [], 0, "NONE"];
-	_unit moveInGunner _x;
-	_nul=[_x] execVM "scripts\UPSMON\MON_artillery_add.sqf";//TODO need delete UPSMON link
+        _unit = _groupMortar createUnit [(_garrison select _index), _positionX, [], 0, "NONE"];
+        _unit moveInGunner _x;
+        [_x] execVM "scripts\UPSMON\MON_artillery_add.sqf";//TODO need delete UPSMON link
 	}
-else
+    else
 	{
-	_unit = _groupEst createUnit [(_garrison select _index), _positionX, [], 0, "NONE"];
-	_unit moveInGunner _x;
+        _unit = _groupEst createUnit [(_garrison select _index), _positionX, [], 0, "NONE"];
+        _unit moveInGunner _x;
 	};
-[_unit,_markerX] call A3A_fnc_FIAinitBases;
-_soldiers pushBack _unit;
-_garrison deleteAT _index;
+    [_unit,_markerX] call A3A_fnc_FIAinitBases;
+    _soldiers pushBack _unit;
+    _garrison deleteAT _index;
 } forEach _staticsX;
 
 if (staticCrewTeamPlayer in _garrison) then
@@ -168,8 +168,8 @@ waitUntil
             };
         };
     } forEach _spawners;
-    private _needsSpawn = [_marker, _blufor, _redfor, _greenfor] call A3A_fnc_needsSpawn;
-    private _markerState = spawner getVariable _marker;
+    private _needsSpawn = [_markerX, _blufor, _redfor, _greenfor, true] call A3A_fnc_needsSpawn;
+    private _markerState = spawner getVariable _markerX;
     if(_markerState != _needsSpawn) then
     {
         if((_markerState == 2) && (_needsSpawn == 1)) then
@@ -190,7 +190,7 @@ waitUntil
                 } forEach (units _x);
             } forEach _groups;
         };
-        spawner setVariable [_marker, _needsSpawn, true];
+        spawner setVariable [_markerX, _needsSpawn, true];
     };
 
     (_needsSpawn == 0)  //Despawns if _needsSpawn is equal 0

@@ -23,6 +23,7 @@ private _patrolSize = [_patrolMarker] call A3A_fnc_calculateMarkerArea;
 [_garrison, "Garrison"] call A3A_fnc_logArray;
 
 private _allGroups = [];
+private _allVehicles = [_flag, _box];
 //TODO Search for buildings and safe the data
 
 private _lineIndex = 0;
@@ -67,6 +68,7 @@ private _lineIndex = 0;
             if(_spawnParameter isEqualType []) then
             {
                 _vehicle = createVehicle [_vehicleType, _spawnParameter select 0, [], 0 , "CAN_COLLIDE"];
+                _allVehicles pushBack _vehicle;
                 _vehicle allowDamage false;
                 [_vehicle] spawn
                 {
@@ -95,7 +97,7 @@ private _lineIndex = 0;
                 //Lock the vehicle based on a chance and war level
                 if(random 10 < tierWar) then
                 {
-                    _vehicle lock 3;
+                    _vehicle lock 2;
                 };
                 sleep 0.25;
             }
@@ -176,7 +178,7 @@ private _lineIndex = 0;
             sleep 0.25;
         };
     } forEach _cargoArray;
-    [leader _groupSoldier, _marker, "SAFE", "SPAWNED", "RANDOM", "NOFOLLOW", "NOVEH"] execVM "scripts\UPSMON.sqf";
+    [leader _groupSoldier, _marker, "SAFE", "SPAWNED", "RANDOM", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
     _lineIndex = _lineIndex + 1;
 } forEach _garrison;
 
@@ -238,7 +240,7 @@ waitUntil
             };
         };
     } forEach _spawners;
-    private _needsSpawn = [_marker, _blufor, _redfor, _greenfor] call A3A_fnc_needsSpawn;
+    private _needsSpawn = [_marker, _blufor, _redfor, _greenfor, true] call A3A_fnc_needsSpawn;
     private _markerState = spawner getVariable _marker;
     if(_markerState != _needsSpawn) then
     {
@@ -260,7 +262,7 @@ waitUntil
                 } forEach (units _x);
             } forEach _allGroups;
         };
-        spawner setVariable [_marker, _needsSpawn, true];
+        //spawner setVariable [_marker, _needsSpawn, true];
     };
 
     (_needsSpawn == 0)  //Despawns if _needsSpawn is equal 0
@@ -271,5 +273,9 @@ waitUntil
 deleteMarker _patrolMarker;
 
 {
-	[_x] spawn A3A_fnc_groupDespawner;
+	//[_x] spawn A3A_fnc_groupDespawner;
 } forEach _allGroups;
+
+{
+    //deleteVehicle _x;
+} forEach _allVehicles;
