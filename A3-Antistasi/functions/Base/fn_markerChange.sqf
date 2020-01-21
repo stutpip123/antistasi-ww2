@@ -87,7 +87,7 @@ else
 	for "_i" from 0 to ((count _preference) - 1) do
 	{
 		private _line = ([_preference select _i, _winner] call A3A_fnc_createGarrisonLine);
-        [_line, _marker, (_preference select _i), [1,1,1]] call A3A_fnc_addGarrisonLine;
+        [_line, _markerX, (_preference select _i), [1,1,1]] call A3A_fnc_addGarrisonLine;
 	};
 	//End ========================================================================
 };
