@@ -58,12 +58,12 @@ while {true} do
         private _isForced = (_marker in forcedSpawn);
 
         private _markerShouldSpawn = [_marker, _greenfor, _blufor, _opfor] call A3A_fnc_needsSpawn;
-        _markerShouldSpawn = (_markerShouldSpawn != 0) || _isForced;
+        _markerShouldSpawn = (_markerShouldSpawn != DESPAWNED) || _isForced;
 
         //If marker is owned by Occupants or Invaders
         if (sidesX getVariable [_marker,sideUnknown] != teamPlayer) then
         {
-            if (spawner getVariable _marker == DESPAWNED) then
+            if ((spawner getVariable _marker) == DESPAWNED) then
             {
                 if (_markerShouldSpawn) then
                 {
@@ -80,17 +80,21 @@ while {true} do
                     }
                     else
                     {
-                        [[_marker], "A3A_fnc_createAISide"] call A3A_fnc_scheduler;
+                        if(!(_marker in controlsX)) then
+                        {
+                            [[_marker], "A3A_fnc_createAISite"] call A3A_fnc_scheduler;
+                        };
                     };
                 };
             };
         }
         else
         {
-            if (spawner getVariable _marker == DESPAWNED) then
+            if ((spawner getVariable _marker) == DESPAWNED) then
             {
                 if (_markerShouldSpawn) then
                 {
+                    //[3, format ["%1 will be spawned in now, spawner %2!", _marker, (spawner getVariable _marker)], "distance"] call A3A_fnc_log;
                     spawner setVariable [_marker, SPAWNED, true];
                     if (_marker in citiesX) then
                     {

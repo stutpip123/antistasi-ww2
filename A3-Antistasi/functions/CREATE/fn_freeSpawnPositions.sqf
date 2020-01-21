@@ -9,8 +9,8 @@ if(_spawns isEqualTo [[],[],[],[]]) exitWith
   diag_log format ["Marker %1 has no spawn places defined!", _marker];
 };
 
-diag_log format ["Logging spawn places of %1", _marker];
-[_spawns, "Spawn places"] call A3A_fnc_logArray;
+//diag_log format ["Logging spawn places of %1", _marker];
+//[_spawns, "Spawn places"] call A3A_fnc_logArray;
 
 for "_i" from 0 to 3 do
 {

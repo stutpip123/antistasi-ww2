@@ -1,3 +1,7 @@
+#define SPAWNED         0
+#define ON_STANDBY      1
+#define DESPAWNED       2
+
 params ["_marker", "_patrolMarker", "_flag", "_box"];
 
 private _fileName = "cycleSpawn";
@@ -244,7 +248,7 @@ waitUntil
     private _markerState = spawner getVariable _marker;
     if(_markerState != _needsSpawn) then
     {
-        if((_markerState == 2) && (_needsSpawn == 1)) then
+        if((_markerState == SPAWNED) && (_needsSpawn == ON_STANDBY)) then
         {
             //Enemy to far away, disable AI for now
             {
@@ -253,7 +257,7 @@ waitUntil
                 } forEach (units _x);
             } forEach _allGroups;
         };
-        if((_markerState == 1) && (_needsSpawn == 2)) then
+        if((_markerState == ON_STANDBY) && (_needsSpawn == SPAWNED)) then
         {
             //Enemy is closing in activate AI for now
             {
@@ -262,10 +266,9 @@ waitUntil
                 } forEach (units _x);
             } forEach _allGroups;
         };
-        //spawner setVariable [_marker, _needsSpawn, true];
+        spawner setVariable [_marker, _needsSpawn, true];
     };
-
-    (_needsSpawn == 0)  //Despawns if _needsSpawn is equal 0
+    (_needsSpawn == DESPAWNED)
 };
 
 [_marker] call A3A_fnc_freeSpawnPositions;
@@ -273,9 +276,9 @@ waitUntil
 deleteMarker _patrolMarker;
 
 {
-	//[_x] spawn A3A_fnc_groupDespawner;
+	[_x] spawn A3A_fnc_groupDespawner;
 } forEach _allGroups;
 
 {
-    //deleteVehicle _x;
+    deleteVehicle _x;
 } forEach _allVehicles;

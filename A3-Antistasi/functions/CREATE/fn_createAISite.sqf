@@ -1,6 +1,11 @@
 params ["_marker"];
 
 private _fileName = "createAISide";
+[
+    2,
+    format ["Starting spawn of %1", _marker],
+    _fileName
+] call A3A_fnc_log;
 
 //Not sure if that ever happens, but it reduces redundance (Deactivated for debug)
 //if(spawner getVariable _marker == 2) exitWith {};

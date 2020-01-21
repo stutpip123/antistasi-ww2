@@ -1,3 +1,7 @@
+#define SPAWNED         0
+#define ON_STANDBY      1
+#define DESPAWNED       2
+
 if (!isServer and hasInterface) exitWith{};
 
 private ["_markerX","_vehiclesX","_groups","_soldiers","_positionX","_pos","_size","_veh","_staticsX","_garrison","_radiusX","_countX","_groupX","_groupMortar","_typeX","_unit"];
@@ -172,7 +176,7 @@ waitUntil
     private _markerState = spawner getVariable _markerX;
     if(_markerState != _needsSpawn) then
     {
-        if((_markerState == 2) && (_needsSpawn == 1)) then
+        if((_markerState == SPAWNED) && (_needsSpawn == ON_STANDBY)) then
         {
             //Enemy to far away, disable AI for now
             {
@@ -181,7 +185,7 @@ waitUntil
                 } forEach (units _x);
             } forEach _groups;
         };
-        if((_markerState == 1) && (_needsSpawn == 2)) then
+        if((_markerState == ON_STANDBY) && (_needsSpawn == SPAWNED)) then
         {
             //Enemy is closing in activate AI for now
             {
@@ -193,7 +197,7 @@ waitUntil
         spawner setVariable [_markerX, _needsSpawn, true];
     };
 
-    (_needsSpawn == 0)  //Despawns if _needsSpawn is equal 0
+    (_needsSpawn == DESPAWNED)
 };
 
 

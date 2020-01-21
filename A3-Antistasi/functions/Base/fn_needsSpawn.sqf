@@ -1,6 +1,6 @@
-#define DESPAWNED       0
+#define SPAWNED         0
 #define ON_STANDBY      1
-#define SPAWNED         2
+#define DESPAWNED       2
 
 params ["_marker", "_greenfor", "_blufor", "_redfor", ["_lookForStandby", false]];
 
@@ -16,9 +16,11 @@ params ["_marker", "_greenfor", "_blufor", "_redfor", ["_lookForStandby", false]
 *       _result : The state which the marker should have
 */
 
+private _fileName = "needsSpawn";
+
 private _side = sidesX getVariable _marker;
 private _markerPos = getMarkerPos _marker;
-private _result = 0;
+private _result = DESPAWNED;
 private _spawnDistance = distanceSPWN;
 
 private _enemyOne = [];
