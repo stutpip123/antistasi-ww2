@@ -145,7 +145,7 @@ private _lineIndex = 0;
                         _unitX = _this select 0;
                         _id = _unitX getVariable "UnitIndex";
                         _marker = _unitX getVariable "UnitMarker";
-                        [_marker, typeOf _unitX, _id] call A3A_fnc_addRequested;
+                        [_marker, typeOf _unitX, _id] call A3A_fnc_addToRequested;
                     }
                 ];
                 sleep 0.25;
@@ -154,6 +154,14 @@ private _lineIndex = 0;
 
         //No sure about the parameters, however this must not be merged before the vcom upgrade!!!
         //[leader _groupX, _marker, "SAFE", "RANDOMUP", "SPAWNED", "NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+    }
+    else
+    {
+        [
+            3,
+            format ["Cannot spawn in %1 as vehicle is locked!", _vehicleType],
+            _fileName
+        ] call A3A_fnc_log;
     };
 
     private _groupSoldier = createGroup _side;
@@ -176,7 +184,7 @@ private _lineIndex = 0;
                     _unitX = _this select 0;
                     _id = _unitX getVariable "UnitIndex";
                     _marker = _unitX getVariable "UnitMarker";
-                    [_marker, typeOf _unitX, _id] call A3A_fnc_addRequested;
+                    [_marker, typeOf _unitX, _id] call A3A_fnc_addToRequested;
                 }
             ];
             sleep 0.25;
