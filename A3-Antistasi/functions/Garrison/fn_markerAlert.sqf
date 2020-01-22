@@ -1,15 +1,25 @@
+#define SPAWNED         0
+#define ON_STANDBY      1
+#define DESPAWNED       2
+
 params ["_marker", "_groups"];
 
 private _fileName = "markerAlert";
 private _isAlerted = false;
-while {spawner getVariable _marker != 0} do
+
+[
+    3,
+    format ["Starting marker alert for %1", _marker],
+    _fileName
+] call A3A_fnc_log;
+while {spawner getVariable _marker != DESPAWNED} do
 {
     sleep 1;
     if(!_isAlerted) then
     {
         {
             private _state = behaviour (leader _x);
-            if(_state == "COMBAT") exitWith
+            if(_state == "COMBAT" || {_state == "STEALTH"}) exitWith
             {
                 [
                     3,
@@ -48,8 +58,14 @@ while {spawner getVariable _marker != 0} do
         } forEach _groups;
     };
     if(_isAlerted) exitWith {};
-    if(spawner getVariable _marker != 2) then
+    if(spawner getVariable _marker != SPAWNED) then
     {
-        waitUntil {sleep 5; (spawner getVariable _marker) != 1};
+        waitUntil {sleep 5; (spawner getVariable _marker) != ON_STANDBY};
     };
 };
+
+[
+    3,
+    format ["Marker alert on %1 ended", _marker],
+    _fileName
+] call A3A_fnc_log;
