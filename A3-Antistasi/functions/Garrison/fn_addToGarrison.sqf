@@ -110,7 +110,7 @@ for "_element" from 0 to ((count _requested) - 1) do
         if(_unitIndex == -1) then
         {
             //Unit is new in the array, add it
-            _sortingReqs pushBack [_unitName, _path];
+            _sortingReqs pushBack [_unitName, [_path]];
         }
         else
         {
@@ -156,6 +156,7 @@ private _overUnits = [];
                 _garSubElement set [(_path select 2), _unit];
                 _reqSubElement set [(_path select 2), ""];
             };
+            _amount = _amount - 1;
         };
     };
 

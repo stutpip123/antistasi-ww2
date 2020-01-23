@@ -44,7 +44,11 @@ if(_unitType != 0) then
     }
     else
     {
-        [1, format ["The given unit cannot be found in the garrison, unit was %1", _unit], _fileName] call A3A_fnc_log;
+        [
+            1,
+            format ["The given unit on %1 cannot be found in the garrison, unit was %2", _marker, _unit],
+            _fileName
+        ] call A3A_fnc_log;
     };
 }
 else

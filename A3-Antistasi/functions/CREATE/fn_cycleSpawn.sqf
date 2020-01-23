@@ -71,7 +71,12 @@ private _lineIndex = 0;
 
             if(_spawnParameter isEqualType []) then
             {
-                _vehicle = createVehicle [_vehicleType, _spawnParameter select 0, [], 0 , "CAN_COLLIDE"];
+                [
+                    3,
+                    format ["Spawning %1 on %2 at marker %3", _vehicleType, (_spawnParameter select 0), _marker],
+                    _fileName
+                ] call A3A_fnc_log;
+                _vehicle = createVehicle [_vehicleType, (_spawnParameter select 0), [], 0 , "CAN_COLLIDE"];
                 _allVehicles pushBack _vehicle;
                 _vehicle allowDamage false;
                 [_vehicle] spawn
