@@ -71,43 +71,9 @@ private _lineIndex = 0;
 
             if(_spawnParameter isEqualType []) then
             {
-                [
-                    3,
-                    format ["Spawning %1 on %2 at marker %3", _vehicleType, (_spawnParameter select 0), _marker],
-                    _fileName
-                ] call A3A_fnc_log;
-                _vehicle = createVehicle [_vehicleType, (_spawnParameter select 0), [], 0 , "CAN_COLLIDE"];
+                private _vehicle = [_marker, _vehicleType, _lineIndex, _vehicleGroup, _spawnParameter, false] call A3A_fnc_cycleSpawnUnit;
                 _allVehicles pushBack _vehicle;
-                _vehicle allowDamage false;
-                [_vehicle] spawn
-                {
-                    sleep 3;
-                    (_this select 0) allowDamage true;
-                };
-                _vehicle setDir (_spawnParameter select 1);
-                _vehicleGroup addVehicle _vehicle;
 
-                //Should work as a local variable needs testing
-                _vehicle setVariable ["UnitIndex", (_lineIndex * 10 + 0)];
-                _vehicle setVariable ["UnitMarker", _marker];
-
-                //On vehicle death, remove it from garrison
-                _vehicle addEventHandler
-                [
-                    "Killed",
-                    {
-                        _vehicle = _this select 0;
-                        _id = _vehicle getVariable "UnitIndex";
-                        _marker = _vehicle getVariable "UnitMarker";
-                        [_marker, typeOf _vehicle, _id] call A3A_fnc_addToRequested;
-                    }
-                ];
-
-                //Lock the vehicle based on a chance and war level
-                if(random 10 < tierWar) then
-                {
-                    _vehicle lock 2;
-                };
                 sleep 0.25;
             }
             else
@@ -137,22 +103,7 @@ private _lineIndex = 0;
         {
             if(_x != "") then
             {
-                private _unitX = _vehicleGroup createUnit [_x, (_spawnParameter select 0), [], 5, "NONE"];
-                //Should work as a local variable needs testing
-                _unitX setVariable ["UnitIndex", (_lineIndex * 10 + 1)];
-                _unitX setVariable ["UnitMarker", _marker];
-
-                //On vehicle death, remove it from garrison
-                _unitX addEventHandler
-                [
-                    "Killed",
-                    {
-                        _unitX = _this select 0;
-                        _id = _unitX getVariable "UnitIndex";
-                        _marker = _unitX getVariable "UnitMarker";
-                        [_marker, typeOf _unitX, _id] call A3A_fnc_addToRequested;
-                    }
-                ];
+                [_marker, _x, _lineIndex, _vehicleGroup, (_spawnParameter select 0), false] call A3A_fnc_cycleSpawnUnit;
                 sleep 0.25;
             };
         } forEach _crewArray;
@@ -175,26 +126,11 @@ private _lineIndex = 0;
     {
         if(_x != "") then
         {
-            private _unitX = _groupSoldier createUnit [_x, (_spawnParameter select 0), [], 5, "NONE"];
-
-            //Should work as a local variable needs testing
-            _unitX setVariable ["UnitIndex", (_lineIndex * 10 + 2)];
-            _unitX setVariable ["UnitMarker", _marker];
-
-            //On unit death, remove it from garrison
-            _unitX addEventHandler
-            [
-                "Killed",
-                {
-                    _unitX = _this select 0;
-                    _id = _unitX getVariable "UnitIndex";
-                    _marker = _unitX getVariable "UnitMarker";
-                    [_marker, typeOf _unitX, _id] call A3A_fnc_addToRequested;
-                }
-            ];
+            [_marker, _x, _lineIndex, _groupSoldier, (_spawnParameter select 0), false] call A3A_fnc_cycleSpawnUnit;
             sleep 0.25;
         };
     } forEach _cargoArray;
+    _groupSoldier deleteGroupWhenEmpty true;
     [leader _groupSoldier, _marker, "SAFE", "SPAWNED", "RANDOM", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
     _lineIndex = _lineIndex + 1;
 } forEach _garrison;

@@ -24,24 +24,39 @@ MERGED INTO UNSTABLE AND TESTED BY POT
 ================================================================================
 SPLIT HERE FOR PR 2.2
 ================================================================================
------------- Distance script ---------------------------------------------------
 [DONE] Rework to make it readable
 [DONE] Ensure that only players and squadleader spawn stuff
 [DONE] Transfer despawn to marker scripts
 [DONE] Create a script to check for spawn or despawn
------------- Unit spawns -------------------------------------------------------
 [DONE] Add check for units to be marked unavailable, if the outpost is not suited to have them
 [DONE] Improve distance script and integrate the spawn script
------------- Fixed size arrays -------------------------------------------------
 [DONE] Rework addToGarrison and addToRequested
 [DONE] Make standard garrison a fixed size array
 [DONE] Fix markerChange to work with fixed size arrays
 [DONE] Fix reinforce selection to actually select stuff
------------- Unit behavior at outpost ------------------------------------------
 [DONE] Create a script that crew units are maning their vehicles
-
 ================================================================================
 FINISH FOR DEV MEETING 25.1.20
+================================================================================
+[WIP] Handle replaced units in fn_updateGarrison
+- [DONE] Create addToOver
+- [WIP] Create removeFromOver
+- [DONE] Change Killed EH on units
+- [WIP] Integrate the system
+Handle statics
+- Search for static positions
+- Add a amount of random statics on start
+- Gradually increase them over the warlevel
+- On death or deconstruction, respawn them after 30 minutes
+[WIP] Enabling it for player side, not only AI
+- [WIP] Integrate it on marker change
+- Use the over units to garrison them
+- Change the unit counter on the map
+Add the functions to send troops (remove from garrison)
+- Adding units while runtime
+- Removing units while runtime
+================================================================================
+WORK TILL HERE, THEN INTEL AND DESTRUCTION
 ================================================================================
 
 ------------ Distance script ---------------------------------------------------
@@ -50,18 +65,18 @@ Make roadblocks functioning again
 Make civs working again
 Remove spawned in markers
 ------------ Unit handling -----------------------------------------------------
-[WIP] Handle replaced units in fn_updateGarrison
-Add the functions to send troops (remove from garrison)
+
+
 ------------ Unit spawns -------------------------------------------------------
 Change vehicle getIn EH to handle stolen vehicles correctly
 ------------ Reinforcements selection ------------------------------------------
 Improve the AI, which chooses the units
 Stop the AI from bypassing the economy
 ------------ Fix broken stuff --------------------------------------------------
-[WIP] Enabling it for player side, not only AI
+
 [WIP] Optimisation for speed and data size
 
-Handle statics
+
 [Won't do] Add helicopter types for spoffy
 [Mostly done, check the FSM]Make the AI follow the pathfinding way
 Clean up code

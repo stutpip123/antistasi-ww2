@@ -205,6 +205,8 @@ class A3A
 		class createSDKGarrisons {};
 		class createSDKgarrisonsTemp {};
 		class cycleSpawn {};
+        class cycleSpawnUnit {};
+        class cycleSpawnVehicle {};
 		class FIAinitBases {};
 		class findSpawnPosition {};
 		class freeSpawnPositions {};
