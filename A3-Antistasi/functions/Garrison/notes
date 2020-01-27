@@ -80,6 +80,7 @@ Finalizing cyclic spawn
 Improve the replenish function
 Reorder convoys on despawn (Reassign vehicles if one is destroyed and so on)
 Reorder all parameters in the same order
+Script to find keys on crew squad leaders (+ cool vehicle open mechanic)
 
 ================================================================================
 Files that need a rework
