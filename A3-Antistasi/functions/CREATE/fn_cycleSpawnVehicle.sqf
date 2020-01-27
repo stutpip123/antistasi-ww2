@@ -1,4 +1,38 @@
-params ["_marker", "_type", "_lineIndex", "_group", "_spawnParameter", "_isOver"];
+params ["_marker", "_vehicleType", "_lineIndex", "_group", "_spawnParameter", "_isOver"];
+
+private _spawnParameter = [];
+if(_vehicleType isKindOf "LandVehicle") then
+{
+    _spawnParameter = [_marker, "Vehicle"] call A3A_fnc_findSpawnPosition;
+}
+else
+{
+    if(_vehicleType isKindOf "Helicopter" && {(_vehicleType != vehNATOUAVSmall) && (_vehicleType != vehCSATUAVSmall)}) then
+    {
+        _spawnParameter = [_marker, "Heli"] call A3A_fnc_findSpawnPosition;
+    }
+    else
+    {
+        if(_vehicleType isKindOf "Plane" || {(_vehicleType == vehNATOUAVSmall) || (_vehicleType == vehCSATUAVSmall)}) then
+        {
+            _spawnParameter = [_marker, "Plane"] call A3A_fnc_findSpawnPosition;
+        };
+    };
+};
+
+if(_spawnParameter isEqualType []) then
+{
+
+    
+}
+else
+{
+    [
+        1,
+        format ["Unlocked vehicle has no place, vehicle: %1, marker: %2", _vehicleType, _marker],
+        _fileName
+    ] call A3A_fnc_log;
+};
 
 private _vehicle = createVehicle [_vehicleType, (_spawnParameter select 0), [], 0 , "CAN_COLLIDE"];
 _vehicle allowDamage false;

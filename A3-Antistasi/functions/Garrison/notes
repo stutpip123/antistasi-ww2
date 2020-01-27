@@ -58,25 +58,22 @@ Add the functions to send troops (remove from garrison)
 ================================================================================
 WORK TILL HERE, THEN INTEL AND DESTRUCTION
 ================================================================================
-
 ------------ Distance script ---------------------------------------------------
 Faster way to check for vehicle
 Make roadblocks functioning again
 Make civs working again
 Remove spawned in markers
------------- Unit handling -----------------------------------------------------
-
-
 ------------ Unit spawns -------------------------------------------------------
 Change vehicle getIn EH to handle stolen vehicles correctly
 ------------ Reinforcements selection ------------------------------------------
 Improve the AI, which chooses the units
 Stop the AI from bypassing the economy
 ------------ Fix broken stuff --------------------------------------------------
-
 [WIP] Optimisation for speed and data size
 
 
+Place units in logical positions (buildings and so on)
+Enable patrols for marker
 [Won't do] Add helicopter types for spoffy
 [Mostly done, check the FSM]Make the AI follow the pathfinding way
 Clean up code

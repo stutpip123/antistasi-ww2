@@ -47,69 +47,29 @@ private _lineIndex = 0;
         if (_vehicleType != "") then
         {
             //Array got a vehicle, spawn it in
-
-            //TODO convert to switch and add statics and mortars
-            if(_vehicleType isKindOf "LandVehicle") then
-            {
-                _spawnParameter = [_marker, "Vehicle"] call A3A_fnc_findSpawnPosition;
-            }
-            else
-            {
-                if(_vehicleType isKindOf "Helicopter" && {(_vehicleType != vehNATOUAVSmall) && (_vehicleType != vehCSATUAVSmall)}) then
-                {
-                    _spawnParameter = [_marker, "Heli"] call A3A_fnc_findSpawnPosition;
-                }
-                else
-                {
-                    if(_vehicleType isKindOf "Plane" || {(_vehicleType == vehNATOUAVSmall) || (_vehicleType == vehCSATUAVSmall)}) then
-                    {
-                        _spawnParameter = [_marker, "Plane"] call A3A_fnc_findSpawnPosition;
-                    };
-                };
-            };
-
-
-            if(_spawnParameter isEqualType []) then
-            {
-                private _vehicle = [_marker, _vehicleType, _lineIndex, _vehicleGroup, _spawnParameter, false] call A3A_fnc_cycleSpawnUnit;
-                _allVehicles pushBack _vehicle;
-
-                sleep 0.25;
-            }
-            else
-            {
-                [
-                    1,
-                    format ["Unlocked vehicle has no place, vehicle: %1, marker: %2", _vehicleType, _marker],
-                    _fileName
-                ] call A3A_fnc_log;
-            };
+            _vehicle = [_marker, _vehicleType, _lineIndex, _vehicleGroup, false] call A3A_fnc_cycleSpawnUnit;
+            _allVehicles pushBack _vehicle;
+            sleep 0.25;
         };
 
         //Spawn in crew
         if(_vehicle == objNull) then
         {
             //Spawn near the marker, no vehicle for you to use
-            _spawnParameter = [getMarkerPos _marker, 0];
+            _spawnParameter = getMarkerPos _marker;
         }
         else
         {
-            _spawnParameter = [getPos _vehicle, 0];
+            _spawnParameter = getPos _vehicle;
         };
-
-        //TODO write a function which can select a suitable spawn position, (buildings, vehicles and so on)
-        //_spawnParameter = [_marker, NATOCrew] call A3A_fnc_findSpawnPosition;
 
         {
             if(_x != "") then
             {
-                [_marker, _x, _lineIndex, _vehicleGroup, (_spawnParameter select 0), false] call A3A_fnc_cycleSpawnUnit;
+                [_marker, _x, _lineIndex, _vehicleGroup, _spawnParameter, false] call A3A_fnc_cycleSpawnUnit;
                 sleep 0.25;
             };
         } forEach _crewArray;
-
-        //No sure about the parameters, however this must not be merged before the vcom upgrade!!!
-        //[leader _groupX, _marker, "SAFE", "RANDOMUP", "SPAWNED", "NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
     }
     else
     {
@@ -122,11 +82,11 @@ private _lineIndex = 0;
 
     private _groupSoldier = createGroup _side;
     _allGroups pushBack _groupSoldier;
-    _spawnParameter = [getMarkerPos _marker, 0];
+    _spawnParameter = getMarkerPos _marker;
     {
         if(_x != "") then
         {
-            [_marker, _x, _lineIndex, _groupSoldier, (_spawnParameter select 0), false] call A3A_fnc_cycleSpawnUnit;
+            [_marker, _x, _lineIndex, _groupSoldier, _spawnParameter, false] call A3A_fnc_cycleSpawnUnit;
             sleep 0.25;
         };
     } forEach _cargoArray;
@@ -135,6 +95,11 @@ private _lineIndex = 0;
     _lineIndex = _lineIndex + 1;
 } forEach _garrison;
 
+private _over = [_marker] call A3A_fnc_getOver;
+_lineIndex = 0;
+{
+    _lineIndex = _lineIndex + 1;
+} forEach _over;
 //Units spawned, fixing marker size
 
 private _sizePerUnit = 0;
