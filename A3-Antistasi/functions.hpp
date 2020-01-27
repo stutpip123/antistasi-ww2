@@ -284,6 +284,7 @@ class A3A
         class canPlaceVehicleAtMarker {};
 		class checkGroupType {};
 		class checkVehicleType {};
+        class clearGarrison {};
 		class countGarrison {};
 		class createGarrison {};
 		class createGarrisonLine {};
