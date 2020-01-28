@@ -1,5 +1,8 @@
 params ["_buildings", "_marker", "_mortarMarker"];
 
+/*  Searches and saves the spawn positions of statics
+*
+*/
 
 private _statics = [];
 {

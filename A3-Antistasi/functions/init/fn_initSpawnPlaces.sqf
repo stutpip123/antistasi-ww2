@@ -1,5 +1,3 @@
-#define SPACING     2
-
 params ["_marker", "_placementMarker"];
 
 private _fileName = "initSpawnPlaces";
@@ -54,8 +52,7 @@ private _mainMarkerPos = getMarkerPos _marker;
 
 private _markerSize = markerSize _marker;
 private _distance = sqrt ((_markerSize select 0) * (_markerSize select 0) + (_markerSize select 1) * (_markerSize select 1));
-
-private _buildings = nearestObjects [getMarkerPos _marker, ["Helipad_Base_F", "Land_Hangar_F", "Land_TentHangar_V1_F", "Land_Airport_01_hangar_F", "Land_ServiceHangar_01_L_F", "Land_ServiceHangar_01_R_F"], _distance, true];
+private _buildings = nearestObjects [getMarkerPos _marker, listAllBuildings, _distance, true];
 
 //Sort helipads
 private _heliSpawns = [_buildings, _marker, _heliMarker] call A3A_fnc_initSpawnPlacesHelipads;
@@ -70,66 +67,9 @@ private _staticSpawns = [_buildings, _marker, _mortarMarker] call A3A_fnc_initSp
 private _mortarSpawns = _staticSpawns select 0;
 _staticSpawns = _staticSpawns select 1;
 
-private ["_vehicleSpawns", "_size", "_length", "_width", "_vehicleCount", "_realLength", "_realSpace", "_markerDir", "_dis", "_pos", "_heliSpawns", "_dir", "_planeSpawns", "_mortarSpawns", "_spawns"];
+private _vehicleSpawns = [_vehicleMarker] call A3A_fnc_initSpawnPlacesVehicles;
 
-_vehicleSpawns = [];
-{
-    _markerX = _x;
-    _size = getMarkerSize _x;
-    _length = (_size select 0) * 2;
-    _width = (_size select 1) * 2;
-    if(_width < (4 + 2 * SPACING)) then
-    {
-      diag_log format ["InitSpawnPlaces: Marker %1 is not wide enough for vehicles, required are %2 meters!", _x , (4 + 2 * SPACING)];
-    }
-    else
-    {
-      if(_length < 10) then
-      {
-          diag_log format ["InitSpawnPlaces: Marker %1 is not long enough for vehicles, required are 10 meters!", _x];
-      }
-      else
-      {
-        //Cleaning area
-        private _radius = sqrt (_length * _length + _width * _width);
-        //TODO wasn't there a hideObjectGlobal? Would replace the following structure
-        if (!isMultiplayer) then
-        {
-          {
-            if((getPos _x) inArea _markerX) then
-            {
-              _x hideObject true;
-            };
-          } foreach (nearestTerrainObjects [getMarkerPos _markerX, ["Tree","Bush", "Hide", "Rock", "Fence"], _radius, true]);
-        }
-        else
-        {
-          {
-            if((getPos _x) inArea _markerX) then
-            {
-              [_x,true] remoteExec ["hideObjectGlobal",2];
-            }
-          } foreach (nearestTerrainObjects [getMarkerPos _markerX, ["Tree","Bush", "Hide", "Rock", "Fence"], _radius, true]);
-        };
-
-        //Create the places
-        _vehicleCount = floor ((_length - SPACING) / (4 + SPACING));
-        _realLength = _vehicleCount * 4;
-        _realSpace = (_length - _realLength) / (_vehicleCount + 1);
-        _markerDir = markerDir _markerX;
-        for "_i" from 1 to _vehicleCount do
-        {
-          _dis = (_realSpace + 2 + ((_i - 1) * (4 + _realSpace))) - (_length / 2);
-          _pos = [getMarkerPos _markerX, _dis, (_markerDir + 90)] call BIS_fnc_relPos;
-          _pos set [2, ((_pos select 2) + 0.1) max 0.1];
-          _vehicleSpawns pushBack [[_pos, _markerDir], false];
-        };
-      };
-    };
-} forEach _vehicleMarker;
-
-_spawns = [_vehicleSpawns, _heliSpawns, _planeSpawns, _mortarSpawns, _staticSpawns];
-//Amount of available spawn places, amount of statics is currently -1 as not yet handled
+private _spawns = [_vehicleSpawns, _heliSpawns, _planeSpawns, _mortarSpawns, _staticSpawns];
 private _spawnCounts = [count _vehicleSpawns, count _heliSpawns, count _planeSpawns, count _mortarSpawns, count _staticSpawns];
 
 [
@@ -146,7 +86,6 @@ private _spawnCounts = [count _vehicleSpawns, count _heliSpawns, count _planeSpa
     ],
      _fileName
 ] call A3A_fnc_log;
-
 
 //Saving the spawn places
 spawner setVariable [format ["%1_spawns", _marker], _spawns, true];
