@@ -43,10 +43,10 @@ FINISH FOR DEV MEETING 25.1.20
 - [WIP] Create removeFromOver
 - [DONE] Change Killed EH on units
 - [WIP] Integrate the system
-Handle statics
-- Search for static positions
+[WIP] Handle statics
+- [WIP] Search for static positions
 - Add a amount of random statics on start
-- Gradually increase them over the warlevel
+- [DONE] Gradually increase them over the warlevel
 - On death or deconstruction, respawn them after 30 minutes
 [WIP] Enabling it for player side, not only AI
 - [WIP] Integrate it on marker change

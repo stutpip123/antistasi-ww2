@@ -6,8 +6,6 @@ private _fileName = "initSpawnPlaces";
 
 [3, format ["Initiating spawn places for %1 now", _marker], _fileName] call A3A_fnc_log;
 
-private ["_vehicleMarker", "_heliMarker", "_hangarMarker", "_mortarMarker", "_markerPrefix", "_markerSplit", "_first", "_fullName"];
-
 private _vehicleMarker = [];
 private _heliMarker = [];
 private _hangarMarker = [];
@@ -24,6 +22,7 @@ switch (_markerSplit select 0) do
     case ("factory"): {_markerPrefix = "fact_";};
     case ("seaport"): {_markerPrefix = "seap_";};
 };
+//Fix marker name if it has a number after it
 if(count _markerSplit > 1) then
 {
     _markerPrefix = format ["%1%2_", _markerPrefix, _markerSplit select 1];
@@ -52,57 +51,20 @@ private _mainMarkerPos = getMarkerPos _marker;
     _fullName setMarkerAlpha 0;
 } forEach _placementMarker;
 
-private ["_markerSize", "_distance", "_buildings", "_hangars", "_helipads", "_markerX"];
 
-_markerSize = markerSize _marker;
-_distance = sqrt ((_markerSize select 0) * (_markerSize select 0) + (_markerSize select 1) * (_markerSize select 1));
+private _markerSize = markerSize _marker;
+private _distance = sqrt ((_markerSize select 0) * (_markerSize select 0) + (_markerSize select 1) * (_markerSize select 1));
 
-_buildings = nearestObjects [getMarkerPos _marker, ["Helipad_Base_F", "Land_Hangar_F", "Land_TentHangar_V1_F", "Land_Airport_01_hangar_F", "Land_ServiceHangar_01_L_F", "Land_ServiceHangar_01_R_F"], _distance, true];
+private _buildings = nearestObjects [getMarkerPos _marker, ["Helipad_Base_F", "Land_Hangar_F", "Land_TentHangar_V1_F", "Land_Airport_01_hangar_F", "Land_ServiceHangar_01_L_F", "Land_ServiceHangar_01_R_F"], _distance, true];
 
-_hangars = [];
-_helipads = [];
+//Sort helipads
+private _heliSpawns = [_buildings, _marker, _heliMarker] call A3A_fnc_initSpawnPlacesHelipads;
+_buildings = _heliSpawns select 0;
+_heliSpawns = _heliSpawns select 1;
 
-{
-  if((getPos _x) inArea _marker) then
-  {
-    if(_x isKindOf "Helipad_Base_F") then
-    {
-      _helipads pushBack _x;
-    }
-    else
-    {
-      _hangars pushBack _x;
-    };
-  };
-} forEach _buildings;
-
-//Find additional helipads and hangars (maybe a unified system would be better??)
-{
-  _markerX = _x;
-  _markerSize = markerSize _x;
-  _distance = sqrt ((_markerSize select 0) * (_markerSize select 0) + (_markerSize select 1) * (_markerSize select 1));
-  _buildings = nearestObjects [getMarkerPos _x, ["Helipad_Base_F"], _distance, true];
-  {
-    if((getPos _x) inArea _markerX) then
-    {
-      _helipads pushBackUnique _x;
-    };
-  } forEach _buildings;
-} forEach _heliMarker;
-
-{
-  _markerX = _x;
-  _markerSize = markerSize _x;
-  _distance = sqrt ((_markerSize select 0) * (_markerSize select 0) + (_markerSize select 1) * (_markerSize select 1));
-  _buildings = nearestObjects [getMarkerPos _x, ["Land_Hangar_F", "Land_TentHangar_V1_F", "Land_Airport_01_hangar_F"/*, "Land_ServiceHangar_01_L_F", "Land_ServiceHangar_01_R_F"*/], _distance, true];
-  {
-    if((getPos _x) inArea _markerX) then
-    {
-      _hangars pushBackUnique _x;
-    };
-  } forEach _buildings;
-} forEach _hangarMarker;
-//All additional hangar and helipads found
+private _planeSpawns = [_buildings, _marker, _hangarMarker] call A3A_fnc_initSpawnPlacesHangars;
+_buildings = _planeSpawns select 0;
+_planeSpawns = _planeSpawns select 1;
 
 private ["_vehicleSpawns", "_size", "_length", "_width", "_vehicleCount", "_realLength", "_realSpace", "_markerDir", "_dis", "_pos", "_heliSpawns", "_dir", "_planeSpawns", "_mortarSpawns", "_spawns"];
 
@@ -161,39 +123,6 @@ _vehicleSpawns = [];
       };
     };
 } forEach _vehicleMarker;
-
-_heliSpawns = [];
-{
-    _pos = getPos _x;
-    _pos set [2, 0.1];
-    if (!isMultiplayer) then
-    {
-      {
-        _x hideObject true;
-      } foreach (nearestTerrainObjects [_pos, ["Tree","Bush", "Hide", "Rock"], 5, true]);
-    }
-    else
-    {
-      {
-        [_x,true] remoteExec ["hideObjectGlobal",2];
-      } foreach (nearestTerrainObjects [_pos, ["Tree","Bush", "Hide", "Rock"], 5, true]);
-    };
-    _dir = direction _x;
-    _heliSpawns pushBack [[_pos, _dir], false];
-} forEach _helipads;
-
-_planeSpawns = [];
-{
-    _pos = getPos _x;
-    _pos set [2, ((_pos select 2) + 0.1) max 0.1];
-    _dir = direction _x;
-    if(_x isKindOf "Land_Hangar_F" || {_x isKindOf "Land_Airport_01_hangar_F" /*|| {_x isKindOf "Land_ServiceHangar_01_R_F"}*/}) then
-    {
-      //This hangar is facing the wrong way...
-      _dir = _dir + 180;
-    };
-    _planeSpawns pushBack [[_pos, _dir], false];
-} forEach _hangars;
 
 _mortarSpawns = [];
 {
