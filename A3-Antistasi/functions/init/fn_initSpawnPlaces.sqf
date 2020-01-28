@@ -52,7 +52,7 @@ private _mainMarkerPos = getMarkerPos _marker;
 
 private _markerSize = markerSize _marker;
 private _distance = sqrt ((_markerSize select 0) * (_markerSize select 0) + (_markerSize select 1) * (_markerSize select 1));
-private _buildings = nearestObjects [getMarkerPos _marker, listAllBuildings, _distance, true];
+private _buildings = nearestObjects [getMarkerPos _marker, listAllBuildings + ["Helipad_Base_F"], _distance, true];
 
 //Sort helipads
 private _heliSpawns = [_buildings, _marker, _heliMarker] call A3A_fnc_initSpawnPlacesHelipads;

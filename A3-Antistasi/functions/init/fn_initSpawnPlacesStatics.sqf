@@ -39,7 +39,7 @@ private _statics = [];
             //No clue what kind of a building this is
             private _pos = _building buildingPos 1;
             private _dir = (getDir _building) - 180;
-            _pos [_pos, -1, _dir] call BIS_fnc_relPos;
+            _pos = [_pos, -1, _dir] call BIS_fnc_relPos;
             _statics pushBack [[_pos, _dir, "MG"], false];
         };
         case (_buildingType in listStaticHBarrierBunker):

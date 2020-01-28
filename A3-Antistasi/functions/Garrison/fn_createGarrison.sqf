@@ -36,7 +36,6 @@ private _preferred = garrison getVariable (format ["%1_preference", _type]);
     {
         //Creates a line of units
         private _line = [_preferred select _i, _side] call A3A_fnc_createGarrisonLine;
-        [3, "Line prepared, setting it now!", _fileName] call A3A_fnc_log;
         //Adds the line to the garrison data
         [_line, _marker, _preferred select _i, _losses] call A3A_fnc_addGarrisonLine;
     };

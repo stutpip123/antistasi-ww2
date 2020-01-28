@@ -47,7 +47,7 @@ private _vehicles = [];
             private _vehicleCount = floor ((_length - SPACING) / (4 + SPACING));
             private _realLength = _vehicleCount * 4;
             private _realSpace = (_length - _realLength) / (_vehicleCount + 1);
-            private _markerDir = markerDir _markerX;
+            private _markerDir = markerDir _marker;
             for "_i" from 1 to _vehicleCount do
             {
                 //Wow, I should have commented that, as I was writing this, no clue how this works, sorry

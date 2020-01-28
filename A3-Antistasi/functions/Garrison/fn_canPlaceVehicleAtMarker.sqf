@@ -46,10 +46,4 @@ if(_result) then
     _currentPlaces set [_index, (_currentPlaces select _index) + 1]
 };
 
-[
-    3,
-    format ["Result for index %1 is %2, array is %3", _index, _result, _currentPlaces],
-    _fileName
-] call A3A_fnc_log;
-
 _result;

@@ -11,13 +11,14 @@ params ["_buildings", "_marker", "_heliMarker"];
 *       _helipads : ARRAY : The positions of the helipads and their rotation, format [[[pos, dir], false], ...]
 */
 
+private _fileName = "initSpawnPlacesHelipads";
 private _newBuildings = [];
 private _helipads = [];
 
 //Searches the buildings on the main marker for helipads
 {
     private _building = _x;
-    private _pos = getPos _building
+    private _pos = getPos _building;
     if(_building isKindOf "Helipad_Base_F" && {_pos inArea _marker}) then
     {
         _helipads pushBack [[_pos, getDir _building], false];
