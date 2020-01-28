@@ -169,7 +169,7 @@ if !(loadLastSave) then {
 };
 call A3A_fnc_createPetros;
 
-[[petros,"hint","Server load finished"],"A3A_fnc_commsMP"] call BIS_fnc_MP;
+[petros,"hint","Server load finished"] remoteExec ["A3A_fnc_commsMP", 0];
 
 //HandleDisconnect doesn't get 'owner' param, so we can't use it to handle headless client disconnects.
 addMissionEventHandler ["HandleDisconnect",{_this call A3A_fnc_onPlayerDisconnect;false}];
@@ -183,7 +183,10 @@ addMissionEventHandler ["BuildingChanged", {
 		_oldBuilding setVariable ["ruins", _newBuilding];
 		_newBuilding setVariable ["building", _oldBuilding];
 
-		destroyedBuildings pushBack (getPosATL _oldBuilding);
+		// Antenna dead/alive status is handled separately
+		if !(_oldBuilding in antennas || _oldBuilding in antennasDead) then {
+			destroyedBuildings pushBack (getPosATL _oldBuilding);
+		};
 	};
 }];
 

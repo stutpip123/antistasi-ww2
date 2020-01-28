@@ -39,8 +39,8 @@ DECLARE_SERVER_VAR(cleantime, 3600);
 DECLARE_SERVER_VAR(distanceSPWN, 1000);
 DECLARE_SERVER_VAR(distanceSPWN1, 1300);
 DECLARE_SERVER_VAR(distanceSPWN2, 500);
-//Quantity of Civs to spawn in
-DECLARE_SERVER_VAR(civPerc, 40);
+//Quantity of Civs to spawn in (most likely per client - Bob Murphy 26.01.2020)
+DECLARE_SERVER_VAR(civPerc, 5);
 //The furthest distance the AI can attack from using helicopters or planes
 DECLARE_SERVER_VAR(distanceForAirAttack, 10000);
 //The furthest distance the AI can attack from using trucks and armour
@@ -131,7 +131,7 @@ playerHasBeenPvP = [];
 
 //We initialise a LOT of arrays based on the categories. Every category gets a 'allX' variables and an 'unlockedX' variable.
 
-private _unlockableCategories = allCategoriesExceptSpecial + ["AA", "AT", "GrenadeLaunchers", "ArmoredVests", "ArmoredHeadgear"];
+private _unlockableCategories = allCategoriesExceptSpecial + ["AA", "AT", "GrenadeLaunchers", "ArmoredVests", "ArmoredHeadgear", "BackpacksCargo"];
 
 //Build list of 'allX' variables, such as 'allWeapons'
 DECLARE_SERVER_VAR(allEquipmentArrayNames, allCategories apply {"all" + _x});
