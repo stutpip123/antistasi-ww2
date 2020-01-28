@@ -66,6 +66,10 @@ private _planeSpawns = [_buildings, _marker, _hangarMarker] call A3A_fnc_initSpa
 _buildings = _planeSpawns select 0;
 _planeSpawns = _planeSpawns select 1;
 
+private _staticSpawns = [_buildings, _marker, _mortarMarker] call A3A_fnc_initSpawnPlacesStatics;
+private _mortarSpawns = _staticSpawns select 0;
+_staticSpawns = _staticSpawns select 1;
+
 private ["_vehicleSpawns", "_size", "_length", "_width", "_vehicleCount", "_realLength", "_realSpace", "_markerDir", "_dis", "_pos", "_heliSpawns", "_dir", "_planeSpawns", "_mortarSpawns", "_spawns"];
 
 _vehicleSpawns = [];
@@ -124,16 +128,9 @@ _vehicleSpawns = [];
     };
 } forEach _vehicleMarker;
 
-_mortarSpawns = [];
-{
-  _pos = getMarkerPos _x;
-  _pos set [2, ((_pos select 2) + 0.1) max 0.1];
-  _mortarSpawns pushBack [[_pos, 0], false];
-} forEach _mortarMarker;
-
-_spawns = [_vehicleSpawns, _heliSpawns, _planeSpawns, _mortarSpawns];
+_spawns = [_vehicleSpawns, _heliSpawns, _planeSpawns, _mortarSpawns, _staticSpawns];
 //Amount of available spawn places, amount of statics is currently -1 as not yet handled
-private _spawnCounts = [count _vehicleSpawns, count _heliSpawns, count _planeSpawns, count _mortarSpawns, -1];
+private _spawnCounts = [count _vehicleSpawns, count _heliSpawns, count _planeSpawns, count _mortarSpawns, count _staticSpawns];
 
 [
     3,
