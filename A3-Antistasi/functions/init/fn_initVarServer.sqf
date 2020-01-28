@@ -679,14 +679,14 @@ server setVariable [vehSDKTruck,300,true];											//300
 [2,"Initialising Garrison Variables",_fileName] call A3A_fnc_log;
 
 tierPreference = 1;
-cityUpdateTiers = [4, 8];
-cityStaticsTiers = [0.2, 1];
-airportUpdateTiers = [3, 6, 8];
-airportStaticsTiers = [0.5, 0.75, 1];
-outpostUpdateTiers = [4, 7, 9];
-outpostStaticsTiers = [0.4, 0.7, 1];
-otherUpdateTiers = [3, 7];
-otherStaticsTiers = [0.3, 1];
+cityUpdateTiers = [4, 7, 10];
+cityStaticsTiers = [0.2, 0.5, 1];
+airportUpdateTiers = [3, 4, 6, 8];
+airportStaticsTiers = [0.5, 0.75, 0.95, 1];
+outpostUpdateTiers = [4, 5, 7, 9];
+outpostStaticsTiers = [0.4, 0.6, 0.8, 1];
+otherUpdateTiers = [3, 8, 10];
+otherStaticsTiers = [0.3, 0.8, 1];
 [] call A3A_fnc_initPreference;
 
 ////////////////////////////

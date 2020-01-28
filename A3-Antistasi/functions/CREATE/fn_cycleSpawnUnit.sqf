@@ -8,7 +8,7 @@ _unit setVariable ["UnitMarker", _marker];
 _unit setVariable ["IsOver", _isOver];
 
 //On unit death, remove it from garrison
-_unitX addEventHandler
+_unit addEventHandler
 [
     "Killed",
     {

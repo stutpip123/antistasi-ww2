@@ -1,7 +1,8 @@
-#define VEH               0
-#define HELI              1
-#define PLANE             2
-#define MORTAR            3
+#define VEH                 0
+#define HELI                1
+#define PLANE               2
+#define MORTAR              3
+#define STATIC              4
 
 params ["_marker", "_type"];
 
@@ -21,33 +22,37 @@ if(_spawns isEqualType -1) exitWith
 };
 //[_spawns, "Spawnpoints"] call A3A_fnc_logArray;
 
-_selection = -1;
+private _selection = -1;
 switch (_type) do
 {
-  case ("Group") :
-  {
-    //Not yet implemented
-  };
-  case ("Crew"):
-  {
-    //Not yet implemented
-  };
-  case ("Vehicle"):
-  {
-    _selection = VEH;
-  };
-  case ("Heli"):
-  {
-    _selection = HELI;
-  };
-  case ("Plane"):
-  {
-    _selection = PLANE;
-  };
-  case ("Mortar"):
-  {
-    _selection = MORTAR;
-  };
+    case ("Group") :
+    {
+        //Not yet implemented
+    };
+    case ("Crew"):
+    {
+        //Not yet implemented
+    };
+    case ("Vehicle"):
+    {
+        _selection = VEH;
+    };
+    case ("Heli"):
+    {
+        _selection = HELI;
+    };
+    case ("Plane"):
+    {
+        _selection = PLANE;
+    };
+    case ("Mortar"):
+    {
+        _selection = MORTAR;
+    };
+    case ("Static"):
+    {
+        _selection = STATIC;
+    };
 };
 
 if (_selection == -1) exitWith {};
@@ -62,7 +67,6 @@ if(count _possible > 0) then
   ((_spawns select _selection) select _index) set [1, true];
 
   _result = _result select 0;
-
 }
 else
 {

@@ -311,6 +311,7 @@ class A3A
 		class updateGarrison {};
 		class updatePreference {};
 		class updateReinfState {};
+        class updateStatics {};
 		class updateVehicles {};
 	};
 
