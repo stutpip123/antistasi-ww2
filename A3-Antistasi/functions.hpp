@@ -13,6 +13,10 @@ class A3A
 		class initGarrisons {};
 		class initGetMissionPath {};
 		class initSpawnPlaces {};
+        class initSpawnPlacesHangars {};
+        class initSpawnPlacesHelipads {};
+        class initSpawnPlacesStatics {};
+        class initSpawnPlacesVehicles {};
 
 		class initVar {};
 		class initVarClient {};

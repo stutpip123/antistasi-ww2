@@ -44,8 +44,8 @@ FINISH FOR DEV MEETING 25.1.20
 - [DONE] Change Killed EH on units
 - [WIP] Integrate the system
 [WIP] Handle statics
-- [WIP] Search for static positions
-- Add a amount of random statics on start
+- [DONE] Search for static positions
+- Add a amount of random, then persistent statics on start
 - [DONE] Gradually increase them over the warlevel
 - On death or deconstruction, respawn them after 30 minutes
 [WIP] Enabling it for player side, not only AI
