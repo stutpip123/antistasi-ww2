@@ -128,10 +128,17 @@ listStaticTower = ["Land_Cargo_Tower_V1_F","Land_Cargo_Tower_V1_No1_F","Land_Car
 listStaticHQ = ["Land_Cargo_HQ_V1_F", "Land_Cargo_HQ_V2_F", "Land_Cargo_HQ_V3_F"];
 //Small towers which are watching strategic points
 listStaticWatchtower = ["Land_Cargo_Patrol_V1_F", "Land_Cargo_Patrol_V2_F", "Land_Cargo_Patrol_V3_F"];
+//HBarrier bunkers (These guys are some real fuckers)
+listStaticHBarrierBunker = ["Land_HBarrierTower_F", "Land_HBarrier_01_big_tower_green_F"];
+//MG nest and bunkers
+listStaticMGNest = ["Land_fortified_nest_small_EP1", "Land_BagBunker_Small_F", "Land_BagBunker_01_small_green_F", "Land_fortified_nest_small", "Fort_Nest"];
+//CUP special buildings I am not able to categorize
+listStaticCUPSpecial = ["Land_Hlaska"];
 //Hangars which can hold planes, the Contact Hangars are currently not supported by the code
 listHangars = ["Land_Hangar_F", "Land_TentHangar_V1_F", "Land_Airport_01_hangar_F"/*, "Land_ServiceHangar_01_L_F", "Land_ServiceHangar_01_R_F"*/];
 //Wrong facing hangars, their angle has to be corrected by 180 degree
 listWrongDirHangars = ["Land_Hangar_F", "Land_Airport_01_hangar_F" /*, "Land_ServiceHangar_01_R_F"*/];
+
 
 listMilBld = ["Land_Cargo_Tower_V1_F","Land_Cargo_Tower_V1_No1_F","Land_Cargo_Tower_V1_No2_F","Land_Cargo_Tower_V1_No3_F","Land_Cargo_Tower_V1_No4_F","Land_Cargo_Tower_V1_No5_F","Land_Cargo_Tower_V1_No6_F","Land_Cargo_Tower_V1_No7_F","Land_Cargo_Tower_V2_F", "Land_Cargo_Tower_V3_F","Land_Cargo_HQ_V1_F","Land_Cargo_HQ_V2_F","Land_Cargo_HQ_V3_F","Land_Cargo_Patrol_V1_F","Land_Cargo_Patrol_V2_F","Land_Cargo_Patrol_V3_F","Land_HelipadSquare_F","Land_Posed","Land_Hlaska","Land_fortified_nest_small_EP1","Land_fortified_nest_small","Fort_Nest","Fortress1","Land_GuardShed","Land_BagBunker_Small_F","Land_BagBunker_01_small_green_F"];
 

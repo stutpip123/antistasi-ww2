@@ -1,0 +1,5 @@
+_allPos = building buildingPos -1;
+hint str _allPos;
+{
+     createVehicle ["Sign_Arrow_Blue_F", _x, [], 0, "CAN_COLLIDE"];
+} forEach _allPos;
