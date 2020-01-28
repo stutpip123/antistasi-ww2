@@ -1,4 +1,4 @@
-#define SPACING     1
+#define SPACING     2
 
 params ["_marker", "_placementMarker"];
 
@@ -8,50 +8,49 @@ private _fileName = "initSpawnPlaces";
 
 private ["_vehicleMarker", "_heliMarker", "_hangarMarker", "_mortarMarker", "_markerPrefix", "_markerSplit", "_first", "_fullName"];
 
-_vehicleMarker = [];
-_heliMarker = [];
-_hangarMarker = [];
-_mortarMarker = [];
+private _vehicleMarker = [];
+private _heliMarker = [];
+private _hangarMarker = [];
+private _mortarMarker = [];
 
 //Calculating marker prefix
-_markerPrefix = "";
-_markerSplit = _marker splitString "_";
+private _markerPrefix = "";
+private _markerSplit = _marker splitString "_";
 switch (_markerSplit select 0) do
 {
-  case ("airport"): {_markerPrefix = "airp_";};
-  case ("outpost"): {_markerPrefix = "outp_";};
-  case ("resource"): {_markerPrefix = "reso_";};
-  case ("factory"): {_markerPrefix = "fact_";};
-  case ("seaport"): {_markerPrefix = "seap_";};
+    case ("airport"): {_markerPrefix = "airp_";};
+    case ("outpost"): {_markerPrefix = "outp_";};
+    case ("resource"): {_markerPrefix = "reso_";};
+    case ("factory"): {_markerPrefix = "fact_";};
+    case ("seaport"): {_markerPrefix = "seap_";};
 };
 if(count _markerSplit > 1) then
 {
-  _markerPrefix = format ["%1%2_", _markerPrefix, _markerSplit select 1];
+    _markerPrefix = format ["%1%2_", _markerPrefix, _markerSplit select 1];
 };
 
 //Sort marker
-_mainMarker = getMarkerPos _marker;
+private _mainMarkerPos = getMarkerPos _marker;
 {
-  _first = (_x splitString "_") select 0;
-  _fullName = format ["%1%2", _markerPrefix, _x];
-  if(debug && {_mainMarker distance (getMarkerPos _fullName) > 500}) then
-  {
-    diag_log format ["Placementmarker %1 is more than 500 meter away from its mainMarker %2. You may want to check that!", _fullName, _marker];
-  };
-  switch (_first) do
-  {
-    case ("vehicle"): {_vehicleMarker pushBack _fullName;};
-    case ("helipad"): {_heliMarker pushBack _fullName;};
-    case ("hangar"): {_hangarMarker pushBack _fullName;};
-    case ("mortar"): {_mortarMarker pushBack _fullName;};
-  };
-  _fullName setMarkerAlpha 0;
+    private _first = (_x splitString "_") select 0;
+    private _fullName = format ["%1%2", _markerPrefix, _x];
+    if(_mainMarkerPos distance (getMarkerPos _fullName) > 500) then
+    {
+        [
+            2,
+            format ["Placementmarker %1 is more than 500 meter away from its mainMarker %2. You may want to check that!", _fullName, _marker],
+            _fileName
+        ] call A3A_fnc_log;
+    };
+    switch (_first) do
+    {
+        case ("vehicle"): {_vehicleMarker pushBack _fullName;};
+        case ("helipad"): {_heliMarker pushBack _fullName;};
+        case ("hangar"): {_hangarMarker pushBack _fullName;};
+        case ("mortar"): {_mortarMarker pushBack _fullName;};
+    };
+    _fullName setMarkerAlpha 0;
 } forEach _placementMarker;
-
-if(count _vehicleMarker == 0) then
-{
-  diag_log format ["InitSpawnPlaces: Could not find any vehicle places on %1!", _marker];
-};
 
 private ["_markerSize", "_distance", "_buildings", "_hangars", "_helipads", "_markerX"];
 
