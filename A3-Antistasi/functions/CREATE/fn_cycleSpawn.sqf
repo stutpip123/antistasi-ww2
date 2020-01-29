@@ -47,7 +47,7 @@ private _lineIndex = 0;
         if (_vehicleType != "") then
         {
             //Array got a vehicle, spawn it in
-            _vehicle = [_marker, _vehicleType, _lineIndex, _vehicleGroup, false] call A3A_fnc_cycleSpawnUnit;
+            _vehicle = [_marker, _vehicleType, _lineIndex, _vehicleGroup, false] call A3A_fnc_cycleSpawnVehicle;
             _allVehicles pushBack _vehicle;
             sleep 0.25;
         };
@@ -95,11 +95,13 @@ private _lineIndex = 0;
     _lineIndex = _lineIndex + 1;
 } forEach _garrison;
 
+/*
 private _over = [_marker] call A3A_fnc_getOver;
 _lineIndex = 0;
 {
     _lineIndex = _lineIndex + 1;
 } forEach _over;
+*/
 
 private _staticGroup = createGroup _side;
 _allGroups pushBack _staticGroup;

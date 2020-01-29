@@ -45,7 +45,8 @@ FINISH FOR DEV MEETING 25.1.20
 - [WIP] Integrate the system
 [WIP] Handle statics
 - [DONE] Search for static positions
-- [WIP] Add a amount of random, then persistent statics on start
+- [WIP] Add random statics at start
+- Make statics persistent
 - [DONE] Gradually increase them over the warlevel
 - On death or deconstruction, respawn them after 30 minutes
 [WIP] Enabling it for player side, not only AI
@@ -55,6 +56,8 @@ FINISH FOR DEV MEETING 25.1.20
 Add the functions to send troops (remove from garrison)
 - Adding units while runtime
 - Removing units while runtime
+FIXES:
+- Fixed garrisonCount not being able to count fixed size arrays
 ================================================================================
 WORK TILL HERE, THEN INTEL AND DESTRUCTION
 ================================================================================
@@ -97,7 +100,7 @@ Script to find keys on crew squad leaders (+ cool vehicle open mechanic)
 ================================================================================
 Files that need a rework
 ================================================================================
-- fn_initSpawnPlaces
 - fn_selectReinfUnits
 - fn_shouldReinforce
 - fn_landThreatEval
+- fn_reinforcementsAI
