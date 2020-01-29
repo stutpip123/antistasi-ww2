@@ -86,7 +86,7 @@ private ["_nameX", "_roads", "_numCiv", "_roadsProv", "_roadcon", "_dmrk", "_inf
 configClasses (configfile >> "CfgWorlds" >> worldName >> "Names") apply {
 
 	_nameX = configName _x;
-    [3, format ["Proceeding city %1 now", _nameX], _fileName] call A3A_fnc_log;
+    [4, format ["Proceeding city %1 now", _nameX], _fileName] call A3A_fnc_log;
 	_sizeX = getNumber (_x >> "radiusA");
 	_sizeY = getNumber (_x >> "radiusB");
 	_size = [_sizeY, _sizeX] select (_sizeX > _sizeY);

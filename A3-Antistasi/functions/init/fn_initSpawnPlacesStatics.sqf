@@ -23,7 +23,7 @@ private _statics = [];
             //Building is a watchtower and should be equipted with one MG
             private _pos = _building buildingPos 1;
             private _dir = (getDir _building) - 180;
-            _pos = [_pos, 2.5, (_dir - 20)] call BIS_fnc_relPos;
+            _pos = [_pos, 1.8, (_dir - 20)] call BIS_fnc_relPos;
             _statics pushBack [[_pos, _dir, "MG"], false];
         };
         case (_buildingType in listStaticMGNest):

@@ -45,7 +45,7 @@ FINISH FOR DEV MEETING 25.1.20
 - [WIP] Integrate the system
 [WIP] Handle statics
 - [DONE] Search for static positions
-- [WIP] Add random statics at start
+- [DONE] Add random statics at start
 - [WIP] Make statics persistent
 - [DONE] Gradually increase them over the warlevel
 - On death or deconstruction, respawn them after 30 minutes
@@ -56,6 +56,7 @@ FINISH FOR DEV MEETING 25.1.20
 Add the functions to send troops (remove from garrison)
 - Adding units while runtime
 - Removing units while runtime
+- Remove stolen vehicles
 FIXES:
 - Fixed garrisonCount not being able to count fixed size arrays
 ================================================================================

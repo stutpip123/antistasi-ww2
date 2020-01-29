@@ -118,21 +118,21 @@ if(_side != teamPlayer) then
     {
         private _spawnParameter = [_marker, "Static"] call A3A_fnc_findSpawnPosition;
         private _staticType = _spawnParameter select 2;
-        private _crew = if(_side == Occupant) then {NATOCrew} else {CSATCrew};
+        private _crew = if(_side == Occupants) then {staticCrewOccupants} else {staticCrewInvaders};
         private _static = "";
         switch (_staticType) do
         {
             case ("MG"):
             {
-                _static = if(_side == Occupant) then {NATOMG} else {CSATMG};
+                _static = if(_side == Occupants) then {NATOMG} else {CSATMG};
             };
             case ("AA"):
             {
-                _static = if(_side == Occupant) then {staticAAOccupants} else {staticAAInvaders};
+                _static = if(_side == Occupants) then {staticAAOccupants} else {staticAAInvaders};
             };
             case ("AT"):
             {
-                _static = if(_side == Occupant) then {staticATOccupants} else {staticATInvaders};
+                _static = if(_side == Occupants) then {staticATOccupants} else {staticATInvaders};
             };
         };
         private _staticObject = createVehicle [_static, (_spawnParameter select 0), [], 0, "CAN_COLLIDE"];

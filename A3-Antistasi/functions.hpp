@@ -199,10 +199,8 @@ class A3A
 		class CIVinit {};
 		class civVEHinit {};
 		class cleanserVeh {};
-		class createAIAirplane {};
 		class createAICities {};
 		class createAIcontrols {};
-		class createAIOutposts {};
 		class createAIResources {};
 		class createAISite {};
 		class createCIV {};
