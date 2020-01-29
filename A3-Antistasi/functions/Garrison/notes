@@ -46,7 +46,7 @@ FINISH FOR DEV MEETING 25.1.20
 [WIP] Handle statics
 - [DONE] Search for static positions
 - [WIP] Add random statics at start
-- Make statics persistent
+- [WIP] Make statics persistent
 - [DONE] Gradually increase them over the warlevel
 - On death or deconstruction, respawn them after 30 minutes
 [WIP] Enabling it for player side, not only AI

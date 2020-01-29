@@ -220,7 +220,6 @@ class A3A
 		class garrisonUpdate {};
 		class groupDespawner {};
 		class invaderPunish {};
-		class milBuildings {};
 		class minefieldAAF {};
 		class mortarPos {};
 		class NATOinit {};
