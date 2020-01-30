@@ -29,7 +29,7 @@ if(_isSinglePlayer) then
 
 };
 garrison setVariable ["Airport_preference", _preference];
-garrison setVariable ["Airport_statics", 0.35];
+garrison setVariable ["Airport_staticPerc", 0.35];
 
 //Setting up outpost preferences
 _preference =
@@ -46,7 +46,7 @@ if(_isSinglePlayer) then
 
 };
 garrison setVariable ["Outpost_preference", _preference];
-garrison setVariable ["Outpost_statics", 0.2];
+garrison setVariable ["Outpost_staticPerc", 0.2];
 
 //Setting up city preferences
 _preference =
@@ -54,7 +54,7 @@ _preference =
   //No units in cities at start
 ];
 garrison setVariable ["City_preference", _preference];
-garrison setVariable ["City_statics", 0];
+garrison setVariable ["City_staticPerc", 0];
 
 //Setting up other preferences
 _preference =
@@ -69,4 +69,4 @@ if(_isSinglePlayer) then
 
 };
 garrison setVariable ["Other_preference", _preference];
-garrison setVariable ["Other_statics", 0];
+garrison setVariable ["Other_staticPerc", 0];

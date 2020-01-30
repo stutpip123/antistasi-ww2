@@ -105,44 +105,62 @@ _lineIndex = 0;
 
 private _staticGroup = createGroup _side;
 _allGroups pushBack _staticGroup;
-if(_side != teamPlayer) then
+private _statics = garrison getVariable (format ["%1_statics", _marker]);
+[
+    3,
+    format ["Spawning in %1 statics on %2", (count _statics), _marker],
+    _fileName
+] call A3A_fnc_log;
+
 {
-    private _currentPlaces = spawner getVariable (format ["%1_current", _marker]);
-    [
-        3,
-        format ["Spawning in %1 statics on %2", (_currentPlaces select 4), _marker],
-        _fileName
-    ] call A3A_fnc_log;
+    private _data = _x;
+    private _spawnParameter = _data select 1;
+    private _allowedAt = _data select 0;
+    private _currentTime = dateToNumber date;
 
-    for "_counter" from 1 to (_currentPlaces select 4) do
+    //Check if static has been killed and is not replenished by now
+    if(_currentTime > _allowedAt) then
     {
-        private _spawnParameter = [_marker, "Static"] call A3A_fnc_findSpawnPosition;
-        private _staticType = _spawnParameter select 2;
-        private _crew = if(_side == Occupants) then {staticCrewOccupants} else {staticCrewInvaders};
-        private _static = "";
-        switch (_staticType) do
+        if(_spawnParameter isEqualType -1) then
         {
-            case ("MG"):
-            {
-                _static = if(_side == Occupants) then {NATOMG} else {CSATMG};
-            };
-            case ("AA"):
-            {
-                _static = if(_side == Occupants) then {staticAAOccupants} else {staticAAInvaders};
-            };
-            case ("AT"):
-            {
-                _static = if(_side == Occupants) then {staticATOccupants} else {staticATInvaders};
-            };
+            _spawnParameter = [_marker, "Static"] call A3A_fnc_findSpawnPosition;
         };
-        private _staticObject = createVehicle [_static, (_spawnParameter select 0), [], 0, "CAN_COLLIDE"];
-        _staticObject setDir (_spawnParameter select 1);
 
-        private _gunner =  _staticGroup createUnit [_crew, getMarkerPos _marker, [], 0, "NONE"];
-        [_gunner, _marker] call A3A_fnc_NATOinit;
-		_gunner moveInGunner _staticObject;
+        private _spawnPos = _spawnParameter select 0;
+        private _nearestBuilding = nearestObject [_spawnPos, "HouseBase"];
+
+        [3, format ["nearestBuilding is %1", (typeOf _nearestBuilding)], _fileName] call A3A_fnc_log;
+
+        if(!(_nearestBuilding isKindOf "Ruins")) then
+        {
+            private _staticType = _spawnParameter select 2;
+            private _crew = if(_side == Occupants) then {staticCrewOccupants} else {staticCrewInvaders};
+            private _static = "";
+            switch (_staticType) do
+            {
+                case ("MG"):
+                {
+                    _static = if(_side == Occupants) then {NATOMG} else {CSATMG};
+                };
+                case ("AA"):
+                {
+                    _static = if(_side == Occupants) then {staticAAOccupants} else {staticAAInvaders};
+                };
+                case ("AT"):
+                {
+                    _static = if(_side == Occupants) then {staticATOccupants} else {staticATInvaders};
+                };
+            };
+            private _staticObject = createVehicle [_static, _spawnPos, [], 0, "CAN_COLLIDE"];
+            _staticObject setDir (_spawnParameter select 1);
+            _allVehicles pushBack _staticObject;
+
+            private _gunner =  _staticGroup createUnit [_crew, getMarkerPos _marker, [], 5, "NONE"];
+            [_gunner, _marker] call A3A_fnc_NATOinit;
+            _gunner moveInGunner _staticObject;
+        };
     };
-};
+} forEach _statics;
 _staticGroup deleteGroupWhenEmpty true;
 
 //Units spawned, fixing marker size

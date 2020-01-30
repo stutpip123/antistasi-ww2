@@ -41,7 +41,7 @@ for "_i" from (tierPreference + 1) to tierWar do
         [_preference, "Airport_preference"] call A3A_fnc_logArray;
 
         garrison setVariable ["Airport_preference", _preference, true];
-        garrison setVariable ["Airport_statics", (airportStaticsTiers select _index), true];
+        garrison setVariable ["Airport_staticPerc", (airportStaticsTiers select _index), true];
 
         //Update all the airports
         {
@@ -71,7 +71,7 @@ for "_i" from (tierPreference + 1) to tierWar do
         [_preference, "Outpost_preference"] call A3A_fnc_logArray;
 ;
         garrison setVariable ["Outpost_preference", _preference, true];
-        garrison setVariable ["Outpost_statics", (outpostStaticsTiers select _index), true];
+        garrison setVariable ["Outpost_staticPerc", (outpostStaticsTiers select _index), true];
 
         {
             ["Outpost", _x] spawn A3A_fnc_updateGarrison;
@@ -92,7 +92,7 @@ for "_i" from (tierPreference + 1) to tierWar do
 
       //Update statics percentage
       _index = cityUpdateTiers findIf {_x == _i};
-      garrison setVariable ["City_statics", (cityStaticsTiers select _index), true];
+      garrison setVariable ["City_staticPerc", (cityStaticsTiers select _index), true];
 
       {
           ["City", _x] spawn A3A_fnc_updateGarrison;
@@ -116,7 +116,7 @@ for "_i" from (tierPreference + 1) to tierWar do
 
       //Update statics percentage
       _index = otherUpdateTiers findIf {_x == _i};
-      garrison setVariable ["Other_statics", (otherStaticsTiers select _index), true];
+      garrison setVariable ["Other_staticPerc", (otherStaticsTiers select _index), true];
 
       {
           ["Other", _x] spawn A3A_fnc_updateGarrison;

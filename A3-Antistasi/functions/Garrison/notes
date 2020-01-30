@@ -46,7 +46,7 @@ FINISH FOR DEV MEETING 25.1.20
 [WIP] Handle statics
 - [DONE] Search for static positions
 - [DONE] Add random statics at start
-- [WIP] Make statics persistent
+- [DONE] Make statics persistent
 - [DONE] Gradually increase them over the warlevel
 - On death or deconstruction, respawn them after 30 minutes
 [WIP] Enabling it for player side, not only AI
@@ -69,6 +69,7 @@ Make civs working again
 Remove spawned in markers
 ------------ Unit spawns -------------------------------------------------------
 Change vehicle getIn EH to handle stolen vehicles correctly
+On despawn handle vehicles as recovered by nearest marker
 ------------ Reinforcements selection ------------------------------------------
 Improve the AI, which chooses the units
 Stop the AI from bypassing the economy
