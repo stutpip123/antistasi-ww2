@@ -295,11 +295,13 @@ class A3A
 		class getGarrison {};
 		class getGarrisonRatio {};
 		class getGarrisonStatus {};
+        class getOver {};
 		class getRequested {};
 		class getVehicleCrew {};
 		class initPreference {};
 		class logArray {};
         class markerAlert {};
+        class removeFromOver {};
 		class replenishGarrison {};
 		class selectGroupType {};
 		class selectReinfUnits {};

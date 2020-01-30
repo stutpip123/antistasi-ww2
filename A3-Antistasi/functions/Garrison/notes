@@ -43,7 +43,7 @@ FINISH FOR DEV MEETING 25.1.20
 - [WIP] Create removeFromOver
 - [DONE] Change Killed EH on units
 - [WIP] Integrate the system
-[DONE] Handle statics
+[DONE] Handle AI statics
 - [DONE] Search for static positions
 - [DONE] Add random statics at start
 - [DONE] Make statics persistent
@@ -62,6 +62,9 @@ FIXES:
 ================================================================================
 WORK TILL HERE, THEN INTEL AND DESTRUCTION
 ================================================================================
+
+
+
 ------------ Distance script ---------------------------------------------------
 Faster way to check for vehicle
 Make roadblocks functioning again
@@ -77,6 +80,7 @@ Stop the AI from bypassing the economy
 [WIP] Optimisation for speed and data size
 
 
+Handle player statics
 Handle deconstruct of static
 Rework the static spawn into all file
 Fix edge case in which static stop to work after the year changes \o/
