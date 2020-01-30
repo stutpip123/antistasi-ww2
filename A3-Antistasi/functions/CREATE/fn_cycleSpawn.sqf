@@ -155,9 +155,69 @@ private _statics = garrison getVariable (format ["%1_statics", _marker]);
             _staticObject setDir (_spawnParameter select 1);
             _allVehicles pushBack _staticObject;
 
+            _staticObject setVariable ["StaticIndex", _forEachIndex];
+            _staticObject setVariable ["StaticMarker", _marker];
+            _staticObject addEventHandler
+            [
+                "Killed",
+                {
+                    private _static = _this select 0;
+                    private _marker = _static getVariable "StaticMarker";
+                    private _index = _static getVariable "StaticIndex";
+                    [
+                        3,
+                        format ["%1 on %2 has been killed, adding 30 minutes cooldown", typeOf _static, _marker],
+                        "cycleSpawnStaticEH"
+                    ] call A3A_fnc_log;
+                    private _statics = garrison getVariable (format ["%1_statics", _marker]);
+                    private _current = (_statics select _index) select 0;
+                    private _date = dateToNumber date;
+                    if(_current > _date) then
+                    {
+                        _current = numberToDate [date select 0, _current];
+                        _current = _current set [4, (_current select 4) + 30];
+                        (_statics select _index) set [0, dateToNumber (_current)];
+                    }
+                    else
+                    {
+                        (_statics select _index) set [0, _date + (dateToNumber [0,1,1,0,30])];
+                    };
+                }
+            ];
+
             private _gunner =  _staticGroup createUnit [_crew, getMarkerPos _marker, [], 5, "NONE"];
             [_gunner, _marker] call A3A_fnc_NATOinit;
             _gunner moveInGunner _staticObject;
+
+            _gunner setVariable ["StaticIndex", _forEachIndex];
+            _gunner setVariable ["StaticMarker", _marker];
+            _gunner addEventHandler
+            [
+                "Killed",
+                {
+                    private _gunner = _this select 0;
+                    private _marker = _gunner getVariable "StaticMarker";
+                    private _index = _gunner getVariable "StaticIndex";
+                    [
+                        3,
+                        format ["%1 on %2 has been killed, adding 15 minutes cooldown", typeOf _gunner, _marker],
+                        "cycleSpawnStaticEH"
+                    ] call A3A_fnc_log;
+                    private _statics = garrison getVariable (format ["%1_statics", _marker]);
+                    private _current = (_statics select _index) select 0;
+                    private _date = dateToNumber date;
+                    if(_current > _date) then
+                    {
+                        _current = numberToDate [date select 0, _current];
+                        _current = _current set [4, (_current select 4) + 15];
+                        (_statics select _index) set [0, dateToNumber (_current)];
+                    }
+                    else
+                    {
+                        (_statics select _index) set [0, _date + (dateToNumber [0,1,1,0,15])];
+                    };
+                }
+            ];
         };
     };
 } forEach _statics;

@@ -43,12 +43,12 @@ FINISH FOR DEV MEETING 25.1.20
 - [WIP] Create removeFromOver
 - [DONE] Change Killed EH on units
 - [WIP] Integrate the system
-[WIP] Handle statics
+[DONE] Handle statics
 - [DONE] Search for static positions
 - [DONE] Add random statics at start
 - [DONE] Make statics persistent
 - [DONE] Gradually increase them over the warlevel
-- On death or deconstruction, respawn them after 30 minutes
+- [DONE] On death, respawn them after 30 minutes
 [WIP] Enabling it for player side, not only AI
 - [WIP] Integrate it on marker change
 - Use the over units to garrison them
@@ -58,7 +58,7 @@ Add the functions to send troops (remove from garrison)
 - Removing units while runtime
 - Remove stolen vehicles
 FIXES:
-- Fixed garrisonCount not being able to count fixed size arrays
+- [DONE] Fixed garrisonCount not being able to count fixed size arrays
 ================================================================================
 WORK TILL HERE, THEN INTEL AND DESTRUCTION
 ================================================================================
@@ -77,6 +77,9 @@ Stop the AI from bypassing the economy
 [WIP] Optimisation for speed and data size
 
 
+Handle deconstruct of static
+Rework the static spawn into all file
+Fix edge case in which static stop to work after the year changes \o/
 Place units in logical positions (buildings and so on)
 Enable patrols for marker
 [Won't do] Add helicopter types for spoffy
