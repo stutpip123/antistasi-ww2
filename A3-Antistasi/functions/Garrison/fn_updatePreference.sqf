@@ -8,6 +8,11 @@
 
 private _fileName = "updatePreference";
 
+if(!canSuspend) exitWith
+{
+    [] spawn A3A_fnc_updatePreference;
+};
+
 [2, format ["tierWar has changed, is now %1, checking for preference update", tierWar], _fileName] call A3A_fnc_log;
 
 //No need to update the preferences
@@ -69,7 +74,7 @@ for "_i" from (tierPreference + 1) to tierWar do
 
         [2, format ["Outpost_preference hit level %1", _i], _fileName] call A3A_fnc_log;
         [_preference, "Outpost_preference"] call A3A_fnc_logArray;
-;
+
         garrison setVariable ["Outpost_preference", _preference, true];
         garrison setVariable ["Outpost_staticPerc", (outpostStaticsTiers select _index), true];
 
@@ -123,6 +128,7 @@ for "_i" from (tierPreference + 1) to tierWar do
           ["Other", _x] spawn A3A_fnc_updateStatics;
       } forEach resourcesX + factories + seaports;
   };
+  sleep 0.1;
 };
 
 tierPreference = tierWar;

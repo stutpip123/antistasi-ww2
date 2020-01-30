@@ -9,6 +9,7 @@ params ["_marker", "_units"];
 *       Nothing
 */
 
+private _fileName = "addToOver";
 private _overUnits = [_marker] call A3A_fnc_getOver;
 
 private _vehicleIndex = -1;
@@ -69,6 +70,11 @@ private _overCount = count _overUnits;
             }
             else
             {
+                [
+                    4,
+                    format ["Line is %1", (_overUnits select _cargoIndex)],
+                    _fileName
+                ] call A3A_fnc_log;
                 //Space available, add unit here
                 private _subIndex = ((_overUnits select _cargoIndex) select 2) find "";
                 ((_overUnits select _cargoIndex) select 2) set [_subIndex, _x];
@@ -78,7 +84,7 @@ private _overCount = count _overUnits;
                 }
                 else
                 {
-                    _crewIndex = _overUnits findIf {"" in (_x select 1)};
+                    _cargoIndex = _overUnits findIf {"" in (_x select 2)};
                 };
             };
         };

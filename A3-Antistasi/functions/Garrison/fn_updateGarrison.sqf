@@ -59,7 +59,8 @@ for "_i" from 0 to ((count _garrison) - 1) do
             _newVehicle = [_preData select 0, _side] call A3A_fnc_selectVehicleType;
             //Save the replaced vehicle (it should not vanish suddenly)
             _replaced pushBack (_garData select 0);
-            _garData set [0, _newVehicle];
+            _garData set [0, ""];
+            _reqData set [0, _newVehicle];
         };
     };
 
@@ -91,12 +92,7 @@ for "_i" from 0 to ((count _garrison) - 1) do
                 //We have more crew units than we actually need, remove some
                 //I don't like this case at all... Not sure if it is even possible
                 //Is there a tank that uses less crew than an APC or an APC with less crew than a car?
-
-                [
-                    2,
-                    "A strange case has appeared, please report this to wurzel on the official discord!",
-                    _fileName
-                ] call A3A_fnc_log;
+                //The only case is the drone to plane, but I may have to redo the drone anyway
 
                 //Getting rid of the minus
                 _diff = abs _diff;

@@ -38,11 +38,11 @@ SPLIT HERE FOR PR 2.2
 ================================================================================
 FINISH FOR DEV MEETING 25.1.20
 ================================================================================
-[WIP] Handle replaced units in fn_updateGarrison
+[DONE] Handle replaced units in fn_updateGarrison
 - [DONE] Create addToOver
-- [WIP] Create removeFromOver
+- [DONE] Create removeFromOver
 - [DONE] Change Killed EH on units
-- [WIP] Integrate the system
+- [DONE] Integrate the system
 [DONE] Handle AI statics
 - [DONE] Search for static positions
 - [DONE] Add random statics at start
@@ -80,6 +80,7 @@ Stop the AI from bypassing the economy
 [WIP] Optimisation for speed and data size
 
 
+Rework cycle spawn
 Handle player statics
 Handle deconstruct of static
 Rework the static spawn into all file

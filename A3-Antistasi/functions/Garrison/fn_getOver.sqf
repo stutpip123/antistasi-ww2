@@ -8,10 +8,10 @@ params ["_marker"];
 *     _result: ARRAY : The over units in the correct format
 */
 
-private "_result" = [];
+private _result = [];
 
 if(isNil "_marker") exitWith {diag_log "GetGarrison: No marker given!";};
 
-_result = garrison getVariable [format ["%1_over", _marker], [["", [], []]]];
+_result = garrison getVariable [format ["%1_over", _marker], [["", [""], [""]]]];
 
 _result;

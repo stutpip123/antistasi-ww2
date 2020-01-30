@@ -79,11 +79,14 @@ if(_spawnParameter isEqualType []) then
 }
 else
 {
-    [
-        1,
-        format ["Unlocked vehicle has no place, vehicle: %1, marker: %2", _vehicleType, _marker],
-        _fileName
-    ] call A3A_fnc_log;
+    if(!_isOver) then
+    {
+        [
+            1,
+            format ["Unlocked vehicle has no place, vehicle: %1, marker: %2", _vehicleType, _marker],
+            _fileName
+        ] call A3A_fnc_log;
+    };
 };
 
 _vehicle;

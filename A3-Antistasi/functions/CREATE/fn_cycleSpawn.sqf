@@ -95,13 +95,63 @@ private _lineIndex = 0;
     _lineIndex = _lineIndex + 1;
 } forEach _garrison;
 
-/*
+
 private _over = [_marker] call A3A_fnc_getOver;
+[_over, "OverUnits"] call A3A_fnc_logArray;
+
 _lineIndex = 0;
 {
+    private _vehicleType = _x select 0;
+    private _crewArray = _x select 1;
+    private _cargoArray = _x select 2;
+    private _spawnParameter = [];
+
+    private _vehicleGroup = createGroup _side;
+    private _vehicle = objNull;
+    _allGroups pushBack _vehicleGroup;
+
+    if (_vehicleType != "") then
+    {
+        //Array got a vehicle, spawn it in
+        _vehicle = [_marker, _vehicleType, _lineIndex, _vehicleGroup, true] call A3A_fnc_cycleSpawnVehicle;
+        _allVehicles pushBack _vehicle;
+        sleep 0.25;
+    };
+
+    //Spawn in crew
+    if(_vehicle == objNull) then
+    {
+        //Spawn near the marker, no vehicle for you to use
+        _spawnParameter = getMarkerPos _marker;
+    }
+    else
+    {
+        _spawnParameter = getPos _vehicle;
+    };
+
+    {
+        if(_x != "") then
+        {
+            [_marker, _x, _lineIndex, _vehicleGroup, _spawnParameter, true] call A3A_fnc_cycleSpawnUnit;
+            sleep 0.25;
+        };
+    } forEach _crewArray;
+
+    private _groupSoldier = createGroup _side;
+    _allGroups pushBack _groupSoldier;
+    _spawnParameter = getMarkerPos _marker;
+    {
+        if(_x != "") then
+        {
+            [_marker, _x, _lineIndex, _groupSoldier, _spawnParameter, true] call A3A_fnc_cycleSpawnUnit;
+            sleep 0.25;
+        };
+    } forEach _cargoArray;
+    _groupSoldier deleteGroupWhenEmpty true;
+    [leader _groupSoldier, _marker, "SAFE", "SPAWNED", "RANDOM", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
     _lineIndex = _lineIndex + 1;
 } forEach _over;
-*/
+
 
 private _staticGroup = createGroup _side;
 _allGroups pushBack _staticGroup;
@@ -129,7 +179,7 @@ private _statics = garrison getVariable (format ["%1_statics", _marker]);
         private _spawnPos = _spawnParameter select 0;
         private _nearestBuilding = nearestObject [_spawnPos, "HouseBase"];
 
-        [3, format ["nearestBuilding is %1", (typeOf _nearestBuilding)], _fileName] call A3A_fnc_log;
+        [4, format ["nearestBuilding is %1", (typeOf _nearestBuilding)], _fileName] call A3A_fnc_log;
 
         if(!(_nearestBuilding isKindOf "Ruins")) then
         {
