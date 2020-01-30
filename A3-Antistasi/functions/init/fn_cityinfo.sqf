@@ -129,7 +129,7 @@ while {visibleMap} do
                 }
                 else
                 {
-                    _text = format ["%1%2", _text, [_siteX] call A3A_fnc_garrisonInfo,_nameFaction];
+                    _text = format ["%1%2", _text, [_marker] call A3A_fnc_garrisonInfo];
                 };
             };
         };
