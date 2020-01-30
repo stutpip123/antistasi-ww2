@@ -12,6 +12,7 @@ params ["_marker", "_winner"];
 garrison setVariable [format ["%1_garrison", _marker], [], true];
 garrison setVariable [format ["%1_over", _marker], [], true];
 garrison setVariable [format ["%1_requested", _marker], [], true];
+garrison setVariable [format ["%1_statics", _marker], [], true];
 
 if(_winner != teamPlayer) then
 {
