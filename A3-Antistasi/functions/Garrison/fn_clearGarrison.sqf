@@ -8,6 +8,13 @@ params ["_marker", "_winner"];
 *       Nothing
 */
 
+private _fileName = "clearGarrison";
+[
+    2,
+    format ["Clearing marker %1 now", _marker],
+    _fileName
+] call A3A_fnc_log;
+
 //Deleting all the data on the marker
 garrison setVariable [format ["%1_garrison", _marker], [], true];
 garrison setVariable [format ["%1_over", _marker], [], true];
