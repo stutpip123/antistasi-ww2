@@ -21,6 +21,12 @@ if (isNil "_unit") exitWith
     [1, "No units given, check all calls!", _fileName] call A3A_fnc_log;
 };
 
+[
+    3,
+    format ["%1 on marker %2 died, ID is %3", _unit, _marker, _unitIndex],
+    _fileName
+] call A3A_fnc_log;
+
 //A unit has been KIA
 private _unitType = _unitIndex % 10;
 private _groupID = floor (_unitIndex / 10);

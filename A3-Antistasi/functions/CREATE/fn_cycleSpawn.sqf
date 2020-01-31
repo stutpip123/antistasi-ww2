@@ -159,7 +159,7 @@ _allGroups pushBack _staticGroup;
 private _statics = garrison getVariable (format ["%1_statics", _marker]);
 [
     3,
-    format ["Spawning in %1 statics on %2", (count _statics), _marker],
+    format ["Spawning in %1 statics on %2, data is %3", (count _statics), _marker, _statics],
     _fileName
 ] call A3A_fnc_log;
 

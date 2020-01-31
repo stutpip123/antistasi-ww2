@@ -32,7 +32,7 @@ private _currentUnitCount = 0;
 
 [
     3,
-    format ["Gathered data for unit selection, available are %1, %3 cargo units needed", _maxUnitSend, _maxCargoSpaceNeeded],
+    format ["Gathered data for unit selection, available are %1, %2 cargo units needed", _maxUnitSend, _maxCargoSpaceNeeded],
     _fileName
 ] call A3A_fnc_log;
 [_reinf, "Reinforcement"] call A3A_fnc_logArray;

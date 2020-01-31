@@ -9,6 +9,12 @@ params ["_group", "_vehicle", "_preference"];
 *   Returns:
 *     _result : BOOLEAN : True if group matches preference and vehicle, false otherwise
 */
+private _fileName = "checkGroupType";
+[
+    3,
+    format ["Checking %1 for %2 with preference %3", _group, _vehicle, _preference],
+    _fileName
+] call A3A_fnc_log;
 
 private ["_result", "_vehicleSeats"];
 _result = false;
