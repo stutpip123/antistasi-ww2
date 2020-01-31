@@ -167,6 +167,9 @@ private _overUnits = [];
     };
 } forEach _sortingUnits;
 
+garrison setVariable [format ["%1_garrison", _marker], _garrison, true];
+garrison setVariable [format ["%1_requested", _marker], _requested, true];
+
 [_marker, _overUnits] call A3A_fnc_addToOver;
 
 [_marker] call A3A_fnc_updateReinfState;

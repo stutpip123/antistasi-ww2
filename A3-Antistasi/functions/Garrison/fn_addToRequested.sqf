@@ -57,3 +57,6 @@ else
     _element set [0, _unit];
     _garElement set [0, ""];
 };
+
+garrison setVariable [format ["%1_garrison", _marker], _garrison, true];
+garrison setVariable [format ["%1_requested", _marker], _requested, true];

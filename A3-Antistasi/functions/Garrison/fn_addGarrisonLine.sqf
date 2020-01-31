@@ -71,3 +71,8 @@ switch (true) do
         _requested pushBack ["", _emptyCrew, _emptyCargo];
     };
 };
+
+
+garrison setVariable [format ["%1_garrison", _marker], _garrison, true];
+garrison setVariable [format ["%1_requested", _marker], _requested, true];
+spawner getVariable [format ["%1_current", _marker], _currentPlaces, true];

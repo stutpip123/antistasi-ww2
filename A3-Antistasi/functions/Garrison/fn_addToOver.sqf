@@ -119,3 +119,5 @@ private _overCount = count _overUnits;
         };
     };
 } forEach _units;
+
+garrison setVariable [format ["%1_over", _marker], _overUnits, true];

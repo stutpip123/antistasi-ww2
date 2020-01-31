@@ -75,3 +75,5 @@ if
     //Readds the elements in higher density
     [_marker, _repack] call A3A_fnc_addToOver;
 };
+
+garrison setVariable [format ["%1_over", _marker], _overUnits, true];

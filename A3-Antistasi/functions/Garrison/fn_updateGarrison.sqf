@@ -180,3 +180,6 @@ if(count _garrison < count _preferred) then
 };
 
 [_marker, _replaced] call A3A_fnc_addToOver;
+
+garrison setVariable [format ["%1_garrison", _marker], _garrison, true];
+garrison setVariable [format ["%1_requested", _marker], _requested, true];
