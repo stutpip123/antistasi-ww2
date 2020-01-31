@@ -1,17 +1,25 @@
-private ["_typeX","_costs"];
+params ["_vehicleType"];
 
-_typeX = _this select 0;
+/*  Returns the price of the given vehicle
+*   Params:
+*       _vehicleType : STRING : Config name of the vehicle
+*
+*   Returns:
+*       _costs : NUMBER : The price of the vehicle, 0 if no price set
+*/
 
-_costs = server getVariable _typeX;
-
+private _costs = server getVariable _vehicleType;
 if (isNil "_costs") then
-	{
-	diag_log format ["%1: [Antistasi] | ERROR | vehiclePrice.sqf | Invalid vehicle price :%2.",servertime,_typeX];
+{
+    [
+        1,
+        format ["Vehicle type has no price set, type was %1" ,_vehicleType],
+        "vehiclePrice"
+    ] call A3A_fnc_log;
 	_costs = 0;
-	}
+}
 else
-	{
+{
 	_costs = round (_costs - (_costs * (0.1 * ({sidesX getVariable [_x,sideUnknown] == teamPlayer} count seaports))));
-	};
-
-_costs
+};
+_costs;

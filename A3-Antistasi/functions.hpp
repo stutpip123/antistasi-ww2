@@ -448,6 +448,11 @@ class A3A
 		class vehStats {};
 	};
 
+    class Reinforcements
+    {
+        class sendGroupToGarrison {};
+    };
+
 	class Revive
 	{
 		class actionRevive {};

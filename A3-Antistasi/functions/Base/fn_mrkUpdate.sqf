@@ -8,7 +8,7 @@ private _text = "";
 
 if (_side == teamPlayer) then
 {
-    private _garrisonCount = [(["_marker"] call A3A_fnc_getOver), true] call A3A_fnc_countGarrison;
+    private _garrisonCount = [([_marker] call A3A_fnc_getOver), true] call A3A_fnc_countGarrison;
 	_text = format [": %1", _garrisonCount];
 
 	_mrkD setMarkerColor colorTeamPlayer;

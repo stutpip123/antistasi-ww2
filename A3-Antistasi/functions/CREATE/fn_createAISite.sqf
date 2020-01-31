@@ -47,6 +47,9 @@ _patrolMarker setMarkerColorLocal "ColorRed";
 _patrolMarker setMarkerBrushLocal "DiagGrid";
 //_patrolMarker setMarkerAlphaLocal 0;
 
+private _flag = objNull;
+private _box = objNull;
+
 private _typeFlag = "";
 switch (_side) do
 {
@@ -63,10 +66,9 @@ switch (_side) do
         _typeFlag = SDKFlag;
     };
 };
-private _flag = createVehicle [_typeFlag, _markerPos, [], 0, "NONE"];
+_flag = createVehicle [_typeFlag, _markerPos, [], 0, "NONE"];
 _flag allowDamage false;
 
-private _box = objNull;
 if(_side != teamPlayer) then
 {
     [_flag,"take"] remoteExec ["A3A_fnc_flagaction",[teamPlayer, civilian],_flag];
@@ -96,7 +98,7 @@ if(_side != teamPlayer) then
 }
 else
 {
-    [_veh,"SDKFlag"] remoteExec ["A3A_fnc_flagaction",[teamPlayer, civilian],_flag];
+    [_flag, "SDKFlag"] remoteExec ["A3A_fnc_flagaction",[teamPlayer, civilian],_flag];
 };
 
 [_marker, _patrolMarker, _flag, _box] call A3A_fnc_cycleSpawn;

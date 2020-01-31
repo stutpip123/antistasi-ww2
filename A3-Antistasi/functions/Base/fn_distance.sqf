@@ -107,13 +107,13 @@ while {true} do
                     };
                     if (_marker in outpostsFIA) then
                     {
-                        //[[_marker],"A3A_fnc_createFIAOutposts2"] call A3A_fnc_scheduler;
+                        //[[_marker],"A3A_fnc_createAISite"] call A3A_fnc_scheduler;
                     }
                     else
                     {
-                        if (!(_marker in controlsX)) then
+                        if (!(_marker in controlsX) && (_marker != "Synd_HQ")) then
                         {
-                            [[_marker],"A3A_fnc_createSDKGarrisons"] call A3A_fnc_scheduler;
+                            [[_marker],"A3A_fnc_createAISite"] call A3A_fnc_scheduler;
                         };
                     };
                 };

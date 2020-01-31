@@ -49,10 +49,10 @@ FINISH FOR DEV MEETING 25.1.20
 - [DONE] Make statics persistent
 - [DONE] Gradually increase them over the warlevel
 - [DONE] On death, respawn them after 30 minutes
-[WIP] Enabling it for player side, not only AI
+[DONE] Enabling it for player side, not only AI
 - [DONE] Integrate it on marker change
-- [WIP] Use the over units to garrison them
-- [WIP] Change the unit counter on the map
+- [DONE] Use the over units to garrison them
+- [DONE] Change the unit counter on the map
 Add the functions to send troops (remove from garrison)
 - Adding units while runtime
 - Removing units while runtime
@@ -79,7 +79,10 @@ Stop the AI from bypassing the economy
 ------------ Fix broken stuff --------------------------------------------------
 [WIP] Optimisation for speed and data size
 
-
+Add init scripts for units
+[BUG] Sended units are not leaving the group, not clue why
+Unify and split the EH into seperate files
+On marker clear, also delete vehicles and statics instantly
 Add attacking units to flipped marker
 Rework cycle spawn
 Handle player statics

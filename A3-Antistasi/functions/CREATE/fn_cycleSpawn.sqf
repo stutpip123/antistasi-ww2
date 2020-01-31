@@ -98,6 +98,7 @@ private _lineIndex = 0;
 
 private _over = [_marker] call A3A_fnc_getOver;
 [_over, "OverUnits"] call A3A_fnc_logArray;
+_garCount = _garCount + ([_over, true] call A3A_fnc_countGarrison);
 
 _lineIndex = 0;
 {
