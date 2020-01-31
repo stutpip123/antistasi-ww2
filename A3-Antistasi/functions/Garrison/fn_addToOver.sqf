@@ -10,6 +10,9 @@ params ["_marker", "_units"];
 */
 
 private _fileName = "addToOver";
+
+[3, format ["Adding %1 to %2 now", _units, _marker], _fileName] call A3A_fnc_log;
+
 private _overUnits = [_marker] call A3A_fnc_getOver;
 
 private _vehicleIndex = -1;
