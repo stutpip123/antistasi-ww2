@@ -31,6 +31,12 @@ if (isNil "_unit") exitWith
 private _unitType = _unitIndex % 10;
 private _groupID = floor (_unitIndex / 10);
 
+[
+    3,
+    format ["ID returned groupID %1 and unitType %2", _groupID, _unitType],
+    _fileName
+] call A3A_fnc_log;
+
 //Get needed data
 private _requested = [_marker] call A3A_fnc_getRequested;
 private _garrison = [_marker] call A3A_fnc_getGarrison;

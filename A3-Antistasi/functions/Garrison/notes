@@ -79,6 +79,7 @@ Stop the AI from bypassing the economy
 ------------ Fix broken stuff --------------------------------------------------
 [WIP] Optimisation for speed and data size
 
+Improve reinforce marker selection (remove the ones that are no longer able to send units)
 Add init scripts for units
 [BUG] Sended units are not leaving the group, not clue why
 Unify and split the EH into seperate files

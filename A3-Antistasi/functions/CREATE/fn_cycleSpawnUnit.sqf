@@ -10,7 +10,14 @@ private _fileName = "cycleSpawnUnit";
 private _unit = _group createUnit [_type, _position, [], 5, "NONE"];
 
 //Should work as a local variable needs testing
-_unit setVariable ["UnitIndex", (_lineIndex * 10 + 2)];
+if((_type != NATOCrew) && (_type != CSATCrew)) then
+{
+    _unit setVariable ["UnitIndex", (_lineIndex * 10 + 2)];
+}
+else
+{
+    _unit setVariable ["UnitIndex", (_lineIndex * 10 + 1)];
+};
 _unit setVariable ["UnitMarker", _marker];
 _unit setVariable ["IsOver", _isOver];
 
