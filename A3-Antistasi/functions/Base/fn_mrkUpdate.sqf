@@ -1,87 +1,74 @@
-private ["_markerX","_mrkD"];
+params ["_marker"];
 
-_markerX = _this select 0;
+private ["_mrkD"];
 
-_mrkD = format ["Dum%1",_markerX];
-if (sidesX getVariable [_markerX,sideUnknown] == teamPlayer) then
-	{
-	_textX = if (count (garrison getVariable [_markerX,[]]) > 0) then {format [": %1", count (garrison getVariable [_markerX,[]])]} else {""};
+private _side = sidesX getVariable _marker;
+private _mrkD = format ["Dum%1",_marker];
+private _text = "";
+
+if (_side == teamPlayer) then
+{
+    private _garrisonCount = [([_marker] call A3A_fnc_getOver), true] call A3A_fnc_countGarrison;
+	_text = format [": %1", _garrisonCount];
+
 	_mrkD setMarkerColor colorTeamPlayer;
-	if (_markerX in airportsX) then
-		{
-		_textX = format ["%2 Airbase%1",_textX,nameTeamPlayer];
-		[_mrkD,format ["%1 Airbase",nameTeamPlayer]] remoteExec ["setMarkerTextLocal",[Occupants,Invaders],true];
-		//_mrkD setMarkerText format ["SDK Airbase%1",_textX];
-		if (markerType _mrkD != "flag_Syndicat") then {_mrkD setMarkerType "flag_Syndicat"};
-		}
-	else
-		{
-		if (_markerX in outposts) then
-			{
-			_textX = format ["%2 Outpost%1",_textX,nameTeamPlayer];
-			[_mrkD,format ["%1 Outpost",nameTeamPlayer]] remoteExec ["setMarkerTextLocal",[Occupants,Invaders],true];
-			}
-		else
-			{
-			 if (_markerX in resourcesX) then
-			 	{
-			 	_textX = format ["Resources%1",_textX];
-			 	}
-			 else
-			 	{
-			 	if (_markerX in factories) then
-            		{
-            		_textX = format ["Factory%1",_textX];
-            		}
-            	else
-            		{
-            		if (_markerX in seaports) then {_textX = format ["Sea Port%1",_textX]};
-            		};
-			 	};
-			};
-		};
-	[_mrkD,_textX] remoteExec ["setMarkerTextLocal",[teamPlayer,civilian],true];
-	}
+    switch (true) do
+    {
+        case (_marker in airportsX):
+        {
+            _text = format ["%2 Airbase%1", _text, nameTeamPlayer];
+    		[_mrkD,format ["%1 Airbase", nameTeamPlayer]] remoteExec ["setMarkerTextLocal", [Occupants,Invaders], true];
+    		if (markerType _mrkD != "flag_Syndicat") then {_mrkD setMarkerType "flag_Syndicat"};
+        };
+        case (_marker in resourcesX):
+        {
+            _text = format ["Resources%1",_text];
+        };
+        case (_marker in factories):
+        {
+            _text = format ["Factory%1",_text];
+        };
+        case (_marker in seaports):
+        {
+            _text = format ["Sea Port%1",_text]
+        };
+        default
+        {
+            _text = format ["%2 Outpost%1", _text, nameTeamPlayer];
+			[_mrkD,format ["%1 Outpost", nameTeamPlayer]] remoteExec ["setMarkerTextLocal", [Occupants,Invaders], true];
+        };
+    };
+	[_mrkD,_text] remoteExec ["setMarkerTextLocal",[teamPlayer,civilian],true];
+}
 else
-	{
-	if (sidesX getVariable [_markerX,sideUnknown] == Occupants) then
-		{
-		if (_markerX in airportsX) then
-			{_mrkD setMarkerText format ["%1 Airbase",nameOccupants];
-			_mrkD setMarkerType flagNATOmrk
-			}
-		else
-			{
-			if (_markerX in outposts) then
-				{
-				_mrkD setMarkerText format ["%1 Outpost",nameOccupants]
-				};
-			};
-		_mrkD setMarkerColor colorOccupants;
-		}
-	else
-		{
-		if (_markerX in airportsX) then {_mrkD setMarkerText format ["%1 Airbase",nameInvaders];_mrkD setMarkerType flagCSATmrk} else {
-		if (_markerX in outposts) then {_mrkD setMarkerText format ["%1 Outpost",nameInvaders]}};
-		_mrkD setMarkerColor colorInvaders;
-		};
-	if (_markerX in resourcesX) then
-	 	{
-			_mrkD setMarkerText "Resources";
-	 	}
-	 else
-	 	{
-	 	if (_markerX in factories) then
-    		{
-					_mrkD setMarkerText "Factory";
-    		}
-    	else
-    		{
-    		if (_markerX in seaports) then
-    			{
-    			_mrkD setMarkerText "Sea Port";
-    			};
-    		};
-	 	};
-	};
-
+{
+    private _nameOwner = if(_side == Occupants) then {nameOccupants} else {nameInvaders};
+    private _colorOwner = if (_side == Occupants) then {colorOccupants} else {colorInvaders};
+    private _flag = if (_side == Occupants) then {flagNATOmrk} else {flagCSATmrk};
+    switch (true) do
+    {
+        case (_marker in airportsX):
+        {
+            _mrkD setMarkerText format ["%1 Airbase", _nameOwner];
+			_mrkD setMarkerType flagNATOmrk;
+            _mrkD setMarkerColor _colorOwner;
+        };
+        case (_marker in resourcesX):
+    	{
+    		_mrkD setMarkerText "Resources";
+    	};
+        case (_marker in factories):
+    	{
+			_mrkD setMarkerText "Factory";
+    	};
+        case (_marker in seaports):
+        {
+            _mrkD setMarkerText "Sea Port";
+        };
+        default
+        {
+            _mrkD setMarkerText format ["%1 Outpost", _nameOwner];
+            _mrkD setMarkerColor _colorOwner;
+        };
+    };
+};

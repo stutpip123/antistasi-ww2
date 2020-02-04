@@ -9,15 +9,21 @@ params ["_group", "_vehicle", "_preference"];
 *   Returns:
 *     _result : BOOLEAN : True if group matches preference and vehicle, false otherwise
 */
+private _fileName = "checkGroupType";
+[
+    3,
+    format ["Checking %1 for %2 with preference %3", _group, _vehicle, _preference],
+    _fileName
+] call A3A_fnc_log;
 
 private ["_result", "_vehicleSeats"];
 _result = false;
 
 //Tanks are always combined with an AT team
-if(_vehicle == "LAND_TANK") exitWith {(_group == groupsNATOAT || {_group == groupsCSATAT})};
+if(_vehicle == vehNATOTank || _vehicle == vehCSATTank) exitWith {(_group isEqualTo groupsNATOAT || {_group isEqualTo groupsCSATAT})};
 
 //AA is always combined with an AA team
-if(_vehicle == "LAND_AIR") exitWith {(_group == groupsNATOAA || {_group == groupsCSATAA})};
+if(_vehicle == vehNATOAA || _vehicle == vehCSATAA) exitWith {(_group == groupsNATOAA || {_group == groupsCSATAA})};
 
 //Check group size to determine
 if(_preference == "SQUAD") then

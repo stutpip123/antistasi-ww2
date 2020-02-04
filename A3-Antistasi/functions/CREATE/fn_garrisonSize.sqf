@@ -16,7 +16,7 @@ else
 	if (_markerX in outposts) then
 		{
 		_nveh = round (_size/50);
-		_buildings = nearestObjects [getMarkerPos _markerX,(["Land_TTowerBig_1_F","Land_TTowerBig_2_F","Land_Communication_F"]) + listMilBld, _size];
+		_buildings = nearestObjects [getMarkerPos _markerX,(["Land_TTowerBig_1_F","Land_TTowerBig_2_F","Land_Communication_F"]) + listAllBuildings, _size];
 		if (count _buildings > 0) then
 			{
 			_nveh = _nveh + 1;

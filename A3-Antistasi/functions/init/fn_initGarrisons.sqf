@@ -1,7 +1,7 @@
 //Original Author: Barbolani
 //Edited and updated by the Antistasi Community Development Team
 scriptName "fn_initGarrisons";
-private _fileName = "fn_initGarrisons";
+private _fileName = "initGarrisons";
 [2,"InitGarrisons started",_fileName] call A3A_fnc_log;
 
 _fnc_initMarker =
@@ -54,44 +54,6 @@ _fnc_initMarker =
 
 		[_x] call A3A_fnc_createControls;
 	} forEach _target;
-};
-
-
-_fnc_initGarrison =
-{
-	params ["_markerArray", "_type"];
-	private ["_side", "_groupsRandom", "_garrNum", "_garrisonOld", "_marker"];
-	{
-	    _marker = _x;
-			_garrNum = ([_marker] call A3A_fnc_garrisonSize) / 8;
-			_side = sidesX getVariable [_marker, sideUnknown];
-			if(_side != Occupants) then
-			{
-				_groupsRandom = [groupsCSATSquad, groupsFIASquad] select ((_marker in outposts) && (gameMode == 4));
-			}
-			else
-			{
-				if(_type != "Airport" && {_type != "Outpost"}) then
-				{
-					_groupsRandom = groupsFIASquad;
-				}
-				else
-				{
-	 				_groupsRandom = groupsNATOSquad;
-				};
-			};
-			//Old system, keeping it intact for the moment
-			_garrisonOld = [];
-			for "_i" from 1 to _garrNum do
-			{
-				_garrisonOld append (selectRandom _groupsRandom);
-			};
-			//
-
-			//Old system, keeping it runing for now
-			garrison setVariable [_marker, _garrisonOld, true];
-
-	} forEach _markerArray;
 };
 
 private _mrkNATO = [];
@@ -181,43 +143,22 @@ else
 
 if (!(isNil "loadLastSave") && {loadLastSave}) exitWith {};
 
+[3, "Setting up airbase garrisons", _fileName] call A3A_fnc_log;
+[airportsX, "Airport", [0,0,0]] call A3A_fnc_createGarrison;
 
-if (debug) then {
-	diag_log format ["%1: [Antistasi] | DEBUG | initGarrisons.sqf | Setting up Airbase stuff.", servertime];
-};
+[3, "Setting up resource garrisons", _fileName] call A3A_fnc_log;
+[resourcesX, "Other", [0,0,0]] call A3A_fnc_createGarrison;
 
-[airportsX, "Airport"] call _fnc_initGarrison;								//Old system
-[airportsX, "Airport", [0,0,0]] call A3A_fnc_createGarrison;	//New system
-
-if (debug) then {
-	diag_log format ["%1: [Antistasi] | DEBUG | initGarrisons.sqf | Setting up Resource stuff.", servertime];
-};
-
-[resourcesX, "Resource"] call _fnc_initGarrison;							//Old system
-[resourcesX, "Other", [0,0,0]] call A3A_fnc_createGarrison;	//New system
-
-if (debug) then {
-	diag_log format ["%1: [Antistasi] | DEBUG | initGarrisons.sqf | Setting up Factory stuff.", servertime];
-};
-
-[factories, "Factory"] call _fnc_initGarrison;
+[3, "Setting up factory garrisons", _fileName] call A3A_fnc_log;
 [factories, "Other", [0,0,0]] call A3A_fnc_createGarrison;
 
-if (debug) then {
-	diag_log format ["%1: [Antistasi] | DEBUG | initGarrisons.sqf | Setting up Outpost stuff.", servertime];
-};
-
-[outposts, "Outpost"] call _fnc_initGarrison;
+[3, "Setting up outpost garrisons", _fileName] call A3A_fnc_log;
 [outposts, "Outpost", [1,1,0]] call A3A_fnc_createGarrison;
 
-if (debug) then {
-	diag_log format ["%1: [Antistasi] | DEBUG | initGarrisons.sqf | Setting up Seaport stuff.", servertime];
-};
-
-[seaports, "Seaport"] call _fnc_initGarrison;
+[3, "Setting up seaport garrisons", _fileName] call A3A_fnc_log;
 [seaports, "Other", [1,0,0]] call A3A_fnc_createGarrison;
 
-//New system, adding cities
+[3, "Setting up city garrisons", _fileName] call A3A_fnc_log;
 [citiesX, "City", [0,0,0]] call A3A_fnc_createGarrison;
 
 [2,"InitGarrisons completed",_fileName] call A3A_fnc_log;

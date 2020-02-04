@@ -1,3 +1,7 @@
+#define SPAWNED         0
+#define ON_STANDBY      1
+#define DESPAWNED       2
+
 if (!isServer and hasInterface) exitWith{};
 
 private ["_markerX","_vehiclesX","_groups","_soldiers","_positionX","_pos","_size","_veh","_staticsX","_garrison","_radiusX","_countX","_groupX","_groupMortar","_typeX","_unit"];
@@ -76,22 +80,22 @@ _groupX = createGroup teamPlayer;
 _groupEst = createGroup teamPlayer;
 _groupMortar = createGroup teamPlayer;
 {
-_index = _garrison findIf {_x in SDKMil};
-if (_index == -1) exitWith {};
-if (typeOf _x == SDKMortar) then
+    _index = _garrison findIf {_x in SDKMil};
+    if (_index == -1) exitWith {};
+    if (typeOf _x == SDKMortar) then
 	{
-	_unit = _groupMortar createUnit [(_garrison select _index), _positionX, [], 0, "NONE"];
-	_unit moveInGunner _x;
-	_nul=[_x] execVM "scripts\UPSMON\MON_artillery_add.sqf";//TODO need delete UPSMON link
+        _unit = _groupMortar createUnit [(_garrison select _index), _positionX, [], 0, "NONE"];
+        _unit moveInGunner _x;
+        [_x] execVM "scripts\UPSMON\MON_artillery_add.sqf";//TODO need delete UPSMON link
 	}
-else
+    else
 	{
-	_unit = _groupEst createUnit [(_garrison select _index), _positionX, [], 0, "NONE"];
-	_unit moveInGunner _x;
+        _unit = _groupEst createUnit [(_garrison select _index), _positionX, [], 0, "NONE"];
+        _unit moveInGunner _x;
 	};
-[_unit,_markerX] call A3A_fnc_FIAinitBases;
-_soldiers pushBack _unit;
-_garrison deleteAT _index;
+    [_unit,_markerX] call A3A_fnc_FIAinitBases;
+    _soldiers pushBack _unit;
+    _garrison deleteAT _index;
 } forEach _staticsX;
 
 if (staticCrewTeamPlayer in _garrison) then
@@ -142,7 +146,60 @@ for "_i" from 0 to (count _groups) - 1 do
 		_nul = [leader _groupX, _markerX, "SAFE","SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";//TODO need delete UPSMON link
 		};
 	};
-waitUntil {sleep 1; (spawner getVariable _markerX == 2)};
+
+//Units fully spawned in, awaiting despawn
+waitUntil
+{
+    sleep 10;
+    private _spawners = allUnits select {_x getVariable ["spawner", false]};
+    private _blufor = [];
+    private _redfor = [];
+    private _greenfor = [];
+    {
+        switch (side (group _x)) do
+        {
+            case (Occupants):
+            {
+                _blufor pushBack _x;
+            };
+            case (Invaders):
+            {
+                _redfor pushBack _x;
+            };
+            case (teamPlayer):
+            {
+                _greenfor pushBack _x;
+            };
+        };
+    } forEach _spawners;
+    private _needsSpawn = [_markerX, _blufor, _redfor, _greenfor, true] call A3A_fnc_needsSpawn;
+    private _markerState = spawner getVariable _markerX;
+    if(_markerState != _needsSpawn) then
+    {
+        if((_markerState == SPAWNED) && (_needsSpawn == ON_STANDBY)) then
+        {
+            //Enemy to far away, disable AI for now
+            {
+                {
+                    _x enableSimulationGlobal false;
+                } forEach (units _x);
+            } forEach _groups;
+        };
+        if((_markerState == ON_STANDBY) && (_needsSpawn == SPAWNED)) then
+        {
+            //Enemy is closing in activate AI for now
+            {
+                {
+                    _x enableSimulationGlobal true;
+                } forEach (units _x);
+            } forEach _groups;
+        };
+        spawner setVariable [_markerX, _needsSpawn, true];
+    };
+
+    (_needsSpawn == DESPAWNED)
+};
+
 
 {
 _soldierX = _x;

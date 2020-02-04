@@ -6,8 +6,8 @@
 
 ==========================================================
 
-for "_i" from 1 to 10 do
-{
-  tierWar = _i;
-  [] call A3A_fnc_updatePreference;
-};
+tierWar = 10;
+[] call A3A_fnc_updatePreference;
+
+
+============================================================

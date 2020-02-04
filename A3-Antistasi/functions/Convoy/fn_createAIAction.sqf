@@ -243,7 +243,7 @@ if(_type == "reinforce") then
       //For debug is direct placement
       //diag_log format ["Reinforce %1 from %2", _target, _selectedBase];
       //[_units, "Reinf units"] call A3A_fnc_logArray;
-      //[_target, _units] call A3A_fnc_addGarrison;
+      //[_target, _units] call A3A_fnc_addToGarrison;
     };
   }
   else

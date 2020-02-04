@@ -8,6 +8,7 @@
 //only touch the commented arrays
 scriptName "initZones.sqf";
 private _fileName = "initZones.sqf";
+hint "Creating spawn places, this may take a while!";
 [2,"initZones started",_fileName] call A3A_fnc_log;
 
 forcedSpawn = [];
@@ -85,6 +86,7 @@ private ["_nameX", "_roads", "_numCiv", "_roadsProv", "_roadcon", "_dmrk", "_inf
 configClasses (configfile >> "CfgWorlds" >> worldName >> "Names") apply {
 
 	_nameX = configName _x;
+    [4, format ["Proceeding city %1 now", _nameX], _fileName] call A3A_fnc_log;
 	_sizeX = getNumber (_x >> "radiusA");
 	_sizeY = getNumber (_x >> "radiusB");
 	_size = [_sizeY, _sizeX] select (_sizeX > _sizeY);
@@ -169,6 +171,10 @@ configClasses (configfile >> "CfgWorlds" >> worldName >> "Names") apply {
 if (debug) then {
 diag_log format ["%1: [Antistasi] | DEBUG | initZones | Roads built in %2.",servertime,worldname];
 };
+
+{
+    [_x, []] spawn A3A_fnc_initSpawnPlaces;
+} forEach citiesX;
 
 [2,"Loading nav grid",_fileName] call A3A_fnc_log;
 [] call A3A_fnc_loadNavGrid;
@@ -282,7 +288,7 @@ if (count _posAntennas > 0) then {
 			_antenna = _antennaProv select 0;
 
 			if (_i in _blacklistPos) then {
-				_antenna setdamage 1;	
+				_antenna setdamage 1;
 			} else {
 				_antenna = ([_antenna] call _replaceBadAntenna);
 				antennas pushBack _antenna;

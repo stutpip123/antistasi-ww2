@@ -13,6 +13,7 @@ private ["_result"];
 
 //TODO this does not work properly (maybe even throws errors) as the template files arent
 //unified on how they work, await Pots Templates, then fix this
+
 _result = false;
 switch (_preference) do
 {

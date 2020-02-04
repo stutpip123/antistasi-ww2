@@ -30,7 +30,7 @@ switch (_convoyType) do
     if(_index != -1) then
     {
       _marker = markersX select _index;
-      [_marker, _units] call A3A_fnc_addGarrison;
+      [_marker, _units] call A3A_fnc_addToGarrison;
     }
     else
     {

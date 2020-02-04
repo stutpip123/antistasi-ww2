@@ -9,36 +9,59 @@ _sideX = side _unit;
 _unit addEventHandler ["HandleDamage",A3A_fnc_handleDamageAAF];
 
 _unit addEventHandler ["killed",A3A_fnc_occupantInvaderUnitKilledEH];
-if (count _this > 1) then {
+if (count _this > 1) then
+{
 	_markerX = _this select 1;
-	if (_markerX != "") then {
+	if (_markerX != "") then
+    {
 		_unit setVariable ["markerX",_markerX,true];
 		if ((spawner getVariable _markerX != 0) and (vehicle _unit != _unit)) then {if (!isMultiplayer) then {_unit enableSimulation false} else {[_unit,false] remoteExec ["enableSimulationGlobal",2]}};
 	};
 }
-else {
-	if (vehicle _unit != _unit) then {
+else
+{
+	if (vehicle _unit != _unit) then
+    {
 		_veh = vehicle _unit;
-		if (_unit in (assignedCargo _veh)) then {
-			_unit addEventHandler ["GetOutMan", {
-				_unit = _this select 0;
-				_veh = _this select 2;
-				_driver = driver _veh;
-				if (!isNull _driver) then {
-					if (side group _driver != teamPlayer) then {
-						if !(_unit getVariable ["spawner",false]) then {
-							_unit setVariable ["spawner",true,true]
-						};
-					};
-				};
-			}];
+		if (_unit in (assignedCargo _veh)) then
+        {
+			_unit addEventHandler
+            [
+                "GetOutMan",
+                {
+                    _unit = _this select 0;
+                    _veh = _this select 2;
+                    _driver = driver _veh;
+                    if (!isNull _driver) then
+                    {
+                        if (side group _driver != teamPlayer) then
+                        {
+                            if !(_unit getVariable ["spawner",false]) then
+                            {
+                                if(_unit == leader _unit) then
+                                {
+                                    _unit setVariable ["spawner",true,true];
+                                };
+                            };
+                        };
+                    };
+                }
+            ];
 		}
-		else {
-			_unit setVariable ["spawner",true,true]
+		else
+        {
+            if(_unit == leader _unit) then
+            {
+                _unit setVariable ["spawner",true,true];
+            };
 		};
 	}
-	else {
-		_unit setVariable ["spawner",true,true]
+	else
+    {
+        if(_unit == leader _unit) then
+        {
+            _unit setVariable ["spawner",true,true];
+        };
 	};
 };
 

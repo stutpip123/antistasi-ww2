@@ -9,11 +9,9 @@
 [DONE] Integration with the current system
 [DONE] Map porting on Altis, Tanoa and Malden
 [DONE] Test it for SP, local MP and dedi MP
-
 ================================================================================
 MERGED INTO UNSTABLE AND TESTED BY POT
 ================================================================================
-
 [DONE] Improvement of the cyclic spawn system
 [DONE] Integration into the convoy system, to use reinforce convoys
 [DONE] Improve the convoy system to spawn convoys
@@ -23,36 +21,102 @@ MERGED INTO UNSTABLE AND TESTED BY POT
 [DONE] Write the "AI", which replenishes airports
 [DONE] Rework AIVehInit to work for convoy vehicles - is not needed, it will behave correctly
 [DONE] Add simple fight mechanic for roadblock engagements
-
 ================================================================================
 SPLIT HERE FOR PR 2.2
 ================================================================================
+[DONE] Rework to make it readable
+[DONE] Ensure that only players and squadleader spawn stuff
+[DONE] Transfer despawn to marker scripts
+[DONE] Create a script to check for spawn or despawn
+[DONE] Add check for units to be marked unavailable, if the outpost is not suited to have them
+[DONE] Improve distance script and integrate the spawn script
+[DONE] Rework addToGarrison and addToRequested
+[DONE] Make standard garrison a fixed size array
+[DONE] Fix markerChange to work with fixed size arrays
+[DONE] Fix reinforce selection to actually select stuff
+[DONE] Create a script that crew units are maning their vehicles
+================================================================================
+FINISH FOR DEV MEETING 25.1.20
+================================================================================
+[DONE] Handle replaced units in fn_updateGarrison
+- [DONE] Create addToOver
+- [DONE] Create removeFromOver
+- [DONE] Change Killed EH on units
+- [DONE] Integrate the system
+[DONE] Handle AI statics
+- [DONE] Search for static positions
+- [DONE] Add random statics at start
+- [DONE] Make statics persistent
+- [DONE] Gradually increase them over the warlevel
+- [DONE] On death, respawn them after 30 minutes
+[DONE] Enabling it for player side, not only AI
+- [DONE] Integrate it on marker change
+- [DONE] Use the over units to garrison them
+- [DONE] Change the unit counter on the map
+[DONE] Add the functions to add dynamically
+- [DONE] Adding units while runtime
+- [DONE] Remove stolen vehicles
+FIXES:
+- [DONE] Fixed garrisonCount not being able to count fixed size arrays
+================================================================================
+WORK TILL HERE, THEN INTEL AND DESTRUCTION
+================================================================================
 
-Add helicopter types for spoffy
-Make the AI follow the pathfinding way
+
+
+- [WILL NOT BE DONE] Removing units while runtime
+
+------------ Distance script ---------------------------------------------------
+Faster way to check for vehicle
+Make roadblocks functioning again
+Make civs working again
+Remove spawned in markers
+------------ Unit spawns -------------------------------------------------------
+Change vehicle getIn EH to handle stolen vehicles correctly
+On despawn handle vehicles as recovered by nearest marker
+------------ Reinforcements selection ------------------------------------------
+Improve the AI, which chooses the units
+Stop the AI from bypassing the economy
+------------ Fix broken stuff --------------------------------------------------
+[WIP] Optimisation for speed and data size
+
+Improve reinforce marker selection (remove the ones that are no longer able to send units)
+Add init scripts for units
+[BUG] Sended units are not leaving the group, not clue why
+Unify and split the EH into seperate files
+On marker clear, also delete vehicles and statics instantly
+Add attacking units to flipped marker
+Rework cycle spawn
+Handle player statics
+Handle deconstruct of static
+Rework the static spawn into all file
+Fix edge case in which static stop to work after the year changes \o/
+Place units in logical positions (buildings and so on)
+Enable patrols for marker
+[Won't do] Add helicopter types for spoffy
+[Mostly done, check the FSM]Make the AI follow the pathfinding way
 Clean up code
 Add code documentation
 Improve patrol detection
-Add check for units to be marked unavailable, if the outpost is not suited to have them
-EH for the groups to man vehicles
+[WIP, needs change in the VCOM routines] EH for the groups to man vehicles
 Cleanup function
-Add the functions to send troops (remove from garrison)
-Enabling it for player side, not only AI
 Reinforcements moves
-Stop the AI from bypassing the economy
-Optimisation for speed and data size
 Improve the convoy system to handle fights
-Rework unit detection system
-Improve the AI, which chooses the units
+Rework unit detection system (Squadleader and medics)
 Better troup compositions
 Balancing
-Handle statics
 Handle statics in convoys
-Improve distance script
 Two man team (Sniper Spotter, etc.)
-Improve the convoy system to handle attacks
-Find a way to assign squadleader properly
 Finalizing cyclic spawn
-Improve the replenish function to get actual results
+Improve the replenish function
 Reorder convoys on despawn (Reassign vehicles if one is destroyed and so on)
 Reorder all parameters in the same order
+Script to find keys on crew squad leaders (+ cool vehicle open mechanic)
+
+================================================================================
+Files that need a rework
+================================================================================
+- fn_selectReinfUnits
+- fn_shouldReinforce
+- fn_landThreatEval
+- fn_reinforcementsAI

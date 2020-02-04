@@ -1,12 +1,59 @@
-private ["_siteX","_textX","_garrison","_size","_positionX"];
+params ["_marker"];
 
-_siteX = _this select 0;
+private _fnc_addToArray =
+{
+    params ["_array", "_unit"];
+    private _index = _array findIf {(_x select 0) == _unit};
+    if(_index == -1) then
+    {
+        _array pushBack [_unit, 1];
+    }
+    else
+    {
+        private _element = _array select _index;
+        _element set [1, (_element select 1) + 1];
+    };
+};
 
-_garrison = garrison getVariable [_siteX,[]];
+private _garrison = [_marker] call A3A_fnc_getGarrison;
+private _over = [_marker] call A3A_fnc_getOver;
 
-_size = [_siteX] call A3A_fnc_sizeMarker;
-_positionX = getMarkerPos _siteX;
-_estatic = if (_siteX in outpostsFIA) then {"Technicals"} else {"Mortars"};
-_textX = format ["\n\nGarrison men: %1\n\nSquad Leaders: %2\n%11: %3\nRiflemen: %4\nAutoriflemen: %5\nMedics: %6\nGrenadiers: %7\nMarksmen: %8\nAT Men: %9\nStatic Weap: %10", count _garrison, {_x in SDKSL} count _garrison, {_x == staticCrewTeamPlayer} count _garrison, {_x in SDKMil} count _garrison, {_x in SDKMG} count _garrison,{_x in SDKMedic} count _garrison,{_x in SDKGL} count _garrison,{_x in SDKSniper} count _garrison,{_x in SDKATman} count _garrison, {_x distance _positionX < _size} count staticsToSave, _estatic];
+private _unitCount = 0;
+private _vehicleCount = 0;
+private _unitTypes = [];
+private _vehicleTypes = [];
+{
+    private _data = _x;
+    private _displayName = "";
+    _data params ["_vehicle", "_crew", "_cargo"];
+    if(_vehicle != "") then
+    {
+        _vehicleCount = _vehicleCount + 1;
+        _displayName = (configFile >> "CfgVehicles" >> _vehicle >> "displayName") call BIS_fnc_getCfgData;
+        [_vehicleTypes, _displayName] call _fnc_addToArray;
+    };
+    {
+        if(_x != "") then
+        {
+            _unitCount = _unitCount + 1;
+            _displayName = (configFile >> "CfgVehicles" >> _x >> "displayName") call BIS_fnc_getCfgData;
+            [_unitTypes, _displayName] call _fnc_addToArray;
+        };
+    } forEach (_crew + _cargo);
+} forEach (_garrison + _over);
 
-_textX
+_text = format ["\n\nGarrisoned assets: %1\n\nVehicles: %2\n", (_unitCount + _vehicleCount), _vehicleCount];
+
+{
+    _x params ["_name", "_amount"];
+    _text = format ["%3%1x %2\n", _amount, _name, _text];
+} forEach _vehicleTypes;
+
+_text = format ["%2\nUnits: %1\n", _unitCount, _text];
+
+{
+    _x params ["_name", "_amount"];
+    _text = format ["%3%1x %2\n", _amount, _name, _text];
+} forEach _unitTypes;
+
+_text;

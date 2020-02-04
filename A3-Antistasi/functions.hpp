@@ -5,7 +5,7 @@ class A3A
 		//Main initialisation functions.
 		class initServer {};
 		class initClient {};
-		
+
 		//Other initialisation functions (generally called by the above)
 		class cityinfo {};
 		class credits {};
@@ -13,12 +13,16 @@ class A3A
 		class initGarrisons {};
 		class initGetMissionPath {};
 		class initSpawnPlaces {};
-		
+        class initSpawnPlacesHangars {};
+        class initSpawnPlacesHelipads {};
+        class initSpawnPlacesStatics {};
+        class initSpawnPlacesVehicles {};
+
 		class initVar {};
 		class initVarClient {};
 		class initVarCommon {};
 		class initVarServer {};
-		
+
 		class initZones {};
 		class modBlacklist {};
 		class playerMarkers {};
@@ -27,7 +31,7 @@ class A3A
 		class resourcecheck {};
 		class tags {};
 	};
-	
+
 	class Base
 	{
 		class addActionBreachVehicle {};
@@ -72,6 +76,7 @@ class A3A
 		class mrkUpdate {};
 		class mrkWIN {};
 		class NATOFT {};
+        class needsSpawn {};
 		class numericRank {};
 		class onHeadlessClientDisconnect {};
 		class onPlayerDisconnect {};
@@ -194,10 +199,8 @@ class A3A
 		class CIVinit {};
 		class civVEHinit {};
 		class cleanserVeh {};
-		class createAIAirplane {};
 		class createAICities {};
 		class createAIcontrols {};
-		class createAIOutposts {};
 		class createAIResources {};
 		class createAISite {};
 		class createCIV {};
@@ -205,6 +208,8 @@ class A3A
 		class createSDKGarrisons {};
 		class createSDKgarrisonsTemp {};
 		class cycleSpawn {};
+        class cycleSpawnUnit {};
+        class cycleSpawnVehicle {};
 		class FIAinitBases {};
 		class findSpawnPosition {};
 		class freeSpawnPositions {};
@@ -213,7 +218,6 @@ class A3A
 		class garrisonUpdate {};
 		class groupDespawner {};
 		class invaderPunish {};
-		class milBuildings {};
 		class minefieldAAF {};
 		class mortarPos {};
 		class NATOinit {};
@@ -277,20 +281,27 @@ class A3A
 
 	class Garrison
 	{
-		class addGarrison {};
-		class addRequested {};
+        class addGarrisonLine {};
+		class addToGarrison {};
+        class addToOver {};
+		class addToRequested {};
+        class canPlaceVehicleAtMarker {};
 		class checkGroupType {};
 		class checkVehicleType {};
+        class clearGarrison {};
 		class countGarrison {};
 		class createGarrison {};
 		class createGarrisonLine {};
 		class getGarrison {};
 		class getGarrisonRatio {};
 		class getGarrisonStatus {};
+        class getOver {};
 		class getRequested {};
 		class getVehicleCrew {};
 		class initPreference {};
 		class logArray {};
+        class markerAlert {};
+        class removeFromOver {};
 		class replenishGarrison {};
 		class selectGroupType {};
 		class selectReinfUnits {};
@@ -299,6 +310,7 @@ class A3A
 		class updateGarrison {};
 		class updatePreference {};
 		class updateReinfState {};
+        class updateStatics {};
 		class updateVehicles {};
 	};
 
@@ -435,6 +447,11 @@ class A3A
 		class vehiclePrice {};
 		class vehStats {};
 	};
+
+    class Reinforcements
+    {
+        class sendGroupToGarrison {};
+    };
 
 	class Revive
 	{

@@ -239,18 +239,10 @@ class FSM
                          "	private _garrison = [typeOf _vehicle, [], []];" \n
                          "	{ (_garrison # 1) pushBack (typeOf _x) } foreach units _crewGroup;" \n
                          "	{ (_garrison # 2) pushBack (typeOf _x) } foreach units _cargoGroup;" \n
-                         "	[_markers # 1, [_garrison]] call A3A_fnc_addGarrison;" \n
+                         "	[_markers # 1, [_garrison]] call A3A_fnc_addToGarrison;" \n
                          "" \n
-                         "	// synchronize despawning with the target marker" \n
-                         "	// remove this once addGarrison takes control of the units" \n
-                         "	[_crewGroup, _cargoGroup, _markers # 1] spawn {" \n
-                         "		params[""_crew"", ""_cargo"", ""_marker""];" \n
-                         "		waitUntil {sleep 5; (spawner getVariable _marker == 2)};" \n
-                         "		{ deleteVehicle _x } forEach units _cargo;" \n
-                         "		{ deleteVehicle _x } forEach units _crew;" \n
-                         "		deleteGroup _cargo;" \n
-                         "		deleteGroup _crew;" \n
-                         "	};" \n
+                         "  //Adding the spawned groups to the spawned groups of the marker to handle despawn"
+                         "  [_markers # 1, _vehicle, _crewGroup, _cargoGroup] call A3A_fnc_addGroupsToSpawned;" \n
                          "} else {" \n
                          "	// otherwise just use the stock despawning" \n
                          "	[_crewGroup] spawn A3A_fnc_groupDespawner;" \n

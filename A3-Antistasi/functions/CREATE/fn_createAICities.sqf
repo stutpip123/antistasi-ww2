@@ -1,3 +1,7 @@
+#define SPAWNED         0
+#define ON_STANDBY      1
+#define DESPAWNED       2
+
 //NOTA: TAMBIÉN LO USO PARA FIA
 if (!isServer and hasInterface) exitWith{};
 
@@ -83,14 +87,67 @@ else
 	{[_x] spawn A3A_fnc_FIAinitBases; _soldiers pushBack _x} forEach units _grp;} forEach _groups;
 	};
 
+
+//Units fully spawned in, awaiting despawn
+waitUntil
+{
+    sleep 10;
+    private _spawners = allUnits select {_x getVariable ["spawner", false]};
+    private _blufor = [];
+    private _redfor = [];
+    private _greenfor = [];
+    {
+        switch (side (group _x)) do
+        {
+            case (Occupants):
+            {
+                _blufor pushBack _x;
+            };
+            case (Invaders):
+            {
+                _redfor pushBack _x;
+            };
+            case (teamPlayer):
+            {
+                _greenfor pushBack _x;
+            };
+        };
+    } forEach _spawners;
+    private _needsSpawn = [_markerX, _blufor, _redfor, _greenfor] call A3A_fnc_needsSpawn;
+    private _markerState = spawner getVariable _markerX;
+    if(_markerState != _needsSpawn) then
+    {
+        if((_markerState == SPAWNED) && (_needsSpawn == ON_STANDBY)) then
+        {
+            //Enemy to far away, disable AI for now
+            {
+                {
+                    _x enableSimulationGlobal false;
+                } forEach (units _x);
+            } forEach _groups;
+        };
+        if((_markerState == ON_STANDBY) && (_needsSpawn == SPAWNED)) then
+        {
+            //Enemy is closing in activate AI for now
+            {
+                {
+                    _x enableSimulationGlobal true;
+                } forEach (units _x);
+            } forEach _groups;
+        };
+        spawner setVariable [_markerX, _needsSpawn, true];
+    };
+    (_needsSpawn == DESPAWNED)
+};
+
+/*
 waitUntil {sleep 1;((spawner getVariable _markerX == 2)) or ({[_x,_markerX] call A3A_fnc_canConquer} count _soldiers == 0)};
 
 if (({[_x,_markerX] call A3A_fnc_canConquer} count _soldiers == 0) and (_esAAF)) then
 	{
 	[[_positionX,Occupants,"",false],"A3A_fnc_patrolCA"] remoteExec ["A3A_fnc_scheduler",2];
 	};
-
-waitUntil {sleep 1;(spawner getVariable _markerX == 2)};
+*/
 
 {if (alive _x) then {deleteVehicle _x}} forEach _soldiers;
 {deleteGroup _x} forEach _groups;
