@@ -68,6 +68,30 @@ if(_spawnParameter isEqualType []) then
             };
         }
     ];
+
+    _vehicle addEventHandler
+    [
+        "GetIn",
+        {
+            private _vehicle = _this select 0;
+            private _unit = _this select 2;
+            if(side _unit == teamPlayer) then
+            {
+                _vehicle setVariable ["Stolen", true, true];
+                private _id = _vehicle getVariable "UnitIndex";
+                private _marker = _vehicle getVariable "UnitMarker";
+                private _isOver = _vehicle getVariable "IsOver";
+                if(_isOver) then
+                {
+                    [_marker, typeOf _vehicle, _id] call A3A_fnc_removeFromOver;
+                }
+                else
+                {
+                    [_marker, typeOf _vehicle, _id] call A3A_fnc_addToRequested;
+                };
+            };
+        }
+    ]
     //Add vehicle to group
     _group addVehicle _vehicle;
 

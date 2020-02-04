@@ -371,5 +371,8 @@ deleteMarker _patrolMarker;
 } forEach (garrison getVariable (format ["%1_groups", _marker]));
 
 {
-    deleteVehicle _x;
+    if(!(_x getVariable ["Stolen", false])) then
+    {
+        deleteVehicle _x;
+    };
 } forEach (garrison getVariable (format ["%1_vehicles", _marker]));

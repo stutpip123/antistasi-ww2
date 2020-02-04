@@ -53,10 +53,9 @@ FINISH FOR DEV MEETING 25.1.20
 - [DONE] Integrate it on marker change
 - [DONE] Use the over units to garrison them
 - [DONE] Change the unit counter on the map
-[WIP] Add the functions to send troops (remove from garrison)
+[DONE] Add the functions to add dynamically
 - [DONE] Adding units while runtime
-- [WIP] Removing units while runtime
-- [WIP] Remove stolen vehicles
+- [DONE] Remove stolen vehicles
 FIXES:
 - [DONE] Fixed garrisonCount not being able to count fixed size arrays
 ================================================================================
@@ -64,6 +63,8 @@ WORK TILL HERE, THEN INTEL AND DESTRUCTION
 ================================================================================
 
 
+
+- [WILL NOT BE DONE] Removing units while runtime
 
 ------------ Distance script ---------------------------------------------------
 Faster way to check for vehicle
