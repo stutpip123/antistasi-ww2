@@ -2,7 +2,7 @@
 #define ON_STANDBY      1
 #define DESPAWNED       2
 
-params ["_marker", "_groups"];
+params ["_marker"];
 
 private _fileName = "markerAlert";
 private _isAlerted = false;
@@ -15,6 +15,7 @@ private _isAlerted = false;
 while {spawner getVariable _marker != DESPAWNED} do
 {
     sleep 1;
+    private _groups = garrison getVariable (format ["%1_groups", _marker]);
     if(!_isAlerted) then
     {
         {

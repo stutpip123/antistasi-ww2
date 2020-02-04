@@ -305,7 +305,10 @@ if(((_patrolMarkerSize select 0) < (_mainMarkerSize select 0)) || {(_patrolMarke
 };
 _patrolMarker setMarkerSizeLocal _patrolMarkerSize;
 
-[_marker, _allGroups] spawn A3A_fnc_markerAlert;
+garrison setVariable [format ["%1_groups", _marker], _allGroups, true];
+garrison setVariable [format ["%1_vehicles", _marker], _allVehicles, true];
+
+[_marker] spawn A3A_fnc_markerAlert;
 
 //Units fully spawned in, awaiting despawn
 waitUntil
@@ -365,8 +368,8 @@ deleteMarker _patrolMarker;
 
 {
 	[_x] spawn A3A_fnc_groupDespawner;
-} forEach _allGroups;
+} forEach (garrison getVariable (format ["%1_groups", _marker]));
 
 {
     deleteVehicle _x;
-} forEach _allVehicles;
+} forEach (garrison getVariable (format ["%1_vehicles", _marker]));

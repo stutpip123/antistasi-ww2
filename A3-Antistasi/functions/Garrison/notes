@@ -53,10 +53,10 @@ FINISH FOR DEV MEETING 25.1.20
 - [DONE] Integrate it on marker change
 - [DONE] Use the over units to garrison them
 - [DONE] Change the unit counter on the map
-Add the functions to send troops (remove from garrison)
-- Adding units while runtime
-- Removing units while runtime
-- Remove stolen vehicles
+[WIP] Add the functions to send troops (remove from garrison)
+- [DONE] Adding units while runtime
+- [WIP] Removing units while runtime
+- [WIP] Remove stolen vehicles
 FIXES:
 - [DONE] Fixed garrisonCount not being able to count fixed size arrays
 ================================================================================
