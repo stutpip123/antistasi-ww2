@@ -1,79 +1,109 @@
-params["_markerX", "_intelType"];
+params["_marker", "_isLarge"];
 
-diag_log "PlaceIntel: Starting placement of intel";
+private _intelSize = if (_isLarge) then {"large"} else {"medium"};
+private _fileName = "placeIntel";
+[
+    3,
+    format ["Spawning %2 intel on marker %1", _marker, _intelSize],
+    _fileName
+] call A3A_fnc_log;
 
 //Catch invalid cases
-if(isNil "_markerX") exitWith {diag_log "IntelPlacement: No marker given for intel placement!";};
-if(!(_markerX  in airportsX || {_markerX in outposts})) exitWith {diag_log "IntelPlacement: Marker position not suited for intel!";};
-if(!(_intelType isEqualType "") || {_intelType != "Medium" && _intelType != "Big"}) exitWith {diag_log format ["IntelPlacement: Inteltype not accepted, expected 'Medium' or 'Big', got %1", str _intelType];};
+if(!(_marker  in airportsX || {_marker in outposts})) exitWith
+{
+    [
+        1,
+        format ["Marker %1 is not suited to have intel!", _marker],
+        _fileName
+    ] call A3A_fnc_log;
+};
 
 //Search for building to place intel in
-_side = sidesX getVariable _markerX;
-_size = markerSize _markerX;
-_maxSize = (_size select 0) max (_size select 1);
-_maxSize = _maxSize * 2;
+private _side = sidesX getVariable _marker;
+private _size = markerSize _marker;
+private _radius = sqrt ((_size select 0) * (_size select 0) + (_size select 1) * (_size select 1));
 
-_allBuildings = nearestObjects [(getMarkerPos _markerX),["House"], _maxSize, true];
+private _listStaticTower = ["Land_Cargo_Tower_V1_F","Land_Cargo_Tower_V1_No1_F","Land_Cargo_Tower_V1_No2_F","Land_Cargo_Tower_V1_No3_F","Land_Cargo_Tower_V1_No4_F","Land_Cargo_Tower_V1_No5_F","Land_Cargo_Tower_V1_No6_F","Land_Cargo_Tower_V1_No7_F","Land_Cargo_Tower_V2_F", "Land_Cargo_Tower_V3_F"];
+private _listStaticHQ = ["Land_Cargo_HQ_V1_F", "Land_Cargo_HQ_V2_F", "Land_Cargo_HQ_V3_F"];
 
-if(count _allBuildings == 0) exitWith {diag_log "IntelPlacement: No buildings found around marker!"};
+private _allBuildings = nearestObjects [(getMarkerPos _marker), _listStaticHQ + _listStaticTower, _radius, true];
 
-_suitableBuildings = [];
-_suitableBuildings = _allBuildings select {(typeOf _x) in (intelBuidings select 0) || {(typeOf _x) in (intelBuidings select 1)}};
+if(count _allBuildings == 0) exitWith
+{
+    [
+        2,
+        format ["No suitable buildings found on marker %1", _marker],
+        _fileName
+    ] call A3A_fnc_log;
+};
 
-if(count _suitableBuildings == 0) exitWith {diag_log "IntelPlacement: No suitable buildings found to place intel in!"};
+private _building = selectRandom _allBuildings;
+private _isTower = (!((typeOf _building) in _listStaticHQ));
 
-_building = selectRandom _suitableBuildings;
-_isTower = ((typeOf _building) in (intelBuidings select 0));
-
-//Placing the intel
-_relValues = nil;
+//Placing the intel desk
+private _spawnParameters = [];
 if(_isTower) then
 {
-    _relValues = (intelDeskOffset select 0);
+    _spawnParameters = [_building buildingPos 9, -90];
 }
 else
 {
-    _relValues = (intelDeskOffset select 1);
+    _spawnParameters = [_building buildingPos 1, -180];
 };
 
-_desk = "Land_CampingTable_F" createVehicle (getPos _building);
-_desk setDir (getDir _building + (_relValues select 1));
-_desk setPosWorld ((getPosWorld _building) vectorAdd (_relValues select 0));
+private _desk = createVehicle ["Land_CampingTable_F", [0, 0, 0], [], 0, "CAN_COLLIDE"];
+_desk setDir (getDir _building + (_spawnParameters select 1));
+_desk setPos (_spawnParameters select 0);
+_desk setVelocity [0, 0, -1];
 
-//Desk placed, now place intel on top
+//Await until desk have hit the group, it tend to stuck in the air otherwise
+sleep 5;
 
-_intelName = "";
-if(_intelType == "Medium") then {_intelName = "Land_Document_01_F"; _relValues = (intelOffset select 1);};
-if(_intelType == "Big") then {_intelName = "Land_Laptop_02_unfolded_F"; _relValues = (intelOffset select 0);};
-
-_intel = _intelName createVehicle (getPos _desk);
-_intel enableSimulation false;
-
-//Getting the offset right (or not, there is a bug somewhere)
-_offsetVector = _relValues select 0;
-_offsetVector = [_offsetVector, (getDir _desk)] call BIS_fnc_rotateVector2D;
-
-_intel setDir (getDir _desk + (_relValues select 1));
-_intel setPosWorld ((getPosWorld _desk) vectorAdd _offsetVector);
-
-
-if(_intelType == "Medium") then
+private _intelType = "";
+if(_isLarge) then
 {
-  _intel addAction ["Take Intel", {[_intelType, _intel, _side] spawn A3A_fnc_retrieveIntel;},nil,4,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4];
-  diag_log "PlaceIntel: Intel placed, type of intel is medium";
-};
-if(_intelType == "Big") then
-{
-  _isTrap = (random 100 < (2 * tierWar));
-  if(_isTrap) then {diag_log "PlaceIntel: Set up a little surprise for the players!"};
-  _intel addAction ["Download Intel", {[_intelType, _intel, _markerX, _isTrap, (_this select 2)] spawn A3A_fnc_retrieveIntel;},nil,4,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4];
-  diag_log "PlaceIntel: Intel placed, type of intel is big";
-};
-
-[_markerX, _desk, _intel] spawn
-{
-  waitUntil{sleep 10; (spawner getVariable (_this select 0) == 2)};
-  deleteVehicle (_this select 1);
-  if(!isNil {_this select 2}) then {deleteVehicle (_this select 2)};
-  diag_log "IntelPlacement: Intel deleted!";
+    _intelType = "Land_Laptop_unfolded_F";
+    _spawnParameters = -25;
 }
+else
+{
+    _intelType = "Land_Document_01_F";
+    _spawnParameters = -155;
+};
+
+private _deskPos = getPosATL _desk;
+private _intelPos = ([_deskPos, 0.5, (getDir _desk) + 80] call BIS_fnc_relPos) vectorAdd [0, 0, 0.82];
+private _intel = createVehicle [_intelType, [0,0,0], [], 0, "CAN_COLLIDE"];
+_intel setDir ((getDir _desk) + _spawnParameters);
+_intel setPosATL _intelPos;
+_intel enableSimulation false;
+_intel allowDamage false;
+
+if(_isLarge) then
+{
+    private _isTrap = (random 100 < (4 * tierWar));
+    if(_isTrap) then
+    {
+        [3, format ["Large intel on %1 is selected as trap, spawning explosives", _marker], _fileName] call A3A_fnc_log;
+        private _bomb = "DemoCharge_Remote_Ammo_Scripted" createVehicle [0,0,0];
+        _bomb = [_bomb] call BIS_fnc_replaceWithSimpleObject;
+        _bomb setDir (getDir _intel);
+        _bomb attachTo [_intel, [0,0,-0.14]];
+        _bomb setVectorUp [0,0,-1];
+        _intel setVariable ["trapBomb", _bomb, true];
+    };
+    _intel addAction ["Download Intel", {["Large", _this select 0, _this select 3, _this select 2] spawn A3A_fnc_retrieveIntel;}, _marker,4,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4];
+}
+else
+{
+    _intel addAction ["Take Intel", {["Medium", _this select 0] spawn A3A_fnc_retrieveIntel;},nil,4,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4];
+};
+
+/*
+[_marker, _desk, _intel] spawn
+{
+    waitUntil{sleep 10; (spawner getVariable (_this select 0) == 2)};
+    deleteVehicle (_this select 1);
+    if(!isNil {_this select 2}) then {deleteVehicle (_this select 2)};
+};
+*/

@@ -11,7 +11,6 @@
 *       if _intelType == "Large"
 *           _intel : OBJECT : The object which is holding the intel
 *           _marker : STRING : The string of the marker where the intel is
-*           _isTrap : BOOELAN : Determines if the intel is secured by a explosive charge
 *           _searchAction : NUMBER : The ID of the action which started this script
 *
 *   Returns:
@@ -38,7 +37,7 @@ switch (_preCheck) do
     };
     case ("Large"):
     {
-        _this params ["_intelType", "_intel", "_marker", "_isTrap", "_searchAction"];
-        [_intel, _marker, _isTrap, _searchAction] spawn A3A_fnc_retrieveLargeIntel;
+        _this params ["_intelType", "_intel", "_marker", "_searchAction"];
+        [_intel, _marker, _searchAction] spawn A3A_fnc_retrieveLargeIntel;
     };
 };

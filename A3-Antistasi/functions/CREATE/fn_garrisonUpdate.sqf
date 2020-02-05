@@ -37,15 +37,6 @@ if ((_sideX == Occupants) and (!(sidesX getVariable [_markerX,sideUnknown] == Oc
 if ((_sideX == Invaders) and (!(sidesX getVariable [_markerX,sideUnknown] == Invaders))) exitWith {garrisonIsChanging = false};
 if ((_sideX == teamPlayer) and (!(sidesX getVariable [_markerX,sideUnknown] == teamPlayer))) exitWith {garrisonIsChanging = false};
 
-if(_sideX == Occupants) then
-{
-	reinfPatrolOcc = reinfPatrolOcc - [_markerX];
-}
-else
-{
-	reinfPatrolInv = reinfPatrolInv - [_markerX];
-};
-
 _garrison = [];
 _garrison = _garrison + (garrison getVariable [_markerX,[]]);
 if (_modeX == -1) then

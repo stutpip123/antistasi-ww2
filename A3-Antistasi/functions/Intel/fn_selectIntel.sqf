@@ -35,6 +35,8 @@ if(_intelType == "Small") then
     };
     case ("Reinforce"):
     {
+        //Use my system once the discussion is done
+        /*
       _reinf = [];
       if(_side == Occupants) then
       {
@@ -70,6 +72,7 @@ if(_intelType == "Small") then
           _text = format ["%1 and %2", _text, name (_reinf select _i)];
         };
       };
+      */
     };
     case ("Cars"):
     {

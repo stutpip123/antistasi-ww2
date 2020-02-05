@@ -252,7 +252,7 @@ _soldiers append (_ret select 2);
 
 if(random 100 < (50 + tierWar * 3)) then
 {
-	_large = if(random 100 < (40 + tierWar * 2)) then {"Big"} else {"Medium"};
+	_large = (random 100 < (40 + tierWar * 2));
 	[_markerX, _large] spawn A3A_fnc_placeIntel;
 };
 

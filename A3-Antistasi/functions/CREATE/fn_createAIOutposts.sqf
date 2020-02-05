@@ -122,9 +122,9 @@ _groups pushBack (_ret select 0);
 _vehiclesX append (_ret select 1);
 _soldiers append (_ret select 2);
 
-if(random 100 < (40 + tierWar * 3)) then
+if(/*random 100 < (40 + tierWar * 3)*/ true) then
 {
-	_large = if(random 100 < (30 + tierWar * 2)) then {"Big"} else {"Medium"};
+	_large = (random 100 < (30 + tierWar * 2));
 	[_markerX, _large] spawn A3A_fnc_placeIntel;
 };
 

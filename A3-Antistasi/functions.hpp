@@ -303,7 +303,7 @@ class A3A
 
     class Intel
     {
-        //class placeIntel {};
+        class placeIntel {};
         class retrieveIntel {};
         class retrieveLargeIntel {};
         class retrieveSmallIntel {};
