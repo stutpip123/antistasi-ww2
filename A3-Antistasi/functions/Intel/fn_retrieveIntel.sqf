@@ -6,10 +6,8 @@
 *           _squadLeader : OBJECT : The unit (or body) which holds the intel
 *           _hasIntel : BOOLEAN : Decides if the _squadLeader has actual intel
 *           _searchAction : NUMBER : The ID of the action which started this script
-*           _side : SIDE : The side of the _squadLeader
 *       if _intelType == "Medium"
 *           _intel : OBJECT : The object which is holding the intel
-*           _side : SIDE : The side to which to intel belongs
 *       if _intelType == "Large"
 *           _intel : OBJECT : The object which is holding the intel
 *           _marker : STRING : The string of the marker where the intel is
@@ -25,20 +23,22 @@ switch (_preCheck) do
 {
     case ("Small"):
     {
-        _this params ["_intelType", "_squadLeader", "_side", "_hasIntel", "_caller", "_searchAction"];
-        ["_caller", "_squadLeader", "_hasIntel", "_searchAction", "_side"] spawn A3A_fnc_retrieveSmallIntel;
+        _this params ["_intelType", "_caller", "_squadLeader", "_hasIntel", "_searchAction"];
+        [_caller, _squadLeader, _hasIntel, _searchAction] spawn A3A_fnc_retrieveSmallIntel;
     };
     case ("Medium"):
     {
-        _this params ["_intelType", "_intel", "_side"];
+        _this params ["_intelType", "_intel"];
         //Take intel from desk
+        private _side = _intel getVariable "side";
         deleteVehicle _intel;
         hint "Medium intel taken";
+        ["Medium intel retrieved!"] call A3A_fnc_showIntel;
         //Show intel content
     };
     case ("Large"):
     {
         _this params ["_intelType", "_intel", "_marker", "_isTrap", "_searchAction"];
-        ["_intel", "_marker", "_isTrap", "_searchAction"] spawn A3A_fnc_retrieveLargeIntel;
+        [_intel, _marker, _isTrap, _searchAction] spawn A3A_fnc_retrieveLargeIntel;
     };
 };

@@ -1,5 +1,8 @@
 params ["_intel", "_marker", "_isTrap", "_searchAction"];
 
+//Remove so no double calls
+_intel removeAction _searchAction;
+
 private _side = sidesX getVariable _marker;
 private _isAirport = (_marker in airportsX);
 
@@ -19,18 +22,19 @@ else
 
 private _pointSum = 0;
 //Currently DEBUG up to 1000 after testing
-private _neededPoints = 100 + random 100;
+private _neededPoints = 1000 + random 1000;
 //Min war tier (40 sec - 80 sec) with UAV Hacker (20 sec - 40 sec)
 //Max war tier (200 sec - 400 sec) with UAV Hacker (100 sec - 200 sec)
 
 {
     private _friendly = _x;
-    if (captive _friendX) then
+    diag_log format ["Current object : %1", _friendly];
+    if (captive _friendly) then
     {
         [_friendly,false] remoteExec ["setCaptive",0,_friendly];
         _friendly setCaptive false;
     };
-} forEach [200, 0, _intel, teamPlayer] call A3A_fnc_distanceUnits;
+} forEach ([200, 0, _intel, teamPlayer] call A3A_fnc_distanceUnits);
 
 private _noAttackChance = 0.2;
 if(_isAirport) then
@@ -97,7 +101,7 @@ else
         private _actionNeeded = _intel getVariable ["ActionNeeded", false];
         if(!_actionNeeded) then
         {
-            _errorChance = _errorChance + 6;
+            _errorChance = _errorChance + 2;
             if(random 1000 < _errorChance) then
             {
                 //"Something went wrong, oopsie", generating error message to force player to move to the intel laptop
@@ -186,26 +190,27 @@ else
                 _pointSum = _pointSum + _pointsPerSecond;
             };
             {
-                [petros,"hintS", format ["Download at %1%!", str (_pointSum/_neededPoints)]] remoteExec ["A3A_fnc_commsMP",_x]
+                [petros,"hintS", format ["Download at %1%2",((round ((_pointSum/_neededPoints) * 10000))/ 100), "%"]] remoteExec ["A3A_fnc_commsMP",_x]
             } forEach _playerList;
         };
     };
 
     _intel setVariable ["ActionNeeded", nil];
 
-    if(_pointSum > _neededPoints) then
+    if(_pointSum >= _neededPoints) then
     {
-        _intel removeAction _searchAction;
         {
             [petros,"hint","You managed to download the intel!"] remoteExec ["A3A_fnc_commsMP",_x];
-        } forEach ([20,0,_intel,teamPlayer] call A3A_fnc_distanceUnits);
-        {
-            if (_x distance2D _intel < 20) then
-            {
-                [10,_x] call A3A_fnc_playerScoreAdd;
-            }
-        } forEach (allPlayers - (entities "HeadlessClient_F"));
+            [10,_x] call A3A_fnc_playerScoreAdd;
+        } forEach ([50,0,_intel,teamPlayer] call A3A_fnc_distanceUnits);
         [5, theBoss] call A3A_fnc_playerScoreAdd;
-        //Show intel content
+        ["Large intel retrieved!"] call A3A_fnc_showIntel;
     };
+};
+
+if((_pointSum < _neededPoints) && {!_isTrap}) then
+{
+    //Players failed to retrieve the intel
+    removeAllActions _intel;
+    _intel addAction ["Retrieve Intel", {["Large", _this select 0, _this select 3, false, _this select 2] call A3A_fnc_retrieveIntel}, _marker,4,false,true,"","(isPlayer _this)",4];
 };

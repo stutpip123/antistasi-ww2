@@ -1,4 +1,4 @@
-params ["_caller", "_squadLeader", "_hasIntel", "_searchAction", "_side"];
+params ["_caller", "_squadLeader", "_hasIntel", "_searchAction"];
 
 /*  Searches a squadleader for intel
 *   Params:
@@ -13,6 +13,7 @@ params ["_caller", "_squadLeader", "_hasIntel", "_searchAction", "_side"];
 */
 
 private _timeForSearch = 10 + random 15;
+private _side = _squadLeader getVariable "side";
 
 _caller setVariable ["searchTime",time + _timeForSearch];
 _caller setVariable ["animsDone",false];
@@ -75,7 +76,7 @@ if(_caller getVariable ["success", false]) then
     if(_hasIntel) then
     {
         hint "Search completed, intel found!";
-        //Show intel content
+        ["Small intel retrieved!"] call A3A_fnc_showIntel;
     }
     else
     {

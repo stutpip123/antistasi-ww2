@@ -64,3 +64,12 @@ _intel setDir (getDir _desk + (_relValues select 1));
 _intel setPosWorld ((getPosWorld _desk) vectorAdd _offsetVector);
 
 _intel addAction ["Retrieve Intel", {hint "You got the intel"},nil,4,false,true,"","(isPlayer _this)",4];
+
+==================================================================================
+this setVariable ["side", WEST, true];
+this addAction ["Retrieve Intel", {["Medium", _this select 0] call A3A_fnc_retrieveIntel},nil,4,false,true,"","(isPlayer _this)",4];
+==================================================================================
+this addAction ["Retrieve Intel", {["Large", _this select 0, "airport_2", false, _this select 2] call A3A_fnc_retrieveIntel},nil,4,false,true,"","(isPlayer _this)",4];
+==================================================================================
+this setVariable ["side", WEST, true];
+this addAction ["Retrieve Intel", {["Small", _this select 1, _this select 0, true, _this select 2] call A3A_fnc_retrieveIntel},nil,4,false,true,"","(isPlayer _this)",4];
