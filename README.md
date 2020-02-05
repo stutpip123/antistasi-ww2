@@ -2,6 +2,23 @@
 <p  align="center">
     <img src="https://avatars0.githubusercontent.com/u/53788409?s=200&v=4" width="240">
 </p>
+
+<p align="center">
+    <a href="https://github.com/official-antistasi-community/A3-Antistasi/releases/latest">
+        <img src="https://img.shields.io/badge/Latest_Version-2.2.1-blue.svg?style=flat-square" alt="Antistasi Version">
+    </a>
+    <a href="https://github.com/official-antistasi-community/A3-Antistasi/Issues">
+        <img src="https://img.shields.io/github/issues/official-antistasi-community/A3-Antistasi?style=flat-square" alt="Issues">
+    </a>
+    <a href="https://github.com/official-antistasi-community/A3-Antistasi/releases">
+        <img src="https://img.shields.io/github/downloads/official-antistasi-community/A3-Antistasi/total.svg?style=flat-square&label=Downloads" alt="Antistasi Downloads">
+    </a>
+    <a href="https://github.com/official-antistasi-community/A3-Antistasi/blob/unstable/LICENSE">
+        <img src="https://img.shields.io/badge/License-MiT-blue.svg?style=flat-square" alt="Antistasi License">
+    </a>
+</p>
+
+
 <p align="center">
     <a href="https://discord.gg/t7JD7eT">Discord</a> | <a href="http://a3antistasi.enjin.com/">Forums</a> | <a href="https://docs.google.com/document/d/1cCptf8Uo-mBHRhIqx1BPznECzgRqwJuj70AGjiI6KOI/">Guide</a> | <a href="https://www.youtube.com/watch?v=nebLG3Jhrbk">Video Tutorial</a>
 </p>
@@ -11,8 +28,8 @@
 A Persistent Whole Map Mission, for SP or MP co-op, focused on Resistance, Infantry and Guerrilla Tactics.
 
 ## Project Status
-Master Branch: [![Build Status](https://travis-ci.com/official-antistasi-community/A3-Antistasi-1.4.svg?branch=master)](https://travis-ci.com/official-antistasi-community/A3-Antistasi-1.4)  
-Unstable Branch: [![Build Status](https://travis-ci.com/official-antistasi-community/A3-Antistasi-1.4.svg?branch=unstable)](https://travis-ci.com/official-antistasi-community/A3-Antistasi-1.4)
+Master Branch: [![Build Status](https://travis-ci.com/official-antistasi-community/A3-Antistasi.svg?branch=master)](https://travis-ci.com/official-antistasi-community/A3-Antistasi)  
+Unstable Branch: [![Build Status](https://travis-ci.com/official-antistasi-community/A3-Antistasi.svg?branch=unstable)](https://travis-ci.com/official-antistasi-community/A3-Antistasi)
 
 ## Grab our latest release on Steam!  
 ### [Mission Files](https://steamcommunity.com/id/OfficialAntiStasiCommunity/myworkshopfiles/)
@@ -22,8 +39,20 @@ Unstable Branch: [![Build Status](https://travis-ci.com/official-antistasi-commu
     - [Steam Workshop: 1832665647](https://steamcommunity.com/sharedfiles/filedetails/?id=1832665647)  
 - Tanoa 
     - [Steam Workshop: 1832685459](https://steamcommunity.com/sharedfiles/filedetails/?id=1832685459)  
-- Chernarus
+- Malden
+    - [Steam Workshop: 1850103246](https://steamcommunity.com/sharedfiles/filedetails/?id=1850103246)  
+- Livonia
+    - [Steam Workshop: 1850107049](https://steamcommunity.com/sharedfiles/filedetails/?id=1850107049)  
+- Chernarus Summer
     - [Steam Workshop: 1833035777](https://steamcommunity.com/sharedfiles/filedetails/?id=1833035777)  
+- Chernarus Winter
+    - [Steam Workshop: 1959942769](https://steamcommunity.com/sharedfiles/filedetails/?id=1959942769)  
+- Anizay
+    - [Steam Workshop: 1959965492](https://steamcommunity.com/sharedfiles/filedetails/?id=1959965492)  
+- Kunduz
+    - [Steam Workshop: 1959971214](https://steamcommunity.com/sharedfiles/filedetails/?id=1959971214)  
+- Tembelan Island
+    - [Steam Workshop: 1959976706](https://steamcommunity.com/sharedfiles/filedetails/?id=1959976706)  
 - Altis 1.9 Community Version
     - [Steam Workshop: 1832910657](https://steamcommunity.com/sharedfiles/filedetails/?id=1832910657)
 
@@ -34,7 +63,9 @@ Unstable Branch: [![Build Status](https://travis-ci.com/official-antistasi-commu
     - [Steam Workshop: 1833668872](https://steamcommunity.com/sharedfiles/filedetails/?id=1833668872)
 - WW2 / Armia Krajowa
     - [Steam Workshop: 1833672629](https://steamcommunity.com/sharedfiles/filedetails/?id=1833672629)
-
+- 3CB Collection
+    - [Steam Workshop: 1834976313](https://steamcommunity.com/sharedfiles/filedetails/?id=1834976313)
+    
 ## Features:
 
 - Playable in SP, MP, and persistent open server MP.
@@ -54,12 +85,10 @@ Unstable Branch: [![Build Status](https://travis-ci.com/official-antistasi-commu
 ### How to build from GIT  
 - Download ZIP file
 - Extract ZIP
-- Copy the following files from the Template `A3-Antistasi/Templates/A3-*` for your mission of choice
-  - mission.sqm
-  - description.ext
-  - pic.jpg
-- Paste them into the root of `A3-Antistasi/`
-- Use a PBO Packager to Pack `A3-Antistasi/`
+- Right click on `PrepareMissionsForPacking.ps1` and select 'Open with PowerShell'
+- The script will create a new folder called `PreparedMissions/`
+- Inside this folder you will find multiple subfolders, labeled `Antistasi-VersionNumber.MapName`
+- Use a PBO Packager to pack the any of these mission folders
 
 ### Known Issues:
 For a list of known issues, please see the [Issues on Github](https://github.com/official-antistasi-community/A3-Antistasi-1.4/issues).

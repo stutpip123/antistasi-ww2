@@ -51,7 +51,6 @@
 	[//Backpack
 		"RHSUSF_Assault_EagleAIII_OCP",						//Backpack
 		[//Inventory
-			["Democharge_Remote_Mag",1,1],
 			["RHS_Mag_SMAW_HEAA",1,1]
 		]
 		+ _aceClacker
@@ -76,7 +75,7 @@
 		"",													//Terminal
 		["TF_RF7800STR"] call _fnc_tfarRadio,				//Radio
 		"ItemCompass",										//Compass
-		_tfarMicroDAGR,										//Watch
+		_tfarMicroDAGRNoArray,										//Watch
 		""													//Goggles
 	]
 ];
