@@ -73,3 +73,8 @@ this addAction ["Retrieve Intel", {["Large", _this select 0, "airport_2", false,
 ==================================================================================
 this setVariable ["side", WEST, true];
 this addAction ["Retrieve Intel", {["Small", _this select 1, _this select 0, true, _this select 2] call A3A_fnc_retrieveIntel},nil,4,false,true,"","(isPlayer _this)",4];
+==================================================================================
+private _bomb = bomb;
+_bomb setVectorDirAndUp [(vectorDir intel), [0,0,-1]];
+_bomb setPosWorld ((getPosWorld intel) vectorAdd [0,0,-0.14]);
+_bomb = [_bomb] call BIS_fnc_replaceWithSimpleObject;

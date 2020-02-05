@@ -81,15 +81,14 @@ _intel allowDamage false;
 
 if(_isLarge) then
 {
-    private _isTrap = (random 100 < (4 * tierWar));
+    private _isTrap = (random 100 < (20 + (4 * tierWar)));
     if(_isTrap) then
     {
         [3, format ["Large intel on %1 is selected as trap, spawning explosives", _marker], _fileName] call A3A_fnc_log;
         private _bomb = "DemoCharge_Remote_Ammo_Scripted" createVehicle [0,0,0];
+        _bomb setVectorDirAndUp [(vectorDir _intel), [0,0,-1]];
+        _bomb setPosWorld ((getPosWorld _intel) vectorAdd [0,0,-0.14]);
         _bomb = [_bomb] call BIS_fnc_replaceWithSimpleObject;
-        _bomb setDir (getDir _intel);
-        _bomb attachTo [_intel, [0,0,-0.14]];
-        _bomb setVectorUp [0,0,-1];
         _intel setVariable ["trapBomb", _bomb, true];
     };
     _intel addAction ["Download Intel", {["Large", _this select 0, _this select 3, _this select 2] spawn A3A_fnc_retrieveIntel;}, _marker,4,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4];
