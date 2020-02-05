@@ -301,6 +301,15 @@ class A3A
 		class updateVehicles {};
 	};
 
+    class Intel
+    {
+        //class placeIntel {};
+        class retrieveIntel {};
+        class retrieveLargeIntel {};
+        class retrieveSmallIntel {};
+        class showIntel {};
+    };
+
 	class Missions
 	{
 		class AS_Official {};
