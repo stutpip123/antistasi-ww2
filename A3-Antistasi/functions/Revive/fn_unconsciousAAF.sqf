@@ -40,9 +40,9 @@ while {(time < _bleedOut) and (_unit getVariable ["INCAPACITATED",false]) and (a
 
 _unit stop false;
 if (_playersX) then
-	{
+{
 	[_unit,"remove"] remoteExec ["A3A_fnc_flagaction",0,_unit];
-	};
+};
 
 
 if (time >= _bleedOut) exitWith

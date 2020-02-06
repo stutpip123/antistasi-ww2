@@ -7,10 +7,11 @@ private _bomb = _intel getVariable ["trapBomb", objNull];
 private _isTrap = !(isNull _bomb);
 if(_isTrap) exitWith
 {
+    _intel setObjectTextureGlobal [0, "Pictures\laptop_die.jpg"];
     {
-        [petros,"hint","The screen says:\nDie rebel scum!"] remoteExec ["A3A_fnc_commsMP",_x];
+        [petros,"hint","The screen says:\nPrepare to die!"] remoteExec ["A3A_fnc_commsMP",_x];
     } forEach ([50,0,_intel,teamPlayer] call A3A_fnc_distanceUnits);
-    sleep (random 3);
+    sleep (2 + (random 3));
     private _bombPos = getPosWorld _bomb;
     deleteVehicle _bomb;
     _bomb = "DemoCharge_Remote_Ammo_Scripted" createVehicle [0,0,0];
@@ -95,6 +96,7 @@ if(!(_attack == "No")) then
 _intel setVariable ["ActionNeeded", false];
 ["", 0, 0] params ["_errorText", "_errorChance", "_enemyCounter"];
 
+_intel setObjectTextureGlobal [0, "Pictures\laptop_downloading.jpg"];
 while {_pointSum <= _neededPoints} do
 {
     sleep 1;
@@ -120,6 +122,7 @@ while {_pointSum <= _neededPoints} do
             private _error = selectRandomWeighted ["Err_Sml_01", 0.25, "Err_Sml_02", 0.2, "Err_Sml_03", 0.15, "Err_Med_01", 0.15, "Err_Med_02", 0.15, "Err_Lar_01", 0.1];
             private _actionText = "";
             private _penalty = 0;
+            private _picturePath = "";
             switch (_error) do
             {
                 case ("Err_Sml_01"):
@@ -127,39 +130,55 @@ while {_pointSum <= _neededPoints} do
                     _errorText = "Data Fragment Error. File {002451%12-215502%} has to be confirmed manually!";
                     _actionText = "Confirm file";
                     _penalty = 150 + random 100;
+                    _picturePath = "error1";
                 };
                 case ("Err_Sml_02"):
                 {
                     _errorText = "404 Error on server. URL incorrect. Skip URL?";
                     _actionText = "Skip URL";
                     _penalty = 150 + random 50;
+                    _picturePath = "error2";
                 };
                 case ("Err_Sml_03"):
                 {
                     _errorText = "Windows needs an update. Update now and lose all data?";
                     _actionText = "Stop windows update";
                     _penalty = 200 + random 150;
+                    _picturePath = "error3";
                 };
                 case ("Err_Med_01"):
                 {
                     _errorText = "Download port closed on server. Manual reroute required!";
                     _actionText = "Reroute download";
                     _penalty = 250 + random 150;
+                    _picturePath = "error4";
                 };
                 case ("Err_Med_02"):
                 {
                     _errorText = "Error in NetworkAdapter. Hardware not responding. Restart now?";
                     _actionText = "Restart NetworkAdapter";
                     _penalty = 350 + random 100;
+                    _picturePath = "error5";
                 };
                 case ("Err_Lar_01"):
                 {
                     _errorText = "Critical Error in network infrastructur. Server returned ErrorCode: CRITICAL_ARMA_PROCESS_DIED";
                     _actionText = "Restart server process";
                     _penalty = 600 + random 250;
+                    _picturePath = "error6";
                 };
             };
-            _intel addAction [_actionText, {(_this select 0) setVariable ["ActionNeeded", false]; (_this select 0) removeAction (_this select 2);},nil,4,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4];
+            _picturePath = format ["Pictures\laptop_%1.jpg", _picturePath];
+            _intel setObjectTextureGlobal [0, _picturePath];
+            _intel addAction
+            [
+                _actionText,
+                {
+                    (_this select 0) setVariable ["ActionNeeded", false];
+                    (_this select 0) removeAction (_this select 2);
+                    (_this select 0) setObjectTextureGlobal [0, "Pictures\laptop_downloading.jpg"];
+                },nil,4,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4
+            ];
             _pointSum = _pointSum - _penalty;
             if(_pointSum < 0) then {_pointSum = 0};
             _errorChance = 0;
@@ -209,6 +228,7 @@ _intel setVariable ["ActionNeeded", nil];
 
 if(_pointSum >= _neededPoints) then
 {
+    _intel setObjectTextureGlobal [0, "Pictures\laptop_completed.jpg"];
     {
         [petros,"hint","You managed to download the intel!"] remoteExec ["A3A_fnc_commsMP",_x];
         [10,_x] call A3A_fnc_playerScoreAdd;

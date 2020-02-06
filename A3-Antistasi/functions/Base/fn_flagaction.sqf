@@ -62,24 +62,28 @@ switch _typeX do
 		};
 	case "moveS": {_flag addAction ["Move this asset", A3A_fnc_moveHQObject,nil,0,false,true,"","(_this == theBoss)"]};
 	case "remove":
-		{
+	{
 		if (player == _flag) then
-			{
+		{
 			if (isNil "actionX") then
-				{
+			{
 				removeAllActions _flag;
 				if (player == player getVariable ["owner",player]) then {[] call SA_Add_Player_Tow_Actions};
-				}
-			else
-				{
-				_flag removeAction actionX;
-				};
 			}
-		else
+			else
 			{
-			removeAllActions _flag
+				_flag removeAction actionX;
 			};
+		}
+		else
+		{
+			removeAllActions _flag;
+            if ((typeOf _flag) in squadLeaders) then
+            {
+                _flag addAction ["Search for Intel", {["Small", _this select 1, _this select 0, _this select 2] call A3A_fnc_retrieveIntel}, nil,4,false,true,"","(isPlayer _this)",4];
+            };
 		};
+	};
 	case "refugee": {_flag addAction ["<t>Liberate</t> <img image='\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa' size='1.6' shadow=2 />", A3A_fnc_liberaterefugee,nil,6,true,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4]};//"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa"
 	case "prisonerX": {_flag addAction ["<t>Liberate POW</t> <img image='\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_unbind_ca.paa' size='1.6' shadow=2 />", A3A_fnc_liberatePOW,nil,6,true,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4]};
 	case "captureX":

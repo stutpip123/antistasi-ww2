@@ -4,7 +4,6 @@
 *       if _intelType == "Small"
 *           _caller : OBJECT : The unit which is searching
 *           _squadLeader : OBJECT : The unit (or body) which holds the intel
-*           _hasIntel : BOOLEAN : Decides if the _squadLeader has actual intel
 *           _searchAction : NUMBER : The ID of the action which started this script
 *       if _intelType == "Medium"
 *           _intel : OBJECT : The object which is holding the intel
@@ -22,8 +21,8 @@ switch (_preCheck) do
 {
     case ("Small"):
     {
-        _this params ["_intelType", "_caller", "_squadLeader", "_hasIntel", "_searchAction"];
-        [_caller, _squadLeader, _hasIntel, _searchAction] spawn A3A_fnc_retrieveSmallIntel;
+        _this params ["_intelType", "_caller", "_squadLeader", "_searchAction"];
+        [_caller, _squadLeader, _searchAction] spawn A3A_fnc_retrieveSmallIntel;
     };
     case ("Medium"):
     {

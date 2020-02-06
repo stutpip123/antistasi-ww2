@@ -58,6 +58,7 @@ _desk setVelocity [0, 0, -1];
 
 //Await until desk have hit the group, it tend to stuck in the air otherwise
 sleep 5;
+_desk enableSimulation false;
 
 private _intelType = "";
 if(_isLarge) then
@@ -79,6 +80,14 @@ _intel setPosATL _intelPos;
 _intel enableSimulation false;
 _intel allowDamage false;
 
+//Place light on laptop
+private _light = "#lightpoint" createVehicle (getPos _intel);
+_light setLightBrightness 1.0;
+_light setLightAmbient [0.005, 0.05, 0.07];
+_light setLightColor [0.05, 0.05, 0.07];
+_light setLightAttenuation [1,90,90,85,0,1];
+_light lightAttachObject [_intel, [0,0,0]];
+
 if(_isLarge) then
 {
     private _isTrap = (random 100 < (20 + (4 * tierWar)));
@@ -98,11 +107,14 @@ else
     _intel addAction ["Take Intel", {["Medium", _this select 0] spawn A3A_fnc_retrieveIntel;},nil,4,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4];
 };
 
-/*
 [_marker, _desk, _intel] spawn
 {
     waitUntil{sleep 10; (spawner getVariable (_this select 0) == 2)};
     deleteVehicle (_this select 1);
-    if(!isNil {_this select 2}) then {deleteVehicle (_this select 2)};
+    if(!isNil {_this select 2}) then
+    {
+        _bomb = (_this select 2) getVariable ["trapBomb", objNull];
+        deleteVehicle _bomb;
+        deleteVehicle (_this select 2)
+    };
 };
-*/

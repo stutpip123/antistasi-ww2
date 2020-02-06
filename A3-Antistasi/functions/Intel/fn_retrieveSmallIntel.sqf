@@ -4,14 +4,13 @@ params ["_caller", "_squadLeader", "_hasIntel", "_searchAction"];
 *   Params:
 *       _caller : OBJECT : The unit which is searching
 *       _squadLeader : OBJECT : The unit (or body) which holds the intel
-*       _hasIntel : BOOLEAN : Decides if the _squadLeader has actual intel
 *       _searchAction : NUMBER : The ID of the action which started this script
-*       _side : SIDE : The side of the _squadLeader
 *
 *   Returns:
 *       Nothing
 */
 
+_squadLeader removeAction _searchAction;
 private _timeForSearch = 10 + random 15;
 private _side = _squadLeader getVariable "side";
 
@@ -72,7 +71,7 @@ if(_wasCancelled) exitWith
 if(_caller getVariable ["success", false]) then
 {
     _caller setVariable ["success", nil];
-    _squadLeader removeAction _searchAction;
+    private _hasIntel = _squadLeader getVariable ["hasIntel", false];
     if(_hasIntel) then
     {
         hint "Search completed, intel found!";
@@ -82,4 +81,8 @@ if(_caller getVariable ["success", false]) then
     {
         hint "Search completed, but you found nothing!";
     };
+}
+else
+{
+    _squadLeader addAction ["Search for Intel", {["Small", _this select 1, _this select 0, _this select 2] call A3A_fnc_retrieveIntel}, nil,4,false,true,"","(isPlayer _this)",4];
 };
