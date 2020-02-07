@@ -56,6 +56,9 @@ if (isServer) then {
 	//Check if we have radios unlocked and update haveRadio.
 	call A3A_fnc_checkRadiosUnlocked;
 
+	//Sort optics list so that snipers pick the right sight
+	unlockedOptics = [unlockedOptics,[],{getNumber (configfile >> "CfgWeapons" >> _x >> "ItemInfo" >> "mass")},"DESCEND"] call BIS_fnc_sortBy;
+
 	{
 		if (sidesX getVariable [_x,sideUnknown] != teamPlayer) then {
 			_positionX = getMarkerPos _x;
@@ -98,7 +101,7 @@ if (isServer) then {
 	["nextTick"] call fn_LoadStat;
 	["staticsX"] call fn_LoadStat;
 
-	if (!isMultiPlayer) then {player setPos getMarkerPos respawnTeamPlayer} else {{_x setPos getMarkerPos respawnTeamPlayer} forEach (playableUnits select {side _x == teamPlayer})};
+	{_x setPos getMarkerPos respawnTeamPlayer} forEach ((call A3A_fnc_playableUnits) select {side _x == teamPlayer});
 	_sites = markersX select {sidesX getVariable [_x,sideUnknown] == teamPlayer};
 
 	//Isn't that just tierCheck.sqf?
@@ -109,9 +112,7 @@ if (isServer) then {
 	tierPreference = 1;
 	publicVariable "tierPreference";
 	//Updating the preferences based on war level
-	for "_i" from 1 to tierWar do {
-		[] call A3A_fnc_updatePreference;
-	};
+	[] call A3A_fnc_updatePreference;
 
 	if (isNil "usesWurzelGarrison") then {
 		//Create the garrison new
@@ -194,9 +195,6 @@ if (isServer) then {
 				_nul = [_x] call A3A_fnc_createControls;
 			};
 		} forEach seaports;
-
-		sidesX setVariable ["NATO_carrier",Occupants,true];
-		sidesX setVariable ["CSAT_carrier",Invaders,true];
 	};
 	statsLoaded = 0; publicVariable "statsLoaded";
 	placementDone = true; publicVariable "placementDone";

@@ -39,16 +39,23 @@ for "_i" from 1 to _max do
 	//_pos = _positionX findEmptyPosition [_size - 200,_size+50,_typeVehX];
 	_spawnParameter = [_markerX, "Vehicle"] call A3A_fnc_findSpawnPosition;
 
-	_vehicle=[_spawnParameter select 0, _spawnParameter select 1,_typeVehX, _sideX] call bis_fnc_spawnvehicle;
-	_veh = _vehicle select 0;
-	_vehCrew = _vehicle select 1;
-	{[_x,_markerX] call A3A_fnc_NATOinit} forEach _vehCrew;
-	[_veh] call A3A_fnc_AIVEHinit;
-	_groupVeh = _vehicle select 2;
-	_soldiers = _soldiers + _vehCrew;
-	_groups pushBack _groupVeh;
-	_vehiclesX pushBack _veh;
-	sleep 1;
+	if (_spawnParameter isEqualType []) then
+	{
+		_vehicle=[_spawnParameter select 0, _spawnParameter select 1,_typeVehX, _sideX] call bis_fnc_spawnvehicle;
+		_veh = _vehicle select 0;
+		_vehCrew = _vehicle select 1;
+		{[_x,_markerX] call A3A_fnc_NATOinit} forEach _vehCrew;
+		[_veh] call A3A_fnc_AIVEHinit;
+		_groupVeh = _vehicle select 2;
+		_soldiers = _soldiers + _vehCrew;
+		_groups pushBack _groupVeh;
+		_vehiclesX pushBack _veh;
+		sleep 1;
+	}
+	else
+	{
+		_i = _max;
+	};
 };
 
 if (_frontierX) then
@@ -262,7 +269,7 @@ if (!_busy) then
 		if(_spawnParameter isEqualType []) then
 		{
 			private _vehPool = [];
-			_typeVehX = if (_sideX == Occupants) then
+			if (_sideX == Occupants) then
 			{
 				_vehPool = ([vehNATOPlane, vehNATOPlaneAA] select {[_x] call A3A_fnc_vehAvailable})
 			}
@@ -272,8 +279,10 @@ if (!_busy) then
 			};
 			if(count _vehPool > 0) then
 			{
-				_veh = createVehicle [_typeVehX, (_spawnParameter select 0), [],3, "CAN_COLLIDE"];
+				_typeVehX = selectRandom _vehPool;
+				_veh = createVehicle [_typeVehX, (_spawnParameter select 0), [], 0, "CAN_COLLIDE"];
 				_veh setDir (_spawnParameter select 1);
+				_veh setPos (_spawnParameter select 0);
 				_vehiclesX pushBack _veh;
 				_nul = [_veh] call A3A_fnc_AIVEHinit;
 			};
@@ -308,14 +317,14 @@ _vehiclesX pushBack _flagX;
 if (_sideX == Occupants) then
 {
 	_veh = NATOAmmoBox createVehicle _positionX;
-	_nul = [_veh] call A3A_fnc_NATOcrate;
+	[_veh] spawn A3A_fnc_NATOcrate;
 	_vehiclesX pushBack _veh;
 	_veh call jn_fnc_logistics_addAction;
 }
 else
 {
 	_veh = CSATAmmoBox createVehicle _positionX;
-	_nul = [_veh] call A3A_fnc_CSATcrate;
+	[_veh] spawn A3A_fnc_CSATcrate;
 	_vehiclesX pushBack _veh;
 	_veh call jn_fnc_logistics_addAction;
 };

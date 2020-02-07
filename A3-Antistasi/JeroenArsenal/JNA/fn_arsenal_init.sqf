@@ -2,8 +2,9 @@
 #include "\A3\Ui_f\hpp\defineResinclDesign.inc"
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-diag_log format ["%1: [Antistasi] | INFO | JNA Init Started.",servertime];
-
+scriptName "fn_arsenal_init.sqf";
+private _fileName = "fn_arsenal_init.sqf";
+[2,"JNA init started",_fileName] call A3A_fnc_log;
 params [["_object",objNull,[objNull]]];
 
 //check if it was already initialised
@@ -42,15 +43,17 @@ IDC_RSCDISPLAYARSENAL_TAB_CARGOPUT		23
 IDC_RSCDISPLAYARSENAL_TAB_CARGOMISC		24
 IDC_RSCDISPLAYARSENAL_TAB_CARGOMAGALL		26
 */
-//jna_minItemMember = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
-jna_minItemMember = [24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,memberOnlyMagLimit,24,24,24,24,memberOnlyMagLimit];
-
+jna_minItemMember = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
+//jna_minItemMember = [24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,memberOnlyMagLimit,24,24,24,24,memberOnlyMagLimit];
+jna_minItemMember = jna_minItemMember apply { minWeaps };
+jna_minItemMember set [IDC_RSCDISPLAYARSENAL_TAB_CARGOMAG, memberOnlyMagLimit];
+jna_minItemMember set [IDC_RSCDISPLAYARSENAL_TAB_CARGOMAGALL, memberOnlyMagLimit];
 //preload the ammobox so you dont need to wait the first time
 ["Preload"] call jn_fnc_arsenal;
 
 //server
 if(isServer)then{
-    diag_log format ["%1: [Antistasi] | INFO | JNA Server Detected.",servertime];
+    [2,"JNA server detected",_fileName] call A3A_fnc_log;
 
     //load default if it was not loaded from savegame
     if(isnil "jna_dataList" )then{jna_dataList = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];};
@@ -58,7 +61,7 @@ if(isServer)then{
 
 //player
 if(hasInterface)then{
-    diag_log format ["%1: [Antistasi] | INFO | JNA Loading Player Data.",servertime];
+    [2,"JNA loading player data",_fileName] call A3A_fnc_log;
 
     //add arsenal button
     _object addaction [
@@ -113,5 +116,5 @@ if(hasInterface)then{
         };
     }] call BIS_fnc_addScriptedEventHandler;
 };
-diag_log format ["%1: [Antistasi] | INFO | JNA Completed.",servertime];
+[2,"JNA init completed",_fileName] call A3A_fnc_log;
 arsenalInit = true;

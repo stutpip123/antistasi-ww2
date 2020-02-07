@@ -45,7 +45,7 @@ private ["_tsk","_grpPOW","_pos"];
 if ((_destinationX in airportsX) or (_destinationX in outposts)) then
 	{
 	_typeConvoy = ["ammunition","Armor"];
-	if (_destinationX in outposts) then {if (((count (garrison getVariable [_destinationX,0]))/2) >= [_destinationX] call A3A_fnc_garrisonSize) then {_typeConvoy pushBack "reinforcementsX"}};
+	if (_destinationX in outposts) then {if (((count (garrison getVariable [_destinationX, []]))/2) >= [_destinationX] call A3A_fnc_garrisonSize) then {_typeConvoy pushBack "reinforcementsX"}};
 	}
 else
 	{
@@ -56,7 +56,7 @@ else
 	else
 		{
 		if ((_destinationX in resourcesX) or (_destinationX in factories)) then {_typeConvoy = ["Money"]} else {_typeConvoy = ["Prisoners"]};
-		if (((count (garrison getVariable [_destinationX,0]))/2) >= [_destinationX] call A3A_fnc_garrisonSize) then {_typeConvoy pushBack "reinforcementsX"};
+		if (((count (garrison getVariable [_destinationX, []]))/2) >= [_destinationX] call A3A_fnc_garrisonSize) then {_typeConvoy pushBack "reinforcementsX"};
 		};
 	};
 
@@ -137,7 +137,7 @@ _dir = 0;
 if (_base in airportsX) then
 {
 	_indexX = airportsX find _base;
-	_spawnPoint = spawnPoints select _indexX;
+	_spawnPoint = server getVariable (format ["spawn_%1", _base]);
 	_posOrig = getMarkerPos _spawnPoint;
 	_dir = markerDir _spawnPoint;
 }
@@ -376,7 +376,7 @@ else
 
 private _route = [getPos _vehLead, _posDestination] call A3A_fnc_findPath;
 if (_route isEqualTo []) then {
-	_route = [getPos _vehLead, getPos _posDestination]
+	_route = [getPos _vehLead, _posDestination]
 } else {
 	_route pushBack _posDestination;
 };

@@ -16,10 +16,17 @@ class Params
      };
      class autoSave
      {
-          title = "Enable Autosave (every hour)";
+          title = "Enable Autosave (every X minutes)";
           values[] = {1,0};
           texts[] = {"Yes","No"};
           default = 1;
+     };
+     class autoSaveInterval
+     {
+          title = "Time between autosaves (in minutes)";
+          values[] = {600,1200,1800,3600,5400};
+          texts[] = {"10","20","30","60","90"};
+          default = 3600;
      };
      class membership
      {
@@ -102,6 +109,13 @@ class Params
           texts[] = {"4 Kmts","5 Kmts","6 Kmts","7 Kmts","8 Kmts","Unlimited"};
           default = 5000;
      };
+	 class allowMembersFactionGarageAccess
+     {
+          title = "Allow members to access the faction garage";
+          texts[] = {"Yes", "No"};
+          values[] = {1,0};
+          default = 1;
+     };
      class allowFT
      {
           title = "Limited Fast Travel";
@@ -143,6 +157,13 @@ class Params
           values[] = {1,0};
           texts[] =  {"Yes","No"};
           default = 0;
+     };
+     class startWithLongRangeRadio
+     {
+          title = "[TFAR] Start with Long Range Radio?";
+          values[] = {1,0};
+          texts[] =  {"Yes","No"};
+          default = 1;
      };
      class Spacer10
      {
@@ -235,6 +256,13 @@ class Params
           texts[] = {""};
           default = "";
      };
+	 class LogLevel
+	 {
+		  title = "Logging Level (Amount of detail in .rpt file)";
+		  values[] = {1,2,3};
+		  texts[] = {"Error", "Info", "Debug"};
+		  default = 3;
+	 };
      class CrateOptions
      {
           title = "LOOT CRATE OPTIONS";
@@ -242,19 +270,33 @@ class Params
           texts[] = {""};
           default = "";
      };
+	 class truelyRandomCrates
+	 {
+		  title = "[Experimental] Truely Random Crates: Remove all balance checks from Crates";
+		  values[] = {0, 1};
+		  texts[] = {"False", "True"};
+		  default = 0;
+	 };
+	 class cratePlayerScaling
+	 {
+		title = "Decrease loot quantity as player count increases? (Yes is recommended for balance reasons)";
+		values[] = {0, 1};
+		texts[] = {"False", "True"};
+		default = 1;
+	 };
      class crateWepTypeMax
      {
           title = "Maximum Weapon Types in Crates";
-          values[] = {0,2,4,9};
-          texts[] = {"1","3","5","10"};
-          default = 4;
+          values[] = {0,2,4,6,8,12,16};
+          texts[] = {"1","3","5","7","9","13","17"};
+          default = 9;
      };
      class crateWepNumMax
      {
           title = "Maximum Weapon Quantity in Crates";
-          values[] = {0,1,3,5,10,15};
-          texts[] = {"None","1","3","5","10","15"};
-          default = 15;
+          values[] = {0,1,3,5,8,10,15};
+          texts[] = {"None","1","3","5","8","10","15"};
+          default = 8;
      };
      class Spacer1
      {
@@ -287,16 +329,16 @@ class Params
      class crateAmmoTypeMax
      {
           title = "Maximum Ammo Types in Crates";
-          values[] = {0,2,4,9};
-          texts[] = {"1","3","5","10"};
-          default = 4;
+          values[] = {0,2,4,6,9,14,19};
+          texts[] = {"1","3","5","7","10","15","20"};
+          default = 6;
      };
      class crateAmmoNumMax
      {
           title = "Maximum Ammo Quantity in Crates";
-          values[] = {0,1,3,5,10,15};
-          texts[] = {"None","1","3","5","10","15"};
-          default = 10;
+          values[] = {0,1,3,5,10,15,20,25,30};
+          texts[] = {"None","1","3","5","10","15","20","25","30"};
+          default = 20;
      };
      class Spacer3
      {
@@ -329,16 +371,16 @@ class Params
      class crateAttachmentTypeMax
      {
           title = "Maximum Attachment Types in Crates";
-          values[] = {0,2,4,9};
-          texts[] = {"1","3","5","10"};
-          default = 2;
+          values[] = {0,2,4,6,9,12,15,19};
+          texts[] = {"1","3","5","7","10","13","16","20"};
+          default = 6;
      };
      class crateAttachmentNumMax
      {
           title = "Maximum Attachment Quantity in Crates";
-          values[] = {0,1,3,5,10,15};
-          texts[] = {"None","1","3","5","10","15"};
-          default = 3;
+          values[] = {0,1,3,5,7,10,15,20,30};
+          texts[] = {"None","1","3","5","7","10","15","20","30"};
+          default = 15;
      };
      class Spacer5
      {
@@ -415,13 +457,13 @@ class Params
           title = "Maximum Device Backpack Types in Crates";
           values[] = {0,2,4,9};
           texts[] = {"1","3","5","10"};
-          default = 0;
+          default = 2;
      };
      class crateDeviceNumMax
      {
           title = "Maximum Device Backpack Quantity in Crates";
           values[] = {0,1,3,5,10,15};
           texts[] = {"None","1","3","5","10","15"};
-          default = 1;
+          default = 3;
      };
 };

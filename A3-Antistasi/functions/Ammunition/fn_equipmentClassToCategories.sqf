@@ -117,8 +117,32 @@ if (_baseCategory == "MissileLaunchers") then {
 	};
 };
 
-if (_baseCategory == "Rifles" && {count (getArray (configfile >> "CfgWeapons" >> _className >> "muzzles")) == 2}) then {
-	_categories pushBack "GrenadeLaunchers";
+if (_baseCategory == "Rifles") then {
+	private _config = configfile >> "CfgWeapons" >> _className;
+	private _muzzles = getArray (_config >> "muzzles");
+	// workaround for RHS having an extra muzzle for "SAFE"
+	if (count _muzzles >= 2 && {"gl" == getText (_config >> (_muzzles select 1) >> "cursorAim")}) then {
+		_categories pushBack "GrenadeLaunchers";
+	};
+};
+
+if (_basecategory == "Vests") then {
+	if (getNumber (configfile >> "CfgWeapons" >> _className >> "ItemInfo" >> "HitpointsProtectionInfo" >> "Chest" >> "armor") > 5) then {
+		_categories pushBack "ArmoredVests";
+	};
+};
+
+if (_basecategory == "Headgear") then {
+	if (getNumber (configfile >> "CfgWeapons" >> _className >> "ItemInfo" >> "HitpointsProtectionInfo" >> "Head" >> "armor") > 0) then {
+		_categories pushBack "ArmoredHeadgear";
+	};
+};
+
+if (_basecategory == "Backpacks") then {
+	// 160 = assault pack. Just a way to limit which backpacks friendly AI are using.
+	if (getNumber (configFile >> "CfgVehicles" >> _className >> "maximumLoad") >= 160) then {
+		_categories pushBack "BackpacksCargo";
+	};
 };
 
 _categories;
