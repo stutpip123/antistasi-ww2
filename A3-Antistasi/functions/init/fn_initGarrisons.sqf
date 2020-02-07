@@ -195,7 +195,7 @@ if (debug) then {
 
 [resourcesX, "Resource"] call _fnc_initGarrison;
 [resourcesX, "Other", [0,0,0]] call A3A_fnc_createGarrison;	//New system
-[resourcesX] spawn A3A_fnc_initDestructionObjects;
+//[resourcesX] spawn A3A_fnc_initDestructionObjects;
 
 if (debug) then {
 	diag_log format ["%1: [Antistasi] | DEBUG | initGarrisons.sqf | Setting up Factory stuff.", servertime];
@@ -203,7 +203,7 @@ if (debug) then {
 
 [factories, "Factory"] call _fnc_initGarrison;
 [factories, "Other", [0,0,0]] call A3A_fnc_createGarrison;
-[factories] spawn A3A_fnc_initDestructionObjects;
+//[factories] spawn A3A_fnc_initDestructionObjects;
 
 if (debug) then {
 	diag_log format ["%1: [Antistasi] | DEBUG | initGarrisons.sqf | Setting up Outpost stuff.", servertime];
@@ -221,5 +221,6 @@ if (debug) then {
 
 //New system, adding cities
 [citiesX, "City", [0,0,0]] call A3A_fnc_createGarrison;
+[] spawn A3A_fnc_initSite;
 
 [2,"InitGarrisons completed",_fileName] call A3A_fnc_log;
