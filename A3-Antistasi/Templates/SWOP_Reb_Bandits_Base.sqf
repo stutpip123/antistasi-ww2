@@ -88,6 +88,13 @@ supportStaticsSDKB3 = "I_Mortar_01_support_F";
 //Mines
 ATMineMag = "ATMine_Range_Mag";
 APERSMineMag = "APERSMine_Range_Mag";
+
+//Breaching explosives
+//Breaching APCs needs one demo charge
+breachingExplosivesAPC = [["DemoCharge_Remote_Mag", 1]];
+//Breaching tanks needs one satchel charge or two demo charges
+breachingExplosivesTank = [["SatchelCharge_Remote_Mag", 1], ["DemoCharge_Remote_Mag", 2]];
+
 //Starting Unlocks
 initialRebelEquipment append ["swop_dl18Pistol","swop_dl44Pistol","SWOP_TuskenRBlasterRifle","SW_scattergun"];
 initialRebelEquipment append ["SW_scattergun","SWOP_TuskenRBlasterRifle"];
