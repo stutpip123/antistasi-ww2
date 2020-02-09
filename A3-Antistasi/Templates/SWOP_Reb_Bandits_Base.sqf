@@ -98,4 +98,4 @@ initialRebelEquipment append ["SWOP_RemBron","SWOP_RemBron2","SWOP_RemBronf","SW
 initialRebelEquipment append ["ElectroBinocularsB_F","acc_flashlight"];
 //TFAR Unlocks
 if (hasTFAR) then {initialRebelEquipment append ["tf_microdagr","tf_rf7800str"]};
-if (startLR) then {initialRebelEquipment pushBack "tf_rt1523g_rhs"};
+if (hasTFAR && startWithLongRangeRadio) then {initialRebelEquipment pushBack "tf_rt1523g_rhs"};

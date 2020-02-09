@@ -18,7 +18,7 @@ while {true} do
 			_mrk setMarkerTextLocal format ["%1",name _playerX];
 			_markersX pushBack _mrk;
 			};
-		} forEach playableUnits;
+		} forEach (call A3A_fnc_playableUnits);
 		if (count _playersX > 0) then
 			{
 			{
@@ -29,7 +29,7 @@ while {true} do
 				_mrk setMarkerAlphaLocal 1;
 				_mrk setMarkerPosLocal position _playerX;
 				_mrk setMarkerDirLocal getDir _playerX;
-				if (_playerX getVariable ["INCAPACITATED",false]) then
+				if (_playerX getVariable ["INCAPACITATED",false] || _playerX getVariable ["ACE_isUnconscious",false]) then
 					{
 					_mrk setMarkerTextLocal format ["%1 Injured",name _playerX];
 					_mrk setMarkerColorLocal "ColorRed";
@@ -43,7 +43,7 @@ while {true} do
 			else
 				{
 				_veh = vehicle _playerX;
-				if ((isNull driver _veh) or (driver _veh == _playerX)) then
+				if ((!isPlayer driver _veh) or (driver _veh == _playerX)) then
 					{
 					_mrk setMarkerAlphaLocal 1;
 					_mrk setMarkerPosLocal position _veh;
@@ -54,7 +54,7 @@ while {true} do
 						{
 						_textX = format ["%1%2/",_textX,name _x];
 						};
-					} forEach playableUnits;
+					} forEach (call A3A_fnc_playableUnits);
 					_mrk setMarkerTextLocal _textX;
 					}
 				else

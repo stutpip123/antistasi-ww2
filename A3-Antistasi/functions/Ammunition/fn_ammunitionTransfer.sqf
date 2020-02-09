@@ -42,6 +42,16 @@ if (!isNil "_weaponsItemsCargo") then
 			if (_thingX isEqualType "") then
 				{
 				if (_thingX != "") then {_items pushBack _thingX};
+				}
+			else
+				{
+				if (_thingX isEqualType []) then
+					{
+					if (count _thingX > 0) then
+						{
+						_ammunition pushBack (_thingX select 0);
+						};
+					};
 				};
 			};
 		} forEach _weaponsItemsCargo;
@@ -146,7 +156,7 @@ else
 
 if (_destinationX == boxX) then
 	{
-	if (isMultiplayer) then {{if (_x distance boxX < 10) then {[petros,"hint","Ammobox Loaded"] remoteExec ["A3A_fnc_commsMP",_x]}} forEach playableUnits} else {hint "Ammobox Loaded"};
+	{if (_x distance boxX < 10) then {[petros,"hint","Ammobox Loaded"] remoteExec ["A3A_fnc_commsMP",_x]}} forEach (call A3A_fnc_playableUnits);
 	if ((_originX isKindOf "ReammoBox_F") and (_originX != vehicleBox)) then {deleteVehicle _originX};
 	_updated = [] call A3A_fnc_arsenalManage;
 	if (_updated != "") then

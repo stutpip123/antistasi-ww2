@@ -368,9 +368,9 @@
     </Container>
     <Container name="credits_generic">
       <Key ID="STR_antistasi_credits_generic_author_text">
-        <Original>The Official Antistasi Community</Original>
-        <English>Antistasi Community</English>
-        <French>La Communauté Officielle d'Antistasi</French>
+        <Original>The Official Antistasi Community and Barbolani</Original>
+        <English>The Official Antistasi Community and Barbolani</English>
+        <French>La Communauté Officielle d'Antistasi et Barbolani</French>
         <Russian>Сообщество Antistasi</Russian>
       </Key>
       <Key ID="STR_antistasi_credits_generic_overview_text">
@@ -392,7 +392,7 @@
         <Russian>Быть Лидером Сопротивления значит быть героем. </Russian>
       </Key>
       <Key ID="STR_antistasi_credits_generic_version_text">
-        <Original>2.2</Original>
+        <Original>2.2.2</Original>
       </Key>
     </Container>
     <Container name="dialog_vehicle_purchase">
@@ -540,32 +540,32 @@
       </Key>
     </Container>
     <Container name="mission_info">
-    <Key ID="STR_antistasi_mission_info_altis_description_text">
-      <Original>Be the Resistance Leader. Fight against a superior enemy in technology, number, assets and vehicles. Use guerrilla tactics in a totally dynamic world, with around 18 sidemissions, everywhere, anytime, anything.</Original>
-      <English>Be the Resistance Leader. Fight against a superior enemy in technology, number, assets and vehicles. Use guerrilla tactics in a totally dynamic world, with around 18 sidemissions, everywhere, anytime, anything.</English>
-      <French>Devenez le Chef de la Résistance. Battez-vous contre un ennemi en surnombre et avec un niveau technologique supérieur. Utilisez les tactiques des Guerrillas dans un monde complétement dynamique, avec environ 18 missions. Quand vous voulez, où vous voulez, avec ce que vous voulez...</French>
-      <Russian>Стань лидером сопротивления. Сражайся против врага превосходящего в технологии, количистве, вооружении и технике. Используй партизанскую тактику в полностью динамическом мире.</Russian>
-    </Key>
-    <Key ID="STR_antistasi_mission_info_altis_mapname_text">
-      <Original>Antistasi - Uprising In Altis</Original>
-      <English>Antistasi - Uprising In Altis</English>
-    </Key>
-    <Key ID="STR_antistasi_mission_info_altis_mapname_short_text">
-      <Original>Antistasi Altis</Original>
-      <English>Antistasi Altis</English>
-    </Key>
-    <Key ID="STR_antistasi_mission_info_altisB_mapname_text">
-      <Original>Antistasi - Uprising In Altis (BLUFOR)</Original>
-      <English>Antistasi - Uprising In Altis (BLUFOR)</English>
-    </Key>
-    <Key ID="STR_antistasi_mission_info_altisB_mapname_short_text">
-      <Original>Antistasi Altis (BLUFOR)</Original>
-      <English>Antistasi Altis (BLUFOR)</English>
-    </Key>
-    <Key ID="STR_antistasi_mission_info_altis_blurb_text">
-      <Original>Because nothing is more important than Freedom.</Original>
-      <English>Because nothing is more important than Freedom.</English>
-    </Key>
+      <Key ID="STR_antistasi_mission_info_altis_description_text">
+        <Original>Be the Resistance Leader. Fight against a superior enemy in technology, number, assets and vehicles. Use guerrilla tactics in a totally dynamic world, with around 18 sidemissions, everywhere, anytime, anything.</Original>
+        <English>Be the Resistance Leader. Fight against a superior enemy in technology, number, assets and vehicles. Use guerrilla tactics in a totally dynamic world, with around 18 sidemissions, everywhere, anytime, anything.</English>
+        <French>Devenez le Chef de la Résistance. Battez-vous contre un ennemi en surnombre et avec un niveau technologique supérieur. Utilisez les tactiques des Guerrillas dans un monde complétement dynamique, avec environ 18 missions. Quand vous voulez, où vous voulez, avec ce que vous voulez...</French>
+        <Russian>Стань лидером сопротивления. Сражайся против врага превосходящего в технологии, количистве, вооружении и технике. Используй партизанскую тактику в полностью динамическом мире.</Russian>
+      </Key>
+      <Key ID="STR_antistasi_mission_info_altis_mapname_text">
+        <Original>Antistasi - Liberation of Altis</Original>
+        <English>Antistasi - Liberation of Altis</English>
+      </Key>
+      <Key ID="STR_antistasi_mission_info_altis_mapname_short_text">
+        <Original>Antistasi Altis</Original>
+        <English>Antistasi Altis</English>
+      </Key>
+      <Key ID="STR_antistasi_mission_info_altisB_mapname_text">
+        <Original>Antistasi - Liberation of Altis (BLUFOR)</Original>
+        <English>Antistasi - Liberation of Altis (BLUFOR)</English>
+      </Key>
+      <Key ID="STR_antistasi_mission_info_altisB_mapname_short_text">
+        <Original>Antistasi Altis (BLUFOR)</Original>
+        <English>Antistasi Altis (BLUFOR)</English>
+      </Key>
+      <Key ID="STR_antistasi_mission_info_altis_blurb_text">
+        <Original>Because nothing is more important than Freedom.</Original>
+        <English>Because nothing is more important than Freedom.</English>
+      </Key>
       <Key ID="STR_antistasi_mission_info_tanoa_description_text">
         <Original>Be the Resistance Leader. Fight against a superior enemy in technology, number, assets and vehicles. Use guerrilla tactics in a totally dynamic world, with around 18 sidemissions, everywhere, anytime, anything.</Original>
         <English>Be the Resistance Leader. Fight against a superior enemy in technology, number, assets and vehicles. Use guerrilla tactics in a totally dynamic world, with around 18 sidemissions, everywhere, anytime, anything.</English>
@@ -594,21 +594,43 @@
         <French>Devenez le Chef de la Résistance. Battez-vous contre un ennemi en surnombre et avec un niveau technologique supérieur. Utilisez les tactiques des Guerrillas dans un monde complétement dynamique, avec environ 18 missions. Quand vous voulez, où vous voulez, avec ce que vous voulez...</French>
         <Russian>Стань лидером сопротивления. Сражайся против врага превосходящего в технологии, количистве, вооружении и технике. Используй партизанскую тактику в полностью динамическом мире.</Russian>
       </Key>
+      <Key ID="STR_antistasi_mission_info_chernawinter_description_text">
+        <Original>Be the Resistance Leader. Fight against a superior enemy in technology, number, assets and vehicles. Use guerrilla tactics in a totally dynamic world, with around 18 sidemissions, everywhere, anytime, anything.</Original>
+        <English>Be the Resistance Leader. Fight against a superior enemy in technology, number, assets and vehicles. Use guerrilla tactics in a totally dynamic world, with around 18 sidemissions, everywhere, anytime, anything.</English>
+        <French>Devenez le Chef de la Résistance. Battez-vous contre un ennemi en surnombre et avec un niveau technologique supérieur. Utilisez les tactiques des Guerrillas dans un monde complétement dynamique, avec environ 18 missions. Quand vous voulez, où vous voulez, avec ce que vous voulez...</French>
+        <Russian>Стань лидером сопротивления. Сражайся против врага превосходящего в технологии, количистве, вооружении и технике. Используй партизанскую тактику в полностью динамическом мире.</Russian>
+      </Key>
       <Key ID="STR_antistasi_mission_info_cherna_mapname_text">
-        <Original>Antistasi - Armia Krajowa</Original>
-        <English>Antistasi - Armia Krajowa</English>
-        <French>Antistasi - Armia Krajowa</French>
-        <Russian>Antistasi - Армия Крайова</Russian>
+        <Original>Antistasi - Kolkhoz in revolt</Original>
+        <English>Antistasi - Kolkhoz in revolt</English>
+        <French />
+        <Russian />
+      </Key>
+      <Key ID="STR_antistasi_mission_info_chernawinter_mapname_text">
+        <Original>Antistasi - Chilled revolt</Original>
+        <English>Antistasi - Chilled revolt</English>
+        <French />
+        <Russian />
       </Key>
       <Key ID="STR_antistasi_mission_info_cherna_mapname_short_text">
         <Original>Antistasi Chernarus</Original>
         <English>Antistasi Chernarus</English>
+      </Key>
+      <Key ID="STR_antistasi_mission_info_chernawinter_mapname_short_text">
+        <Original>Antistasi Chernarus Winter</Original>
+        <English>Antistasi Chernarus Winter</English>
       </Key>
       <Key ID="STR_antistasi_mission_info_cherna_blurb_text">
         <Original>Between the anvil and a steamroller.</Original>
         <English>Between the anvil and a steamroller.</English>
         <French>Entre l'enclume et un rouleau compresseur</French>
         <Russian>Между катком и наковальней.</Russian>
+      </Key>
+      <Key ID="STR_antistasi_mission_info_chernawinter_blurb_text">
+        <Original>Beware: Santa Claus is hunting you!</Original>
+        <English>Beware: Santa Claus is hunting you!</English>
+        <French />
+        <Russian />
       </Key>
       <Key ID="STR_antistasi_mission_info_malden_description_text">
         <Original>Be the Resistance Leader. Fight against a superior enemy in technology, number, assets and vehicles. Use guerrilla tactics in a totally dynamic world, with around 18 sidemissions, everywhere, anytime, anything.</Original>
@@ -649,18 +671,19 @@
       <Key ID="STR_antistasi_mission_info_livonia_mapname_short_text">
         <Original>Antistasi Livonia</Original>
         <English>Antistasi Livonia</English>
+        <German>Antistasi Livonia</German>
       </Key>
       <Key ID="STR_antistasi_mission_info_livonia_blurb_text">
-        <Original>Stuck between two fronts</Original>
-        <English>Stuck between two fronts</English>
-        <French>Pris entre deux feux</French>
-        <Russian>Между двух фронтов</Russian>
+        <Original>Stuck between two fronts.</Original>
+        <English>Stuck between two fronts.</English>
+        <French>Pris entre deux feux.</French>
+        <Russian>Между двух фронтов.</Russian>
       </Key>
       <Key ID="STR_antistasi_mission_info_kunduz_description_text">
-        <Original>Be the resistance leader and so on</Original>
-        <English>Be the resistance leader and so on</English>
-        <French>Devenez le Chef de la Résistance et cetera...</French>
-        <Russian>Быть лидером сопротивления и т.д.</Russian>
+        <Original>Be the Resistance Leader. Fight against a superior enemy in technology, number, assets and vehicles. Use guerrilla tactics in a totally dynamic world, with around 18 sidemissions, everywhere, anytime, anything.</Original>
+        <English>Be the Resistance Leader. Fight against a superior enemy in technology, number, assets and vehicles. Use guerrilla tactics in a totally dynamic world, with around 18 sidemissions, everywhere, anytime, anything.</English>
+        <French>Devenez le Chef de la Résistance. Battez-vous contre un ennemi en surnombre et avec un niveau technologique supérieur. Utilisez les tactiques des Guerrillas dans un monde complétement dynamique, avec environ 18 missions. Quand vous voulez, où vous voulez, avec ce que vous voulez...</French>
+        <Russian>Стань лидером сопротивления. Сражайся против врага превосходящего в технологии, количистве, вооружении и технике. Используй партизанскую тактику в полностью динамическом мире.</Russian>
       </Key>
       <Key ID="STR_antistasi_mission_info_kunduz_mapname_text">
         <Original>Antistasi - Battle of Kunduz</Original>
@@ -681,9 +704,8 @@
         <Russian>Кровь и песок</Russian>
       </Key>
       <Key ID="STR_antistasi_mission_info_tembelan_mapname_text">
-        <Original>Antistasi - Liberation of Tembelan</Original>
-        <English>Antistasi - Liberation of Tembelan</English>
-        <French>Antistasi - La Libération de Tembelan</French>
+        <Original>Antistasi - Liberation of Tembelan Island</Original>
+        <English>Antistasi - Liberation of Tembelan Island</English>
       </Key>
       <Key ID="STR_antistasi_mission_info_tembelan_mapname_short_text">
         <Original>Antistasi Tembelan</Original>
@@ -691,12 +713,33 @@
         <French>Antistasi Tembelan</French>
       </Key>
       <Key ID="STR_antistasi_mission_info_tembelan_blurb_text">
-        <Original>blurb placeholder</Original>
-        <English>blurb placeholder</English>
+        <Original>Beauty and destruction</Original>
+        <English>Beauty and destruction</English>
       </Key>
       <Key ID="STR_antistasi_mission_info_tembelan_description_text">
-        <Original>Tembelan description placeholder</Original>
-        <English>Tembelan description placeholder</English>
+        <Original>Be the Resistance Leader. Fight against a superior enemy in technology, number, assets and vehicles. Use guerrilla tactics in a totally dynamic world, with around 18 sidemissions, everywhere, anytime, anything.</Original>
+        <English>Be the Resistance Leader. Fight against a superior enemy in technology, number, assets and vehicles. Use guerrilla tactics in a totally dynamic world, with around 18 sidemissions, everywhere, anytime, anything.</English>
+        <French>Devenez le Chef de la Résistance. Battez-vous contre un ennemi en surnombre et avec un niveau technologique supérieur. Utilisez les tactiques des Guerrillas dans un monde complétement dynamique, avec environ 18 missions. Quand vous voulez, où vous voulez, avec ce que vous voulez...</French>
+        <Russian>Стань лидером сопротивления. Сражайся против врага превосходящего в технологии, количистве, вооружении и технике. Используй партизанскую тактику в полностью динамическом мире.</Russian>
+      </Key>
+      <Key ID="STR_antistasi_mission_info_anizay_mapname_short_text">
+        <Original>Antistasi Anizay</Original>
+        <English>Antistasi Anizay</English>
+        <German>Antistasi Anizay</German>
+      </Key>
+      <Key ID="STR_antistasi_mission_info_anizay_description_text">
+        <Original>Be the Resistance Leader. Fight against a superior enemy in technology, number, assets and vehicles. Use guerrilla tactics in a totally dynamic world, with around 18 sidemissions, everywhere, anytime, anything.</Original>
+        <English>Be the Resistance Leader. Fight against a superior enemy in technology, number, assets and vehicles. Use guerrilla tactics in a totally dynamic world, with around 18 sidemissions, everywhere, anytime, anything.</English>
+        <French>Devenez le Chef de la Résistance. Battez-vous contre un ennemi en surnombre et avec un niveau technologique supérieur. Utilisez les tactiques des Guerrillas dans un monde complétement dynamique, avec environ 18 missions. Quand vous voulez, où vous voulez, avec ce que vous voulez...</French>
+        <Russian>Стань лидером сопротивления. Сражайся против врага превосходящего в технологии, количистве, вооружении и технике. Используй партизанскую тактику в полностью динамическом мире.</Russian>
+      </Key>
+      <Key ID="STR_antistasi_mission_info_anizay_mapname_text">
+        <Original>Antistasi - Liberation of Anizay</Original>
+        <English>Antistasi - Liberation of Anizay</English>
+      </Key>
+      <Key ID="STR_antistasi_mission_info_anizay_blurb_text">
+        <Original>Fought on the camel's back</Original>
+        <English>Fought on the camel's back</English>
       </Key>
     </Container>
     <Container name="journal_entries">
@@ -965,6 +1008,18 @@
       </Key>
       <Key ID="STR_antistasi_journal_entry_text_Features_15">
         <Original>Use this option to donate money to other players or your faction funds. Commanders may add or remove players from the Server Members List if the feature is enabled.</Original>
+      </Key>
+      <Key ID="STR_antistasi_journal_entry_header_Features_16">
+        <Original>Breach Vehicles</Original>
+      </Key>
+      <Key ID="STR_antistasi_journal_entry_text_Features_16">
+        <Original>Tanks and APC can be breached by engineers with explosives to open them and get their crew out. Check 'Breaching charges' for the charges needed. Breaching vehicles applies damage, so take care when breaching heavily damaged vehicles. To breach a vehicle, get close to it and select the breaching option!</Original>
+      </Key>
+      <Key ID="STR_antistasi_journal_entry_header_Features_17">
+        <Original>Breaching charges</Original>
+      </Key>
+      <Key ID="STR_antistasi_journal_entry_text_Features_17">
+        <Original>To breach an APC you need %1 %2To breach a tank you need %3</Original>
       </Key>
       <Key ID="STR_antistasi_journal_entry_header_AI_1">
         <Original>Recruit</Original>
