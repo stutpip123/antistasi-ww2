@@ -88,17 +88,18 @@ _intel setDir ((getDir _desk) + _spawnParameters);
 _intel setPosATL _intelPos;
 _intel enableSimulation false;
 _intel allowDamage false;
-
-//Place light on laptop
-private _light = "#lightpoint" createVehicle (getPos _intel);
-_light setLightBrightness 1.0;
-_light setLightAmbient [0.005, 0.05, 0.07];
-_light setLightColor [0.05, 0.05, 0.07];
-_light setLightAttenuation [1,90,90,85,0,1];
-_light lightAttachObject [_intel, [0,0,0]];
+_intel setVariable ["side", _side, true];
 
 if(_isLarge) then
 {
+    //Place light on laptop
+    private _light = "#lightpoint" createVehicle (getPos _intel);
+    _light setLightBrightness 1.0;
+    _light setLightAmbient [0.005, 0.05, 0.07];
+    _light setLightColor [0.05, 0.05, 0.07];
+    _light setLightAttenuation [1,90,90,85,0,1];
+    _light lightAttachObject [_intel, [0,0,0]];
+
     private _isTrap = (random 100 < (20 + (4 * tierWar)));
     if(_isTrap) then
     {

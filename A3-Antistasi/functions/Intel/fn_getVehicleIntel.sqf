@@ -78,11 +78,11 @@ for "_i" from 1 to _revealCount do
         {
             _amount = "∞";
         };
-        _text = format ["%1 %2x %3\n", _text, _amount, _vehicleName];
+        _text = format ["%1 %2 %3<br/>", _text, _amount, _vehicleName];
     }
     else
     {
-        _text = format ["%1 0x %2\n", _text, _vehicleName];
+        _text = format ["%1 0 %2<br/>", _text, _vehicleName];
     };
 };
 

@@ -74,21 +74,28 @@ if(_intelType == "Small") then
         };
         case (ACCESS_CAR):
         {
-            _text = format ["%1 currently has access to\n%2", _sideName, ([_side, ACCESS_CAR] call A3A_fnc_getVehicleIntel)];
+            _text = format ["%1 currently has access to<br/>%2", _sideName, ([_side, ACCESS_CAR] call A3A_fnc_getVehicleIntel)];
         };
         case (CONVOY):
         {
             private _convoyMarker = "";
             if(_side == Occupants) then
             {
-                _convoyMarker = selectRandom (convoyMarker select 0);
+                _convoyMarker = selectRandom (server getVariable ["convoyMarker_Occupants", [""]]);
             }
             else
             {
-                _convoyMarker = selectRandom (convoyMarker select 1);
+                _convoyMarker = selectRandom (server getVariable ["convoyMarker_Occupants", [""]]);
             };
-            _convoyMarker setMarkerAlpha 1;
-            _text = format ["We found the tracking data for a %1 convoy.\nConvoy position marked on map!", _sideName];
+            if(_convoyMarker != "") then
+            {
+                _convoyMarker setMarkerAlpha 1;
+                _text = format ["We found the tracking data for a %1 convoy.<br/>Convoy position marked on map!", _sideName];
+            }
+            else
+            {
+                _text = format ["There are currently no %1 convoys driving around!", _sideName];
+            };
         };
     };
 };
@@ -99,31 +106,31 @@ if(_intelType == "Medium") then
     {
         case (ACCESS_AIR):
         {
-            _text = format ["%1 currently has access to\n%2", _sideName, ([_side, ACCESS_AIR] call A3A_fnc_getVehicleIntel)];
+            _text = format ["%1 currently has access to<br/>%2", _sideName, ([_side, ACCESS_AIR] call A3A_fnc_getVehicleIntel)];
         };
         case (ACCESS_HELI):
         {
-            _text = format ["%1 currently has access to\n%2", _sideName, ([_side, ACCESS_HELI] call A3A_fnc_getVehicleIntel)];
+            _text = format ["%1 currently has access to<br/>%2", _sideName, ([_side, ACCESS_HELI] call A3A_fnc_getVehicleIntel)];
         };
         case (ACCESS_ARMOR):
         {
-            _text = format ["%1 currently has access to\n%2", _sideName, ([_side, ACCESS_ARMOR] call A3A_fnc_getVehicleIntel)];
+            _text = format ["%1 currently has access to<br/>%2", _sideName, ([_side, ACCESS_ARMOR] call A3A_fnc_getVehicleIntel)];
         };
         case (CONVOYS):
         {
             private _convoyMarkers = [];
             if(_side == Occupants) then
             {
-                _convoyMarkers = convoyMarker select 0;
+                _convoyMarkers = server getVariable ["convoyMarker_Occupants", []];
             }
             else
             {
-                _convoyMarkers = convoyMarker select 1;
+                _convoyMarkers = server getVariable ["convoyMarker_Invaders", []];
             };
             {
                 _x setMarkerAlpha 1;
             } forEach _convoyMarkers;
-            _text = format ["We found the convoy GPS decryption key!\nAll %1 convoys are marked on the map", _sideName];
+            _text = format ["We found the %1 convoy GPS decryption key!<br/>%2 convoys are marked on the map", _sideName, count _convoyMarkers];
         };
         case (COUNTER_ATTACK):
         {

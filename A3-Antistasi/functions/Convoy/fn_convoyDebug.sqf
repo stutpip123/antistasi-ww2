@@ -23,7 +23,8 @@ _stop = player addAction ["Deactivate convoy debug", {(_this select 0) setVariab
 private _allConvoyMarker = [];
 while {player getVariable ["convoyDebug", false]} do
 {
-    _allConvoyMarker = (convoyMarker select 0) + (convoyMarker select 1);
+    _allConvoyMarker = server getVariable ["convoyMarker_Occupants", []];
+    _allConvoyMarker = _allConvoyMarker + (server getVariable ["convoyMarker_Invaders", []]);
     if(count _allConvoyMarker != 0) then
     {
         {

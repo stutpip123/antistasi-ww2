@@ -80,11 +80,15 @@ _convoyMarker setMarkerAlpha 0;
 
 if(_convoySide == Occupants) then
 {
-    (convoyMarker select 0) pushBack _convoyMarker;
+    private _markerArray = server getVariable ["convoyMarker_Occupants", []];
+    _markerArray pushBack _convoyMarker;
+    server setVariable ["convoyMarker_Occupants", _markerArray, true];
 }
 else
 {
-    (convoyMarker select 1) pushBack _convoyMarker;
+    private _markerArray = server getVariable ["convoyMarker_Invaders", []];
+    _markerArray pushBack _convoyMarker;
+    server setVariable ["convoyMarker_Invaders", _markerArray, true];
 };
 
 
