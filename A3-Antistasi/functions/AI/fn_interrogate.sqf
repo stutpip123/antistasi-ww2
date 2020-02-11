@@ -9,7 +9,6 @@ params ["_unit", "_player"];
 *       Nothing
 */
 
-
 // Remove interrogate action but leave release/recruit actions
 {
 	private _actparams = _unit actionParams _x;
