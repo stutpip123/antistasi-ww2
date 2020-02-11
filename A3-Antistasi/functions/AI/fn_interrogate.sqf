@@ -1,41 +1,58 @@
-_unit = _this select 0;
-_playerX = _this select 1;
+params ["_unit", "_player"];
 
-//[_unit,"remove"] remoteExec ["A3A_fnc_flagaction",[teamPlayer,civilian],_unit];
+/*  The action of interrogating a surrendered unit.
+*   Params:
+*       _unit : OBJECT : The unit which will be interrogated
+*       _player : OBJECT : The unit which is interrogating
+*
+*   Returns:
+*       Nothing
+*/
+
 
 // Remove interrogate action but leave release/recruit actions
 {
 	private _actparams = _unit actionParams _x;
-	if (_actparams select 0 == "Interrogate") then { _unit removeAction _x };
+	if (_actparams select 0 == "Interrogate") then
+    {
+        _unit removeAction _x
+    };
 } forEach (actionIDs _unit);
 
 if (!alive _unit) exitWith {};
 if (_unit getVariable ["interrogated", false]) exitWith {};
 _unit setVariable ["interrogated", true, true];
 
-_playerX globalChat "You imperialist! Tell me what you know!";
-_chance = 0;
-_sideX = side (group _unit);
+_player globalChat "You imperialist! Tell me what you know!";
+private _chance = 0;
+private _side = side (group _unit);
 if (_sideX == Occupants) then
-	{
+{
 	_chance = 100 - prestigeNATO;
-	}
+}
 else
-	{
-	_chance = 100 - (prestigeCSAT);
-	};
+{
+	_chance = 100 - prestigeCSAT;
+};
 
 _chance = _chance + 20;
 
-if (_chance < 20) then {_chance = 20};
-
 sleep 5;
 
-if (round random 100 < _chance) then
-	{
-	_unit globalChat "Okay, I would, but it is currently not implemented, sorry :(";
-	}
+if ((round (random 100)) < _chance) then
+{
+    if(_unit getVariable ["hasIntel", false]) then
+    {
+        _unit globalChat "Okay, I tell you what I know";
+        _unit setVariable ["hasIntel", false, true];
+        ["Small", _side] spawn A3A_fnc_selectIntel;
+    }
+    else
+    {
+        _unit globalChat "I would, but I am no squadleader or so, I don't know anything";
+    };
+}
 else
-	{
-	_unit globalChat "Screw you!";
-	};
+{
+	_unit globalChat "Screw you, I am not telling anything!";
+};
