@@ -1,5 +1,15 @@
 params ["_intel", "_marker", "_searchAction"];
 
+/*  Handles the action which downloads large intel
+*   Params:
+*       _intel : OBJECT : The object which is holding the intel
+*       _marker : STRING : The string of the marker where the intel is
+*       _searchAction : NUMBER : The ID of the action which started this script
+*
+*   Returns:
+*       Nothing
+*/
+
 //Remove so no double calls
 _intel removeAction _searchAction;
 
@@ -113,7 +123,7 @@ while {_pointSum <= _neededPoints} do
     private _actionNeeded = _intel getVariable ["ActionNeeded", false];
     if(!_actionNeeded) then
     {
-        _errorChance = _errorChance + 2;
+        _errorChance = _errorChance + 1 + (0.1 * tierWar);
         if(random 1000 < _errorChance) then
         {
             //"Something went wrong, oopsie", generating error message to force player to move to the intel laptop
@@ -234,7 +244,7 @@ if(_pointSum >= _neededPoints) then
         [10,_x] call A3A_fnc_playerScoreAdd;
     } forEach ([50,0,_intel,teamPlayer] call A3A_fnc_distanceUnits);
     [5, theBoss] call A3A_fnc_playerScoreAdd;
-    ["Large intel retrieved!"] call A3A_fnc_showIntel;
+    ["Large", _side] spawn A3A_fnc_selectIntel;
 }
 else
 {

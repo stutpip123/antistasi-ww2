@@ -78,7 +78,15 @@ _convoyMarker setMarkerType format ["%1%2", _markerPrefix, _markerType];
 _convoyMarker setMarkerText (format ["%1 %2 Convoy [%3]: Simulated", _type, _convoyType, _convoyID]);
 _convoyMarker setMarkerAlpha 0;
 
-convoyMarker pushBack _convoyMarker;
+if(_convoySide == Occupants) then
+{
+    (convoyMarker select 0) pushBack _convoyMarker;
+}
+else
+{
+    (convoyMarker select 1) pushBack _convoyMarker;
+};
+
 
 diag_log format ["CreateConvoy[%1]: Created convoy with %2 m/s and a total of %3 waypoints, marker is %4%5", _convoyID, _velocity, count _route, _markerPrefix, _markerType];
 

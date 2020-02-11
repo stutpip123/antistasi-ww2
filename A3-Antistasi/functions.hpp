@@ -303,10 +303,12 @@ class A3A
 
     class Intel
     {
+        class getVehicleIntel {};
         class placeIntel {};
         class retrieveIntel {};
         class retrieveLargeIntel {};
         class retrieveSmallIntel {};
+        class selectIntel {};
         class showIntel {};
     };
 

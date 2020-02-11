@@ -1,5 +1,14 @@
 params["_marker", "_isLarge"];
 
+/*  Places the physical intel objects on markers
+*   Params:
+*       _marker : STRING : The name of the marker where the intel should be placed
+*       _isLarge : BOOLEAN : Determines whether the intel is large or medium
+*
+*   Returns:
+*       Nothing
+*/
+
 private _intelSize = if (_isLarge) then {"large"} else {"medium"};
 private _fileName = "placeIntel";
 [

@@ -75,7 +75,7 @@ if(_caller getVariable ["success", false]) then
     if(_hasIntel) then
     {
         hint "Search completed, intel found!";
-        ["Small intel retrieved!"] call A3A_fnc_showIntel;
+        ["Small", _side] spawn A3A_fnc_selectIntel;
     }
     else
     {

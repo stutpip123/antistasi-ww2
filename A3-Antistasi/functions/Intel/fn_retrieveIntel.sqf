@@ -31,8 +31,7 @@ switch (_preCheck) do
         private _side = _intel getVariable "side";
         deleteVehicle _intel;
         hint "Medium intel taken";
-        ["Medium intel retrieved!"] call A3A_fnc_showIntel;
-        //Show intel content
+        ["Medium", _side] spawn A3A_fnc_selectIntel;
     };
     case ("Large"):
     {
