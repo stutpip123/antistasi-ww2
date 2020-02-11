@@ -139,42 +139,42 @@ while {_pointSum <= _neededPoints} do
                 {
                     _errorText = "Data Fragment Error. File {002451%12-215502%} has to be confirmed manually!";
                     _actionText = "Confirm file";
-                    _penalty = 150 + random 100;
+                    _penalty = 0; //150 + random 100;
                     _picturePath = "error1";
                 };
                 case ("Err_Sml_02"):
                 {
                     _errorText = "404 Error on server. URL incorrect. Skip URL?";
                     _actionText = "Skip URL";
-                    _penalty = 150 + random 50;
+                    _penalty = 0; //150 + random 50;
                     _picturePath = "error2";
                 };
                 case ("Err_Sml_03"):
                 {
                     _errorText = "Windows needs an update. Update now and lose all data?";
                     _actionText = "Stop windows update";
-                    _penalty = 200 + random 150;
+                    _penalty = 0; //200 + random 150;
                     _picturePath = "error3";
                 };
                 case ("Err_Med_01"):
                 {
                     _errorText = "Download port closed on server. Manual reroute required!";
                     _actionText = "Reroute download";
-                    _penalty = 250 + random 150;
+                    _penalty = 0;// 250 + random 150;
                     _picturePath = "error4";
                 };
                 case ("Err_Med_02"):
                 {
                     _errorText = "Error in NetworkAdapter. Hardware not responding. Restart now?";
                     _actionText = "Restart NetworkAdapter";
-                    _penalty = 350 + random 100;
+                    _penalty = 0; //350 + random 100;
                     _picturePath = "error5";
                 };
                 case ("Err_Lar_01"):
                 {
                     _errorText = "Critical Error in network infrastructur. Server returned ErrorCode: CRITICAL_ARMA_PROCESS_DIED";
                     _actionText = "Restart server process";
-                    _penalty = 600 + random 250;
+                    _penalty = 0;// 600 + random 250;
                     _picturePath = "error6";
                 };
             };

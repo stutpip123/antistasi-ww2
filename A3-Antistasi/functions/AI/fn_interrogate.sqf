@@ -25,7 +25,7 @@ _unit setVariable ["interrogated", true, true];
 _player globalChat "You imperialist! Tell me what you know!";
 private _chance = 0;
 private _side = side (group _unit);
-if (_sideX == Occupants) then
+if (_side == Occupants) then
 {
 	_chance = 100 - prestigeNATO;
 }
