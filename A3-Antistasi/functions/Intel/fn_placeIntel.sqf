@@ -110,11 +110,11 @@ if(_isLarge) then
         _bomb = [_bomb] call BIS_fnc_replaceWithSimpleObject;
         _intel setVariable ["trapBomb", _bomb, true];
     };
-    _intel addAction ["Download Intel", {["Large", _this select 0, _this select 3, _this select 2] spawn A3A_fnc_retrieveIntel;}, _marker,4,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4];
+    _intel addAction ["Download Intel", {["Large", _this select 0, _this select 3, _this select 2] spawn A3A_fnc_retrieveIntel;}, _marker,4,true,false,"","isPlayer _this",4];
 }
 else
 {
-    _intel addAction ["Take Intel", {["Medium", _this select 0] spawn A3A_fnc_retrieveIntel;},nil,4,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",4];
+    _intel addAction ["Take Intel", {["Medium", _this select 0] spawn A3A_fnc_retrieveIntel;},nil,4,true,false,"","isPlayer _this",4];
 };
 
 [_marker, _desk, _intel] spawn
