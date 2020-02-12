@@ -13,7 +13,7 @@ private _intelSize = if (_isLarge) then {"large"} else {"medium"};
 private _fileName = "placeIntel";
 [
     3,
-    format ["Spawning %2 intel on marker %1", _marker, _intelSize],
+    format ["Spawning %2 intel on marker %1", _marker, _intelSize, true],
     _fileName
 ] call A3A_fnc_log;
 
@@ -22,7 +22,7 @@ if(!(_marker  in airportsX || {_marker in outposts})) exitWith
 {
     [
         1,
-        format ["Marker %1 is not suited to have intel!", _marker],
+        format ["Marker %1 is not suited to have intel!", _marker, true],
         _fileName
     ] call A3A_fnc_log;
 };
@@ -42,7 +42,8 @@ if(count _allBuildings == 0) exitWith
     [
         2,
         format ["No suitable buildings found on marker %1", _marker],
-        _fileName
+        _fileName,
+        true
     ] call A3A_fnc_log;
 };
 
@@ -103,7 +104,7 @@ if(_isLarge) then
     private _isTrap = (random 100 < (20 + (4 * tierWar)));
     if(_isTrap) then
     {
-        [3, format ["Large intel on %1 is selected as trap, spawning explosives", _marker], _fileName] call A3A_fnc_log;
+        [3, format ["Large intel on %1 is selected as trap, spawning explosives", _marker], _fileName, true] call A3A_fnc_log;
         private _bomb = "DemoCharge_Remote_Ammo_Scripted" createVehicle [0,0,0];
         _bomb setVectorDirAndUp [(vectorDir _intel), [0,0,-1]];
         _bomb setPosWorld ((getPosWorld _intel) vectorAdd [0,0,-0.14]);
