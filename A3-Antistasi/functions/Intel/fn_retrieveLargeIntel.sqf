@@ -250,6 +250,6 @@ else
 {
     //Players failed to retrieve the intel
     removeAllActions _intel;
-    _intel addAction ["Retrieve Intel", {["Large", _this select 0, _this select 3, false, _this select 2] call A3A_fnc_retrieveIntel}, _marker,4,false,true,"","(isPlayer _this)",4];
+    _intel addAction ["Retrieve Intel", {["Large", _this select 0, _this select 3, false, _this select 2] call A3A_fnc_retrieveIntel}, _marker,4,true,false,"","(isPlayer _this)",4];
 
 };

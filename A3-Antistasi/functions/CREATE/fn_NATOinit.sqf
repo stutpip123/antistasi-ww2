@@ -66,7 +66,7 @@ if (_typeX in squadLeaders) then {
     private _hasIntel = ((random 100) < 40);
     _unit setVariable ["hasIntel", _hasIntel, true];
     _unit setVariable ["side", WEST, true];
-    _unit addAction ["Search for Intel", {["Small", _this select 1, _this select 0, _this select 2] call A3A_fnc_retrieveIntel}, nil,4,false,true,"","(isPlayer _this)",4];
+    _unit addAction ["Search for Intel", {["Small", _this select 1, _this select 0, _this select 2] call A3A_fnc_retrieveIntel}, nil,4,true,false,"","(isPlayer _this)",4];
 };
 
 _hmd = hmd _unit;

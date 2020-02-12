@@ -84,5 +84,5 @@ if(_caller getVariable ["success", false]) then
 }
 else
 {
-    _squadLeader addAction ["Search for Intel", {["Small", _this select 1, _this select 0, _this select 2] call A3A_fnc_retrieveIntel}, nil,4,false,true,"","(isPlayer _this)",4];
+    _squadLeader addAction ["Search for Intel", {["Small", _this select 1, _this select 0, _this select 2] call A3A_fnc_retrieveIntel}, nil,4,true,false,"","(isPlayer _this)",4];
 };
