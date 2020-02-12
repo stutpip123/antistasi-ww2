@@ -40,15 +40,22 @@ sleep 5;
 
 if ((round (random 100)) < _chance) then
 {
-    if(_unit getVariable ["hasIntel", false]) then
+    if((typeOf _unit) in squadLeaders) then
     {
-        _unit globalChat "Okay, I tell you what I know";
-        _unit setVariable ["hasIntel", false, true];
-        ["Small", _side] spawn A3A_fnc_selectIntel;
+        if(_unit getVariable ["hasIntel", false]) then
+        {
+            _unit globalChat "Okay, I tell you what I know";
+            _unit setVariable ["hasIntel", false, true];
+            ["Small", _side] spawn A3A_fnc_selectIntel;
+        }
+        else
+        {
+            _unit globalChat "I would, but I don't know anything";
+        };
     }
     else
     {
-        _unit globalChat "I would, but I am no squadleader or so, I don't know anything";
+        _unit globalChat "I would, but I am no squadleader, so I don't know anything";
     };
 }
 else
