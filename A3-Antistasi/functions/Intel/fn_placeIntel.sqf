@@ -13,8 +13,9 @@ private _intelSize = if (_isLarge) then {"large"} else {"medium"};
 private _fileName = "placeIntel";
 [
     3,
-    format ["Spawning %2 intel on marker %1", _marker, _intelSize, true],
-    _fileName
+    format ["Spawning %2 intel on marker %1", _marker, _intelSize],
+    _fileName,
+    true
 ] call A3A_fnc_log;
 
 //Catch invalid cases
@@ -23,7 +24,8 @@ if(!(_marker  in airportsX || {_marker in outposts})) exitWith
     [
         1,
         format ["Marker %1 is not suited to have intel!", _marker, true],
-        _fileName
+        _fileName,
+        true
     ] call A3A_fnc_log;
 };
 
