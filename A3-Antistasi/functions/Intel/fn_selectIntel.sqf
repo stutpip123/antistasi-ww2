@@ -157,9 +157,12 @@ if(_intelType == "Large") then
         };
         case (WEAPON):
         {
-            _text = "You would find some weapon, but I don't know how to do this properly";
-            //@Spoffy or @pot, can you add code here to select a weapon which is not yet unlocked
-            //Best would be a weapon which matches the _side, but thats optional
+            private _notYetUnlocked = allWeapons - unlockedWeapons;
+            private _newWeapon = selectRandom _notYetUnlocked;
+            [_newWeapon] remoteExec ["A3A_fnc_unlockEquipment", 2];
+
+            private _weaponName = getText (configFile >> "CfgWeapons" >> _newWeapon >> "displayName");
+            _text = format ["You found the supply data for the<br/> %1<br/> You have unlocked this weapon!", _weaponName];
         };
         case (MONEY):
         {
