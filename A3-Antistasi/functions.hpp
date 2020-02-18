@@ -498,4 +498,9 @@ class A3A
 		class log {};
 		class vehicleWillCollideAtPosition {};
 	};
+
+    class Weapons
+    {
+        class createMagWellData {};
+    };
 };

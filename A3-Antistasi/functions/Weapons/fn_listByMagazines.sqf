@@ -1,53 +1,4 @@
-//Get the magazineWells and prepares the arrays
-private _magWells = ("true" configClasses (configFile >> "CfgMagazineWells")) apply {configName _x};
-[[],[],[],[]] params ["_westMagWells", "_eastMagWells", "_indMagWells", "_noneMagWells"];
-diag_log format ["Found %1 magazine wells", count _magWells];
 
-//Get the unit data and prepares the arrays
-private _allUnits = "getText (_x >> 'vehicleClass') == 'Men'" configClasses (configFile >> "CfgVehicles");
-[[],[],[]] params ["_westUnits", "_eastUnits", "_indUnits"];
-{
-    private _name = configName _x;
-    private _side = getNumber (_x >> "side");
-    switch (_side) do
-    {
-        case (0): {_eastUnits pushBack _name;};
-        case (1): {_westUnits pushBack _name;};
-        case (2): {_indUnits pushBack _name;};
-    };
-} forEach _allUnits;
-diag_log format ["Found %1 unit classes, %2 east %3 west %4 ind", count _allUnits, count _eastUnits, count _westUnits, count _indUnits];
-
-
-private _units = [_eastUnits, _westUnits, _indUnits];
-private _sideWells = [_eastMagWells, _westMagWells, _indMagWells];
-for "_i" from 0 to 2 do
-{
-    private _subArray = _units select _i;
-    private _sideWell = _sideWells select _i;
-    {
-        private _unit = _x;
-        private _weapons = getArray (configFile >> "CfgVehicles" >> _x >> "weapons");
-        {
-            private _weaponWells = [(configFile >> "CfgWeapons" >> _x), "magazineWell", []] call BIS_fnc_returnConfigEntry;
-            {
-                _sideWell pushBackUnique _x;
-                if(_x in _magWells) then
-                {
-                    _magWells = _magWells - [_x];
-                };
-            } forEach _weaponWells;
-        } forEach _weapons;
-    } forEach _subArray;
-};
-
-_noneMagWells = _magWells;
-
-diag_log format ["Found %1 east wells, %2 west wells, %3 ind wells, %4 not used by a specific faction", count (_sideWells select 0), count (_sideWells select 1), count (_sideWells select 2), count _magWells];
-
-{
-    diag_log (str _x);
-} forEach (_sideWells + [_magWells]);
 
 
 [[],[],[],[]] params ["_eastWeapons", "_westWeapons", "_indWeapons", "_unusedWeapons"];
@@ -79,27 +30,32 @@ private _weapons = [_eastWeapons, _westWeapons, _indWeapons, _unusedWeapons];
     diag_log format ["Checking weapon %2/%1 now", getText(configFile >> "CfgWeapons" >> _weapon >> "displayName"), _weapon];
     private _result = 3;
     private _weaponWells = [(configFile >> "CfgWeapons" >> _x), "magazineWell", []] call BIS_fnc_returnConfigEntry;
+    diag_log format ["%1 mag wells are: %2", _weapon, _weaponWells];
     {
         private _well = _x;
         private _inserted = 0;
         if(_well in _eastMagWells) then
         {
             _eastWeapons pushBackUnique _weapon;
+            diag_log format ["%1 sorted into east", _weapon];
             _inserted = _inserted + 1;
         };
         if(_well in _westMagWells) then
         {
             _westWeapons pushBackUnique _weapon;
+            diag_log format ["%1 sorted into west", _weapon];
             _inserted = _inserted + 1;
         };
         if(_well in _indMagWells) then
         {
             _indWeapons pushBackUnique _weapon;
+            diag_log format ["%1 sorted into ind", _weapon];
             _inserted = _inserted + 1;
         };
         if(_inserted == 0) then
         {
             _unusedWeapons pushBackUnique _weapon;
+            diag_log format ["%1 sorted into unused", _weapon];
         };
     } forEach _weaponWells;
 } forEach _allWeapons;
