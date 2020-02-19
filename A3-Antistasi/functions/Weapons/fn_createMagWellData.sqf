@@ -5,9 +5,10 @@
 *   Returns:
 *       Nothing
 */
+
 private _fileName = "createMagWellData";
 
-private _sides = [resistance, east, west];
+private _sides = [Invaders, Occupants, teamPlayer];
 private _invaderNumber = [east, west, resistance] find (_sides select 0);
 private _occupantsNumber = [east, west, resistance] find (_sides select 1);
 private _rebelNumber = [east, west, resistance] find (_sides select 2);
@@ -53,9 +54,10 @@ for "_i" from 0 to 2 do
     private _sideWell = _sideWells select _i;
     {
         private _unit = _x;
-        //[3, format ["Checking %1 now", _unit], _fileName] call A3A_fnc_log;
         private _weapons = getArray (configFile >> "CfgVehicles" >> _x >> "weapons");
         _weapons = _weapons - ["Throw", "Put"];
+        [3, format ["Checking %1 now", _unit], _fileName] call A3A_fnc_log;
+        [3, format ["Weapons are: %1", _weapons], _fileName] call A3A_fnc_log;
         {
             private _weapon = _x;
             private _magazines = getArray (configFile >> "CfgWeapons" >> _weapon >> "magazines");
@@ -90,6 +92,7 @@ _noneMagWells = _magWells;
 diag_log format ["Found %1 Invader wells, %2 Occupant wells, %3 Rebel wells, %4 not used by a specific faction", count (_sideWells select 0), count (_sideWells select 1), count (_sideWells select 2), count _magWells];
 
 {
-    private _name = ["Invader", "Occupants", "Rebel", "Unused"] select _forEachIndex;
+    private _name = ["Invaders", "Occupants", "Rebels", "Unused"] select _forEachIndex;
     [3, format ["%1 well: %2", _name, _x], _fileName] call A3A_fnc_log;
+    missionNamespace setVariable [format ["%1_wells", _name], _x];
 } forEach (_sideWells + [_magWells]);

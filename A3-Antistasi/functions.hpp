@@ -502,5 +502,6 @@ class A3A
     class Weapons
     {
         class createMagWellData {};
+        class sortWeaponsByWells {};
     };
 };
