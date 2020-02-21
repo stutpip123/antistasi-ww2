@@ -1,5 +1,14 @@
 params ["_base", "_target"];
 
+/*  Checks if and how the given base should reinforce the given target
+*   Params:
+*       _base : STRING : Name of the marker that should send units
+*       _target : STRING : Name of the market that should recieve units
+*
+*   Returns:
+*       _types : ARRAY : Array containing the possible reinforcements ways "Air" and/or "Land" or empty
+*/
+
 private _fileName = "shouldReinforce";
 [
     4,
@@ -7,23 +16,32 @@ private _fileName = "shouldReinforce";
     _fileName
 ] call A3A_fnc_log;
 
+private _types = [];
+
 //Bases cannot reinforce themselves
-if(_base isEqualTo _target) exitWith {false};
+if(_base isEqualTo _target) exitWith {_types};
 
-private ["_isAirport", "_side", "_targetIsBase", "_reinfMarker", "_targetReinforcements", "_reinfCount", "_maxSend"];
 
-_isAirport = _base in airportsX;
-_side = sidesX getVariable [_base, sideUnknown];
+private _isAirport = _base in airportsX;
+private _side = sidesX getVariable [_base, sideUnknown];
 
 //Spawned airports are not yet ready to send reinforcements
-if (spawner getVariable _base != 2 || {_base in forcedSpawn}) exitWith {false};
+if (spawner getVariable _base != 2 || {_base in forcedSpawn}) exitWith {_types};
+
+//Airport and in range of air support
+if(_isAirport && {(getMarkerPos _base) distance2D (getMarkerPos _target) < distanceForAirAttack}) then
+{
+    _types pushBack "Air"
+};
 
 //To far away for land convoy or not the same island
-if(!_isAirport && {(getMarkerPos _base) distance2D (getMarkerPos _target) > distanceForLandAttack || {!([_base, _target] call A3A_fnc_isTheSameIsland)}}) exitWith {false};
+if(([_base, _target] call A3A_fnc_isTheSameIsland) && {(getMarkerPos _base) distance2D (getMarkerPos _target) < distanceForLandAttack}) then
+{
+    _types pushBack "Land"
+};
 
-//To far away for air convoy
-if(_isAirport && {(getMarkerPos _base) distance2D (getMarkerPos _target) > distanceForAirAttack}) exitWith {false};
-
+_types;
+/* deactivated as it needs a better system
 _targetIsBase = _target in outposts;
 _reinfMarker = if(_side == Occupants) then {reinforceMarkerOccupants} else {reinforceMarkerInvader};
 
@@ -42,3 +60,4 @@ if((_reinfCount > 8) && {!_isAirport}) exitWith {false};
 //if((_reinfCount < 4) && {_isAirport && {!_targetIsBase}}) exitWith {false};
 
 true;
+*/

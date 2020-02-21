@@ -11,6 +11,7 @@ params ["_destination", "_type", "_side", ["_arguments", []]];
 *     Nothing
 */
 
+private _fileName = "createAIAction";
 if(!serverInitDone) then
 {
   diag_log "CreateAIAction: Waiting for server init to be completed!";
@@ -86,8 +87,8 @@ _maxUnitsSide = maxUnits;
 
 if (gameMode <3) then
 {
-	_allUnitsSide = {(local _x) and (alive _x) and (side group _x == _side)} count allUnits;
-	_maxUnitsSide = round (maxUnits * 0.7);
+    _allUnitsSide = {(local _x) and (alive _x) and (side group _x == _side)} count allUnits;
+    _maxUnitsSide = round (maxUnits * 0.7);
 };
 if ((_allUnits + 4 > maxUnits) or (_allUnitsSide + 4 > _maxUnitsSide)) then {_abort = true};
 
@@ -95,46 +96,46 @@ if (_abort) exitWith {diag_log format ["CreateAIAction[%1]: AI action cancelled 
 */
 
 
-_destinationPos = if(_isMarker) then {getMarkerPos _destination} else {_destination};
-_originPos = [];
-_origin = "";
-_units = [];
-_vehicleCount = 0;
-_cargoCount = 0;
+private _destinationPos = if(_isMarker) then {getMarkerPos _destination} else {_destination};
+private _originPos = [];
+private _origin = "";
+private _units = [];
+private _vehicleCount = 0;
+private _cargoCount = 0;
 if(_type == "patrol") then
 {
   //TODO rework the origin selection!!
   _threatEvalLand = [_destinationPos, _side] call A3A_fnc_landThreatEval;
-	_airportsX = airportsX select {(sidesX getVariable [_x,sideUnknown] == _side) and ([_x,true] call A3A_fnc_airportCanAttack) and (getMarkerPos _x distance2D _destinationPos < distanceForAirAttack)};
-	if (hasIFA and (_threatEvalLand <= 15)) then {_airportsX = _airportsX select {(getMarkerPos _x distance2D _destinationPos < distanceForLandAttack)}};
-	_outposts = if (_threatEvalLand <= 15) then {outposts select {(sidesX getVariable [_x,sideUnknown] == _side) and ([_destinationPos, getMarkerPos _x] call A3A_fnc_isTheSameIsland) and (getMarkerPos _x distance _destinationPos < distanceForLandAttack)  and ([_x,true] call A3A_fnc_airportCanAttack)}} else {[]};
-	_airportsX = _airportsX + _outposts;
+    _airportsX = airportsX select {(sidesX getVariable [_x,sideUnknown] == _side) and ([_x,true] call A3A_fnc_airportCanAttack) and (getMarkerPos _x distance2D _destinationPos < distanceForAirAttack)};
+    if (hasIFA and (_threatEvalLand <= 15)) then {_airportsX = _airportsX select {(getMarkerPos _x distance2D _destinationPos < distanceForLandAttack)}};
+    _outposts = if (_threatEvalLand <= 15) then {outposts select {(sidesX getVariable [_x,sideUnknown] == _side) and ([_destinationPos, getMarkerPos _x] call A3A_fnc_isTheSameIsland) and (getMarkerPos _x distance _destinationPos < distanceForLandAttack)  and ([_x,true] call A3A_fnc_airportCanAttack)}} else {[]};
+    _airportsX = _airportsX + _outposts;
   if (_isMarker) then
-	{
-		if (_markerX in blackListDest) then
-		{
-			_airportsX = _airportsX - outposts;
-		};
-		_airportsX = _airportsX - [_markerX];
-		_airportsX = _airportsX select {({_x == _markerX} count (killZones getVariable [_x,[]])) < 3};
-	}
-	else
-	{
-		if (!_super) then
-		{
-			_siteX = [(resourcesX + factories + airportsX + outposts + seaports),_posDestination] call BIS_fnc_nearestPosition;
-			_airportsX = _airportsX select {({_x == _siteX} count (killZones getVariable [_x,[]])) < 3};
-		};
-	};
-	if (_airportsX isEqualTo []) then
-	{
-		_exit = true;
-	}
-	else
-	{
-		_origin = [_airportsX,_posDestination] call BIS_fnc_nearestPosition;
-		_originPos = getMarkerPos _origin;
-	};
+    {
+    if (_markerX in blackListDest) then
+    {
+    _airportsX = _airportsX - outposts;
+    };
+    _airportsX = _airportsX - [_markerX];
+    _airportsX = _airportsX select {({_x == _markerX} count (killZones getVariable [_x,[]])) < 3};
+    }
+    else
+    {
+    if (!_super) then
+    {
+    _siteX = [(resourcesX + factories + airportsX + outposts + seaports),_posDestination] call BIS_fnc_nearestPosition;
+    _airportsX = _airportsX select {({_x == _siteX} count (killZones getVariable [_x,[]])) < 3};
+    };
+    };
+    if (_airportsX isEqualTo []) then
+    {
+    _exit = true;
+    }
+    else
+    {
+    _origin = [_airportsX,_posDestination] call BIS_fnc_nearestPosition;
+    _originPos = getMarkerPos _origin;
+    };
   if (!_exit) then
   {
     //This line detects air or land attack
@@ -216,41 +217,49 @@ if(_type == "patrol") then
 };
 if(_type == "reinforce") then
 {
-  _arguments params ["_canReinf"];
-  _possibleBases = _canReinf select {[_x, _destination] call A3A_fnc_shouldReinforce};
-  if((count _possibleBases) != 0) then
-  {
-
-    _selectedBase = [_possibleBases, _destination] call BIS_fnc_nearestPosition;
-    //Found base to reinforce, selecting units now
-    _units = [_selectedBase, _destination] call A3A_fnc_selectReinfUnits;
-
-    if(_units isEqualTo []) then
+    _arguments params ["_canReinf"];
+    private _reinfBase = [];
     {
-      diag_log format ["CreateAIAction[%1]: No units given for reinforcements!", _convoyID];
-      _abort = true;
+        private _reinfTypes = [_x, _destination] call A3A_fnc_shouldReinforce;
+        if (!(_reinfTypes isEqualTo [])) then
+        {
+            if(((count _reinfBase) == 0) || {((getMarkerPos _x) distance2D _destinationPos) < (_reinfBase select 2)}) then
+            {
+                _reinfBase = [_x, _reinfTypes, (getMarkerPos _x) distance2D _destinationPos];
+            };
+        };
+    } forEach _canReinf;
+
+    if (!(_reinfBase isEqualTo [])) then
+    {
+        private _selectedBase = _reinfBase select 0;
+        //Found base to reinforce, selecting units now
+        private _types = _reinfBase select 1;
+        private _isOnlyAir = ((count _types) == 1) && {(_types select 0) == "Air"};
+        [3, format ["%1 will reinforce with types %2, is Air %3", _selectedBase, _types, _isOnlyAir], _fileName] call A3A_fnc_log;
+        _units = [_selectedBase, _destination, _isOnlyAir] call A3A_fnc_selectReinfUnits;
+
+        if(_units isEqualTo []) then
+        {
+            [2, format ["[%1]: No units given for reinforcements!", _convoyID], _fileName] call A3A_fnc_log;
+            _abort = true;
+        }
+        else
+        {
+            _origin = _selectedBase;
+            _originPos = getMarkerPos _origin;
+
+            private _countUnits = [_units, false] call A3A_fnc_countGarrison;
+
+            _vehicleCount = _vehicleCount + (_countUnits select 0);
+            _cargoCount = _cargoCount + (_countUnits select 1) + (_countUnits select 2);
+        };
     }
     else
     {
-      _origin = _selectedBase;
-      _originPos = getMarkerPos _origin;
-
-      _countUnits = [_units, false] call A3A_fnc_countGarrison;
-
-      _vehicleCount = _vehicleCount + (_countUnits select 0);
-      _cargoCount = _cargoCount + (_countUnits select 1) + (_countUnits select 2);
-
-      //For debug is direct placement
-      //diag_log format ["Reinforce %1 from %2", _target, _selectedBase];
-      //[_units, "Reinf units"] call A3A_fnc_logArray;
-      //[_target, _units] call A3A_fnc_addToGarrison;
+        [2, format ["[%1]: Reinforcement aborted as no base is available!", _convoyID], _fileName] call A3A_fnc_log;
+        _abort = true;
     };
-  }
-  else
-  {
-    diag_log format ["CreateAIAction[%1]: Reinforcement aborted as no base is available!", _convoyID];
-    _abort = true;
-  };
 };
 if(_type == "attack") then
 {

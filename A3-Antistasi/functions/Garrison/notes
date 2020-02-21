@@ -68,10 +68,10 @@ Fix broken markers
 - Make roadblocks functioning again
 - Make civs working again
 - Make HQ working again
-[WIP] Improve reinforce code
+[DONE] Improve reinforce code
 - [DONE] Stop the AI from bypassing the economy
 - [DONE] Improve reinforce marker selection
-- Should return the type of reinforcement able to send (land and/or air)
+- [DONE] Should return the type of reinforcement able to send (land and/or air)
 Statics
 - Handle player statics
 - Handle deconstruct of static
@@ -142,3 +142,4 @@ Files that need a rework
 - fn_selectReinfUnits
 - fn_shouldReinforce
 - fn_landThreatEval
+- fn_createAIAction
