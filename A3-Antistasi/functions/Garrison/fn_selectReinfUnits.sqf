@@ -54,13 +54,13 @@ while {_currentUnitCount < (_maxUnitSend - 2) && {_maxCargoSpaceNeeded+_maxVehic
             private _curSeatCount = [_vehicle, true] call BIS_fnc_crewCount;
             private _curCrewSeats = [_vehicle, false] call BIS_fnc_crewCount;
 
-            //TODO available check on the base, currently it is bypassing the economy
             //Check we don't overflow the max units we can send, if we get this vehicle and crew it.
             if
             (
-                (((_currentUnitCount + _curCrewSeats) + 1) <= _maxUnitSend) &&     //Already send units + crew + 1 for vehicle <= available units
+                [_vehicle] call A3A_fnc_vehAvailable &&                             //Check if vehicle is currently available
+                {(((_currentUnitCount + _curCrewSeats) + 1) <= _maxUnitSend) &&     //Already send units + crew + 1 for vehicle <= available units
                 {_curSeatCount > _seatCount &&                                      //Can send more then the last select vehicle
-                {!_isAir ||	{_vehicle isKindOf "Air"}}}                         //Ensure air vehicle for air convoys
+                {!_isAir ||	{_vehicle isKindOf "Air"}}}}                            //Ensure air vehicle for air convoys
             ) then
             {
                 _currentSelected = _vehicle;

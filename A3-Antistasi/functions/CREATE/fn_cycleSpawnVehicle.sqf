@@ -91,7 +91,7 @@ if(_spawnParameter isEqualType []) then
                 };
             };
         }
-    ]
+    ];
     //Add vehicle to group
     _group addVehicle _vehicle;
 

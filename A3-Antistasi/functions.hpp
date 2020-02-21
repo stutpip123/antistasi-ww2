@@ -201,7 +201,6 @@ class A3A
 		class cleanserVeh {};
 		class createAICities {};
 		class createAIcontrols {};
-		class createAIResources {};
 		class createAISite {};
 		class createCIV {};
 		class createFIAOutposts2 {};

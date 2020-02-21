@@ -68,17 +68,21 @@ Fix broken markers
 - Make roadblocks functioning again
 - Make civs working again
 - Make HQ working again
-Stop the AI from bypassing the economy
-Improve reinforce marker selection (remove the ones that are no longer able to send units)
-On marker clear, also delete vehicles and statics instantly
-Add attacking units to flipped marker
-Handle player statics
-Handle deconstruct of static
-Fix edge case in which static stop to work after the year changes \o/
-Enable patrols for marker
-Two man team (Sniper Spotter, etc.)
-Rework the static spawn in all files
-Rework unit detection system (Squadleader and medics)
+[WIP] Improve reinforce code
+- [DONE] Stop the AI from bypassing the economy
+- [DONE] Improve reinforce marker selection
+- Should return the type of reinforcement able to send (land and/or air)
+Statics
+- Handle player statics
+- Handle deconstruct of static
+- Fix edge case in which statics stop to work after the year changes \o/
+- Rework the static spawn in all files
+Improve marker code
+- On marker clear, also delete vehicles and statics instantly
+- Add attacking units to flipped marker
+- Enable patrols for marker
+- Two man team (Sniper Spotter, etc.)
+- Rework unit detection system (Squadleader and medics)
 ================================================================================
 NEEDED FOR DOOMS UI UPGRADE
 ================================================================================
@@ -102,6 +106,7 @@ Add init scripts for units
 ------------ Reinforcements selection ------------------------------------------
 Improve the AI, which chooses the units
 Improve the replenish function
+Add different costs for different units
 
 ------------ Various -----------------------------------------------------------
 Add keys as a result on intel search (+ vehicle open animation)
@@ -137,4 +142,3 @@ Files that need a rework
 - fn_selectReinfUnits
 - fn_shouldReinforce
 - fn_landThreatEval
-- fn_reinforcementsAI

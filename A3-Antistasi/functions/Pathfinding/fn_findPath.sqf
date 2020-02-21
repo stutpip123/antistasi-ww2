@@ -1,24 +1,26 @@
-params ["_startPos" , "_endPos", "_avoid"];
+params ["_startPos" , "_endPos", ["_avoid", []]];
 
 if(isNil "roadDataDone") exitWith {
-	diag_log "Pathfinding: Road data base not loaded, aborting pathfinding!";
+	[1, "Road data base not loaded, aborting pathfinding!", _fileName] call A3A_fnc_log;
 	[];
 };
 
+private _fileName = "findPath";
 private _deltaTime = time;
 
 
 _startNav = [_startPos] call A3A_fnc_findNearestNavPoint;
 _endNav = [_endPos] call A3A_fnc_findNearestNavPoint;
 
-diag_log format ["Pathfinding: Start %1 at %2 End %3 at %4", _startNav, str _startPos, _endNav, str _endPos];
+[3, format ["Start %1 at %2 End %3 at %4", _startNav, str _startPos, _endNav, str _endPos], _fileName] call A3A_fnc_log;
 
 allMarker = [];
 createNavMarker = compile preprocessFileLineNumbers "NavGridTools\createNavMarker.sqf";
 
 
-if(!(_startNav isEqualType 1 && _endNav isEqualType 1)) exitWith {
-	//Hint: Improve the search!
+if(!(_startNav isEqualType 1 && _endNav isEqualType 1)) exitWith
+{
+	[1, "Could not find near road markers, something is wrong with the nav grid!", _fileName] call A3A_fnc_log;
 	[];
 };
 
