@@ -59,59 +59,77 @@ FINISH FOR DEV MEETING 25.1.20
 FIXES:
 - [DONE] Fixed garrisonCount not being able to count fixed size arrays
 ================================================================================
-WORK TILL HERE, THEN INTEL AND DESTRUCTION
+WORK TILL HERE, THEN INTEL
 ================================================================================
-
-
-
-- [WILL NOT BE DONE] Removing units while runtime
-
------------- Distance script ---------------------------------------------------
-Faster way to check for vehicle
-Make roadblocks functioning again
-Make civs working again
-Remove spawned in markers
------------- Unit spawns -------------------------------------------------------
-Change vehicle getIn EH to handle stolen vehicles correctly
-On despawn handle vehicles as recovered by nearest marker
------------- Reinforcements selection ------------------------------------------
-Improve the AI, which chooses the units
+[WIP] Handle group spawn places
+- [DONE] Handle unit groups
+- Handle crew groups
+Fix broken markers
+- Make roadblocks functioning again
+- Make civs working again
+- Make HQ working again
 Stop the AI from bypassing the economy
------------- Fix broken stuff --------------------------------------------------
-[WIP] Optimisation for speed and data size
-
 Improve reinforce marker selection (remove the ones that are no longer able to send units)
-Add init scripts for units
-[BUG] Sended units are not leaving the group, not clue why
-Unify and split the EH into seperate files
 On marker clear, also delete vehicles and statics instantly
 Add attacking units to flipped marker
-Rework cycle spawn
 Handle player statics
 Handle deconstruct of static
-Rework the static spawn into all file
 Fix edge case in which static stop to work after the year changes \o/
-Place units in logical positions (buildings and so on)
 Enable patrols for marker
-[Won't do] Add helicopter types for spoffy
-[Mostly done, check the FSM]Make the AI follow the pathfinding way
-Clean up code
-Add code documentation
-Improve patrol detection
-[WIP, needs change in the VCOM routines] EH for the groups to man vehicles
-Cleanup function
-Reinforcements moves
-Improve the convoy system to handle fights
-Rework unit detection system (Squadleader and medics)
-Better troup compositions
-Balancing
-Handle statics in convoys
 Two man team (Sniper Spotter, etc.)
+Rework the static spawn in all files
+Rework unit detection system (Squadleader and medics)
+================================================================================
+NEEDED FOR DOOMS UI UPGRADE
+================================================================================
+
+------------ Distance script ---------------------------------------------------
+Faster way to check for vehicle (vehicle => objectParent)
+Remove spawned in markers
+
+------------ Unit spawns -------------------------------------------------------
+Rework cycle spawn
+Change vehicle getIn EH to handle stolen vehicles correctly
+On despawn handle vehicles as recovered by nearest marker
 Finalizing cyclic spawn
+Place units in logical positions without UPSMON
+Add init scripts for units
+
+------------ Unit Behaviour ----------------------------------------------------
+[Mostly done, check the FSM] Make the AI follow the pathfinding way
+[WIP, needs change in the VCOM routines] EH for the groups to man vehicles
+
+------------ Reinforcements selection ------------------------------------------
+Improve the AI, which chooses the units
 Improve the replenish function
-Reorder convoys on despawn (Reassign vehicles if one is destroyed and so on)
+
+------------ Various -----------------------------------------------------------
+Add keys as a result on intel search (+ vehicle open animation)
+Better troup compositions
+
+------------ Optimisation ------------------------------------------------------
+[WIP] Optimisation for speed and data size
 Reorder all parameters in the same order
-Script to find keys on crew squad leaders (+ cool vehicle open mechanic)
+Clean up code
+Cleanup function
+Unify and split the EH into seperate files
+
+------------ Fix broken stuff --------------------------------------------------
+[BUG] Sended units are not leaving the group, not clue why
+
+------------ Documentation -----------------------------------------------------
+Add code documentation
+Add system documentation to github
+
+======================= LAST NEEDED THING ======================================
+==========================> Balancing <=========================================
+
+================================================================================
+WON'T DO, EITHER OBSOLETE OR NOT WANTED
+================================================================================
+[WON'T] Handle statics in convoys
+[WON'T] Add helicopter types for spoffy
+[WON'T] Removing units while runtime
 
 ================================================================================
 Files that need a rework
