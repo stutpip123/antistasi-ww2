@@ -291,6 +291,7 @@ class A3A
 		class countGarrison {};
 		class createGarrison {};
 		class createGarrisonLine {};
+        class createPatrolArray {};
 		class getGarrison {};
 		class getGarrisonRatio {};
 		class getGarrisonStatus {};
@@ -307,6 +308,7 @@ class A3A
 		class selectVehicleType {};
 		class shouldReinforce {};
 		class updateGarrison {};
+        class updatePatrols {};
 		class updatePreference {};
 		class updateReinfState {};
         class updateStatics {};

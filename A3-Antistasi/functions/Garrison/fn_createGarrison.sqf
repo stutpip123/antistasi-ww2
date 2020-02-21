@@ -24,6 +24,9 @@ private _preferred = garrison getVariable (format ["%1_preference", _type]);
     private _marker = _x;
     private _losses = +_lose;
 
+    while {isNil {sidesX getVariable _marker}} do {sleep 1;};
+    private _side = sidesX getVariable _marker;
+
     [3, format ["Creating %1 now", _marker], _fileName] call A3A_fnc_log;
 
     garrison setVariable [format ["%1_garrison", _marker], _garrison, true];
@@ -31,8 +34,6 @@ private _preferred = garrison getVariable (format ["%1_preference", _type]);
     garrison setVariable [format ["%1_locked", _marker], _locked, true];
     garrison setVariable [format ["%1_over", _marker], [["", [""], [""]]], true];
 
-    while {isNil {sidesX getVariable _marker}} do {sleep 1;};
-    private _side = sidesX getVariable _marker;
     for "_i" from 0 to ((count _preferred) - 1) do
     {
         //Creates a line of units
@@ -54,5 +55,13 @@ private _preferred = garrison getVariable (format ["%1_preference", _type]);
     garrison setVariable [format ["%1_requested", _marker], _requested, true];
     garrison setVariable [format ["%1_locked", _marker], _locked, true];
     garrison setVariable [format ["%1_over", _marker], [["", [""], [""]]], true];
+
+    private _patrolTypes = garrison getVariable (format ["%1_patrolPref", _type]);
+    private _patrols = [];
+    {
+        _patrols pushBack ([_x, _side] call A3A_fnc_createPatrolArray);
+    } forEach _patrolTypes;
+    garrison setVariable [format ["%1_patrols", _marker], _patrols, true];
+    diag_log str _patrols;
 
 } forEach _markerArray;

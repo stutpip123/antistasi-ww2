@@ -77,11 +77,11 @@ Statics
 - Handle deconstruct of static
 - Fix edge case in which statics stop to work after the year changes \o/
 - Rework the static spawn in all files
-Improve marker code
+[WIP] Improve marker code
 - On marker clear, also delete vehicles and statics instantly
 - Add attacking units to flipped marker
-- Enable patrols for marker
-- Two man team (Sniper Spotter, etc.)
+- [WIP] Enable patrols for marker
+- [WIP] Two man team (Sniper Spotter, etc.)
 - Rework unit detection system (Squadleader and medics)
 ================================================================================
 NEEDED FOR DOOMS UI UPGRADE
