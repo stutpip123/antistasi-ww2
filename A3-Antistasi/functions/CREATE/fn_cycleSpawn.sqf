@@ -165,13 +165,13 @@ private _statics = garrison getVariable (format ["%1_statics", _marker]);
 
 {
     private _data = _x;
-    private _spawnParameter = _data select 1;
-    private _allowedAt = _data select 0;
-    private _currentTime = dateToNumber date;
+    private _spawnParameter = _data select 0;
+    private _allowedAt = _data select 1;
 
     //Check if static has been killed and is not replenished by now
-    if(_currentTime > _allowedAt) then
+    if([_allowedAt] call A3A_fnc_unitAvailable) then
     {
+        _garCount = _garCount + 1;
         if(_spawnParameter isEqualType -1) then
         {
             _spawnParameter = [_marker, "Static"] call A3A_fnc_findSpawnPosition;
@@ -215,24 +215,7 @@ private _statics = garrison getVariable (format ["%1_statics", _marker]);
                     private _static = _this select 0;
                     private _marker = _static getVariable "StaticMarker";
                     private _index = _static getVariable "StaticIndex";
-                    [
-                        3,
-                        format ["%1 on %2 has been killed, adding 30 minutes cooldown", typeOf _static, _marker],
-                        "cycleSpawnStaticEH"
-                    ] call A3A_fnc_log;
-                    private _statics = garrison getVariable (format ["%1_statics", _marker]);
-                    private _current = (_statics select _index) select 0;
-                    private _date = dateToNumber date;
-                    if(_current > _date) then
-                    {
-                        _current = numberToDate [date select 0, _current];
-                        _current = _current set [4, (_current select 4) + 30];
-                        (_statics select _index) set [0, dateToNumber (_current)];
-                    }
-                    else
-                    {
-                        (_statics select _index) set [0, _date + (dateToNumber [0,1,1,0,30])];
-                    };
+                    ["Static", _marker, _index, 60] call A3A_fnc_addTimeoutForUnit;
                 }
             ];
 
@@ -249,30 +232,45 @@ private _statics = garrison getVariable (format ["%1_statics", _marker]);
                     private _gunner = _this select 0;
                     private _marker = _gunner getVariable "StaticMarker";
                     private _index = _gunner getVariable "StaticIndex";
-                    [
-                        3,
-                        format ["%1 on %2 has been killed, adding 15 minutes cooldown", typeOf _gunner, _marker],
-                        "cycleSpawnStaticEH"
-                    ] call A3A_fnc_log;
-                    private _statics = garrison getVariable (format ["%1_statics", _marker]);
-                    private _current = (_statics select _index) select 0;
-                    private _date = dateToNumber date;
-                    if(_current > _date) then
-                    {
-                        _current = numberToDate [date select 0, _current];
-                        _current = _current set [4, (_current select 4) + 15];
-                        (_statics select _index) set [0, dateToNumber (_current)];
-                    }
-                    else
-                    {
-                        (_statics select _index) set [0, _date + (dateToNumber [0,1,1,0,15])];
-                    };
+                    ["Static", _marker, _index, 30] call A3A_fnc_addTimeoutForUnit;
                 }
             ];
         };
     };
 } forEach _statics;
 _staticGroup deleteGroupWhenEmpty true;
+
+private _patrols = garrison getVariable (format ["%1_patrols", _marker]);
+{
+    private _patrolGroup = _x;
+    private _patrolGroupIndex = _forEachIndex;
+    private _unitIndex = 0;
+    private _patrolUnitOne = _patrolGroup select 0;
+    private _patrolUnitTwo = _patrolGroup select 1;
+    private _group = grpNull;
+    if([_patrolUnitOne select 1] call A3A_fnc_unitAvailable) then
+    {
+        _group = createGroup _side;
+        _unitIndex = _patrolGroupIndex * 10;
+        [_patrolUnitOne select 0, _group, _marker, _unitIndex] call A3A_fnc_cycleSpawnPatrolUnit;
+    };
+    if([_patrolUnitTwo select 1] call A3A_fnc_unitAvailable) then
+    {
+        if(isNull _group) then
+        {
+            _group = createGroup _side;
+        };
+        _unitIndex = _patrolGroupIndex * 10 + 1;
+        [_patrolUnitTwo select 0, _group, _marker, _unitIndex] call A3A_fnc_cycleSpawnPatrolUnit;
+    };
+    if !(isNull _group) then
+    {
+        _group deleteGroupWhenEmpty true;
+        _garCount = _garCount + (count (units _group));
+        [leader _group, _patrolMarker, "SAFE", "SPAWNED", "RANDOM", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
+        sleep 0.25;
+    };
+} forEach _patrols;
 
 //Units spawned, fixing marker size
 

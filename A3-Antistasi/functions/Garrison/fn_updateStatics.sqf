@@ -37,7 +37,7 @@ private _statics = garrison getVariable [format ["%1_statics", _marker], []];
 for "_i" from (count _statics) to (_staticCount - 1) do
 {
     private _spawnParams = [_marker, "Static"] call A3A_fnc_findSpawnPosition;
-    _statics pushBack [-1, _spawnParams];
+    _statics pushBack [_spawnParams, -1];
 };
 garrison setVariable [format ["%1_statics", _marker], _statics, true];
 

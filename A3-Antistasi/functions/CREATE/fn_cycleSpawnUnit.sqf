@@ -41,4 +41,6 @@ _unit addEventHandler
     }
 ];
 
+[_unit, _marker] call A3A_fnc_NATOinit;
+
 _unit;

@@ -37,6 +37,7 @@ class A3A
 		class addActionBreachVehicle {};
 		class addHC {};
 		class addTimeForIdle {};
+        class addTimeoutForUnit {};
 		class AILoadInfo {};
 		class rebelAttack {};
 		class blackout {};
@@ -207,6 +208,7 @@ class A3A
 		class createSDKGarrisons {};
 		class createSDKgarrisonsTemp {};
 		class cycleSpawn {};
+        class cycleSpawnPatrolUnit {};
         class cycleSpawnUnit {};
         class cycleSpawnVehicle {};
 		class FIAinitBases {};
@@ -307,6 +309,7 @@ class A3A
 		class selectReinfUnits {};
 		class selectVehicleType {};
 		class shouldReinforce {};
+        class unitAvailable {};
 		class updateGarrison {};
         class updatePatrols {};
 		class updatePreference {};
