@@ -36,4 +36,17 @@ if(_winner != teamPlayer) then
         private _line = ([_preference select _i, _winner] call A3A_fnc_createGarrisonLine);
         [_line, _marker, (_preference select _i), [1,1,1]] call A3A_fnc_addGarrisonLine;
     };
+
+
+    private _soldiers = allUnits select
+    {
+        (alive _x) &&
+        {(isNull objectParent _x) &&
+        {(side group _x == _winner) &&
+        {(_x getVariable ["spawner",false]) &&
+        {((getPos _x) inArea _marker)}}}}
+    };
+    _soldiers = _soldiers apply {typeOf _x};
+    _soldiers = ["", [], _soldiers];
+    [_marker, _soldier] call A3A_fnc_addToGarrison;
 };

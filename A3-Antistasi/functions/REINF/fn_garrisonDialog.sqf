@@ -83,13 +83,19 @@ if (_operation == "rem") then
 	}
 	else
 	{
-        //TODO delete statics and vehicles too
 		{
             if (_x getVariable ["markerX",""] == _marker) then
             {
                 deleteVehicle _x
             }
         } forEach allUnits;
+        private _markerPos = getMarkerPos _marker;
+        {
+            if((_x distance2D _markerPos) < 500) then
+            {
+                deleteVehicle _x;
+            };
+        } forEach vehicles;
 	};
 	[_marker] call A3A_fnc_mrkUpdate;
 	hint format ["Garrison removed\n\nRecovered Money: %1 €\nRecovered HR: %2",_costs,_hr];

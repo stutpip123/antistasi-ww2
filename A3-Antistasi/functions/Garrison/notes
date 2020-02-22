@@ -77,9 +77,9 @@ Fix broken markers
 - [DONE] Handle deconstruct of static
 - [DONE] Fix edge case in which statics stop to work after the year changes \o/
 - [DONE] Rework the static spawn in all files
-[WIP] Improve marker code
-- On marker clear, also delete vehicles and statics instantly
-- Add attacking units to flipped marker
+[DONE] Improve marker code
+- [DONE] On marker clear, also delete vehicles and statics instantly
+- [DONE] Add attacking units to flipped marker
 - [DONE] Enable patrols for marker
 - [DONE] Two man team (Sniper Spotter, etc.)
 ================================================================================
