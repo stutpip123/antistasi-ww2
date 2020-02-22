@@ -56,11 +56,11 @@ private _lineIndex = 0;
         if(_vehicle == objNull) then
         {
             //Spawn near the marker, no vehicle for you to use
-            _spawnParameter = getMarkerPos _marker;
+            _spawnParameter = [getMarkerPos _marker, random 25, random 360] call BIS_fnc_relPos;
         }
         else
         {
-            _spawnParameter = getPos _vehicle;
+            _spawnParameter = [getPos _vehicle, random 25, random 360] call BIS_fnc_relPos;
         };
 
         {
@@ -70,6 +70,13 @@ private _lineIndex = 0;
                 sleep 0.25;
             };
         } forEach _crewArray;
+
+        if((random 100) < (7.5 * tierWar)) then
+        {
+            {
+                _x moveInAny (assignedVehicle _x);
+            } forEach (units _vehicleGroup);
+        };
     }
     else
     {

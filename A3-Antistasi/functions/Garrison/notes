@@ -61,9 +61,9 @@ FIXES:
 ================================================================================
 WORK TILL HERE, THEN INTEL
 ================================================================================
-[WIP] Handle group spawn places
+[DONE] Handle group spawn places
 - [DONE] Handle unit groups
-- Handle crew groups
+- [DONE] Handle crew groups
 Fix broken markers
 - Make roadblocks functioning again
 - Make civs working again
@@ -75,14 +75,13 @@ Fix broken markers
 [WIP] Statics
 - Handle player statics
 - Handle deconstruct of static
-- [WIP] Fix edge case in which statics stop to work after the year changes \o/
-- Rework the static spawn in all files
+- [DONE] Fix edge case in which statics stop to work after the year changes \o/
+- [DONE] Rework the static spawn in all files
 [WIP] Improve marker code
 - On marker clear, also delete vehicles and statics instantly
 - Add attacking units to flipped marker
-- [WIP] Enable patrols for marker
+- [DONE] Enable patrols for marker
 - [DONE] Two man team (Sniper Spotter, etc.)
-- Rework unit detection system (Squadleader and medics)
 ================================================================================
 NEEDED FOR DOOMS UI UPGRADE
 ================================================================================
@@ -111,6 +110,7 @@ Add different costs for different units
 ------------ Various -----------------------------------------------------------
 Add keys as a result on intel search (+ vehicle open animation)
 Better troup compositions
+Deactivate random mortar spawns
 
 ------------ Optimisation ------------------------------------------------------
 [WIP] Optimisation for speed and data size
@@ -118,6 +118,7 @@ Reorder all parameters in the same order
 Clean up code
 Cleanup function
 Unify and split the EH into seperate files
+Optimize creation of patrols (like statics)
 
 ------------ Fix broken stuff --------------------------------------------------
 [BUG] Sended units are not leaving the group, not clue why
@@ -135,6 +136,7 @@ WON'T DO, EITHER OBSOLETE OR NOT WANTED
 [WON'T] Handle statics in convoys
 [WON'T] Add helicopter types for spoffy
 [WON'T] Removing units while runtime
+[WON'T] Rework unit detection system (Squadleader and medics)
 
 ================================================================================
 Files that need a rework

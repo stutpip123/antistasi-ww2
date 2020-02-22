@@ -7,7 +7,7 @@ private _fileName = "cycleSpawnUnit";
     _fileName
 ] call A3A_fnc_log;
 
-private _unit = _group createUnit [_type, _position, [], 5, "NONE"];
+private _unit = _group createUnit [_type, _position, [], 15, "NONE"];
 
 //Should work as a local variable needs testing
 if((_type != NATOCrew) && (_type != CSATCrew)) then
