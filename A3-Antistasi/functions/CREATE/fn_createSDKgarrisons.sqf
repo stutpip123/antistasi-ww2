@@ -176,6 +176,7 @@ for "_i" from 0 to (count _groups) - 1 do
 	{
 		_nul = [leader _groupX, _markerX, "SAFE","SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";//TODO need delete UPSMON link
 	};
+};
 
 //Units fully spawned in, awaiting despawn
 waitUntil
