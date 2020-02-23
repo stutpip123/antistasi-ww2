@@ -112,8 +112,6 @@ class A3A
 		class zoneCheck {};
 	};
 
-
-
 	class AI
 	{
 		class occupantInvaderUnitKilledEH {};
@@ -244,6 +242,7 @@ class A3A
 
 	class Dialogs
 	{
+
 		class buyVehicle {};
 		class buyVehicleCiv {};
 		class clearForest {};
@@ -317,6 +316,17 @@ class A3A
         class updateStatics {};
 		class updateVehicles {};
 	};
+
+    class Intel
+    {
+        class getVehicleIntel {};
+        class placeIntel {};
+        class searchIntelOnDocument {};
+        class searchIntelOnLaptop {};
+        class searchIntelOnLeader {};
+        class selectIntel {};
+        class showIntel {};
+    };
 
 	class Missions
 	{
@@ -459,6 +469,7 @@ class A3A
 
 	class Revive
 	{
+
 		class actionRevive {};
 		class carry {};
 		class fatalWound {};
