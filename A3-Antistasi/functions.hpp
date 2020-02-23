@@ -1,6 +1,6 @@
 class A3A
 {
-	class init
+	class Init
 	{
 		//Main initialisation functions.
 		class initServer {};
@@ -187,31 +187,23 @@ class A3A
 		class spawnConvoyLine {};
 	};
 
-	class CREATE
+	class Create
 	{
 		class AAFroadPatrol {};
 		class airportCanAttack {};
 		class AIVEHinit {};
 		class ambientCivs {};
-		class calculateMarkerArea {};
 		class cargoSeats {};
 		class CIVinit {};
 		class civVEHinit {};
 		class cleanserVeh {};
 		class createAICities {};
 		class createAIcontrols {};
-		class createAISite {};
 		class createCIV {};
 		class createFIAOutposts2 {};
 		class createSDKGarrisons {};
 		class createSDKgarrisonsTemp {};
-		class cycleSpawn {};
-        class cycleSpawnPatrolUnit {};
-        class cycleSpawnUnit {};
-        class cycleSpawnVehicle {};
 		class FIAinitBases {};
-		class findSpawnPosition {};
-		class freeSpawnPositions {};
 		class garrisonReorg {};
 		class garrisonSize {};
 		class garrisonUpdate {};
@@ -352,7 +344,8 @@ class A3A
 		class underAttack {};
 	};
 
-	class ModsAndDLC {
+	class ModsAndDLC
+    {
 		class getModOfConfigClass {};
 		class initDisabledMods {};
 		class isModNameVanilla {};
@@ -430,13 +423,13 @@ class A3A
 		class punishment_warden {};
 	};
 
-	class pvp
+	class PvP
 	{
 		class pvpCheck {};
 		class playerHasBeenPvPCheck {};
 	};
 
-	class REINF
+	class Reinf
 	{
 		class addBombRun {};
 		class addFIAsquadHC {};
@@ -496,6 +489,20 @@ class A3A
 		class playerHasSave {};
 		class savePlayer {};
 	};
+
+    class Spawn
+    {
+        class calculateMarkerArea {};
+        class createAIControlPoint {};
+        class createAISite {};
+        class cycleSpawn {};
+        class cycleSpawnPatrolUnit {};
+        class cycleSpawnUnit {};
+        class cycleSpawnVehicle {};
+        class findSpawnPosition {};
+        class freeSpawnPosition {};
+        class freeSpawnPositions {};
+    };
 
 	class Templates
 	{

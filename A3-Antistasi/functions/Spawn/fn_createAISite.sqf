@@ -23,6 +23,11 @@ if(_side == sideUnknown) exitWith
     [2, format ["Could not get side of %1", _marker], _fileName] call A3A_fnc_log;
 };
 
+if(_side == teamPlayer) exitWith
+{
+    [2, "Cannot spawn in player places with this script!", _fileName] call A3A_fnc_log;
+};
+
 private _patrolMarkerSize = [0,0];
 
 if(_isFrontline) then
@@ -46,6 +51,12 @@ _patrolMarker setMarkerTypeLocal "hd_warning";
 _patrolMarker setMarkerColorLocal "ColorRed";
 _patrolMarker setMarkerBrushLocal "DiagGrid";
 //_patrolMarker setMarkerAlphaLocal 0;
+
+//
+if(_marker in controlsX) exitWith
+{
+    [_marker] spawn A3A_fnc_createControlPoint;
+};
 
 private _flag = objNull;
 private _box = objNull;
