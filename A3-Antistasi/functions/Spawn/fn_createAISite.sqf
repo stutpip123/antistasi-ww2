@@ -63,55 +63,58 @@ if(_marker in controlsX) exitWith
 private _flag = objNull;
 private _box = objNull;
 
-private _typeFlag = "";
-switch (_side) do
+if(_marker != "Synd_HQ") then
 {
-    case (Occupants):
+    private _typeFlag = "";
+    switch (_side) do
     {
-        _typeFlag = NATOFlag;
-    };
-    case (Invaders):
-    {
-        _typeFlag = CSATFlag;
-    };
-    default
-    {
-        _typeFlag = SDKFlag;
-    };
-};
-_flag = createVehicle [_typeFlag, _markerPos, [], 0, "NONE"];
-_flag allowDamage false;
-
-if(_side != teamPlayer) then
-{
-    [_flag,"take"] remoteExec ["A3A_fnc_flagaction",[teamPlayer, civilian],_flag];
-
-    //If someone is bored, think about a way to optimize the following code
-    if(_marker in airportsX || {_marker in seaports || {_marker in outposts}}) then
-    {
-        if (_side == Occupants) then
+        case (Occupants):
         {
-            _box = NATOAmmoBox createVehicle _markerPos;
-            [_box] spawn A3A_fnc_NATOcrate;
-        }
-        else
-        {
-            _box = CSATAmmoBox createVehicle _markerPos;
-            [_box] spawn A3A_fnc_CSATcrate;
+            _typeFlag = NATOFlag;
         };
-        _box call jn_fnc_logistics_addAction;
-
-        if (_marker in seaports) then
+        case (Invaders):
         {
-            _box addItemCargo ["V_RebreatherIA", round (random 5)];
-            _box addItemCargo ["G_I_Diving", round (random 5)];
+            _typeFlag = CSATFlag;
+        };
+        default
+        {
+            _typeFlag = SDKFlag;
         };
     };
-    //End here
-}
-else
-{
-    [_flag, "SDKFlag"] remoteExec ["A3A_fnc_flagaction",[teamPlayer, civilian],_flag];
+    _flag = createVehicle [_typeFlag, _markerPos, [], 0, "NONE"];
+    _flag allowDamage false;
+
+    if(_side != teamPlayer) then
+    {
+        [_flag,"take"] remoteExec ["A3A_fnc_flagaction",[teamPlayer, civilian],_flag];
+
+        //If someone is bored, think about a way to optimize the following code
+        if(_marker in airportsX || {_marker in seaports || {_marker in outposts}}) then
+        {
+            if (_side == Occupants) then
+            {
+                _box = NATOAmmoBox createVehicle _markerPos;
+                [_box] spawn A3A_fnc_NATOcrate;
+            }
+            else
+            {
+                _box = CSATAmmoBox createVehicle _markerPos;
+                [_box] spawn A3A_fnc_CSATcrate;
+            };
+            _box call jn_fnc_logistics_addAction;
+
+            if (_marker in seaports) then
+            {
+                _box addItemCargo ["V_RebreatherIA", round (random 5)];
+                _box addItemCargo ["G_I_Diving", round (random 5)];
+            };
+        };
+        //End here
+    }
+    else
+    {
+        [_flag, "SDKFlag"] remoteExec ["A3A_fnc_flagaction",[teamPlayer, civilian],_flag];
+    };
 };
 
 private _allVehicles = [_flag, _box];

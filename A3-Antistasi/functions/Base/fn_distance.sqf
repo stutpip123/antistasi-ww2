@@ -64,47 +64,18 @@ while {true} do
         };
         _markerShouldSpawn = _isForced || {_markerShouldSpawn != DESPAWNED};
 
-        //If marker is owned by Occupants or Invaders
-        if (sidesX getVariable [_marker,sideUnknown] != teamPlayer) then
+        if ((spawner getVariable _marker) == DESPAWNED) then
         {
-            if ((spawner getVariable _marker) == DESPAWNED) then
+            if (_markerShouldSpawn) then
             {
-                if (_markerShouldSpawn) then
+                spawner setVariable [_marker, SPAWNED, true];
+                if (_marker in citiesX) then
                 {
-                    spawner setVariable [_marker, SPAWNED, true];
-                    if (_marker in citiesX) then
-                    {
-                        [[_marker], "A3A_fnc_createCity"] call A3A_fnc_scheduler;
-                    }
-                    else
-                    {
-                        [[_marker], "A3A_fnc_createAISite"] call A3A_fnc_scheduler;
-                    };
-                };
-            };
-        }
-        else
-        {
-            if ((spawner getVariable _marker) == DESPAWNED) then
-            {
-                if (_markerShouldSpawn) then
+                    [[_marker], "A3A_fnc_createCity"] call A3A_fnc_scheduler;
+                }
+                else
                 {
-                    spawner setVariable [_marker, SPAWNED, true];
-                    if (_marker in citiesX) then
-                    {
-                        [[_marker], "A3A_fnc_createCity"] call A3A_fnc_scheduler;
-                    }
-                    else
-                    {
-                        if(_marker == "Synd_HQ") then
-                        {
-                            //TODO HQ needs its own spawn script due to the flag already being there
-                        }
-                        else
-                        {
-                            [[_marker],"A3A_fnc_createAISite"] call A3A_fnc_scheduler;
-                        };
-                    };
+                    [[_marker], "A3A_fnc_createAISite"] call A3A_fnc_scheduler;
                 };
             };
         };
