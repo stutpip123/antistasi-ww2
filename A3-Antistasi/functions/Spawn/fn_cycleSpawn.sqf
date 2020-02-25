@@ -371,9 +371,20 @@ deleteMarker _patrolMarker;
 	[_x] spawn A3A_fnc_groupDespawner;
 } forEach (garrison getVariable (format ["%1_groups", _marker]));
 
+private _playerStatics = [];
+//Might have changed during runtime
+_side = sidesX getVariable [_marker, sideUnknown];
 {
+    if(_side == teamPlayer && {_x isKindOf "StaticWeapon" && {alive _x && {(getPos _x) in _marker}}}) then
+    {
+        _playerStatics pushBack [[getPosATL _x, getDir _x, typeOf _x], -1];
+    };
     if(!(_x getVariable ["Stolen", false])) then
     {
         deleteVehicle _x;
     };
 } forEach (garrison getVariable (format ["%1_vehicles", _marker]));
+if(_side == teamPlayer) then
+{
+    garrison setVariable [format ["%1_statics", _marker], _playerStatics, true];
+};

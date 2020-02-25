@@ -82,6 +82,9 @@ WORK TILL HERE, THEN INTEL
 - [DONE] Add attacking units to flipped marker
 - [DONE] Enable patrols for marker
 - [DONE] Two man team (Sniper Spotter, etc.)
+Roadblocks
+- Make them destroyable
+- Check where they are created while the game runs
 ================================================================================
 NEEDED FOR DOOMS UI UPGRADE
 ================================================================================
@@ -116,6 +119,7 @@ Better troup compositions
 Deactivate random mortar spawns
 Reenable civies driving around
 Add multiple types of roadblock
+Add a message on statics when they are dismantled or build on a marker
 
 ------------ Optimisation ------------------------------------------------------
 [WIP] Optimisation for speed and data size
