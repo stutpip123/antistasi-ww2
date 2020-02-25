@@ -4,7 +4,8 @@ private _fileName = "createAISide";
 [
     2,
     format ["Starting spawn of %1", _marker],
-    _fileName
+    _fileName,
+    true
 ] call A3A_fnc_log;
 
 //Not sure if that ever happens, but it reduces redundance (Deactivated for debug)
@@ -20,21 +21,20 @@ private _side = sidesX getVariable [_marker, sideUnknown];
 
 if(_side == sideUnknown) exitWith
 {
-    [2, format ["Could not get side of %1", _marker], _fileName] call A3A_fnc_log;
+    [1, format ["Could not get side of %1, aborting spawn!", _marker], _fileName, true] call A3A_fnc_log;
 };
 
 private _patrolMarkerSize = [0,0];
-
 if(_isFrontline) then
 {
     //Cannot risk to spread to thin, stay close
-    [3, "Small patrol radius choosen, as marker is frontline", _fileName] call A3A_fnc_log;
+    [3, "Small patrol radius choosen, as marker is frontline", _fileName, true] call A3A_fnc_log;
     _patrolMarkerSize = [(distanceSPWN/6), (distanceSPWN/6)];
 }
 else
 {
     //Full patrol way, not so extrem like in the original
-    [3, "Large patrol radius choosen, as marker is not frontline", _fileName] call A3A_fnc_log;
+    [3, "Large patrol radius choosen, as marker is not frontline", _fileName, true] call A3A_fnc_log;
     _patrolMarkerSize = [(distanceSPWN/3), (distanceSPWN/3)];
 };
 
@@ -57,7 +57,7 @@ if(_marker in controlsX) exitWith
     {
         [_marker] spawn A3A_fnc_createRebelControlPoint;
     };
-    [2, format ["Successfully spawned control point %1", _marker], _fileName] call A3A_fnc_log;
+    [2, format ["Successfully spawned control point %1", _marker], _fileName, true] call A3A_fnc_log;
 };
 
 private _flag = objNull;
@@ -117,4 +117,4 @@ else
 private _allVehicles = [_flag, _box];
 [_marker, _patrolMarker, _allVehicles] call A3A_fnc_cycleSpawn;
 
-[2, format ["Successfully spawned in %1", _marker], _fileName] call A3A_fnc_log;
+[2, format ["Successfully spawned in %1", _marker], _fileName, true] call A3A_fnc_log;

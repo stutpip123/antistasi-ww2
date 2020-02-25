@@ -4,8 +4,8 @@ private _fileName = "createAIControlPoint";
 private _markerPos = getMarkerPos _marker;
 private _isRoadblock = if(isOnRoad _markerPos) then {true} else {false};
 
-private _type = if(_isRoadblock) then {"Roadblock"} else {"Minefield"};
-[2, format ["Spawning in %1 for side %2", _type, _side], _fileName] call A3A_fnc_log;
+private _type = if(_isRoadblock) then {"roadblock"} else {"minefield"};
+[2, format ["Spawning in %1 for side %2", _type, _side], _fileName, true] call A3A_fnc_log;
 
 private _error = false;
 
@@ -19,7 +19,7 @@ if(_isRoadblock) then
 
     if((count _connectedRoads) == 0) exitWith
     {
-        [1, format ["Roadblock %1 is not placed right, replace it!", _marker], _fileName] call A3A_fnc_log;
+        [1, format ["Roadblock %1 is not placed right, replace it!", _marker], _fileName, true] call A3A_fnc_log;
         _error = true;
     };
 
@@ -61,3 +61,5 @@ else
 {
 
 };
+
+if(_error) exitWith {};
