@@ -1,7 +1,7 @@
 params ["_marker"];
 
 private _fileName = "createCity";
-private _side = sidesX getVariable [_markerX,sideUnknown];
+private _side = sidesX getVariable [_marker, sideUnknown];
 private _markerPos = getMarkerPos _marker;
 
 private _allVehicles = [];
@@ -32,10 +32,10 @@ else
     private _cityData = server getVariable _marker;
     _cityData params ["_numCiv", "_numVeh", "_prestigeOPFOR", "_prestigeBLUFOR"];
 
-    private _roads = roadsX getVariable [_markerX, []];
+    private _roads = roadsX getVariable [_marker, []];
     if (count _roads == 0) then
     {
-    	[1, format ["Roads not found for marker %1", _markerX], _fileName, true] call A3A_fnc_log;
+    	[1, format ["Roads not found for marker %1", _marker], _fileName, true] call A3A_fnc_log;
     };
 
     private _numVeh = round (_numVeh * (civPerc/200) * civTraffic);
@@ -56,7 +56,7 @@ else
     //Spawning in cars
     for "_counter" from 0 to _numVeh do
     {
-        private _pos1 = _roads select _countX;
+        private _pos1 = _roads select _counter;
     	private _road = roadAt _pos1;
     	if (!isNull _road) then
     	{
@@ -71,7 +71,7 @@ else
     			_veh setDir _vehDir;
     			_allVehicles pushBack _veh;
     			[_veh] spawn A3A_fnc_civVEHinit;
-                _vehicle addEventHandler
+                _veh addEventHandler
                 [
                     "GetIn",
                     {
@@ -89,7 +89,7 @@ else
     };
 
     //Spawning in boats
-    private _seaMarker = if !(hasIFA) then {seaSpawn select {getMarkerPos _x inArea _markerX}} else {[]};
+    private _seaMarker = if !(hasIFA) then {seaSpawn select {getMarkerPos _x inArea _marker}} else {[]};
     if (count _seaMarker > 0) then
     {
     	for "_i" from 0 to (round (random 3)) do
@@ -126,7 +126,7 @@ else
     	_allGroups pushBack _journalistGroup;
     	private _civ = _journalistGroup createUnit ["C_journalist_F", _pos, [], 10, "NONE"];
     	[_civ] spawn A3A_fnc_CIVinit;
-    	[_civ, _markerX, "SAFE", "SPAWNED","NOFOLLOW", "NOVEH2","NOSHARE","DoRelax"] execVM "scripts\UPSMON.sqf";//TODO need delete UPSMON link
+    	[_civ, _marker, "SAFE", "SPAWNED","NOFOLLOW", "NOVEH2","NOSHARE","DoRelax"] execVM "scripts\UPSMON.sqf";//TODO need delete UPSMON link
     };
 };
 

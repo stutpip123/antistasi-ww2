@@ -56,7 +56,4 @@ private _preferred = garrison getVariable (format ["%1_preference", _type]);
     garrison setVariable [format ["%1_requested", _marker], _requested, true];
     garrison setVariable [format ["%1_locked", _marker], _locked, true];
     garrison setVariable [format ["%1_over", _marker], [["", [""], [""]]], true];
-
-    diag_log str _patrols;
-
 } forEach _markerArray;

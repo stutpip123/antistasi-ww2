@@ -16,4 +16,5 @@ for "_i" from (count _patrols) from ((count _patrolTypes) - 1) do
     private _type = _patrolTypes select _i;
     _patrols pushBack ([_type, _side] call A3A_fnc_createPatrolArray);
 };
+[3, format ["Updated patrols for %1, patrols are %2", _marker, _patrols], "updatePatrols", true] call A3A_fnc_log;
 garrison setVariable [format ["%1_patrols", _marker], _patrols, true];
