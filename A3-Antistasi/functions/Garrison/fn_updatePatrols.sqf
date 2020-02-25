@@ -9,9 +9,10 @@ params ["_type", "_marker"];
 *       Nothing
 */
 
+private _side = sidesX getVariable _marker;
 private _patrols = garrison getVariable [format ["%1_patrols", _marker], []];
 private _patrolTypes = garrison getVariable (format ["%1_patrolPref", _type]);
-for "_i" from (count _patrols) from ((count _patrolTypes) - 1) do
+for "_i" from (count _patrols) to ((count _patrolTypes) - 1) do
 {
     private _type = _patrolTypes select _i;
     _patrols pushBack ([_type, _side] call A3A_fnc_createPatrolArray);

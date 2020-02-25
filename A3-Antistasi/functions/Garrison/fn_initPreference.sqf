@@ -30,9 +30,9 @@ private _patrol =
     "PATROL_NORMAL"
 ];
 
-garrison setVariable ["Airport_preference", _preference];
-garrison setVariable ["Airport_patrolPref", _patrol];
-garrison setVariable ["Airport_staticPerc", 0.35];
+garrison setVariable ["Airport_preference", _preference, true];
+garrison setVariable ["Airport_patrolPref", _patrol, true];
+garrison setVariable ["Airport_staticPerc", 0.35, true];
 
 //Setting up outpost preferences
 _preference =
@@ -51,9 +51,9 @@ private _patrol =
 ];
 
 
-garrison setVariable ["Outpost_preference", _preference];
-garrison setVariable ["Outpost_patrolPref", _patrol];
-garrison setVariable ["Outpost_staticPerc", 0.2];
+garrison setVariable ["Outpost_preference", _preference, true];
+garrison setVariable ["Outpost_patrolPref", _patrol, true];
+garrison setVariable ["Outpost_staticPerc", 0.2, true];
 
 //Setting up city preferences
 _preference =
@@ -65,13 +65,12 @@ private _patrol =
 [
     "PATROL_POLICE",
     "PATROL_POLICE",
-    "PATROL_POLICE",
     "PATROL_POLICE"
 ];
 
-garrison setVariable ["City_preference", _preference];
-garrison setVariable ["City_patrolPref", _patrol];
-garrison setVariable ["City_staticPerc", 0];
+garrison setVariable ["City_preference", _preference, true];
+garrison setVariable ["City_patrolPref", _patrol, true];
+garrison setVariable ["City_staticPerc", 0, true];
 
 //Setting up other preferences
 _preference =
@@ -87,6 +86,6 @@ private _patrol =
     "PATROL_NORMAL"
 ];
 
-garrison setVariable ["Other_preference", _preference];
-garrison setVariable ["Other_patrolPref", _patrol];
-garrison setVariable ["Other_staticPerc", 0];
+garrison setVariable ["Other_preference", _preference, true];
+garrison setVariable ["Other_patrolPref", _patrol, true];
+garrison setVariable ["Other_staticPerc", 0, true];
