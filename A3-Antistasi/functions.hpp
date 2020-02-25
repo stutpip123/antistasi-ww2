@@ -495,6 +495,7 @@ class A3A
         class calculateMarkerArea {};
         class createAIControlPoint {};
         class createAISite {};
+        class createCity {};
         class createRebelControlPoint {};
         class cycleSpawn {};
         class cycleSpawnPatrolUnit {};

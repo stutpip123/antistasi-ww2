@@ -57,8 +57,12 @@ while {true} do
         private _marker = _x;
         private _isForced = (_marker in forcedSpawn);
 
-        private _markerShouldSpawn = [_marker, _greenfor, _blufor, _opfor] call A3A_fnc_needsSpawn;
-        _markerShouldSpawn = (_markerShouldSpawn != DESPAWNED) || _isForced;
+        private _markerShouldSpawn = DESPAWNED;
+        if(!_isForced) then
+        {
+            _markerShouldSpawn = [_marker, _greenfor, _blufor, _opfor] call A3A_fnc_needsSpawn;
+        };
+        _markerShouldSpawn = _isForced || {_markerShouldSpawn != DESPAWNED};
 
         //If marker is owned by Occupants or Invaders
         if (sidesX getVariable [_marker,sideUnknown] != teamPlayer) then
@@ -70,20 +74,11 @@ while {true} do
                     spawner setVariable [_marker, SPAWNED, true];
                     if (_marker in citiesX) then
                     {
-                        [[_marker],"A3A_fnc_createAICities"] call A3A_fnc_scheduler;
-                        /*
-                        if (!(_marker in destroyedSites)) then
-                        {
-                            [[_marker],"A3A_fnc_createCIV"] call A3A_fnc_scheduler;
-                        };
-                        */
+                        [[_marker], "A3A_fnc_createCity"] call A3A_fnc_scheduler;
                     }
                     else
                     {
-                        if(!(_marker in controlsX)) then
-                        {
-                            [[_marker], "A3A_fnc_createAISite"] call A3A_fnc_scheduler;
-                        };
+                        [[_marker], "A3A_fnc_createAISite"] call A3A_fnc_scheduler;
                     };
                 };
             };
@@ -94,27 +89,18 @@ while {true} do
             {
                 if (_markerShouldSpawn) then
                 {
-                    //[3, format ["%1 will be spawned in now, spawner %2!", _marker, (spawner getVariable _marker)], "distance"] call A3A_fnc_log;
                     spawner setVariable [_marker, SPAWNED, true];
                     if (_marker in citiesX) then
                     {
-                        /*
-                        if (!(_marker in destroyedSites)) then
-                        {
-                            [[_marker], "A3A_fnc_createCIV"] call A3A_fnc_scheduler;
-                        };
-                        */
+                        [[_marker], "A3A_fnc_createCity"] call A3A_fnc_scheduler;
                     };
-                    if (_marker in outpostsFIA) then
+                    if(_marker == "Synd_HQ") then
                     {
-                        //[[_marker],"A3A_fnc_createAISite"] call A3A_fnc_scheduler;
+                        //TODO HQ needs its own spawn script due to the flag already being there
                     }
                     else
                     {
-                        if (!(_marker in controlsX) && (_marker != "Synd_HQ")) then
-                        {
-                            [[_marker],"A3A_fnc_createAISite"] call A3A_fnc_scheduler;
-                        };
+                        [[_marker],"A3A_fnc_createAISite"] call A3A_fnc_scheduler;
                     };
                 };
             };
