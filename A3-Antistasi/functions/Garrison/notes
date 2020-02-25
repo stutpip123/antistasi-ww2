@@ -73,7 +73,7 @@ WORK TILL HERE, THEN INTEL
 - [DONE] Improve reinforce marker selection
 - [DONE] Should return the type of reinforcement able to send (land and/or air)
 [WIP] Statics
-- Handle player statics
+- [WIP] Handle player statics
 - [DONE] Handle deconstruct of static
 - [DONE] Fix edge case in which statics stop to work after the year changes \o/
 - [DONE] Rework the static spawn in all files
