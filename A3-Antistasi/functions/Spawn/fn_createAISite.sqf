@@ -23,11 +23,6 @@ if(_side == sideUnknown) exitWith
     [2, format ["Could not get side of %1", _marker], _fileName] call A3A_fnc_log;
 };
 
-if(_side == teamPlayer) exitWith
-{
-    [2, "Cannot spawn in player places with this script!", _fileName] call A3A_fnc_log;
-};
-
 private _patrolMarkerSize = [0,0];
 
 if(_isFrontline) then
@@ -52,10 +47,17 @@ _patrolMarker setMarkerColorLocal "ColorRed";
 _patrolMarker setMarkerBrushLocal "DiagGrid";
 //_patrolMarker setMarkerAlphaLocal 0;
 
-//
 if(_marker in controlsX) exitWith
 {
-    [_marker] spawn A3A_fnc_createControlPoint;
+    if(_side != teamPlayer) then
+    {
+        [_marker, _side] spawn A3A_fnc_createAIControlPoint;
+    }
+    else
+    {
+        [_marker] spawn A3A_fnc_createRebelControlPoint;
+    };
+    [2, format ["Successfully spawned control point %1", _marker], _fileName] call A3A_fnc_log;
 };
 
 private _flag = objNull;
@@ -112,6 +114,7 @@ else
     [_flag, "SDKFlag"] remoteExec ["A3A_fnc_flagaction",[teamPlayer, civilian],_flag];
 };
 
-[_marker, _patrolMarker, _flag, _box] call A3A_fnc_cycleSpawn;
+private _allVehicles = [_flag, _box];
+[_marker, _patrolMarker, _allVehicles] call A3A_fnc_cycleSpawn;
 
-[3, format ["Successfully spawning in %1", _marker], _fileName] call A3A_fnc_log;
+[2, format ["Successfully spawned in %1", _marker], _fileName] call A3A_fnc_log;

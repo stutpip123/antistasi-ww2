@@ -64,8 +64,8 @@ WORK TILL HERE, THEN INTEL
 [DONE] Handle group spawn places
 - [DONE] Handle unit groups
 - [DONE] Handle crew groups
-Fix broken markers
-- Make roadblocks functioning again
+[WIP] Fix broken markers
+- [WIP]Make roadblocks functioning again
 - Make civs working again
 - Make HQ working again
 [DONE] Improve reinforce code

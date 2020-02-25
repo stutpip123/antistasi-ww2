@@ -2,21 +2,21 @@
 #define ON_STANDBY      1
 #define DESPAWNED       2
 
-params ["_marker", "_patrolMarker", "_flag", "_box"];
+params ["_marker", "_patrolMarker", ["_allVehicles", []], ["_allGroups", []]];
 
 private _fileName = "cycleSpawn";
 if(isNil "_marker") exitWith
 {
-    [2, "No marker given, cannot spawn site", _fileName] call A3A_fnc_log;
+    [1, "No marker given, cannot spawn site", _fileName] call A3A_fnc_log;
 };
 
 private _side = sidesX getVariable [_marker, sideUnknown];
 if(_side == sideUnknown) exitWith
 {
-    [2, format ["Could not retrieve side for %1", _marker], _fileName] call A3A_fnc_log;
+    [1, format ["Could not retrieve side for %1", _marker], _fileName] call A3A_fnc_log;
 };
 
-[3, format ["Starting cyclic spawn of %1", _marker], _fileName] call A3A_fnc_log;
+[2, format ["Starting cyclic spawn of %1", _marker], _fileName] call A3A_fnc_log;
 
 private _garrison = [_marker] call A3A_fnc_getGarrison;
 private _locked = garrison getVariable (format ["%1_locked", _marker]);
@@ -25,10 +25,6 @@ private _patrolSize = [_patrolMarker] call A3A_fnc_calculateMarkerArea;
 
 [3, format ["Logging units of %1", _marker], _fileName] call A3A_fnc_log;
 [_garrison, "Garrison"] call A3A_fnc_logArray;
-
-private _allGroups = [];
-private _allVehicles = [_flag, _box];
-//TODO Search for buildings and safe the data
 
 private _lineIndex = 0;
 {
