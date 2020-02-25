@@ -102,6 +102,9 @@ Add init scripts for units
 [Mostly done, check the FSM] Make the AI follow the pathfinding way
 [WIP, needs change in the VCOM routines] EH for the groups to man vehicles
 
+------------ Vehicle Behaviour -------------------------------------------------
+Add vehicle despawner
+
 ------------ Reinforcements selection ------------------------------------------
 Improve the AI, which chooses the units
 Improve the replenish function
@@ -111,6 +114,7 @@ Add different costs for different units
 Add keys as a result on intel search (+ vehicle open animation)
 Better troup compositions
 Deactivate random mortar spawns
+Reenable civies driving around
 
 ------------ Optimisation ------------------------------------------------------
 [WIP] Optimisation for speed and data size

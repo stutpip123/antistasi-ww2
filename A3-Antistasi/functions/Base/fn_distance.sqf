@@ -93,14 +93,17 @@ while {true} do
                     if (_marker in citiesX) then
                     {
                         [[_marker], "A3A_fnc_createCity"] call A3A_fnc_scheduler;
-                    };
-                    if(_marker == "Synd_HQ") then
-                    {
-                        //TODO HQ needs its own spawn script due to the flag already being there
                     }
                     else
                     {
-                        [[_marker],"A3A_fnc_createAISite"] call A3A_fnc_scheduler;
+                        if(_marker == "Synd_HQ") then
+                        {
+                            //TODO HQ needs its own spawn script due to the flag already being there
+                        }
+                        else
+                        {
+                            [[_marker],"A3A_fnc_createAISite"] call A3A_fnc_scheduler;
+                        };
                     };
                 };
             };

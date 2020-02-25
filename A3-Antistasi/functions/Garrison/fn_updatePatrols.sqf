@@ -9,7 +9,7 @@ params ["_type", "_marker"];
 *       Nothing
 */
 
-private _patrols = garrison getVariable (format ["%1_patrols", _marker]);
+private _patrols = garrison getVariable [format ["%1_patrols", _marker], []];
 private _patrolTypes = garrison getVariable (format ["%1_patrolPref", _type]);
 for "_i" from (count _patrols) from ((count _patrolTypes) - 1) do
 {

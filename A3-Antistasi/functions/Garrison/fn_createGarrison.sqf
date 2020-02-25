@@ -47,6 +47,7 @@ private _preferred = garrison getVariable (format ["%1_preference", _type]);
     [_garrison, format ["%1_garrison", _marker]] call A3A_fnc_logArray;
 
     [_type, _marker] spawn A3A_fnc_updateStatics;
+    [_type, _marker] spawn A3A_fnc_updatePatrols;
 
     //Updates the marker status if it is able to send reinforcements or needs some
     [_marker] call A3A_fnc_updateReinfState;
@@ -56,12 +57,6 @@ private _preferred = garrison getVariable (format ["%1_preference", _type]);
     garrison setVariable [format ["%1_locked", _marker], _locked, true];
     garrison setVariable [format ["%1_over", _marker], [["", [""], [""]]], true];
 
-    private _patrolTypes = garrison getVariable (format ["%1_patrolPref", _type]);
-    private _patrols = [];
-    {
-        _patrols pushBack ([_x, _side] call A3A_fnc_createPatrolArray);
-    } forEach _patrolTypes;
-    garrison setVariable [format ["%1_patrols", _marker], _patrols, true];
     diag_log str _patrols;
 
 } forEach _markerArray;
