@@ -63,3 +63,5 @@ else
 };
 
 if(_error) exitWith {};
+
+[_marker, _marker, _vehicles, _groups] call A3A_fnc_cycleSpawn;

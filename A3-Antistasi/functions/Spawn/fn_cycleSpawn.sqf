@@ -159,7 +159,7 @@ _lineIndex = 0;
 
 private _staticGroup = createGroup _side;
 _allGroups pushBack _staticGroup;
-private _statics = garrison getVariable (format ["%1_statics", _marker]);
+private _statics = garrison getVariable [format ["%1_statics", _marker], []];
 [
     3,
     format ["Spawning in %1 statics on %2, data is %3", (count _statics), _marker, _statics],
@@ -243,7 +243,7 @@ private _statics = garrison getVariable (format ["%1_statics", _marker]);
 } forEach _statics;
 _staticGroup deleteGroupWhenEmpty true;
 
-private _patrols = garrison getVariable (format ["%1_patrols", _marker]);
+private _patrols = garrison getVariable [format ["%1_patrols", _marker], []];
 {
     private _patrolGroup = _x;
     private _patrolGroupIndex = _forEachIndex;

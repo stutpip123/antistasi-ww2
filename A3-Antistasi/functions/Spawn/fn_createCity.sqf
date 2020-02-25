@@ -120,7 +120,7 @@ else
         private _journalistGroup =createGroup civilian;
     	while {true} do
     	{
-    		_pos = [_positionX, round (random 50), random 360] call BIS_Fnc_relPos;
+    		_pos = [getMarkerPos _marker, round (random 50), random 360] call BIS_Fnc_relPos;
     		if (!surfaceIsWater _pos) exitWith {};
     	};
     	_allGroups pushBack _journalistGroup;

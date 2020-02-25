@@ -119,7 +119,7 @@ if(_preference in ["AIR_GENERIC", "AIR_DEFAULT"]) then
 if(count _possibleVehicles == 0) exitWith
 {
     [1, format ["No result for %1, assuming bad parameter!", _preference], _fileName] call A3A_fnc_log;
-    "Empty";
+    "";
 };
 
 [4, format ["Preselection done, possible vehicles are %1", str _possibleVehicles], _fileName] call A3A_fnc_log;

@@ -161,4 +161,10 @@ if (!(isNil "loadLastSave") && {loadLastSave}) exitWith {};
 [3, "Setting up city garrisons", _fileName] call A3A_fnc_log;
 [citiesX, "City", [0,0,0]] call A3A_fnc_createGarrison;
 
+{
+    private _side = sidesX getVariable _x;
+    private _line = [([["EMPTY", 0, "AT"], _side] call A3A_fnc_createGarrisonLine)];
+    garrison setVariable [format ["%1_over", _x], _line, true];
+} forEach controlsX;
+
 [2,"InitGarrisons completed",_fileName] call A3A_fnc_log;
