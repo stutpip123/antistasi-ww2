@@ -499,6 +499,7 @@ class A3A
         class createRebelControlPoint {};
         class cycleSpawn {};
         class cycleSpawnPatrolUnit {};
+        class cycleSpawnStatic {};
         class cycleSpawnUnit {};
         class cycleSpawnVehicle {};
         class findSpawnPosition {};

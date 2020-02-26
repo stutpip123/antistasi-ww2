@@ -40,7 +40,9 @@ if(_isRoadblock) then
         _x params ["_bunkerSpawnPos", "_bunkerDir"];
         private _bunker = "Land_BagBunker_01_Small_green_F" createVehicle _bunkerSpawnPos;
         _vehicles pushBack _bunker;
+
         _bunker setDir (_roadblockDir + _bunkerDir);
+        _bunker setVectorUp (surfaceNormal _bunkerSpawnPos);
 
         private _pos = _bunker buildingPos 0;
         private _dir = (getDir _bunker) - 180;
@@ -50,6 +52,7 @@ if(_isRoadblock) then
         [_static] call A3A_fnc_AIVEHinit;
         _vehicles pushBack _static;
         _static setDir _dir;
+        _static setVectorUp _pos;
         _static setPosATL _pos;
 
         private _crew = _staticGroup createUnit [_staticCrew, _bunkerSpawnPos, [], 5, "NONE"];

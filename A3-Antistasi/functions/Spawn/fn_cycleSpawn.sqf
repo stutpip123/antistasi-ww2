@@ -167,78 +167,12 @@ private _statics = garrison getVariable [format ["%1_statics", _marker], []];
 ] call A3A_fnc_log;
 
 {
-    private _data = _x;
-    private _spawnParameter = _data select 0;
-    private _allowedAt = _data select 1;
-
-    //Check if static has been killed and is not replenished by now
-    if([_allowedAt] call A3A_fnc_unitAvailable) then
+    private _static = [_marker, _staticGroup, _x select 0, _x select 1, _forEachIndex] call A3A_fnc_cycleSpawnStatic;
+    _garCount = _garCount + 1;
+    _allVehicles pushBack _static;
+    if (_side == teamPlayer) then
     {
-        _garCount = _garCount + 1;
-        if(_spawnParameter isEqualType -1) then
-        {
-            _spawnParameter = [_marker, "Static"] call A3A_fnc_findSpawnPosition;
-        };
-
-        private _spawnPos = _spawnParameter select 0;
-        private _nearestBuilding = nearestObject [_spawnPos, "HouseBase"];
-
-        [4, format ["nearestBuilding is %1", (typeOf _nearestBuilding)], _fileName] call A3A_fnc_log;
-
-        if(!(_nearestBuilding isKindOf "Ruins")) then
-        {
-            private _staticType = _spawnParameter select 2;
-            private _crew = if(_side == Occupants) then {staticCrewOccupants} else {staticCrewInvaders};
-            private _static = "";
-            switch (_staticType) do
-            {
-                case ("MG"):
-                {
-                    _static = if(_side == Occupants) then {NATOMG} else {CSATMG};
-                };
-                case ("AA"):
-                {
-                    _static = if(_side == Occupants) then {staticAAOccupants} else {staticAAInvaders};
-                };
-                case ("AT"):
-                {
-                    _static = if(_side == Occupants) then {staticATOccupants} else {staticATInvaders};
-                };
-            };
-            private _staticObject = createVehicle [_static, _spawnPos, [], 0, "CAN_COLLIDE"];
-            _staticObject setDir (_spawnParameter select 1);
-            _allVehicles pushBack _staticObject;
-
-            _staticObject setVariable ["StaticIndex", _forEachIndex];
-            _staticObject setVariable ["StaticMarker", _marker];
-            _staticObject addEventHandler
-            [
-                "Killed",
-                {
-                    private _static = _this select 0;
-                    private _marker = _static getVariable "StaticMarker";
-                    private _index = _static getVariable "StaticIndex";
-                    ["Static", _marker, _index, 60] call A3A_fnc_addTimeoutForUnit;
-                }
-            ];
-
-            private _gunner =  _staticGroup createUnit [_crew, getMarkerPos _marker, [], 5, "NONE"];
-            [_gunner, _marker] call A3A_fnc_NATOinit;
-            _gunner moveInGunner _staticObject;
-
-            _gunner setVariable ["StaticIndex", _forEachIndex];
-            _gunner setVariable ["StaticMarker", _marker];
-            _gunner addEventHandler
-            [
-                "Killed",
-                {
-                    private _gunner = _this select 0;
-                    private _marker = _gunner getVariable "StaticMarker";
-                    private _index = _gunner getVariable "StaticIndex";
-                    ["Static", _marker, _index, 30] call A3A_fnc_addTimeoutForUnit;
-                }
-            ];
-        };
+        //Get one unit in here
     };
 } forEach _statics;
 _staticGroup deleteGroupWhenEmpty true;
@@ -315,7 +249,7 @@ garrison setVariable [format ["%1_vehicles", _marker], _allVehicles, true];
 waitUntil
 {
     sleep 10;
-    private _spawners = allUnits select {_x getVariable ["spawner", false]};
+    private _spawners = allPlayers;
     private _blufor = [];
     private _redfor = [];
     private _greenfor = [];
@@ -374,16 +308,23 @@ deleteMarker _patrolMarker;
 private _playerStatics = [];
 //Might have changed during runtime
 _side = sidesX getVariable [_marker, sideUnknown];
+private _vehicles = garrison getVariable (format ["%1_vehicles", _marker]);
+if(_side == teamPlayer) then
 {
-    if(_side == teamPlayer && {_x isKindOf "StaticWeapon" && {alive _x && {(getPos _x) in _marker}}}) then
     {
-        _playerStatics pushBack [[getPosATL _x, getDir _x, typeOf _x], -1];
-    };
+        if(_x isKindOf "StaticWeapon" && {alive _x && {(getPos _x) in _marker}) then
+        {
+            _vehicles pushBackUnique _x;
+            _playerStatics pushBack [[getPosATL _x, getDir _x, typeOf _x], -1];
+        };
+    } forEach vehicles;
+};
+{
     if(!(_x getVariable ["Stolen", false])) then
     {
         deleteVehicle _x;
     };
-} forEach (garrison getVariable (format ["%1_vehicles", _marker]));
+} forEach _vehicles;
 if(_side == teamPlayer) then
 {
     garrison setVariable [format ["%1_statics", _marker], _playerStatics, true];
