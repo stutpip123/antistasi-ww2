@@ -82,8 +82,8 @@ WORK TILL HERE, THEN INTEL
 - [DONE] Add attacking units to flipped marker
 - [DONE] Enable patrols for marker
 - [DONE] Two man team (Sniper Spotter, etc.)
-[WIP] Roadblocks
-- Make them destroyable
+[DONE] Roadblocks
+- [DONE] Make them destroyable
 - [DONE] Check where they are created while the game runs (they aren't)
 ================================================================================
 NEEDED FOR DOOMS UI UPGRADE
