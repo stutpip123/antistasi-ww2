@@ -41,6 +41,13 @@ _unit addEventHandler
     }
 ];
 
-[_unit, _marker] call A3A_fnc_NATOinit;
+if(side _group != teamPlayer) then
+{
+    [_unit, _marker] call A3A_fnc_NATOinit;
+}
+else
+{
+    [_unit] call A3A_fnc_FIAinit;
+};
 
 _unit;

@@ -9,6 +9,10 @@ if(_side == teamPlayer) then
     _staticObject = createVehicle [_spawnType, _spawnPos, [], 0, "CAN_COLLIDE"];
     _staticObject setDir _spawnDir;
     _staticObject setVariable ["StaticMarker", _marker];
+
+    private _gunner =  _staticGroup createUnit [staticCrewTeamPlayer, getMarkerPos _marker, [], 5, "NONE"];
+    [_gunner] call A3A_fnc_FIAinit;
+    _gunner moveInGunner _staticObject;
 }
 else
 {
