@@ -92,6 +92,8 @@ NEEDED FOR DOOMS UI UPGRADE
 ------------ Distance script ---------------------------------------------------
 Faster way to check for vehicle (vehicle => objectParent)
 Remove spawned in markers
+Reenable spawning for FIA troops
+Rework functions needed to determine spawn or despawn
 
 ------------ Unit spawns -------------------------------------------------------
 Rework cycle spawn
