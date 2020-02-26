@@ -79,3 +79,5 @@ else
         };
     };
 };
+
+_staticObject;

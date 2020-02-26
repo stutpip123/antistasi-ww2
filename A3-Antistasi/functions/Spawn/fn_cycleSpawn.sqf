@@ -297,6 +297,8 @@ waitUntil
     (_needsSpawn == DESPAWNED)
 };
 
+[2, format ["Starting despawn progress of %1", _marker], _fileName, true] call A3A_fnc_log;
+
 [_marker] call A3A_fnc_freeSpawnPositions;
 
 deleteMarker _patrolMarker;
@@ -312,8 +314,9 @@ private _vehicles = garrison getVariable (format ["%1_vehicles", _marker]);
 if(_side == teamPlayer) then
 {
     {
-        if(_x isKindOf "StaticWeapon" && {alive _x && {(getPos _x) in _marker}) then
+        if(_x isKindOf "StaticWeapon" && {(_x distance2D (getMarkerPos _marker)) < 150}) then
         {
+            [3, format ["Found vehicle %1", typeOf _x], _fileName, true] call A3A_fnc_log;
             _vehicles pushBackUnique _x;
             _playerStatics pushBack [[getPosATL _x, getDir _x, typeOf _x], -1];
         };

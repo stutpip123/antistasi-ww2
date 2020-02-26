@@ -118,6 +118,6 @@ if(_marker != "Synd_HQ") then
 };
 
 private _allVehicles = [_flag, _box];
-[_marker, _patrolMarker, _allVehicles] call A3A_fnc_cycleSpawn;
+[_marker, _patrolMarker, _allVehicles] spawn A3A_fnc_cycleSpawn;
 
 [2, format ["Successfully spawned in %1", _marker], _fileName, true] call A3A_fnc_log;
