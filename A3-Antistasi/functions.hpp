@@ -314,6 +314,20 @@ class A3A
         class showIntel {};
     };
 
+	class Loadouts 
+	{
+		file = "functions\Templates\Loadouts";
+		class loadout_addBackpack {};
+		class loadout_addEquipment {};
+		class loadout_addHelmet {};
+		class loadout_addItems {};
+		class loadout_addVest {};
+		class loadout_addWeapon {};
+		class loadout_createBase {};
+		class loadout_itemList_medicalSupplies {};
+		class loadout_itemLoad {};
+	};
+
 	class Missions
 	{
 		class AS_Official {};
@@ -360,6 +374,8 @@ class A3A
 		class equipmentIsValidForCurrentModset {};
 		class equipmentSort {};
 		class getRadio {};
+		class itemConfig {};
+		class itemConfigMass {};
 		class itemSort {};
 		class itemType {};
 		class launcherInfo {};
