@@ -2,7 +2,7 @@
 #define ON_STANDBY      1
 #define DESPAWNED       2
 
-/*  Checks all markers if the need to be spawned in, this is important, don't play with this !
+/*  Checks all markers if they need to be spawned in, this is important, don't play with this !
 
     Execution on: Server only
 
