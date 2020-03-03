@@ -229,7 +229,7 @@ if !(_tmpObjectives isEqualTo []) then
 			if ((!_isSDK) and (!_isCity)) then
 				{
 				//_times = _times + (floor((garrison getVariable [_x,0])/8))
-				_numGarr = [_x] call A3A_fnc_garrisonSize;
+				_numGarr = 25;
 				if ((_numGarr/2) < count (garrison getVariable [_x,[]])) then {if ((_numGarr/3) < count (garrison getVariable [_x,[]])) then {_times = _times + 6} else {_times = _times +2}};
 				};
 			if (_isTheSameIsland) then
@@ -313,18 +313,18 @@ if ((count _objectivesFinal > 0) and (count _easyX < 3)) then
 	_objectiveFinal = _arrayFinal selectRandomWeighted _countFinal;
 	_destinationX = _objectiveFinal select 0;
 	_originX = _objectiveFinal select 1;
-	
+
 	private _isInvaderAttack = sidesX getVariable [_originX,sideUnknown] == Invaders;
 
-	_waves = 
-		1 
-		+ ([0, 1] select (_destinationX in airportsX)) 
+	_waves =
+		1
+		+ ([0, 1] select (_destinationX in airportsX))
 		+ (count allPlayers / 40)
 		+ (tierWar / 10)
 		+ ([0, 0.5] select _isInvaderAttack);
-	
+
 	_waves = floor _waves;
-		
+
 	if (not(_destinationX in citiesX)) then
 		{
 		///[[_destinationX,_originX,_waves],"A3A_fnc_wavedCA"] call A3A_fnc_scheduler;

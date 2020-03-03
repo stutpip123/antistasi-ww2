@@ -205,7 +205,6 @@ class A3A
 		class createSDKgarrisonsTemp {};
 		class FIAinitBases {};
 		class garrisonReorg {};
-		class garrisonSize {};
 		class garrisonUpdate {};
 		class groupDespawner {};
 		class invaderPunish {};

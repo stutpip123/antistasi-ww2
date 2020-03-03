@@ -374,16 +374,6 @@ if(_type == "convoy") then
       if ((_destination in airportsX) or (_destination in outposts)) then
       {
       	_typeConvoy = ["Ammunition","Armor"];
-        /* Reinforcement convoys will be standard not a special mission
-      	if (_destination in outposts) then
-        {
-          //That doesn't make sense, or am I wrong? Can someone double check this logic?
-          if (((count (garrison getVariable [_destination, []]))/2) >= [_destinationX] call A3A_fnc_garrisonSize) then
-          {
-            _typeConvoy pushBack "Reinforcements";
-          };
-        };
-        */
       }
       else
       {
@@ -400,11 +390,6 @@ if(_type == "convoy") then
           else
           {
             _typeConvoy = ["Prisoners"];
-          };
-          //Same here, not sure about it
-      		if (((count (garrison getVariable [_destinationX, []]))/2) >= [_destinationX] call A3A_fnc_garrisonSize) then
-          {
-            _typeConvoy pushBack "Reinforcements"
           };
       	};
     	};
