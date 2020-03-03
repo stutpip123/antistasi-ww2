@@ -51,7 +51,6 @@ class A3A
 		class createPetros {};
 		class deleteControls {};
 		class destroyCity {};
-		class distance {};
 		class distanceUnits {};
 		class economicsAI {};
 		class ejectPvPPlayerIfInvalidVehicle {};
@@ -77,7 +76,6 @@ class A3A
 		class mrkUpdate {};
 		class mrkWIN {};
 		class NATOFT {};
-        class needsSpawn {};
 		class numericRank {};
 		class onHeadlessClientDisconnect {};
 		class onPlayerDisconnect {};
@@ -504,7 +502,10 @@ class A3A
         class findSpawnPosition {};
         class freeSpawnPosition {};
         class freeSpawnPositions {};
+        class markerActiveUpdateLoop {};
+        class needsSpawn {};
         class updateSpawnerUnits {};
+        class vehicleDespawner {};
     };
 
 	class Templates
