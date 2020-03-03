@@ -505,6 +505,7 @@ class A3A
         class findSpawnPosition {};
         class freeSpawnPosition {};
         class freeSpawnPositions {};
+        class updateSpawnerUnits {};
     };
 
 	class Templates

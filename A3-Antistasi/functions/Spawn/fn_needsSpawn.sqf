@@ -2,14 +2,11 @@
 #define ON_STANDBY      1
 #define DESPAWNED       2
 
-params ["_marker", "_greenfor", "_blufor", "_redfor", ["_lookForStandby", false]];
+params ["_marker", ["_lookForStandby", false]];
 
 /*  Checks if the given marker needs to be spawned or on standby
 *   Params:
 *       _marker : STRING : The name of the marker to check
-*       _greenfor : ARRAY : List of greenfor units
-*       _blufor : ARRAY : List of blufor units
-*       _redfor : ARRAY : List of redfor units
 *       _lookForStandby : BOOLEAN : If the code should detect standby states (optional)
 *
 *   Returns:
@@ -31,21 +28,21 @@ switch (_side) do
 {
     case (Occupants):
     {
-        _enemyOne = _greenfor;
-        _enemyTwo = _redfor;
-        _friends = _blufor;
+        _enemyOne = playerSpawner;
+        _enemyTwo = invadersSpawner;
+        _friends = occupantsSpawner;
     };
     case (Invaders):
     {
-        _enemyOne = _greenfor;
-        _enemyTwo = _blufor;
-        _friends = _redfor;
+        _enemyOne = playerSpawner;
+        _enemyTwo = occupantsSpawner;
+        _friends = invadersSpawner;
     };
     case (teamPlayer):
     {
-        _enemyOne = _blufor;
-        _enemyTwo = _redfor;
-        _friends = _greenfor;
+        _enemyOne = occupantsSpawner;
+        _enemyTwo = invadersSpawner;
+        _friends = playerSpawner;
     };
 };
 
