@@ -249,28 +249,7 @@ garrison setVariable [format ["%1_vehicles", _marker], _allVehicles, true];
 waitUntil
 {
     sleep 10;
-    private _spawners = allPlayers;
-    private _blufor = [];
-    private _redfor = [];
-    private _greenfor = [];
-    {
-        switch (side (group _x)) do
-        {
-            case (Occupants):
-            {
-                _blufor pushBack _x;
-            };
-            case (Invaders):
-            {
-                _redfor pushBack _x;
-            };
-            case (teamPlayer):
-            {
-                _greenfor pushBack _x;
-            };
-        };
-    } forEach _spawners;
-    private _needsSpawn = [_marker, _blufor, _redfor, _greenfor, true] call A3A_fnc_needsSpawn;
+    private _needsSpawn = [_marker, true] call A3A_fnc_needsSpawn;
     private _markerState = spawner getVariable _marker;
     if(_markerState != _needsSpawn) then
     {
