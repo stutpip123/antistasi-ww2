@@ -43,8 +43,7 @@ if(_winner != teamPlayer) then
         (alive _x) &&
         {(isNull objectParent _x) &&
         {(side group _x == _winner) &&
-        {(_x getVariable ["spawner",false]) &&
-        {((getPos _x) inArea _marker)}}}}
+        {((getPos _x) inArea _marker)}}}
     };
     _soldiers = _soldiers apply {typeOf _x};
     _soldiers = ["", [], _soldiers];

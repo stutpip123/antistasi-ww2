@@ -409,7 +409,7 @@ private _distanceFromTargetForArrival = 200;
 
 if (_typeConvoyX == "ammunition") then
 {
-	waitUntil {sleep 1; (dateToNumber date > _enddateNum) or (_vehObj distance _posDestination < _distanceFromTargetForArrival) or (not alive _vehObj) or ((driver _vehObj getVariable ["spawner",false]) and (side group (driver _vehObj) == teamPlayer))};
+	waitUntil {sleep 1; (dateToNumber date > _enddateNum) or (_vehObj distance _posDestination < _distanceFromTargetForArrival) or (not alive _vehObj) or (side group (driver _vehObj) == teamPlayer)};
 	if ((_vehObj distance _posDestination < _distanceFromTargetForArrival) or (dateToNumber date >_enddateNum)) then
 	{
 		_taskState = "FAILED";
@@ -442,7 +442,7 @@ if (_typeConvoyX == "ammunition") then
 
 if (_typeConvoyX == "Armor") then
 {
-	waitUntil {sleep 1; (dateToNumber date > _enddateNum) or (_vehObj distance _posDestination < _distanceFromTargetForArrival) or (not alive _vehObj) or ((driver _vehObj getVariable ["spawner",false]) and (side group (driver _vehObj) == teamPlayer))};
+	waitUntil {sleep 1; (dateToNumber date > _enddateNum) or (_vehObj distance _posDestination < _distanceFromTargetForArrival) or (not alive _vehObj) or (side group (driver _vehObj) == teamPlayer)};
 	if ((_vehObj distance _posDestination < _distanceFromTargetForArrival) or (dateToNumber date > _enddateNum)) then
 	{
 		_taskState = "FAILED";
@@ -473,7 +473,7 @@ if (_typeConvoyX == "Armor") then
 
 if (_typeConvoyX == "Prisoners") then
 {
-	waitUntil {sleep 1; (dateToNumber date > _enddateNum) or (_vehObj distance _posDestination < _distanceFromTargetForArrival) or (not alive driver _vehObj) or ((driver _vehObj getVariable ["spawner",false]) and (side group (driver _vehObj == teamPlayer))) or ({alive _x} count _POWs == 0)};
+	waitUntil {sleep 1; (dateToNumber date > _enddateNum) or (_vehObj distance _posDestination < _distanceFromTargetForArrival) or (not alive driver _vehObj) or (side group (driver _vehObj == teamPlayer)) or ({alive _x} count _POWs == 0)};
 	if ((_vehObj distance _posDestination < _distanceFromTargetForArrival) or ({alive _x} count _POWs == 0) or (dateToNumber date > _enddateNum)) then
 	{
 		_taskState = "FAILED";
@@ -483,7 +483,7 @@ if (_typeConvoyX == "Prisoners") then
 		//[_countX,0] remoteExec ["A3A_fnc_prestige",2];
 		[-10*_bonus,theBoss] call A3A_fnc_playerScoreAdd;
 	};
-	if ((not alive driver _vehObj) or ((driver _vehObj getVariable ["spawner",false]) and (side group (driver _vehObj) == teamPlayer))) then
+	if ((not alive driver _vehObj) or (side group (driver _vehObj) == teamPlayer)) then
 	{
 		[getPosASL _vehObj,_sideX,"",false] spawn A3A_fnc_patrolCA;
 		{[_x,false] remoteExec ["setCaptive",0,_x]; _x setCaptive false; _x enableAI "MOVE"; [_x] orderGetin false} forEach _POWs;
@@ -549,7 +549,7 @@ if (_typeConvoyX == "reinforcementsX") then
 
 if (_typeConvoyX == "Money") then
 {
-	waitUntil {sleep 1; (dateToNumber date > _enddateNum) or (_vehObj distance _posDestination < _distanceFromTargetForArrival) or (not alive _vehObj) or ((driver _vehObj getVariable ["spawner",false]) and (side group (driver _vehObj) == teamPlayer))};
+	waitUntil {sleep 1; (dateToNumber date > _enddateNum) or (_vehObj distance _posDestination < _distanceFromTargetForArrival) or (not alive _vehObj) or (side group (driver _vehObj) == teamPlayer)};
 	if ((dateToNumber date > _enddateNum) or (_vehObj distance _posDestination < _distanceFromTargetForArrival) or (not alive _vehObj)) then
 	{
 		_taskState = "FAILED";
@@ -569,7 +569,7 @@ if (_typeConvoyX == "Money") then
 			killZones setVariable [_base,_killZones,true];
 		};
 	};
-	if ((driver _vehObj getVariable ["spawner",false]) and (side group (driver _vehObj) == teamPlayer)) then
+	if (side group (driver _vehObj) == teamPlayer) then
 	{
 		[getPosASL _vehObj,_sideX,"",false] spawn A3A_fnc_patrolCA;
 		waitUntil {sleep 2; (_vehObj distance _posHQ < 50) or (not alive _vehObj) or (dateToNumber date > _enddateNum)};
@@ -600,7 +600,7 @@ if (_typeConvoyX == "Money") then
 
 if (_typeConvoyX == "Supplies") then
 {
-	waitUntil {sleep 1; (dateToNumber date > _enddateNum) or (_vehObj distance _posDestination < _distanceFromTargetForArrival) or (not alive _vehObj) or ((driver _vehObj getVariable ["spawner",false]) and (side group (driver _vehObj) == teamPlayer))};
+	waitUntil {sleep 1; (dateToNumber date > _enddateNum) or (_vehObj distance _posDestination < _distanceFromTargetForArrival) or (not alive _vehObj) or (side group (driver _vehObj) == teamPlayer)};
 	if (not alive _vehObj) then
 	{
 		[getPosASL _vehObj,_sideX,"",false] spawn A3A_fnc_patrolCA;
@@ -612,9 +612,9 @@ if (_typeConvoyX == "Supplies") then
 		_killZones = _killZones + [_destinationX,_destinationX];
 		killZones setVariable [_base,_killZones,true];
 	};
-	if ((dateToNumber date > _enddateNum) or (_vehObj distance _posDestination < 300) or ((driver _vehObj getVariable ["spawner",false]) and (side group (driver _vehObj) == teamPlayer))) then
+	if ((dateToNumber date > _enddateNum) or (_vehObj distance _posDestination < 300) or (side group (driver _vehObj) == teamPlayer)) then
 	{
-		if ((driver _vehObj getVariable ["spawner",false]) and (side group (driver _vehObj) == teamPlayer)) then
+		if (side group (driver _vehObj) == teamPlayer) then
 		{
 			[getPosASL _vehObj,_sideX,"",false] spawn A3A_fnc_patrolCA;
 			waitUntil {sleep 1; (_vehObj distance _posDestination < 100) or (not alive _vehObj) or (dateToNumber date > _enddateNum)};

@@ -49,27 +49,9 @@ else
                     _unit = _this select 0;
                     _veh = _this select 2;
                     _driver = driver _veh;
-                    if (!isNull _driver) then
-                    {
-                        if (side group _driver != teamPlayer) then
-                        {
-                            if !(_unit getVariable ["spawner",false]) then
-                            {
-                                _unit setVariable ["spawner",true,true]
-                            };
-                        };
-                    };
                 }
             ];
-        }
-        else
-        {
-            _unit setVariable ["spawner",true,true]
         };
-    }
-    else
-    {
-        _unit setVariable ["spawner",true,true]
     };
 };
 

@@ -17,8 +17,8 @@ params ["_distanceX","_modeX","_center","_targetSide"];
 
 private _result = false;
 
-//All units capable of triggering a marker to spawn.
-private _allUnits = allUnits select {_x getVariable ["spawner",false]};
+
+private _allUnits = allUnits;
 if (_modeX == 0) then
 	{
 	_result = [];

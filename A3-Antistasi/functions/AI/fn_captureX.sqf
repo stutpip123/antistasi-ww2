@@ -69,7 +69,6 @@ _unit stop false;
 [_unit,""] remoteExec ["switchMove"];
 _unit doMove (getMarkerPos _targetMarker);
 // probably redundant. Should already be done in surrenderAction
-if (_unit getVariable ["spawner",false]) then {_unit setVariable ["spawner",nil,true]};
 sleep 100;
 if (alive _unit) then
 {

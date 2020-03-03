@@ -49,7 +49,7 @@ if (count _garrison > 0) then
 		{
 		_size = ["Synd_HQ"] call A3A_fnc_sizeMarker;
 		{
-		if ((side group _x == teamPlayer) and (not(_x getVariable ["spawner",false])) and (_x distance _positionX < _size) and (_x != petros)) then
+		if ((side group _x == teamPlayer) and (_x distance _positionX < _size) and (_x != petros)) then
 			{
 			if (!alive _x) then
 				{

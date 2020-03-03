@@ -1,11 +1,5 @@
 params ["_victim", "_killer"];
 
-//Stops the unit from spawning things
-if (_victim getVariable ["spawner",false]) then
-{
-	_victim setVariable ["spawner",nil,true]
-};
-
 //Gather infos, trigger timed despawn
 private _victimGroup = group _victim;
 private _victimSide = side (group _victim);

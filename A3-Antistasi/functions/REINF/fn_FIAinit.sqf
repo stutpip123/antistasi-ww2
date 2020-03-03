@@ -3,7 +3,6 @@ private ["_victim","_killer"];
 private _unit = _this select 0;
 
 [_unit] call A3A_fnc_initRevive;
-_unit setVariable ["spawner",true,true];
 
 _unit allowFleeing 0;
 private _typeX = typeOf _unit;
@@ -51,7 +50,6 @@ if (player == leader _unit) then {
 				};
 			};
 		};
-		_victim setVariable ["spawner",nil,true];
 	}];
 	if ((typeOf _unit != SDKUnarmed) and !hasIFA) then {
 		private _idUnit = selectRandom arrayids;
@@ -103,6 +101,5 @@ if (player == leader _unit) then {
 				};
 			};
 		};
-		_victim setVariable ["spawner",nil,true];
 	}];
 };

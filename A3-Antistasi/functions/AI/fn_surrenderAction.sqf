@@ -57,10 +57,6 @@ _unit addEventHandler ["HandleDamage",
 	if (!simulationEnabled _unit) then {if (isMultiplayer) then {[_unit,true] remoteExec ["enableSimulationGlobal",2]} else {_unit enableSimulation true}};
 	}
 	];
-if (_unit getVariable ["spawner",false]) then
-	{
-	_unit setVariable ["spawner",nil,true]
-	};
 
 _markerX = _unit getVariable "markerX";
 

@@ -113,7 +113,6 @@ _introShot = [
 membershipEnabled = if (isMultiplayer && "membership" call BIS_fnc_getParamValue == 1) then {true} else {false};
 
 disableUserInput false;
-player setVariable ["spawner",true,true];
 
 if (isMultiplayer && {playerMarkersEnabled}) then {
 	[] spawn A3A_fnc_playerMarkers;
@@ -354,7 +353,7 @@ if (isMultiplayer) then {
 				_isMember = true;
 				hint "You are not in the member's list, but as you are Server Admin, you have been added. Welcome!";
 			};
-			
+
 			if (_isMember) then {
 				membersX pushBack (getPlayerUID player);
 				publicVariable "membersX";
@@ -362,7 +361,7 @@ if (isMultiplayer) then {
 				_nonMembers = {(side group _x == teamPlayer) and !([_x] call A3A_fnc_isMember)} count (call A3A_fnc_playableUnits);
 				if (_nonMembers >= (playableSlotsNumber teamPlayer) - bookedSlots) then {["memberSlots",false,1,false,false] call BIS_fnc_endMission};
 				if (memberDistance != 16000) then {[] execVM "orgPlayers\nonMemberDistance.sqf"};
-				
+
 				hint "Welcome Guest\n\nYou have joined this server as guest";
 			};
 		};
@@ -393,7 +392,7 @@ if (_isJip) then {
 		} forEach missionsX;
 	};
 }
-else 
+else
 {
 	[2,"Not Joining in Progress (JIP)",_filename] call A3A_fnc_log;
 };
@@ -502,7 +501,7 @@ if (isNil "placementDone") then {
 if (isMultiplayer) then {
 	[] spawn A3A_fnc_createDialog_shouldLoadPersonalSave;
 }
-else 
+else
 {
 	if (loadLastSave) then {
 		[] spawn A3A_fnc_loadPlayer;

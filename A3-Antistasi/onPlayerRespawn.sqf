@@ -38,8 +38,6 @@ if (side group player == teamPlayer) then
 	//_newUnit setUnitRank (rank _oldUnit);
 	_newUnit setVariable ["compromised",0];
 	_newUnit setVariable ["eligible",_eligible,true];
-	_newUnit setVariable ["spawner",true,true];
-	_oldUnit setVariable ["spawner",nil,true];
 	[_newUnit,false] remoteExec ["setCaptive",0,_newUnit];
 	_newUnit setCaptive false;
 	_newUnit setRank (_rankX);
@@ -160,7 +158,7 @@ if (side group player == teamPlayer) then
 		_control
 		}];
 		*/
-	private _firedHandlerTk = 
+	private _firedHandlerTk =
 	{
 		_typeX = _this select 1;
 		if ((_typeX == "Put") or (_typeX == "Throw")) then
@@ -170,7 +168,7 @@ if (side group player == teamPlayer) then
 				deleteVehicle (_this select 6);
 				if (_typeX == "Put") then
 				{
-					if (player distance petros < 10) then 
+					if (player distance petros < 10) then
 					{
 						[player, 20, 0.34, petros] remoteExec ["A3A_fnc_punishment",player];
 					};
@@ -179,7 +177,7 @@ if (side group player == teamPlayer) then
 		};
 	};
 	player addEventHandler ["Fired", _firedHandlerTk];
-	if (hasACE) then 
+	if (hasACE) then
 	{
 		["ace_firedPlayer", _firedHandlerTk ] call CBA_fnc_addEventHandler;
 	};
@@ -244,8 +242,6 @@ if (side group player == teamPlayer) then
 	}
 else
 	{
-	_oldUnit setVariable ["spawner",nil,true];
-	_newUnit setVariable ["spawner",true,true];
 	[player] call A3A_fnc_dress;
 	if (hasACE) then {[] call A3A_fnc_ACEpvpReDress};
 	};

@@ -58,17 +58,17 @@ if (spawner getVariable _markerX == 0) then
 		}
 	else
 		{
-		waitUntil {sleep 1;({leader _groupX knowsAbout _x > 1.4} count ([distanceSPWN,0,leader _groupX,teamPlayer] call A3A_fnc_distanceUnits) > 0) or (dateToNumber date > _dateLimitNum) or (not alive _veh) or ({(_x getVariable ["spawner",false]) and (side group _x == teamPlayer)} count crew _veh > 0)};
+		waitUntil {sleep 1;({leader _groupX knowsAbout _x > 1.4} count ([distanceSPWN,0,leader _groupX,teamPlayer] call A3A_fnc_distanceUnits) > 0) or (dateToNumber date > _dateLimitNum) or (not alive _veh) or ({side group _x == teamPlayer} count crew _veh > 0)};
 
 		if ({leader _groupX knowsAbout _x > 1.4} count ([distanceSPWN,0,leader _groupX,teamPlayer] call A3A_fnc_distanceUnits) > 0) then {_groupX addVehicle _veh;};
 		};
 
-	waitUntil {sleep 1;(dateToNumber date > _dateLimitNum) or (not alive _veh) or ({(_x getVariable ["spawner",false]) and (side group _x == teamPlayer)} count crew _veh > 0)};
+	waitUntil {sleep 1;(dateToNumber date > _dateLimitNum) or (not alive _veh) or ({side group _x == teamPlayer} count crew _veh > 0)};
 
-	if ((not alive _veh) or ({(_x getVariable ["spawner",false]) and (side group _x == teamPlayer)} count crew _veh > 0)) then
+	if ((not alive _veh) or ({side group _x == teamPlayer} count crew _veh > 0)) then
 		{
 		["DES",[format ["We know an enemy armor (%3) is stationed in a %1. It is a good chance to steal or destroy it before it causes more damage. Do it before %2.",_nameDest,_displayTime,getText (configFile >> "CfgVehicles" >> (_typeVehX) >> "displayName")],"Steal or Destroy Armor",_markerX],_positionX,"SUCCEEDED","Destroy"] call A3A_fnc_taskUpdate;
-		if ({(_x getVariable ["spawner",false]) and (side group _x == teamPlayer)} count crew _veh > 0) then
+		if ({side group _x == teamPlayer} count crew _veh > 0) then
 			{
 			["TaskFailed", ["", format ["AA Stolen in %1",_nameDest]]] remoteExec ["BIS_fnc_showNotification",_sideX];
 			};

@@ -16,7 +16,7 @@ if (_unit == theBoss) then
 	{
 	if (!(_x getVariable ["esNATO",false])) then
 		{
-		if ((leader _x getVariable ["spawner",false]) and ({isPlayer _x} count (units _x) == 0) and (side _x == teamPlayer)) then
+		if (({isPlayer _x} count (units _x) == 0) and (side _x == teamPlayer)) then
 			{
 			_uds = units _x;
 				{

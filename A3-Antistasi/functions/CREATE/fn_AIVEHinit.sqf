@@ -88,7 +88,7 @@ else
 			if (_positionX == "driver") then
 				{
 				_unit = _this select 2;
-				if ((!isPlayer _unit) and (_unit getVariable ["spawner",false]) and (side group _unit == teamPlayer)) then
+				if ((!isPlayer _unit) and (side group _unit == teamPlayer)) then
 					{
 					moveOut _unit;
 					hint "Only Humans can pilot an air vehicle";

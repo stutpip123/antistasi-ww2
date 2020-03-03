@@ -80,7 +80,6 @@ else
                             };
                         };
                     };
-                    _victim setVariable ["spawner",nil,true];
                 }
             ];
 		};
