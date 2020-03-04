@@ -200,7 +200,7 @@ serverInitDone = true; publicVariable "serverInitDone";
 [2, "Waiting for HQ placement", _fileName] call A3A_fnc_log;
 waitUntil {sleep 1;!(isNil "placementDone")};
 [2, "HQ Placed, continuing init", _fileName] call A3A_fnc_log;
-distanceXs = [] spawn A3A_fnc_distance;
+[] spawn A3A_fnc_markerActiveUpdateLoop;
 [] spawn A3A_fnc_resourcecheck;
 [] execVM "Scripts\fn_advancedTowingInit.sqf";
 savingServer = false;
