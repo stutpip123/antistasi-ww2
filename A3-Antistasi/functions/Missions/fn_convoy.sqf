@@ -539,6 +539,7 @@ if (_typeConvoyX == "reinforcementsX") then
 		{
 			_typesX = [];
 			{_typesX pushBack (typeOf _x)} forEach (_reinforcementsX select {alive _x});
+            //TODO rework to use new system
 			[_soldiers,_sideX,_destinationX,0] remoteExec ["A3A_fnc_garrisonUpdate",2];
 		};
 		if (_sideX == Occupants) then {[(-1*(0.25*_countX)),0] remoteExec ["A3A_fnc_prestige",2]} else {[0,(-1*(0.25*_countX))] remoteExec ["A3A_fnc_prestige",2]};

@@ -64,15 +64,6 @@ _EHkilledIdx = _unit addEventHandler ["killed", {
 		{
 		if (side _killer == Invaders) then {[0,-0.25] remoteExec ["A3A_fnc_prestige",2]};
 		};
-	_markerX = _victim getVariable "markerX";
-	if (!isNil "_markerX") then
-		{
-		if (sidesX getVariable [_markerX,sideUnknown] == teamPlayer) then
-			{
-			[typeOf _victim,teamPlayer,_markerX,-1] remoteExec ["A3A_fnc_garrisonUpdate",2];
-			_victim setVariable [_markerX,nil,true];
-			};
-		};
 	}];
 
 _revealX = false;

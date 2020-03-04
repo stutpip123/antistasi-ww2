@@ -101,6 +101,7 @@ else
    {
    _wp4 = _groupX addWaypoint [_positionX, 0];
    _wp4 setWaypointType "MOVE";
+   //TODO rework, maybe remove this function here
    _wp4 setWaypointStatements ["true","nul = [(thisList select {alive _x}),side this,(group this) getVariable [""reinfMarker"",""""],0] remoteExec [""A3A_fnc_garrisonUpdate"",2];[group this] spawn A3A_fnc_groupDespawner; reinfPatrols = reinfPatrols - 1; publicVariable ""reinfPatrols"";"];
    };
 //[_veh] call A3A_fnc_entriesLand;

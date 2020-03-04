@@ -66,7 +66,6 @@ petros addMPEventHandler ["mpkilled",
         if ((side _killer == Invaders) or (side _killer == Occupants) and !(isPlayer _killer) and !(isNull _killer)) then
 		{
 			_nul = [] spawn {
-				garrison setVariable ["Synd_HQ",[],true];
 				_hrT = server getVariable "hr";
 				_resourcesFIAT = server getVariable "resourcesFIA";
 				[-1*(round(_hrT*0.9)),-1*(round(_resourcesFIAT*0.9))] remoteExec ["A3A_fnc_resourcesFIA",2];
@@ -79,7 +78,7 @@ petros addMPEventHandler ["mpkilled",
 						select {(side (group _x) == teamPlayer) && isPlayer _x && _x == _x getVariable ["owner", _x]}
 						apply {[([_x] call A3A_fnc_numericRank) select 0, _x]};
 					_playersWithRank sort false;
-					
+
 					 [] remoteExec ["A3A_fnc_placementSelection", _playersWithRank select 0 select 1];
 				};
 			};

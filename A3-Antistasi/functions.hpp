@@ -202,15 +202,12 @@ class A3A
 		class createSDKGarrisons {};
 		class createSDKgarrisonsTemp {};
 		class FIAinitBases {};
-		class garrisonReorg {};
-		class garrisonUpdate {};
 		class groupDespawner {};
 		class invaderPunish {};
 		class minefieldAAF {};
 		class mortarPos {};
 		class NATOinit {};
 		class patrolCA {};
-		class patrolReinf {};
 		class reinforcementsAI {};
 		class remoteBattle {};
 		class removeVehFromPool {};

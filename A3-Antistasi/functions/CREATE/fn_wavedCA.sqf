@@ -575,6 +575,7 @@ while {(_waves > 0)} do
 					else
 						{
 						{_x disableAI "TARGET"; _x disableAI "AUTOTARGET"} foreach units _groupVeh;
+                        //TODO rework here
 						if ((_typeVehX in vehFastRope) and ((count(garrison getVariable [_mrkDestination, []])) < 10)) then
 							{
 							//_grupo setVariable ["mrkAttack",_mrkDestination];
@@ -684,7 +685,7 @@ while {(_waves > 0)} do
 				_nul = [-5,0] remoteExec ["A3A_fnc_prestige",2];
 				_mrkD = format ["Dum%1",_mrkDestination];
 				_mrkD setMarkerColor colorOccupants;
-				garrison setVariable [_mrkDestination,[],true];
+                [_mrkDestination, Occupants] call A3A_fnc_clearGarrison;
 				};
 			};
 		sleep 10;

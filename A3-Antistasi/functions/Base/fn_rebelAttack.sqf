@@ -1,6 +1,10 @@
 //if ([0.5] call A3A_fnc_fogCheck) exitWith {};
 private ["_objectivesX","_markersX","_base","_objectiveX","_countX","_airportX","_dataX","_prestigeOPFOR","_scoreLand","_scoreAir","_analyzed","_garrison","_size","_staticsX","_leave"];
 
+if(true) exitWith
+{
+    [1, "rebelAttack is currently broken, sorry", "rebelAttack", true] call A3A_fnc_log;
+}
 params[["_getPos", false]];
 
 _objectivesX = [];
@@ -120,7 +124,7 @@ if !(_tmpObjectives isEqualTo []) then
 						_sideEnemy = if (_baseNATO) then {Invaders} else {Occupants};
 						if ({(sidesX getVariable [_x,sideUnknown] == _sideEnemy) and (getMarkerPos _x distance _posSite < distanceSPWN)} count airportsX == 0) then
 							{
-							_garrison = garrison getVariable [_siteX,[]];
+							//_garrison = garrison getVariable [_siteX,[]];
 							_staticsX = staticsToSave select {_x distance _posSite < distanceSPWN};
 							_outposts = outpostsFIA select {getMarkerPos _x distance _posSite < distanceSPWN};
 							_countX = ((count _garrison) + (count _outposts) + (2*(count _staticsX)));
@@ -230,7 +234,7 @@ if !(_tmpObjectives isEqualTo []) then
 				{
 				//_times = _times + (floor((garrison getVariable [_x,0])/8))
 				_numGarr = 25;
-				if ((_numGarr/2) < count (garrison getVariable [_x,[]])) then {if ((_numGarr/3) < count (garrison getVariable [_x,[]])) then {_times = _times + 6} else {_times = _times +2}};
+				//if ((_numGarr/2) < count (garrison getVariable [_x,[]])) then {if ((_numGarr/3) < count (garrison getVariable [_x,[]])) then {_times = _times + 6} else {_times = _times +2}};
 				};
 			if (_isTheSameIsland) then
 				{

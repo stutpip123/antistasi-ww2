@@ -378,7 +378,8 @@ if (_base != "") then
 				_Vwp1 setWaypointStatements ["true","{if (side _x != side this) then {this reveal [_x,4]}} forEach allUnits"];
 				if (_isMarker) then
 					{
-
+                        //TODO rework here
+                    /*
 					if ((count (garrison getVariable [_markerX, []])) < 4) then
 						{
 						_Vwp1 setWaypointType "MOVE";
@@ -389,6 +390,7 @@ if (_base != "") then
 						_Vwp1 setWaypointType "SAD";
 						_Vwp1 setWaypointBehaviour "COMBAT";
 						};
+                    */
 					}
 				else
 					{

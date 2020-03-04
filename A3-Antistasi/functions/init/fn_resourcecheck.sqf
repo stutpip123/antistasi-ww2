@@ -69,7 +69,7 @@ while {true} do
 		_nul = [5,0] remoteExec ["A3A_fnc_prestige",2];
 		_mrkD = format ["Dum%1",_city];
 		_mrkD setMarkerColor colorTeamPlayer;
-		garrison setVariable [_city,[],true];
+        [_mrkD, teamPlayer] call A3A_fnc_clearGarrison;
 		sleep 5;
 		{_nul = [_city,_x] spawn A3A_fnc_deleteControls} forEach controlsX;
 		if ((!(["CONVOY"] call BIS_fnc_taskExists)) and (!bigAttackInProgress)) then
@@ -89,7 +89,7 @@ while {true} do
 		_nul = [-5,0] remoteExec ["A3A_fnc_prestige",2];
 		_mrkD = format ["Dum%1",_city];
 		_mrkD setMarkerColor colorOccupants;
-		garrison setVariable [_city,[],true];
+        [_city, Occupants] call A3A_fnc_clearGarrison;
 		sleep 5;
 		[] call A3A_fnc_tierCheck;
 		};
@@ -128,7 +128,7 @@ while {true} do
 	bombRuns = bombRuns + (({sidesX getVariable [_x,sideUnknown] == teamPlayer} count airportsX) * 0.25);
 	[petros,"taxRep",_textX] remoteExec ["A3A_fnc_commsMP",[teamPlayer,civilian]];
 	[] call A3A_fnc_economicsAI;
-	
+
 	if (isMultiplayer) then
 	{
 		[] spawn A3A_fnc_promotePlayer;
@@ -136,7 +136,7 @@ while {true} do
 		difficultyCoef = floor ((({side group _x == teamPlayer} count (call A3A_fnc_playableUnits)) - ({side group _x != teamPlayer} count (call A3A_fnc_playableUnits))) / 5);
 		publicVariable "difficultyCoef";
 	};
-	
+
 	if ((!bigAttackInProgress) and (random 100 < 50)) then {[] call A3A_fnc_missionRequestAUTO};
 	//Removed from scheduler for now, as it errors on Headless Clients.
 	//[[],"A3A_fnc_reinforcementsAI"] call A3A_fnc_scheduler;

@@ -35,7 +35,7 @@ fireX inflame false;
 [respawnTeamPlayer, 0, teamPlayer] call A3A_fnc_setMarkerAlphaForSide;
 [respawnTeamPlayer, 0, civilian] call A3A_fnc_setMarkerAlphaForSide;
 
-_garrison = garrison getVariable ["Synd_HQ", []];
+["Synd_HQ", teamPlayer] call A3A_fnc_clearGarrison;
 _positionX = getMarkerPos "Synd_HQ";
 if (count _garrison > 0) then
 	{
@@ -71,7 +71,7 @@ if (count _garrison > 0) then
 	_costs = _costs + (server getVariable _x);
 	} forEach _garrison;
 	[_hr,_costs] remoteExec ["A3A_fnc_resourcesFIA",2];
-	garrison setVariable ["Synd_HQ",[],true];
+    ["Synd_HQ", teamPlayer] call A3A_fnc_clearGarrison;
 	hint format ["Garrison removed\n\nRecovered Money: %1 €\nRecovered HR: %2",_costs,_hr];
 	};
 
