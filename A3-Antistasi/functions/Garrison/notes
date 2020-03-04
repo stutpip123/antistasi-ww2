@@ -96,7 +96,6 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Start vehicle despawner on getIn
 - [DONE] Change vehicle getIn EH to handle stolen vehicles correctly
 - [DONE] On despawn handle vehicles as recovered by nearest marker
-- Add keys as a result on intel search (+ vehicle open animation)
 - [DONE] Remove stolen vehicles from the list
 
 ------------ Unit spawns -------------------------------------------------------
@@ -118,7 +117,7 @@ Deactivate random mortar spawns
 Reenable civies driving around
 Rework spawned arrays to carry indices
 Add a check after a unit is added if the marker is still spawned (if not despawn units) to avoid bad order of actions on spawnedArrays
-Add functions to search garrison units for specific types and groups
+[DONE] Add functions to search garrison units for specific types and groups
 Fix all the todos
 
 ------------ Roadblocks --------------------------------------------------------
@@ -129,6 +128,7 @@ Add multiple types of roadblock
 ------------ Statics -----------------------------------------------------------
 Make the static and vehicle system EH based instead of wonky conditions on despawn
 Add a message on statics when they are dismantled or build on a marker
+Add all remaining statics to the new owner
 
 ------------ Optimisation ------------------------------------------------------
 [WIP] Optimisation for speed and data size
@@ -137,7 +137,7 @@ Clean up code
 Cleanup function
 Unify and split the EH into seperate files
 Optimize creation of patrols (like statics)
-Check uses of distanceUnits, as I have changed the logic
+[DONE] Check uses of distanceUnits, as I have changed the logic
 
 ------------ Fix broken stuff --------------------------------------------------
 [BUG] Sended units are not leaving the group, not clue why
@@ -148,6 +148,12 @@ Add system documentation to github
 
 ======================= LAST NEEDED THING ======================================
 ==========================> Balancing <=========================================
+
+================================================================================
+OPEN AN ISSUE AND DO IT SOME OTHER TIME
+================================================================================
+- Add keys as a result on intel search (+ vehicle open animation)
+
 
 ================================================================================
 WON'T DO, EITHER OBSOLETE OR NOT WANTED

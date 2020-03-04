@@ -29,6 +29,7 @@ if ((typeOf _veh in arrayCivVeh) and ({side group _x == teamPlayer} count crew _
 	};
 while {alive _veh} do
 	{
+        //TODO use new spawner arrays
 	if ((not([distanceSPWN,1,_veh,teamPlayer] call A3A_fnc_distanceUnits)) and (not([distanceSPWN,1,_veh,Invaders] call A3A_fnc_distanceUnits)) and (not([distanceSPWN,1,_veh,Occupants] call A3A_fnc_distanceUnits)) and (not(_veh in staticsToSave)) and (_veh distance getMarkerPos respawnTeamPlayer > 100)) then
 		{
 		if (_veh in reportedVehs) then {reportedVehs = reportedVehs - [_veh]; publicVariable "reportedVehs"};
