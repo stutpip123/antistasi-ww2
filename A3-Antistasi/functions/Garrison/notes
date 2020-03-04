@@ -109,14 +109,17 @@ Deactivate units until marker gets the alert state
 Improve the AI, which chooses the units
 Improve the replenish function
 Add different costs for different units
+Finish functions for adding and removing units from outposts (spawned and not spawned) (handle garrison data and spawned data)
+Rework stationating units on marker from squad (they need the ids, arrays and shit)
 
 ------------ Various -----------------------------------------------------------
 Better troup compositions
 Deactivate random mortar spawns
 Reenable civies driving around
-Rework stationating units on marker from squad (they need the ids, arrays and shit)
 Rework spawned arrays to carry indices
 Add a check after a unit is added if the marker is still spawned (if not despawn units) to avoid bad order of actions on spawnedArrays
+Add functions to search garrison units for specific types and groups
+Fix all the todos
 
 ------------ Roadblocks --------------------------------------------------------
 Create statics dynamically on first spawn

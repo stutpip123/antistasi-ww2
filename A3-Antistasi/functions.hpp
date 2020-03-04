@@ -289,6 +289,8 @@ class A3A
         class markerAlert {};
         class removeFromOver {};
 		class replenishGarrison {};
+        class searchGarrisonForGroup {};
+        class searchGarrisonForVehicle {};
 		class selectGroupType {};
 		class selectReinfUnits {};
 		class selectVehicleType {};
