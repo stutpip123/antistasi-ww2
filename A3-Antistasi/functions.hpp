@@ -485,6 +485,7 @@ class A3A
 
     class Spawn
     {
+        class addToSpawnedArrays {};
         class calculateMarkerArea {};
         class createAIControlPoint {};
         class createAISite {};

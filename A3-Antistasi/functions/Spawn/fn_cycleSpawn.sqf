@@ -240,8 +240,8 @@ if(((_patrolMarkerSize select 0) < (_mainMarkerSize select 0)) || {(_patrolMarke
 };
 _patrolMarker setMarkerSizeLocal _patrolMarkerSize;
 
-garrison setVariable [format ["%1_groups", _marker], _allGroups, true];
-garrison setVariable [format ["%1_vehicles", _marker], _allVehicles, true];
+spawner setVariable [format ["%1_groups", _marker], _allGroups, true];
+spawner setVariable [format ["%1_vehicles", _marker], _allVehicles, true];
 
 //Handling the alert state and the despawn
 [_marker] spawn A3A_fnc_markerAlert;

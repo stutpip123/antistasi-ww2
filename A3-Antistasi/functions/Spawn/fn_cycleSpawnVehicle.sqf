@@ -79,6 +79,8 @@ if(_spawnParameter isEqualType []) then
                 private _id = _vehicle getVariable "UnitIndex";
                 private _marker = _vehicle getVariable "UnitMarker";
                 private _isOver = _vehicle getVariable "IsOver";
+                [_marker, _vehicle] call A3A_fnc_removeFromSpawnedArrays;
+                [_vehicle] call A3A_fnc_vehicleDespawner;
                 if(_isOver) then
                 {
                     [_marker, typeOf _vehicle, _id] call A3A_fnc_removeFromOver;

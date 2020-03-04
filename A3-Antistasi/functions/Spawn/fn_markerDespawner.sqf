@@ -87,3 +87,7 @@ if(_side == teamPlayer) then
         deleteVehicle _x;
     };
 } forEach _allVehicles;
+
+//Delete spawnedArrays
+spawner setVariable [format ["%1_groups", _marker], nil, true];
+spawner setVariable [format ["%1_vehicles", _marker], nil, true];

@@ -91,19 +91,19 @@ NEEDED FOR DOOMS UI UPGRADE
 [DONE] Distance script
 - [DONE] Reenable spawning for FIA troops
 - [DONE] Rework functions needed to determine spawn or despawn
+[WIP] Vehicle Behaviour
+- [DONE] Add vehicle despawner
+- [DONE] Start vehicle despawner on getIn
+- [DONE] Change vehicle getIn EH to handle stolen vehicles correctly
+- [DONE] On despawn handle vehicles as recovered by nearest marker
+- Add keys as a result on intel search (+ vehicle open animation)
+- [DONE] Remove stolen vehicles from the list
 
 ------------ Unit spawns -------------------------------------------------------
 Finalizing cyclic spawn
 Place units in logical positions without UPSMON
 Calculate marker size per unit before units are spawned
-
------------- Vehicle Behaviour -------------------------------------------------
-[DONE] Add vehicle despawner
-Start vehicle despawner on getIn
-Change vehicle getIn EH to handle stolen vehicles correctly
-[DONE] On despawn handle vehicles as recovered by nearest marker
-Add keys as a result on intel search (+ vehicle open animation)
-[DONE] Remove stolen vehicles from the list
+Deactivate units until marker gets the alert state
 
 ------------ Reinforcements selection ------------------------------------------
 Improve the AI, which chooses the units
@@ -116,6 +116,7 @@ Deactivate random mortar spawns
 Reenable civies driving around
 Rework stationating units on marker from squad (they need the ids, arrays and shit)
 Rework spawned arrays to carry indices
+Add a check after a unit is added if the marker is still spawned (if not despawn units) to avoid bad order of actions on spawnedArrays
 
 ------------ Roadblocks --------------------------------------------------------
 Create statics dynamically on first spawn

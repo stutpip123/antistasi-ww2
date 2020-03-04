@@ -26,7 +26,7 @@ if(!(_type in ["Groups", "Vehicles"])) then
     ] call A3A_fnc_log;
 };
 
-//Wait till write operations are done (can only be despawn, which can wait a few)
+//Wait till write operations are done
 if (spawner getVariable [format ["%1_arraysChanging", _marker], false]) then
 {
     waitUntil {sleep 0.25; !(spawner getVariable [format ["%1_arraysChanging", _marker], false])};

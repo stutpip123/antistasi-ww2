@@ -1,32 +1,43 @@
-params ["_marker", "_type"];
+params ["_marker", "_object"];
+
+/*  Removes a spawned unit from the spawnedArray, after it is stolen or send somewhere else
+    This does not remove the unit from the garrison data!
+
+    Execution on: Server or HC
+
+    Scope: Internal
+
+    Params:
+        _marker: STRING : The marker on which the units should be removed
+        _object: OBJECT or GROUP: The object which should be removed
+
+    Returns:
+        Nothing
+*/
 
 private _fileName = "removeFromSpawnedArrays";
-if (spawner getVariable [format ["%1_arraysChanging", _marker], false]) then
-{
-    waitUntil {sleep 0.25; !(spawner getVariable [format ["%1_arraysChanging", _marker], false])};
-};
-//Block all other scripts from working on it for the moment
-spawner setVariable [format ["%1_arraysChanging", _marker], true, true];
 
-if(_type isEqualType objNull) then
+if(_object isEqualType objNull) then
 {
     private _array = [_marker, "Vehicles"] call A3A_fnc_getSpawnedArray;
-    _array = _array - [_type];
+    spawner setVariable [format ["%1_arraysChanging", _marker], true, true];
+    _array = _array - [_object];
     spawner setVariable [format ["%1_vehicles", _marker], _array, true];
 }
 else
 {
-    if(_type isEqualType grpNull) then
+    if(_object isEqualType grpNull) then
     {
         private _array = [_marker, "Groups"] call A3A_fnc_getSpawnedArray;
-        _array = _array - [_type];
+        spawner setVariable [format ["%1_arraysChanging", _marker], true, true];
+        _array = _array - [_object];
         spawner setVariable [format ["%1_groups", _marker], _array, true];
     }
     else
     {
         [
             1,
-            format ["Wrong parameter given, was %1", _type],
+            format ["Wrong parameter given, was %1", _object],
             _fileName,
             true
         ] call A3A_fnc_log;
