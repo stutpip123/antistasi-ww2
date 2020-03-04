@@ -202,7 +202,6 @@ class A3A
 		class createSDKGarrisons {};
 		class createSDKgarrisonsTemp {};
 		class FIAinitBases {};
-		class groupDespawner {};
 		class invaderPunish {};
 		class minefieldAAF {};
 		class mortarPos {};
@@ -499,7 +498,9 @@ class A3A
         class findSpawnPosition {};
         class freeSpawnPosition {};
         class freeSpawnPositions {};
+        class groupDespawner {};
         class markerActiveUpdateLoop {};
+        class markerDespawner {};
         class needsSpawn {};
         class updateSpawnerUnits {};
         class vehicleDespawner {};

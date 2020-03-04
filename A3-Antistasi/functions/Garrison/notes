@@ -88,12 +88,9 @@ WORK TILL HERE, THEN INTEL
 ================================================================================
 NEEDED FOR DOOMS UI UPGRADE
 ================================================================================
-
------------- Distance script ---------------------------------------------------
-Faster way to check for vehicle (vehicle => objectParent)
-Remove spawned in markers
-Reenable spawning for FIA troops
-Rework functions needed to determine spawn or despawn
+[DONE] Distance script
+- [DONE] Reenable spawning for FIA troops
+- [DONE] Rework functions needed to determine spawn or despawn
 
 ------------ Unit spawns -------------------------------------------------------
 Rework cycle spawn
@@ -102,6 +99,7 @@ On despawn handle vehicles as recovered by nearest marker
 Finalizing cyclic spawn
 Place units in logical positions without UPSMON
 Add init scripts for units
+Calculate marker size per unit before units are spawned
 
 ------------ Unit Behaviour ----------------------------------------------------
 [Mostly done, check the FSM] Make the AI follow the pathfinding way
@@ -110,6 +108,7 @@ Add init scripts for units
 ------------ Vehicle Behaviour -------------------------------------------------
 Add vehicle despawner
 Add keys as a result on intel search (+ vehicle open animation)
+Remove stolen vehicles from the list
 
 ------------ Reinforcements selection ------------------------------------------
 Improve the AI, which chooses the units
@@ -133,6 +132,7 @@ Clean up code
 Cleanup function
 Unify and split the EH into seperate files
 Optimize creation of patrols (like statics)
+Check uses of distanceUnits, as I have changed the logic
 
 ------------ Fix broken stuff --------------------------------------------------
 [BUG] Sended units are not leaving the group, not clue why
@@ -151,6 +151,8 @@ WON'T DO, EITHER OBSOLETE OR NOT WANTED
 [WON'T] Add helicopter types for spoffy
 [WON'T] Removing units while runtime
 [WON'T] Rework unit detection system (Squadleader and medics)
+[WON'T] Faster way to check for vehicle (vehicle => objectParent)
+[WON'T] Remove spawned in markers (risk of missing out on marker is too large)
 
 ================================================================================
 Files that need a rework
