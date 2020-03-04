@@ -93,22 +93,17 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Rework functions needed to determine spawn or despawn
 
 ------------ Unit spawns -------------------------------------------------------
-Rework cycle spawn
-Change vehicle getIn EH to handle stolen vehicles correctly
-On despawn handle vehicles as recovered by nearest marker
 Finalizing cyclic spawn
 Place units in logical positions without UPSMON
-Add init scripts for units
 Calculate marker size per unit before units are spawned
 
------------- Unit Behaviour ----------------------------------------------------
-[Mostly done, check the FSM] Make the AI follow the pathfinding way
-[WIP, needs change in the VCOM routines] EH for the groups to man vehicles
-
 ------------ Vehicle Behaviour -------------------------------------------------
-Add vehicle despawner
+[DONE] Add vehicle despawner
+Start vehicle despawner on getIn
+Change vehicle getIn EH to handle stolen vehicles correctly
+[DONE] On despawn handle vehicles as recovered by nearest marker
 Add keys as a result on intel search (+ vehicle open animation)
-Remove stolen vehicles from the list
+[DONE] Remove stolen vehicles from the list
 
 ------------ Reinforcements selection ------------------------------------------
 Improve the AI, which chooses the units
@@ -119,6 +114,12 @@ Add different costs for different units
 Better troup compositions
 Deactivate random mortar spawns
 Reenable civies driving around
+Rework stationating units on marker from squad (they need the ids, arrays and shit)
+Rework spawned arrays to carry indices
+
+------------ Roadblocks --------------------------------------------------------
+Create statics dynamically on first spawn
+Create troops dynamically on first spawn
 Add multiple types of roadblock
 
 ------------ Statics -----------------------------------------------------------

@@ -44,10 +44,9 @@ if(_spawnParameter isEqualType []) then
     };
     _vehicle setDir (_spawnParameter select 1);
 
-    //Should work as a local variable needs testing
-    _vehicle setVariable ["UnitIndex", (_lineIndex * 10 + 0)];
-    _vehicle setVariable ["UnitMarker", _marker];
-    _vehicle setVariable ["IsOver", _isOver];
+    _vehicle setVariable ["UnitIndex", (_lineIndex * 10 + 0), true];
+    _vehicle setVariable ["UnitMarker", _marker, true];
+    _vehicle setVariable ["IsOver", _isOver, true];
 
     //On vehicle death, remove it from garrison
     _vehicle addEventHandler
@@ -77,7 +76,6 @@ if(_spawnParameter isEqualType []) then
             private _unit = _this select 2;
             if(side _unit == teamPlayer) then
             {
-                _vehicle setVariable ["Stolen", true, true];
                 private _id = _vehicle getVariable "UnitIndex";
                 private _marker = _vehicle getVariable "UnitMarker";
                 private _isOver = _vehicle getVariable "IsOver";

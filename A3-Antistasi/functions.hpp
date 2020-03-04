@@ -498,10 +498,12 @@ class A3A
         class findSpawnPosition {};
         class freeSpawnPosition {};
         class freeSpawnPositions {};
+        class getSpawnedArray {};
         class groupDespawner {};
         class markerActiveUpdateLoop {};
         class markerDespawner {};
         class needsSpawn {};
+        class removeFromSpawnedArrays {};
         class updateSpawnerUnits {};
         class vehicleDespawner {};
     };
