@@ -60,6 +60,7 @@ for "_i" from (tierPreference + 1) to tierWar do
         {
             ["Airport", _x] spawn A3A_fnc_updateGarrison;
             ["Airport", _x] spawn A3A_fnc_updateStatics;
+            ["Airport", _x] spawn A3A_fnc_updatePatrols;
         } forEach airportsX;
     };
 
@@ -94,6 +95,7 @@ for "_i" from (tierPreference + 1) to tierWar do
         {
             ["Outpost", _x] spawn A3A_fnc_updateGarrison;
             ["Outpost", _x] spawn A3A_fnc_updateStatics;
+            ["Outpost", _x] spawn A3A_fnc_updatePatrols;
         } forEach outposts;
     };
 
@@ -120,6 +122,7 @@ for "_i" from (tierPreference + 1) to tierWar do
       {
           ["City", _x] spawn A3A_fnc_updateGarrison;
           ["City", _x] spawn A3A_fnc_updateStatics;
+          ["City", _x] spawn A3A_fnc_updatePatrols;
       } forEach citiesX;
   };
 
@@ -148,6 +151,7 @@ for "_i" from (tierPreference + 1) to tierWar do
       {
           ["Other", _x] spawn A3A_fnc_updateGarrison;
           ["Other", _x] spawn A3A_fnc_updateStatics;
+          ["Other", _x] spawn A3A_fnc_updatePatrols;
       } forEach resourcesX + factories + seaports;
   };
   sleep 0.1;

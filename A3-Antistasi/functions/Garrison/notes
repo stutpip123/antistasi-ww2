@@ -119,6 +119,7 @@ Rework spawned arrays to carry indices
 Add a check after a unit is added if the marker is still spawned (if not despawn units) to avoid bad order of actions on spawnedArrays
 [DONE] Add functions to search garrison units for specific types and groups
 Fix all the todos
+Fix bug when loading a lower level than actually having it, results in more units then needed (does this really happen?)
 
 ------------ Roadblocks --------------------------------------------------------
 Create statics dynamically on first spawn
@@ -128,7 +129,8 @@ Add multiple types of roadblock
 ------------ Statics -----------------------------------------------------------
 Make the static and vehicle system EH based instead of wonky conditions on despawn
 Add a message on statics when they are dismantled or build on a marker
-Add all remaining statics to the new owner
+Add all remaining statics to the new owner (in clearGarrison as this is called in markerchange)
+Add difficulty multiplier to timeouts on statics and patrols
 
 ------------ Optimisation ------------------------------------------------------
 [WIP] Optimisation for speed and data size
@@ -136,7 +138,7 @@ Reorder all parameters in the same order
 Clean up code
 Cleanup function
 Unify and split the EH into seperate files
-Optimize creation of patrols (like statics)
+[DONE] Optimize creation of patrols (like statics)
 [DONE] Check uses of distanceUnits, as I have changed the logic
 
 ------------ Fix broken stuff --------------------------------------------------
