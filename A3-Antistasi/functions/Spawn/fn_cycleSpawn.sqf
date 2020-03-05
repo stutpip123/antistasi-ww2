@@ -25,8 +25,7 @@ private _locked = garrison getVariable (format ["%1_locked", _marker]);
 private _garCount = [_garrison + _over, true] call A3A_fnc_countGarrison;
 [_marker, _patrolMarker, _garCount] call A3A_fnc_adaptMarkerSizeToUnitCount;
 
-[3, format ["Logging units of %1", _marker], _fileName] call A3A_fnc_log;
-[_garrison, "Garrison"] call A3A_fnc_logArray;
+
 
 private _lineIndex = 0;
 {

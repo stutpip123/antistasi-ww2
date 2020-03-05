@@ -196,11 +196,8 @@ class A3A
 		class CIVinit {};
 		class civVEHinit {};
 		class cleanserVeh {};
-		class createAICities {};
 		class createAIcontrols {};
 		class createCIV {};
-		class createFIAOutposts2 {};
-		class createSDKGarrisons {};
 		class createSDKgarrisonsTemp {};
 		class FIAinitBases {};
 		class invaderPunish {};
@@ -495,7 +492,6 @@ class A3A
         class createAIControlPoint {};
         class createAISite {};
         class createCity {};
-        class createRebelControlPoint {};
         class cycleSpawn {};
         class cycleSpawnPatrol {};
         class cycleSpawnPatrolUnit {};

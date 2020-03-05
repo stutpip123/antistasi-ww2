@@ -15,7 +15,7 @@ private _isAlerted = false;
 while {spawner getVariable _marker != DESPAWNED} do
 {
     sleep 1;
-    private _groups = garrison getVariable (format ["%1_groups", _marker]);
+    private _groups = [_marker, "Groups"] call A3A_fnc_getSpawnedArray;
     if(!_isAlerted) then
     {
         {

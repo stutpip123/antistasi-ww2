@@ -91,6 +91,7 @@ switch (_type) do
 
         if(_roadblockType == ROADBLOCK_LARGE) then
         {
+            /*
             private _bunkerPos =
             [
                 [[_roadPos, 7, _roadblockDir + 90] call BIS_Fnc_relPos, 0],
@@ -124,6 +125,7 @@ switch (_type) do
                 _crew moveInGunner _static;
                 [_crew] call A3A_fnc_NATOinit;
             } forEach _bunkerPos;
+            */
         }
         else
         {
