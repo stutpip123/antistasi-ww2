@@ -27,7 +27,7 @@ _unit addEventHandler
         private _unit = _this select 0;
         private _id = _unit getVariable "UnitIndex";
         private _marker = _unit getVariable "UnitMarker";
-        ["Patrol", _marker, _id, 60] call A3A_fnc_addTimeoutForUnit;
+        ["Patrol", _marker, _id, 30 * (4 - skillMult)] call A3A_fnc_addTimeoutForUnit;
     }
 ];
 

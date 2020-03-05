@@ -130,7 +130,7 @@ Add multiple types of roadblock
 Make the static and vehicle system EH based instead of wonky conditions on despawn
 Add a message on statics when they are dismantled or build on a marker
 Add all remaining statics to the new owner (in clearGarrison as this is called in markerchange)
-Add difficulty multiplier to timeouts on statics and patrols
+[DONE] Add difficulty multiplier to timeouts on statics and patrols
 
 ------------ Optimisation ------------------------------------------------------
 [WIP] Optimisation for speed and data size

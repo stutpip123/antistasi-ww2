@@ -60,7 +60,7 @@ else
                     private _static = _this select 0;
                     private _marker = _static getVariable "StaticMarker";
                     private _index = _static getVariable "StaticIndex";
-                    ["Static", _marker, _index, 60] call A3A_fnc_addTimeoutForUnit;
+                    ["Static", _marker, _index, 30 * (4 - skillMult)] call A3A_fnc_addTimeoutForUnit;
                 }
             ];
 
@@ -77,7 +77,7 @@ else
                     private _gunner = _this select 0;
                     private _marker = _gunner getVariable "StaticMarker";
                     private _index = _gunner getVariable "StaticIndex";
-                    ["Static", _marker, _index, 30] call A3A_fnc_addTimeoutForUnit;
+                    ["Static", _marker, _index, 15 * (4 - skillMult)] call A3A_fnc_addTimeoutForUnit;
                 }
             ];
         };
