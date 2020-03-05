@@ -38,7 +38,7 @@ else
     _patrolMarkerSize = [(distanceSPWN/3), (distanceSPWN/3)];
 };
 
-private _patrolMarker = createMarkerLocal [format ["%1_patrol_%2", _marker, random 100], _markerPos];
+private _patrolMarker = createMarkerLocal [format ["%1_patrol", _marker], _markerPos];
 _patrolMarker setMarkerDirLocaL _markerDir;
 _patrolMarker setMarkerShapeLocal "ELLIPSE";
 _patrolMarker setMarkerSizeLocal _patrolMarkerSize;

@@ -142,14 +142,5 @@ switch (_type) do
     };
 };
 
-if(_isRoadblock) then
-{
-
-}
-else
-{
-
-};
-
 
 [_marker, _marker, _vehicles, _groups] spawn A3A_fnc_cycleSpawn;

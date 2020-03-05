@@ -1,6 +1,6 @@
 params ["_marker", "_unitCount", ["_vehicle", objNull]];
 
-if(_vehicle != objNull && {(random 100) < (7.5 * tierWar)}) exitWith
+if(!(isNull _vehicle) && {(random 100) < (7.5 * tierWar)}) exitWith
 {
     _vehicle lock 0;
     -1;
@@ -12,7 +12,7 @@ _fn_createLinePosition =
 
     private _result = [[_startPos, _dir]];
     private _subCounter = 0;
-    private _distance = 2;
+    private _distance = 3;
     private _position = [];
     for "_i" from 2 to _units do
     {
@@ -24,19 +24,19 @@ _fn_createLinePosition =
         };
         if(_subCounter == 1) then
         {
-            _position = [_startPos, _dir, _distance] call BIS_fnc_relPos;
+            _position = [_startPos, _distance, _dir] call BIS_fnc_relPos;
             _result pushBack [_position, _dir - 180];
         };
         if(_subCounter == 2) then
         {
-            _position = [_startPos, _dir, _distance] call BIS_fnc_relPos;
-            _position = [_startPos, _dir + 90, 1] call BIS_fnc_relPos;
+            _position = [_startPos, _distance, _dir] call BIS_fnc_relPos;
+            _position = [_position, 1, _dir + 90] call BIS_fnc_relPos;
             _result pushBack [_position, _dir - 180];
         };
         if(_subCounter == 3) then
         {
-            _position = [_startPos, _dir, _distance] call BIS_fnc_relPos;
-            _position = [_startPos, _dir - 90, 1] call BIS_fnc_relPos;
+            _position = [_startPos, _distance, _dir] call BIS_fnc_relPos;
+            _position = [_position, 1, _dir - 90] call BIS_fnc_relPos;
             _result pushBack [_position, _dir - 180];
         };
     };
@@ -49,7 +49,7 @@ _fn_getRandomPosition =
     params ["_marker"];
 
     private _distance = 10 + (40 - 4 * tierWar);
-    private _result = [getMarkerPos _marker, random 360, _distance] call BIS_fnc_relPos;
+    private _result = [getMarkerPos _marker, _distance, random 360] call BIS_fnc_relPos;
 
     _result;
 };

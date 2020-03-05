@@ -9,14 +9,14 @@ if(_soldierCount == 0) exitWith
 
 private _soldierGroup = createGroup _side;
 
-private _spawnParameter = [_marker, _cargoArray, objNull] call A3A_fnc_createSpawnPlacementForGroup;
+private _spawnParameter = [_marker, _soldierCount, objNull] call A3A_fnc_createSpawnPlacementForGroup;
 
 {
     if(_x != "") then
     {
-        [_marker, _x, _groupIndex, _groupSoldier, _spawnParameter select _forEachIndex, _isOver] call A3A_fnc_cycleSpawnUnit;
+        [_marker, _x, _groupIndex, _soldierGroup, _spawnParameter select _forEachIndex, _isOver] call A3A_fnc_cycleSpawnUnit;
         sleep 0.25;
     };
 } forEach (_cargoArray select {_x != ""});
 
-_groupSoldier;
+_soldierGroup;

@@ -19,6 +19,7 @@ if(_side == sideUnknown) exitWith
 [2, format ["Starting cyclic spawn of %1, side is %2", _marker, _side], _fileName] call A3A_fnc_log;
 
 private _garrison = [_marker] call A3A_fnc_getGarrison;
+[_garrison, format ["%1_garrison",_marker]] call A3A_fnc_logArray;
 private _over = [_marker] call A3A_fnc_getOver;
 private _locked = garrison getVariable (format ["%1_locked", _marker]);
 
@@ -29,7 +30,7 @@ private _garCount = [_garrison + _over, true] call A3A_fnc_countGarrison;
     _x params ["_vehicleType", "_crewArray", "_cargoArray"];
 
     //Check if this vehicle (if there) is locked
-    if (!(_locked select _lineIndex)) then
+    if (!(_locked select _forEachIndex)) then
     {
         private _vehicleGroup = grpNull;
         private _vehicle = objNull;
@@ -38,7 +39,7 @@ private _garCount = [_garrison + _over, true] call A3A_fnc_countGarrison;
         {
             //Array got a vehicle, spawn it in
             _vehicleGroup = createGroup _side;
-            _vehicle = [_marker, _vehicleType, _lineIndex, _vehicleGroup, false] call A3A_fnc_cycleSpawnVehicle;
+            _vehicle = [_marker, _vehicleType, _forEachIndex, _vehicleGroup, false] call A3A_fnc_cycleSpawnVehicle;
             _allVehicles pushBack _vehicle;
             sleep 0.25;
         };
@@ -47,7 +48,6 @@ private _garCount = [_garrison + _over, true] call A3A_fnc_countGarrison;
         if(_vehicleGroup != grpNull) then
         {
             _allGroups pushBack _vehicleGroup;
-            _vehicleGroup deleteGroupWhenEmpty true;
         };
     };
 
@@ -55,7 +55,6 @@ private _garCount = [_garrison + _over, true] call A3A_fnc_countGarrison;
     if(_groupSoldier != grpNull) then
     {
         _allGroups pushBack _groupSoldier;
-        _groupSoldier deleteGroupWhenEmpty true;
     };
 
     //No longer needed here, but I keep it, so I dont have to search for it

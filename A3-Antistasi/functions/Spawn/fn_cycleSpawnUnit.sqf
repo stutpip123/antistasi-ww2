@@ -2,15 +2,15 @@ params ["_marker", "_type", "_lineIndex", "_group", "_spawnParameter", "_isOver"
 
 private _fileName = "cycleSpawnUnit";
 [
-    4,
-    format ["Spawning in %1 on %2 in line %3 on position %4, is over %5", _type, _marker, _lineIndex, _position, _isOver],
+    3,
+    format ["Spawning in %1 on %2 in line %3 on position %4, is over %5", _type, _marker, _lineIndex, _spawnParameter, _isOver],
     _fileName
 ] call A3A_fnc_log;
 
 private _position =_spawnParameter select 0;
 private _dir = _spawnParameter select 1;
 
-private _unit = _group createUnit [_type, _position, [], 1, "NONE"];
+private _unit = _group createUnit [_type, _position, [], 0, "NONE"];
 _unit setDir _dir;
 
 //Should work as a local variable needs testing
@@ -53,6 +53,7 @@ else
 {
     [_unit] call A3A_fnc_FIAinit;
 };
-_unit enableSimulation false;
+
+_unit disableAI "ALL";
 
 _unit;

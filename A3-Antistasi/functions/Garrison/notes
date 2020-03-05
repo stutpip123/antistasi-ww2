@@ -99,10 +99,10 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Remove stolen vehicles from the list
 
 ------------ Unit spawns -------------------------------------------------------
-Finalizing cyclic spawn
-Place units in logical positions without UPSMON
+[WIP] Finalizing cyclic spawn
+[WIP] Place units in logical positions without UPSMON
 [DONE] Calculate marker size per unit before units are spawned
-Deactivate units until marker gets the alert state
+[WIP] Deactivate units until marker gets the alert state
 
 ------------ Reinforcements selection ------------------------------------------
 Improve the AI, which chooses the units
@@ -121,6 +121,7 @@ Add a check after a unit is added if the marker is still spawned (if not despawn
 Fix all the todos
 Fix bug when loading a lower level than actually having it, results in more units then needed (does this really happen?)
 Send over units that are no longer needed, back to airports
+Only man vehicles if they are able to attack something
 
 ------------ Roadblocks --------------------------------------------------------
 Create statics dynamically on first spawn
