@@ -1,4 +1,4 @@
-params ["_marker", "_type", "_lineIndex", "_group", "_position", "_isOver"];
+params ["_marker", "_type", "_lineIndex", "_group", "_spawnParameter", "_isOver"];
 
 private _fileName = "cycleSpawnUnit";
 [
@@ -7,7 +7,11 @@ private _fileName = "cycleSpawnUnit";
     _fileName
 ] call A3A_fnc_log;
 
-private _unit = _group createUnit [_type, _position, [], 15, "NONE"];
+private _position =_spawnParameter select 0;
+private _dir = _spawnParameter select 1;
+
+private _unit = _group createUnit [_type, _position, [], 1, "NONE"];
+_unit setDir _dir;
 
 //Should work as a local variable needs testing
 if((_type != NATOCrew) && (_type != CSATCrew)) then
@@ -49,5 +53,6 @@ else
 {
     [_unit] call A3A_fnc_FIAinit;
 };
+_unit enableSimulation false;
 
 _unit;

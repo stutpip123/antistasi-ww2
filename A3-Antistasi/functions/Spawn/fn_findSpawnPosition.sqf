@@ -3,6 +3,7 @@
 #define PLANE               2
 #define MORTAR              3
 #define STATIC              4
+#define BUILDING            5
 
 params ["_marker", "_type"];
 
@@ -23,15 +24,18 @@ if(_spawns isEqualType -1) exitWith
 //[_spawns, "Spawnpoints"] call A3A_fnc_logArray;
 
 private _selection = -1;
+private _unitCount = -1;
 switch (_type) do
 {
-    case ("Group") :
+    case ("Squad") :
     {
-        //Not yet implemented
+        _selection = BUILDING;
+        _unitCount = 8;
     };
-    case ("Crew"):
+    case ("Group"):
     {
-        //Not yet implemented
+        _selection = BUILDING;
+        _unitCount = 4;
     };
     case ("Vehicle"):
     {
@@ -57,7 +61,15 @@ switch (_type) do
 
 if (_selection == -1) exitWith {};
 
-_possible = (_spawns select _selection) select {!(_x select 1)};
+private _possible = [];
+if(_selection != BUILDING) then
+{
+    _possible = (_spawns select _selection) select {!(_x select 1)};
+}
+else
+{
+    _possible = (_spawns select _selection) select {(!(_x select 1)) && {((_x select 0) select 1) == _unitCount}};
+};
 
 if(count _possible > 0) then
 {

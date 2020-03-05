@@ -91,7 +91,7 @@ NEEDED FOR DOOMS UI UPGRADE
 [DONE] Distance script
 - [DONE] Reenable spawning for FIA troops
 - [DONE] Rework functions needed to determine spawn or despawn
-[WIP] Vehicle Behaviour
+[DONE] Vehicle Behaviour
 - [DONE] Add vehicle despawner
 - [DONE] Start vehicle despawner on getIn
 - [DONE] Change vehicle getIn EH to handle stolen vehicles correctly
@@ -101,7 +101,7 @@ NEEDED FOR DOOMS UI UPGRADE
 ------------ Unit spawns -------------------------------------------------------
 Finalizing cyclic spawn
 Place units in logical positions without UPSMON
-Calculate marker size per unit before units are spawned
+[DONE] Calculate marker size per unit before units are spawned
 Deactivate units until marker gets the alert state
 
 ------------ Reinforcements selection ------------------------------------------
@@ -120,6 +120,7 @@ Add a check after a unit is added if the marker is still spawned (if not despawn
 [DONE] Add functions to search garrison units for specific types and groups
 Fix all the todos
 Fix bug when loading a lower level than actually having it, results in more units then needed (does this really happen?)
+Send over units that are no longer needed, back to airports
 
 ------------ Roadblocks --------------------------------------------------------
 Create statics dynamically on first spawn

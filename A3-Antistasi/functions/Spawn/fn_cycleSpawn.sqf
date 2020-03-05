@@ -25,78 +25,41 @@ private _locked = garrison getVariable (format ["%1_locked", _marker]);
 private _garCount = [_garrison + _over, true] call A3A_fnc_countGarrison;
 [_marker, _patrolMarker, _garCount] call A3A_fnc_adaptMarkerSizeToUnitCount;
 
-
-
-private _lineIndex = 0;
 {
-    private _vehicleType = _x select 0;
-    private _crewArray = _x select 1;
-    private _cargoArray = _x select 2;
-    private _spawnParameter = [];
+    _x params ["_vehicleType", "_crewArray", "_cargoArray"];
 
     //Check if this vehicle (if there) is locked
     if (!(_locked select _lineIndex)) then
     {
-        private _vehicleGroup = createGroup _side;
+        private _vehicleGroup = grpNull;
         private _vehicle = objNull;
-        _allGroups pushBack _vehicleGroup;
 
         if (_vehicleType != "") then
         {
             //Array got a vehicle, spawn it in
+            _vehicleGroup = createGroup _side;
             _vehicle = [_marker, _vehicleType, _lineIndex, _vehicleGroup, false] call A3A_fnc_cycleSpawnVehicle;
             _allVehicles pushBack _vehicle;
             sleep 0.25;
         };
 
-        //Spawn in crew
-        if(_vehicle == objNull) then
+        _vehicleGroup = [_marker, _side, _crewArray, _forEachIndex, _vehicleGroup, _vehicle, false] call A3A_fnc_cycleSpawnVehicleCrew;
+        if(_vehicleGroup != grpNull) then
         {
-            //Spawn near the marker, no vehicle for you to use
-            _spawnParameter = [getMarkerPos _marker, random 25, random 360] call BIS_fnc_relPos;
-        }
-        else
-        {
-            _spawnParameter = [getPos _vehicle, random 25, random 360] call BIS_fnc_relPos;
+            _allGroups pushBack _vehicleGroup;
+            _vehicleGroup deleteGroupWhenEmpty true;
         };
-
-        {
-            if(_x != "") then
-            {
-                [_marker, _x, _lineIndex, _vehicleGroup, _spawnParameter, false] call A3A_fnc_cycleSpawnUnit;
-                sleep 0.25;
-            };
-        } forEach _crewArray;
-
-        if((random 100) < (7.5 * tierWar)) then
-        {
-            {
-                _x moveInAny (assignedVehicle _x);
-            } forEach (units _vehicleGroup);
-        };
-    }
-    else
-    {
-        [
-            3,
-            format ["Cannot spawn in %1 as vehicle is locked!", _vehicleType],
-            _fileName
-        ] call A3A_fnc_log;
     };
 
-    private _groupSoldier = createGroup _side;
-    _allGroups pushBack _groupSoldier;
-    _spawnParameter = getMarkerPos _marker;
+    private _groupSoldier = [_side, _marker, _cargoArray, _forEachIndex, false] call A3A_fnc_cycleSpawnSoldierGroup;
+    if(_groupSoldier != grpNull) then
     {
-        if(_x != "") then
-        {
-            [_marker, _x, _lineIndex, _groupSoldier, _spawnParameter, false] call A3A_fnc_cycleSpawnUnit;
-            sleep 0.25;
-        };
-    } forEach _cargoArray;
-    _groupSoldier deleteGroupWhenEmpty true;
-    [leader _groupSoldier, _marker, "SAFE", "SPAWNED", "RANDOM", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
-    _lineIndex = _lineIndex + 1;
+        _allGroups pushBack _groupSoldier;
+        _groupSoldier deleteGroupWhenEmpty true;
+    };
+
+    //No longer needed here, but I keep it, so I dont have to search for it
+    //[leader _groupSoldier, _marker, "SAFE", "SPAWNED", "RANDOM", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
 } forEach _garrison;
 
 _lineIndex = 0;

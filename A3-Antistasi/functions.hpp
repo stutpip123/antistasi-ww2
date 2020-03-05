@@ -492,12 +492,15 @@ class A3A
         class createAIControlPoint {};
         class createAISite {};
         class createCity {};
+        class createSpawnPlacementForGroup {};
         class cycleSpawn {};
         class cycleSpawnPatrol {};
         class cycleSpawnPatrolUnit {};
+        class cycleSpawnSoldierGroup {};
         class cycleSpawnStatic {};
         class cycleSpawnUnit {};
         class cycleSpawnVehicle {};
+        class cycleSpawnVehicleCrew {};
         class findSpawnPosition {};
         class freeSpawnPosition {};
         class freeSpawnPositions {};
