@@ -69,20 +69,23 @@ _staticSpawns = _staticSpawns select 1;
 
 private _vehicleSpawns = [_vehicleMarker] call A3A_fnc_initSpawnPlacesVehicles;
 
-private _spawns = [_vehicleSpawns, _heliSpawns, _planeSpawns, _mortarSpawns, _staticSpawns];
-private _spawnCounts = [count _vehicleSpawns, count _heliSpawns, count _planeSpawns, count _mortarSpawns, count _staticSpawns];
+private _buildingSpawns = [_marker, _distance] call A3A_fnc_initSpawnPlacesBuildings;
+
+private _spawns = [_vehicleSpawns, _heliSpawns, _planeSpawns, _mortarSpawns, _staticSpawns, _buildingSpawns];
+private _spawnCounts = [count _vehicleSpawns, count _heliSpawns, count _planeSpawns, count _mortarSpawns, count _staticSpawns, count _buildingSpawns];
 
 [
     3,
     format
     [
-        "%1 can hold %2 ground vehicles, %3 helicopters, %4 airplanes, %5 mortars and %6 statics",
+        "%1 can hold %2 ground vehicles, %3 helicopters, %4 airplanes, %5 mortars, %6 statics and %7 squads in buildings",
         _marker,
         _spawnCounts select 0,
         _spawnCounts select 1,
         _spawnCounts select 2,
         _spawnCounts select 3,
-        _spawnCounts select 4
+        _spawnCounts select 4,
+        _spawnCounts select 5
     ],
      _fileName
 ] call A3A_fnc_log;
