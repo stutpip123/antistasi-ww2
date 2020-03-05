@@ -173,12 +173,18 @@ private _statics = garrison getVariable [format ["%1_statics", _marker], []];
 } forEach _statics;
 _staticGroup deleteGroupWhenEmpty true;
 
+//Spawning in patrol units around the marker
 private _patrols = [_marker] call A3A_fnc_getPatrols;
 {
-    private _group = [_x, _forEachIndex, _patrolMarker] call A3A_fnc_cycleSpawnPatrol;
-    _allGroups pushBack _group;
+    private _group = [_side, _marker, _x, _forEachIndex, _patrolMarker] call A3A_fnc_cycleSpawnPatrol;
+    if !(_group isEqualTo grpNull) then
+    {
+        _allGroups pushBack _group;
+    };
 } forEach _patrols;
+//End of patrol spawning
 
+//Saving all groups and vehicles to the spawnedArrays
 spawner setVariable [format ["%1_groups", _marker], _allGroups, true];
 spawner setVariable [format ["%1_vehicles", _marker], _allVehicles, true];
 

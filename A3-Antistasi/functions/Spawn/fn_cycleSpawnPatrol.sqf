@@ -1,4 +1,4 @@
-params ["_patrolGroup", "_patrolGroupIndex", "_patrolMarker"];
+params ["_side", "_marker", "_patrolGroup", "_patrolGroupIndex", "_patrolMarker"];
 
 
 private _unitIndex = 0;

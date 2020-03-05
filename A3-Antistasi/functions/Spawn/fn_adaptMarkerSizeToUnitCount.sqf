@@ -18,7 +18,8 @@ params ["_marker", "_patrolMarker", "_unitCount"];
 private _fileName = "adaptMarkerSizeToUnitCount";
 
 private _patrolSize = [_patrolMarker] call A3A_fnc_calculateMarkerArea;
-private _sizePerUnit = 0;
+//Ensure minimal marker if no garrison is there
+private _sizePerUnit = 9999999999;
 if(_unitCount != 0) then
 {
     _sizePerUnit = _patrolSize / _unitCount;
