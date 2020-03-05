@@ -16,12 +16,14 @@ if(_side == sideUnknown) exitWith
     [1, format ["Could not retrieve side for %1", _marker], _fileName] call A3A_fnc_log;
 };
 
-[2, format ["Starting cyclic spawn of %1", _marker], _fileName] call A3A_fnc_log;
+[2, format ["Starting cyclic spawn of %1, side is %2", _marker, _side], _fileName] call A3A_fnc_log;
 
 private _garrison = [_marker] call A3A_fnc_getGarrison;
+private _over = [_marker] call A3A_fnc_getOver;
 private _locked = garrison getVariable (format ["%1_locked", _marker]);
-private _garCount = [_garrison, true] call A3A_fnc_countGarrison;
-private _patrolSize = [_patrolMarker] call A3A_fnc_calculateMarkerArea;
+
+private _garCount = [_garrison + _over, true] call A3A_fnc_countGarrison;
+[_marker, _patrolMarker, _garCount] call A3A_fnc_adaptMarkerSizeToUnitCount;
 
 [3, format ["Logging units of %1", _marker], _fileName] call A3A_fnc_log;
 [_garrison, "Garrison"] call A3A_fnc_logArray;
@@ -97,11 +99,6 @@ private _lineIndex = 0;
     [leader _groupSoldier, _marker, "SAFE", "SPAWNED", "RANDOM", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
     _lineIndex = _lineIndex + 1;
 } forEach _garrison;
-
-
-private _over = [_marker] call A3A_fnc_getOver;
-[_over, "OverUnits"] call A3A_fnc_logArray;
-_garCount = _garCount + ([_over, true] call A3A_fnc_countGarrison);
 
 _lineIndex = 0;
 {
@@ -208,37 +205,6 @@ private _patrols = garrison getVariable [format ["%1_patrols", _marker], []];
         sleep 0.25;
     };
 } forEach _patrols;
-
-//Units spawned, fixing marker size
-
-private _sizePerUnit = 0;
-if(_garCount != 0) then
-{
-  _sizePerUnit = _patrolSize / _garCount;
-};
-
-[
-    3,
-    format ["The size is %1, Unit count is %2, Per Unit is %3", _patrolSize, _garCount, _sizePerUnit],
-    _fileName
-] call A3A_fnc_log;
-
-//Every unit can search a area of 12500 m^2, if the area is bigger, reduce patrol area
-private _patrolMarkerSize = getMarkerSize _patrolMarker;
-if(_sizePerUnit > 12500) then
-{
-    [3, "Patrol area is to large, make it smaller", _fileName] call A3A_fnc_log;
-    _patrolMarkerSize set [0, (_patrolMarkerSize select 0) * (12500/_sizePerUnit)];
-    _patrolMarkerSize set [1, (_patrolMarkerSize select 1) * (12500/_sizePerUnit)];
-};
-
-private _mainMarkerSize = getMarkerSize _marker;
-if(((_patrolMarkerSize select 0) < (_mainMarkerSize select 0)) || {(_patrolMarkerSize select 1) < (_mainMarkerSize select 1)}) then
-{
-  [3, "Resizing to marker size", _fileName] call A3A_fnc_log;
-  _patrolMarkerSize = _mainMarkerSize;
-};
-_patrolMarker setMarkerSizeLocal _patrolMarkerSize;
 
 spawner setVariable [format ["%1_groups", _marker], _allGroups, true];
 spawner setVariable [format ["%1_vehicles", _marker], _allVehicles, true];

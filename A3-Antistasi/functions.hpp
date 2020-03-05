@@ -487,6 +487,7 @@ class A3A
 
     class Spawn
     {
+        class adaptMarkerSizeToUnitCount {};
         class addToSpawnedArrays {};
         class calculateMarkerArea {};
         class createAIControlPoint {};
