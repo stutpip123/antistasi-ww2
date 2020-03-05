@@ -165,7 +165,6 @@ private _statics = garrison getVariable [format ["%1_statics", _marker], []];
 
 {
     private _static = [_marker, _staticGroup, _x select 0, _x select 1, _forEachIndex] call A3A_fnc_cycleSpawnStatic;
-    _garCount = _garCount + 1;
     _allVehicles pushBack _static;
     if (_side == teamPlayer) then
     {
@@ -174,36 +173,10 @@ private _statics = garrison getVariable [format ["%1_statics", _marker], []];
 } forEach _statics;
 _staticGroup deleteGroupWhenEmpty true;
 
-private _patrols = garrison getVariable [format ["%1_patrols", _marker], []];
+private _patrols = [_marker] call A3A_fnc_getPatrols;
 {
-    private _patrolGroup = _x;
-    private _patrolGroupIndex = _forEachIndex;
-    private _unitIndex = 0;
-    private _patrolUnitOne = _patrolGroup select 0;
-    private _patrolUnitTwo = _patrolGroup select 1;
-    private _group = grpNull;
-    if([_patrolUnitOne select 1] call A3A_fnc_unitAvailable) then
-    {
-        _group = createGroup _side;
-        _unitIndex = _patrolGroupIndex * 10;
-        [_patrolUnitOne select 0, _group, _marker, _unitIndex] call A3A_fnc_cycleSpawnPatrolUnit;
-    };
-    if([_patrolUnitTwo select 1] call A3A_fnc_unitAvailable) then
-    {
-        if(isNull _group) then
-        {
-            _group = createGroup _side;
-        };
-        _unitIndex = _patrolGroupIndex * 10 + 1;
-        [_patrolUnitTwo select 0, _group, _marker, _unitIndex] call A3A_fnc_cycleSpawnPatrolUnit;
-    };
-    if !(isNull _group) then
-    {
-        _group deleteGroupWhenEmpty true;
-        _garCount = _garCount + (count (units _group));
-        [leader _group, _patrolMarker, "SAFE", "SPAWNED", "RANDOM", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
-        sleep 0.25;
-    };
+    private _group = [_x, _forEachIndex, _patrolMarker] call A3A_fnc_cycleSpawnPatrol;
+    _allGroups pushBack _group;
 } forEach _patrols;
 
 spawner setVariable [format ["%1_groups", _marker], _allGroups, true];

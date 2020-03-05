@@ -282,6 +282,7 @@ class A3A
 		class getGarrisonRatio {};
 		class getGarrisonStatus {};
         class getOver {};
+        class getPatrols {};
 		class getRequested {};
 		class getVehicleCrew {};
 		class initPreference {};
@@ -495,6 +496,7 @@ class A3A
         class createCity {};
         class createRebelControlPoint {};
         class cycleSpawn {};
+        class cycleSpawnPatrol {};
         class cycleSpawnPatrolUnit {};
         class cycleSpawnStatic {};
         class cycleSpawnUnit {};
