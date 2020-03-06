@@ -12,8 +12,11 @@ private _spawnParameter = [_marker, _crewCount, _vehicle] call A3A_fnc_createSpa
 private _placeInVehicle = false;
 if(_spawnParameter isEqualType -1) then
 {
-    _spawnParameter = [getMarkerPos _marker, 0];
     _placeInVehicle = true;
+    _spawnParameter = [];
+    {
+        _spawnParameter pushBack [getMarkerPos _marker, 0];
+    } forEach _crewArray;
 };
 
 if(_vehicleGroup == grpNull) then
@@ -23,11 +26,16 @@ if(_vehicleGroup == grpNull) then
 
 {
     private _unit = [_marker, _x, _groupIndex, _vehicleGroup, _spawnParameter select _forEachIndex, _isOver] call A3A_fnc_cycleSpawnUnit;
-    if(_placeInVehicle) then
+    if(_placeInVehicle && {!(isNull _vehicle)}) then
     {
         _unit moveInAny _vehicle;
     };
     sleep 0.25;
 } forEach (_crewArray select {_x != ""});
+
+if(_placeInVehicle && {(isNull _vehicle)}) then
+{
+    [leader _vehicleGroup, _marker, "SAFE", "SPAWNED", "RANDOM", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
+};
 
 _vehicleGroup;

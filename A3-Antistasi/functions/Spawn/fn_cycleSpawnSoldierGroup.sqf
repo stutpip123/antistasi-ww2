@@ -11,6 +11,16 @@ private _soldierGroup = createGroup _side;
 
 private _spawnParameter = [_marker, _soldierCount, objNull] call A3A_fnc_createSpawnPlacementForGroup;
 
+private _needsPatrol = false;
+if(_spawnParameter isEqualType 1) then
+{
+    _needsPatrol = true;
+    _spawnParameter = [];
+    {
+        _spawnParameter pushBack [getMarkerPos _marker, 0];
+    } forEach _cargoArray;
+};
+
 {
     if(_x != "") then
     {
@@ -18,5 +28,10 @@ private _spawnParameter = [_marker, _soldierCount, objNull] call A3A_fnc_createS
         sleep 0.25;
     };
 } forEach (_cargoArray select {_x != ""});
+
+if(_needsPatrol) then
+{
+    [leader _soldierGroup, _marker, "SAFE", "SPAWNED", "RANDOM", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
+};
 
 _soldierGroup;

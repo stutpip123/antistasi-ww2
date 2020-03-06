@@ -44,23 +44,29 @@ _fn_createLinePosition =
     _result;
 };
 
-_fn_getRandomPosition =
-{
-    params ["_marker"];
-
-    private _distance = 10 + (40 - 4 * tierWar);
-    private _result = [getMarkerPos _marker, _distance, random 360] call BIS_fnc_relPos;
-
-    _result;
-};
-
 
 private _placements = [];
 if(_unitCount < 3) then
 {
-    //Not searching for a special place for small groups
-    private _startPos = [_marker] call _fn_getRandomPosition;
-    _placements = [_startPos, random 360, _unitCount] call _fn_createLinePosition;
+    if(isNull _vehicle) then
+    {
+        //Not searching for a special place for small groups
+        private _startParams = [_marker, "Vehicle"] call A3A_fnc_findSpawnPosition;
+        if(_startParams isEqualType -1) then
+        {
+            _placements = -1;
+        }
+        else
+        {
+            _placements = [_startParams select 0, _startParams select 1, _unitCount] call _fn_createLinePosition;
+        };
+    }
+    else
+    {
+        private _vehicleDir = getDir _vehicle;
+        private _startPos = [getPos _vehicle, 5, _vehicleDir - 30] call BIS_fnc_relPos;
+        _placements = [_startPos, _vehicleDir + 90, _unitCount] call _fn_createLinePosition;
+    };
 }
 else
 {
@@ -75,9 +81,16 @@ else
     };
     if(_building isEqualType -1) then
     {
-        //No suitable building found, find place in the open
-        private _startPos = [_marker] call _fn_getRandomPosition;
-        _placements = [_startPos, random 360, _unitCount] call _fn_createLinePosition;
+        //No building found, try placing them in a vehicle slot
+        private _startParams = [_marker, "Vehicle"] call A3A_fnc_findSpawnPosition;
+        if(_startParams isEqualType -1) then
+        {
+            _placements = -1;
+        }
+        else
+        {
+            _placements = [_startParams select 0, _startParams select 1, _unitCount] call _fn_createLinePosition;
+        };
     }
     else
     {
