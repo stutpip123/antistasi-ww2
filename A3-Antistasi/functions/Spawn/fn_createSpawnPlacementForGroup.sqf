@@ -97,11 +97,12 @@ else
         //Building found
         _building = _building select 0;
         private _buildingPos = _building buildingPos -1;
+        _buildingPos = _buildingPos select {[_x] call A3A_fnc_isBuildingPosValid};
         private _selected = [];
         for "_i" from 1 to _unitCount do
         {
             _selected = selectRandom _buildingPos;
-            _placements pushBack [_selected, random 360];
+            _placements pushBack [[_selected] call A3A_fnc_getRealBuildingPos, random 360];
             _buildingPos = _buildingPos - [_selected];
         };
     };

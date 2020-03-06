@@ -102,8 +102,8 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Place units in logical positions without UPSMON
 - [DONE] Calculate marker size per unit before units are spawned
 - [WIP] Deactivate units until marker gets the alert state
-- Reenable units with marker alert or damage
-- Find a find to sort out building positions which are midair (Raycasts?)
+- [WIP] Reenable units with marker alert or damage
+- [DONE] Find a find to sort out building positions which are midair (Raycasts?)
 - Add ambient animations for idling units
 
 ------------ Reinforcements selection ------------------------------------------

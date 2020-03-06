@@ -25,6 +25,7 @@ private _countSpawnPos = 0;
     if(_buildingPos inArea _marker) then
     {
         _buildingSpawnPos = _x buildingPos -1;
+        _buildingSpawnPos = _buildingSpawnPos select {[_x] call A3A_fnc_isBuildingPosValid};
         _countSpawnPos = count _buildingSpawnPos;
         if(_countSpawnPos >= 4) then
         {
