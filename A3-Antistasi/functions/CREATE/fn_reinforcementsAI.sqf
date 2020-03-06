@@ -6,14 +6,14 @@
 *       Nothing
 */
 private _fileName = "reinforcementsAI";
-private _recruitCount = 10 + 2 * tierWar + (floor ((count allPlayers)/2));
+private _recruitCount =  round ((10 + 2 * tierWar + (floor ((count allPlayers)/2))) * (0.5 * skillMult));
 [2, format ["Airports are now able to send %1 reinforcements", _recruitCount], _fileName] call A3A_fnc_log;
 {
     //Setting the number of recruitable units per ticks per airport
     garrison setVariable [format ["%1_recruit", _x], _recruitCount, true];
 } forEach airportsX;
 
-_recruitCount = 5 + (round (0.5 * tierWar)) + (floor ((count allPlayers)/4));
+_recruitCount = round ((5 + (round (0.5 * tierWar)) + (floor ((count allPlayers)/4))) * (0.5 * skillMult));
 [2, format ["Outposts are now able to send %1 reinforcements", _recruitCount], _fileName] call A3A_fnc_log;
 {
     //Setting the number of recruitable units per ticks per outpost
