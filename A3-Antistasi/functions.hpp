@@ -534,6 +534,8 @@ class A3A
 		class createDataObject {};
 		class dateToTimeString {};
 		class generateRoadsDB {};
+        class getRealBuildingPos {};
+        class isBuildingPosValid {};
 		class log {};
 		class vehicleWillCollideAtPosition {};
 	};

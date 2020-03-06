@@ -124,6 +124,7 @@ Fix all the todos
 Fix bug when loading a lower level than actually having it, results in more units then needed (does this really happen?)
 Send over units that are no longer needed, back to airports
 Only man vehicles if they are able to attack something
+Add mortars to the static list and enable them
 
 ------------ Roadblocks --------------------------------------------------------
 Create statics dynamically on first spawn
