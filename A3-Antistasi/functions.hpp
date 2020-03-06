@@ -9,6 +9,7 @@ class A3A
 		//Other initialisation functions (generally called by the above)
 		class cityinfo {};
 		class credits {};
+        class initAmbientAnimations {};
 		class initFuncs {};
 		class initGarrisons {};
 		class initGetMissionPath {};

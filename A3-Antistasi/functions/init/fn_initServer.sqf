@@ -114,6 +114,7 @@ if (loadLastSave) then {
 publicVariable "loadLastSave";
 
 call A3A_fnc_initGarrisons;
+call A3A_fnc_initAmbientAnimations;
 
 if (loadLastSave) then {
 	[] spawn A3A_fnc_loadServer;
