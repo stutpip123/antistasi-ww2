@@ -4,18 +4,29 @@
 
 params ["_marker", "_patrolMarker", ["_allVehicles", []], ["_allGroups", []]];
 
+/*  Handles the unit spawn progress of any marker
+
+    Execution on: HC or Server
+
+    Scope: Internal
+
+    Params:
+        _marker: STRING : Name of the marker that should be spawned in
+        _patrolMarker: STRING : Name of the patrol marker around the main marker
+        _allVehicles: ARRAY of OBJECTS: (Optional) List of already spawned vehicles on the marker
+        _allGroups: ARRAY of GROUPS: (Optional) List of already spawned groups on the marker
+
+    Returns:
+        Nothing
+*/
+
 private _fileName = "cycleSpawn";
-if(isNil "_marker") exitWith
-{
-    [1, "No marker given, cannot spawn site", _fileName] call A3A_fnc_log;
-};
 
 private _side = sidesX getVariable [_marker, sideUnknown];
 if(_side == sideUnknown) exitWith
 {
     [1, format ["Could not retrieve side for %1", _marker], _fileName] call A3A_fnc_log;
 };
-
 [2, format ["Starting cyclic spawn of %1, side is %2", _marker, _side], _fileName] call A3A_fnc_log;
 
 private _garrison = [_marker] call A3A_fnc_getGarrison;
@@ -23,9 +34,11 @@ private _garrison = [_marker] call A3A_fnc_getGarrison;
 private _over = [_marker] call A3A_fnc_getOver;
 private _locked = garrison getVariable (format ["%1_locked", _marker]);
 
+//Calculate patrol marker size
 private _garCount = [_garrison + _over, true] call A3A_fnc_countGarrison;
 [_marker, _patrolMarker, _garCount] call A3A_fnc_adaptMarkerSizeToUnitCount;
 
+//Spawn in the garrison units
 {
     _x params ["_vehicleType", "_crewArray", "_cargoArray"];
 
@@ -45,14 +58,14 @@ private _garCount = [_garrison + _over, true] call A3A_fnc_countGarrison;
         };
 
         _vehicleGroup = [_marker, _side, _crewArray, _forEachIndex, _vehicleGroup, _vehicle, false] call A3A_fnc_cycleSpawnVehicleCrew;
-        if(_vehicleGroup != grpNull) then
+        if !(isNull _vehicleGroup) then
         {
             _allGroups pushBack _vehicleGroup;
         };
     };
 
     private _groupSoldier = [_side, _marker, _cargoArray, _forEachIndex, false] call A3A_fnc_cycleSpawnSoldierGroup;
-    if(_groupSoldier != grpNull) then
+    if !(isNull _groupSoldier) then
     {
         _allGroups pushBack _groupSoldier;
     };
@@ -61,70 +74,43 @@ private _garCount = [_garrison + _over, true] call A3A_fnc_countGarrison;
     //[leader _groupSoldier, _marker, "SAFE", "SPAWNED", "RANDOM", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
 } forEach _garrison;
 
-_lineIndex = 0;
+//Spawn in the over units
 {
-    private _vehicleType = _x select 0;
-    private _crewArray = _x select 1;
-    private _cargoArray = _x select 2;
-    private _spawnParameter = [];
+    _x params ["_vehicleType", "_crewArray", "_cargoArray"];
 
-    private _vehicleGroup = createGroup _side;
+    private _vehicleGroup = grpNull;
     private _vehicle = objNull;
-    _allGroups pushBack _vehicleGroup;
 
     if (_vehicleType != "") then
     {
         //Array got a vehicle, spawn it in
+        _vehicleGroup = createGroup _side;
         _vehicle = [_marker, _vehicleType, _lineIndex, _vehicleGroup, true] call A3A_fnc_cycleSpawnVehicle;
         _allVehicles pushBack _vehicle;
         sleep 0.25;
     };
 
-    //Spawn in crew
-    if(_vehicle == objNull) then
+    _vehicleGroup = [_marker, _side, _crewArray, _forEachIndex, _vehicleGroup, _vehicle, true] call A3A_fnc_cycleSpawnVehicleCrew;
+    if !(isNull _vehicleGroup) then
     {
-        //Spawn near the marker, no vehicle for you to use
-        _spawnParameter = getMarkerPos _marker;
-    }
-    else
-    {
-        _spawnParameter = getPos _vehicle;
+        _allGroups pushBack _vehicleGroup;
     };
 
+    private _groupSoldier = [_side, _marker, _cargoArray, _forEachIndex, true] call A3A_fnc_cycleSpawnSoldierGroup;
+    if !(isNull _groupSoldier) then
     {
-        if(_x != "") then
-        {
-            [_marker, _x, _lineIndex, _vehicleGroup, _spawnParameter, true] call A3A_fnc_cycleSpawnUnit;
-            sleep 0.25;
-        };
-    } forEach _crewArray;
-
-    private _groupSoldier = createGroup _side;
-    _allGroups pushBack _groupSoldier;
-    _spawnParameter = getMarkerPos _marker;
-    {
-        if(_x != "") then
-        {
-            [_marker, _x, _lineIndex, _groupSoldier, _spawnParameter, true] call A3A_fnc_cycleSpawnUnit;
-            sleep 0.25;
-        };
-    } forEach _cargoArray;
-    _groupSoldier deleteGroupWhenEmpty true;
-    [leader _groupSoldier, _marker, "SAFE", "SPAWNED", "RANDOM", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
-    _lineIndex = _lineIndex + 1;
+        _allGroups pushBack _groupSoldier;
+    };
 } forEach _over;
 
-
-private _staticGroup = createGroup _side;
-_allGroups pushBack _staticGroup;
-private _statics = garrison getVariable [format ["%1_statics", _marker], []];
-[
-    3,
-    format ["Spawning in %1 statics on %2, data is %3", (count _statics), _marker, _statics],
-    _fileName
-] call A3A_fnc_log;
-
+//Spawn in statics of the marker
+private _staticGroup = grpNull;
 {
+    if(isNull _staticGroup) then
+    {
+        private _staticGroup = createGroup _side;
+        _allGroups pushBack _staticGroup;
+    };
     private _static = [_marker, _staticGroup, _x select 0, _x select 1, _forEachIndex] call A3A_fnc_cycleSpawnStatic;
     _allVehicles pushBack _static;
     if (_side == teamPlayer) then
@@ -132,18 +118,16 @@ private _statics = garrison getVariable [format ["%1_statics", _marker], []];
         //Get one unit in here
     };
 } forEach _statics;
-_staticGroup deleteGroupWhenEmpty true;
 
 //Spawning in patrol units around the marker
 private _patrols = [_marker] call A3A_fnc_getPatrols;
 {
     private _group = [_side, _marker, _x, _forEachIndex, _patrolMarker] call A3A_fnc_cycleSpawnPatrol;
-    if !(_group isEqualTo grpNull) then
+    if !(isNull _group) then
     {
         _allGroups pushBack _group;
     };
 } forEach _patrols;
-//End of patrol spawning
 
 //Saving all groups and vehicles to the spawnedArrays
 spawner setVariable [format ["%1_groups", _marker], _allGroups, true];
