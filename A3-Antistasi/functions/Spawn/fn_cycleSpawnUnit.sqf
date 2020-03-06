@@ -45,6 +45,26 @@ _unit addEventHandler
     }
 ];
 
+_unit addEventHandler
+[
+    "HandleDamage",
+    {
+        //Is there any way to disable this eventhandle on first run?
+        private _unit = _this select 0;
+        private _group = group _unit;
+        if(_group getVariable ["isDisabled", false]) then
+        {
+            _group setVariable ["isDisabled", false, true];
+            {
+                _x enableSimulation true;
+                _X enableAI "ALL";
+            } forEach (units _group);
+        };
+        _group setBehaviour "COMBAT";
+        //[_group] call A3A_fnc_abortAmbientAnims
+    };
+]
+
 if(side _group != teamPlayer) then
 {
     [_unit, _marker] call A3A_fnc_NATOinit;
@@ -54,6 +74,12 @@ else
     [_unit] call A3A_fnc_FIAinit;
 };
 
+(group _unit) setVariable ["isDisabled", true, true];
 _unit disableAI "ALL";
+_unit spawn
+{
+    sleep 2;
+    _unit enableSimulation false;
+};
 
 _unit;

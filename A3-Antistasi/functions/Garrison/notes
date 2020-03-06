@@ -101,8 +101,8 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Finalizing cyclic spawn
 - [DONE] Place units in logical positions without UPSMON
 - [DONE] Calculate marker size per unit before units are spawned
-- [WIP] Deactivate units until marker gets the alert state
-- [WIP] Reenable units with marker alert or damage
+- [DONE] Deactivate units on marker spawn
+- [DONE] Reenable units with marker alert or damage
 - [DONE] Find a find to sort out building positions which are midair (Raycasts?)
 - Add ambient animations for idling units
 

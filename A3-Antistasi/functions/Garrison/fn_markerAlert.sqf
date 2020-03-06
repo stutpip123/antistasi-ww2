@@ -30,11 +30,24 @@ while {spawner getVariable _marker != DESPAWNED} do
                 _isAlerted = true;
                 {
                     //Appearently some unit detected enemies, man the vehicles, unleash hell!!!
-                    if(!(assignedVehicle (leader _x) isEqualTo objNull)) then
+                    if(_x getVariable ["isDisabled", false]) then
+                    {
+                        _x setVariable ["isDisabled", false, true];
+                        //Reactivate all units of the group
+                        {
+                            _x enableSimulation true;
+                            _x enableAI "ALL";
+                        } forEach (units _x);
+                        //[_x] call A3A_fnc_abortAmbientAnims;
+                        _x setBehaviour "COMBAT";
+                    };
+
+                    if !(isNull (assignedVehicle (leader _x))) then
                     {
                         //The groups has an assigned vehicle, get in
                         (assignedVehicle (leader _x)) lock 0;
                         (units _x) orderGetIn true;
+                        //TODO rework that for the case that the squad leader dies while trying to reach the vehicle
                         (leader _x) addEventHandler
                         [
                             "GetInMan",
