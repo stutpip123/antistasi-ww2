@@ -36,6 +36,10 @@ if(_vehicleGroup == grpNull) then
 if(_placeInVehicle && {(isNull _vehicle)}) then
 {
     [leader _vehicleGroup, _marker, "SAFE", "SPAWNED", "RANDOM", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
+}
+else
+{
+    //TODO add ambient anims here
 };
 
 _vehicleGroup;

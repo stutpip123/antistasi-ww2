@@ -32,6 +32,10 @@ if(_spawnParameter isEqualType 1) then
 if(_needsPatrol) then
 {
     [leader _soldierGroup, _marker, "SAFE", "SPAWNED", "RANDOM", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
+}
+else
+{
+    //TODO add ambient anims here
 };
 
 _soldierGroup;

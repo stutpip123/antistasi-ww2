@@ -69,9 +69,6 @@ private _garCount = [_garrison + _over, true] call A3A_fnc_countGarrison;
     {
         _allGroups pushBack _groupSoldier;
     };
-
-    //No longer needed here, but I keep it, so I dont have to search for it
-    //[leader _groupSoldier, _marker, "SAFE", "SPAWNED", "RANDOM", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
 } forEach _garrison;
 
 //Spawn in the over units
