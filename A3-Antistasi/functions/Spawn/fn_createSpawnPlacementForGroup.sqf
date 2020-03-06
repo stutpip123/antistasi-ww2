@@ -98,6 +98,7 @@ else
         _building = _building select 0;
         private _buildingPos = _building buildingPos -1;
         _buildingPos = _buildingPos select {[_x] call A3A_fnc_isBuildingPosValid};
+        [3, format ["Got a building with %1 free positions for a %2 units", count _buildingPos, _unitCount], "createSpawnPlacementForGroup", true] call A3A_fnc_log;
         private _selected = [];
         for "_i" from 1 to _unitCount do
         {

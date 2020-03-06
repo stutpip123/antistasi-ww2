@@ -10,8 +10,9 @@ private _fileName = "cycleSpawnUnit";
 private _position =_spawnParameter select 0;
 private _dir = _spawnParameter select 1;
 
-private _unit = _group createUnit [_type, _position, [], 0, "NONE"];
+private _unit = _group createUnit [_type, _position, [], 5, "NONE"];
 _unit setDir _dir;
+_unit setPosATL _position;
 
 //Should work as a local variable needs testing
 if((_type != NATOCrew) && (_type != CSATCrew)) then
@@ -62,8 +63,8 @@ _unit addEventHandler
         };
         _group setBehaviour "COMBAT";
         //[_group] call A3A_fnc_abortAmbientAnims
-    };
-]
+    }
+];
 
 if(side _group != teamPlayer) then
 {
@@ -78,8 +79,8 @@ else
 _unit disableAI "ALL";
 _unit spawn
 {
-    sleep 2;
-    _unit enableSimulation false;
+    sleep 5;
+    _this enableSimulation false;
 };
 
 _unit;

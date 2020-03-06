@@ -37,7 +37,7 @@ private _countSpawnPos = 0;
             else
             {
                 //Building can handle 4 units
-                _result pushBack [[_x, 8], false];
+                _result pushBack [[_x, 4], false];
             };
         };
     };

@@ -68,7 +68,7 @@ if(_selection != BUILDING) then
 }
 else
 {
-    _possible = (_spawns select _selection) select {(!(_x select 1)) && {((_x select 0) select 1) == _unitCount}};
+    _possible = (_spawns select _selection) select {(!(_x select 1)) && {((_x select 0) select 1) >= _unitCount}};
 };
 
 if(count _possible > 0) then

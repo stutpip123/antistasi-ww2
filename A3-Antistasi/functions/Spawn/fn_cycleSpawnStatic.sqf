@@ -32,7 +32,6 @@ else
         if(!(_nearestBuilding isKindOf "Ruins")) then
         {
             private _staticType = _spawnParameter select 2;
-            private _crew = if(_side == Occupants) then {staticCrewOccupants} else {staticCrewInvaders};
             private _static = "";
             switch (_staticType) do
             {
@@ -64,7 +63,8 @@ else
                 }
             ];
 
-            private _gunner =  _staticGroup createUnit [_crew, getMarkerPos _marker, [], 5, "NONE"];
+            private _crew = if(_side == Occupants) then {staticCrewOccupants} else {staticCrewInvaders};
+            private _gunner =  _staticGroup createUnit [_crew, [0,0,0], [], 5, "NONE"];
             [_gunner, _marker] call A3A_fnc_NATOinit;
             _gunner moveInGunner _staticObject;
 

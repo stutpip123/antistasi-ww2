@@ -15,6 +15,11 @@ params ["_marker", ["_lookForStandby", false]];
 
 private _fileName = "needsSpawn";
 
+if(_marker in forcedSpawn) exitWith
+{
+    SPAWNED
+};
+
 private _side = sidesX getVariable _marker;
 private _markerPos = getMarkerPos _marker;
 private _result = DESPAWNED;

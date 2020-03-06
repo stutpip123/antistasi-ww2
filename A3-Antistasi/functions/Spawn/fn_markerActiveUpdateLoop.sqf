@@ -37,13 +37,7 @@ while {true} do
         private _marker = _x;
         if ((spawner getVariable _marker) == DESPAWNED) then
         {
-            private _isForced = (_marker in forcedSpawn);
-            private _markerShouldSpawn = DESPAWNED;
-            if(!_isForced) then
-            {
-                _markerShouldSpawn = [_marker] call A3A_fnc_needsSpawn;
-            };
-            _markerShouldSpawn = _isForced || {_markerShouldSpawn != DESPAWNED};
+            private _markerShouldSpawn = ([_marker] call A3A_fnc_needsSpawn) == SPAWNED;
             if (_markerShouldSpawn) then
             {
                 spawner setVariable [_marker, SPAWNED, true];

@@ -101,11 +101,12 @@ private _garCount = [_garrison + _over, true] call A3A_fnc_countGarrison;
 } forEach _over;
 
 //Spawn in statics of the marker
+private _statics = garrison getVariable [format ["%1_statics", _marker], []];
 private _staticGroup = grpNull;
 {
     if(isNull _staticGroup) then
     {
-        private _staticGroup = createGroup _side;
+        _staticGroup = createGroup _side;
         _allGroups pushBack _staticGroup;
     };
     private _static = [_marker, _staticGroup, _x select 0, _x select 1, _forEachIndex] call A3A_fnc_cycleSpawnStatic;

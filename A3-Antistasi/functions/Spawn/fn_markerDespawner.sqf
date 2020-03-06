@@ -25,8 +25,8 @@ private _allVehicles = [];
 waitUntil
 {
     sleep 10;
-    _allGroups = garrison getVariable (format ["%1_groups", _marker]);
-    _allVehicles = garrison getVariable (format ["%1_vehicles", _marker]);
+    _allGroups = [_marker, "Groups"] call A3A_fnc_getSpawnedArray;
+    _allVehicles = [_marker, "Vehicles"] call A3A_fnc_getSpawnedArray;
     private _needsSpawn = [_marker, true] call A3A_fnc_needsSpawn;
     private _markerState = spawner getVariable _marker;
     if(_markerState != _needsSpawn) then
@@ -55,6 +55,7 @@ waitUntil
 };
 
 [2, format ["Starting despawn progress of %1", _marker], _fileName, true] call A3A_fnc_log;
+[3, format ["All groups %1, all vehicle %2", _allGroups, _allVehicles], _fileName, true] call A3A_fnc_log;
 
 [_marker] call A3A_fnc_freeSpawnPositions;
 

@@ -39,7 +39,7 @@ if(_type == "Groups") then
 }
 else
 {
-    _result = spawner getVariable [format ["%1_groups", _marker], []];
+    _result = spawner getVariable [format ["%1_vehicles", _marker], []];
 };
 
 _result;

@@ -11,3 +11,24 @@ tierWar = 10;
 
 
 ============================================================
+private _buildingPos = building buildingPos -1;
+
+hint str (count _buildingPos);
+
+{
+    private _posASL = +_x;
+    _posASL set [2, ((ATLToASL _posASL) select 2)];
+    //hint format ["Old %1, new %2", _x, _posASL];
+
+    private _newPos = lineIntersectsSurfaces [_posASL, (_posASL vectorAdd [0, 0, -1])];
+    if(count _newPos == 0) then
+    {
+        private _arrow = "Sign_Arrow_F" createVehicle [0,0,0];
+        _arrow setPosASL _posASL;
+    }
+    else
+    {
+        private _arrow = "Sign_Arrow_Blue_F" createVehicle [0,0,0];
+        _arrow setPosASL ((_newPos select 0) select 0);
+    };
+} forEach _buildingPos;
