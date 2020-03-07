@@ -77,6 +77,7 @@ else
 
 (group _unit) setVariable ["isDisabled", true, true];
 _unit disableAI "ALL";
+//doStop _unit;
 _unit spawn
 {
     sleep 5;

@@ -104,7 +104,7 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Deactivate units on marker spawn
 - [DONE] Reenable units with marker alert or damage
 - [DONE] Find a find to sort out building positions which are midair (Raycasts?)
-- Add ambient animations for idling units
+- [WIP] Add ambient animations for idling units
 
 ------------ Reinforcements selection ------------------------------------------
 Improve the AI, which chooses the units
@@ -125,6 +125,7 @@ Fix bug when loading a lower level than actually having it, results in more unit
 Send over units that are no longer needed, back to airports
 Only man vehicles if they are able to attack something
 Add mortars to the static list and enable them
+Check convoys fsm for more arrival cases
 
 ------------ Roadblocks --------------------------------------------------------
 Create statics dynamically on first spawn

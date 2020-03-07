@@ -44,7 +44,7 @@ _fn_createLinePosition =
     _result;
 };
 
-
+private _animType = "NONE";
 private _placements = [];
 if(_unitCount < 3) then
 {
@@ -59,13 +59,15 @@ if(_unitCount < 3) then
         else
         {
             _placements = [_startParams select 0, _startParams select 1, _unitCount] call _fn_createLinePosition;
+            _animType = "IDLE";
         };
     }
     else
     {
         private _vehicleDir = getDir _vehicle;
-        private _startPos = [getPos _vehicle, 5, _vehicleDir - 30] call BIS_fnc_relPos;
+        private _startPos = [getPos _vehicle, 4, _vehicleDir - 30] call BIS_fnc_relPos;
         _placements = [_startPos, _vehicleDir + 90, _unitCount] call _fn_createLinePosition;
+        _animType = "VEHICLE";
     };
 }
 else
@@ -90,6 +92,7 @@ else
         else
         {
             _placements = [_startParams select 0, _startParams select 1, _unitCount] call _fn_createLinePosition;
+            _animType = "BRIEFING";
         };
     }
     else
@@ -106,7 +109,9 @@ else
             _placements pushBack [[_selected] call A3A_fnc_getRealBuildingPos, random 360];
             _buildingPos = _buildingPos - [_selected];
         };
+        _animType = "IDLE";
     };
 };
 
-_placements;
+private _result = [_placements, _animType];
+_result;

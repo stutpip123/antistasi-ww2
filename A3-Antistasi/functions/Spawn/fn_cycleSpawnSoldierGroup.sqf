@@ -12,6 +12,7 @@ private _soldierGroup = createGroup _side;
 private _spawnParameter = [_marker, _soldierCount, objNull] call A3A_fnc_createSpawnPlacementForGroup;
 
 private _needsPatrol = false;
+private _animType = "NONE";
 if(_spawnParameter isEqualType 1) then
 {
     _needsPatrol = true;
@@ -19,6 +20,11 @@ if(_spawnParameter isEqualType 1) then
     {
         _spawnParameter pushBack [getMarkerPos _marker, 0];
     } forEach _cargoArray;
+}
+else
+{
+    _animType = _spawnParameter select 1;
+    _spawnParameter = _spawnParameter select 0;
 };
 
 {
@@ -35,7 +41,7 @@ if(_needsPatrol) then
 }
 else
 {
-    //TODO add ambient anims here
+    [_soldierGroup, _animType] call A3A_fnc_startAmbientAnims;
 };
 
 _soldierGroup;

@@ -9,6 +9,7 @@ if(_crewCount == 0) exitWith
 
 private _spawnParameter = [_marker, _crewCount, _vehicle] call A3A_fnc_createSpawnPlacementForGroup;
 
+private _animType = "NONE";
 private _placeInVehicle = false;
 if(_spawnParameter isEqualType -1) then
 {
@@ -17,6 +18,11 @@ if(_spawnParameter isEqualType -1) then
     {
         _spawnParameter pushBack [getMarkerPos _marker, 0];
     } forEach _crewArray;
+}
+else
+{
+    _animType = _spawnParameter select 1;
+    _spawnParameter = _spawnParameter select 0;
 };
 
 if(_vehicleGroup == grpNull) then
@@ -39,7 +45,7 @@ if(_placeInVehicle && {(isNull _vehicle)}) then
 }
 else
 {
-    //TODO add ambient anims here
+    [_vehicleGroup, _animType] call A3A_fnc_startAmbientAnims;
 };
 
 _vehicleGroup;

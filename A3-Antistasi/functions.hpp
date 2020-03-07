@@ -158,6 +158,7 @@ class A3A
 		class rearmCall {};
 		class recallGroup {};
 		class smokeCoverAuto {};
+        class startAmbientAnims {};
 		class staticAutoT {};
 		class staticMGDrill {};
 		class suppressingFire {};
