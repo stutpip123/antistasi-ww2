@@ -12,6 +12,7 @@ private _isAlerted = false;
     format ["Starting marker alert for %1", _marker],
     _fileName
 ] call A3A_fnc_log;
+
 while {spawner getVariable _marker != DESPAWNED} do
 {
     sleep 1;
@@ -20,16 +21,17 @@ while {spawner getVariable _marker != DESPAWNED} do
     {
         {
             private _state = behaviour (leader _x);
-            if(_state == "COMBAT" || {_state == "STEALTH"}) exitWith
+            if(_state == "COMBAT") exitWith
             {
                 [
                     3,
                     format ["Group on %1 has state %2, get in!", _marker, _state],
                     _fileName
                 ] call A3A_fnc_log;
+
                 _isAlerted = true;
                 {
-                    //Appearently some unit detected enemies, man the vehicles, unleash hell!!!
+                    //Enemies detected (or faulty damage), activate the units which are deactivated
                     if(_x getVariable ["isDisabled", false]) then
                     {
                         _x setVariable ["isDisabled", false, true];
@@ -38,33 +40,65 @@ while {spawner getVariable _marker != DESPAWNED} do
                             _x enableSimulation true;
                             _x enableAI "ALL";
                         } forEach (units _x);
-                        //[_x] call A3A_fnc_abortAmbientAnims;
-                        _x setBehaviour "COMBAT";
+                        (units _x) doFollow (leader _x);
+
+                        if !(_x getVariable ["isCrewGroup", false]) then
+                        {
+                            //Combat groups on marker, activate combat mode
+                            [leader _x, (leader _x) getVariable "UnitMarker", "COMBAT", "SPAWNED", "ORIGINAL", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
+                        };
+
+                        //[_x] call A3A_fnc_abortAmbientAnims; //Currently not needed as animations are not used yet (File does not exist neither)
+                        //_x setBehaviour "COMBAT"; //That seems to be handled by upsmon, I leave it here for vcom conversion
                     };
 
-                    if !(isNull (assignedVehicle (leader _x))) then
+                    if (_x getVariable ["shouldCrewVehicle", false]) then
                     {
-                        //The groups has an assigned vehicle, get in
-                        (assignedVehicle (leader _x)) lock 0;
-                        (units _x) orderGetIn true;
-                        //TODO rework that for the case that the squad leader dies while trying to reach the vehicle
-                        (leader _x) addEventHandler
-                        [
-                            "GetInMan",
-                            {
-                                //Search for attacker, fire and engage at will
-                                params ["_unit"];
-                                [(group _unit)] spawn
+                        if(_x getVariable ["isInVehicle", false]) then
+                        {
+                            //Unit are already sitting in the vehicle, activate upsmon
+                            [leader _x, (leader _x) getVariable "UnitMarker", "COMBAT", "SPAWNED", "ORIGINAL", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+                        }
+                        else
+                        {
+                            //Unlock vehicle, get crew in
+                            (assignedVehicle (leader _x)) lock 0;
+                            (units _x) orderGetIn true;
+
+                            (assignedVehicle (leader _x)) addEventHandler
+                            [
+                                "GetIn",
                                 {
-                                    private _group = _this select 0;
-                                    sleep 5;
-                                    private _waypoint = _group addWaypoint [getPos (leader _group), 50];
-                                    _waypoint setWaypointType "SAD";
-                                    _group setCurrentWaypoint _waypoint;
-                                    _group setCombatMode "RED";
-                                };
-                            }
-                        ];
+                                    private _unit = _this select 0;
+                                    private _group = group _unit;
+                                    if(side _group != teamPlayer) then
+                                    {
+                                        if ((units _group) findIf {isNull (objectParent _x)} == -1) then
+                                        {
+                                            //All units managed to get into the vehicle, roll out
+                                            [leader _group, (leader _group) getVariable "UnitMarker", "COMBAT", "SPAWNED", "ORIGINAL", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+                                        };
+                                    };
+                                }
+                            ];
+
+
+                            {
+                                _x addEventHandler
+                                [
+                                    "Killed",
+                                    {
+                                        private _unit = _this select 0;
+                                        private _group = group _unit;
+
+                                        //Can't command the vehicle with one crew units missing, get out and defend from the ground
+                                        (units _group) orderGetIn false;
+                                        [leader _group, (leader _group) getVariable "UnitMarker", "COMBAT", "SPAWNED", "ORIGINAL", "NOFOLLOW", "NOVEH2", "NOWP3"] execVM "scripts\UPSMON.sqf";
+                                    }
+                                ];
+                            } forEach (units _x);
+                        };
+
                     };
                 } forEach _groups;
             };

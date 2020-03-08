@@ -34,10 +34,17 @@ if(_vehicleGroup == grpNull) then
     private _unit = [_marker, _x, _groupIndex, _vehicleGroup, _spawnParameter select _forEachIndex, _isOver] call A3A_fnc_cycleSpawnUnit;
     if(_placeInVehicle && {!(isNull _vehicle)}) then
     {
+        _vehicleGroup setVariable ["isInVehicle", true, true];
         _unit moveInAny _vehicle;
     };
     sleep 0.25;
 } forEach (_crewArray select {_x != ""});
+
+//This parameter will avoid upsmon in case of wakeup, upsmon will be applied once they have entered the vehicle
+_vehicleGroup setVariable ["isCrewGroup", true, true];
+
+//Parameter to check if the crew should move into the vehicle (aka is vehicle fit for combat)
+_vehicleGroup setVariable ["shouldCrewVehicle", true, true];
 
 if(_placeInVehicle && {(isNull _vehicle)}) then
 {

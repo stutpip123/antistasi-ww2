@@ -103,8 +103,10 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Calculate marker size per unit before units are spawned
 - [DONE] Deactivate units on marker spawn
 - [DONE] Reenable units with marker alert or damage
-- [DONE] Find a find to sort out building positions which are midair (Raycasts?)
-- [WIP] Add ambient animations for idling units
+- [DONE] Find a way to sort out building positions which are midair (Raycasts?)
+- [DONE] Add vcom/upsmon on wakeup
+- Add mortars to the static list and enable them
+- Only man vehicles if they are able to attack something
 
 ------------ Reinforcements selection ------------------------------------------
 Improve the AI, which chooses the units
@@ -123,8 +125,6 @@ Add a check after a unit is added if the marker is still spawned (if not despawn
 Fix all the todos
 Fix bug when loading a lower level than actually having it, results in more units then needed (does this really happen?)
 Send over units that are no longer needed, back to airports
-Only man vehicles if they are able to attack something
-Add mortars to the static list and enable them
 Check convoys fsm for more arrival cases
 
 ------------ Roadblocks --------------------------------------------------------
@@ -172,6 +172,7 @@ WON'T DO, EITHER OBSOLETE OR NOT WANTED
 [WON'T] Rework unit detection system (Squadleader and medics)
 [WON'T] Faster way to check for vehicle (vehicle => objectParent)
 [WON'T] Remove spawned in markers (risk of missing out on marker is too large)
+[WON'T] Add ambient animations for idling units (not needed for now)
 
 ================================================================================
 Files that need a rework

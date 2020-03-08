@@ -52,6 +52,7 @@ _unit addEventHandler
     {
         //Is there any way to disable this eventhandle on first run?
         private _unit = _this select 0;
+        private _marker = _unit getVariable "UnitMarker";
         private _group = group _unit;
         if(_group getVariable ["isDisabled", false]) then
         {
@@ -60,8 +61,9 @@ _unit addEventHandler
                 _x enableSimulation true;
                 _X enableAI "ALL";
             } forEach (units _group);
+            [leader _group, _marker, "COMBAT", "SPAWNED", "ORIGINAL", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
         };
-        _group setBehaviour "COMBAT";
+        //_group setBehaviour "COMBAT"; //Handled by upsmon, check if vcom needs it
         //[_group] call A3A_fnc_abortAmbientAnims
     }
 ];
