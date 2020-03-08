@@ -47,6 +47,10 @@ else
                 {
                     _static = if(_side == Occupants) then {staticATOccupants} else {staticATInvaders};
                 };
+                case ("MORTAR"):
+                {
+                    _static = if(_side == Occupants) then {NATOMortar} else {CSATMortar};
+                };
             };
             _staticObject = createVehicle [_static, _spawnPos, [], 0, "CAN_COLLIDE"];
             _staticObject setDir (_spawnParameter select 1);

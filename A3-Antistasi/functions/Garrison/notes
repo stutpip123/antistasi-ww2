@@ -97,7 +97,7 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Change vehicle getIn EH to handle stolen vehicles correctly
 - [DONE] On despawn handle vehicles as recovered by nearest marker
 - [DONE] Remove stolen vehicles from the list
-[WIP] Unit spawns
+[DONE] Unit spawns
 - [DONE] Finalizing cyclic spawn
 - [DONE] Place units in logical positions without UPSMON
 - [DONE] Calculate marker size per unit before units are spawned
@@ -105,7 +105,7 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Reenable units with marker alert or damage
 - [DONE] Find a way to sort out building positions which are midair (Raycasts?)
 - [DONE] Add vcom/upsmon on wakeup
-- Add mortars to the static list and enable them
+- [DONE] Add mortars to the static list and enable them
 - [DONE] Only man vehicles if they are able to attack something
 
 ------------ Reinforcements selection ------------------------------------------

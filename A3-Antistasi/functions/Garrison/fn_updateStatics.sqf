@@ -11,12 +11,6 @@ params ["_type", "_marker"];
 
 private _fileName = "updateStatics";
 
-[
-    4,
-    format ["Updating statics on %1 with type %2", _marker, _type],
-    _fileName
-] call A3A_fnc_log;
-
 private _staticPerc = garrison getVariable [format ["%1_staticPerc", _type], 1];
 
 //Blame spoffy for this construct here
@@ -26,13 +20,6 @@ while {isNil {spawner getVariable (format ["%1_available", _marker])}} do {sleep
 private _availablePlaces = spawner getVariable (format ["%1_available", _marker]);
 
 private _staticCount = ceil ((_availablePlaces select 4) * _staticPerc);
-
-[
-    3,
-    format ["Setting static count for %1 to %2", _marker, _staticCount],
-    _fileName
-] call A3A_fnc_log;
-
 private _statics = garrison getVariable [format ["%1_statics", _marker], []];
 for "_i" from (count _statics) to (_staticCount - 1) do
 {
@@ -40,5 +27,14 @@ for "_i" from (count _statics) to (_staticCount - 1) do
     _statics pushBack [_spawnParams, -1];
 };
 garrison setVariable [format ["%1_statics", _marker], _statics, true];
-
 _currentPlaces set [4, _staticCount];
+
+private _mortarCount = ceil ((_availablePlaces select 3) * _staticPerc);
+private _mortars = garrison getVariable [format ["%1_mortars", _marker], []];
+for "_i" from (count _statics) to (_mortarCount - 1) do
+{
+    private _spawnParams = [_marker, "Mortar"] call A3A_fnc_findSpawnPosition;
+    _mortars pushBack [_spawnParams, -1];
+};
+garrison setVariable [format ["%1_mortars", _marker], _mortars, true];
+_currentPlaces set [3, _mortarCount];

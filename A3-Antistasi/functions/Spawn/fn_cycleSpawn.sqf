@@ -117,6 +117,23 @@ private _staticGroup = grpNull;
     };
 } forEach _statics;
 
+//Spawn in mortars of the marker
+private _mortars = garrison getVariable [format ["%1_mortars", _marker], []];
+private _mortarGroup = grpNull;
+{
+    if(isNull _mortarGroup) then
+    {
+        _mortarGroup = createGroup _side;
+        _allGroups pushBack _mortarGroup;
+    };
+    private _mortar = [_marker, _mortarGroup, _x select 0, _x select 1, _forEachIndex] call A3A_fnc_cycleSpawnStatic;
+    _allVehicles pushBack _mortar;
+    if (_side == teamPlayer) then
+    {
+        //Get one unit in here
+    };
+} forEach _mortars;
+
 //Spawning in patrol units around the marker
 private _patrols = [_marker] call A3A_fnc_getPatrols;
 {
