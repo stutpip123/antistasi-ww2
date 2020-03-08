@@ -538,6 +538,7 @@ class A3A
 		class generateRoadsDB {};
         class getRealBuildingPos {};
         class isBuildingPosValid {};
+        class isCombatVehicle {};
 		class log {};
 		class vehicleWillCollideAtPosition {};
 	};

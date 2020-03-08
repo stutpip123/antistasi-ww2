@@ -106,7 +106,7 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Find a way to sort out building positions which are midair (Raycasts?)
 - [DONE] Add vcom/upsmon on wakeup
 - Add mortars to the static list and enable them
-- Only man vehicles if they are able to attack something
+- [DONE] Only man vehicles if they are able to attack something
 
 ------------ Reinforcements selection ------------------------------------------
 Improve the AI, which chooses the units
@@ -117,7 +117,6 @@ Rework stationating units on marker from squad (they need the ids, arrays and sh
 
 ------------ Various -----------------------------------------------------------
 Better troup compositions
-Deactivate random mortar spawns
 Reenable civies driving around
 Rework spawned arrays to carry indices
 Add a check after a unit is added if the marker is still spawned (if not despawn units) to avoid bad order of actions on spawnedArrays
@@ -161,7 +160,7 @@ Add system documentation to github
 OPEN AN ISSUE AND DO IT SOME OTHER TIME
 ================================================================================
 - Add keys as a result on intel search (+ vehicle open animation)
-
+- Add case for units controlling drones
 
 ================================================================================
 WON'T DO, EITHER OBSOLETE OR NOT WANTED
@@ -173,9 +172,10 @@ WON'T DO, EITHER OBSOLETE OR NOT WANTED
 [WON'T] Faster way to check for vehicle (vehicle => objectParent)
 [WON'T] Remove spawned in markers (risk of missing out on marker is too large)
 [WON'T] Add ambient animations for idling units (not needed for now)
+[WON'T] Deactivate random mortar spawns (these are done by units with mortar backpacks, needs change in the templates)
 
 ================================================================================
-Files that need a rework
+Files that need a rework (Won't do it here, otherwise spoffy might kill me)
 ================================================================================
 - fn_selectReinfUnits
 - fn_shouldReinforce

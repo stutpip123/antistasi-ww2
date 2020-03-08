@@ -13,7 +13,7 @@ private _animType = "NONE";
 private _placeInVehicle = false;
 if(_spawnParameter isEqualType -1) then
 {
-    _placeInVehicle = true;
+    _placeInVehicle = [_vehicle] call A3A_fnc_isCombatVehicle;
     _spawnParameter = [];
     {
         _spawnParameter pushBack [getMarkerPos _marker, 0];
@@ -44,7 +44,7 @@ if(_vehicleGroup == grpNull) then
 _vehicleGroup setVariable ["isCrewGroup", true, true];
 
 //Parameter to check if the crew should move into the vehicle (aka is vehicle fit for combat)
-_vehicleGroup setVariable ["shouldCrewVehicle", true, true];
+_vehicleGroup setVariable ["shouldCrewVehicle", [assignedVehicle (leader _vehicleGroup)] call A3A_fnc_isCombatVehicle, true];
 
 if(_placeInVehicle && {(isNull _vehicle)}) then
 {
