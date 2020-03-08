@@ -107,13 +107,12 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Add vcom/upsmon on wakeup
 - [DONE] Add mortars to the static list and enable them
 - [DONE] Only man vehicles if they are able to attack something
-
------------- Reinforcements selection ------------------------------------------
-Improve the AI, which chooses the units
-Improve the replenish function
-Add different costs for different units
-Finish functions for adding and removing units from outposts (spawned and not spawned) (handle garrison data and spawned data)
-Rework stationating units on marker from squad (they need the ids, arrays and shit)
+Reinforcements selection
+- Improve the AI, which chooses the units
+- Improve the replenish function
+- Add different costs for different units
+- Finish functions for adding and removing units from outposts (spawned and not spawned) (handle garrison data and spawned data)
+- Rework stationating units on marker from squad (they need the ids, arrays and shit)
 
 ------------ Various -----------------------------------------------------------
 Better troup compositions
@@ -125,6 +124,7 @@ Fix all the todos
 Fix bug when loading a lower level than actually having it, results in more units then needed (does this really happen?)
 Send over units that are no longer needed, back to airports
 Check convoys fsm for more arrival cases
+Fix roadblocks (not sure what their problem is)
 
 ------------ Roadblocks --------------------------------------------------------
 Create statics dynamically on first spawn

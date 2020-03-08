@@ -12,7 +12,7 @@ params ["_vehicle"];
     Returns:
         _result : BOOLEAN : True if the vehicle is combat ready, false otherwise
 */
-if(isNull _vehicle || _vehicle == "") exitWith {false};
+if(isNull _vehicle || {_vehicle isEqualTo ""}) exitWith {false};
 
 private _vehicleType = if (_vehicle isEqualType objNull) then {typeOf _vehicle} else {_vehicle};
 
