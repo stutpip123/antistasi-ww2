@@ -284,6 +284,7 @@ class A3A
         class getOver {};
         class getPatrols {};
 		class getRequested {};
+        class getVehicleCost {};
 		class getVehicleCrew {};
 		class initPreference {};
 		class logArray {};

@@ -21,6 +21,9 @@ private _types = [];
 //Bases cannot reinforce themselves
 if(_base isEqualTo _target) exitWith {_types};
 
+//Carrier can only reinforce with air convoys (maybe later amphibious attacks?)
+if(_base in ["NATO_carrier", "CSAT_carrier"]) exitWith {["Air"]};
+
 
 private _isAirport = _base in airportsX;
 private _side = sidesX getVariable [_base, sideUnknown];

@@ -107,12 +107,23 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Add vcom/upsmon on wakeup
 - [DONE] Add mortars to the static list and enable them
 - [DONE] Only man vehicles if they are able to attack something
-Reinforcements selection
+[WIP] Reinforcements selection
 - Improve the AI, which chooses the units
 - Improve the replenish function
-- Add different costs for different units
+- [DONE] Add different costs for different units
 - Finish functions for adding and removing units from outposts (spawned and not spawned) (handle garrison data and spawned data)
 - Rework stationating units on marker from squad (they need the ids, arrays and shit)
+
+------------ Roadblocks --------------------------------------------------------
+Create statics dynamically on first spawn
+Create troops dynamically on first spawn
+Add multiple types of roadblock
+
+------------ Statics -----------------------------------------------------------
+Make the static and vehicle system EH based instead of wonky conditions on despawn
+Add a message on statics when they are dismantled or build on a marker
+Add all remaining statics to the new owner (in clearGarrison as this is called in markerchange)
+[DONE] Add difficulty multiplier to timeouts on statics and patrols
 
 ------------ Various -----------------------------------------------------------
 Better troup compositions
@@ -126,17 +137,6 @@ Send over units that are no longer needed, back to airports
 Check convoys fsm for more arrival cases
 Fix roadblocks (not sure what their problem is)
 Add trucks to vehicle list
-
------------- Roadblocks --------------------------------------------------------
-Create statics dynamically on first spawn
-Create troops dynamically on first spawn
-Add multiple types of roadblock
-
------------- Statics -----------------------------------------------------------
-Make the static and vehicle system EH based instead of wonky conditions on despawn
-Add a message on statics when they are dismantled or build on a marker
-Add all remaining statics to the new owner (in clearGarrison as this is called in markerchange)
-[DONE] Add difficulty multiplier to timeouts on statics and patrols
 
 ------------ Optimisation ------------------------------------------------------
 [WIP] Optimisation for speed and data size
