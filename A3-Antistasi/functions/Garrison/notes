@@ -108,7 +108,7 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Add mortars to the static list and enable them
 - [DONE] Only man vehicles if they are able to attack something
 [WIP] Reinforcements selection
-- Improve the AI, which chooses the units
+- [DONE] Improve the AI, which chooses the units
 - Improve the replenish function
 - [DONE] Add different costs for different units
 - Finish functions for adding and removing units from outposts (spawned and not spawned) (handle garrison data and spawned data)
@@ -137,6 +137,7 @@ Send over units that are no longer needed, back to airports
 Check convoys fsm for more arrival cases
 Fix roadblocks (not sure what their problem is)
 Add trucks to vehicle list
+Add check if crewArray has enough units to drive vehicle, otherwise don't man
 
 ------------ Optimisation ------------------------------------------------------
 [WIP] Optimisation for speed and data size

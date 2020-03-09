@@ -1,27 +1,32 @@
-params ["_base", "_target", ["_isAir", false], ["_bypass", false]];
+params ["_base", "_target", ["_isAir", false]];
 
 /*  Selects the units to send, given on the targets reinf needs (and what the base has (not yet))
-*   Params:
-*     _base : STRING : The name of the origin base
-*     _target : STRING : The name of the destination
-*     _isAir : BOOLEAN : UNUSED
-*
-*   Returns:
-*     _unitsSend : ARRAY : The units in the correct format
+
+    Execution on: HC or Server
+
+    Scope: Internal
+
+    Params:
+        _base : STRING : The name of the origin base
+        _target : STRING : The name of the destination
+        _isAir : BOOLEAN : Determines if the selected units should be air units only
+
+    Returns:
+        _unitsSend : ARRAY : The units in the correct format
 */
 
 private _fileName = "fn_selectReinfUnits";
 
-private _maxUnitSend = garrison getVariable [format ["%1_recruit", _base], 0];
-if(_maxUnitSend < 3 && {!_bypass}) exitWith
+private _pointsAvailable = garrison getVariable [format ["%1_recruit", _base], 0];
+if(_pointsAvailable < 3) exitWith
 {
-    diag_log "Can't select units with less than 3 slots, would be an vehicle only with crew!";
+    [2, "Can't select units with less than 3 point, would be an vehicle only with crew!", _fileName, true] call A3A_fnc_log;
     [];
 };
 
 private _unitsSend = [];
 
-//Hard copy, need to work on this
+//Hard copy, need to work on this (Or do we?)
 private _reinf = +([_target] call A3A_fnc_getRequested);
 private _side = sidesX getVariable [_base, sideUnknown];
 
@@ -32,162 +37,284 @@ private _currentUnitCount = 0;
 
 [
     3,
-    format ["Gathered data for unit selection, available are %1, %2 cargo units needed", _maxUnitSend, _maxCargoSpaceNeeded],
-    _fileName
+    format ["Gathered data for unit selection, available are %1, %3 vehicles needed, %2 cargo units needed", _pointsAvailable, _maxCargoSpaceNeeded, _maxVehiclesNeeded],
+    _fileName,
+    true
 ] call A3A_fnc_log;
-[_reinf, "Reinforcement"] call A3A_fnc_logArray;
-
 
 private _finishedSelection = false;
 
-while {_currentUnitCount < (_maxUnitSend - 2) && {_maxCargoSpaceNeeded+_maxVehiclesNeeded > 0}} do
+private _sortedVehicles = [];
+private _sortedUnits = [];
+private _sortedCrew = [];
+
 {
-    private _currentSelected = "";
-    private _seatCount = 0;
-    private _crewSeats = 0;
-
-    //Attempt to find suitable vehicle in requested list
+    _x params ["_vehicle", "_crewArray", "_cargoArray"];
+    //Add vehicles to sorted array
+    private _vehicleIndex = _sortedVehicles findIf {(_x select 1) == _vehicle};
+    if(_vehicleIndex == -1) then
     {
-        private _vehicle = (_x select 0);
-        if(_vehicle != "") then
-        {
-            private _curSeatCount = [_vehicle, true] call BIS_fnc_crewCount;
-            private _curCrewSeats = [_vehicle, false] call BIS_fnc_crewCount;
-
-            //Check we don't overflow the max units we can send, if we get this vehicle and crew it.
-            if
-            (
-                [_vehicle] call A3A_fnc_vehAvailable &&                             //Check if vehicle is currently available
-                {(((_currentUnitCount + _curCrewSeats) + 1) <= _maxUnitSend) &&     //Already send units + crew + 1 for vehicle <= available units
-                {_curSeatCount > _seatCount &&                                      //Can send more then the last select vehicle
-                {!_isAir ||	{_vehicle isKindOf "Air"}}}}                            //Ensure air vehicle for air convoys
-            ) then
-            {
-                _currentSelected = _vehicle;
-                _seatCount = _curSeatCount;
-                _crewSeats = _curCrewSeats;
-            };
-        };
-    } forEach _reinf;
-
-    //Delete vehicle if we selected one
-    if(_currentSelected != "") then
-    {
-        private _index = _reinf findIf {(_x select 0) == _currentSelected};
-        if(_index != -1) then
-        {
-            (_reinf select _index) set [0, ""];
-            _maxVehiclesNeeded = _maxVehiclesNeeded - 1;
-        }
-        else
-        {
-            [1, format ["Tried to delete reinf vehicle, but couldn't find it after selection, vehicle was %1!", _currentSelected], _fileName] call A3A_fnc_log;
-        };
-    };
-
-    //No suitable vehicle found, usign different vehicle to reinforce
-    if(_currentSelected == "") then
-    {
-        //Calculate the amount of units that we still need to send against the amount of units we still have available after substracting driver and vehicle
-        //Save whatever number is smaller
-        private _neededCargoSpace = _maxCargoSpaceNeeded min (_maxUnitSend - _currentUnitCount - 2);
-
-        if(_neededCargoSpace == 0) then
-        {
-            [1, "_neededCargoSpace is 0, something went really wrong!", _fileName] call A3A_fnc_log;
-        }
-        else
-        {
-            [3, format ["No reinf vehicle found, selecting not needed transport vehicle, needs space for %1 passengers", _neededCargoSpace], _fileName] call A3A_fnc_log;
-            if (_isAir) then
-            {
-                if (_neededCargoSpace <= 4) then
-                {
-                    _currentSelected = if (_side ==	Occupants) then {vehNATOPatrolHeli} else {vehCSATPatrolHeli};
-                }
-                else
-                {
-                    _currentSelected = if (_side ==	Occupants) then {selectRandom vehNATOTransportHelis} else {selectRandom vehCSATTransportHelis};
-                };
-                [3, format ["Selected %1 as an air transport vehicle", _currentSelected], _fileName] call A3A_fnc_log;
-            }
-            else
-            {
-                if(_neededCargoSpace == 1) then
-                {
-                    //Vehicle, crew and one person, selecting quad
-                    _currentSelected = if(_side == Occupants) then {vehNATOBike} else {vehCSATBike};
-                }
-                else
-                {
-                    if(_neededCargoSpace <= 5) then
-                    {
-                        //Select light unarmed vehicle (as the armed uses three crew)
-                        _currentSelected = if(_side == Occupants) then {selectRandom vehNATOLightUnarmed} else {selectRandom vehCSATLightUnarmed};
-                    }
-                    else
-                    {
-                        //Select random truck or helicopter
-                        _currentSelected = if(_side == Occupants) then {selectRandom (vehNATOTrucks + vehNATOTransportHelis)} else {selectRandom (vehCSATTrucks + vehCSATTransportHelis)};
-                    };
-                };
-                [3, format ["Selected %1 as an ground or air transport vehicle", _currentSelected], _fileName] call A3A_fnc_log;
-            };
-            _seatCount = [_currentSelected, true] call BIS_fnc_crewCount;
-            _crewSeats = [_currentSelected, false] call BIS_fnc_crewCount;
-        };
-    };
-
-    if(_currentSelected != "") then
-    {
-        //Assigning crew
-        private _crewMember = if(_side == Occupants) then {NATOCrew} else {CSATCrew};
-        private _crew = [_currentSelected, _crewMember] call A3A_fnc_getVehicleCrew;
-        _currentUnitCount = _currentUnitCount + 1 + _crewSeats;
-
-        //Assigning cargo
-        private _cargo = [];
-        private _openSpace = _seatCount - _crewSeats;
-        private _abort = false;
-
-        for "_i" from 0 to ((count _reinf) - 1) do
-        {
-            private _data = _reinf select _i;
-            private _dataCargo = (_data select 2) select {_x != ""};
-
-            while {count _dataCargo > 0} do
-            {
-                //If space is available and units are available, add them
-                if((_currentUnitCount < _maxUnitSend) && {_openSpace > 0}) then
-                {
-                    _cargo pushBack (_dataCargo deleteAt 0);
-                    _currentUnitCount = _currentUnitCount + 1;
-                    _maxCargoSpaceNeeded = _maxCargoSpaceNeeded - 1;
-                    _openSpace = _openSpace - 1;
-                }
-                else
-                {
-                    //No space or units available, abort
-                    _abort = true;
-                };
-                if(_abort) exitWith {};
-            };
-
-            //No more space, exit
-            if(_abort) exitWith {};
-        };
-        _unitsSend pushBack [_currentSelected, _crew, _cargo];
-        [3, format ["Units selected, crew is %1, cargo is %2", _crew, _cargo], _fileName] call A3A_fnc_log;
+        _sortedVehicles pushBack [([_vehicle] call A3A_fnc_getVehicleCost) + ([_vehicle , true] call BIS_fnc_crewCount), _vehicle, 1];
     }
     else
     {
-        //No units need to be send, and vehicle is not available, abort loop
-        _finishedSelection = true;
+        private _entry = _sortedVehicles select _vehicleIndex;
+        _entry set [2, (_entry select 2) + 1];
     };
 
-    if(_finishedSelection) exitWith {};
+    //Add crew to sorted array
+    {
+        if (_x != "") then
+        {
+            if(_sortedCrew isEqualTo []) then
+            {
+                _sortedCrew = [1, _x];
+            }
+            else
+            {
+                _sortedCrew set [0, (_sortedCrew select 0) + 1];
+            };
+        };
+    } forEach _crewArray;
+
+    //Add cargo to sorted array
+    {
+        if(_x != "") then
+        {
+            private _unit = _x;
+            private _unitIndex = _sortedUnits findIf {(_x select 1) == _unit};
+            if(_unitIndex == -1) then
+            {
+                _sortedUnits pushBack [1, _unit];
+            }
+            else
+            {
+                private _entry = _sortedUnits select _unitIndex;
+                _entry set [0, (_entry select 0) + 1];
+            };
+        };
+    } forEach _cargoArray;
+} forEach _reinf;
+
+//All units sorted, now search for the most valuable vehicles and send them
+//Sort the array in descending order, vehicle with the highest points is first element
+_sortedVehicles sort false;
+
+private _newLine = ["", [], []];
+private _allUnitsLoaded = false;
+private _crewMember = if(_side == Occupants) then {NATOCrew} else {CSATCrew};
+{
+    _x params ["_costs", "_vehicleType", "_amountNeeded"];
+
+    for "_counter" from 1 to _amountNeeded do
+    {
+        //Can buy vehicle
+        _newLine = ["", [], []];
+        if (_costs < _pointsAvailable) then
+        {
+            _pointsAvailable = _pointsAvailable - _costs;
+            _newLine set [0, _vehicleType];
+
+            private _crew = [_vehicleType, _crewMember] call A3A_fnc_getVehicleCrew;
+            //Reducing amount of needed crew
+            if ((_sortedCrew select 0) > 0) then
+            {
+                _sortedCrew set [0, (_sortedCrew select 0) - (count _crew)];
+            };
+            _newLine set [1, _crew];
+
+            //Check if we still got units to load
+            if (!_allUnitsLoaded) then
+            {
+                private _cargoSeats = [_vehicleType, true] call BIS_fnc_crewCount - (count _crew);
+                private _cargoIndex = 0;
+                private _cargo = [];
+
+                for "_seat" from 1 to _cargoSeats do
+                {
+                    //Index is higher then array indeces go
+                    if (_cargoIndex >= (count _sortedUnits)) then
+                    {
+                        //Add crew unit if possible
+                        if((_sortedCrew select 0) > 0) then
+                        {
+                            _cargo pushBack (_sortedCrew select 1);
+                            _sortedCrew set [0, (_sortedCrew select 0) - 1];
+                            _cargoIndex = 0;
+                        }
+                        else
+                        {
+                            //No crew available, check if cargo units available
+                            if(_cargoIndex == 0) then
+                            {
+                                //No crew and cargo units available, all units loaded
+                                _allUnitsLoaded = true;
+                            }
+                            else
+                            {
+                                _cargoIndex = 0;
+                            };
+                        };
+                    }
+                    else
+                    {
+                        private _entry = _sortedUnits select _cargoIndex;
+                        _cargo pushBack (_entry select 1);
+                        if((_entry select 0) <= 1) then
+                        {
+                            //Last one, delete entry
+                            _sortedUnits deleteAt _cargoIndex;
+                            _cargoIndex = _cargoIndex - 1;
+                        }
+                        else
+                        {
+                            //More to come, reduce numbers
+                            _entry set [0, (_entry select 0) - 1];
+                        };
+                        _cargoIndex = _cargoIndex + 1;
+                    };
+
+                    if(_allUnitsLoaded) exitWith {};
+                };
+                _newLine set [2, _cargo];
+            };
+            [
+                3,
+                format ["Selected %1 as vehicle, %2 as crew and %3 as cargo", _newLine select 0, _newLine select 1, _newLine select 2],
+                _fileName,
+                true
+            ] call A3A_fnc_log;
+            _unitsSend pushBack _newLine;
+        };
+    };
+} forEach _sortedVehicles;
+
+if (!_allUnitsLoaded) then
+{
+    //We still got units which we have to send
+    //Check which vehicle we are able to send now
+    private _possibleVehicles = [];
+    if(_side == Occupants) then
+    {
+        if (_isAir) then
+        {
+            _possibleVehicles = [vehNATOPatrolHeli] + vehNATOTransportHelis;
+        }
+        else
+        {
+            _possibleVehicles = [vehNATOBike, vehNATOPatrolHeli] + vehNATOLight + vehNATOTrucks + vehNATOTransportHelis;
+        };
+    }
+    else
+    {
+        if (_isAir) then
+        {
+            _possibleVehicles = [vehCSATPatrolHeli] + vehCSATTransportHelis;
+        }
+        else
+        {
+            _possibleVehicles = [vehCSATBike, vehCSATPatrolHeli] + vehCSATLight + vehCSATTrucks + vehCSATTransportHelis;
+        };
+    };
+
+    private _sortedVehicles = [];
+    {
+        private _cost = ([_x] call A3A_fnc_getVehicleCost) + ([_x, true] call BIS_fnc_crewCount);
+        if(_cost < _pointsAvailable) then
+        {
+            _sortedVehicles pushBack [_x, _cost];
+        };
+    } forEach _possibleVehicles;
+
+    if(count _sortedVehicles == 0) exitWith
+    {
+        [
+            3,
+            "No further vehicle available, as the marker has no points left",
+            _fileName,
+            true
+        ] call A3A_fnc_log;
+    };
+
+    {
+        _x params ["_vehicleType", "_cost"];
+        while {!_allUnitsLoaded && {_cost < _pointsAvailable}} do
+        {
+            _newLine = ["", [], []];
+            _pointsAvailable = _pointsAvailable - _costs;
+            _newLine set [0, _vehicleType];
+
+            private _crew = [_vehicleType, _crewMember] call A3A_fnc_getVehicleCrew;
+            //Reducing amount of needed crew
+            if ((_sortedCrew select 0) > 0) then
+            {
+                _sortedCrew set [0, (_sortedCrew select 0) - (count _crew)];
+            };
+            _newLine set [1, _crew];
+
+            private _cargoSeats = [_vehicleType, true] call BIS_fnc_crewCount - (count _crew);
+            private _cargoIndex = 0;
+            private _cargo = [];
+
+            for "_seat" from 1 to _cargoSeats do
+            {
+                //Index is higher then array indeces go
+                if (_cargoIndex >= (count _sortedUnits)) then
+                {
+                    //Add crew unit if possible
+                    if((_sortedCrew select 0) > 0) then
+                    {
+                        _cargo pushBack (_sortedCrew select 1);
+                        _sortedCrew set [0, (_sortedCrew select 0) - 1];
+                        _cargoIndex = 0;
+                    }
+                    else
+                    {
+                        //No crew available, check if cargo units available
+                        if(_cargoIndex == 0) then
+                        {
+                            //No crew and cargo units available, all units loaded
+                            _allUnitsLoaded = true;
+                        }
+                        else
+                        {
+                            _cargoIndex = 0;
+                        };
+                    };
+                }
+                else
+                {
+                    private _entry = _sortedUnits select _cargoIndex;
+                    _cargo pushBack (_entry select 1);
+                    if((_entry select 0) <= 1) then
+                    {
+                        //Last one, delete entry
+                        _sortedUnits deleteAt _cargoIndex;
+                        _cargoIndex = _cargoIndex - 1;
+                    }
+                    else
+                    {
+                        //More to come, reduce numbers
+                        _entry set [0, (_entry select 0) - 1];
+                    };
+                    _cargoIndex = _cargoIndex + 1;
+                };
+
+                if(_allUnitsLoaded) exitWith {};
+            };
+            _newLine set [2, _cargo];
+
+            [
+                3,
+                format ["Selected %1 as vehicle, %2 as crew and %3 as cargo", _newLine select 0, _newLine select 1, _newLine select 2],
+                _fileName,
+                true
+            ] call A3A_fnc_log;
+            _unitsSend pushBack _newLine;
+        };
+        if(_allUnitsLoaded) exitWith {};
+    } forEach _sortedVehicles;
 };
 
-garrison setVariable [format ["%1_recruit", _base], (_maxUnitSend - _currentUnitCount), true];
-
+garrison setVariable [format ["%1_recruit", _base], _pointsAvailable, true];
 _unitsSend;
