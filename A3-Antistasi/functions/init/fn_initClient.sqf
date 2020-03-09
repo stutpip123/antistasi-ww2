@@ -327,7 +327,7 @@ player addEventHandler
         [_backpack1] call A3A_fnc_AIVEHinit;
         [_backpack2] call A3A_fnc_AIVEHinit;
 
-        private _closestMarker = [airportsX + outposts + resourcesX + factories + seaports + citiesX, getPos _unit] call BIS_fnc_nearestPosition;
+        private _closestMarker = [airportsX + outposts + resourcesX + factories + seaports + citiesX + ["Synd_HQ"], getPos _unit] call BIS_fnc_nearestPosition;
         if((((getMarkerPos _closestMarker) distance2D _unit) < 250) || {(getPos _unit) inArea _closestMarker}) then
         {
             hint format ["You just disassembled a static weapon at %1, it will no longer be used by the stationated garrison!", [_marker] call A3A_fnc_localizer];

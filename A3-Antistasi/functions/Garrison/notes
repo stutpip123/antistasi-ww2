@@ -122,10 +122,11 @@ Roadblocks
 [WIP] Statics
 - [DONE] Make the static and vehicle (already done by vehicleDespawner) system EH based instead of wonky conditions on despawn
 - [DONE] Add a message on statics when they are dismantled or build on a marker
-- Add all remaining statics to the new owner (in clearGarrison as this is called in markerchange)
+- [DONE] Add all remaining statics to the new owner (in clearGarrison as this is called in markerchange)
 - [DONE] Add difficulty multiplier to timeouts on statics and patrols
 - Man statics on deploying or when new units are stationated
 - Add action to change position with gunner of static for manual fire
+- Recheck statics on marker despawning (do a search in 1 meter around the position to find it, delete if not found)
 [WIP] Various
 - Better troup compositions
 - Reenable civies driving around

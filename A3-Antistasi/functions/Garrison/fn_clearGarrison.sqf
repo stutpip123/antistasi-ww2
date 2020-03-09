@@ -48,4 +48,16 @@ if(_winner != teamPlayer) then
     _soldiers = _soldiers apply {typeOf _x};
     _soldiers = ["", [], _soldiers];
     [_marker, _soldier] call A3A_fnc_addToGarrison;
+}
+else
+{
+    //Transfer all statics to the players
+    private _playerStatics = [];
+    {
+        if(alive _x && {_x isKindOf "StaticWeapon" && {_x getVariable ["UnitMarker", ""] == _marker}}) then
+        {
+            _playerStatics pushBack [[getPosATL _x, getDir _x, typeOf _x], -1];
+        };
+    } forEach vehicles;
+    garrison setVariable [format ["%1_statics", _marker], _playerStatics, true];
 };
