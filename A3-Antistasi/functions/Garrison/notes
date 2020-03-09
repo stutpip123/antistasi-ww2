@@ -97,7 +97,7 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Change vehicle getIn EH to handle stolen vehicles correctly
 - [DONE] On despawn handle vehicles as recovered by nearest marker
 - [DONE] Remove stolen vehicles from the list
-[DONE] Unit spawns
+[WIP] Unit spawns
 - [DONE] Finalizing cyclic spawn
 - [DONE] Place units in logical positions without UPSMON
 - [DONE] Calculate marker size per unit before units are spawned
@@ -107,53 +107,47 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Add vcom/upsmon on wakeup
 - [DONE] Add mortars to the static list and enable them
 - [DONE] Only man vehicles if they are able to attack something
-[WIP] Reinforcements selection
+- Fix upsmon script for units already sitting in vehicles
+[WIP] Reinforcements
 - [DONE] Improve the AI, which chooses the units
 - Improve the replenish function
 - [DONE] Add different costs for different units
 - Finish functions for adding and removing units from outposts (spawned and not spawned) (handle garrison data and spawned data)
 - Rework stationating units on marker from squad (they need the ids, arrays and shit)
-
------------- Roadblocks --------------------------------------------------------
-Create statics dynamically on first spawn
-Create troops dynamically on first spawn
-Add multiple types of roadblock
-
------------- Statics -----------------------------------------------------------
-Make the static and vehicle system EH based instead of wonky conditions on despawn
-Add a message on statics when they are dismantled or build on a marker
-Add all remaining statics to the new owner (in clearGarrison as this is called in markerchange)
-[DONE] Add difficulty multiplier to timeouts on statics and patrols
-
------------- Various -----------------------------------------------------------
-Better troup compositions
-Reenable civies driving around
-Rework spawned arrays to carry indices
-Add a check after a unit is added if the marker is still spawned (if not despawn units) to avoid bad order of actions on spawnedArrays
-[DONE] Add functions to search garrison units for specific types and groups
-Fix all the todos
-Fix bug when loading a lower level than actually having it, results in more units then needed (does this really happen?)
-Send over units that are no longer needed, back to airports
-Check convoys fsm for more arrival cases
-Fix roadblocks (not sure what their problem is)
-Add trucks to vehicle list
-Add check if crewArray has enough units to drive vehicle, otherwise don't man
-
------------- Optimisation ------------------------------------------------------
-[WIP] Optimisation for speed and data size
-Reorder all parameters in the same order
-Clean up code
-Cleanup function
-Unify and split the EH into seperate files
-[DONE] Optimize creation of patrols (like statics)
-[DONE] Check uses of distanceUnits, as I have changed the logic
-
------------- Fix broken stuff --------------------------------------------------
-[BUG] Sended units are not leaving the group, not clue why
-
------------- Documentation -----------------------------------------------------
-Add code documentation
-Add system documentation to github
+- Sending units does not makes them leaving the group, not clue why
+Roadblocks
+- Create statics dynamically on first spawn
+- Create troops dynamically on first spawn
+- Add multiple types of roadblock
+[WIP] Statics
+- Make the static and vehicle system EH based instead of wonky conditions on despawn
+- Add a message on statics when they are dismantled or build on a marker
+- Add all remaining statics to the new owner (in clearGarrison as this is called in markerchange)
+- [DONE] Add difficulty multiplier to timeouts on statics and patrols
+[WIP] Various
+- Better troup compositions
+- Reenable civies driving around
+- Rework spawned arrays to carry indices
+- Add a check after a unit is added if the marker is still spawned (if not despawn units) to avoid bad order of actions on spawnedArrays
+- [DONE] Add functions to search garrison units for specific types and groups
+- Fix all the todos
+- Fix bug when loading a lower level than actually having it, results in more units then needed (does this really happen?)
+- Send over units that are no longer needed, back to airports
+- Check convoys fsm for more arrival cases
+- Fix roadblocks (not sure what their problem is)
+- Add trucks to vehicle list
+- Add check if crewArray has enough units to drive vehicle, otherwise don't man
+Optimisation
+- [WIP] Optimisation for speed and data size
+- Reorder all parameters in the same order
+- Clean up code
+- Cleanup function
+- Unify and split the EH into seperate files
+- [DONE] Optimize creation of patrols (like statics)
+- [DONE] Check uses of distanceUnits, as I have changed the logic
+Documentation
+- Add code documentation
+- Add system documentation to github
 
 ======================= LAST NEEDED THING ======================================
 ==========================> Balancing <=========================================
@@ -163,6 +157,7 @@ OPEN AN ISSUE AND DO IT SOME OTHER TIME
 ================================================================================
 - Add keys as a result on intel search (+ vehicle open animation)
 - Add case for units controlling drones
+- Special vehicles for airports
 
 ================================================================================
 WON'T DO, EITHER OBSOLETE OR NOT WANTED
@@ -179,8 +174,5 @@ WON'T DO, EITHER OBSOLETE OR NOT WANTED
 ================================================================================
 Files that need a rework (Won't do it here, otherwise spoffy might kill me)
 ================================================================================
-- fn_selectReinfUnits
 - fn_shouldReinforce
-- fn_landThreatEval
 - fn_createAIAction
-- fn_rebelAttack
