@@ -56,6 +56,11 @@ else
             _staticObject setDir (_spawnParameter select 1);
             _staticObject setVariable ["StaticIndex", _index];
             _staticObject setVariable ["StaticMarker", _marker];
+            [_staticObject] call A3A_fnc_AIVEHinit;
+            if(_staticType == "MORTAR") then
+            {
+                [_staticObject] execVM "scripts\UPSMON\MON_artillery_add.sqf";//TODO need delete UPSMON link
+            };
             _staticObject addEventHandler
             [
                 "Killed",

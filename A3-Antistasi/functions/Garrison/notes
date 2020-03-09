@@ -125,6 +125,7 @@ Fix bug when loading a lower level than actually having it, results in more unit
 Send over units that are no longer needed, back to airports
 Check convoys fsm for more arrival cases
 Fix roadblocks (not sure what their problem is)
+Add trucks to vehicle list
 
 ------------ Roadblocks --------------------------------------------------------
 Create statics dynamically on first spawn
