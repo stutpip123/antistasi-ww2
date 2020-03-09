@@ -128,6 +128,7 @@ while {true} do
 	bombRuns = bombRuns + (({sidesX getVariable [_x,sideUnknown] == teamPlayer} count airportsX) * 0.25);
 	[petros,"taxRep",_textX] remoteExec ["A3A_fnc_commsMP",[teamPlayer,civilian]];
 	[] call A3A_fnc_economicsAI;
+    [] call A3A_fnc_cleanConvoyMarker;
 
 	if (isMultiplayer) then
 	{
@@ -231,7 +232,7 @@ while {true} do
 		if (_countSave <= 0) then
 		{
 			_countSave = autoSaveInterval;
-			_nul = [] execVM "statSave\saveLoop.sqf";
+			[] remoteExecCall ["A3A_fnc_saveLoop", 0, false];
 		};
 	};
 

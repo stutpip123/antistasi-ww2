@@ -10,6 +10,7 @@ class A3A
 		class cityinfo {};
 		class credits {};
         class initAmbientAnimations {};
+		class initACEUnconsciousHandler {};
 		class initFuncs {};
 		class initGarrisons {};
 		class initGetMissionPath {};
@@ -65,7 +66,6 @@ class A3A
 		class garrisonInfo {};
 		class healAndRepair {};
 		class initPetros {};
-		class intelFound {};
 		class isFrontline {};
 		class isTheSameIsland {};
 		class joinMultipleGroups {};
@@ -173,6 +173,7 @@ class A3A
 
 	class Convoy
 	{
+        class cleanConvoyMarker {};
 		class convoyDebug {};
 		class convoyMovement {};
 		class createAIAction {};
@@ -355,6 +356,7 @@ class A3A
 		class ACEpvpReDress {};
 		class ammunitionTransfer {};
 		class arsenalManage {};
+		class categoryOverrides {};
 		class checkRadiosUnlocked {};
 		class configSort {};
 		class crateLootParams {};
@@ -487,6 +489,14 @@ class A3A
 		class loadServer {};
 		class playerHasSave {};
 		class savePlayer {};
+		class getStatVariable {};
+		class loadStat {};
+		class retrievePlayerStat {};
+		class returnSavedStat {};
+		class savePlayerStat {};
+		class setStatVariable {};
+		class varNameToSaveName {};
+		class saveLoop {};
 	};
 
     class Spawn
@@ -537,6 +547,7 @@ class A3A
 	{
 		class basicBackpack {};
 		class createDataObject {};
+		class createNamespace {};
 		class dateToTimeString {};
 		class generateRoadsDB {};
         class getRealBuildingPos {};
@@ -544,5 +555,6 @@ class A3A
         class isCombatVehicle {};
 		class log {};
 		class vehicleWillCollideAtPosition {};
+		class getRoadDirection {};
 	};
 };
