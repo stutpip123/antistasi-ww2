@@ -120,7 +120,7 @@ Roadblocks
 - Create troops dynamically on first spawn
 - Add multiple types of roadblock
 [WIP] Statics
-- Make the static and vehicle system EH based instead of wonky conditions on despawn
+- [WIP] Make the static and vehicle (already done by vehicleDespawner) system EH based instead of wonky conditions on despawn
 - Add a message on statics when they are dismantled or build on a marker
 - Add all remaining statics to the new owner (in clearGarrison as this is called in markerchange)
 - [DONE] Add difficulty multiplier to timeouts on statics and patrols
@@ -137,6 +137,7 @@ Roadblocks
 - Fix roadblocks (not sure what their problem is)
 - Add trucks to vehicle list
 - Add check if crewArray has enough units to drive vehicle, otherwise don't man
+- Add vehicleDespawner to vehicles from the garage
 Optimisation
 - [WIP] Optimisation for speed and data size
 - Reorder all parameters in the same order

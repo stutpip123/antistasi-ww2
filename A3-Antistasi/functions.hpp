@@ -267,6 +267,7 @@ class A3A
 	class Garrison
 	{
         class addGarrisonLine {};
+        class addStaticToGarrison {};
 		class addToGarrison {};
         class addToOver {};
 		class addToRequested {};
@@ -287,6 +288,7 @@ class A3A
         class getVehicleCost {};
 		class getVehicleCrew {};
 		class initPreference {};
+        class isStaticWeaponOnMarker {};
 		class logArray {};
         class markerAlert {};
         class removeFromOver {};

@@ -285,31 +285,46 @@ player addEventHandler ["HandleHeal", {
 		};
 	};
 }];
-player addEventHandler ["WeaponAssembled", {
-	private ["_veh"];
-	_veh = _this select 1;
-	if (_veh isKindOf "StaticWeapon") then {
-		if (not(_veh in staticsToSave)) then {
-			staticsToSave pushBack _veh;
-			publicVariable "staticsToSave";
-			[_veh] call A3A_fnc_AIVEHinit;
-		};
-	_markersX = markersX select {sidesX getVariable [_x,sideUnknown] == teamPlayer};
-	_pos = position _veh;
-	if (_markersX findIf {_pos inArea _x} != -1) then {hint "Static weapon has been deployed for use in a nearby zone, and will be used by garrison militia if you leave it here the next time the zone spawns"};
-	}
-	else {
-		_veh addEventHandler ["Killed",{[_this select 0] remoteExec ["A3A_fnc_postmortem",2]}];
-	};
-}];
-player addEventHandler ["WeaponDisassembled", {
-	_bag1 = _this select 1;
-	_bag2 = _this select 2;
-	//_bag1 = objectParent (_this select 1);
-	//_bag2 = objectParent (_this select 2);
-	[_bag1] call A3A_fnc_AIVEHinit;
-	[_bag2] call A3A_fnc_AIVEHinit;
-}];
+
+player addEventHandler
+[
+    "WeaponAssembled",
+    {
+        params ["_unit", "_staticWeapon"];
+        //Is there any other kind of weapon that can be assembled?
+        if (_staticWeapon isKindOf "StaticWeapon") then
+        {
+            private _marker = [_staticWeapon] call A3A_fnc_isStaticWeaponOnMarker;
+            if (_marker != "") then
+            {
+                hint format ["You deployed the static weapon at %1. If there are militia units stationated here, they will man this weapon shortly!", [_marker] call A3A_fnc_localizer];
+                [_staticWeapon] call A3A_fnc_addStaticToGarrison;
+
+            };
+            [_staticWeapon] call A3A_fnc_AIVEHinit;
+        }
+        else
+        {
+            _staticWeapon addEventHandler
+            [
+                "Killed",
+                {
+                    [_this select 0] remoteExec ["A3A_fnc_postmortem",2]
+                }
+            ];
+        };
+    }
+];
+
+player addEventHandler
+[
+    "WeaponDisassembled",
+    {
+        params ["_unit", "_backpack1", "_backpack2"];
+        [_backpack1] call A3A_fnc_AIVEHinit;
+        [_backpack2] call A3A_fnc_AIVEHinit;
+    }
+];
 
 player addEventHandler ["GetInMan", {
 	private ["_unit","_veh"];
