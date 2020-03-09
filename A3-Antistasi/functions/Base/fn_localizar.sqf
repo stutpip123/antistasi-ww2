@@ -6,6 +6,7 @@ _pos = getMarkerPos _siteX;
 
 _textX = "";
 
+if(_siteX == "Synd_HQ") exitWith {"your HQ"};
 
 if (_siteX in citiesX) then
 	{
