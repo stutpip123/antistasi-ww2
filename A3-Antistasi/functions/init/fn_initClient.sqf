@@ -298,10 +298,13 @@ player addEventHandler
             if (_marker != "") then
             {
                 hint format ["You deployed the static weapon at %1. If there are militia units stationated here, they will man this weapon shortly!", [_marker] call A3A_fnc_localizer];
-                [_staticWeapon] call A3A_fnc_addStaticToGarrison;
+                [_staticWeapon, _marker] call A3A_fnc_addStaticToGarrison;
 
+            }
+            else
+            {
+                [_staticWeapon] call A3A_fnc_AIVEHinit;
             };
-            [_staticWeapon] call A3A_fnc_AIVEHinit;
         }
         else
         {
@@ -323,6 +326,12 @@ player addEventHandler
         params ["_unit", "_backpack1", "_backpack2"];
         [_backpack1] call A3A_fnc_AIVEHinit;
         [_backpack2] call A3A_fnc_AIVEHinit;
+
+        private _closestMarker = [airportsX + outposts + resourcesX + factories + seaports + citiesX, getPos _unit] call BIS_fnc_nearestPosition;
+        if((((getMarkerPos _closestMarker) distance2D _unit) < 250) || {(getPos _unit) inArea _closestMarker}) then
+        {
+            hint format ["You just disassembled a static weapon at %1, it will no longer be used by the stationated garrison!", [_marker] call A3A_fnc_localizer];
+        };
     }
 ];
 
