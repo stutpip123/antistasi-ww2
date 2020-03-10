@@ -388,7 +388,6 @@ if (_base != "") then
 						_Vwp1 setWaypointType "SAD";
 						_Vwp1 setWaypointBehaviour "COMBAT";
 						};
-                    */
 					}
 				else
 					{
