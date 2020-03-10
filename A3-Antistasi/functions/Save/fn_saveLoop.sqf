@@ -132,7 +132,8 @@ _wurzelGarrison = [];
 	 	garrison getVariable [format ["%1_requested",_x], []],
 		garrison getVariable [format ["%1_over", _x], []],
         garrison getVariable [format ["%1_patrols", _x], []],
-        garrison getVariable [format ["%1_statics", _x], []]
+        garrison getVariable [format ["%1_statics", _x], []],
+        garrison getVariable [format ["%1_locked", _x], []]
 	];
 } forEach _markersX;
 
