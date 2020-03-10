@@ -2,15 +2,10 @@ params ["_static", "_player"];
 
 if (!alive _static) exitWith
 {
-    hint "You cannot steal a destroyed static weapon";
-};
-
-if (alive gunner _static) exitWith
-{
     ["Steal Static", "You cannot steal a destroyed static weapon"] call A3A_fnc_customHint;
 };
 
-if ((alive assignedGunner _static) && (!isPlayer (assignedGunner _static))) exitWith
+if (alive gunner _static) exitWith
 {
     ["Steal Static", "The gunner of this static weapon is still alive"] call A3A_fnc_customHint;
 };

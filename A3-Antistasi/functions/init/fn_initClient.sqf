@@ -284,7 +284,7 @@ player addEventHandler
             private _marker = [_staticWeapon] call A3A_fnc_isStaticWeaponOnMarker;
             if (_marker != "") then
             {
-                hint format ["You deployed the static weapon at %1. If there are militia units stationated here, they will man this weapon shortly!", [_marker] call A3A_fnc_localizar];
+                ["Static", format ["You deployed the static weapon at %1. If there are militia units stationated here, they will man this weapon shortly!", [_marker] call A3A_fnc_localizar]] call A3A_fnc_customHint;
                 [_staticWeapon, _marker] call A3A_fnc_addStaticToGarrison;
 
             }
@@ -318,7 +318,7 @@ player addEventHandler
         if((((getMarkerPos _closestMarker) distance2D _unit) < 250) || {(getPos _unit) inArea _closestMarker}) then
         {
             diag_log format ["The marker is %1", _closestMarker];
-            hint format ["You just disassembled a static weapon at %1, it will no longer be used by the stationated garrison!", [_closestMarker] call A3A_fnc_localizar];
+            ["Static", format ["You just disassembled a static weapon at %1, it will no longer be used by the stationated garrison!", [_closestMarker] call A3A_fnc_localizar]] call A3A_fnc_customHint;
         };
     }
 ];

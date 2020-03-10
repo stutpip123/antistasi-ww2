@@ -8,7 +8,7 @@
 //only touch the commented arrays
 scriptName "initZones.sqf";
 private _fileName = "initZones.sqf";
-hint "Creating spawn places, this may take a while!";
+["InitZones", "Creating spawn places, this may take a while!"] call A3A_fnc_customHint;
 [2,"initZones started",_fileName] call A3A_fnc_log;
 
 forcedSpawn = [];

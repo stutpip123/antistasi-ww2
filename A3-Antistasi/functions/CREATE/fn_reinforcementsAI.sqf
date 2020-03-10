@@ -43,7 +43,7 @@ _recruitCount = round ((5 + (round (0.5 * tierWar)) + (floor ((count allPlayers)
         if(count _canReinf == 0) exitWith {};
     } forEach _reinfMarker;
 } forEach [Occupants, Invaders];
-hint "ReinforcementsAI done";
+//hint "ReinforcementsAI done";
 
 //Replenish airports if possible
 {
