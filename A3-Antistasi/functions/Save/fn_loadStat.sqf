@@ -128,9 +128,9 @@ if (_varName in specialVarLoads) then {
 			garrison setVariable [format ["%1_garrison", (_x select 0)], _x select 1, true];
 			garrison setVariable [format ["%1_requested", (_x select 0)], _x select 2, true];
 			garrison setVariable [format ["%1_over", (_x select 0)], _x select 3, true];
-            garrison getVariable [format ["%1_patrols", (_x select 0)], _x select 4, true];
-            garrison getVariable [format ["%1_statics", (_x select 0)], _x select 5, true];
-            garrison getVariable [format ["%1_locked", (_x select 0)], _x select 6, true];
+            garrison setVariable [format ["%1_patrols", (_x select 0)], _x select 4, true];
+            garrison setVariable [format ["%1_statics", (_x select 0)], _x select 5, true];
+            garrison setVariable [format ["%1_locked", (_x select 0)], _x select 6, true];
 			[(_x select 0)] call A3A_fnc_updateReinfState;
 		} forEach _varvalue;
 	};
