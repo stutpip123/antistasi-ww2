@@ -76,3 +76,4 @@ switch (true) do
 garrison setVariable [format ["%1_garrison", _marker], _garrison, true];
 garrison setVariable [format ["%1_requested", _marker], _requested, true];
 spawner setVariable [format ["%1_current", _marker], _currentPlaces, true];
+garrison setVariable [format ["%1_locked", _marker], _locked, true];
