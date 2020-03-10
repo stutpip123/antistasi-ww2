@@ -34,6 +34,7 @@ private _isReinf = !(_index == -1 || {(_losses select _index) <= 0});
 private _canPlace = [_line, _start, _currentPlaces, _availablePlaces] call A3A_fnc_canPlaceVehicleAtMarker;
 //Look line for spawner if vehicle cannot be placed (means only cargo units spawn, neither crew nor vehicle)
 _locked pushBack (!_canPlace);
+[3, format ["Locked for %1 is now: %2", _marker, _locked], "addGarrisonLine", true] call A3A_fnc_log;
 
 //Creates arrays with "" to avoid resize operations
 private _emptyCrew = [];
