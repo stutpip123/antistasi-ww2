@@ -7,24 +7,24 @@ if (!alive _static) exitWith
 
 if (alive gunner _static) exitWith
 {
-    hint "You cannot steal a static weapon when someone is using it";
+    ["Steal Static", "You cannot steal a destroyed static weapon"] call A3A_fnc_customHint;
 };
 
 if ((alive assignedGunner _static) && (!isPlayer (assignedGunner _static))) exitWith
 {
-    hint "The gunner of this static weapon is still alive";
+    ["Steal Static", "The gunner of this static weapon is still alive"] call A3A_fnc_customHint;
 };
 
 if (activeGREF && ((typeOf _static == staticATteamPlayer) || (typeOf _static == staticAAteamPlayer))) exitWith
 {
-    hint "This weapon cannot be dissassembled";
+    ["Steal Static", "This weapon cannot be dissassembled"] call A3A_fnc_customHint;
 };
 
 private _marker = _static getVariable "StaticMarker";
 
 if (!(sidesX getVariable [_marker,sideUnknown] == teamPlayer)) exitWith
 {
-    hint "You have to conquer this zone in order to be able to steal this Static Weapon";
+    ["Steal Static", "You have to conquer this zone in order to be able to steal this Static Weapon"] call A3A_fnc_customHint;
 };
 
 _static setOwner (owner _player);
@@ -46,4 +46,4 @@ for "_i" from 0 to ((count _staticComponents) - 1) do
 /* [_bag1] call A3A_fnc_AIVEHinit;
 [_bag2] call A3A_fnc_AIVEHinit; */
 
-hint "Weapon Stolen. It won't despawn when you assemble it again";
+["Steal Static", "Weapon Stolen. It won't despawn when you assemble it again"] call A3A_fnc_customHint;

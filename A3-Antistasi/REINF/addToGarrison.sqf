@@ -5,7 +5,7 @@ positionTel = [];
 
 onMapSingleClick "positionTel = _pos";
 
-hint "Select the zone on which sending the selected troops as garrison";
+["Garrison", "Select the zone on which sending the selected troops as garrison"] call A3A_fnc_customHint;
 
 waitUntil {sleep 0.5; (count positionTel > 0) or (not visiblemap)};
 onMapSingleClick "";
@@ -18,15 +18,15 @@ private _marker = [markersX,_positionTel] call BIS_fnc_nearestPosition;
 //Different checks for different garrison adds? Well fine
 if (!(_positionTel inArea _marker)) exitWith
 {
-    hint "You must click near a marked zone";
+    ["Garrison", "You must click near a marked zone"] call A3A_fnc_customHint;
 };
 if (!(sidesX getVariable [_marker,sideUnknown] == teamPlayer)) exitWith
 {
-    hint format ["That zone does not belong to %1",nameTeamPlayer];
+    ["Garrison", format ["That zone does not belong to %1",nameTeamPlayer]] call A3A_fnc_customHint;
 };
 if ((_marker in outpostsFIA) && {!(isOnRoad getMarkerPos _marker)}) exitWith
 {
-    hint "You cannot manage garrisons on this kind of zone!";
+    ["Garrison", "You cannot manage garrisons on this kind of zone"] call A3A_fnc_customHint;
 };
 
 private _group = grpNull;
@@ -47,12 +47,12 @@ else
 private _index = _units findIf {(typeOf _x == SDKUnarmed) || {!(alive _x) || {(isPlayer _x) || {(typeOf _x) in arrayCivs}}}};
 if (_index != -1) exitWith
 {
-    hint "Players, Prisoners, refugees or dead units cannot be added to any garrison";
+    ["Garrison", "Static crewman, prisoners, refugees or dead units cannot be added to any garrison"] call A3A_fnc_customHint;
 };
 
 if ((!(isNull _group)) && {(groupID _group == "MineF") || (groupID _group == "Watch") || (isPlayer(leader _group))}) exitWith
 {
-    hint "You cannot garrison player led, Watchpost, Roadblocks or Minefield building squads";
+    ["Garrison", "You cannot garrison player led, Watchpost, Roadblocks or Minefield building squads"] call A3A_fnc_customHint;
 };
 
 
@@ -60,7 +60,7 @@ if (isNull _group) then
 {
 	_group = createGroup teamPlayer;
 	_units joinSilent _group;
-	hint "Sending units to garrison";
+	["Garrison", "Sending units to garrison"] call A3A_fnc_customHint;
 	if !(hasIFA) then
     {
         {
@@ -70,7 +70,7 @@ if (isNull _group) then
 }
 else
 {
-	hint format ["Sending %1 squad to garrison", groupID _group];
+	["Garrison", format ["Sending %1 squad to garrison", groupID _group]] call A3A_fnc_customHint;
 	theBoss hcRemoveGroup _group;
 };
 

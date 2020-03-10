@@ -2,11 +2,11 @@ params ["_operation"];
 
 if (_operation == "add") then
 {
-    hint "Select a zone to add garrisoned troops";
+    ["Garrison", "Select a zone to add garrisoned troops"] call A3A_fnc_customHint;
 }
 else
 {
-    hint "Select a zone to remove its garrison";
+    ["Garrison", "Select a zone to remove it's Garrison"] call A3A_fnc_customHint;
 };
 
 if (!visibleMap) then {openMap true};
@@ -27,19 +27,19 @@ private _position = getMarkerPos _marker;
 
 if (getMarkerPos _marker distance _positionTel > 40) exitWith
 {
-    hint "You must click near a marked zone";
+    ["Garrison", "You must click near a marked zone"] call A3A_fnc_customHint;
     CreateDialog "build_menu";
 };
 
 if (!(sidesX getVariable [_marker, sideUnknown] == teamPlayer)) exitWith
 {
-    hint format ["That zone does not belong to %1",nameTeamPlayer];
+    ["Garrison", format ["That zone does not belong to %1",nameTeamPlayer]] call A3A_fnc_customHint;
     CreateDialog "build_menu";
 };
 
 if ([_position,500] call A3A_fnc_enemyNearCheck) exitWith
 {
-    hint "You cannot manage this garrison while there are enemies nearby";
+    ["Garrison", "You cannot manage this garrison while there are enemies nearby"] call A3A_fnc_customHint;
     CreateDialog "build_menu";
 };
 
@@ -52,7 +52,7 @@ if (_operation == "rem") then
 {
     if ((([_garrison, true] call A3A_fnc_countGarrison) == 0) && {!(_marker in outpostsFIA)}) exitWith
     {
-        hint "The place has no garrisoned troops to remove";
+        ["Garrison", "The place has no garrisoned troops to remove"] call A3A_fnc_customHint;
         CreateDialog "build_menu";
     };
 	private _costs = 0;
@@ -98,14 +98,14 @@ if (_operation == "rem") then
         } forEach vehicles;
 	};
 	[_marker] call A3A_fnc_mrkUpdate;
-	hint format ["Garrison removed\n\nRecovered Money: %1 €\nRecovered HR: %2",_costs,_hr];
+	["Garrison", format ["Garrison removed<br/><br/>Recovered Money: %1 €<br/>Recovered HR: %2",_costs,_hr]] call A3A_fnc_customHint;
 	CreateDialog "build_menu";
 }
 else
 {
 	garrisonMarker = _marker;
 	publicVariable "garrisonMarker";
-	hint format ["Info%1", [_marker] call A3A_fnc_garrisonInfo];
+	["Garrison", format ["Info%1",[_nearX] call A3A_fnc_garrisonInfo]] call A3A_fnc_customHint;
 	closeDialog 0;
 	CreateDialog "garrison_recruit";
 	sleep 1;
