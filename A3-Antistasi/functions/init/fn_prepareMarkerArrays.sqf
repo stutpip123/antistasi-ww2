@@ -110,7 +110,7 @@ fnc_sortPlacementMarker =
 //[_placementMarker, "Placements"] call A3A_fnc_logArray;
 
 {
-    [_x select 0, _x select 1] spawn A3A_fnc_initSpawnPlaces;
+    [_x select 0, _x select 1] call A3A_fnc_initSpawnPlaces;
 } forEach _placementMarker;
 
 //TEMPORARY FIX TO DETECT SPAWN MARKERS
