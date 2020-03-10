@@ -126,7 +126,7 @@ private _crewMember = if(_side == Occupants) then {NATOCrew} else {CSATCrew};
             //Check if we still got units to load
             if (!_allUnitsLoaded) then
             {
-                private _cargoSeats = [_vehicleType, true] call BIS_fnc_crewCount - (count _crew);
+                private _cargoSeats = ([_vehicleType, true] call BIS_fnc_crewCount) - (count _crew);
                 private _cargoIndex = 0;
                 private _cargo = [];
 
