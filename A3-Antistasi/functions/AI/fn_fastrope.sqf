@@ -33,7 +33,7 @@ _wp setWaypointType "MOVE";
 _wp setWaypointBehaviour "CARELESS";
 //_wp setWaypointSpeed "LIMITED";
 
-
+_groupX setVariable ["DestinationMarker", _markerX, true];
 
 waitUntil {sleep 1; (not alive _veh) or (_veh distance _landpos < 550) or !(canMove _veh)};
 
@@ -94,12 +94,20 @@ if !(_reinf) then
 	_wp2 setWaypointType "SAD";
 	}
 else
-	{
-	_wp2 = _groupX addWaypoint [_positionX, 0];
+{
+    _wp2 = _groupX addWaypoint [_positionX, 0];
 	_wp2 setWaypointType "MOVE";
-    //TODO rework or remove
-	_wp2 setWaypointStatements ["true","nul = [(thisList select {alive _x}),side this,(group this) getVariable [""reinfMarker"",""""],0] remoteExec [""A3A_fnc_garrisonUpdate"",2];[group this] spawn A3A_fnc_groupDespawner; reinfPatrols = reinfPatrols - 1; publicVariable ""reinfPatrols"";"];
-	};
+	_wp2 setWaypointStatements
+    [
+        "true",
+        "
+            [(group this) getVariable ['DestinationMarker', ""], ["", [], (thisList select {alive _x}) apply {typeOf _x}]] remoteExec ['A3A_fnc_addToGarrison',2];
+            [group this] spawn A3A_fnc_groupDespawner;
+            reinfPatrols = reinfPatrols - 1;
+            publicVariable 'reinfPatrols';
+        "
+    ];
+};
 _wp3 = _heli addWaypoint [_posOrigin, 1];
 _wp3 setWaypointType "MOVE";
 _wp3 setWaypointSpeed "NORMAL";

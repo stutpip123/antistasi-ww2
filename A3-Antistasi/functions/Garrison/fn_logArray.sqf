@@ -9,9 +9,8 @@ params ["_array", ["_arrayName", "array"]];
 *     Nothing
 */
 
-//TODO add Tads new log function
-diag_log format ["Logging %1:", _arrayName];
+[3, format ["Logging %1:", _arrayName], "logArray"] call A3A_fnc_log;
 for "_i" from 0 to ((count _array) - 1) do
 {
-  diag_log format ["    %1, element %2: %3", _arrayName, _i, str (_array select _i)];
+    [3, format ["%1, element %2: %3", _arrayName, _i, str (_array select _i)], "logArray"] call A3A_fnc_log;
 };

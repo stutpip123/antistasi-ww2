@@ -13,7 +13,9 @@ _threat = _threat + 2 * ({(isOnRoad getMarkerPos _x) and (getMarkerPos _x distan
 if (getMarkerPos _x distance _positionX < distanceSPWN) then
 	{
 	_analyzed = _x;
-    //TODO rework this file completely
+    private _garrison = [_analyzed] call A3A_fnc_getGarrison;
+    private _over = [_analyzed] call A3A_fnc_getOver;
+    _threat = _threat + [_garrison + _over, true] call A3A_fnc_countGarrison;
 	_staticsX = staticsToSave select {_x inArea _analyzed};
 	if (count _staticsX > 0) then
 		{

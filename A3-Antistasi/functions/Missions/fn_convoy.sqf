@@ -100,13 +100,6 @@ switch (_typeConvoyX) do
 		_taskIcon = "run";
 		_typeVehObj = if (_sideX == Occupants) then {selectRandom vehNATOTrucks} else {selectRandom vehCSATTrucks};
 		};
-	case "reinforcementsX":
-		{
-		_textX = format ["Reinforcements are being sent from %1 to %3 in a convoy, and it's about to depart at %2. Try to intercept and kill all the troops and vehicle objective.",_nameOrigin,_displayTime,_nameDest];
-		_taskTitle = "Reinforcements Convoy";
-		_taskIcon = "run";
-		_typeVehObj = if (_sideX == Occupants) then {selectRandom vehNATOTrucks} else {selectRandom vehCSATTrucks};
-		};
 	case "Money":
 		{
 		_textX = format ["A truck plenty of money is being moved from %1 to %3, and it's about to depart at %2. Steal that truck and bring it to HQ. Those funds will be very welcome.",_nameOrigin,_displayTime,_nameDest];
@@ -296,13 +289,6 @@ if (_typeConvoyX == "Prisoners") then
 		_POWS pushBack _unit;
 		[_unit] call A3A_fnc_reDress;
 	};
-};
-if (_typeConvoyX == "reinforcementsX") then
-{
-	_typeGroup = [_typeVehObj,_sideX] call A3A_fnc_cargoSeats;
-	_groupEsc = [_posbase,_sideX,_typeGroup] call A3A_fnc_spawnGroup;
-	{[_x] call A3A_fnc_NATOinit;_x assignAsCargo _veh;_x moveInCargo _veh; _soldiers pushBack _x;[_x] joinSilent _groupX;_reinforcementsX pushBack _x} forEach units _groupEsc;
-	deleteGroup _groupEsc;
 };
 if ((_typeConvoyX == "Money") or (_typeConvoyX == "Supplies")) then
 {
@@ -511,38 +497,6 @@ if (_typeConvoyX == "Prisoners") then
 			{[_countX,_x] call A3A_fnc_playerScoreAdd} forEach (allPlayers - (entities "HeadlessClient_F"));
 			[(round (_countX/2))*_bonus,theBoss] call A3A_fnc_playerScoreAdd;
 		};
-	};
-};
-
-if (_typeConvoyX == "reinforcementsX") then
-{
-	waitUntil {sleep 1; (dateToNumber date > _enddateNum) or (_vehObj distance _posDestination < _distanceFromTargetForArrival) or ({(!alive _x) or (captive _x)} count _reinforcementsX == count _reinforcementsX)};
-	if ({(!alive _x) or (captive _x)} count _reinforcementsX == count _reinforcementsX) then
-	{
-		_taskState = "SUCCEEDED";
-		_taskState1 = "FAILED";
-		[0,10*_bonus,_posbase] remoteExec ["A3A_fnc_citySupportChange",2];
-		if (_sideX == Occupants) then {[3,0] remoteExec ["A3A_fnc_prestige",2]} else {[0,3] remoteExec ["A3A_fnc_prestige",2]};
-		{if (_x distance _vehObj < 500) then {[10*_bonus,_x] call A3A_fnc_playerScoreAdd}} forEach (allPlayers - (entities "HeadlessClient_F"));
-		[5*_bonus,theBoss] call A3A_fnc_playerScoreAdd;
-		_killZones = killZones getVariable [_base,[]];
-		_killZones = _killZones + [_destinationX,_destinationX];
-		killZones setVariable [_base,_killZones,true];
-	}
-	else
-	{
-		_taskState = "FAILED";
-		_countX = {alive _x} count _reinforcementsX;
-		if (_countX > 8) then {_taskState1 = "SUCCEEDED"} else {_taskState = "FAILED"};
-		[-10*_bonus,theBoss] call A3A_fnc_playerScoreAdd;
-		if (sidesX getVariable [_destinationX,sideUnknown] != teamPlayer) then
-		{
-			_typesX = [];
-			{_typesX pushBack (typeOf _x)} forEach (_reinforcementsX select {alive _x});
-            //TODO rework to use new system
-			[_soldiers,_sideX,_destinationX,0] remoteExec ["A3A_fnc_garrisonUpdate",2];
-		};
-		if (_sideX == Occupants) then {[(-1*(0.25*_countX)),0] remoteExec ["A3A_fnc_prestige",2]} else {[0,(-1*(0.25*_countX))] remoteExec ["A3A_fnc_prestige",2]};
 	};
 };
 

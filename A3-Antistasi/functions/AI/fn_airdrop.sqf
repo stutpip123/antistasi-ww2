@@ -15,6 +15,8 @@ _distEng = if (_veh isKindOf "Helicopter") then {1000} else {2000};
 _distExit = if (_veh isKindOf "Helicopter") then {400} else {1000};
 _orig = getMarkerPos _originX;
 
+_groupX setVariable ["DestinationMarker", _markerX, true];
+
 
 _engagepos = [];
 _landpos = [];
@@ -98,10 +100,18 @@ if !(_reinf) then
    _wp4 setWaypointType "SAD";
    }
 else
-   {
-   _wp4 = _groupX addWaypoint [_positionX, 0];
-   _wp4 setWaypointType "MOVE";
-   //TODO rework, maybe remove this function here
-   _wp4 setWaypointStatements ["true","nul = [(thisList select {alive _x}),side this,(group this) getVariable [""reinfMarker"",""""],0] remoteExec [""A3A_fnc_garrisonUpdate"",2];[group this] spawn A3A_fnc_groupDespawner; reinfPatrols = reinfPatrols - 1; publicVariable ""reinfPatrols"";"];
-   };
+{
+    _wp4 = _groupX addWaypoint [_positionX, 0];
+    _wp4 setWaypointType "MOVE";
+    _wp4 setWaypointStatements
+    [
+        "true",
+        "
+            [(group this) getVariable ['DestinationMarker', ""], ["", [], (thisList select {alive _x}) apply {typeOf _x}]] remoteExec ['A3A_fnc_addToGarrison',2];
+            [group this] spawn A3A_fnc_groupDespawner;
+            reinfPatrols = reinfPatrols - 1;
+            publicVariable ""reinfPatrols"";
+        "
+    ];
+};
 //[_veh] call A3A_fnc_entriesLand;

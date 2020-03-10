@@ -209,8 +209,7 @@ if (_typeX == "CONVOY") then
 	{
 	if (!bigAttackInProgress) then
 		{
-            //TODO rework here
-		_sites = (airportsX + resourcesX + factories + seaports + outposts - blackListDest) + (citiesX select {count (garrison getVariable [_x,[]]) < 10});
+		_sites = (airportsX + resourcesX + factories + seaports + outposts - blackListDest) + (citiesX select {([[_x] call A3A_fnc_getOver] call A3A_fnc_countGarrison) > 10});
 		_sites = _sites select {(sidesX getVariable [_x,sideUnknown] != teamPlayer) and !(_x in blackListDest)};
 		if (count _sites > 0) then
 			{

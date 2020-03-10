@@ -378,9 +378,7 @@ if (_base != "") then
 				_Vwp1 setWaypointStatements ["true","{if (side _x != side this) then {this reveal [_x,4]}} forEach allUnits"];
 				if (_isMarker) then
 					{
-                        //TODO rework here
-                    /*
-					if ((count (garrison getVariable [_markerX, []])) < 4) then
+                        if (([[_markerX] call A3A_fnc_getGarrison, true] call A3A_fnc_countGarrison) < 4) then
 						{
 						_Vwp1 setWaypointType "MOVE";
 						_Vwp1 setWaypointBehaviour "AWARE";
