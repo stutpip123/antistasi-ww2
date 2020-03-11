@@ -137,7 +137,7 @@ while {visibleMap} do
         {
             _text = format ["%1\nDESTROYED",_text]
         };
-		["City Information", format ["%1",_textX]] call A3A_fnc_customHint;
+		["City Information", format ["%1",_text]] call A3A_fnc_customHint;
 	};
 	positionTel = [];
 };
