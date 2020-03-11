@@ -46,7 +46,7 @@ else
     };
 };
 
-spawner setVariable [format ["%1_vehicles", _marker], _vehicles, true];
-spawner setVariable [format ["%1_groups", _marker], _groups, true];
+spawner setVariable [format ["%1_vehicles", _marker], _markerVehicles, true];
+spawner setVariable [format ["%1_groups", _marker], _markerGroups, true];
 //Unblocking everything
 spawner setVariable [format ["%1_arraysChanging", _marker], false, true];
