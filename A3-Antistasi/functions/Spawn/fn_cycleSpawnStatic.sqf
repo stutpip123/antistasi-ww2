@@ -8,8 +8,7 @@ if(_side == teamPlayer) then
     _spawnParameter params ["_spawnPos", "_spawnDir", "_spawnType"];
     _staticObject = createVehicle [_spawnType, _spawnPos, [], 0, "CAN_COLLIDE"];
     _staticObject setDir _spawnDir;
-    _staticObject setVariable ["StaticMarker", _marker];
-    [_staticObject] call A3A_fnc_AIVEHinit;
+    [_staticObject, _marker, _side] call A3A_fnc_staticInit;
 
     private _gunner =  _staticGroup createUnit [staticCrewTeamPlayer, getMarkerPos _marker, [], 5, "NONE"];
     [_gunner] call A3A_fnc_FIAinit;
@@ -55,23 +54,7 @@ else
             };
             _staticObject = createVehicle [_static, _spawnPos, [], 0, "CAN_COLLIDE"];
             _staticObject setDir (_spawnParameter select 1);
-            _staticObject setVariable ["StaticIndex", _index];
-            _staticObject setVariable ["StaticMarker", _marker];
-            [_staticObject] call A3A_fnc_AIVEHinit;
-            if(_staticType == "MORTAR") then
-            {
-                [_staticObject] execVM "scripts\UPSMON\MON_artillery_add.sqf";//TODO need delete UPSMON link
-            };
-            _staticObject addEventHandler
-            [
-                "Killed",
-                {
-                    private _static = _this select 0;
-                    private _marker = _static getVariable "StaticMarker";
-                    private _index = _static getVariable "StaticIndex";
-                    ["Static", _marker, _index, 30 * (4 - skillMult)] call A3A_fnc_addTimeoutForUnit;
-                }
-            ];
+            [_staticObject, _marker, _side, _index] call A3A_fnc_staticInit;
 
             private _crew = if(_side == Occupants) then {staticCrewOccupants} else {staticCrewInvaders};
             private _gunner =  _staticGroup createUnit [_crew, [0,0,0], [], 5, "NONE"];

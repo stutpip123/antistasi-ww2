@@ -525,6 +525,7 @@ class A3A
         class markerDespawner {};
         class needsSpawn {};
         class removeFromSpawnedArrays {};
+        class staticInit {};
         class updateSpawnerUnits {};
         class vehicleDespawner {};
     };
@@ -537,7 +538,7 @@ class A3A
 		class rhsModCompat {};
 	};
 
-	class UI 
+	class UI
 	{
 		class customHint {};
 	};
