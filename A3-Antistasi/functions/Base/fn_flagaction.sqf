@@ -82,6 +82,7 @@ switch _typeX do
             if (isNil "actionX") then
             {
                 removeAllActions _flag;
+                _flag setVariable ["switchActionID", -1, true];
                 if (player == player getVariable ["owner",player]) then {[] call SA_Add_Player_Tow_Actions};
             }
             else
@@ -92,6 +93,7 @@ switch _typeX do
         else
         {
             removeAllActions _flag;
+            _flag setVariable ["switchActionID", -1, true];
         };
     };
     case "refugee":
@@ -166,5 +168,14 @@ switch _typeX do
     case "Intel_Large":
     {
         _flag addAction ["Download Intel", A3A_fnc_searchIntelOnLaptop, nil, 4, true, false, "", "isPlayer _this", 4];
+    };
+    case "SwitchGunner":
+    {
+        private _actionID = _flag addAction ["Switch to gunner", A3A_fnc_switchToGunner, nil, 4, true, false, "", "isPlayer _this", 4];
+        _flag setVariable ["switchActionID", _actionID, true];
+    };
+    default
+    {
+        [1, format ["Unknown parameter given: %1", _typeX], "flagAction", true] call A3A_fnc_log;
     };
 };

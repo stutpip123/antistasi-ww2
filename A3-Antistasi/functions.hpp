@@ -105,6 +105,7 @@ class A3A
 		class startBreachVehicle {};
 		class statistics {};
 		class stripGearFromLoadout {};
+        class switchToGunner {};
 		class teleportVehicleToBase {};
 		class timingCA {};
 		class translateVariable {};
