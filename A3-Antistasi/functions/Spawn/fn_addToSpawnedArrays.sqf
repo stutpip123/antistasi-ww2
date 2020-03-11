@@ -28,7 +28,10 @@ if(_vehicles isEqualType []) then
 }
 else
 {
-    _markerVehicles pushBack _vehicles;
+    if !(isNull _vehicles) then
+    {
+        _markerVehicles pushBack _vehicles;
+    };
 };
 
 if(_groups isEqualType []) then
@@ -37,7 +40,10 @@ if(_groups isEqualType []) then
 }
 else
 {
-    _markerGroups pushBack _groups;
+    if !(isNull _groups) then
+    {
+        _markerGroups pushBack _groups;
+    };
 };
 
 spawner setVariable [format ["%1_vehicles", _marker], _vehicles, true];
