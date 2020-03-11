@@ -32,7 +32,7 @@ if (_side == teamPlayer) then
         {
             _text = format ["Sea Port%1",_text]
         };
-        default
+        case (_marker in outposts):
         {
             _text = format ["%2 Outpost%1", _text, nameTeamPlayer];
 			[_mrkD,format ["%1 Outpost", nameTeamPlayer]] remoteExec ["setMarkerTextLocal", [Occupants,Invaders], true];
@@ -45,6 +45,8 @@ else
     private _nameOwner = if(_side == Occupants) then {nameOccupants} else {nameInvaders};
     private _colorOwner = if (_side == Occupants) then {colorOccupants} else {colorInvaders};
     private _flag = if (_side == Occupants) then {flagNATOmrk} else {flagCSATmrk};
+
+    _mrkD setMarkerColor _colorOwner;
     switch (true) do
     {
         case (_marker in airportsX):
@@ -65,7 +67,7 @@ else
         {
             _mrkD setMarkerText "Sea Port";
         };
-        default
+        case (_marker in outposts):
         {
             _mrkD setMarkerText format ["%1 Outpost", _nameOwner];
             _mrkD setMarkerColor _colorOwner;
