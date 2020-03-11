@@ -8,6 +8,7 @@ _statics pushBack [[getPosATL _staticWeapon, getDir _staticWeapon, typeOf _stati
 garrison setVariable [format ["%1_statics", _marker], _statics, true];
 
 [_marker, _staticWeapon, grpNull] call A3A_fnc_addToSpawnedArrays;
+[_staticWeapon, _marker, teamPlayer] call A3A_fnc_staticInit;
 
 _staticWeapon setVariable ["StaticMarker", _marker];
 

@@ -7,7 +7,7 @@ params ["_gunner", "_player", "_actionID"];
     Scope: Internal
 
     Params:
-        _gunner: OBJECT : The current gunner of the static
+        _gunner: OBJECT : The _gunner
         _player: OBJECT : The player executing this action
         _actionID: NUMBER : The ID of this action
 
@@ -15,12 +15,14 @@ params ["_gunner", "_player", "_actionID"];
         Nothing
 */
 
+//private _gunner = _static getVariable ["gunner", objNull];
 private _static = objectParent _gunner;
 
 //Remove the action from the gunner
-[_gunner, _actionID] remoteExec ["removeAction", [teamPlayer, civilian], _gunner];
+[_gunner, _actionID] remoteExec ["removeAction", [teamPlayer, civilian], _static];
 
 moveOut _gunner;
+[_gunner] orderGetIn false;
 doStop _gunner;
 
 _player moveInGunner _static;

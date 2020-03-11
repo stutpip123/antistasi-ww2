@@ -11,7 +11,9 @@ if(_side == teamPlayer) then
     [
         "Killed",
         {
-            [_this select 0] spawn A3A_fnc_postmortem;
+            private _static = _this select 0;
+            [_static, "remove"] remoteExec ["A3A_fnc_flagAction", [teamPlayer, civilian], _static];
+            [_static] spawn A3A_fnc_postmortem;
         }
     ];
 
@@ -99,8 +101,11 @@ else
         {
             private _static = _this select 0;
             private _marker = _static getVariable "StaticMarker";
-            private _index = _static getVariable "StaticIndex";
-            ["Static", _marker, _index, 30 * (4 - skillMult)] call A3A_fnc_addTimeoutForUnit;
+            if((sidesX getVariable _marker) != teamPlayer) then
+            {
+                private _index = _static getVariable "StaticIndex";
+                ["Static", _marker, _index, 30 * (4 - skillMult)] call A3A_fnc_addTimeoutForUnit;
+            };
             [_static] spawn A3A_fnc_postmortem;
         }
     ];
@@ -112,9 +117,11 @@ _static addEventHandler
     {
         params ["_static", "_role", "_unit"];
 
+        [2, "GetIn triggered", "StaticInit", true] call A3A_fnc_log;
         if((side (group _unit) == teamPlayer) && (!isPlayer _unit)) then
         {
-            [_unit, "SwitchGunner"] remoteExec ["flagAction", [teamPlayer, civilian], _unit];
+            [2, "Action triggered", "StaticInit", true] call A3A_fnc_log;
+            [_unit, "SwitchGunner"] remoteExec ["A3A_fnc_flagAction", [teamPlayer, civilian], _unit];
             _static setVariable ["gunner", _unit, true];
         };
     }
@@ -140,17 +147,16 @@ _static addEventHandler
                 else
                 {
                     //Gunner needs to get in again
-                    _gunner assignAsGunner _static;
-                    _gunner orderGetIn true;
+                    _gunner moveInGunner _static;
                 };
             }
             else
             {
                 //Unit left static due to whatever reason, remove action
-                private _switchActionID = _unit getVariable ["switchActionID", -1];
+                private _switchActionID = _static getVariable ["switchActionID", -1];
                 if(_switchActionID != -1) then
                 {
-                    [_unit, _switchActionID] remoteExec ["removeAction", [teamPlayer, civilian], _unit];
+                    [_static, _switchActionID] remoteExec ["removeAction", [teamPlayer, civilian], _static];
                 };
             };
         };
