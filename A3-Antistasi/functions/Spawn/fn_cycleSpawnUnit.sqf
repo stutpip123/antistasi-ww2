@@ -83,7 +83,10 @@ _unit disableAI "ALL";
 _unit spawn
 {
     sleep 5;
-    _this enableSimulation false;
+    if((group _this) getVariable ["isDisabled", false]) then
+    {
+        _this enableSimulation false;
+    };
 };
 
 _unit;

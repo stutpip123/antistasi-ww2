@@ -7,7 +7,7 @@
 
 params ["_marker", "_side"];
 
-private _fileName = "createAIControlPoint";
+private _fileName = "createControlPoint";
 private _markerPos = getMarkerPos _marker;
 
 private _type = 0;
@@ -62,7 +62,7 @@ switch (_type) do
         private _staticType = "";
         private _staticCrew = "";
         private _armedVehicle = "";
-        private _roadblockType = _marker getVariable ["roadblockType"];
+        private _roadblockType = spawner getVariable [format ["%1_roadblockType", _marker], ROADBLOCK_LARGE];
 
         switch (_side) do
         {

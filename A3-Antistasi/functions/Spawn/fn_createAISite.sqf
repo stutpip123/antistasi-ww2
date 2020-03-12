@@ -51,7 +51,7 @@ if(_marker in controlsX) exitWith
 {
     if(_side != teamPlayer) then
     {
-        [_marker, _side] call A3A_fnc_createAIControlPoint;
+        [_marker, _side] call A3A_fnc_createControlPoint;
     }
     else
     {

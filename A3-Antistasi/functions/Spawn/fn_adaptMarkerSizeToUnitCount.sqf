@@ -19,7 +19,7 @@ private _fileName = "adaptMarkerSizeToUnitCount";
 
 private _patrolSize = [_patrolMarker] call A3A_fnc_calculateMarkerArea;
 //Ensure minimal marker if no garrison is there
-private _sizePerUnit = 9999999999;
+private _sizePerUnit = 9999999;
 if(_unitCount != 0) then
 {
     _sizePerUnit = _patrolSize / _unitCount;
@@ -36,7 +36,7 @@ if(_unitCount != 0) then
 private _patrolMarkerSize = getMarkerSize _patrolMarker;
 if(_sizePerUnit > 15000) then
 {
-    [3, format ["Patrol area %1 is to large, make it smaller", _marker], _fileName, true] call A3A_fnc_log;
+    [3, format ["Patrol area of %1 is to large, make it smaller", _marker], _fileName, true] call A3A_fnc_log;
     _patrolMarkerSize set [0, (_patrolMarkerSize select 0) * (15000/_sizePerUnit)];
     _patrolMarkerSize set [1, (_patrolMarkerSize select 1) * (15000/_sizePerUnit)];
 };

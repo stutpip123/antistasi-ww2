@@ -13,7 +13,7 @@ private _spawnParameter = [_marker, _soldierCount, objNull] call A3A_fnc_createS
 
 private _needsPatrol = false;
 private _animType = "NONE";
-if(_spawnParameter isEqualType 1) then
+if((_spawnParameter select 0) isEqualType -1) then
 {
     _needsPatrol = true;
     _spawnParameter = [];
@@ -30,13 +30,18 @@ else
 {
     if(_x != "") then
     {
-        [_marker, _x, _groupIndex, _soldierGroup, _spawnParameter select _forEachIndex, _isOver] call A3A_fnc_cycleSpawnUnit;
+        private _unit = [_marker, _x, _groupIndex, _soldierGroup, _spawnParameter select _forEachIndex, _isOver] call A3A_fnc_cycleSpawnUnit;
         sleep 0.25;
     };
 } forEach (_cargoArray select {_x != ""});
 
 if(_needsPatrol) then
 {
+    _soldierGroup setVariable ["isDisabled", false];
+    {
+        _x enableSimulationGlobal true;
+        _x enableAI "ALL";
+    } forEach (units _soldierGroup);
     [leader _soldierGroup, _marker, "SAFE", "SPAWNED", "RANDOM", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
 }
 else
