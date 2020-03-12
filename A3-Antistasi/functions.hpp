@@ -10,6 +10,7 @@ class A3A
 		class cityinfo {};
 		class credits {};
         class initAmbientAnimations {};
+        class initControlMarker {};
 		class initACEUnconsciousHandler {};
 		class initFuncs {};
 		class initGarrisons {};

@@ -40,6 +40,13 @@ else
 };
 
 [2, format ["Spawning in %1 for side %2", _typeString, _side], _fileName, true] call A3A_fnc_log;
+
+private _garrison = [_marker] call A3A_fnc_getGarrison;
+if(_garrison isEqualTo []) then
+{
+    [2, format ["Control %1 has no data set yet, creating now", _marker], _fileName, true] call A3A_fnc_log;
+    [_marker, _side] call A3A_fnc_initControlMarker;
+};
 private _vehicles = [];
 private _groups = [];
 private _error = false;
@@ -54,9 +61,11 @@ switch (_type) do
         {
             private _spawnPos = garrison getVariable [format ["%1_statics", _marker], []];
             {
-                _x params ["_bunkerSpawnPos", "_bunkerDir"];
+                diag_log format ["Spawn pos is %1", _x];
+                private _params = _x select 0;
+                _params params ["_bunkerSpawnPos", "_bunkerDir"];
+                _bunkerSpawnPos = [_bunkerSpawnPos, 1, _bunkerDir] call BIS_fnc_relPos;
                 _bunkerDir = _bunkerDir - 180;
-                _bunkerSpawnPos = [_bunkerSpawnPos, 1.5, _bunkerDir] call BIS_fnc_relPos;
                 private _bunker = "Land_BagBunker_01_Small_green_F" createVehicle _bunkerSpawnPos;
                 _vehicles pushBack _bunker;
 
