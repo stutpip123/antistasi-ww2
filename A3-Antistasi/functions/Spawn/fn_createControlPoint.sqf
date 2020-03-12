@@ -48,59 +48,22 @@ switch (_type) do
 {
     case (ROADBLOCK):
     {
-        private _road = roadAt _markerPos;
-        private _connectedRoads = roadsConnectedTo _road;
-        if((count _connectedRoads) == 0) exitWith
-        {
-            [1, format ["Roadblock %1 is not placed right, replace it!", _marker], _fileName, true] call A3A_fnc_log;
-            _error = true;
-        };
-
-        private _roadblockDir = [_road, _connectedRoads select 0] call BIS_fnc_DirTo;
-        private _roadPos = getPos _road;
-
-        private _staticType = "";
-        private _staticCrew = "";
-        private _armedVehicle = "";
         private _roadblockType = spawner getVariable [format ["%1_roadblockType", _marker], ROADBLOCK_LARGE];
-
-        switch (_side) do
-        {
-            case (Occupants):
-            {
-                _staticType = NATOMG;
-                _staticCrew = staticCrewOccupants;
-            };
-            case (Invaders):
-            {
-                _staticType = CSATMG;
-                _staticCrew = staticCrewInvaders;
-            };
-        };
 
         if(_roadblockType == ROADBLOCK_LARGE) then
         {
-            private _bunkerPos =
-            [
-                [[_roadPos, 7, _roadblockDir + 90] call BIS_Fnc_relPos, 0],
-                [[_roadPos, 7, _roadblockDir + 270] call BIS_Fnc_relPos, 180]
-            ];
-
-            private _staticGroup = createGroup _side;
-            _groups pushBack _staticGroup;
-
+            private _spawnPos = garrison getVariable [format ["%1_statics", _marker], []];
             {
                 _x params ["_bunkerSpawnPos", "_bunkerDir"];
+                _bunkerDir = _bunkerDir - 180;
+                _bunkerSpawnPos = [_bunkerSpawnPos, 1.5, _bunkerDir] call BIS_fnc_relPos;
                 private _bunker = "Land_BagBunker_01_Small_green_F" createVehicle _bunkerSpawnPos;
                 _vehicles pushBack _bunker;
 
-                _bunker setDir (_roadblockDir + _bunkerDir);
+                _bunker setDir _bunkerDir;
                 _bunker setVectorUp (surfaceNormal _bunkerSpawnPos);
-
-                private _pos = _bunker buildingPos 0;
-                private _dir = (getDir _bunker) - 180;
-                _pos = [_pos, 1.5, (_dir)] call BIS_fnc_relPos;
-            } forEach _bunkerPos;
+                _bunker setPos _bunkerSpawnPos;
+            } forEach _spawnPos;
         };
     };
     case (MINEFIELD):

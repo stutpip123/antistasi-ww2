@@ -97,7 +97,7 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Change vehicle getIn EH to handle stolen vehicles correctly
 - [DONE] On despawn handle vehicles as recovered by nearest marker
 - [DONE] Remove stolen vehicles from the list
-[WIP] Unit spawns
+[DONE] Unit spawns
 - [DONE] Finalizing cyclic spawn
 - [DONE] Place units in logical positions without UPSMON
 - [DONE] Calculate marker size per unit before units are spawned
@@ -107,7 +107,6 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Add vcom/upsmon on wakeup
 - [DONE] Add mortars to the static list and enable them
 - [DONE] Only man vehicles if they are able to attack something
-- Fix upsmon script for units already sitting in vehicles
 [WIP] Reinforcements
 - [DONE] Improve the AI, which chooses the units
 - Improve the replenish function
@@ -118,10 +117,11 @@ NEEDED FOR DOOMS UI UPGRADE
 - Update the current and available places numbers on arrival and despawn
 - Check if vehicle can be send and stationated on marker
 [WIP] Roadblocks
-- Fix roadblocks (not sure what their problem is)
-- Create statics dynamically on first spawn
-- Create troops dynamically on first spawn
-- [WIP] Add multiple types of roadblock
+- [DONE] Fix roadblocks (not sure what their problem is)
+- [WIP] Create statics dynamically on first spawn
+- [WIP] Create troops dynamically on first spawn
+- [DONE] Add multiple types of roadblock
+- Check creation of player roadblocks and how the data is handled
 [WIP] Statics
 - [DONE] Make the static and vehicle (already done by vehicleDespawner) system EH based instead of wonky conditions on despawn
 - [DONE] Add a message on statics when they are dismantled or build on a marker
@@ -177,6 +177,7 @@ WON'T DO, EITHER OBSOLETE OR NOT WANTED
 [WON'T] Add ambient animations for idling units (not needed for now)
 [WON'T] Deactivate random mortar spawns (these are done by units with mortar backpacks, needs change in the templates)
 [WON'T] Better troup compositions (will be done in the convoy rework)
+[WON'T] Fix upsmon script for units already sitting in vehicles (it takes some time, but works)
 
 ================================================================================
 Files that need a rework (Won't do it here, otherwise spoffy might kill me)

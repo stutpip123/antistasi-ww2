@@ -111,10 +111,6 @@ private _staticGroup = grpNull;
     };
     private _static = [_marker, _staticGroup, _x select 0, _x select 1, _forEachIndex] call A3A_fnc_cycleSpawnStatic;
     _allVehicles pushBack _static;
-    if (_side == teamPlayer) then
-    {
-        //Get one unit in here
-    };
 } forEach _statics;
 
 //Spawn in mortars of the marker
@@ -128,11 +124,12 @@ private _mortarGroup = grpNull;
     };
     private _mortar = [_marker, _mortarGroup, _x select 0, _x select 1, _forEachIndex] call A3A_fnc_cycleSpawnStatic;
     _allVehicles pushBack _mortar;
-    if (_side == teamPlayer) then
-    {
-        //Get one unit in here
-    };
 } forEach _mortars;
+
+if (_side == teamPlayer) then
+{
+    //Get units to man statics
+};
 
 //Spawning in patrol units around the marker
 private _patrols = [_marker] call A3A_fnc_getPatrols;
