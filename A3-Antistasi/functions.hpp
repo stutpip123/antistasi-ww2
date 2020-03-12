@@ -505,9 +505,9 @@ class A3A
         class adaptMarkerSizeToUnitCount {};
         class addToSpawnedArrays {};
         class calculateMarkerArea {};
-        class createAIControlPoint {};
         class createAISite {};
         class createCity {};
+        class createControlPoint {};
         class createSpawnPlacementForGroup {};
         class cycleSpawn {};
         class cycleSpawnPatrol {};

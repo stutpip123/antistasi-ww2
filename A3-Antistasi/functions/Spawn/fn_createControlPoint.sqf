@@ -62,7 +62,7 @@ switch (_type) do
         private _staticType = "";
         private _staticCrew = "";
         private _armedVehicle = "";
-        private _roadblockType = "";
+        private _roadblockType = _marker getVariable ["roadblockType"];
 
         switch (_side) do
         {
@@ -70,35 +70,22 @@ switch (_type) do
             {
                 _staticType = NATOMG;
                 _staticCrew = staticCrewOccupants;
-                _armedVehicle = if !(hasIFA) then {vehFIAArmedCar} else {vehFIACar};
-                _roadblockType = if (random 10 < tierWar) then {ROADBLOCK_LARGE} else {ROADBLOCK_SMALL};
             };
             case (Invaders):
             {
                 _staticType = CSATMG;
                 _staticCrew = staticCrewInvaders;
-                _armedVehicle = "";              //Not needed as they have no small roadblocks (We might want to think this over)
-                _roadblockType = ROADBLOCK_LARGE;
-            };
-            case (teamPlayer):
-            {
-                _staticType = "";
-                _staticCrew = staticCrewTeamPlayer;
-                _armedVehicle = vehSDKLightArmed;
-                _roadblockType = ROADBLOCK_SMALL;
             };
         };
 
         if(_roadblockType == ROADBLOCK_LARGE) then
         {
-            /*
             private _bunkerPos =
             [
                 [[_roadPos, 7, _roadblockDir + 90] call BIS_Fnc_relPos, 0],
                 [[_roadPos, 7, _roadblockDir + 270] call BIS_Fnc_relPos, 180]
             ];
-             = if (_side == Occupants) then {} else {};
-             = if (_side == Occupants) then {} else {};
+
             private _staticGroup = createGroup _side;
             _groups pushBack _staticGroup;
 
@@ -113,32 +100,36 @@ switch (_type) do
                 private _pos = _bunker buildingPos 0;
                 private _dir = (getDir _bunker) - 180;
                 _pos = [_pos, 1.5, (_dir)] call BIS_fnc_relPos;
-
-                private _static = _staticType createVehicle _pos;
-                [_static] call A3A_fnc_AIVEHinit;
-                _vehicles pushBack _static;
-                _static setDir _dir;
-                _static setVectorUp _pos;
-                _static setPosATL _pos;
-
-                private _crew = _staticGroup createUnit [_staticCrew, _bunkerSpawnPos, [], 5, "NONE"];
-                _crew moveInGunner _static;
-                [_crew] call A3A_fnc_NATOinit;
             } forEach _bunkerPos;
-            */
-        }
-        else
-        {
-
         };
     };
     case (MINEFIELD):
     {
-        //code
+        if([_marker] call A3A_fnc_isFrontline) then
+        {
+    		private _size = [_marker] call A3A_fnc_sizeMarker;
+    		if ({if (_x inArea _marker) exitWith {1}} count allMines == 0) then
+    		{
+    			for "_i" from 1 to 60 do
+    			{
+    				_mine = createMine ["APERSMine", _markerPos, [], _size];
+                    _vehicles pushBack _mine;
+    				if (_side == Occupants) then
+                    {
+                        Occupants revealMine _mine;
+                    }
+                    else
+                    {
+                        Invaders revealMine _mine;
+                    };
+    			};
+    		};
+        };
     };
     case (WATCHPOST):
     {
         //code
+        //Currently there are no buildings on FIA watchpost, if we want to add them, add them here
     };
 };
 
