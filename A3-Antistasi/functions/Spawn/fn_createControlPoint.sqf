@@ -61,7 +61,6 @@ switch (_type) do
         {
             private _spawnPos = garrison getVariable [format ["%1_statics", _marker], []];
             {
-                diag_log format ["Spawn pos is %1", _x];
                 private _params = _x select 0;
                 _params params ["_bunkerSpawnPos", "_bunkerDir"];
                 _bunkerSpawnPos = [_bunkerSpawnPos, 1, _bunkerDir] call BIS_fnc_relPos;
