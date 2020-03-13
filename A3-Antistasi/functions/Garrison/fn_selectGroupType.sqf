@@ -10,61 +10,65 @@ params ["_vehicle", "_preference", "_side"];
 *     _group : ARRAY of STRINGS : The selected group
 */
 
+private _fileName = "SelectGroupType";
+
 //If preference is empty, return empty
 if(_preference == "EMPTY") exitWith {[]};
 
-//If tank, select AT team
-if(_vehicle == vehNATOTank) exitWith {groupsNATOAT};
-if(_vehicle == vehCSATTank) exitWith {groupsCSATAT};
-
-//If AA-tank, select AA team
-if(_vehicle == vehNATOAA) exitWith {groupsNATOAA};
-if(_vehicle == vehCSATAA) exitWith {groupsCSATAA};
-
-
-_result = "";
-//If no vehicle return preference
-if(_vehicle == "") then
+private _groupPref = _preference;
+if(_vehicle != "") then
 {
-  _result = _preference
-}
-else
-{
-  //Check vehicle seats
-  _vehicleSeats = ([_vehicle, true] call BIS_fnc_crewCount) - ([_vehicle, false] call BIS_fnc_crewCount);
-  if(_vehicleSeats >= 8) then
-  {
-    _result = _preference;
-  }
-  else
-  {
-    if(_vehicleSeats >= 4) then
+    private _vehicleSeats = ([_vehicle, true] call BIS_fnc_crewCount) - ([_vehicle, false] call BIS_fnc_crewCount);
+    if(_vehicleSeats < 8) then
     {
-      _result = "GROUP";
-    }
-    else
-    {
-      _result = _preference;
-      if(debug) then
-      {
-        diag_log format ["SelectGroupType: Vehicle %1 cannot transport four or more people, reconsider using another vehicle or make smaller groups possible!", _vehicle];
-        diag_log "SelectGroupType: Assuming preference as a solution, may be changed in the future!";
-      };
+        if(_vehicleSeats >= 4) then
+        {
+            if(_groupPref == "SQUAD") then
+            {
+                _groupPref = "GROUP";
+            };
+        }
+        else
+        {
+            //Vehicle does not have enough vehicle spaces for any group, assuming preference is wanted and the user knows what he is doing
+            [
+                2,
+                format ["SelectGroupType: Vehicle %1 cannot transport four or more people, reconsider using another vehicle!", _vehicle],
+                _fileName,
+                true
+            ] call A3A_fnc_log;
+        };
     };
-  };
 };
 
-_group = [];
-if(_result != "EMPTY") then
+private _group = [];
+switch (_groupPref) do
 {
-  if(_side == Occupants) then
-  {
-    _group = if(_result == "SQUAD") then {selectRandom groupsNATOSquad} else {selectRandom groupsNATOmid};
-  }
-  else
-  {
-    _group = if(_result == "SQUAD") then {selectRandom groupsCSATSquad} else {selectRandom groupsCSATmid};
-  };
+    case ("SQUAD"):
+    {
+        if(_side == Occupants) then {_group = selectRandom groupsNATOSquad};
+        if(_side == Invaders) then {_group = selectRandom groupsCSATSquad};
+    };
+    case ("GROUP"):
+    {
+        if(_side == Occupants) then {_group = selectRandom groupsNATOmid};
+        if(_side == Invaders) then {_group = selectRandom groupsCSATmid};
+    };
+    case ("AT"):
+    {
+        if(_side == Occupants) then {_group = groupsNATOAT};
+        if(_side == Invaders) then {_group = groupsCSATAT};
+    };
+    case ("AA"):
+    {
+        if(_side == Occupants) then {_group = groupsNATOAA};
+        if(_side == Invaders) then {_group = groupsCSATAA};
+    };
+    case ("SPECOPS"):
+    {
+        if(_side == Occupants) then {_group = NATOSpecOp};
+        if(_side == Invaders) then {_group = CSATSpecOp};
+    };
 };
 
 _group;
