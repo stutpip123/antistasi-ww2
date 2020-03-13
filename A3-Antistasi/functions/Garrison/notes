@@ -118,10 +118,12 @@ NEEDED FOR DOOMS UI UPGRADE
 - Check if vehicle can be send and stationated on marker
 [WIP] Roadblocks
 - [DONE] Fix roadblocks (not sure what their problem is)
-- [WIP] Create statics dynamically on first spawn
+- [DONE] Create statics dynamically on first spawn
 - [WIP] Create troops dynamically on first spawn
 - [DONE] Add multiple types of roadblock
 - Check creation of player roadblocks and how the data is handled
+- Improve vehicle selection and crew behaviour for roadblocks
+- Make patrol marker for roadblocks way smaller
 [WIP] Statics
 - [DONE] Make the static and vehicle (already done by vehicleDespawner) system EH based instead of wonky conditions on despawn
 - [DONE] Add a message on statics when they are dismantled or build on a marker
