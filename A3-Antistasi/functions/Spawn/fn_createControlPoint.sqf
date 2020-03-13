@@ -81,10 +81,11 @@ switch (_type) do
     		private _size = [_marker] call A3A_fnc_sizeMarker;
     		if ({if (_x inArea _marker) exitWith {1}} count allMines == 0) then
     		{
+                //Mines are not saved as vehicles and will not despawn on capturing the marker or getting too far away
+                //Cause that it not how minefields works
     			for "_i" from 1 to 60 do
     			{
     				_mine = createMine ["APERSMine", _markerPos, [], _size];
-                    _vehicles pushBack _mine;
     				if (_side == Occupants) then
                     {
                         Occupants revealMine _mine;

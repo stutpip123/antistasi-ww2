@@ -72,5 +72,8 @@ if(isOnRoad _markerPos) then
 }
 else
 {
-
+    private _line = [];
+    _line = [["EMPTY", 0, "SPECOPS"], _side] call A3A_fnc_createGarrisonLine;
+    garrison setVariable [format ["%1_garrison", _marker], [_line], true];
+    garrison setVariable [format ["%1_locked", _marker], [false], true];
 };

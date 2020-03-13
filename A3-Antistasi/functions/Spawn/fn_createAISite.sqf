@@ -37,6 +37,11 @@ else
     [3, "Large patrol radius choosen, as marker is not frontline", _fileName, true] call A3A_fnc_log;
     _patrolMarkerSize = [(distanceSPWN/3), (distanceSPWN/3)];
 };
+if(_marker in controlsX && {isOnRoad (getMarkerPos _marker)}) then
+{
+    [3, "Marker is roadblock, keep units close to the position", _fileName, true] call A3A_fnc_log;
+    _patrolMarkerSize = [25, 25];
+};
 
 private _patrolMarker = createMarkerLocal [format ["%1_patrol", _marker], _markerPos];
 _patrolMarker setMarkerDirLocaL _markerDir;

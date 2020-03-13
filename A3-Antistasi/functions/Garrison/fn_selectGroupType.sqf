@@ -11,7 +11,7 @@ params ["_vehicle", "_preference", "_side"];
 */
 
 //If preference is empty, return empty
-if(_preference == "Empty") exitWith {[]};
+if(_preference == "EMPTY") exitWith {[]};
 
 //If tank, select AT team
 if(_vehicle == vehNATOTank) exitWith {groupsNATOAT};
@@ -20,6 +20,7 @@ if(_vehicle == vehCSATTank) exitWith {groupsCSATAT};
 //If AA-tank, select AA team
 if(_vehicle == vehNATOAA) exitWith {groupsNATOAA};
 if(_vehicle == vehCSATAA) exitWith {groupsCSATAA};
+
 
 _result = "";
 //If no vehicle return preference
