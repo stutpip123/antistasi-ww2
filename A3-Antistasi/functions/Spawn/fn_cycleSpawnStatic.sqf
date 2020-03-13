@@ -80,7 +80,7 @@ else
 //Check if static is positioned on the ground
 if((getPosATL _staticObject) select 2 < 1) then
 {
-    _staticObject setVectorUp (surfaceNormal (getPos _static));
+    _staticObject setVectorUp (surfaceNormal (getPos _staticObject));
 };
 
 _staticObject;

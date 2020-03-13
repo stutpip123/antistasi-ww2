@@ -63,7 +63,7 @@ switch (_type) do
             {
                 private _params = _x select 0;
                 _params params ["_bunkerSpawnPos", "_bunkerDir"];
-                _bunkerSpawnPos = [_bunkerSpawnPos, 1, _bunkerDir] call BIS_fnc_relPos;
+                //_bunkerSpawnPos = [_bunkerSpawnPos, 1, _bunkerDir] call BIS_fnc_relPos;
                 _bunkerDir = _bunkerDir - 180;
                 private _bunker = "Land_BagBunker_01_Small_green_F" createVehicle _bunkerSpawnPos;
                 _vehicles pushBack _bunker;
