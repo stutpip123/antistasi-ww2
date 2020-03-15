@@ -145,7 +145,7 @@ NEEDED FOR DOOMS UI UPGRADE
 - Check convoys fsm for more arrival cases
 - [WIP] Add trucks to vehicle list (check checkVehicleType and updateVehicle and add the new cases)
 - Add check if crewArray has enough units to drive vehicle, otherwise don't man
-- Add vehicleDespawner to vehicles from the garage
+- [DONE] Add vehicleDespawner to vehicles from the garage
 - Rethink balance of vehicles and their deveopment
 Optimisation
 - [WIP] Optimisation for speed and data size

@@ -56,6 +56,7 @@ switch (_callbackTarget) do {
 			case CALLBACK_VEH_PLACED_SUCCESSFULLY: {
 				private _garageVeh = _callbackParams param [0];
 				[_garageVeh] call A3A_fnc_AIVEHinit;
+                [[_garageVeh], "A3A_fnc_vehicleDespawner"] spawn A3A_fnc_scheduler;
 
 				if (_garageVeh isKindOf "Car") then {_garageVeh setPlateNumber format ["%1",name player]};
 
@@ -136,6 +137,7 @@ switch (_callbackTarget) do {
 				private _typeVehX = typeOf _purchasedVeh;
 
 				[_purchasedVeh] call A3A_fnc_AIVEHinit;
+                [[_purchasedVeh], "A3A_fnc_vehicleDespawner"] spawn A3A_fnc_scheduler;
 				if (_purchasedVeh isKindOf "Car") then {_purchasedVeh setPlateNumber format ["%1",name player]};
 
 				//Handle Money
