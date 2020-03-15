@@ -26,36 +26,64 @@ _size = [_markerX] call A3A_fnc_sizeMarker;
 
 if(_markerX in controlsX) then
 {
-    //Currently only enemy roadblocks spawn, handle only this case
-    [2, format ["Roadblock %1 destroyed by %2",servertime, _markerX, _winner], _fileName, true] call A3A_fnc_log;
-    ["TaskSucceeded", ["", "Roadblock Destroyed"]] remoteExec ["BIS_fnc_showNotification",_winner];
-    ["TaskFailed", ["", "Roadblock Lost"]] remoteExec ["BIS_fnc_showNotification",_looser];
-    if(_looser == Occupants) then
+    if(isOnRoad _positionX) then
     {
-        [-5, 0, getMarkerPos _markerX] remoteExec ["A3A_fnc_citySupportChange",2];
-    };
-    switch (_winner) do
+        [2, format ["Roadblock %1 destroyed by %2", _markerX, _winner], _fileName, true] call A3A_fnc_log;
+        ["TaskSucceeded", ["", "Roadblock destroyed"]] remoteExec ["BIS_fnc_showNotification",_winner];
+        ["TaskFailed", ["", "Roadblock lost"]] remoteExec ["BIS_fnc_showNotification",_looser];
+        if(_looser == Occupants) then
+        {
+            [-5, 0, getMarkerPos _markerX] remoteExec ["A3A_fnc_citySupportChange",2];
+        };
+        switch (_winner) do
+        {
+            case (teamPlayer):
+            {
+                sidesX setVariable [_markerX,teamPlayer,true];
+                [0,5,getMarkerPos _markerX] remoteExec ["A3A_fnc_citySupportChange",2];
+                [[_positionX,_loser,"",false],"A3A_fnc_patrolCA"] remoteExec ["A3A_fnc_scheduler",2];
+            };
+            case (Occupants):
+            {
+                sidesX setVariable [_markerX,Occupants,true];
+                [5,0,getMarkerPos _markerX] remoteExec ["A3A_fnc_citySupportChange",2];
+                [_markerX, _winner] call A3A_fnc_clearGarrison;
+            };
+            case (Invaders):
+            {
+                sidesX setVariable [_markerX,Invaders,true];
+                [_markerX, _winner] call A3A_fnc_clearGarrison;
+            };
+        };
+    }
+    else
     {
-        case (teamPlayer):
+        [2, format ["Minefield %1 captured by %2", _markerX, _winner], _fileName, true] call A3A_fnc_log;
+        ["TaskSucceeded", ["", "Minefield captured"]] remoteExec ["BIS_fnc_showNotification",_winner];
+        ["TaskFailed", ["", "Minefield lost"]] remoteExec ["BIS_fnc_showNotification",_looser];
+        if(_looser == Occupants) then
         {
-            sidesX setVariable [_markerX,teamPlayer,true];
-            [0,5,getMarkerPos _markerX] remoteExec ["A3A_fnc_citySupportChange",2];
-            [[_positionX,_loser,"",false],"A3A_fnc_patrolCA"] remoteExec ["A3A_fnc_scheduler",2];
+            [-5, 0, getMarkerPos _markerX] remoteExec ["A3A_fnc_citySupportChange",2];
         };
-        case (Occupants):
+        switch (_winner) do
         {
-            sidesX setVariable [_markerX,Occupants,true];
-            [5,0,getMarkerPos _markerX] remoteExec ["A3A_fnc_citySupportChange",2];
-            [_markerX, _winner] call A3A_fnc_clearGarrison;
-            private _line = [([["EMPTY", 0, "AT"], _winner] call A3A_fnc_createGarrisonLine)];
-            garrison setVariable [format ["%1_over", _markerX], _line, true];
-        };
-        case (Invaders):
-        {
-            sidesX setVariable [_markerX,Invaders,true];
-            [_markerX, _winner] call A3A_fnc_clearGarrison;
-            private _line = [([["EMPTY", 0, "AT"], _winner] call A3A_fnc_createGarrisonLine)];
-            garrison setVariable [format ["%1_over", _markerX], _line, true];
+            case (teamPlayer):
+            {
+                sidesX setVariable [_markerX,teamPlayer,true];
+                [0,5,getMarkerPos _markerX] remoteExec ["A3A_fnc_citySupportChange",2];
+                [[_positionX,_loser,"",false],"A3A_fnc_patrolCA"] remoteExec ["A3A_fnc_scheduler",2];
+            };
+            case (Occupants):
+            {
+                sidesX setVariable [_markerX,Occupants,true];
+                [5,0,getMarkerPos _markerX] remoteExec ["A3A_fnc_citySupportChange",2];
+                [_markerX, _winner] call A3A_fnc_clearGarrison;
+            };
+            case (Invaders):
+            {
+                sidesX setVariable [_markerX,Invaders,true];
+                [_markerX, _winner] call A3A_fnc_clearGarrison;
+            };
         };
     };
 };

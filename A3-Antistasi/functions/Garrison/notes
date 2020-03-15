@@ -122,8 +122,9 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Create troops dynamically on first spawn
 - [DONE] Add multiple types of roadblock
 - Check creation of player roadblocks and how the data is handled
-- [WIP] Improve vehicle selection and crew behaviour for roadblocks
+- [DONE] Improve vehicle selection and crew behaviour for roadblocks
 - [DONE] Make patrol marker for roadblocks way smaller
+- [DONE] Add message for minefield capture
 [WIP] Statics
 - [DONE] Make the static and vehicle (already done by vehicleDespawner) system EH based instead of wonky conditions on despawn
 - [DONE] Add a message on statics when they are dismantled or build on a marker
@@ -151,7 +152,6 @@ Optimisation
 - Reorder all parameters in the same order
 - Clean up code
 - Cleanup function
-- Unify and split the EH into seperate files
 - [DONE] Optimize creation of patrols (like statics)
 - [DONE] Check uses of distanceUnits, as I have changed the logic
 Documentation
@@ -181,6 +181,7 @@ WON'T DO, EITHER OBSOLETE OR NOT WANTED
 [WON'T] Deactivate random mortar spawns (these are done by units with mortar backpacks, needs change in the templates)
 [WON'T] Better troup compositions (will be done in the convoy rework)
 [WON'T] Fix upsmon script for units already sitting in vehicles (it takes some time, but works)
+[WON'T] Unify and split the EH into seperate files
 
 ================================================================================
 Files that need a rework (Won't do it here, otherwise spoffy might kill me)

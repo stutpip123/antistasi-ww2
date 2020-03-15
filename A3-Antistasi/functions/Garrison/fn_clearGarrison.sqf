@@ -23,31 +23,35 @@ garrison setVariable [format ["%1_statics", _marker], [], true];
 
 if(_winner != teamPlayer) then
 {
-    private _type = "Other";
-    switch (true) do
+    if !(_marker in controlsX) then
     {
-        case (_marker in airportsX): {_type = "Airport"};
-        case (_marker in outposts): {_type = "Outpost"};
-        case (_marker in citiesX): {_type = "City"};
-    };
-    private _preference = garrison getVariable (format ["%1_preference", _type]);
-    for "_i" from 0 to ((count _preference) - 1) do
-    {
-        private _line = ([_preference select _i, _winner] call A3A_fnc_createGarrisonLine);
-        [_line, _marker, (_preference select _i), [1,1,1]] call A3A_fnc_addGarrisonLine;
-    };
+
+        private _type = "Other";
+        switch (true) do
+        {
+            case (_marker in airportsX): {_type = "Airport"};
+            case (_marker in outposts): {_type = "Outpost"};
+            case (_marker in citiesX): {_type = "City"};
+        };
+        private _preference = garrison getVariable (format ["%1_preference", _type]);
+        for "_i" from 0 to ((count _preference) - 1) do
+        {
+            private _line = ([_preference select _i, _winner] call A3A_fnc_createGarrisonLine);
+            [_line, _marker, (_preference select _i), [1,1,1]] call A3A_fnc_addGarrisonLine;
+        };
 
 
-    private _soldiers = allUnits select
-    {
-        (alive _x) &&
-        {(isNull objectParent _x) &&
-        {(side group _x == _winner) &&
-        {((getPos _x) inArea _marker)}}}
+        private _soldiers = allUnits select
+        {
+            (alive _x) &&
+            {(isNull objectParent _x) &&
+            {(side group _x == _winner) &&
+            {((getPos _x) inArea _marker)}}}
+        };
+        _soldiers = _soldiers apply {typeOf _x};
+        _soldiers = ["", [], _soldiers];
+        [_marker, _soldier] call A3A_fnc_addToGarrison;    
     };
-    _soldiers = _soldiers apply {typeOf _x};
-    _soldiers = ["", [], _soldiers];
-    [_marker, _soldier] call A3A_fnc_addToGarrison;
 }
 else
 {
