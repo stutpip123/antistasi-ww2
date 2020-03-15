@@ -119,10 +119,10 @@ NEEDED FOR DOOMS UI UPGRADE
 [WIP] Roadblocks
 - [DONE] Fix roadblocks (not sure what their problem is)
 - [DONE] Create statics dynamically on first spawn
-- [WIP] Create troops dynamically on first spawn
+- [DONE] Create troops dynamically on first spawn
 - [DONE] Add multiple types of roadblock
 - Check creation of player roadblocks and how the data is handled
-- Improve vehicle selection and crew behaviour for roadblocks
+- [WIP] Improve vehicle selection and crew behaviour for roadblocks
 - [DONE] Make patrol marker for roadblocks way smaller
 [WIP] Statics
 - [DONE] Make the static and vehicle (already done by vehicleDespawner) system EH based instead of wonky conditions on despawn
@@ -142,9 +142,10 @@ NEEDED FOR DOOMS UI UPGRADE
 - Fix bug when loading a lower level than actually having it, results in more units then needed (does this really happen?)
 - Send over units that are no longer needed, back to airports
 - Check convoys fsm for more arrival cases
-- Add trucks to vehicle list
+- [WIP] Add trucks to vehicle list (check checkVehicleType and updateVehicle and add the new cases)
 - Add check if crewArray has enough units to drive vehicle, otherwise don't man
 - Add vehicleDespawner to vehicles from the garage
+- Rethink balance of vehicles and their deveopment
 Optimisation
 - [WIP] Optimisation for speed and data size
 - Reorder all parameters in the same order

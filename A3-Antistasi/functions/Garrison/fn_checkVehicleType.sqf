@@ -29,7 +29,7 @@ switch (_preference) do
     {
       _result = (_vehicle in vehNATOLight || {_vehicle in vehCSATLight});
     };
-    case ("LAND_DEFAULT"):
+    case ("LAND_MEDIUM"):
     {
       _result = (_vehicle in vehNATOLight || {_vehicle in vehCSATLight || {_vehicle in vehNATOAPC || {_vehicle in vehCSATAPC}}});
     };
@@ -37,7 +37,7 @@ switch (_preference) do
     {
       _result = (_vehicle in vehNATOAPC || {_vehicle in vehCSATAPC});
     };
-    case ("LAND_ATTACK"):
+    case ("LAND_HEAVY"):
     {
       //Does this work? vehXXXXTank is not an array...
       _result = (_vehicle in vehNATOAPC || {_vehicle in vehCSATAPC || {_vehicle == vehNATOTank || {_vehicle == vehCSATTank}}})
@@ -62,7 +62,7 @@ switch (_preference) do
     {
       _result = (_vehicle in vehNATOTransportHelis || {_vehicle in vehCSATTransportHelis});
     };
-    case ("HELI_DEFAULT"):
+    case ("HELI_HEAVY"):
     {
       _result = (_vehicle in vehNATOTransportHelis || {_vehicle in vehCSATTransportHelis || {_vehicle in vehNATOAttackHelis || {_vehicle in vehCSATAttackHelis}}});
     };
@@ -78,7 +78,7 @@ switch (_preference) do
     {
       _result = (_vehicle in [vehNATOUAV, vehNATOUAVSmall] || {_vehicle in [vehCSATUAV, vehCSATUAVSmall] || {_vehicle in [vehNATOPlane, vehNATOPlaneAA] || {_vehicle in [vehCSATPlane, vehCSATPlaneAA]}}});
     };
-    case ("AIR_DEFAULT"):
+    case ("AIR_ATTACK"):
     {
       _result = (_vehicle in [vehNATOPlane, vehNATOPlaneAA] || {_vehicle in [vehCSATPlane, vehCSATPlaneAA]});
     };

@@ -32,10 +32,15 @@ if(_vehicleGroup == grpNull) then
 
 {
     private _unit = [_marker, _x, _groupIndex, _vehicleGroup, _spawnParameter select _forEachIndex, _isOver] call A3A_fnc_cycleSpawnUnit;
-    if(_placeInVehicle && {!(isNull _vehicle)}) then
+    if(_placeInVehicle && {!(isNull _vehicle) && {!(_marker in controlsX)}}) then
     {
         _vehicleGroup setVariable ["isInVehicle", true, true];
         _unit moveInAny _vehicle;
+    };
+    if(_marker in controlsX) then
+    {
+        _vehicle setFuel 0;
+        _unit moveInGunner _vehicle;
     };
     sleep 0.25;
 } forEach (_crewArray select {_x != ""});

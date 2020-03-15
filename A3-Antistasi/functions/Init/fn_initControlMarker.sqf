@@ -64,7 +64,7 @@ if(isOnRoad _markerPos) then
     }
     else
     {
-        _parameter = ["LAND_LIGHT", 1, "AT"];
+        _parameter = ["LAND_LIGHT_ARMED", 1, "AT"];
     };
     _line = [_parameter, _side] call A3A_fnc_createGarrisonLine;
     garrison setVariable [format ["%1_garrison", _marker], [_line], true];

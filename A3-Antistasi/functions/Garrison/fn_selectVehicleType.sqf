@@ -23,22 +23,44 @@ if(_preference == "LAND_TANK") exitWith
 };
 
 private _possibleVehicles = [];
-if(_preference in ["EMPTY", "LAND_START", "HELI_PATROL", "AIR_DRONE"]) then
+if(_preference in ["EMPTY", "LAND_TRUCK", "HELI_PATROL", "AIR_DRONE"]) then
 {
     _possibleVehicles pushBack "";
 };
-if(_preference in ["LAND_START", "LAND_LIGHT", "LAND_DEFAULT"]) then
+if(_preference in ["LAND_TRUCK", "LAND_START", "LAND_LIGHT_UNARMED"]) then
 {
     if(_side == Occupants) then
     {
-        _possibleVehicles append vehNATOLight;
+        _possibleVehicles append vehNATOTrucks;
     }
     else
     {
-        _possibleVehicles append vehCSATLight;
+        _possibleVehicles append vehCSATTrucks;
     };
 };
-if(_preference in ["LAND_DEFAULT", "LAND_APC", "LAND_ATTACK"]) then
+if(_preference in ["LAND_START", "LAND_LIGHT_UNARMED", "LAND_LIGHT"]) then
+{
+    if(_side == Occupants) then
+    {
+        _possibleVehicles append vehNATOLightUnarmed;
+    }
+    else
+    {
+        _possibleVehicles append vehCSATLightUnarmed;
+    };
+};
+if(_preference in ["LAND_LIGHT", "LAND_LIGHT_ARMED", "LAND_MEDIUM"]) then
+{
+    if(_side == Occupants) then
+    {
+        _possibleVehicles append vehNATOLightArmed;
+    }
+    else
+    {
+        _possibleVehicles append vehCSATLightArmed;
+    };
+};
+if(_preference in ["LAND_MEDIUM", "LAND_APC", "LAND_HEAVY"]) then
 {
     if(_side == Occupants) then
     {
@@ -49,7 +71,7 @@ if(_preference in ["LAND_DEFAULT", "LAND_APC", "LAND_ATTACK"]) then
         _possibleVehicles append vehCSATAPC;
     };
 };
-if(_preference in ["LAND_ATTACK"]) then
+if(_preference in ["LAND_HEAVY"]) then
 {
     if(_side == Occupants) then
     {
@@ -71,7 +93,7 @@ if(_preference in ["HELI_PATROL", "HELI_LIGHT"]) then
         _possibleVehicles pushBack vehCSATPatrolHeli;
     };
 };
-if(_preference in ["HELI_TRANSPORT", "HELI_DEFAULT"]) then
+if(_preference in ["HELI_TRANSPORT", "HELI_HEAVY"]) then
 {
     if(_side == Occupants) then
     {
@@ -82,7 +104,7 @@ if(_preference in ["HELI_TRANSPORT", "HELI_DEFAULT"]) then
         _possibleVehicles append vehCSATTransportHelis;
     };
 };
-if(_preference in ["HELI_DEFAULT", "HELI_ATTACK"]) then
+if(_preference in ["HELI_HEAVY", "HELI_ATTACK"]) then
 {
     if(_side == Occupants) then
     {
@@ -104,7 +126,7 @@ if(_preference in ["AIR_DRONE", "AIR_GENERIC"]) then
         _possibleVehicles append [vehCSATUAV, vehCSATUAVSmall];
     };
 };
-if(_preference in ["AIR_GENERIC", "AIR_DEFAULT"]) then
+if(_preference in ["AIR_GENERIC", "AIR_ATTACK"]) then
 {
     if(_side == Occupants) then
     {
