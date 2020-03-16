@@ -143,10 +143,10 @@ NEEDED FOR DOOMS UI UPGRADE
 - Fix bug when loading a lower level than actually having it, results in more units then needed (does this really happen?)
 - Send over units that are no longer needed, back to airports
 - Check convoys fsm for more arrival cases
-- [WIP] Add trucks to vehicle list (check checkVehicleType and updateVehicle and add the new cases)
+- [DONE] Add trucks to vehicle list (check checkVehicleType and updateVehicle and add the new cases)
 - [DONE] Add check if crewArray has enough units to drive vehicle, otherwise don't man
 - [DONE] Add vehicleDespawner to vehicles from the garage
-- [WIP] Rethink balance of vehicles and their development
+- [DONE] Rethink balance of vehicles and their development
 
 ======================= LAST NEEDED THING ======================================
 ==========================> Balancing <=========================================

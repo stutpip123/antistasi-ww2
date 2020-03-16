@@ -611,7 +611,7 @@ DECLARE_SERVER_VAR(vehFIA, _vehFIA);
 
 // sanity check the lists to catch some serious problems early
 private _badVehs = [];
-{  
+{
     if !(isClass (configFile >> "CfgVehicles" >> _x)) then {
         _badVehs pushBackUnique _x;
     };
@@ -690,14 +690,15 @@ server setVariable [vehSDKTruck,300,true];											//300
 [2,"Initialising Garrison Variables",_fileName] call A3A_fnc_log;
 
 tierPreference = 1;
-cityUpdateTiers = [4, 7, 10];
-cityStaticsTiers = [0.2, 0.5, 1];
-airportUpdateTiers = [3, 4, 6, 8];
-airportStaticsTiers = [0.5, 0.75, 0.95, 1];
-outpostUpdateTiers = [4, 5, 7, 9];
-outpostStaticsTiers = [0.4, 0.6, 0.8, 1];
-otherUpdateTiers = [3, 8, 10];
-otherStaticsTiers = [0.3, 0.8, 1];
+cityUpdateTiers = [3, 5, 8, 10];
+//No statics for cities currently
+cityStaticsTiers = [0, 0, 0, 0];
+airportUpdateTiers = [2, 4, 6, 8, 10];
+airportStaticsTiers = [0.5, 0.75, 0.95, 1, 1];
+outpostUpdateTiers = [3, 5, 7, 9, 10];
+outpostStaticsTiers = [0.4, 0.6, 0.8, 1, 1];
+otherUpdateTiers = [3, 5, 7, 10];
+otherStaticsTiers = [0.3, 0.8, 0.95, 1];
 [] call A3A_fnc_initPreference;
 
 ////////////////////////////

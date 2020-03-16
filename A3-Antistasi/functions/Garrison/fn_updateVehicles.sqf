@@ -14,7 +14,7 @@ for "_i" from 0 to ((count _preference) - 1) do
     _vehicle = _data select 0;
     _cargo = _data select 2;
 
-    //All possible land types LAND_START, LAND_LIGHT, LAND_MEDIUM, LAND_APC, LAND_HEAVY, LAND_TANK, LAND_AIR
+    //All possible land types LAND_TRUCK, LAND_START, LAND_LIGHT_UNARMED, LAND_LIGHT, LAND_LIGHT_ARMED, LAND_MEDIUM, LAND_APC, LAND_HEAVY, LAND_TANK, LAND_AIR
     //All possible heli types HELI_PATROL, HELI_LIGHT, HELI_TRANSPORT, HELI_HEAVY, HELI_ATTACK
     //All possible air types AIR_DRONE, AIR_GENERIC, AIR_ATTACK
     //All other types EMPTY
@@ -26,8 +26,11 @@ for "_i" from 0 to ((count _preference) - 1) do
         switch (_vehicle) do
         {
             //Update land vehicle
-            case ("LAND_START") : {_newVehicle = "LAND_LIGHT";};
-            case ("LAND_LIGHT") : {_newVehicle = "LAND_MEDIUM";};
+            case ("LAND_TRUCK") : {_newVehicle = "LAND_START";};
+            case ("LAND_START") : {_newVehicle = "LAND_LIGHT_UNARMED";};
+            case ("LAND_LIGHT_UNARMED") : {_newVehicle = "LAND_LIGHT";};
+            case ("LAND_LIGHT") : {_newVehicle = "LAND_LIGHT_ARMED";};
+            case ("LAND_LIGHT_ARMED") : {_newVehicle = "LAND_MEDIUM";};
             case ("LAND_MEDIUM") : {_newVehicle = "LAND_APC";};
             case ("LAND_APC") : {_newVehicle = "LAND_HEAVY";};
             case ("LAND_HEAVY") : {_newVehicle = "LAND_TANK";};
@@ -45,15 +48,15 @@ for "_i" from 0 to ((count _preference) - 1) do
     };
     _data set [0, _newVehicle];
 
-    //All possible cargo groups EMPTY, GROUP, SQUAD, AA, AT
+    //All possible cargo groups EMPTY, GROUP, SQUAD, AA, AT, SPECOPS
     _newCargo = _cargo;
-    if(!(_cargo in ["EMPTY", "AA", "AT"])) then
+    if(!(_cargo in ["EMPTY", "AA", "AT", "SPECOPS"])) then
     {
-        if(_newVehicle in ["LAND_START", "LAND_LIGHT", "LAND_MEDIUM"]) then
+        if(_newVehicle in ["LAND_TRUCK", "LAND_START", "LAND_LIGHT_UNARMED", "LAND_LIGHT", "LAND_LIGHT_ARMED"]) then
         {
             _newCargo = "GROUP";
         };
-        if(_newVehicle in ["LAND_APC", "LAND_HEAVY"]) then
+        if(_newVehicle in ["LAND_MEDIUM", "LAND_APC", "LAND_HEAVY"]) then
         {
             _newCargo = "SQUAD";
         };

@@ -25,6 +25,12 @@ if(_vehicle != "") then
         {
             if(_groupPref == "SQUAD") then
             {
+                [
+                    2,
+                    format ["Vehicle %1 cannot transport a squad, but one was selected, reducing to group!", _vehicle],
+                    _fileName,
+                    true
+                ] call A3A_fnc_log;
                 _groupPref = "GROUP";
             };
         }
@@ -33,7 +39,7 @@ if(_vehicle != "") then
             //Vehicle does not have enough vehicle spaces for any group, assuming preference is wanted and the user knows what he is doing
             [
                 2,
-                format ["SelectGroupType: Vehicle %1 cannot transport four or more people, reconsider using another vehicle!", _vehicle],
+                format ["Vehicle %1 cannot transport four or more people, reconsider using another vehicle!", _vehicle],
                 _fileName,
                 true
             ] call A3A_fnc_log;

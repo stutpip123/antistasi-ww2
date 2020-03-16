@@ -13,7 +13,7 @@ private _preference =
 [
     ["LAND_AIR", -1, "AA"],
     ["LAND_MEDIUM", -1, "SQUAD"],
-    ["LAND_LIGHT", -1, "SQUAD"],
+    ["LAND_LIGHT", -1, "GROUP"],
     ["LAND_LIGHT_UNARMED", 0, "EMPTY"],       //Empty light vehicle
     ["HELI_PATROL", -1, "GROUP"],
     ["HELI_PATROL", -1, "GROUP"],
@@ -37,8 +37,8 @@ garrison setVariable ["Airport_staticPerc", 0.35, true];
 //Setting up outpost preferences
 _preference =
 [
-  ["LAND_START", -1, "SQUAD"],
-  ["LAND_TRUCK", -1, "SQUAD"],
+  ["LAND_START", -1, "GROUP"],
+  ["LAND_TRUCK", -1, "GROUP"],
   ["LAND_START", 0, "EMPTY"],       //Empty light vehicle
   ["HELI_PATROL", -1, "GROUP"],
   ["HELI_PATROL", 0, "EMPTY"]        //Empty helicopter
@@ -76,8 +76,8 @@ garrison setVariable ["City_staticPerc", 0, true];
 //Setting up other preferences
 _preference =
 [
-  ["LAND_START", -1, "SQUAD"],
-  ["LAND_TRUCK", -1, "SQUAD"],
+  ["LAND_START", -1, "GROUP"],
+  ["LAND_TRUCK", -1, "GROUP"],
   ["LAND_TRUCK", 0, "EMPTY"]
 ];
 

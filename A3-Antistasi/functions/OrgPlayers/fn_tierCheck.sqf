@@ -6,7 +6,7 @@ if (_tierWar != tierWar) then
 	tierWar = _tierWar;
 	publicVariable "tierWar";
 	[petros,"tier",""] remoteExec ["A3A_fnc_commsMP",[teamPlayer,civilian]];
-	//Updates the vehicles and groups for the sites
-	[] call A3A_fnc_updatePreference;
+	//Updates the vehicles and groups for the sites (ensure that it is run on the server, HCs don't have the data)
+	[] remoteExec ["A3A_fnc_updatePreference", 2];
 	//[] remoteExec ["A3A_fnc_statistics",[teamPlayer,civilian]];
 };
