@@ -111,11 +111,15 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Improve the AI, which chooses the units
 - Improve the replenish function
 - [DONE] Add different costs for different units
+
 - Finish functions for adding and removing units from outposts (spawned and not spawned) (handle garrison data and spawned data)
 - Rework stationating units on marker from squad (they need the ids, arrays and shit)
-- Sending units does not makes them leaving the group, not clue why
+- Rework spawned arrays to carry indices
+
 - Update the current and available places numbers on arrival and despawn
 - Check if vehicle can be send and stationated on marker
+
+- Send over units that are no longer needed, back to airports
 [WIP] Roadblocks
 - [DONE] Fix roadblocks (not sure what their problem is)
 - [DONE] Create statics dynamically on first spawn
@@ -136,17 +140,16 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Add statics when bought at HQ
 [WIP] Various
 - Reenable civies driving around
-- Rework spawned arrays to carry indices
 - Add a check after a unit is added if the marker is still spawned (if not despawn units) to avoid bad order of actions on spawnedArrays
 - [DONE] Add functions to search garrison units for specific types and groups
 - [WIP] Fix all the todos
 - Fix bug when loading a lower level than actually having it, results in more units then needed (does this really happen?)
-- Send over units that are no longer needed, back to airports
 - Check convoys fsm for more arrival cases
 - [DONE] Add trucks to vehicle list (check checkVehicleType and updateVehicle and add the new cases)
 - [DONE] Add check if crewArray has enough units to drive vehicle, otherwise don't man
 - [DONE] Add vehicleDespawner to vehicles from the garage
 - [DONE] Rethink balance of vehicles and their development
+- Sending units does not makes them leaving the group, not clue why
 
 ======================= LAST NEEDED THING ======================================
 ==========================> Balancing <=========================================
