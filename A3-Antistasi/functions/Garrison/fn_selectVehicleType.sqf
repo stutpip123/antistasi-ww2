@@ -21,6 +21,10 @@ if(_preference == "LAND_TANK") exitWith
 {
     if(_side == Occupants) then {vehNATOTank} else {vehCSATTank};
 };
+if(_preference == "LAND_ROADBLOCK") exitWith
+{
+    if !(hasIFA) then {vehFIAArmedCar} else {vehFIACar};
+};
 
 private _possibleVehicles = [];
 if(_preference in ["EMPTY", "LAND_TRUCK", "HELI_PATROL", "AIR_DRONE"]) then

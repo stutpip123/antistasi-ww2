@@ -40,17 +40,17 @@ else
 if(_marker in controlsX && {isOnRoad (getMarkerPos _marker)}) then
 {
     [3, "Marker is roadblock, keep units close to the position", _fileName, true] call A3A_fnc_log;
-    _patrolMarkerSize = [25, 25];
+    _patrolMarkerSize = [50, 50];
 };
 
 private _patrolMarker = createMarkerLocal [format ["%1_patrol", _marker], _markerPos];
-_patrolMarker setMarkerDirLocaL _markerDir;
+_patrolMarker setMarkerDirLocal _markerDir;
 _patrolMarker setMarkerShapeLocal "ELLIPSE";
 _patrolMarker setMarkerSizeLocal _patrolMarkerSize;
 _patrolMarker setMarkerTypeLocal "hd_warning";
 _patrolMarker setMarkerColorLocal "ColorRed";
 _patrolMarker setMarkerBrushLocal "DiagGrid";
-//_patrolMarker setMarkerAlphaLocal 0;
+_patrolMarker setMarkerAlphaLocal 0;
 
 if(_marker in controlsX) exitWith
 {
