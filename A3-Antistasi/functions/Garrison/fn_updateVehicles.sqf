@@ -26,9 +26,9 @@ for "_i" from 0 to ((count _preference) - 1) do
         switch (_vehicle) do
         {
             //Update land vehicle
-            case ("LAND_TRUCK") : {_newVehicle = "LAND_START";};
-            case ("LAND_START") : {_newVehicle = "LAND_LIGHT_UNARMED";};
-            case ("LAND_LIGHT_UNARMED") : {_newVehicle = "LAND_LIGHT";};
+            case ("LAND_TRUCK") : {_newVehicle = "LAND_LIGHT_UNARMED";};
+            case ("LAND_START") : {_newVehicle = "LAND_LIGHT";};
+            case ("LAND_LIGHT_UNARMED") : {_newVehicle = "LAND_LIGHT_ARMED";};
             case ("LAND_LIGHT") : {_newVehicle = "LAND_LIGHT_ARMED";};
             case ("LAND_LIGHT_ARMED") : {_newVehicle = "LAND_MEDIUM";};
             case ("LAND_MEDIUM") : {_newVehicle = "LAND_APC";};

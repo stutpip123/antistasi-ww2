@@ -39,7 +39,7 @@ _preference =
 [
   ["LAND_START", -1, "GROUP"],
   ["LAND_TRUCK", -1, "GROUP"],
-  ["LAND_START", 0, "EMPTY"],       //Empty light vehicle
+  ["LAND_TRUCK", 0, "EMPTY"],       //Empty light vehicle
   ["HELI_PATROL", -1, "GROUP"],
   ["HELI_PATROL", 0, "EMPTY"]        //Empty helicopter
 ];
