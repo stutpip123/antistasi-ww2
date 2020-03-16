@@ -3,7 +3,7 @@ params ["_marker", "_unitCount", ["_vehicle", objNull]];
 if((_marker in controlsX) || {!(isNull _vehicle) && {[_vehicle] call A3A_fnc_isCombatVehicle && {(random 100) < (7.5 * tierWar)}}}) exitWith
 {
     _vehicle lock 0;
-    -1;
+    [-1, "NONE"];
 };
 
 _fn_createLinePosition =

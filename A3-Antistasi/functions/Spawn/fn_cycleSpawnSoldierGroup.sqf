@@ -42,7 +42,7 @@ if(_needsPatrol) then
         _x enableSimulationGlobal true;
         _x enableAI "ALL";
     } forEach (units _soldierGroup);
-    [leader _soldierGroup, _marker, "SAFE", "SPAWNED", "RANDOM", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
+    [leader _soldierGroup, _marker, "SAFE", "SPAWNED", "ORIGINAL", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
 }
 else
 {

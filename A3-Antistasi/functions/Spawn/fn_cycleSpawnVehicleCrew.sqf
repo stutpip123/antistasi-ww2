@@ -11,7 +11,7 @@ private _spawnParameter = [_marker, _crewCount, _vehicle] call A3A_fnc_createSpa
 
 private _animType = "NONE";
 private _placeInVehicle = false;
-if(_spawnParameter isEqualType -1) then
+if((_spawnParameter select 0) isEqualType -1) then
 {
     _placeInVehicle = [_vehicle] call A3A_fnc_isCombatVehicle;
     _spawnParameter = [];
