@@ -123,11 +123,11 @@ if(_preference in ["AIR_DRONE", "AIR_GENERIC"]) then
 {
     if(_side == Occupants) then
     {
-        _possibleVehicles append [vehNATOUAV, vehNATOUAVSmall];
+        _possibleVehicles pushBack vehNATOUAV;
     }
     else
     {
-        _possibleVehicles append [vehCSATUAV, vehCSATUAVSmall];
+        _possibleVehicles pushBack vehCSATUAV;
     };
 };
 if(_preference in ["AIR_GENERIC", "AIR_ATTACK"]) then

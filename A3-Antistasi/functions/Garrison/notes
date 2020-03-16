@@ -146,7 +146,7 @@ NEEDED FOR DOOMS UI UPGRADE
 - [WIP] Add trucks to vehicle list (check checkVehicleType and updateVehicle and add the new cases)
 - [DONE] Add check if crewArray has enough units to drive vehicle, otherwise don't man
 - [DONE] Add vehicleDespawner to vehicles from the garage
-- Rethink balance of vehicles and their development
+- [WIP] Rethink balance of vehicles and their development
 
 ======================= LAST NEEDED THING ======================================
 ==========================> Balancing <=========================================

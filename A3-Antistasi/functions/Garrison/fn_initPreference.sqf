@@ -12,14 +12,14 @@ private _isSinglePlayer = !isMultiplayer;
 private _preference =
 [
     ["LAND_AIR", -1, "AA"],
-    ["LAND_APC", -1, "SQUAD"],
-    ["LAND_START", -1, "SQUAD"],
-    ["LAND_LIGHT", 0, "EMPTY"],       //Empty light vehicle
-    ["HELI_LIGHT", -1, "GROUP"],
-    ["HELI_LIGHT", -1, "GROUP"],
+    ["LAND_MEDIUM", -1, "SQUAD"],
+    ["LAND_LIGHT", -1, "SQUAD"],
+    ["LAND_LIGHT_UNARMED", 0, "EMPTY"],       //Empty light vehicle
+    ["HELI_PATROL", -1, "GROUP"],
+    ["HELI_PATROL", -1, "GROUP"],
     ["HELI_LIGHT", 0, "EMPTY"],       //Empty helicopter
     ["AIR_DRONE", -1, "EMPTY"],
-    ["AIR_DRONE", 0, "EMPTY"]         //Empty plane
+    ["AIR_DRONE", 0, "EMPTY"]         //Empty drone
 ];
 
 private _patrol =
@@ -38,14 +38,15 @@ garrison setVariable ["Airport_staticPerc", 0.35, true];
 _preference =
 [
   ["LAND_START", -1, "SQUAD"],
-  ["LAND_START", -1, "SQUAD"],
-  ["LAND_LIGHT", 0, "EMPTY"],       //Empty light vehicle
-  ["HELI_LIGHT", -1, "GROUP"],
-  ["HELI_LIGHT", 0, "EMPTY"]        //Empty helicopter
+  ["LAND_TRUCK", -1, "SQUAD"],
+  ["LAND_START", 0, "EMPTY"],       //Empty light vehicle
+  ["HELI_PATROL", -1, "GROUP"],
+  ["HELI_PATROL", 0, "EMPTY"]        //Empty helicopter
 ];
 
 private _patrol =
 [
+    "PATROL_NORMAL",
     "PATROL_NORMAL",
     "PATROL_NORMAL"
 ];
@@ -76,8 +77,8 @@ garrison setVariable ["City_staticPerc", 0, true];
 _preference =
 [
   ["LAND_START", -1, "SQUAD"],
-  ["LAND_START", -1, "SQUAD"],
-  ["LAND_LIGHT", 0, "EMPTY"]      //Empty light vehicle
+  ["LAND_TRUCK", -1, "SQUAD"],
+  ["LAND_TRUCK", 0, "EMPTY"]
 ];
 
 private _patrol =
