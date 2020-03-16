@@ -49,7 +49,7 @@ if(_vehicleGroup == grpNull) then
 _vehicleGroup setVariable ["isCrewGroup", true, true];
 
 //Parameter to check if the crew should move into the vehicle (aka is vehicle fit for combat)
-_vehicleGroup setVariable ["shouldCrewVehicle", [assignedVehicle (leader _vehicleGroup)] call A3A_fnc_isCombatVehicle, true];
+_vehicleGroup setVariable ["shouldCrewVehicle", [_vehicleGroup] call A3A_fnc_shouldVehicleBeManned, true];
 
 if(_placeInVehicle && {(isNull _vehicle)}) then
 {

@@ -527,6 +527,7 @@ class A3A
         class markerDespawner {};
         class needsSpawn {};
         class removeFromSpawnedArrays {};
+        class shouldVehicleBeManned {};
         class staticInit {};
         class updateSpawnerUnits {};
         class vehicleDespawner {};

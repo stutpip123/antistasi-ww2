@@ -144,9 +144,16 @@ NEEDED FOR DOOMS UI UPGRADE
 - Send over units that are no longer needed, back to airports
 - Check convoys fsm for more arrival cases
 - [WIP] Add trucks to vehicle list (check checkVehicleType and updateVehicle and add the new cases)
-- Add check if crewArray has enough units to drive vehicle, otherwise don't man
+- [DONE] Add check if crewArray has enough units to drive vehicle, otherwise don't man
 - [DONE] Add vehicleDespawner to vehicles from the garage
-- Rethink balance of vehicles and their deveopment
+- Rethink balance of vehicles and their development
+
+======================= LAST NEEDED THING ======================================
+==========================> Balancing <=========================================
+
+================================================================================
+DO THIS IN ANOTHER PR
+================================================================================
 Optimisation
 - [WIP] Optimisation for speed and data size
 - Reorder all parameters in the same order
@@ -157,9 +164,6 @@ Optimisation
 Documentation
 - Add code documentation
 - Add system documentation to github
-
-======================= LAST NEEDED THING ======================================
-==========================> Balancing <=========================================
 
 ================================================================================
 OPEN AN ISSUE AND DO IT SOME OTHER TIME

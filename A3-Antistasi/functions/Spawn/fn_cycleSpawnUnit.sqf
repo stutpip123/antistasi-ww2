@@ -32,6 +32,9 @@ _unit addEventHandler
     "Killed",
     {
         private _unit = _this select 0;
+        //Block crew groups from getting into vehicles if one died
+        private _group = group _unit;
+        _group setVariable ["shouldCrewVehicle", false, true];
         private _id = _unit getVariable "UnitIndex";
         private _marker = _unit getVariable "UnitMarker";
         private _isOver = _unit getVariable "IsOver";
@@ -50,7 +53,7 @@ _unit addEventHandler
 [
     "HandleDamage",
     {
-        //Is there any way to disable this eventhandle on first run?
+        //Is there any way to disable this eventhandle after first run?
         private _unit = _this select 0;
         private _marker = _unit getVariable "UnitMarker";
         private _group = group _unit;
