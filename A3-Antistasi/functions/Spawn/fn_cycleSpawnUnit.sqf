@@ -82,7 +82,7 @@ else
 
 (group _unit) setVariable ["isDisabled", true, true];
 _unit disableAI "ALL";
-//doStop _unit;
+doStop _unit;
 _unit spawn
 {
     sleep 5;
@@ -90,6 +90,7 @@ _unit spawn
     {
         _this enableSimulation false;
     };
+    _this doFollow (leader (group _this));
 };
 
 _unit;
