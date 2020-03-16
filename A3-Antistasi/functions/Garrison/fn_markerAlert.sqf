@@ -76,7 +76,7 @@ while {spawner getVariable _marker != DESPAWNED} do
                                         if ((units _group) findIf {isNull (objectParent _x)} == -1) then
                                         {
                                             //All units managed to get into the vehicle, roll out
-                                            [leader _group, (leader _group) getVariable "UnitMarker", "COMBAT", "SPAWNED", "ORIGINAL", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+                                            [leader _group, (leader _group) getVariable "UnitMarker", "COMBAT", "SPAWNED", "ORIGINAL"] execVM "scripts\UPSMON.sqf";
                                         };
                                     };
                                 }

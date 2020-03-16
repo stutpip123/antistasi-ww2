@@ -15,7 +15,7 @@ if (getMarkerPos _x distance _positionX < distanceSPWN) then
 	_analyzed = _x;
     private _garrison = [_analyzed] call A3A_fnc_getGarrison;
     private _over = [_analyzed] call A3A_fnc_getOver;
-    _threat = _threat + [_garrison + _over, true] call A3A_fnc_countGarrison;
+    _threat = _threat + ([_garrison + _over, true] call A3A_fnc_countGarrison);
 	_staticsX = staticsToSave select {_x inArea _analyzed};
 	if (count _staticsX > 0) then
 		{
