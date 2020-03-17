@@ -19,6 +19,8 @@ private _vehicleIndex = -1;
 private _crewIndex = -1;
 private _cargoIndex = -1;
 
+private _unitsToSendBack = [];
+
 //Checking the overUnits for first empty spaces
 _vehicleIndex = _overUnits findIf {(_x select 0) == ""};
 _crewIndex = _overUnits findIf {"" in (_x select 1)};
@@ -94,30 +96,47 @@ private _overCount = count _overUnits;
     }
     else
     {
-        private _crewSeatCount = [_x, false] call BIS_fnc_crewCount;
-        private _crewArray = [];
-        if(_vehicleIndex == -1) then
+        if([_marker, _x] call A3A_fnc_blockVehicleSpace) then
         {
-            for "_i" from 1 to _crewSeatCount do
+            private _crewSeatCount = [_x, false] call BIS_fnc_crewCount;
+            private _crewArray = [];
+            if(_vehicleIndex == -1) then
             {
-                _crewArray pushBack "";
+                for "_i" from 1 to _crewSeatCount do
+                {
+                    _crewArray pushBack "";
+                };
+                _overUnits pushBack [_x, _crewArray, [""]];
+                _overCount = _overCount + 1;
+                if(_cargoIndex == -1) then {_cargoIndex = _overCount - 1;};
+                if(_crewIndex == -1) then {_crewIndex = _overCount - 1;};
+            }
+            else
+            {
+                (_overUnits select _vehicleIndex) set [0, _x];
+                _crewArray = _overUnits select _vehicleIndex;
+                for "_i" from (count _crewArray) to _crewSeatCount do
+                {
+                    _crewArray pushBack "";
+                };
+                _vehicleIndex = _overUnits findIf {(_x select 0) == ""};
             };
-            _overUnits pushBack [_x, _crewArray, [""]];
-            _overCount = _overCount + 1;
-            if(_cargoIndex == -1) then {_cargoIndex = _overCount - 1;};
-            if(_crewIndex == -1) then {_crewIndex = _overCount - 1;};
         }
         else
         {
-            (_overUnits select _vehicleIndex) set [0, _x];
-            _crewArray = _overUnits select _vehicleIndex;
-            for "_i" from (count _crewArray) to _crewSeatCount do
-            {
-                _crewArray pushBack "";
-            };
-            _vehicleIndex = _overUnits findIf {(_x select 0) == ""};
+            //No space for this vehicle, send back
+            _unitsToSendBack pushBack _x;
         };
     };
 } forEach _units;
 
 garrison setVariable [format ["%1_over", _marker], _overUnits, true];
+
+if(_marker in airportsX) then
+{
+    //TODO Recycle units
+}
+else
+{
+    //TODO Send units back to nearest airport
+};

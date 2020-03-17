@@ -116,7 +116,7 @@ NEEDED FOR DOOMS UI UPGRADE
 - Rework stationating units on marker from squad (they need the ids, arrays and shit)
 - Rework spawned arrays to carry indices
 
-- [WIP] Update the current and available places numbers on arrival and despawn
+- [DONE] Update the current and available places numbers on arrival and despawn
 - [DONE] Check if vehicle can be send and stationated on marker
 - Update selectReinfUnits with the new cases
 
