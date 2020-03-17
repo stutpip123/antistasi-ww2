@@ -1,4 +1,9 @@
-params ["_base", "_target", ["_isAir", false]];
+#define AIR         0
+#define LAND_CONVOY 1   //LAND is an internal command and can't be used
+#define FAST_ROPE   2
+#define AMPHIBIOUS  3
+
+params ["_base", "_target", "_types"];
 
 /*  Selects the units to send, given on the targets reinf needs (and what the base has (not yet))
 
@@ -9,13 +14,70 @@ params ["_base", "_target", ["_isAir", false]];
     Params:
         _base : STRING : The name of the origin base
         _target : STRING : The name of the destination
-        _isAir : BOOLEAN : Determines if the selected units should be air units only
+        _types : ARRAY of NUMBERS : The possible types for the reinf units
 
     Returns:
         _unitsSend : ARRAY : The units in the correct format
 */
 
 private _fileName = "fn_selectReinfUnits";
+
+_fn_fillVehicle =
+{
+    params ["_vehicleType", "_crew", "_sortedUnits", "_sortedCrew"];
+
+    private _noMoreUnits = false;
+    private _cargoSeats = ([_vehicleType, true] call BIS_fnc_crewCount) - (count _crew);
+    private _cargoIndex = 0;
+    private _cargo = [];
+
+    for "_seat" from 1 to _cargoSeats do
+    {
+        //Index is higher then array indeces go
+        if (_cargoIndex >= (count _sortedUnits)) then
+        {
+            //Add crew unit if possible
+            if((_sortedCrew select 0) > 0) then
+            {
+                _cargo pushBack (_sortedCrew select 1);
+                _sortedCrew set [0, (_sortedCrew select 0) - 1];
+                _cargoIndex = 0;
+            }
+            else
+            {
+                //No crew available, check if cargo units available
+                if(_cargoIndex == 0) then
+                {
+                    //No crew and cargo units available, all units loaded
+                    _noMoreUnits = true;
+                }
+                else
+                {
+                    _cargoIndex = 0;
+                };
+            };
+        }
+        else
+        {
+            private _entry = _sortedUnits select _cargoIndex;
+            _cargo pushBack (_entry select 1);
+            if((_entry select 0) <= 1) then
+            {
+                //Last one, delete entry
+                _sortedUnits deleteAt _cargoIndex;
+                _cargoIndex = _cargoIndex - 1;
+            }
+            else
+            {
+                //More to come, reduce numbers
+                _entry set [0, (_entry select 0) - 1];
+            };
+            _cargoIndex = _cargoIndex + 1;
+        };
+        if(_noMoreUnits) exitWith {};
+    };
+    [_cargo, _noMoreUnits];
+};
 
 private _pointsAvailable = garrison getVariable [format ["%1_recruit", _base], 0];
 if(_pointsAvailable < 3) exitWith
@@ -54,7 +116,10 @@ private _sortedCrew = [];
     private _vehicleIndex = _sortedVehicles findIf {(_x select 1) == _vehicle};
     if(_vehicleIndex == -1) then
     {
-        _sortedVehicles pushBack [([_vehicle] call A3A_fnc_getVehicleCost) + ([_vehicle , true] call BIS_fnc_crewCount), _vehicle, 1];
+        if([_vehicle, _types] call A3A_fnc_checkReinfTypeForVehicle) then
+        {
+            _sortedVehicles pushBack [([_vehicle] call A3A_fnc_getVehicleCost) + ([_vehicle , true] call BIS_fnc_crewCount), _vehicle, 1];
+        };
     }
     else
     {
@@ -126,57 +191,9 @@ private _crewMember = if(_side == Occupants) then {NATOCrew} else {CSATCrew};
             //Check if we still got units to load
             if (!_allUnitsLoaded) then
             {
-                private _cargoSeats = ([_vehicleType, true] call BIS_fnc_crewCount) - (count _crew);
-                private _cargoIndex = 0;
-                private _cargo = [];
-
-                for "_seat" from 1 to _cargoSeats do
-                {
-                    //Index is higher then array indeces go
-                    if (_cargoIndex >= (count _sortedUnits)) then
-                    {
-                        //Add crew unit if possible
-                        if((_sortedCrew select 0) > 0) then
-                        {
-                            _cargo pushBack (_sortedCrew select 1);
-                            _sortedCrew set [0, (_sortedCrew select 0) - 1];
-                            _cargoIndex = 0;
-                        }
-                        else
-                        {
-                            //No crew available, check if cargo units available
-                            if(_cargoIndex == 0) then
-                            {
-                                //No crew and cargo units available, all units loaded
-                                _allUnitsLoaded = true;
-                            }
-                            else
-                            {
-                                _cargoIndex = 0;
-                            };
-                        };
-                    }
-                    else
-                    {
-                        private _entry = _sortedUnits select _cargoIndex;
-                        _cargo pushBack (_entry select 1);
-                        if((_entry select 0) <= 1) then
-                        {
-                            //Last one, delete entry
-                            _sortedUnits deleteAt _cargoIndex;
-                            _cargoIndex = _cargoIndex - 1;
-                        }
-                        else
-                        {
-                            //More to come, reduce numbers
-                            _entry set [0, (_entry select 0) - 1];
-                        };
-                        _cargoIndex = _cargoIndex + 1;
-                    };
-
-                    if(_allUnitsLoaded) exitWith {};
-                };
-                _newLine set [2, _cargo];
+                private _result = [_vehicleType, _crew, _sortedUnits, _sortedCrew] call _fn_fillVehicle;
+                _newLine set [2, _result select 0];
+                _allUnitsLoaded = _result select 1;
             };
             [
                 3,
@@ -196,26 +213,13 @@ if (!_allUnitsLoaded) then
     private _possibleVehicles = [];
     if(_side == Occupants) then
     {
-        if (_isAir) then
-        {
-            _possibleVehicles = [vehNATOPatrolHeli] + vehNATOTransportHelis;
-        }
-        else
-        {
-            _possibleVehicles = [vehNATOBike, vehNATOPatrolHeli] + vehNATOLight + vehNATOTrucks + vehNATOTransportHelis;
-        };
+        _possibleVehicles = [vehNATOBike, vehNATOPatrolHeli] + vehNATOLight + vehNATOTrucks + vehNATOTransportHelis;
     }
     else
     {
-        if (_isAir) then
-        {
-            _possibleVehicles = [vehCSATPatrolHeli] + vehCSATTransportHelis;
-        }
-        else
-        {
-            _possibleVehicles = [vehCSATBike, vehCSATPatrolHeli] + vehCSATLight + vehCSATTrucks + vehCSATTransportHelis;
-        };
+        _possibleVehicles = [vehCSATBike, vehCSATPatrolHeli] + vehCSATLight + vehCSATTrucks + vehCSATTransportHelis;
     };
+    _possibleVehicles = _possibleVehicles select {[_x, _types] call A3A_fnc_checkReinfTypeForVehicle};
 
     private _sortedVehicles = [];
     {
@@ -252,57 +256,9 @@ if (!_allUnitsLoaded) then
             };
             _newLine set [1, _crew];
 
-            private _cargoSeats = [_vehicleType, true] call BIS_fnc_crewCount - (count _crew);
-            private _cargoIndex = 0;
-            private _cargo = [];
-
-            for "_seat" from 1 to _cargoSeats do
-            {
-                //Index is higher then array indeces go
-                if (_cargoIndex >= (count _sortedUnits)) then
-                {
-                    //Add crew unit if possible
-                    if((_sortedCrew select 0) > 0) then
-                    {
-                        _cargo pushBack (_sortedCrew select 1);
-                        _sortedCrew set [0, (_sortedCrew select 0) - 1];
-                        _cargoIndex = 0;
-                    }
-                    else
-                    {
-                        //No crew available, check if cargo units available
-                        if(_cargoIndex == 0) then
-                        {
-                            //No crew and cargo units available, all units loaded
-                            _allUnitsLoaded = true;
-                        }
-                        else
-                        {
-                            _cargoIndex = 0;
-                        };
-                    };
-                }
-                else
-                {
-                    private _entry = _sortedUnits select _cargoIndex;
-                    _cargo pushBack (_entry select 1);
-                    if((_entry select 0) <= 1) then
-                    {
-                        //Last one, delete entry
-                        _sortedUnits deleteAt _cargoIndex;
-                        _cargoIndex = _cargoIndex - 1;
-                    }
-                    else
-                    {
-                        //More to come, reduce numbers
-                        _entry set [0, (_entry select 0) - 1];
-                    };
-                    _cargoIndex = _cargoIndex + 1;
-                };
-
-                if(_allUnitsLoaded) exitWith {};
-            };
-            _newLine set [2, _cargo];
+            private _result = [_vehicleType, _crew, _sortedUnits, _sortedCrew] call _fn_fillVehicle;
+            _allUnitsLoaded = _result select 1;
+            _newLine set [2, _result select 0];
 
             [
                 3,

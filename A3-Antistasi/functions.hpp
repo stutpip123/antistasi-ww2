@@ -278,6 +278,7 @@ class A3A
         class canPlaceVehicleAtMarker {};
         class checkForFreeSpaces {};
 		class checkGroupType {};
+        class checkReinfTypeForVehicle {};
 		class checkVehicleType {};
         class clearGarrison {};
 		class countGarrison {};

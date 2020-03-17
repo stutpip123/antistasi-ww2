@@ -235,9 +235,8 @@ if(_type == "reinforce") then
         private _selectedBase = _reinfBase select 0;
         //Found base to reinforce, selecting units now
         private _types = _reinfBase select 1;
-        private _isOnlyAir = ((count _types) == 1) && {(_types select 0) == "Air"};
-        [3, format ["%1 will reinforce with types %2, is Air %3", _selectedBase, _types, _isOnlyAir], _fileName] call A3A_fnc_log;
-        _units = [_selectedBase, _destination, _isOnlyAir] call A3A_fnc_selectReinfUnits;
+        [3, format ["%1 will reinforce with types %2", _selectedBase, _types], _fileName] call A3A_fnc_log;
+        _units = [_selectedBase, _destination, _types] call A3A_fnc_selectReinfUnits;
 
         if(_units isEqualTo []) then
         {
