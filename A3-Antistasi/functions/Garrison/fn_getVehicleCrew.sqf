@@ -1,4 +1,4 @@
-params ["_vehicleType", "_crewType", "_unitCount"];
+params ["_vehicleType", "_crewType", ["_unitCount", -1]];
 
 /*  Returns an array of the needed crew for the vehicle
 *   Params:

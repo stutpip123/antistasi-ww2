@@ -2,6 +2,8 @@
 #define LAND_CONVOY 1   //LAND is an internal command and can't be used
 #define FAST_ROPE   2
 #define AMPHIBIOUS  3
+#define LAND_REQ    4
+#define AIR_REQ     5
 
 params ["_base", "_target"];
 
@@ -34,6 +36,7 @@ if(_base isEqualTo _target) exitWith
     _types
 };
 
+/* More more problems than it is worth
 private _targetReinforcements = [_target] call A3A_fnc_getRequested;
 private _reinfCount = [_targetReinforcements, true] call A3A_fnc_countGarrison;
 private _maxSend = garrison getVariable [format ["%1_recruit", _base], 0];
@@ -47,6 +50,7 @@ if(_maxSend < 15 && (((2/3) * _reinfCount) > _maxSend)) exitWith
     ] call A3A_fnc_log;
     _types
 };
+*/
 
 /*  The logic should take care of it without it being a special case
 //Carrier can only reinforce with air convoys and in ongoing versions with amphibious ones (maybe)
@@ -74,7 +78,7 @@ if (spawner getVariable _base != 2 || {_base in forcedSpawn}) exitWith
     _types
 };
 
-private _isAirport = _base in airportsX;
+private _isAirport = _base in (airportsX + ["NATO_carrier", "CSAT_carrier"]);
 
 //Airport and in range of air support
 private _canBeAir = false;
@@ -93,6 +97,7 @@ if((getMarkerPos _base) distance2D (getMarkerPos _target) < distanceForLandAttac
 private _hasFreeSpaceForType = [_target] call A3A_fnc_checkForFreeSpaces;
 if(_canBeAir) then
 {
+    _types pushBack AIR_REQ;
     if (_hasFreeSpaceForType select 1) then
     {
         _types pushBack AIR
@@ -105,6 +110,10 @@ if(_canBeAir) then
 
 if(_canBeLand) then
 {
+    if ([_base, _target] call A3A_fnc_isTheSameIsland) then
+    {
+        _types pushBack LAND_REQ;
+    };
     if (_hasFreeSpaceForType select 0) then
     {
         if ([_base, _target] call A3A_fnc_isTheSameIsland) then

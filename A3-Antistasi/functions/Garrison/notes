@@ -118,6 +118,7 @@ NEEDED FOR DOOMS UI UPGRADE
 
 - Send over units that are no longer needed, back to airports
 
+- [DONE]Add points instead of setting them
 - [DONE] Update the current and available places numbers on arrival and despawn
 - [DONE] Check if vehicle can be send and stationated on marker
 - [DONE] Update selectReinfUnits with the new cases

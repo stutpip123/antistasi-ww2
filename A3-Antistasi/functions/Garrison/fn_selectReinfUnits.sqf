@@ -1,8 +1,3 @@
-#define AIR         0
-#define LAND_CONVOY 1   //LAND is an internal command and can't be used
-#define FAST_ROPE   2
-#define AMPHIBIOUS  3
-
 params ["_base", "_target", "_types"];
 
 /*  Selects the units to send, given on the targets reinf needs (and what the base has (not yet))
@@ -116,7 +111,8 @@ private _sortedCrew = [];
     private _vehicleIndex = _sortedVehicles findIf {(_x select 1) == _vehicle};
     if(_vehicleIndex == -1) then
     {
-        if([_vehicle, _types] call A3A_fnc_checkReinfTypeForVehicle) then
+        //Check if the convoy is able to transport this kind of vehicle
+        if([_vehicle, _types, true] call A3A_fnc_checkReinfTypeForVehicle) then
         {
             _sortedVehicles pushBack [([_vehicle] call A3A_fnc_getVehicleCost) + ([_vehicle , true] call BIS_fnc_crewCount), _vehicle, 1];
         };
@@ -219,7 +215,7 @@ if (!_allUnitsLoaded) then
     {
         _possibleVehicles = [vehCSATBike, vehCSATPatrolHeli] + vehCSATLight + vehCSATTrucks + vehCSATTransportHelis;
     };
-    _possibleVehicles = _possibleVehicles select {[_x, _types] call A3A_fnc_checkReinfTypeForVehicle};
+    _possibleVehicles = _possibleVehicles select {[_x, _types, false] call A3A_fnc_checkReinfTypeForVehicle};
 
     private _sortedVehicles = [];
     {
@@ -242,10 +238,11 @@ if (!_allUnitsLoaded) then
 
     {
         _x params ["_vehicleType", "_cost"];
+        diag_log format ["X is %1", _x];
         while {!_allUnitsLoaded && {_cost < _pointsAvailable}} do
         {
             _newLine = ["", [], []];
-            _pointsAvailable = _pointsAvailable - _costs;
+            _pointsAvailable = _pointsAvailable - _cost;
             _newLine set [0, _vehicleType];
 
             private _crew = [_vehicleType, _crewMember] call A3A_fnc_getVehicleCrew;
