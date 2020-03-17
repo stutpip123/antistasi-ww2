@@ -1,3 +1,8 @@
+#define AIR         0
+#define LAND_CONVOY 1   //LAND is an internal command and can't be used
+#define FAST_ROPE   2
+#define AMPHIBIOUS  3
+
 params ["_base", "_target"];
 
 /*  Checks if and how the given base should reinforce the given target
@@ -6,12 +11,12 @@ params ["_base", "_target"];
 *       _target : STRING : Name of the market that should recieve units
 *
 *   Returns:
-*       _types : ARRAY : Array containing the possible reinforcements ways "Air" and/or "Land" or empty
+*       _types : ARRAY : Array containing the possible reinforcements ways
 */
 
 private _fileName = "shouldReinforce";
 [
-    4,
+    3,
     format ["Checking if %1 should reinforce %2", _base, _target],
     _fileName
 ] call A3A_fnc_log;
@@ -19,48 +24,104 @@ private _fileName = "shouldReinforce";
 private _types = [];
 
 //Bases cannot reinforce themselves
-if(_base isEqualTo _target) exitWith {_types};
+if(_base isEqualTo _target) exitWith
+{
+    [
+        3,
+        "Target and origin base are the same, bases cannot reinforce themselves",
+        _fileName
+    ] call A3A_fnc_log;
+    _types
+};
 
-//Carrier can only reinforce with air convoys (maybe later amphibious attacks?)
-if(_base in ["NATO_carrier", "CSAT_carrier"]) exitWith {["Air"]};
+private _targetReinforcements = [_target] call A3A_fnc_getRequested;
+private _reinfCount = [_targetReinforcements, true] call A3A_fnc_countGarrison;
+private _maxSend = garrison getVariable [format ["%1_recruit", _base], 0];
 
+if(_maxSend < 15 && (((2/3) * _reinfCount) > _maxSend)) exitWith
+{
+    [
+        3,
+        format ["%1 can send less then 15 units, but %2 requires %3. There might be better bases", _base, _target, _reinfCount],
+        _fileName
+    ] call A3A_fnc_log;
+    _types
+};
 
-private _isAirport = _base in airportsX;
+/*  The logic should take care of it without it being a special case
+//Carrier can only reinforce with air convoys and in ongoing versions with amphibious ones (maybe)
+if(_base in ["NATO_carrier", "CSAT_carrier"]) exitWith
+{
+    [
+        3,
+        format ["%1 is carrier marker, it can only send air and amphibious attacks", _base],
+        _fileName
+    ] call A3A_fnc_log;
+    [AIR, AMPHIBIOUS]
+};
+*/
+
 private _side = sidesX getVariable [_base, sideUnknown];
 
 //Spawned airports are not yet ready to send reinforcements
-if (spawner getVariable _base != 2 || {_base in forcedSpawn}) exitWith {_types};
+if (spawner getVariable _base != 2 || {_base in forcedSpawn}) exitWith
+{
+    [
+        3,
+        format ["%1 is currently spawned in, therefor not allowed to send units", _base],
+        _fileName
+    ] call A3A_fnc_log;
+    _types
+};
+
+private _isAirport = _base in airportsX;
 
 //Airport and in range of air support
+private _canBeAir = false;
 if(_isAirport && {(getMarkerPos _base) distance2D (getMarkerPos _target) < distanceForAirAttack}) then
 {
-    _types pushBack "Air"
+    _canBeAir = true;
 };
 
-//To far away for land convoy or not the same island
-if(([_base, _target] call A3A_fnc_isTheSameIsland) && {(getMarkerPos _base) distance2D (getMarkerPos _target) < distanceForLandAttack}) then
+//Check if in range for a land convoy
+private _canBeLand = false;
+if((getMarkerPos _base) distance2D (getMarkerPos _target) < distanceForLandAttack) then
 {
-    _types pushBack "Land"
+    _canBeLand = true;
 };
+
+private _hasFreeSpaceForType = [_target] call A3A_fnc_checkForFreeSpaces;
+if(_canBeAir) then
+{
+    if (_hasFreeSpaceForType select 1) then
+    {
+        _types pushBack AIR
+    }
+    else
+    {
+        _types pushBack FAST_ROPE;
+    };
+};
+
+if(_canBeLand) then
+{
+    if (_hasFreeSpaceForType select 0) then
+    {
+        if ([_base, _target] call A3A_fnc_isTheSameIsland) then
+        {
+            _types pushBack LAND_CONVOY;
+        }
+        else
+        {
+            _types pushBack AMPHIBIOUS;
+        };
+    };
+};
+
+[
+    3,
+    format ["%1 can send units, possible ways are: %2", _base, _types],
+    _fileName
+] call A3A_fnc_log;
 
 _types;
-/* deactivated as it needs a better system
-_targetIsBase = _target in outposts;
-_reinfMarker = if(_side == Occupants) then {reinforceMarkerOccupants} else {reinforceMarkerInvader};
-
-_targetReinforcements = [_target] call A3A_fnc_getRequested;
-_reinfCount = [_targetReinforcements, true] call A3A_fnc_countGarrison;
-
-_maxSend = garrison getVariable [format ["%1_recruit", _base], 0];
-
-//Can't send enough troups
-if((_reinfCount < 18) && {_maxSend < (_reinfCount * 2/3)}) exitWith {false};
-
-//Bases should not send more than 8 troops at a time
-if((_reinfCount > 8) && {!_isAirport}) exitWith {false};
-
-//Airports only support bases with less than 4 troups //Currently deactivated
-//if((_reinfCount < 4) && {_isAirport && {!_targetIsBase}}) exitWith {false};
-
-true;
-*/

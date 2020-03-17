@@ -275,6 +275,7 @@ class A3A
         class addToOver {};
 		class addToRequested {};
         class canPlaceVehicleAtMarker {};
+        class checkForFreeSpaces {};
 		class checkGroupType {};
 		class checkVehicleType {};
         class clearGarrison {};

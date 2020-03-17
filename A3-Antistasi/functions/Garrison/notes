@@ -118,8 +118,11 @@ NEEDED FOR DOOMS UI UPGRADE
 
 - Update the current and available places numbers on arrival and despawn
 - Check if vehicle can be send and stationated on marker
+- Add specific case for fastrope convoys
 
 - Send over units that are no longer needed, back to airports
+
+- Fully implement the carriers
 [WIP] Roadblocks
 - [DONE] Fix roadblocks (not sure what their problem is)
 - [DONE] Create statics dynamically on first spawn
