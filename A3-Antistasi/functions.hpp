@@ -274,6 +274,7 @@ class A3A
 		class addToGarrison {};
         class addToOver {};
 		class addToRequested {};
+        class blockVehicleSpace {};
         class canPlaceVehicleAtMarker {};
         class checkForFreeSpaces {};
 		class checkGroupType {};
