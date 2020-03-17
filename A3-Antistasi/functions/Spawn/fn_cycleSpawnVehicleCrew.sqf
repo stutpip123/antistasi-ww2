@@ -39,7 +39,6 @@ if(_vehicleGroup == grpNull) then
     };
     if(_marker in controlsX) then
     {
-        _vehicle setFuel 0;
         _unit moveInGunner _vehicle;
     };
     sleep 0.25;
