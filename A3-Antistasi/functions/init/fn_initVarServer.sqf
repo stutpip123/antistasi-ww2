@@ -707,8 +707,8 @@ otherStaticsTiers = [0.3, 0.8, 0.95, 1];
 [2,"Initialising Reinforcement Variables",_fileName] call A3A_fnc_log;
 DECLARE_SERVER_VAR(reinforceMarkerOccupants, []);
 DECLARE_SERVER_VAR(reinforceMarkerInvader, []);
-DECLARE_SERVER_VAR(canReinforceOccupants, []);
-DECLARE_SERVER_VAR(canReinforceInvader, []);
+DECLARE_SERVER_VAR(canReinforceOccupants, ["NATO_carrier"]);
+DECLARE_SERVER_VAR(canReinforceInvader, ["CSAT_carrier"]);
 
 /////////////////////////////////////////
 //     SYNCHRONISE SERVER VARIABLES   ///
