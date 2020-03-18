@@ -1,6 +1,13 @@
-#define SPAWNED         0
-#define ON_STANDBY      1
-#define DESPAWNED       2
+//Defines for group types to allow runtime groups joining and so on
+#define GARRISON    10
+#define OVER        11
+#define STATIC      12
+#define MORTAR      13
+#define PATROL      14
+#define OTHER       15
+
+#define IS_CREW     false
+#define IS_CARGO    true
 
 params ["_marker", "_patrolMarker", ["_allVehicles", []], ["_allGroups", []]];
 
@@ -53,21 +60,21 @@ private _garCount = [_garrison + _over, true] call A3A_fnc_countGarrison;
             //Array got a vehicle, spawn it in
             _vehicleGroup = createGroup _side;
             _vehicle = [_marker, _vehicleType, _forEachIndex, _vehicleGroup, false] call A3A_fnc_cycleSpawnVehicle;
-            _allVehicles pushBack _vehicle;
+            _allVehicles pushBack [_vehicle, [GARRISON, _forEachIndex]];
             sleep 0.25;
         };
 
         _vehicleGroup = [_marker, _side, _crewArray, _forEachIndex, _vehicleGroup, _vehicle, false] call A3A_fnc_cycleSpawnVehicleCrew;
         if !(isNull _vehicleGroup) then
         {
-            _allGroups pushBack _vehicleGroup;
+            _allGroups pushBack [_vehicleGroup, [GARRISON, IS_CREW, _forEachIndex]];
         };
     };
 
     private _groupSoldier = [_side, _marker, _cargoArray, _forEachIndex, false] call A3A_fnc_cycleSpawnSoldierGroup;
     if !(isNull _groupSoldier) then
     {
-        _allGroups pushBack _groupSoldier;
+        _allGroups pushBack [_groupSoldier, [GARRISON, IS_CARGO, _forEachIndex]];
     };
 } forEach _garrison;
 
@@ -83,20 +90,20 @@ private _garCount = [_garrison + _over, true] call A3A_fnc_countGarrison;
         //Array got a vehicle, spawn it in
         _vehicleGroup = createGroup _side;
         _vehicle = [_marker, _vehicleType, _lineIndex, _vehicleGroup, true] call A3A_fnc_cycleSpawnVehicle;
-        _allVehicles pushBack _vehicle;
+        _allVehicles pushBack [_vehicle, [OVER, _forEachIndex]];
         sleep 0.25;
     };
 
     _vehicleGroup = [_marker, _side, _crewArray, _forEachIndex, _vehicleGroup, _vehicle, true] call A3A_fnc_cycleSpawnVehicleCrew;
     if !(isNull _vehicleGroup) then
     {
-        _allGroups pushBack _vehicleGroup;
+        _allGroups pushBack [_vehicleGroup, [OVER, IS_CREW, _forEachIndex]];
     };
 
     private _groupSoldier = [_side, _marker, _cargoArray, _forEachIndex, true] call A3A_fnc_cycleSpawnSoldierGroup;
     if !(isNull _groupSoldier) then
     {
-        _allGroups pushBack _groupSoldier;
+        _allGroups pushBack [_groupSoldier, [OVER, IS_CARGO, _forEachIndex]];
     };
 } forEach _over;
 
@@ -107,10 +114,10 @@ private _staticGroup = grpNull;
     if(isNull _staticGroup) then
     {
         _staticGroup = createGroup _side;
-        _allGroups pushBack _staticGroup;
+        _allGroups pushBack [_staticGroup, [STATIC, IS_CREW, 0]];
     };
     private _static = [_marker, _staticGroup, _x select 0, _x select 1, _forEachIndex] call A3A_fnc_cycleSpawnStatic;
-    _allVehicles pushBack _static;
+    _allVehicles pushBack [_static, [STATIC, -1]];
 } forEach _statics;
 
 //Spawn in mortars of the marker
@@ -120,10 +127,10 @@ private _mortarGroup = grpNull;
     if(isNull _mortarGroup) then
     {
         _mortarGroup = createGroup _side;
-        _allGroups pushBack _mortarGroup;
+        _allGroups pushBack [_mortarGroup, [MORTAR , IS_CREW, 0]];
     };
     private _mortar = [_marker, _mortarGroup, _x select 0, _x select 1, _forEachIndex] call A3A_fnc_cycleSpawnStatic;
-    _allVehicles pushBack _mortar;
+    _allVehicles pushBack [_mortar, [STATIC, -1]];
 } forEach _mortars;
 
 if (_side == teamPlayer) then
@@ -137,7 +144,7 @@ private _patrols = [_marker] call A3A_fnc_getPatrols;
     private _group = [_side, _marker, _x, _forEachIndex, _patrolMarker] call A3A_fnc_cycleSpawnPatrol;
     if !(isNull _group) then
     {
-        _allGroups pushBack _group;
+        _allGroups pushBack [_group, [PATROL, IS_CARGO, _forEachIndex];
     };
 } forEach _patrols;
 

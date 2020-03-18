@@ -114,10 +114,10 @@ NEEDED FOR DOOMS UI UPGRADE
 
 - Finish functions for adding and removing units from outposts (spawned and not spawned) (handle garrison data and spawned data)
 - Rework stationating units on marker from squad (they need the ids, arrays and shit)
-- Rework spawned arrays to carry indices
+- [DONE] Rework spawned arrays to carry indices
 
 - [DONE] Recycle over units that cannot be placed
-- [DONE]Add points instead of setting them
+- [DONE] Add points instead of setting them
 - [DONE] Update the current and available places numbers on arrival and despawn
 - [DONE] Check if vehicle can be send and stationated on marker
 - [DONE] Update selectReinfUnits with the new cases

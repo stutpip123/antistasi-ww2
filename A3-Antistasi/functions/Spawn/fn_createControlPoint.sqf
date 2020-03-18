@@ -66,7 +66,7 @@ switch (_type) do
                 //_bunkerSpawnPos = [_bunkerSpawnPos, 1, _bunkerDir] call BIS_fnc_relPos;
                 _bunkerDir = _bunkerDir - 180;
                 private _bunker = "Land_BagBunker_01_Small_green_F" createVehicle _bunkerSpawnPos;
-                _vehicles pushBack _bunker;
+                _vehicles pushBack [_bunker, [15, -1]];
 
                 _bunker setDir _bunkerDir;
                 _bunker setVectorUp (surfaceNormal _bunkerSpawnPos);

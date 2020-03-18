@@ -2,6 +2,7 @@ params ["_marker", "_vehicles", "_groups"];
 
 /*  Adds units to the "spawnedArray" of a marker, integrating it into its despawn progress
     They are not getting added to the data by this function!
+    IMPORTANT: VEHICLES AND GROUPS HAVE TO BE IN THE CORRECT FORMAT [[vehicle,[TYPE_ID, ROW_ID]], ...] or [[group, [TYPE_ID, CREW_ID, ROW_ID]], ...]
 
     Execution on: HC or Server
 
@@ -9,8 +10,8 @@ params ["_marker", "_vehicles", "_groups"];
 
     Params:
         _marker: STRING : Name of the marker to which the units will get added
-        _vehicles: OBJECT or ARRAY OF OBJECTS: The vehicle(s) which will be added
-        _groups: GROUP or ARRAY OF GROUPS: The group(s) which will be added
+        _vehicles:ARRAY: The vehicle(s) which will be added
+        _groups: ARRAY: The group(s) which will be added
 
     Returns:
         Nothing

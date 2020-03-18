@@ -37,7 +37,7 @@ waitUntil
             {
                 {
                     _x enableSimulationGlobal false;
-                } forEach (units _x);
+                } forEach (units (_x select 0));
             } forEach _allGroups;
         };
         if((_markerState == ON_STANDBY) && (_needsSpawn == SPAWNED)) then
@@ -46,7 +46,7 @@ waitUntil
             {
                 {
                     _x enableSimulationGlobal true;
-                } forEach (units _x);
+                } forEach (units (_x select 0));
             } forEach _allGroups;
         };
         spawner setVariable [_marker, _needsSpawn, true];
@@ -55,14 +55,15 @@ waitUntil
 };
 
 [2, format ["Starting despawn progress of %1", _marker], _fileName, true] call A3A_fnc_log;
-[3, format ["All groups %1, all vehicle %2", _allGroups, _allVehicles], _fileName, true] call A3A_fnc_log;
+[3, format ["All groups: %1", _allGroups], _fileName, true] call A3A_fnc_log;
+[3, format ["All vehicles: %1", _allVehicles], _fileName, true] call A3A_fnc_log;
 
 [_marker] call A3A_fnc_freeSpawnPositions;
 
 deleteMarker _patrolMarker;
 
 {
-	[_x] spawn A3A_fnc_groupDespawner;
+	[(_x select 0)] spawn A3A_fnc_groupDespawner;
 } forEach _allGroups;
 
 //It might be faster to check the vehicles arrays against the position arrays
@@ -86,7 +87,7 @@ if(_side == teamPlayer) then
 };
 
 {
-    deleteVehicle _x;
+    deleteVehicle (_x select 0);
 } forEach _allVehicles;
 
 //Delete spawnedArrays

@@ -122,7 +122,10 @@ if(_marker != "Synd_HQ") then
     };
 };
 
-private _allVehicles = [_flag, _box];
+private _allVehicles = [];
+_allVehicles pushBack [_flag, [15, 0]];
+_allVehicles pushBack [_box, [15, 1]];
+
 [_marker, _patrolMarker, _allVehicles] spawn A3A_fnc_cycleSpawn;
 
 [2, format ["Successfully spawned in %1", _marker], _fileName, true] call A3A_fnc_log;

@@ -13,7 +13,7 @@ if(_marker in destroyedSites) then
 {
     //Spawn a few corpses in the destroyed buildings
     private _deadGroup = createGroup civilian;
-    _allGroups pushBack _deadGroup;
+    _allGroups pushBack [_deadGroup, [15, true, 0]];
     private _ruins =_markerPos nearObjects ["Ruins", 100];
     {
         if(random 10 <= 1) then
@@ -21,7 +21,7 @@ if(_marker in destroyedSites) then
             private _unitType = format ["C_man_polo_%1_F", round ((random 5) + 1)];
             private _unit = _deadGroup createUnit [_unitType, getPos _x, [], 5, "NONE"];
             _unit setDamage 1;
-            _allVehicles pushBack _unit;
+            _allVehicles pushBack [_unit, [15, -1]];
         };
     } forEach _ruin;
     //Maybe place some destroyed cars as simple objects for the immersion
@@ -69,7 +69,7 @@ else
     			private _typeVeh = selectRandom arrayCivVeh;
     			private _veh = _typeVeh createVehicle _vehPos;
     			_veh setDir _vehDir;
-    			_allVehicles pushBack _veh;
+    			_allVehicles pushBack [_veh, [15, -1]];
     			[_veh] spawn A3A_fnc_civVEHinit;
                 _veh addEventHandler
                 [
@@ -96,7 +96,7 @@ else
     	{
     		private _typeVeh = selectRandom civBoats;
             private _boat = [_typeVeh, getMarkerPos (selectRandom _seaMarker), 25] call A3A_fnc_safeVehicleSpawn;
-    		_allVehicles pushBack _boat;
+    		_allVehicles pushBack [_boat, [15, -1]];
     		[_boat] spawn A3A_fnc_civVEHinit;
             _boat addEventHandler
             [
@@ -117,13 +117,13 @@ else
     if (random 100 < ((prestigeNATO) + (prestigeCSAT))) then
     {
     	private _pos = [];
-        private _journalistGroup =createGroup civilian;
+        private _journalistGroup = createGroup civilian;
     	while {true} do
     	{
     		_pos = [getMarkerPos _marker, round (random 50), random 360] call BIS_Fnc_relPos;
     		if (!surfaceIsWater _pos) exitWith {};
     	};
-    	_allGroups pushBack _journalistGroup;
+    	_allGroups pushBack [_journalistGroup, [15, 0]];
     	private _civ = _journalistGroup createUnit ["C_journalist_F", _pos, [], 10, "NONE"];
     	[_civ] spawn A3A_fnc_CIVinit;
     	[_civ, _marker, "SAFE", "SPAWNED","NOFOLLOW", "NOVEH2","NOSHARE","DoRelax"] execVM "scripts\UPSMON.sqf";//TODO need delete UPSMON link
