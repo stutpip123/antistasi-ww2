@@ -222,7 +222,7 @@ if (!_allUnitsLoaded) then
         private _cost = ([_x] call A3A_fnc_getVehicleCost) + ([_x, true] call BIS_fnc_crewCount);
         if(_cost < _pointsAvailable) then
         {
-            _sortedVehicles pushBack [_x, _cost];
+            _sortedVehicles pushBack [_cost, _x];
         };
     } forEach _possibleVehicles;
 
@@ -236,9 +236,11 @@ if (!_allUnitsLoaded) then
         ] call A3A_fnc_log;
     };
 
+    _sortedVehicles sort false;
+    [3, format ["List of possible vehicles is: %1", _sortedVehicles], _fileName] call A3A_fnc_log;
+
     {
-        _x params ["_vehicleType", "_cost"];
-        diag_log format ["X is %1", _x];
+        _x params ["_cost", "_vehicleType"];
         while {!_allUnitsLoaded && {_cost < _pointsAvailable}} do
         {
             _newLine = ["", [], []];

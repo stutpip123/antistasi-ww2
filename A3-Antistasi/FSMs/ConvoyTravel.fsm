@@ -241,8 +241,8 @@ class FSM
                          "	{ (_garrison # 2) pushBack (typeOf _x) } foreach units _cargoGroup;" \n
                          "	[_markers # 1, [_garrison]] call A3A_fnc_addToGarrison;" \n
                          "" \n
-                         "  //Adding the spawned groups to the spawned groups of the marker to handle despawn"
-                         "  [_markers # 1, _vehicle, _crewGroup, _cargoGroup] call A3A_fnc_addGroupsToSpawned;" \n
+                         "  //Adding the spawned groups to the spawned groups of the marker to handle despawn" \n
+                         "  [_markers # 1, [_vehicle,[15, -1]], [[_crewGroup,[10, false, -1]], [_cargoGroup, [10, true, -1]]]] call A3A_fnc_addToSpawnedArrays;" \n
                          "} else {" \n
                          "	// otherwise just use the stock despawning" \n
                          "	[_crewGroup] spawn A3A_fnc_groupDespawner;" \n
