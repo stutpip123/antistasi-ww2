@@ -7,15 +7,15 @@
 */
 private _fileName = "reinforcementsAI";
 private _recruitCount =  round ((10 + 2 * tierWar + (floor ((count allPlayers)/2))) * (0.5 * skillMult));
-[2, format ["Airports are now able to send %1 reinforcements", _recruitCount], _fileName] call A3A_fnc_log;
+[2, format ["Airports get a total of %1 points this tick", _recruitCount], _fileName] call A3A_fnc_log;
 {
     //Setting the number of recruitable units per ticks per airport
     private _current = garrison getVariable [format ["%1_recruit", _x], 0];
     garrison setVariable [format ["%1_recruit", _x], _recruitCount + _current, true];
 } forEach airportsX + ["NATO_carrier", "CSAT_carrier"];
 
-_recruitCount = round ((5 + (round (0.5 * tierWar)) + (floor ((count allPlayers)/4))) * (0.5 * skillMult));
-[2, format ["Outposts are now able to send %1 reinforcements", _recruitCount], _fileName] call A3A_fnc_log;
+_recruitCount = 0;//round ((5 + (round (0.5 * tierWar)) + (floor ((count allPlayers)/4))) * (0.5 * skillMult));
+[2, format ["Outposts get a total of %1 points this tick", _recruitCount], _fileName] call A3A_fnc_log;
 {
     //Setting the number of recruitable units per ticks per outpost
     private _current = garrison getVariable [format ["%1_recruit", _x], 0];
@@ -29,7 +29,7 @@ _recruitCount = round ((5 + (round (0.5 * tierWar)) + (floor ((count allPlayers)
     _canReinf = if(_x == Occupants) then {canReinforceOccupants} else {canReinforceInvader};
     //Make a hard copy to work on it
     _canReinf = +_canReinf;
-    _canReinf = _canReinf select {(garrison getVariable [format ["%1_recruit", _x], 0]) > 0};
+    _canReinf = _canReinf select {(garrison getVariable [format ["%1_recruit", _x], 0]) >= 5};
     [
         2,
         format ["Side %1, %2 sites need reinforcement , %3 can send some", _x, count _reinfMarker, count _canReinf],

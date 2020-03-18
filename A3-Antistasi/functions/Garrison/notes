@@ -116,8 +116,7 @@ NEEDED FOR DOOMS UI UPGRADE
 - Rework stationating units on marker from squad (they need the ids, arrays and shit)
 - Rework spawned arrays to carry indices
 
-- Send over units that are no longer needed, back to airports
-
+- [DONE] Recycle over units that cannot be placed
 - [DONE]Add points instead of setting them
 - [DONE] Update the current and available places numbers on arrival and despawn
 - [DONE] Check if vehicle can be send and stationated on marker
@@ -153,6 +152,8 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Add vehicleDespawner to vehicles from the garage
 - [DONE] Rethink balance of vehicles and their development
 - Sending units does not makes them leaving the group, not clue why
+- Surrendered units are not removed from garrisons
+- Check unit behaviour on arrival (hide them somewhere or something)
 
 ======================= LAST NEEDED THING ======================================
 ==========================> Balancing <=========================================
@@ -192,6 +193,7 @@ WON'T DO, EITHER OBSOLETE OR NOT WANTED
 [WON'T] Better troup compositions (will be done in the convoy rework)
 [WON'T] Fix upsmon script for units already sitting in vehicles (it takes some time, but works)
 [WON'T] Unify and split the EH into seperate files
+[WON'T] Send over units back to airports in a convoy (will be done in the convoy rework)
 
 ================================================================================
 Files that need a rework (Won't do it here, otherwise spoffy might kill me)

@@ -134,9 +134,37 @@ garrison setVariable [format ["%1_over", _marker], _overUnits, true];
 
 if(_marker in airportsX) then
 {
-    //TODO Recycle units
+    private _points = 0;
+    {
+        if(_x isKindOf "Man") then
+        {
+            _points = _points + 1;
+        }
+        else
+        {
+            _points = _points + [_x] call A3A_fnc_getVehicleCost;
+        };
+    } forEach _unitsToSendBack;
+    private _current = garrison getVariable [format ["%1_recruit", _marker], 0];
+    garrison setVariable [format ["%1_recruit", _marker], _points + _current, true];
 }
 else
 {
     //TODO Send units back to nearest airport
+    //Will be done correctly in the convoy update
+    //For now units will be added to carrier
+    private _carrierMarker = if ((sidesX getVariable _marker) == Occupants) then {"NATO_carrier"} else {"CSAT_carrier"};
+    private _points = 0;
+    {
+        if(_x isKindOf "Man") then
+        {
+            _points = _points + 1;
+        }
+        else
+        {
+            _points = _points + [_x] call A3A_fnc_getVehicleCost;
+        };
+    } forEach _unitsToSendBack;
+    private _current = garrison getVariable [format ["%1_recruit", _carrierMarker], 0];
+    garrison setVariable [format ["%1_recruit", _carrierMarker], _points + _current, true];
 };
