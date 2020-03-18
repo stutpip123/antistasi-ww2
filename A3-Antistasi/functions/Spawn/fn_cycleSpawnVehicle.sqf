@@ -25,7 +25,7 @@ else
     }
     else
     {
-        if(_vehicleType isKindOf "Plane" || {(_vehicleType == vehNATOUAVSmall) || (_vehicleType == vehCSATUAVSmall)}) then
+        if((_vehicleType in vehNATOAttackHelis) || (_vehicleType in vehCSATAttackHelis) || (_vehicleType isKindOf "Plane") || {(_vehicleType == vehNATOUAVSmall) || (_vehicleType == vehCSATUAVSmall)}) then
         {
             _spawnParameter = [_marker, "Plane"] call A3A_fnc_findSpawnPosition;
         };

@@ -89,7 +89,7 @@ private _garCount = [_garrison + _over, true] call A3A_fnc_countGarrison;
     {
         //Array got a vehicle, spawn it in
         _vehicleGroup = createGroup _side;
-        _vehicle = [_marker, _vehicleType, _lineIndex, _vehicleGroup, true] call A3A_fnc_cycleSpawnVehicle;
+        _vehicle = [_marker, _vehicleType, _forEachIndex, _vehicleGroup, true] call A3A_fnc_cycleSpawnVehicle;
         _allVehicles pushBack [_vehicle, [OVER, _forEachIndex]];
         sleep 0.25;
     };
@@ -144,7 +144,7 @@ private _patrols = [_marker] call A3A_fnc_getPatrols;
     private _group = [_side, _marker, _x, _forEachIndex, _patrolMarker] call A3A_fnc_cycleSpawnPatrol;
     if !(isNull _group) then
     {
-        _allGroups pushBack [_group, [PATROL, IS_CARGO, _forEachIndex];
+        _allGroups pushBack [_group, [PATROL, IS_CARGO, _forEachIndex]];
     };
 } forEach _patrols;
 

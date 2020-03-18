@@ -131,7 +131,7 @@ for "_i" from (tierPreference + 1) to tierWar do
       //Update vehicle types
       [_preference] call A3A_fnc_updateVehicles;
 
-      _preference pushBack ["TRUCK", 0, "GROUP"];
+      _preference pushBack ["LAND_TRUCK", 0, "GROUP"];
       _patrols pushBack "PATROL_ATTACK";
 
       [2, format ["Other_preference hit level %1", _i], _fileName] call A3A_fnc_log;

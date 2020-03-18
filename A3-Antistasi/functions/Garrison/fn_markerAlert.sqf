@@ -20,52 +20,54 @@ while {spawner getVariable _marker != DESPAWNED} do
     if(!_isAlerted) then
     {
         {
-            private _state = behaviour (leader _x);
+            private _checkGroup = _x select 0;
+            private _state = behaviour (leader _checkGroup);
             if(_state == "COMBAT") exitWith
             {
                 [
                     3,
-                    format ["Group on %1 has state %2, get in!", _marker, _state],
+                    format ["Group %1 on %2 has state COMBAT, activate marker!", _checkGroup, _marker],
                     _fileName
                 ] call A3A_fnc_log;
 
                 _isAlerted = true;
                 {
+                    private _group = _x select 0;
                     //Enemies detected (or faulty damage), activate the units which are deactivated
-                    if(_x getVariable ["isDisabled", false]) then
+                    if(_group getVariable ["isDisabled", false]) then
                     {
-                        _x setVariable ["isDisabled", false, true];
+                        _group setVariable ["isDisabled", false, true];
                         //Reactivate all units of the group
                         {
                             _x enableSimulation true;
                             _x enableAI "ALL";
-                        } forEach (units _x);
-                        (units _x) doFollow (leader _x);
+                        } forEach (units _group);
+                        (units _group) doFollow (leader _group);
 
-                        if !(_x getVariable ["isCrewGroup", false]) then
+                        if !(_group getVariable ["isCrewGroup", false]) then
                         {
                             //Combat groups on marker, activate combat mode
-                            [leader _x, (leader _x) getVariable "UnitMarker", "COMBAT", "SPAWNED", "ORIGINAL", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
+                            [leader _group, (leader _group) getVariable "UnitMarker", "COMBAT", "SPAWNED", "ORIGINAL", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
                         };
 
                         //[_x] call A3A_fnc_abortAmbientAnims; //Currently not needed as animations are not used yet (File does not exist neither)
                         //_x setBehaviour "COMBAT"; //That seems to be handled by upsmon, I leave it here for vcom conversion
                     };
 
-                    if (_x getVariable ["shouldCrewVehicle", false]) then
+                    if (_group getVariable ["shouldCrewVehicle", false]) then
                     {
-                        if(_x getVariable ["isInVehicle", false]) then
+                        if(_group getVariable ["isInVehicle", false]) then
                         {
                             //Unit are already sitting in the vehicle, activate upsmon
-                            [leader _x, (leader _x) getVariable "UnitMarker", "COMBAT", "SPAWNED", "ORIGINAL", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+                            [leader _group, (leader _group) getVariable "UnitMarker", "COMBAT", "SPAWNED", "ORIGINAL", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
                         }
                         else
                         {
                             //Unlock vehicle, get crew in
-                            (assignedVehicle (leader _x)) lock 0;
-                            (units _x) orderGetIn true;
+                            (assignedVehicle (leader _group)) lock 0;
+                            (units _group) orderGetIn true;
 
-                            (assignedVehicle (leader _x)) addEventHandler
+                            (assignedVehicle (leader _group)) addEventHandler
                             [
                                 "GetIn",
                                 {
@@ -96,7 +98,7 @@ while {spawner getVariable _marker != DESPAWNED} do
                                         [leader _group, (leader _group) getVariable "UnitMarker", "COMBAT", "SPAWNED", "ORIGINAL", "NOFOLLOW", "NOVEH2", "NOWP3"] execVM "scripts\UPSMON.sqf";
                                     }
                                 ];
-                            } forEach (units _x);
+                            } forEach (units _group);
                         };
 
                     };

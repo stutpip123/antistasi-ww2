@@ -142,7 +142,7 @@ if(_marker in airportsX) then
         }
         else
         {
-            _points = _points + [_x] call A3A_fnc_getVehicleCost;
+            _points = _points + ([_x] call A3A_fnc_getVehicleCost);
         };
     } forEach _unitsToSendBack;
     private _current = garrison getVariable [format ["%1_recruit", _marker], 0];
@@ -162,7 +162,7 @@ else
         }
         else
         {
-            _points = _points + [_x] call A3A_fnc_getVehicleCost;
+            _points = _points + ([_x] call A3A_fnc_getVehicleCost);
         };
     } forEach _unitsToSendBack;
     private _current = garrison getVariable [format ["%1_recruit", _carrierMarker], 0];
