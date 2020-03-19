@@ -42,21 +42,19 @@ else
 [2, format ["Spawning in %1 for side %2", _typeString, _side], _fileName, true] call A3A_fnc_log;
 
 private _garrison = [_marker] call A3A_fnc_getGarrison;
-if(_garrison isEqualTo []) then
+if(_garrison isEqualTo [] && (_side != teamPlayer)) then
 {
     [2, format ["Control %1 has no data set yet, creating now", _marker], _fileName, true] call A3A_fnc_log;
     [_marker, _side] call A3A_fnc_initControlMarker;
 };
 private _vehicles = [];
 private _groups = [];
-private _error = false;
 
 switch (_type) do
 {
     case (ROADBLOCK):
     {
-        private _roadblockType = spawner getVariable [format ["%1_roadblockType", _marker], ROADBLOCK_LARGE];
-
+        private _roadblockType = spawner getVariable [format ["%1_roadblockType", _marker], ROADBLOCK_SMALL];
         if(_roadblockType == ROADBLOCK_LARGE) then
         {
             private _spawnPos = garrison getVariable [format ["%1_statics", _marker], []];

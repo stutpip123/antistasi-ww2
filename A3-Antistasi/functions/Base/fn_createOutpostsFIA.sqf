@@ -47,7 +47,7 @@ theBoss hcSetGroup [_groupX];
 waitUntil {sleep 1; ({alive _x} count units _groupX == 0) or ({(alive _x) and (_x distance _positionTel < 10)} count units _groupX > 0) or (dateToNumber date > _dateLimitNum)};
 
 if ({(alive _x) and (_x distance _positionTel < 10)} count units _groupX > 0) then
-	{
+{
 	if (isPlayer leader _groupX) then
 		{
 		_owner = (leader _groupX) getVariable ["owner",leader _groupX];
@@ -61,24 +61,17 @@ if ({(alive _x) and (_x distance _positionTel < 10)} count units _groupX > 0) th
 		};
 	outpostsFIA = outpostsFIA + [_mrk]; publicVariable "outpostsFIA";
 	sidesX setVariable [_mrk,teamPlayer,true];
-	markersX = markersX + [_mrk];
-	publicVariable "markersX";
-	spawner setVariable [_mrk,2,true];
 	["outpostsFIA",["We are sending a team to establish a Watchpost/Roadblock. Use HC to send the team to their destination","Post \ Roadblock Deploy",_mrk],_positionTel,"SUCCEEDED"] call A3A_fnc_taskUpdate;
 	//["outpostsFIA", "SUCCEEDED",true] spawn BIS_fnc_taskSetState;
 	_nul = [-5,5,_positionTel] remoteExec ["A3A_fnc_citySupportChange",2];
 	_mrk setMarkerType "loc_bunker";
 	_mrk setMarkerColor colorTeamPlayer;
 	_mrk setMarkerText _textX;
-	if (_isRoad) then
-		{
-		_garrison = [staticCrewTeamPlayer];
-		{
-		if (random 20 <= skillFIA) then {_garrison pushBack (_x select 1)} else {_garrison pushBack (_x select 0)};
-		} forEach groupsSDKAT;
-		garrison setVariable [_mrk,_garrison,true];
-		};
-	}
+	[_mrk, teamPlayer] call A3A_fnc_initControlMarker;
+    markersX = markersX + [_mrk];
+	publicVariable "markersX";
+	spawner setVariable [_mrk,2,true];
+}
 else
 	{
 	["outpostsFIA",["We are sending a team to establish a Watchpost/Roadblock. Use HC to send the team to their destination","Post \ Roadblock Deploy",_mrk],_positionTel,"FAILED"] call A3A_fnc_taskUpdate;

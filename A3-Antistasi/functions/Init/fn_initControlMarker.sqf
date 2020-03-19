@@ -9,7 +9,7 @@ if(isOnRoad _markerPos) then
 {
     //Define roadblock type
     private _isLargeRoadblock = false;
-    if(_side == Occupants && {random 10 > tierWar}) then
+    if(_side == teamPlayer || {_side == Occupants && {random 10 > tierWar}}) then
     {
         [2, format ["%1 is choosen to be a small roadblock", _marker], _fileName, true] call A3A_fnc_log;
         _isLargeRoadblock = false;
@@ -56,24 +56,60 @@ if(isOnRoad _markerPos) then
         spawner setVariable [format ["%1_current", _marker], [1, 0, 0, 0, 0, 0], true];
     };
 
-    private _line = [];
-    private _parameter = [];
-    if((_side == Invaders) || _isLargeRoadblock) then
+    if(_side != teamPlayer) then
     {
-        _parameter = ["EMPTY", 0, "AT"];
+        private _line = [];
+        private _parameter = [];
+        if((_side == Invaders) || _isLargeRoadblock) then
+        {
+            _parameter = ["EMPTY", 0, "AT"];
+        }
+        else
+        {
+            _parameter = ["LAND_ROADBLOCK", 1, "AT"];
+        };
+        _line = [_parameter, _side] call A3A_fnc_createGarrisonLine;
+        garrison setVariable [format ["%1_garrison", _marker], [_line], true];
+        garrison setVariable [format ["%1_locked", _marker], [false], true];
     }
     else
     {
-        _parameter = ["LAND_ROADBLOCK", 1, "AT"];
+        private _garrison = [vehSDKLightArmed , [staticCrewTeamPlayer], []];
+        {
+            if (random 20 <= skillFIA) then
+            {
+                (_garrison select 2) pushBack (_x select 1);
+            }
+            else
+            {
+                (_garrison select 2) pushBack (_x select 0);
+            };
+		} forEach groupsSDKAT;
+        garrison setVariable [format ["%1_garrison", _marker], [_garrison], true];
+        garrison setVariable [format ["%1_locked", _marker], [false], true];
     };
-    _line = [_parameter, _side] call A3A_fnc_createGarrisonLine;
-    garrison setVariable [format ["%1_garrison", _marker], [_line], true];
-    garrison setVariable [format ["%1_locked", _marker], [false], true];
 }
 else
 {
     private _line = [];
-    _line = [["EMPTY", 0, "SPECOPS"], _side] call A3A_fnc_createGarrisonLine;
+    if(_side != teamPlayer) then
+    {
+        _line = [["EMPTY", 0, "SPECOPS"], _side] call A3A_fnc_createGarrisonLine;
+    }
+    else
+    {
+        _line = ["", [], []];
+        {
+            if (random 20 <= skillFIA) then
+            {
+                (_line select 2) pushBack (_x select 1)
+            }
+            else
+            {
+                (_line select 2) pushBack (_x select 0)
+            };
+        } forEach groupsSDKSniper;
+    };
     garrison setVariable [format ["%1_garrison", _marker], [_line], true];
-    garrison setVariable [format ["%1_locked", _marker], [false], true];
+    garrison setVariable [format ["%1_locked", _marker], [true], true];
 };
