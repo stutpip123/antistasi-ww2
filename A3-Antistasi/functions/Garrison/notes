@@ -117,12 +117,12 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Check if vehicle can be send and stationated on marker
 - [DONE] Update selectReinfUnits with the new cases
 - [DONE] Fully implement the carriers
-[WIP] Roadblocks
+[DONE] Roadblocks
 - [DONE] Fix roadblocks (not sure what their problem is)
 - [DONE] Create statics dynamically on first spawn
 - [DONE] Create troops dynamically on first spawn
 - [DONE] Add multiple types of roadblock
-- Check creation of player roadblocks and how the data is handled
+- [DONE] Check creation of player roadblocks and how the data is handled
 - [DONE] Improve vehicle selection and crew behaviour for roadblocks
 - [DONE] Make patrol marker for roadblocks way smaller
 - [DONE] Add message for minefield capture

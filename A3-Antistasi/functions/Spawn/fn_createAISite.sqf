@@ -52,16 +52,9 @@ _patrolMarker setMarkerColorLocal "ColorRed";
 _patrolMarker setMarkerBrushLocal "DiagGrid";
 _patrolMarker setMarkerAlphaLocal 0;
 
-if(_marker in controlsX) exitWith
+if(_marker in controlsX || {_marker in outpostsFIA}) exitWith
 {
-    if(_side != teamPlayer) then
-    {
-        [_marker, _side] call A3A_fnc_createControlPoint;
-    }
-    else
-    {
-        [_marker] call A3A_fnc_createRebelControlPoint;
-    };
+    [_marker, _side] call A3A_fnc_createControlPoint;
     [2, format ["Successfully spawned control point %1", _marker], _fileName, true] call A3A_fnc_log;
 };
 

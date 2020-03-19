@@ -74,13 +74,13 @@ if(_spawnParameter isEqualType []) then
         {
             private _vehicle = _this select 0;
             private _unit = _this select 2;
-            if(side _unit == teamPlayer) then
+            if(side (group _unit) == teamPlayer && (isPlayer _unit)) then
             {
                 private _id = _vehicle getVariable "UnitIndex";
                 private _marker = _vehicle getVariable "UnitMarker";
                 private _isOver = _vehicle getVariable "IsOver";
                 [_marker, _vehicle] call A3A_fnc_removeFromSpawnedArrays;
-                [_vehicle] call A3A_fnc_vehicleDespawner;
+                [_vehicle] spawn A3A_fnc_vehicleDespawner;
                 if(_isOver) then
                 {
                     [_marker, typeOf _vehicle, _id] call A3A_fnc_removeFromOver;

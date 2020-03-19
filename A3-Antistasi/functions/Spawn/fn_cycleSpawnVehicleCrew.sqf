@@ -37,7 +37,7 @@ if(_vehicleGroup == grpNull) then
         _vehicleGroup setVariable ["isInVehicle", true, true];
         _unit moveInAny _vehicle;
     };
-    if(_marker in controlsX) then
+    if(_marker in controlsX || {_marker in outpostsFIA}) then
     {
         _unit moveInGunner _vehicle;
     };
