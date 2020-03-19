@@ -107,15 +107,10 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Add vcom/upsmon on wakeup
 - [DONE] Add mortars to the static list and enable them
 - [DONE] Only man vehicles if they are able to attack something
-[WIP] Reinforcements
+[DONE] Reinforcements
 - [DONE] Improve the AI, which chooses the units
-- Improve the replenish function
+- [DONE] Improve the replenish function
 - [DONE] Add different costs for different units
-
-- Finish functions for adding and removing units from outposts (spawned and not spawned) (handle garrison data and spawned data)
-- Rework stationating units on marker from squad (they need the ids, arrays and shit)
-- [DONE] Rework spawned arrays to carry indices
-
 - [DONE] Recycle over units that cannot be placed
 - [DONE] Add points instead of setting them
 - [DONE] Update the current and available places numbers on arrival and despawn
@@ -140,6 +135,12 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Add action to change position with gunner of static for manual fire
 - [DONE] Recheck statics on marker despawning (do a search in 1 meter around the position to find it, delete if not found)
 - [DONE] Add statics when bought at HQ
+Arrival and departure
+- Check convoys fsm for more arrival cases
+- Improve unit behaviour on arrival
+- Finish functions for adding and removing units from outposts (spawned and not spawned) (handle garrison data and spawned data)
+- Rework stationating units on marker from squad (they need the ids, arrays and shit)
+- [DONE] Rework spawned arrays to carry indices
 [WIP] Various
 - Add distance limits to spawn places
 - Reenable civies driving around
@@ -147,7 +148,6 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Add functions to search garrison units for specific types and groups
 - [WIP] Fix all the todos
 - Fix bug when loading a lower level than actually having it, results in more units then needed (does this really happen?)
-- Check convoys fsm for more arrival cases
 - [DONE] Add trucks to vehicle list (check checkVehicleType and updateVehicle and add the new cases)
 - [DONE] Add check if crewArray has enough units to drive vehicle, otherwise don't man
 - [DONE] Add vehicleDespawner to vehicles from the garage

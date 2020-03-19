@@ -126,6 +126,7 @@ if (_winner == teamPlayer) then
 
 [_markerX, _winner] call A3A_fnc_clearGarrison;
 [_markerX, [_looser, _winner]] call A3A_fnc_updateReinfState;
+garrison setVariable [format ["%1_recruit", _markerX], 0, true];
 [3, format ["Garrison set for %1", _markerX], _fileName] call A3A_fnc_log;
 
 
