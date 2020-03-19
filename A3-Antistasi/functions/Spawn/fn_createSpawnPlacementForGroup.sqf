@@ -73,18 +73,23 @@ if(_unitCount < 3) then
 else
 {
     private _building = objNull;
+    private _distance = -1;
+    if !(isNull _vehicle) then
+    {
+        _distance = 150 - (50 * floor (tierWar/3));
+    };
     if(_unitCount <= 4) then
     {
-        _building = [_marker, "Group"] call A3A_fnc_findSpawnPosition;
+        _building = [_marker, "Group", _distance] call A3A_fnc_findSpawnPosition;
     }
     else
     {
-        _building = [_marker, "Squad"] call A3A_fnc_findSpawnPosition;
+        _building = [_marker, "Squad", _distance] call A3A_fnc_findSpawnPosition;
     };
     if(_building isEqualType -1) then
     {
         //No building found, try placing them in a vehicle slot
-        private _startParams = [_marker, "Vehicle"] call A3A_fnc_findSpawnPosition;
+        private _startParams = [_marker, "Vehicle", _distance] call A3A_fnc_findSpawnPosition;
         if(_startParams isEqualType -1) then
         {
             _placements = -1;

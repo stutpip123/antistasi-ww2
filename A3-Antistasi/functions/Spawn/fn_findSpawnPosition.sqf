@@ -5,10 +5,11 @@
 #define STATIC              4
 #define BUILDING            5
 
-params ["_marker", "_type"];
+params ["_marker", "_type", ["_distance", -1]];
 
 private _fileName = "findSpawnPosition";
-_result = getMarkerPos _marker;
+private _result = -1;
+private _markerPos = getMarkerPos _marker;
 
 [3, format ["Searching spawn position on %1 for %2", _marker, _type], _fileName] call A3A_fnc_log;
 _spawns = spawner getVariable [format ["%1_spawns", _marker], -1];
@@ -19,9 +20,8 @@ if(_spawns isEqualType -1) exitWith
         format ["%1 does not have any spawn positions set!", _marker],
         _fileName
     ] call A3A_fnc_log;
-    -1;
+    _result;
 };
-//[_spawns, "Spawnpoints"] call A3A_fnc_logArray;
 
 private _selection = -1;
 private _unitCount = -1;
@@ -59,7 +59,15 @@ switch (_type) do
     };
 };
 
-if (_selection == -1) exitWith {};
+if (_selection == -1) exitWith
+{
+    [
+        1,
+        format ["Bad parameter recieved, was %1", _type],
+        _fileName
+    ] call A3A_fnc_log;
+    _result;
+};
 
 private _possible = [];
 if(_selection != BUILDING) then
@@ -71,6 +79,11 @@ else
     _possible = (_spawns select _selection) select {(!(_x select 1)) && {((_x select 0) select 1) >= _unitCount}};
 };
 
+if(_distance != -1) then
+{
+    _possible = _possible select {((_x select 0 select 0) distance2D _markerPos) <= _distance};
+};
+
 if(count _possible > 0) then
 {
   _result = selectRandom _possible;
@@ -79,10 +92,6 @@ if(count _possible > 0) then
   ((_spawns select _selection) select _index) set [1, true];
 
   _result = _result select 0;
-}
-else
-{
-  _result = -1;
 };
 
 [
