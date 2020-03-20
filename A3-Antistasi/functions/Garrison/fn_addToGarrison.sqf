@@ -138,7 +138,7 @@ private _overUnits = [];
 
             private _path = ((_sortingReqs select _unitIndex) select 1) deleteAt 0;
             [
-                4,
+                3,
                 format ["Path is %1, unit data is %2", _path, (_sortingReqs select _unitIndex)],
                 _fileName
             ] call A3A_fnc_log;

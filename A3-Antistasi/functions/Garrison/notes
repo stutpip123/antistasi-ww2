@@ -139,8 +139,9 @@ NEEDED FOR DOOMS UI UPGRADE
 - Check convoys fsm for more arrival cases
 - Improve unit behaviour on arrival
 - Finish functions for adding and removing units from outposts (spawned and not spawned) (handle garrison data and spawned data)
-- Rework stationating units on marker from squad (they need the ids, arrays and shit)
+- [WIP] Rework arrival of spawned unit on spawned marker (they need the ids, arrays and shit)
 - [DONE] Rework spawned arrays to carry indices
+- Check unit behaviour on arrival (hide them somewhere or something)
 [WIP] Various
 - [DONE] Add distance limits to spawn places
 - Reenable civies driving around
@@ -154,7 +155,6 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Rethink balance of vehicles and their development
 - Sending units does not makes them leaving the group, not clue why
 - Surrendered units are not removed from garrisons
-- Check unit behaviour on arrival (hide them somewhere or something)
 
 ======================= LAST NEEDED THING ======================================
 ==========================> Balancing <=========================================
