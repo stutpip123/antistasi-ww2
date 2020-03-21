@@ -126,7 +126,7 @@ if (isServer) then {
     tierPreference = 1;
 	publicVariable "tierPreference";
 	//Updating the preferences based on war level
-	[] call A3A_fnc_updatePreference;
+	[true] call A3A_fnc_updatePreference;
 
 	clearMagazineCargoGlobal boxX;
 	clearWeaponCargoGlobal boxX;
