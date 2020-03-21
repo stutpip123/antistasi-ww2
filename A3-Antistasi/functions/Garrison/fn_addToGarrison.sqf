@@ -120,6 +120,8 @@ for "_element" from 0 to ((count _requested) - 1) do
     } forEach _toAdd;
 };
 
+private _insertionIndeces = [];
+private _insertionIndex = -1;
 private _overUnits = [];
 {
     private _unit = _x select 0;
@@ -129,6 +131,7 @@ private _overUnits = [];
     private _unitIndex = _sortingReqs findIf {(_x select 0) == _unit};
     if (_unitIndex != -1) then
     {
+        _insertionIndex = _insertionIndeces pushBack [_unit, []];
         while {_amount > 0} do
         {
             if(((_sortingReqs select _unitIndex) select 1) isEqualTo []) exitWith
@@ -142,8 +145,10 @@ private _overUnits = [];
                 format ["Path is %1, unit data is %2", _path, (_sortingReqs select _unitIndex)],
                 _fileName
             ] call A3A_fnc_log;
+            ((_insertionIndeces select _insertionIndex) select 1) pushBack _path;
             private _garElement = _garrison select (_path select 0);
             private _reqElement = _requested select (_path select 0);
+
             if((_path select 1) == 0) then
             {
                 _garElement set [0, _unit];
@@ -170,6 +175,9 @@ private _overUnits = [];
 garrison setVariable [format ["%1_garrison", _marker], _garrison, true];
 garrison setVariable [format ["%1_requested", _marker], _requested, true];
 
-[_marker, _overUnits] call A3A_fnc_addToOver;
+private _overIndeces = [_marker, _overUnits] call A3A_fnc_addToOver;
 
 [_marker] call A3A_fnc_updateReinfState;
+
+private _inserts = [_insertionIndeces, _overIndeces];
+_inserts;

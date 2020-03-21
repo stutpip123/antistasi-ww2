@@ -168,3 +168,5 @@ else
     private _current = garrison getVariable [format ["%1_recruit", _carrierMarker], 0];
     garrison setVariable [format ["%1_recruit", _carrierMarker], _points + _current, true];
 };
+
+[];
