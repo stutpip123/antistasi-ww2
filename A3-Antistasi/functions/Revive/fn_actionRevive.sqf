@@ -68,17 +68,17 @@ if  (
 };
 _timer = if ([_cured] call A3A_fnc_fatalWound) then
 			{
-			time + 35 + (random 20)
+			time + 20 + (random 20)
 			}
 		else
 			{
 			if ((!isMultiplayer and (isPlayer _cured)) or ([_medicX] call A3A_fnc_isMedic)) then
 				{
-				time + 10 + (random 5)
+				time + 10 + (random 10)
 				}
 			else
 				{
-				time + 15 + (random 10)
+				time + 20 + (random 10)
 				};
 			};
 
@@ -101,8 +101,10 @@ _medicX addEventHandler ["AnimDone",
 {
 	private _medicX = _this select 0;
 	private _cured = _medicX getVariable ["cured",objNull];
+	private _timeto = _medicX getVariable ["timeToHeal",_timer];
 	if (([_medicX] call A3A_fnc_canFight) and (time <= (_medicX getVariable ["timeToHeal",time])) and !(_medicX getVariable ["cancelRevive",false]) and (alive _cured) and (_cured getVariable ["incapacitated",false]) and (_medicX == vehicle _medicX)) then
 	{
+		[format["This should take '%1s' to revive!",round (time - _timeto)]] call A3A_fnc_customHint;
 		_medicX playMoveNow selectRandom medicAnims;
 	}
 	else
