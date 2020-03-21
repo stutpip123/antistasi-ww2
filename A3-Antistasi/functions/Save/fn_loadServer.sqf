@@ -108,11 +108,6 @@ if (isServer) then {
 	if (tierWar > 10) then {tierWar = 10};
 	publicVariable "tierWar";
 
-	tierPreference = 1;
-	publicVariable "tierPreference";
-	//Updating the preferences based on war level
-	[] call A3A_fnc_updatePreference;
-
 	if (isNil "usesWurzelGarrison") then {
 		//Create the garrison new
 		diag_log "No WurzelGarrison found, creating new!";
@@ -127,6 +122,11 @@ if (isServer) then {
 		diag_log "WurzelGarrison found, loading it!";
 		["wurzelGarrison"] call A3A_fnc_getStatVariable;
 	};
+
+    tierPreference = 1;
+	publicVariable "tierPreference";
+	//Updating the preferences based on war level
+	[] call A3A_fnc_updatePreference;
 
 	clearMagazineCargoGlobal boxX;
 	clearWeaponCargoGlobal boxX;

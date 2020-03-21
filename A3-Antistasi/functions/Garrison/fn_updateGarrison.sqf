@@ -20,8 +20,8 @@ if(spawner getVariable _marker != 2) then
 
 
 private _preferred = garrison getVariable (format ["%1_preference", _type]);
-private _garrison = garrison getVariable (format ["%1_garrison", _marker]);
-private _requested = garrison getVariable (format ["%1_requested", _marker]);
+private _garrison = [_marker] call A3A_fnc_getGarrison;
+private _requested = [_marker] call A3A_fnc_getRequested;
 private _side = sidesX getVariable [_marker, sideUnknown];
 
 private _replaced = [];
