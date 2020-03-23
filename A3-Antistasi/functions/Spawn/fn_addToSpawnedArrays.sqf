@@ -55,7 +55,6 @@ _fn_searchForGroupIndex =
     _index;
 };
 
-
 //These functions are waiting for the block to be lifted, no need to wait further
 private _markerVehicles = [_marker, "Vehicles"] call A3A_fnc_getSpawnedArray;
 private _markerGroups = [_marker, "Groups"] call A3A_fnc_getSpawnedArray;
@@ -80,16 +79,26 @@ spawner setVariable [format ["%1_arraysChanging", _marker], true, true];
                 private _newGroup = createGroup (side (group _unit));
                 [_unit] joinSilent _newGroup;
                 _markerGroups pushBack [_newGroup, _groupParam];
-                //TODO add a check for a vehicle if the group needs to be assinged to it
                 [_unit, _marker, _insert select 0, _unitIndex] call A3A_fnc_markerUnitInit;
+                [_unit, (_insert select 3) + 1] call A3A_fnc_unitBehaviourOnArrival;
+                [leader _newGroup, _marker, "SAFE", "SPAWNED", "RANDOM", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
+
+                //Search for assigned vehicle
+                _insert resize 2;
+                private _vehicleIndex = [_markerVehicles, _insert] call _fn_searchForGroupIndex;
+                if(_vehicleIndex != -1) then
+                {
+                    _newGroup addVehicle (_markerVehicles select _vehicleIndex select 0);
+                };
             }
             else
             {
                 //Join existing group
                 private _group = (_markerGroups select _groupIndex) select 0;
-                [_unit] joinSilent _group;
-                //TODO add a real insertion into the right place in the group
+                //Not sure if this is zero based or one based for groups
+                _unit joinAsSilent [_group, (_insert select 3) + 1];
                 [_unit, _marker, _insert select 0, _unitIndex] call A3A_fnc_markerUnitInit;
+                [_unit, (_insert select 3) + 1] call A3A_fnc_unitBehaviourOnArrival;
             };
         };
     }
@@ -103,6 +112,14 @@ spawner setVariable [format ["%1_arraysChanging", _marker], true, true];
             [_unit, _marker, _insert select 0, _insert select 1] call A3A_fnc_markerVehicleInit;
             _insert = _insert call _fn_parseIndex;
             _markerVehicles pushBack [_unit, _insert];
+
+            //Assign vehicle to group
+            _insert pushBack IS_CREW;
+            private _crewIndex = [_markerGroups, _insert] call _fn_searchForGroupIndex;
+            if(_crewIndex != -1) then
+            {
+                ((_markerGroups select _crewIndex) select 0) addVehicle _unit;
+            };
         };
     };
 } forEach _added;

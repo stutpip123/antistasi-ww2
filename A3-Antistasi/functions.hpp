@@ -539,6 +539,7 @@ class A3A
         class removeFromSpawnedArrays {};
         class shouldVehicleBeManned {};
         class staticInit {};
+        class unitBehaviourOnArrival {};
         class updateSpawnerUnits {};
         class vehicleDespawner {};
     };

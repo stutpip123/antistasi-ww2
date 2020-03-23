@@ -135,12 +135,12 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Add action to change position with gunner of static for manual fire
 - [DONE] Recheck statics on marker despawning (do a search in 1 meter around the position to find it, delete if not found)
 - [DONE] Add statics when bought at HQ
-[WIP] Arrival
+[DONE] Arrival
 - [DONE] Check convoys fsm for more arrival cases
 - [DONE] Finish functions for adding and removing units from outposts (spawned and not spawned) (handle garrison data and spawned data)
 - [DONE] Rework arrival of spawned unit on spawned marker (they need the ids, arrays and shit)
 - [DONE] Rework spawned arrays to carry indices
-- Check unit behaviour on arrival (hide them somewhere or something)
+- [DONE] Check unit behaviour on arrival (hide them somewhere or something)
 [WIP] Various
 - [DONE] Add distance limits to spawn places
 - Reenable civies driving around
