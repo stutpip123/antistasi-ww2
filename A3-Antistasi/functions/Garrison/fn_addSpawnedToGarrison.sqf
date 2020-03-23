@@ -128,7 +128,7 @@ _allInserts append _overInserts;
 {
     private _key = _x select 0;
     private _index = _sortedList findIf {(_x select 0) == _key};
-    _x set [0, _sortedList select _index select 0];
+    _x set [0, _sortedList select _index select 1];
 } forEach _allInserts;
 
 [
