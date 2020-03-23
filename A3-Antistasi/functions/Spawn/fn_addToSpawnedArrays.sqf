@@ -1,8 +1,18 @@
+#define GARRISON    10
+#define OVER        11
+#define STATIC      12
+#define MORTAR      13
+#define PATROL      14
+#define OTHER       15
+
+#define IS_CREW     false
+#define IS_CARGO    true
+
 params ["_marker", "_vehicles", "_groups"];
 
 /*  Adds units to the "spawnedArray" of a marker, integrating it into its despawn progress
     They are not getting added to the data by this function!
-    IMPORTANT: VEHICLES AND GROUPS HAVE TO BE IN THE CORRECT FORMAT [[vehicle,[TYPE_ID, ROW_ID]], ...] or [[group, [TYPE_ID, CREW_ID, ROW_ID]], ...]
+    IMPORTANT: VEHICLES AND GROUPS HAVE TO BE IN THE CORRECT FORMAT [[vehicle,[IS_OVER, TYPE_ID, ROW_ID]], ...] or [[group, [IS_OVER, TYPE_ID, CREW_ID, ROW_ID]], ...]
 
     Execution on: HC or Server
 
@@ -23,6 +33,8 @@ private _markerGroups = [_marker, "Groups"] call A3A_fnc_getSpawnedArray;
 //Block all other scripts from working on it for the moment
 spawner setVariable [format ["%1_arraysChanging", _marker], true, true];
 
+
+/*
 if(_vehicles isEqualType []) then
 {
     _markerVehicles append _vehicles;
@@ -46,6 +58,7 @@ else
         _markerGroups pushBack _groups;
     };
 };
+*/
 
 spawner setVariable [format ["%1_vehicles", _marker], _markerVehicles, true];
 spawner setVariable [format ["%1_groups", _marker], _markerGroups, true];

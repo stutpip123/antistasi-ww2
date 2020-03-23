@@ -138,4 +138,4 @@ _allInserts append _overInserts;
 ] call A3A_fnc_log;
 
 //Now add the units to the groups
-//[_marker, _allInserts] call A3A_fnc_addToSpawnedArrays;
+[_marker, _allInserts] call A3A_fnc_addToSpawnedArrays;

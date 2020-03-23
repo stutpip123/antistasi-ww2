@@ -67,14 +67,14 @@ private _garCount = [_garrison + _over, true] call A3A_fnc_countGarrison;
         _vehicleGroup = [_marker, _side, _crewArray, _forEachIndex, _vehicleGroup, _vehicle, false] call A3A_fnc_cycleSpawnVehicleCrew;
         if !(isNull _vehicleGroup) then
         {
-            _allGroups pushBack [_vehicleGroup, [GARRISON, IS_CREW, _forEachIndex]];
+            _allGroups pushBack [_vehicleGroup, [GARRISON, _forEachIndex, IS_CREW]];
         };
     };
 
     private _groupSoldier = [_side, _marker, _cargoArray, _forEachIndex, false] call A3A_fnc_cycleSpawnSoldierGroup;
     if !(isNull _groupSoldier) then
     {
-        _allGroups pushBack [_groupSoldier, [GARRISON, IS_CARGO, _forEachIndex]];
+        _allGroups pushBack [_groupSoldier, [GARRISON, _forEachIndex, IS_CARGO]];
     };
 } forEach _garrison;
 
@@ -97,13 +97,13 @@ private _garCount = [_garrison + _over, true] call A3A_fnc_countGarrison;
     _vehicleGroup = [_marker, _side, _crewArray, _forEachIndex, _vehicleGroup, _vehicle, true] call A3A_fnc_cycleSpawnVehicleCrew;
     if !(isNull _vehicleGroup) then
     {
-        _allGroups pushBack [_vehicleGroup, [OVER, IS_CREW, _forEachIndex]];
+        _allGroups pushBack [_vehicleGroup, [OVER, _forEachIndex, IS_CREW]];
     };
 
     private _groupSoldier = [_side, _marker, _cargoArray, _forEachIndex, true] call A3A_fnc_cycleSpawnSoldierGroup;
     if !(isNull _groupSoldier) then
     {
-        _allGroups pushBack [_groupSoldier, [OVER, IS_CARGO, _forEachIndex]];
+        _allGroups pushBack [_groupSoldier, [OVER, _forEachIndex, IS_CARGO]];
     };
 } forEach _over;
 
@@ -114,7 +114,7 @@ private _staticGroup = grpNull;
     if(isNull _staticGroup) then
     {
         _staticGroup = createGroup _side;
-        _allGroups pushBack [_staticGroup, [STATIC, IS_CREW, 0]];
+        _allGroups pushBack [_staticGroup, [STATIC, 0, IS_CREW]];
     };
     private _static = [_marker, _staticGroup, _x select 0, _x select 1, _forEachIndex] call A3A_fnc_cycleSpawnStatic;
     _allVehicles pushBack [_static, [STATIC, -1]];
@@ -127,7 +127,7 @@ private _mortarGroup = grpNull;
     if(isNull _mortarGroup) then
     {
         _mortarGroup = createGroup _side;
-        _allGroups pushBack [_mortarGroup, [MORTAR , IS_CREW, 0]];
+        _allGroups pushBack [_mortarGroup, [MORTAR, 0, IS_CREW]];
     };
     private _mortar = [_marker, _mortarGroup, _x select 0, _x select 1, _forEachIndex] call A3A_fnc_cycleSpawnStatic;
     _allVehicles pushBack [_mortar, [STATIC, -1]];
@@ -144,7 +144,7 @@ private _patrols = [_marker] call A3A_fnc_getPatrols;
     private _group = [_side, _marker, _x, _forEachIndex, _patrolMarker] call A3A_fnc_cycleSpawnPatrol;
     if !(isNull _group) then
     {
-        _allGroups pushBack [_group, [PATROL, IS_CARGO, _forEachIndex]];
+        _allGroups pushBack [_group, [PATROL, _forEachIndex, IS_CARGO]];
     };
 } forEach _patrols;
 

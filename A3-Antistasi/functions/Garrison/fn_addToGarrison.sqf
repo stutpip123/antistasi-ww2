@@ -78,7 +78,7 @@ for "_element" from 0 to ((count _requested) - 1) do
     //Add the vehicle
     if(_line select 0 != "") then
     {
-        _toAdd pushBack [_line select 0, [_element, 0, -1]];
+        _toAdd pushBack [_line select 0, [_element, 0]];
     };
 
     //Add the crew
