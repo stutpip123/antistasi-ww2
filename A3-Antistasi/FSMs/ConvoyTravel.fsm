@@ -217,22 +217,6 @@ class FSM
                          "" \n
                          "private _crewGroup = _splitCrew call A3A_fnc_joinMultipleGroups;" \n
                          "" \n
-                         "// Don't force all vehicles to drive into the outpost" \n
-                         "//TODO improve behaviour of units and get it out of the FSM" \n
-                         "private _wp0 = _crewGroup addWaypoint [_destination, 50];" \n
-                         "_wp0 setWaypointCompletionRadius 50;" \n
-                         "_wp0 setWaypointType ""TR UNLOAD"";" \n
-                         "_wp0 setWaypointStatements [""true"", ""{ unassignVehicle _x; } forEach (assignedCargo (vehicle this));""];" \n
-                         "_crewGroup setCurrentWaypoint _wp0;" \n
-                         "" \n
-                         "if (_cargoGroup != grpNull) then {" \n
-                         "	// Move cargo group towards centre of outpost" \n
-                         "	private _wp2 = _cargoGroup addWaypoint [_destination, 10];" \n
-                         "	_wp2 setWaypointType ""MOVE"";" \n
-                         "	_wp2 setWaypointStatements [""true"", ""(group this) spawn A3A_fnc_attackDrillAI;""];" \n
-                         "	_cargoGroup setCurrentWaypoint _wp2;" \n
-                         "};" \n
-                         "" \n
                          "// Despawning before the unload is completed is fine. We've arrived." \n
                          "if (_convoyType isEqualTo ""reinforce"") then {" \n
                          "" \n

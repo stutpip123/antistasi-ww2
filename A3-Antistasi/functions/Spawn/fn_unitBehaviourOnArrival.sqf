@@ -2,7 +2,7 @@ params ["_unit", "_joinPos"];
 
 if !(isNull objectParent _unit) then
 {
-    moveOut _unit;
+    doGetOut _unit;
 };
 
 private _group = group _unit;

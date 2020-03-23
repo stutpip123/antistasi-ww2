@@ -81,7 +81,7 @@ spawner setVariable [format ["%1_arraysChanging", _marker], true, true];
                 _markerGroups pushBack [_newGroup, _groupParam];
                 [_unit, _marker, _insert select 0, _unitIndex] call A3A_fnc_markerUnitInit;
                 [_unit, (_insert select 3) + 1] call A3A_fnc_unitBehaviourOnArrival;
-                [leader _newGroup, _marker, "SAFE", "SPAWNED", "RANDOM", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
+                [leader _newGroup, _marker, "SAFE", "SPAWNED", "ORIGINAL", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
 
                 //Search for assigned vehicle
                 _insert resize 2;

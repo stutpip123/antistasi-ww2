@@ -210,16 +210,7 @@ class FSM
                          "_wp1 setWaypointType ""TR UNLOAD"";" \n
                          "_wp1 setWaypointStatements [""true"", ""(vehicle this) land 'GET OUT';""];" \n
                          "_wp1 setWaypointBehaviour ""CARELESS"";" \n
-                         "_crewGroup setCurrentWaypoint _wp1;		// otherwise it's still on the previous waypoint" \n
-                         "" \n
-                         "// Move cargo group towards centre of outpost" \n
-                         "if (_cargoGroup != grpNull) then {" \n
-                         "	{ unassignVehicle _x } forEach units _cargoGroup;" \n
-                         "	private _wp2 = _cargoGroup addWaypoint [_destPos, 10];" \n
-                         "	_wp2 setWaypointType ""MOVE"";" \n
-                         "	_wp2 setWaypointStatements [""true"", ""(group this) spawn A3A_fnc_attackDrillAI;""];" \n
-                         "	_cargoGroup setCurrentWaypoint _wp2;" \n
-                         "};"/*%FSM</STATEINIT""">*/;
+                         "_crewGroup setCurrentWaypoint _wp1;		// otherwise it's still on the previous waypoint" /*%FSM</STATEINIT""">*/;
                         precondition = /*%FSM<STATEPRECONDITION""">*/""/*%FSM</STATEPRECONDITION""">*/;
                         class Links
                         {
