@@ -137,8 +137,7 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Add statics when bought at HQ
 [WIP] Arrival and departure
 - Check convoys fsm for more arrival cases
-- Improve unit behaviour on arrival
-- Finish functions for adding and removing units from outposts (spawned and not spawned) (handle garrison data and spawned data)
+- [WIP] Finish functions for adding and removing units from outposts (spawned and not spawned) (handle garrison data and spawned data)
 - [WIP] Rework arrival of spawned unit on spawned marker (they need the ids, arrays and shit)
 - [DONE] Rework spawned arrays to carry indices
 - Check unit behaviour on arrival (hide them somewhere or something)

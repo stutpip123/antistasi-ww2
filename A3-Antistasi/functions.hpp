@@ -270,6 +270,7 @@ class A3A
 	class Garrison
 	{
         class addGarrisonLine {};
+        class addSpawnedToGarrison {};
         class addStaticToGarrison {};
 		class addToGarrison {};
         class addToOver {};

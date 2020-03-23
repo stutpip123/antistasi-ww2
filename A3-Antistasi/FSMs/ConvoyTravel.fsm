@@ -218,6 +218,7 @@ class FSM
                          "private _crewGroup = _splitCrew call A3A_fnc_joinMultipleGroups;" \n
                          "" \n
                          "// Don't force all vehicles to drive into the outpost" \n
+                         "//TODO improve behaviour of units and get it out of the FSM" \n
                          "private _wp0 = _crewGroup addWaypoint [_destination, 50];" \n
                          "_wp0 setWaypointCompletionRadius 50;" \n
                          "_wp0 setWaypointType ""TR UNLOAD"";" \n
@@ -236,13 +237,8 @@ class FSM
                          "if (_convoyType isEqualTo ""reinforce"") then {" \n
                          "" \n
                          "	// add units to garrison immediately, otherwise it'll keep sending them" \n
-                         "	private _garrison = [typeOf _vehicle, [], []];" \n
-                         "	{ (_garrison # 1) pushBack (typeOf _x) } foreach units _crewGroup;" \n
-                         "	{ (_garrison # 2) pushBack (typeOf _x) } foreach units _cargoGroup;" \n
-                         "	[_markers # 1, [_garrison]] call A3A_fnc_addToGarrison;" \n
-                         "" \n
-                         "  //Adding the spawned groups to the spawned groups of the marker to handle despawn" \n
-                         "  [_markers # 1, [_vehicle,[15, -1]], [[_crewGroup,[10, false, -1]], [_cargoGroup, [10, true, -1]]]] call A3A_fnc_addToSpawnedArrays;" \n
+                         "	private _garrison = [[_vehicle, (units _crewGroup), (units _cargoGroup)]];" \n
+                         "  [_markers # 1, _garrison] spawn A3A_fnc_addSpawnedToGarrison;" \n
                          "} else {" \n
                          "	// otherwise just use the stock despawning" \n
                          "	[_crewGroup] spawn A3A_fnc_groupDespawner;" \n

@@ -14,6 +14,8 @@ params ["_marker", "_units"];
         Nothing
 */
 
+private _fileName = "addSpawnedToGarrison";
+
 _fn_addUnitToList =
 {
     params ["_list", "_key", "_value"];
@@ -33,9 +35,9 @@ _fn_parseTypeNames =
     params ["_unitArray", "_sortedList"];
     private _result = _unitArray apply
     {
-        if (_x != "") then
+        if !(_x isEqualTo "") then
         {
-            private _type = typeName _x;
+            private _type = typeOf _x;
             [_sortedList, _type, _x] call _fn_addUnitToList;
             _type;
         }
@@ -47,6 +49,12 @@ _fn_parseTypeNames =
     _result;
 };
 
+[
+    3,
+    format ["Units to add are %1", _units],
+    _fileName
+] call A3A_fnc_log;
+
 //Parsing unit objects into their classnames to add them to the garrison system
 private _sortedList = [];
 private _unitNames = [];
@@ -54,9 +62,9 @@ private _unitNames = [];
 {
     _x params ["_vehicle", "_crewArray", "_unitArray"];
     private _line = [];
-    if(_vehicle != "") then
+    if !(_vehicle isEqualTo "") then
     {
-        private _type = typeName _vehicle;
+        private _type = typeOf _vehicle;
         [_sortedList, _type, _vehicle] call _fn_addUnitToList;
         _line pushBack _type;
     }
@@ -64,13 +72,31 @@ private _unitNames = [];
     {
         _line pushBack "";
     };
-    _line pushBack ([_crewIndex, _sortedList] call _fn_parseTypeNames);
+    _line pushBack ([_crewArray, _sortedList] call _fn_parseTypeNames);
     _line pushBack ([_unitArray, _sortedList] call _fn_parseTypeNames);
-    _unitName pushBack _line;
+    _unitNames pushBack _line;
 } forEach _units;
+
+[
+    3,
+    format ["Unit names are %1", _unitNames],
+    _fileName
+] call A3A_fnc_log;
+
+[
+    3,
+    format ["Sorted units are %1", _sortedList],
+    _fileName
+] call A3A_fnc_log;
 
 //Add the data (ONLY DATA) to the garrison data
 private _insertIndex = [_marker, _unitNames] call A3A_fnc_addToGarrison;
+
+[
+    3,
+    format ["Insertion indeces are %1", _insertIndex],
+    _fileName
+] call A3A_fnc_log;
 
 //Units added to the garrisons, got the indeces back for every unit that was added, reparsing that into the actual objects
 private _garrisonInserts = _insertIndex select 0;
@@ -81,7 +107,7 @@ private _allInserts = [];
 {
     private _newElement = +(_x);
     private _key = _newElement select 0;
-    private _overIndex = _overIndeces findIf {(_x select 0) == _key};
+    private _overIndex = _overInserts findIf {(_x select 0) == _key};
     if(_overIndex != -1) then
     {
         (_newElement select 1) append (_overInserts select _overIndex select 1);
@@ -99,5 +125,11 @@ _allInserts append _overInserts;
     _x set [0, _sortedList select _index select 0];
 } forEach _allInserts;
 
+[
+    3,
+    format ["Final result is %1", _allInserts],
+    _fileName
+] call A3A_fnc_log;
+
 //Now add the units to the groups
-[_marker, _allInserts] call A3A_fnc_addToSpawnedArrays;
+//[_marker, _allInserts] call A3A_fnc_addToSpawnedArrays;
