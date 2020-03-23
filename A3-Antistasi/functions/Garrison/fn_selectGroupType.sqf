@@ -52,28 +52,28 @@ switch (_groupPref) do
 {
     case ("SQUAD"):
     {
-        if(_side == Occupants) then {_group = selectRandom groupsNATOSquad};
-        if(_side == Invaders) then {_group = selectRandom groupsCSATSquad};
+        if(_side == Occupants) then {_group = +(selectRandom groupsNATOSquad)};
+        if(_side == Invaders) then {_group = +(selectRandom groupsCSATSquad)};
     };
     case ("GROUP"):
     {
-        if(_side == Occupants) then {_group = selectRandom groupsNATOmid};
-        if(_side == Invaders) then {_group = selectRandom groupsCSATmid};
+        if(_side == Occupants) then {_group = +(selectRandom groupsNATOmid)};
+        if(_side == Invaders) then {_group = +(selectRandom groupsCSATmid)};
     };
     case ("AT"):
     {
-        if(_side == Occupants) then {_group = groupsNATOAT};
-        if(_side == Invaders) then {_group = groupsCSATAT};
+        if(_side == Occupants) then {_group = +groupsNATOAT};
+        if(_side == Invaders) then {_group = +groupsCSATAT};
     };
     case ("AA"):
     {
-        if(_side == Occupants) then {_group = groupsNATOAA};
-        if(_side == Invaders) then {_group = groupsCSATAA};
+        if(_side == Occupants) then {_group = +groupsNATOAA};
+        if(_side == Invaders) then {_group = +groupsCSATAA};
     };
     case ("SPECOPS"):
     {
-        if(_side == Occupants) then {_group = NATOSpecOp};
-        if(_side == Invaders) then {_group = CSATSpecOp};
+        if(_side == Occupants) then {_group = +NATOSpecOp};
+        if(_side == Invaders) then {_group = +CSATSpecOp};
     };
 };
 
