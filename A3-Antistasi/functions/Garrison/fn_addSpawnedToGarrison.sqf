@@ -92,15 +92,21 @@ private _unitNames = [];
 //Add the data (ONLY DATA) to the garrison data
 private _insertIndex = [_marker, _unitNames] call A3A_fnc_addToGarrison;
 
-[
-    3,
-    format ["Insertion indeces are %1", _insertIndex],
-    _fileName
-] call A3A_fnc_log;
-
 //Units added to the garrisons, got the indeces back for every unit that was added, reparsing that into the actual objects
 private _garrisonInserts = _insertIndex select 0;
 private _overInserts = _insertIndex select 1;
+
+[
+    3,
+    format ["Insertion indeces of garrison are %1", _garrisonInserts],
+    _fileName
+] call A3A_fnc_log;
+
+[
+    3,
+    format ["Insertion indeces of over are %1", _overInserts],
+    _fileName
+] call A3A_fnc_log;
 
 //Merge insertion arrays into one
 private _allInserts = [];

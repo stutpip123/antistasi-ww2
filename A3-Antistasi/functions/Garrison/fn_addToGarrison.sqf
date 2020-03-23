@@ -145,7 +145,7 @@ private _overUnits = [];
                 format ["Path is %1, unit data is %2", _path, (_sortingReqs select _unitIndex)],
                 _fileName
             ] call A3A_fnc_log;
-            ((_insertionIndeces select _insertionIndex) select 1) pushBack _path;
+            ((_insertionIndeces select _insertionIndex) select 1) pushBack ([false] + _path);
             private _garElement = _garrison select (_path select 0);
             private _reqElement = _requested select (_path select 0);
 

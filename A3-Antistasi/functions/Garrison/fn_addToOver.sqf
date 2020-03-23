@@ -13,6 +13,20 @@ private _fileName = "addToOver";
 
 [3, format ["Adding %1 to %2 now", _units, _marker], _fileName] call A3A_fnc_log;
 
+_fn_addToList =
+{
+    params ["_list", "_key", "_value"];
+    private _index = _list findIf {(_x select 0) == _key};
+    if(_index == -1) then
+    {
+        _list pushBack [_key, [_value]];
+    }
+    else
+    {
+        ((_list select _index) select 1) pushBack _value;
+    };
+};
+
 private _overUnits = [_marker] call A3A_fnc_getOver;
 
 private _vehicleIndex = -1;
@@ -21,6 +35,7 @@ private _cargoIndex = -1;
 
 private _unitsToSendBack = [];
 
+private _insertionIndeces = [];
 //Checking the overUnits for first empty spaces
 _vehicleIndex = _overUnits findIf {(_x select 0) == ""};
 _crewIndex = _overUnits findIf {"" in (_x select 1)};
@@ -37,9 +52,10 @@ private _overCount = count _overUnits;
             if(_crewIndex == -1) then
             {
                 //No space available, add new line
-                _overUnits pushBack ["", [_x, ""], [""]];
+                _overUnits pushBack ["", [_unitName, ""], [""]];
                 _overCount = _overCount + 1;
                 _crewIndex = _overCount - 1;
+                [_insertionIndeces, _unitName, [true, _crewIndex, 1, 0]] call _fn_addToList;
                 if(_vehicleIndex == -1) then {_vehicleIndex = _crewIndex;};
                 if(_cargoIndex == -1) then {_cargoIndex = _crewIndex;};
             }
@@ -47,7 +63,8 @@ private _overCount = count _overUnits;
             {
                 //Space available, add unit here
                 private _subIndex = ((_overUnits select _crewIndex) select 1) find "";
-                ((_overUnits select _crewIndex) select 1) set [_subIndex, _x];
+                ((_overUnits select _crewIndex) select 1) set [_subIndex, _unitName];
+                [_insertionIndeces, _unitName, [true, _crewIndex, 1, _subIndex]] call _fn_addToList;
                 if(((_overUnits select _crewIndex) select 0) == "") then
                 {
                     ((_overUnits select _crewIndex) select 1) pushBack "";
@@ -67,9 +84,10 @@ private _overCount = count _overUnits;
             if(_cargoIndex == -1) then
             {
                 //No space available, add new line
-                _overUnits pushBack ["", [""], [_x, ""]];
+                _overUnits pushBack ["", [""], [_unitName, ""]];
                 _overCount = _overCount + 1;
                 _cargoIndex = _overCount - 1;
+                [_insertionIndeces, _unitName, [true, _cargoIndex, 2, 0]] call _fn_addToList;
                 if(_vehicleIndex == -1) then {_vehicleIndex = _cargoIndex;};
                 if(_crewIndex == -1) then {_crewIndex = _cargoIndex;};
             }
@@ -82,7 +100,8 @@ private _overCount = count _overUnits;
                 ] call A3A_fnc_log;
                 //Space available, add unit here
                 private _subIndex = ((_overUnits select _cargoIndex) select 2) find "";
-                ((_overUnits select _cargoIndex) select 2) set [_subIndex, _x];
+                ((_overUnits select _cargoIndex) select 2) set [_subIndex, _unitName];
+                [_insertionIndeces, _unitName, [true, _cargoIndex, 2, _subIndex]] call _fn_addToList;
                 if(count ((_overUnits select _cargoIndex) select 2) < 8) then
                 {
                     ((_overUnits select _cargoIndex) select 2) pushBack "";
@@ -96,7 +115,7 @@ private _overCount = count _overUnits;
     }
     else
     {
-        if([_marker, _x] call A3A_fnc_blockVehicleSpace) then
+        if([_marker, _unitName] call A3A_fnc_blockVehicleSpace) then
         {
             private _crewSeatCount = [_x, false] call BIS_fnc_crewCount;
             private _crewArray = [];
@@ -107,14 +126,16 @@ private _overCount = count _overUnits;
                     _crewArray pushBack "";
                 };
                 _overUnits pushBack [_x, _crewArray, [""]];
+                [_insertionIndeces, _unitName, [true, _overCount, 0]] call _fn_addToList;
                 _overCount = _overCount + 1;
                 if(_cargoIndex == -1) then {_cargoIndex = _overCount - 1;};
                 if(_crewIndex == -1) then {_crewIndex = _overCount - 1;};
             }
             else
             {
-                (_overUnits select _vehicleIndex) set [0, _x];
-                _crewArray = _overUnits select _vehicleIndex;
+                (_overUnits select _vehicleIndex) set [0, _unitName];
+                [_insertionIndeces, _unitName, [true, _vehicleIndex, 0]] call _fn_addToList;
+                _crewArray = _overUnits select _vehicleIndex select 1;
                 for "_i" from (count _crewArray) to _crewSeatCount do
                 {
                     _crewArray pushBack "";
@@ -169,4 +190,4 @@ else
     garrison setVariable [format ["%1_recruit", _carrierMarker], _points + _current, true];
 };
 
-[];
+_insertionIndeces;
