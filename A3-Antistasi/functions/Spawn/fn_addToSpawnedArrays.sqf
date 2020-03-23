@@ -26,7 +26,7 @@ params ["_marker", "_added"];
 
 _fn_parseIndex =
 {
-    params ["_isOver", "_row", "_type"];
+    params ["_isOver", "_row", ["_type", 0]];
     private _params = [];
     if(_isOver) then
     {
@@ -71,6 +71,7 @@ spawner setVariable [format ["%1_arraysChanging", _marker], true, true];
         {
             private _unit = _objects select _i;
             private _insert = _inserts select _i;
+            private _unitIndex = 10 * (_insert select 1) + (_insert select 2);
             private _groupParam = _insert call _fn_parseIndex;
             private _groupIndex = [_markerGroups, _groupParam] call _fn_searchForGroupIndex;
             if(_groupIndex == -1) then
@@ -80,14 +81,15 @@ spawner setVariable [format ["%1_arraysChanging", _marker], true, true];
                 [_unit] joinSilent _newGroup;
                 _markerGroups pushBack [_newGroup, _groupParam];
                 //TODO add a check for a vehicle if the group needs to be assinged to it
-                //TODO init the new group and unit
+                [_unit, _marker, _insert select 0, _unitIndex] call A3A_fnc_markerUnitInit;
             }
             else
             {
+                //Join existing group
                 private _group = (_markerGroups select _groupIndex) select 0;
                 [_unit] joinSilent _group;
                 //TODO add a real insertion into the right place in the group
-                //TODO init the unit
+                [_unit, _marker, _insert select 0, _unitIndex] call A3A_fnc_markerUnitInit;
             };
         };
     }
@@ -98,9 +100,9 @@ spawner setVariable [format ["%1_arraysChanging", _marker], true, true];
         {
             private _unit = _objects select _i;
             private _insert = _inserts select _i;
+            [_unit, _marker, _insert select 0, _insert select 1] call A3A_fnc_markerVehicleInit;
             _insert = _insert call _fn_parseIndex;
             _markerVehicles pushBack [_unit, _insert];
-            //TODO init vehicle
         };
     };
 } forEach _added;

@@ -34,25 +34,6 @@ if (_marker != "") then
     {
         [_unit,false] remoteExec ["enableSimulationGlobal",2];
     };
-}
-else
-{
-    if (isNull objectParent _unit) then
-    {
-        private _veh = objectParent _unit;
-        if (_unit in (assignedCargo _veh)) then
-        {
-            _unit addEventHandler
-            [
-                "GetOutMan",
-                {
-                    _unit = _this select 0;
-                    _veh = _this select 2;
-                    _driver = driver _veh;
-                }
-            ];
-        };
-    };
 };
 
 //Calculates the skill of the given unit

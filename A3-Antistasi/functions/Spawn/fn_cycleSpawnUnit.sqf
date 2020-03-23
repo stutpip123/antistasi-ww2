@@ -14,65 +14,16 @@ private _unit = _group createUnit [_type, _position, [], 5, "NONE"];
 _unit setDir _dir;
 _unit setPosATL _position;
 
-//Should work as a local variable needs testing
+private _unitIndex = -1;
 if((_type != NATOCrew) && (_type != CSATCrew)) then
 {
-    _unit setVariable ["UnitIndex", (_lineIndex * 10 + 2)];
+    _unitIndex = (_lineIndex * 10 + 2);
 }
 else
 {
-    _unit setVariable ["UnitIndex", (_lineIndex * 10 + 1)];
+    _unitIndex = (_lineIndex * 10 + 1);
 };
-_unit setVariable ["UnitMarker", _marker];
-_unit setVariable ["IsOver", _isOver];
-
-//On unit death, remove it from garrison
-_unit addEventHandler
-[
-    "Killed",
-    {
-        private _unit = _this select 0;
-        //Block crew groups from getting into vehicles if one died
-        private _group = group _unit;
-        _group setVariable ["shouldCrewVehicle", false, true];
-        private _id = _unit getVariable "UnitIndex";
-        private _marker = _unit getVariable "UnitMarker";
-        private _isOver = _unit getVariable "IsOver";
-        if(_isOver) then
-        {
-            [_marker, typeOf _unit, _id] call A3A_fnc_removeFromOver;
-        }
-        else
-        {
-            [_marker, typeOf _unit, _id] call A3A_fnc_addToRequested;
-        };
-    }
-];
-
-_unit addEventHandler
-[
-    "HandleDamage",
-    {
-        //Is there any way to disable this eventhandle after first run?
-        private _unit = _this select 0;
-        private _marker = _unit getVariable "UnitMarker";
-        private _group = group _unit;
-        if(_group getVariable ["isDisabled", false]) then
-        {
-            _group setVariable ["isDisabled", false, true];
-            {
-                _x enableSimulation true;
-                _X enableAI "ALL";
-            } forEach (units _group);
-            if !(_group getVariable ["isCrewGroup", false]) then
-            {
-                [leader _group, _marker, "COMBAT", "SPAWNED", "ORIGINAL", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
-            };
-        };
-        //_group setBehaviour "COMBAT"; //Handled by upsmon, check if vcom needs it
-        //[_group] call A3A_fnc_abortAmbientAnims
-    }
-];
+[_unit, _marker, _isOver, _unitIndex] call A3A_fnc_markerUnitInit;
 
 if(side _group != teamPlayer) then
 {
@@ -82,6 +33,7 @@ else
 {
     [_unit] call A3A_fnc_FIAinit;
 };
+
 
 (group _unit) setVariable ["isDisabled", true, true];
 _unit disableAI "ALL";

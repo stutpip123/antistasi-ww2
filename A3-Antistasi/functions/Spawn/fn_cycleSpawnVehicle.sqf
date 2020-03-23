@@ -44,54 +44,7 @@ if(_spawnParameter isEqualType []) then
     };
     _vehicle setDir (_spawnParameter select 1);
 
-    _vehicle setVariable ["UnitIndex", (_lineIndex * 10 + 0), true];
-    _vehicle setVariable ["UnitMarker", _marker, true];
-    _vehicle setVariable ["IsOver", _isOver, true];
-
-    //On vehicle death, remove it from garrison
-    _vehicle addEventHandler
-    [
-        "Killed",
-        {
-            private _vehicle = _this select 0;
-            private _id = _vehicle getVariable "UnitIndex";
-            private _marker = _vehicle getVariable "UnitMarker";
-            private _isOver = _vehicle getVariable "IsOver";
-            if(_isOver) then
-            {
-                [_marker, typeOf _vehicle, _id] call A3A_fnc_removeFromOver;
-            }
-            else
-            {
-                [_marker, typeOf _vehicle, _id] call A3A_fnc_addToRequested;
-            };
-        }
-    ];
-
-    _vehicle addEventHandler
-    [
-        "GetIn",
-        {
-            private _vehicle = _this select 0;
-            private _unit = _this select 2;
-            if(side (group _unit) == teamPlayer && (isPlayer _unit)) then
-            {
-                private _id = _vehicle getVariable "UnitIndex";
-                private _marker = _vehicle getVariable "UnitMarker";
-                private _isOver = _vehicle getVariable "IsOver";
-                [_marker, _vehicle] call A3A_fnc_removeFromSpawnedArrays;
-                [_vehicle] spawn A3A_fnc_vehicleDespawner;
-                if(_isOver) then
-                {
-                    [_marker, typeOf _vehicle, _id] call A3A_fnc_removeFromOver;
-                }
-                else
-                {
-                    [_marker, typeOf _vehicle, _id] call A3A_fnc_addToRequested;
-                };
-            };
-        }
-    ];
+    
     //Add vehicle to group
     _group addVehicle _vehicle;
 

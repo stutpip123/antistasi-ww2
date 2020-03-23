@@ -357,6 +357,12 @@ class A3A
 		class isModNameVanilla {};
 	};
 
+    class ObjectInits
+    {
+        class markerUnitInit {};
+        class markerVehicleInit {};
+    };
+
 	class Ammunition
 	{
 		class ACEpvpReDress {};
