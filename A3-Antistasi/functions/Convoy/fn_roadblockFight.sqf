@@ -1,91 +1,91 @@
 params ["_units", "_roadblockMarker"];
 
-_nightTimeBonus = if (daytime < 6 || {daytime > 22}) then {0.25} else {0};
+private _fileName = "roadblockFight";
+private _nightTimeBonus = if (daytime < 6 || {daytime > 22}) then {1.25} else {0};
+private _defenderBonus = 1 * _nightTimeBonus * (1 + (random 0.5));
+private _garrison = [_roadblockMarker] call A3A_fnc_getGarrison;
 
-_defenderBonus = 1 + _nightTimeBonus + (random 0.5);
-_attackerBonus = 1;
-
-//TODO rework that shit
-_garrison = garrison getVariable [_roadblockMarker, []];
-
-_roadblockCount = 0;
+_fn_calculateStrenght =
 {
-    if(_x == staticCrewTeamPlayer) then
+    params ["_array"];
+    private _count = 0;
+    _array params ["_vehicle", "_crew", "_cargo"];
+    _count = (count _crew) + (count _cargo);
+    switch (true) do
     {
-      _roadblockCount = _roadblockCount + 3;
+        case (_vehicle isKindOf "APC"): {_count = _count + 3};
+        case (_vehicle isKindOf "Tank"): {_count = _count + 6};
+        case (_vehicle isKindOf "Helicopter"):
+        {
+            //Transport helicopter without a gun dont count
+            if(count (getArray (configFile >> "CfgVehicles" >> _vehicle >> "weapons")) > 0) then
+            {
+                _count = _count + 4;
+            };
+        };
+        case (_vehicle isKindOf "Plane"): {_count = _count + 6};
+        default {_count = _count + 1;};
     };
-    _roadblockCount = _roadblockCount + 1;
+    _count;
+};
+
+private _roadBlockStrength = 0;
+{
+    _roadBlockStrength = _roadBlockStrength + ([_x] call _fn_calculateStrenght);
 } forEach _garrison;
-_roadblockCount = _roadblockCount * _defenderBonus;
+_roadBlockStrength = _roadBlockStrength * _defenderBonus;
 // Defender calculated
 
-_attackerCount = 0;
+private _attackerStrength = 0;
 {
-  _attackerCount = _attackerCount + (count (_x select 1)) + (count (_x select 2));
-  _vehicle = _x select 0;
-  //diag_log format ["Units: %1, Veh: %2", str _units, str _vehicle];
-  switch (true) do
-  {
-    case (_vehicle isKindOf "APC"): {_attackerCount = _attackerCount + 5};
-    case (_vehicle isKindOf "Tank"): {_attackerCount = _attackerCount + 10};
-    case (_vehicle isKindOf "Helicopter"):
-    {
-      //Transport helicopter without a gun dont count
-      if(count (getArray (configFile >> "CfgVehicles" >> _vehicle >> "weapons")) > 0) then
-      {
-        _attackerCount = _attackerCount + 7;
-      };
-    };
-    case (_vehicle isKindOf "Plane"): {_attackerCount = _attackerCount + 10};
-    default {_attackerCount = _attackerCount + 1;};
-  };
+    _attackerStrength = _attackerStrength + ([_x] call _fn_calculateStrenght);
 } forEach _units;
+//Attacker calculated
 
-_result = false;
-if(_attackerCount == 0) then
+private _attackerWon = false;
+if(_attackerStrength == 0) then
 {
-  //Attacker lost
-  diag_log format ["Attacker lost against roadblock %1", _roadblockMarker];
-  _result = false;
+    //Attacker lost
+    [2, format ["Attacker lost against roadblock %1", _roadblockMarker], _fileName] call A3A_fnc_log;
+    _attackerWon = false;
 }
 else
 {
-  _ratio = _roadblockCount/_attackerCount;
-  if(_roadblockCount == 0 || {_ratio < 0.9}) then
-  {
-    diag_log format ["Defender at %1 lost against attacker with ratio %2", _roadblockMarker, _ratio];
-    _result = true;
-  }
-  else
-  {
-    if(_ratio > 1.1) then
+    private _ratio = _roadBlockStrength/_attackerStrength;
+    if(_roadBlockStrength == 0 || {_ratio < 0.9}) then
     {
-      diag_log format ["Attacker lost against roadblock %1", _roadblockMarker];
-      _result = false;
+        [2, format ["Defender at %1 lost against attacker with ratio %2", _roadblockMarker, _ratio], _fileName] call A3A_fnc_log;
+        _attackerWon = true;
     }
     else
     {
-      _result = [true, false] selectRandomWeighted [0.5, 0.5];
-      if(_result) then
-      {
-        diag_log format ["Defender at %1 lost against attacker with ratio %2", _roadblockMarker, _ratio];
-      }
-      else
-      {
-        diag_log format ["Attacker lost against roadblock %1", _roadblockMarker];
-      };
+        if(_ratio > 1.1) then
+        {
+            [2, format ["Attacker lost against roadblock %1", _roadblockMarker], _fileName] call A3A_fnc_log;
+            _attackerWon = false;
+        }
+        else
+        {
+            _attackerWon = [true, false] selectRandomWeighted [0.5, 0.5];
+            if(_attackerWon) then
+            {
+                [2, format ["Defender at %1 lost against attacker with ratio %2", _roadblockMarker, _ratio], _fileName] call A3A_fnc_log;
+            }
+            else
+            {
+                [2, format ["Attacker lost against roadblock %1", _roadblockMarker], _fileName] call A3A_fnc_log;
+            };
+        };
     };
-  };
 };
 
-
-if(_result) then
+if(_attackerWon) then
 {
-  outpostsFIA = outpostsFIA - [_roadblockMarker]; publicVariable "outpostsFIA";
-  markersX = markersX - [_roadblockMarker]; publicVariable "markersX";
-  sidesX setVariable [_roadblockMarker, nil, true];
-  [5, -5, (getMarkerPos _roadblockMarker)] remoteExec ["A3A_fnc_citySupportChange",2];
-  ["TaskFailed", ["", "Roadblock Lost"]] remoteExec ["BIS_fnc_showNotification", 2];
+    outpostsFIA = outpostsFIA - [_roadblockMarker]; publicVariable "outpostsFIA";
+    markersX = markersX - [_roadblockMarker]; publicVariable "markersX";
+    sidesX setVariable [_roadblockMarker, nil, true];
+    [5, -5, (getMarkerPos _roadblockMarker)] remoteExec ["A3A_fnc_citySupportChange",2];
+    ["TaskFailed", ["", "Roadblock Lost"]] remoteExec ["BIS_fnc_showNotification", 2];
 };
 
-_result;
+_attackerWon;

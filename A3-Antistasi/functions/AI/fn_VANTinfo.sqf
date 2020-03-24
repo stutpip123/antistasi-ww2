@@ -12,7 +12,7 @@ while {alive _veh} do
 	{
 	_knownX = [];
 	_groups = [];
-    //TODO use new spawner arrays
+    //This could be improved by searching only for spawner units, but as it is only fired once per minute...
 	_enemiesX = [distanceSPWN,0,_positionX,_sideX] call A3A_fnc_distanceUnits;
 	sleep 60;
 	_groups = allGroups select {(leader _x in _enemiesX) and ((vehicle leader _x) != (leader _x))};
