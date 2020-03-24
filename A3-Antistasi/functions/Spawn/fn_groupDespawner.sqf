@@ -22,8 +22,30 @@ if(_marker != "") then
     //So we are sure that the units in the group can be despawned now
     //They can't be further away then 500 meters anyways and the next enemy is more then 1300 meters away
     {
-        
-        deleteVehicle _x;
+        if (lifeState _x == 'INCAPACITATED' || _x getVariable ["incapacitated", false]) then
+        {
+            //Unit is downed and may bleed out, check if other units are nearby which are able to help
+            private _nearbyUnits = (getPos _x) nearEntities ["Man", 20];
+            _nearbyUnits = _nearbyUnits select {[_x] call A3A_fnc_canFight};
+            if(count _nearbyUnits == 0) then
+            {
+                //No one near to help, unit died
+                _x setDamage 1;
+            }
+            else
+            {
+                //Someone helped, unit survived
+                deleteVehicle _x;
+            };
+        }
+        else
+        {
+            if(alive _x) then
+            {
+                //Don't instantly delete corpses
+                deleteVehicle _x;
+            };
+        };
     } forEach (units _group);
 }
 else
