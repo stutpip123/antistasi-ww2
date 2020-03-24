@@ -285,12 +285,12 @@ player addEventHandler
             if (_marker != "") then
             {
                 ["Static", format ["You deployed the static weapon at %1. If there are militia units stationated here, they will man this weapon shortly!", [_marker] call A3A_fnc_localizar]] call A3A_fnc_customHint;
-                [_staticWeapon, _marker] remoteExec [A3A_fnc_addStaticToGarrison, 2];
+                [_staticWeapon, _marker] remoteExec ["A3A_fnc_addStaticToGarrison", 2];
 
             }
             else
             {
-                [_staticWeapon] remoteExec [A3A_fnc_AIVEHinit, 2];
+                [_staticWeapon] remoteExec ["A3A_fnc_AIVEHinit", 2];
             };
         }
         else

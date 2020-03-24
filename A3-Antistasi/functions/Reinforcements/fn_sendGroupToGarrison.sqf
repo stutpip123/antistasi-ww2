@@ -1,7 +1,8 @@
 params ["_marker", "_group"];
 
 private _units = units _group;
-private _dontDespawn = false;
+private _markerChanged = false;
+private _markerDespawned = false;
 private _markerPos = getMarkerPos _marker;
 _group setVariable ["DestinationMarker", _marker];
 
@@ -13,39 +14,36 @@ if (spawner getVariable _marker != 2) then
 	private _wp = _group addWaypoint [(getMarkerPos _marker), 0];
 	_wp setWaypointType "MOVE";
     _wp setWaypointCompletionRadius 15;
-    _wp setWaypointStatements ["true", "[(group this) getVariable 'DestinationMarker', thisList] call A3A_fnc_manStaticsOnArrival"];
+    _wp setWaypointStatements
+    [
+        "true",
+        "
+            ['', [], (thisList select {alive _x})] call A3A_fnc_addSpawnedToGarrison;
+            [(group this) getVariable 'DestinationMarker', (thisList select {alive _x})] call A3A_fnc_manStaticsOnArrival;
+        "
+    ];
 
 	waitUntil
     {
         sleep 5;
         //Wait till marker changes its owner
-        !(sidesX getVariable [_marker,sideUnknown] == teamPlayer) ||
-        //Or till group arrived and marker despawned
-        {((leader _group) distance2D _markerPos) < 50 &&
-        {(spawner getVariable _marker) == 2}}
+        (!(sidesX getVariable [_marker,sideUnknown] == teamPlayer)) ||
+        //Or till group arrived
+        ((leader _group) distance2D _markerPos) < 50 ||
+        //Or till marker despawned
+        (spawner getVariable _marker) == 2
     };
 	if (!(sidesX getVariable [_marker,sideUnknown] == teamPlayer)) then
     {
-        _dontDespawn = true;
+        _markerChanged = true;
+    };
+    if ((spawner getVariable _marker) == 2) then
+    {
+        _markerDespawned = true;
     };
 };
 
-if (!_dontDespawn) then
-{
-    //Units have arrived and outpost despawned
-    private _aliveUnits = [];
-	{
-        if (alive _x) then
-		{
-            _aliveUnits pushBack (typeOf _x);
-            deleteVehicle _x;
-		};
-	} forEach _units;
-    [_marker, _aliveUnits] call A3A_fnc_addToOver;
-    [_marker] call A3A_fnc_mrkUpdate;
-	deleteGroup _group;
-}
-else
+if (_markerChanged) then
 {
     //The marker changed its owner, returning as HC squad
 	{
@@ -88,4 +86,22 @@ else
 	} forEach _units;
 	theBoss hcSetGroup [_group];
 	(format ["Group %1 is back to HC control because the zone which they should garrison has been lost",groupID _group]) remoteExec ["hint", theBoss];
+}
+else
+{
+    if (_markerDespawned) then
+    {
+        //Outpost despawned, warp units
+        private _aliveUnits = [];
+        {
+            if (alive _x) then
+            {
+                _aliveUnits pushBack (typeOf _x);
+                deleteVehicle _x;
+            };
+        } forEach _units;
+        [_marker, _aliveUnits] call A3A_fnc_addToOver;
+        [_marker] call A3A_fnc_mrkUpdate;
+        deleteGroup _group;
+    };
 };
