@@ -13,7 +13,7 @@
 
 [[],[],[]] params ["_teamPlayerUnits", "_occupantsUnits", "_invaderUnits"];
 
-private _spawnerGroups = allGroups select {(side _x) == teamPlayer && {(leader _x != objNull) && {!(isPlayer (leader _x))}}};
+private _spawnerGroups = allGroups select {(side _x) == teamPlayer && {(leader _x != objNull) && {!(isPlayer (leader _x)) && {((leader _x) getVariable ["UnitMarker", ""]) == ""}}}};
 private _spawnerUnits = allPlayers + (_spawnerGroups apply {leader _x});
 
 {
@@ -37,3 +37,5 @@ private _spawnerUnits = allPlayers + (_spawnerGroups apply {leader _x});
 playerSpawner = _teamPlayerUnits; publicVariable "playerSpawner";
 occupantsSpawner = _occupantsUnits; publicVariable "occupantsSpawner";
 invadersSpawner = _invaderUnits; publicVariable "invadersSpawner";
+
+[3, format ["PS : %1 OS : %2 IS : %3", playerSpawner, occupantsSpawner, invadersSpawner], "updateSpawnerUnits"] call A3A_fnc_log;

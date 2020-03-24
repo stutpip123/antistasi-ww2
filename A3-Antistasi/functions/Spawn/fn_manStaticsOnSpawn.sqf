@@ -15,7 +15,7 @@ private _statics = _vehicles select {(_x select 1 select 0) == STATIC};
 _statics = _statics select {isNull (gunner (_x select 0))};
 
 private _groups = [_marker, "Groups"] call A3A_fnc_getSpawnedArray;
-private _cargoGroups = _groups select {((_x select 1 select 0) == OVER) && {(_x select 1 select 2) == IS_CARGO}};
+private _cargoGroups = _groups select {((_x select 1 select 0) == OVER) && {(_x select 1 select 2) isEqualTo IS_CARGO}};
 
 private _staticGroup = _groups findIf {(_x select 1 select 0) == STATIC};
 if(_staticGroup == -1) then
@@ -37,9 +37,10 @@ private _gunners = [];
     private _unitIndex = _units findIf {typeOf _x in SDKMil};
     if(_unitIndex != -1) exitWith
     {
-        _gunners pushBack _x;
+        _gunners pushBack (_units select _unitIndex);
     };
 } forEach _cargoGroups;
+_gunners = _gunners select {isNull (objectParent _x)};
 
 while {((count _statics) != 0) && {(count _gunners) != 0}} do
 {
@@ -49,4 +50,5 @@ while {((count _statics) != 0) && {(count _gunners) != 0}} do
     [_gunner] joinSilent _staticGroup;
     _gunner assignAsGunner _static;
     [_gunner] orderGetIn true;
+    _gunner moveInGunner _static;
 };

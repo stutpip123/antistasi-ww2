@@ -12,7 +12,7 @@ params ["_marker", "_static"];
 
 //Search for unit groups on the marker
 private _groups = [_marker, "Groups"] call A3A_fnc_getSpawnedArray;
-private _cargoGroups = _groups select {((_x select 1 select 0) == OVER) && {(_x select 1 select 2) == IS_CARGO}};
+private _cargoGroups = _groups select {((_x select 1 select 0) == OVER) && {(_x select 1 select 2) isEqualTo IS_CARGO}};
 
 private _staticGroup = _groups findIf {(_x select 1 select 0) == STATIC};
 if(_staticGroup == -1) then
@@ -32,10 +32,9 @@ private _unit = objNull;
     private _group = _x select 0;
     private _units = (units _group);
     private _unitIndex = _units findIf {typeOf _x in SDKMil};
-    if(_unitIndex != -1) exitWith
-    {
-        _unit = _units select _unitIndex;
-    };
+    _unit = _units select _unitIndex;
+    if(isNull (objectParent _unit)) exitWith {};
+    _unit = objNull;
 } forEach _cargoGroups;
 
 [_unit] joinSilent _staticGroup;

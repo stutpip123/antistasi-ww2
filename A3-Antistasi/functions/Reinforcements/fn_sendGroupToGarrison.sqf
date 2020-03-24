@@ -18,8 +18,14 @@ if (spawner getVariable _marker != 2) then
     [
         "true",
         "
-            ['', [], (thisList select {alive _x})] call A3A_fnc_addSpawnedToGarrison;
-            [(group this) getVariable 'DestinationMarker', (thisList select {alive _x})] call A3A_fnc_manStaticsOnArrival;
+            private _units = (thisList select {alive _x});
+            private _marker = (group this) getVariable 'DestinationMarker';
+            [_marker, [['', [], _units]]] call A3A_fnc_addSpawnedToGarrison;
+            [_marker, _units] spawn
+            {
+                sleep 5;
+                _this call A3A_fnc_manStaticsOnArrival;
+            };
         "
     ];
 

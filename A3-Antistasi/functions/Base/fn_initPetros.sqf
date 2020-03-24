@@ -6,6 +6,7 @@ removeGoggles petros;
 petros setSkill 1;
 petros setVariable ["respawning",false];
 petros allowDamage false;
+petros setVariable ["UnitMarker", "Synd_HQ", true];
 
 [petros,unlockedRifles] call A3A_fnc_randomRifle;
 petros selectWeapon (primaryWeapon petros);
