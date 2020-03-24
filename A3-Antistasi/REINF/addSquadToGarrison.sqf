@@ -28,7 +28,6 @@ if ((_marker in outpostsFIA) && {!(isOnRoad getMarkerPos _marker)}) exitWith
 {
     ["Garrison", "You cannot manage garrisons on this kind of zone"] call A3A_fnc_customHint;
 };
-[3, format ["Selected marker is %1", _marker], _fileName] call A3A_fnc_log;
 
 private _group = grpNull;
 private _units = objNull;

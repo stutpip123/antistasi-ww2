@@ -20,4 +20,4 @@ spawner setVariable [format ["%1_vehicles", _marker], _vehicles, true];
 
 _staticWeapon setVariable ["StaticMarker", _marker];
 
-[_marker, _static] call A3A_fnc_manStaticOnAssembly;
+[_marker, _staticWeapon] call A3A_fnc_manStaticOnAssembly;

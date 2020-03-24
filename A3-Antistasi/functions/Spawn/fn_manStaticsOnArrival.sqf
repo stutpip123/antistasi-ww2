@@ -24,7 +24,7 @@ if (count _gunnerUnits == 0) exitWith {};
 
 private _vehicles = [_marker, "Vehicles"] call A3A_fnc_getSpawnedArray;
 private _statics = _vehicles select {(_x select 1 select 0) == STATIC};
-_statics = _statics select {isNull (gunner _x)};
+_statics = _statics select {isNull (gunner (_x select 0))};
 
 if (count _statics == 0) exitWith {};
 
@@ -46,9 +46,9 @@ else
 while {((count _statics) != 0) && {(count _gunnerUnits) != 0}} do
 {
     private _gunner = _gunnerUnits deleteAt 0;
-    private _static = _statics deleteAt 0;
+    private _static = (_statics deleteAt 0) select 0;
 
     [_gunner] joinSilent _staticGroup;
     _gunner assignAsGunner _static;
-    _gunner orderGetIn true;
+    [_gunner] orderGetIn true;
 };

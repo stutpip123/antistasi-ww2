@@ -40,4 +40,4 @@ private _unit = objNull;
 
 [_unit] joinSilent _staticGroup;
 _unit assignAsGunner _static;
-_unit orderGetIn true;
+[_unit] orderGetIn true;
