@@ -116,11 +116,8 @@ _static addEventHandler
     "GetIn",
     {
         params ["_static", "_role", "_unit"];
-
-        [2, "GetIn triggered", "StaticInit", true] call A3A_fnc_log;
         if((side (group _unit) == teamPlayer) && (!isPlayer _unit)) then
         {
-            [2, "Action triggered", "StaticInit", true] call A3A_fnc_log;
             [_unit, "SwitchGunner"] remoteExec ["A3A_fnc_flagAction", [teamPlayer, civilian], _unit];
             _static setVariable ["gunner", _unit, true];
         };

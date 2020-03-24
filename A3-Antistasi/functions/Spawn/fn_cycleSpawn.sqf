@@ -133,11 +133,6 @@ private _mortarGroup = grpNull;
     _allVehicles pushBack [_mortar, [STATIC, -1]];
 } forEach _mortars;
 
-if (_side == teamPlayer) then
-{
-    //Get units to man statics
-};
-
 //Spawning in patrol units around the marker
 private _patrols = [_marker] call A3A_fnc_getPatrols;
 {
@@ -151,6 +146,12 @@ private _patrols = [_marker] call A3A_fnc_getPatrols;
 //Saving all groups and vehicles to the spawnedArrays
 spawner setVariable [format ["%1_groups", _marker], _allGroups, true];
 spawner setVariable [format ["%1_vehicles", _marker], _allVehicles, true];
+
+//Manning the statics of the marker if teamPlayer (otherwise they are already manned)
+if (_side == teamPlayer) then
+{
+    [_marker] call A3A_fnc_manStaticsOnSpawn;
+};
 
 //Handling the alert state and the despawn
 [_marker] spawn A3A_fnc_markerAlert;
