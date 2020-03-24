@@ -12,6 +12,7 @@ params ["_group"];
     Returns:
         Nothing
 */
+
 private _side = side _group;
 private _marker = (leader _group) getVariable ["UnitMarker", ""];
 
@@ -21,6 +22,7 @@ if(_marker != "") then
     //So we are sure that the units in the group can be despawned now
     //They can't be further away then 500 meters anyways and the next enemy is more then 1300 meters away
     {
+        
         deleteVehicle _x;
     } forEach (units _group);
 }

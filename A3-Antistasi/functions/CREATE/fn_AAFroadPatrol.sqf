@@ -181,11 +181,11 @@ while {alive _veh} do
 _enemiesX = if (_sideX == Occupants) then {Invaders} else {Occupants};
 
 {_unit = _x;
-//TODO use new spawner arrays
+//This could use the new spawner arrays, but I am not sure how much longer this function will exist
 waitUntil {sleep 1;!([distanceSPWN,1,_unit,teamPlayer] call A3A_fnc_distanceUnits) and !([distanceSPWN,1,_unit,_enemiesX] call A3A_fnc_distanceUnits)};deleteVehicle _unit} forEach _soldiers;
 
 {_veh = _x;
-//TODO use new spawner arrays
+//This could use the new spawner arrays, but I am not sure how much longer this function will exist 
 if (!([distanceSPWN,1,_veh,teamPlayer] call A3A_fnc_distanceUnits) and !([distanceSPWN,1,_veh,_enemiesX] call A3A_fnc_distanceUnits)) then {deleteVehicle _veh}} forEach _vehiclesX;
 {deleteGroup _x} forEach _groups;
 AAFpatrols = AAFpatrols - 1;

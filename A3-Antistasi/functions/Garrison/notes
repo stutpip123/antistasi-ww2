@@ -146,13 +146,14 @@ NEEDED FOR DOOMS UI UPGRADE
 - Reenable civies driving around
 - [DONE] Add a check after a unit is added if the marker is still spawned (if not despawn units) to avoid bad order of actions on spawnedArrays
 - [DONE] Add functions to search garrison units for specific types and groups
-- [WIP] Fix all the todos
+- [DONE] Fix all the todos
 - [DONE] Add trucks to vehicle list (check checkVehicleType and updateVehicle and add the new cases)
 - [DONE] Add check if crewArray has enough units to drive vehicle, otherwise don't man
 - [DONE] Add vehicleDespawner to vehicles from the garage
 - [DONE] Rethink balance of vehicles and their development
 - Sending units does not makes them leaving the group, not clue why
-- Surrendered units are not removed from garrisons
+- [DONE] Surrendered units are not removed from garrisons
+- Downed units should be removed from the garrison
 
 ======================= LAST NEEDED THING ======================================
 ==========================> Balancing <=========================================

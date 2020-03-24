@@ -20,6 +20,24 @@ if (lifeState _unit == "INCAPACITATED") exitWith {};
 [_unit,true] remoteExec ["setCaptive",0,_unit];
 _unit setCaptive true;
 
+//Remove unit from the garrison
+private _marker = _unit getVariable ["UnitMarker", ""];
+if(_marker != "") then
+{
+    //Unit is stationated somewhere, remove from it
+    private _id = _unit getVariable "UnitIndex";
+    private _isOver = _unit getVariable "IsOver";
+    if(_isOver) then
+    {
+        [_marker, typeOf _unit, _id] call A3A_fnc_removeFromOver;
+    }
+    else
+    {
+        [_marker, typeOf _unit, _id] call A3A_fnc_addToRequested;
+    };
+};
+
+
 _unit allowDamage false;
 unassignVehicle _unit;			// stop them getting back into vehicles
 [_unit] orderGetin false;
@@ -63,10 +81,6 @@ if (_backpack != "") then {
 _unit setUnitLoadout [ [], [], [], [uniform _unit, []], [], [], "", "", [], ["","","","","",""] ];
 
 // prevent surrendered units from spawning garrisons
-if (_unit getVariable ["spawner",false]) then
-	{
-	_unit setVariable ["spawner",nil,true]
-	};
 if (side group _unit == Occupants) then
 	{
 	_nul = [-2,0,getPos _unit] remoteExec ["A3A_fnc_citySupportChange",2];
