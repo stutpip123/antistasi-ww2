@@ -61,66 +61,77 @@ private _markerGroups = [_marker, "Groups"] call A3A_fnc_getSpawnedArray;
 //Block all other scripts from working on it for the moment
 spawner setVariable [format ["%1_arraysChanging", _marker], true, true];
 
+private _markerIsSpawned = ((spawner getVariable _marker) != 2);
 {
     _x params ["_objects", "_inserts"];
-    if((_objects select 0) isKindOf "Man") then
+    if(_markerIsSpawned) then
     {
-        //Sorting in units into groups
-        for "_i" from 0 to ((count _objects) - 1) do
+        if((_objects select 0) isKindOf "Man") then
         {
-            private _unit = _objects select _i;
-            private _insert = _inserts select _i;
-            private _unitIndex = 10 * (_insert select 1) + (_insert select 2);
-            private _groupParam = _insert call _fn_parseIndex;
-            private _groupIndex = [_markerGroups, _groupParam] call _fn_searchForGroupIndex;
-            if(_groupIndex == -1) then
+            //Sorting in units into groups
+            for "_i" from 0 to ((count _objects) - 1) do
             {
-                //Create new group
-                private _newGroup = createGroup (side (group _unit));
-                [_unit] joinSilent _newGroup;
-                _markerGroups pushBack [_newGroup, _groupParam];
-                [_unit, _marker, _insert select 0, _unitIndex] call A3A_fnc_markerUnitInit;
-                [_unit, (_insert select 3) + 1] call A3A_fnc_unitBehaviourOnArrival;
-                [leader _newGroup, _marker, "SAFE", "SPAWNED", "ORIGINAL", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
-
-                //Search for assigned vehicle
-                _insert resize 2;
-                private _vehicleIndex = [_markerVehicles, _insert] call _fn_searchForGroupIndex;
-                if(_vehicleIndex != -1) then
+                private _unit = _objects select _i;
+                private _insert = _inserts select _i;
+                private _unitIndex = 10 * (_insert select 1) + (_insert select 2);
+                private _groupParam = _insert call _fn_parseIndex;
+                private _groupIndex = [_markerGroups, _groupParam] call _fn_searchForGroupIndex;
+                if(_groupIndex == -1) then
                 {
-                    _newGroup addVehicle (_markerVehicles select _vehicleIndex select 0);
+                    //Create new group
+                    private _newGroup = createGroup (side (group _unit));
+                    [_unit] joinSilent _newGroup;
+                    _markerGroups pushBack [_newGroup, _groupParam];
+                    [_unit, _marker, _insert select 0, _unitIndex] call A3A_fnc_markerUnitInit;
+                    [_unit, (_insert select 3) + 1] call A3A_fnc_unitBehaviourOnArrival;
+                    [leader _newGroup, _marker, "SAFE", "SPAWNED", "ORIGINAL", "NOFOLLOW", "NOVEH2"] execVM "scripts\UPSMON.sqf";
+
+                    //Search for assigned vehicle
+                    _insert resize 2;
+                    private _vehicleIndex = [_markerVehicles, _insert] call _fn_searchForGroupIndex;
+                    if(_vehicleIndex != -1) then
+                    {
+                        _newGroup addVehicle (_markerVehicles select _vehicleIndex select 0);
+                    };
+                }
+                else
+                {
+                    //Join existing group
+                    private _group = (_markerGroups select _groupIndex) select 0;
+                    //Not sure if this is zero based or one based for groups
+                    _unit joinAsSilent [_group, (_insert select 3) + 1];
+                    [_unit, _marker, _insert select 0, _unitIndex] call A3A_fnc_markerUnitInit;
+                    [_unit, (_insert select 3) + 1] call A3A_fnc_unitBehaviourOnArrival;
                 };
-            }
-            else
+            };
+        }
+        else
+        {
+            //Sorting in vehicles
+            for "_i" from 0 to ((count _objects) - 1) do
             {
-                //Join existing group
-                private _group = (_markerGroups select _groupIndex) select 0;
-                //Not sure if this is zero based or one based for groups
-                _unit joinAsSilent [_group, (_insert select 3) + 1];
-                [_unit, _marker, _insert select 0, _unitIndex] call A3A_fnc_markerUnitInit;
-                [_unit, (_insert select 3) + 1] call A3A_fnc_unitBehaviourOnArrival;
+                private _unit = _objects select _i;
+                private _insert = _inserts select _i;
+                [_unit, _marker, _insert select 0, _insert select 1] call A3A_fnc_markerVehicleInit;
+                _insert = _insert call _fn_parseIndex;
+                _markerVehicles pushBack [_unit, _insert];
+
+                //Assign vehicle to group
+                _insert pushBack IS_CREW;
+                private _crewIndex = [_markerGroups, _insert] call _fn_searchForGroupIndex;
+                if(_crewIndex != -1) then
+                {
+                    ((_markerGroups select _crewIndex) select 0) addVehicle _unit;
+                };
             };
         };
     }
     else
     {
-        //Sorting in vehicles
-        for "_i" from 0 to ((count _objects) - 1) do
+        //Marker already despawned, despawn units too
         {
-            private _unit = _objects select _i;
-            private _insert = _inserts select _i;
-            [_unit, _marker, _insert select 0, _insert select 1] call A3A_fnc_markerVehicleInit;
-            _insert = _insert call _fn_parseIndex;
-            _markerVehicles pushBack [_unit, _insert];
-
-            //Assign vehicle to group
-            _insert pushBack IS_CREW;
-            private _crewIndex = [_markerGroups, _insert] call _fn_searchForGroupIndex;
-            if(_crewIndex != -1) then
-            {
-                ((_markerGroups select _crewIndex) select 0) addVehicle _unit;
-            };
-        };
+            deleteVehicle _x;
+        } forEach _objects;
     };
 } forEach _added;
 

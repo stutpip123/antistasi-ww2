@@ -144,10 +144,9 @@ NEEDED FOR DOOMS UI UPGRADE
 [WIP] Various
 - [DONE] Add distance limits to spawn places
 - Reenable civies driving around
-- Add a check after a unit is added if the marker is still spawned (if not despawn units) to avoid bad order of actions on spawnedArrays
+- [DONE] Add a check after a unit is added if the marker is still spawned (if not despawn units) to avoid bad order of actions on spawnedArrays
 - [DONE] Add functions to search garrison units for specific types and groups
 - [WIP] Fix all the todos
-- Fix bug when loading a lower level than actually having it, results in more units then needed (does this really happen?)
 - [DONE] Add trucks to vehicle list (check checkVehicleType and updateVehicle and add the new cases)
 - [DONE] Add check if crewArray has enough units to drive vehicle, otherwise don't man
 - [DONE] Add vehicleDespawner to vehicles from the garage
@@ -178,6 +177,7 @@ OPEN AN ISSUE AND DO IT SOME OTHER TIME
 - Add keys as a result on intel search (+ vehicle open animation)
 - Add case for units controlling drones
 - Special vehicles for airports
+- Enable better spawn places for cities (coming with the roadsDB termination)
 
 ================================================================================
 WON'T DO, EITHER OBSOLETE OR NOT WANTED
