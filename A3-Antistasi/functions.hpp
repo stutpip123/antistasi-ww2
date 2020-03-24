@@ -533,6 +533,9 @@ class A3A
         class freeSpawnPositions {};
         class getSpawnedArray {};
         class groupDespawner {};
+        class manStaticOnAssembly {};
+        class manStaticsOnArrival {};
+        class manStaticsOnSpawn {};
         class markerActiveUpdateLoop {};
         class markerDespawner {};
         class needsSpawn {};

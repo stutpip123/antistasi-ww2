@@ -28,10 +28,10 @@ if ((_marker in outpostsFIA) && {!(isOnRoad getMarkerPos _marker)}) exitWith
 {
     ["Garrison", "You cannot manage garrisons on this kind of zone"] call A3A_fnc_customHint;
 };
+[3, format ["Selected marker is %1", _marker], _fileName] call A3A_fnc_log;
 
 private _group = grpNull;
 private _units = objNull;
-
 if ((_groupParam select 0) isEqualType grpNull) then
 {
     //Input was a HC group, get units from there
@@ -54,7 +54,6 @@ if ((!(isNull _group)) && {(groupID _group == "MineF") || (groupID _group == "Wa
 {
     ["Garrison", "You cannot garrison player led, Watchpost, Roadblocks or Minefield building squads"] call A3A_fnc_customHint;
 };
-
 
 if (isNull _group) then
 {

@@ -131,7 +131,7 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Add a message on statics when they are dismantled or build on a marker
 - [DONE] Add all remaining statics to the new owner (in clearGarrison as this is called in markerchange)
 - [DONE] Add difficulty multiplier to timeouts on statics and patrols
-- Man statics on deploying or when new units are stationated
+- [WIP] Man statics on deploying or when new units are stationated
 - [DONE] Add action to change position with gunner of static for manual fire
 - [DONE] Recheck statics on marker despawning (do a search in 1 meter around the position to find it, delete if not found)
 - [DONE] Add statics when bought at HQ
@@ -141,7 +141,7 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Rework arrival of spawned unit on spawned marker (they need the ids, arrays and shit)
 - [DONE] Rework spawned arrays to carry indices
 - [DONE] Check unit behaviour on arrival (hide them somewhere or something)
-[WIP] Various
+[DONE] Various
 - [DONE] Add distance limits to spawn places
 - [DONE] Reenable civies driving around
 - [DONE] Add a check after a unit is added if the marker is still spawned (if not despawn units) to avoid bad order of actions on spawnedArrays
@@ -151,7 +151,7 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Add check if crewArray has enough units to drive vehicle, otherwise don't man
 - [DONE] Add vehicleDespawner to vehicles from the garage
 - [DONE] Rethink balance of vehicles and their development
-- Sending units does not makes them leaving the group, not clue why
+- [DONE] Sending units does not makes them leaving the group, not clue why
 - [DONE] Surrendered units are not removed from garrisons
 - [DONE] Downed units should be removed from the garrison
 

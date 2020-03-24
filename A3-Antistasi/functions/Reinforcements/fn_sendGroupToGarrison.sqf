@@ -3,6 +3,7 @@ params ["_marker", "_group"];
 private _units = units _group;
 private _dontDespawn = false;
 private _markerPos = getMarkerPos _marker;
+_group setVariable ["DestinationMarker", _marker];
 
 if (spawner getVariable _marker != 2) then
 {
@@ -12,6 +13,7 @@ if (spawner getVariable _marker != 2) then
 	private _wp = _group addWaypoint [(getMarkerPos _marker), 0];
 	_wp setWaypointType "MOVE";
     _wp setWaypointCompletionRadius 15;
+    _wp setWaypointStatements ["true", "[thisList, (group this) getVariable 'DestinationMarker'] call A3A_fnc_manStaticsOnArrival"]
 
 	waitUntil
     {
