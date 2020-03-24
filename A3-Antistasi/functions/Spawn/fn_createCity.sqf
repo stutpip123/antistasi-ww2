@@ -128,6 +128,67 @@ else
     	[_civ] spawn A3A_fnc_CIVinit;
     	[_civ, _marker, "SAFE", "SPAWNED","NOFOLLOW", "NOVEH2","NOSHARE","DoRelax"] execVM "scripts\UPSMON.sqf";//TODO need delete UPSMON link
     };
+
+    private _patrolCities = [_marker] call A3A_fnc_citiesToCivPatrol;
+    private _countPatrol = 0;
+    private _burst = round (_numCiv / 60);
+	if (_burst < 1) then {_burst = 1};
+
+	for "_i" from 1 to _burst do
+	{
+        _p1 = _roads select _countX;
+        _road = roadAt _p1;
+        if (!isNull _road) then
+        {
+            if (count (nearestObjects [_p1, ["Car", "Truck"], 5]) == 0) then
+            {
+                _groupP = createGroup civilian;
+                _roadcon = roadsConnectedto _road;
+                _p2 = getPos (_roadcon select 0);
+                _dirveh = [_p1,_p2] call BIS_fnc_DirTo;
+                _typeVehX = selectRandom arrayCivVeh;
+                _veh = _typeVehX createVehicle _p1;
+                _veh setDir _dirveh;
+                _veh addEventHandler ["HandleDamage",{if (((_this select 1) find "wheel" != -1) and (_this select 4=="") and (!isPlayer driver (_this select 0))) then {0;} else {(_this select 2);};}];
+                _veh addEventHandler
+                [
+                    "HandleDamage",
+                    {
+                        private _veh = _this select 0;
+                        if (side (group (_this select 3)) == teamPlayer) then
+                        {
+                            private _driver = driver _veh;
+                            if (side (group _driver) == civilian) then
+                            {
+                                _driver leaveVehicle _veh;
+                            };
+                        };
+                    }
+                ];
+                _typeCiv = selectRandom arrayCivs;
+                _civ = _groupP createUnit [_typeCiv, _p1, [],0, "NONE"];
+                _nul = [_civ] spawn A3A_fnc_CIVinit;
+                _civ moveInDriver _veh;
+                _groupP addVehicle _veh;
+                _groupP setBehaviour "CARELESS";
+                _veh limitSpeed 50;
+                _posDestination = selectRandom (roadsX getVariable (_patrolCities select _countPatrol));
+                _wp = _groupP addWaypoint [_posDestination,0];
+                _wp setWaypointType "MOVE";
+                _wp setWaypointSpeed "LIMITED";
+                _wp setWaypointTimeout [30, 45, 60];
+                _wp = _groupP addWaypoint [_positionX,1];
+                _wp setWaypointType "MOVE";
+                _wp setWaypointTimeout [30, 45, 60];
+                _wp1 = _groupP addWaypoint [_positionX,2];
+                _wp1 setWaypointType "CYCLE";
+                _wp1 synchronizeWaypoint [_wp];
+                [_veh] spawn A3A_fnc_vehicleDespawner;
+                [_groupP] spawn A3A_fnc_groupDespawner;
+            };
+        };
+        sleep 5;
+	};
 };
 
 [_marker, _marker, _allVehicles, _allGroups] call A3A_fnc_cycleSpawn;

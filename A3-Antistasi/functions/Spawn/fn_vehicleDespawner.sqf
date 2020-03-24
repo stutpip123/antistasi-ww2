@@ -50,17 +50,23 @@ while {!_shouldDespawn} do
 if(_shouldDespawn) then
 {
     private _vehicleType = typeOf _vehicle;
-    private _marker = [markersX, getPos _vehicle] call BIS_fnc_nearestPosition;
-    if(_vehicle in reportedVehs) then {reportedVehs = reportedVehs - [_vehicle]};
-    //Only put on marker if the nearest marker is closer than 500 meters
-    if((getMarkerPos _marker) distance2D _vehicle < 500) then
+    if(_vehicle in reportedVehs) then
     {
-        [_marker, [_vehicleType, [], []]] spawn A3A_fnc_addToGarrison;
-        if(sidesX getVariable _marker == teamPlayer) then
+        reportedVehs = reportedVehs - [_vehicle]
+    };
+    if (!(_vehicleType in arrayCivVeh)) then
+    {
+        //Only put on marker if the nearest marker is closer than 500 meters
+        private _marker = [markersX, getPos _vehicle] call BIS_fnc_nearestPosition;
+        if((getMarkerPos _marker) distance2D _vehicle < 500) then
         {
-            private _markerName = [_marker, false] call A3A_fnc_localizar;
-            private _vehicleName = getText (configFile >> "CfgVehicles" >> _vehicleType >> "displayName");
-            [petros, "sideChat", format ["Our garrison at %1 has recovered a %2. It is now stationated there.", _markerName, _vehicleName]];
+            [_marker, [_vehicleType, [], []]] spawn A3A_fnc_addToGarrison;
+            if(sidesX getVariable _marker == teamPlayer) then
+            {
+                private _markerName = [_marker, false] call A3A_fnc_localizar;
+                private _vehicleName = getText (configFile >> "CfgVehicles" >> _vehicleType >> "displayName");
+                [petros, "sideChat", format ["Our garrison at %1 has recovered a %2. It is now stationated there.", _markerName, _vehicleName]];
+            };
         };
     };
     deleteVehicle _vehicle;

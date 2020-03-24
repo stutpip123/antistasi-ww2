@@ -143,7 +143,7 @@ NEEDED FOR DOOMS UI UPGRADE
 - [DONE] Check unit behaviour on arrival (hide them somewhere or something)
 [WIP] Various
 - [DONE] Add distance limits to spawn places
-- Reenable civies driving around
+- [DONE] Reenable civies driving around
 - [DONE] Add a check after a unit is added if the marker is still spawned (if not despawn units) to avoid bad order of actions on spawnedArrays
 - [DONE] Add functions to search garrison units for specific types and groups
 - [DONE] Fix all the todos
