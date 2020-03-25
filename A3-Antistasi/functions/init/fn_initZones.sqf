@@ -173,7 +173,7 @@ diag_log format ["%1: [Antistasi] | DEBUG | initZones | Roads built in %2.",serv
 };
 
 {
-    [_x, []] spawn A3A_fnc_initSpawnPlaces;
+    [_x, []] call A3A_fnc_initSpawnPlaces;
 } forEach citiesX;
 
 [2,"Loading nav grid",_fileName] call A3A_fnc_log;

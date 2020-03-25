@@ -2,7 +2,7 @@ params ["_marker", "_type", "_lineIndex", "_group", "_spawnParameter", "_isOver"
 
 private _fileName = "cycleSpawnUnit";
 [
-    3,
+    4,
     format ["Spawning in %1 on %2 in line %3 on position %4, is over %5", _type, _marker, _lineIndex, _spawnParameter, _isOver],
     _fileName
 ] call A3A_fnc_log;

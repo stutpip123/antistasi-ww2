@@ -11,7 +11,7 @@ private _fileName = "findSpawnPosition";
 private _result = -1;
 private _markerPos = getMarkerPos _marker;
 
-[3, format ["Searching spawn position on %1 for %2", _marker, _type], _fileName] call A3A_fnc_log;
+[4, format ["Searching spawn position on %1 for %2", _marker, _type], _fileName] call A3A_fnc_log;
 _spawns = spawner getVariable [format ["%1_spawns", _marker], -1];
 if(_spawns isEqualType -1) exitWith
 {
@@ -95,7 +95,7 @@ if(count _possible > 0) then
 };
 
 [
-    3,
+    4,
     format ["Search for %1 place on %2 resulted in %3place found",_type, _marker, if(_result isEqualType 1) then {"no "} else {""}],
     _fileName
 ] call A3A_fnc_log;

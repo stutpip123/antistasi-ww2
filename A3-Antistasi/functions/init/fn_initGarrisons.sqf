@@ -3,6 +3,7 @@
 scriptName "fn_initGarrisons";
 private _fileName = "initGarrisons";
 [2,"InitGarrisons started",_fileName] call A3A_fnc_log;
+["Init Garrison", "Creating marker and garrison for all locations!"] call A3A_fnc_customHint;
 
 _fnc_initMarker =
 {
