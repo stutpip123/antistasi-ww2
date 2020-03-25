@@ -14,7 +14,7 @@ _promoted = false;
 	private _multiplier = _dataX select 0;
 	private _newRank = _dataX select 1;
 	private _rank = _x getVariable ["rankX","PRIVATE"];
-	
+
 	if (_rank != "COLONEL") then
 	{
 		if (_pointsX >= 50*_multiplier) then
