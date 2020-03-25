@@ -46,8 +46,8 @@ private _preferred = garrison getVariable (format ["%1_preference", _type]);
     //[3, format ["Garrison on %1 is now set", _marker], _fileName] call A3A_fnc_log;
     //[_garrison, format ["%1_garrison", _marker]] call A3A_fnc_logArray;
 
-    [_type, _marker] spawn A3A_fnc_updateStatics;
-    [_type, _marker] spawn A3A_fnc_updatePatrols;
+    [_type, _marker] call A3A_fnc_updateStatics;
+    [_type, _marker] call A3A_fnc_updatePatrols;
 
     //Updates the marker status if it is able to send reinforcements or needs some
     [_marker] call A3A_fnc_updateReinfState;

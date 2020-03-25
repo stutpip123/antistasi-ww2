@@ -13,17 +13,28 @@ params ["_line", "_marker", "_preference", ["_losses", [0,0,0]]];
 *       Nothing
 */
 
-//Blame spoffy for this construct here
-while {isNil {spawner getVariable (format ["%1_current", _marker])}} do {sleep 1; diag_log "a";};
-private _currentPlaces = spawner getVariable (format ["%1_current", _marker]);
-while {isNil {spawner getVariable (format ["%1_available", _marker])}} do {sleep 1; diag_log "b";};
-private _availablePlaces = spawner getVariable (format ["%1_available", _marker]);
-while {isNil {garrison getVariable (format ["%1_garrison", _marker])}} do {sleep 1; diag_log "c";};
-private _garrison = garrison getVariable (format ["%1_garrison", _marker]);
-while {isNil {garrison getVariable (format ["%1_requested", _marker])}} do {sleep 1; diag_log "d";};
-private _requested = garrison getVariable (format ["%1_requested", _marker]);
-while {isNil {garrison getVariable (format ["%1_locked", _marker])}} do {sleep 1; diag_log "e";};
-private _locked = garrison getVariable (format ["%1_locked", _marker]);
+_fn_getServerVariable =
+{
+    params ["_nameSpace", "_name"];
+    private _result = _nameSpace getVariable _name;
+    while {isNil "_result"} do
+    {
+        [
+            2,
+            format ["Could not retrieve variable %1 from namespace %2", _name, str _nameSpace],
+            "addGarrisonLine"
+        ] call A3A_fnc_log;
+        sleep 1;
+        _result = _nameSpace getVariable _name;
+    };
+    _result;
+};
+
+private _currentPlaces = [spawner, format ["%1_current", _marker]] call _fn_getServerVariable;
+private _availablePlaces = [spawner, format ["%1_available", _marker]] call _fn_getServerVariable;
+private _garrison = [garrison, format ["%1_garrison", _marker]] call _fn_getServerVariable;
+private _requested = [garrison, format ["%1_requested", _marker]] call _fn_getServerVariable;
+private _locked = [garrison, format ["%1_locked", _marker]] call _fn_getServerVariable;
 
 //Check if the line should be a reinforcements line
 private _start = (_preference select 0) select [0,3];
