@@ -104,8 +104,11 @@ _medicX addEventHandler ["AnimDone",
 	private _timeto = _medicX getVariable ["timeToHeal",_timer];
 	if (([_medicX] call A3A_fnc_canFight) and (time <= (_medicX getVariable ["timeToHeal",time])) and !(_medicX getVariable ["cancelRevive",false]) and (alive _cured) and (_cured getVariable ["incapacitated",false]) and (_medicX == vehicle _medicX)) then
 	{
-		[format["This should take '%1s' to revive!",round (time - _timeto)]] call A3A_fnc_customHint;
 		_medicX playMoveNow selectRandom medicAnims;
+		//New Revive bar? Not sure how its working.
+		//This needs to be `_text` because BIS_fnc_dynamicText doesn't like the first Param if its not.
+		_text = format["This should take '%1s' to revive!",round (_timeto - time)];
+		[_text,0,0.5,3,0,0,4] spawn BIS_fnc_dynamicText;
 	}
 	else
 	{
@@ -128,6 +131,7 @@ _medicX addEventHandler ["AnimDone",
 	};
 }];
 waitUntil {sleep 0.5; (_medicX getVariable ["animsDone",true])};
+//Back to old method
 _medicX setVariable ["animsDone",nil];
 _medicX setVariable ["timeToHeal",nil];
 _medicX setVariable ["cured",nil];
