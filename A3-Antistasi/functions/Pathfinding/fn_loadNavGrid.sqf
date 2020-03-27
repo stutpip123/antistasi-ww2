@@ -9,7 +9,7 @@ private _firstLetter = toUpper _firstLetter;
 private _remaining = toLower _remaining;
 private _worldName = format ["%1%2", _firstLetter, _remaining];
 
-private _path = format ["NavGrids\navGrid%1.sqf", _worldName];
+private _path = format ["Navigation\navGrid%1.sqf", _worldName];
 
 try
 {
