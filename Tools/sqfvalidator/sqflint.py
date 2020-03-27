@@ -16,7 +16,7 @@ class Writer:
         self.strings.append(message)
 
 
-def analyze(code, writer, exceptions_list, errorsonly):
+def analyze(code, writer, exceptions_list):
     try:
         result = parse(code)
     except SQFParserError as e:
@@ -26,12 +26,10 @@ def analyze(code, writer, exceptions_list, errorsonly):
 
     exceptions = sqf.analyzer.analyze(result).exceptions
     for e in exceptions:
-        if errorsonly and isinstance(e, SQFWarning):
-          continue
         writer.write('[%d,%d]:%s\n' % (e.position[0], e.position[1] - 1, e.message))
     exceptions_list += exceptions
 
-def analyze_dir(directory, writer, exceptions_list, exclude, errorsonly):
+def analyze_dir(directory, writer, exceptions_list, exclude):
     """
     Analyzes a directory recursively
     """
@@ -50,7 +48,7 @@ def analyze_dir(directory, writer, exceptions_list, exclude, errorsonly):
                 writer_helper = Writer()
 
                 with open(file_path) as f:
-                    analyze(f.read(), writer_helper, exceptions_list, errorsonly)
+                    analyze(f.read(), writer_helper, exceptions_list)
 
                 if writer_helper.strings:
                     writer.write(os.path.relpath(file_path, directory) + '\n')
@@ -76,8 +74,6 @@ def parse_args(args):
     parser.add_argument('-o', '--output', nargs='?', type=argparse.FileType('w'), default=None,
                         help='File path to redirect the output to (default to stdout)')
     parser.add_argument('-x', '--exclude', action='append', nargs='?', help='Path that should be ignored (regex)', default=[])
-    parser.add_argument('-l', '--errorsonly', nargs='?', const=True, default=False,
-                        help='Limited mode, show only errors, omit warnings')
     parser.add_argument('-e', '--exit', type=str, default='',
                         help='How the parser should exit. \'\': exit code 0;\n'
                              '\'e\': exit with code 1 when any error is found;\n'
@@ -95,7 +91,6 @@ def entry_point(args):
         writer = args.output
 
     exceptions_list = []
-    errorsonly = args.errorsonly
 
     if args.file is None and args.directory is None:
         code = sys.stdin.read()
@@ -103,11 +98,11 @@ def entry_point(args):
     elif args.file is not None:
         code = args.file.read()
         args.file.close()
-        analyze(code, writer, exceptions_list, errorsonly)
+        analyze(code, writer, exceptions_list)
     else:
         directory = args.directory.rstrip('/')
         exclude = list(map(lambda x: x if x.startswith('/') else os.path.join(directory, x), args.exclude))
-        analyze_dir(directory, writer, exceptions_list, exclude, errorsonly)
+        analyze_dir(directory, writer, exceptions_list, exclude)
 
     if args.output is not None:
         writer.close()
