@@ -122,7 +122,8 @@ _prestigeBLUFOR = [];
 
 private _wurzelGarrison = [];
 {
-	_wurzelGarrison pushBack [
+	_wurzelGarrison pushBack
+    [
 		_x,
 		garrison getVariable [format ["%1_garrison",_x], []],
 	 	garrison getVariable [format ["%1_requested",_x], []],
