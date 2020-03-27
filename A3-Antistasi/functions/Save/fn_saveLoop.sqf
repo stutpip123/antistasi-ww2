@@ -120,12 +120,8 @@ _prestigeBLUFOR = [];
 ["prestigeOPFOR", _prestigeOPFOR] call A3A_fnc_setStatVariable;
 ["prestigeBLUFOR", _prestigeBLUFOR] call A3A_fnc_setStatVariable;
 
-_markersX = markersX - outpostsFIA - controlsX;
-_garrison = [];
-_wurzelGarrison = [];
-
+private _wurzelGarrison = [];
 {
-	_garrison pushBack [_x,garrison getVariable [_x,[]]];
 	_wurzelGarrison pushBack [
 		_x,
 		garrison getVariable [format ["%1_garrison",_x], []],
@@ -135,9 +131,8 @@ _wurzelGarrison = [];
         garrison getVariable [format ["%1_statics", _x], []],
         garrison getVariable [format ["%1_locked", _x], []]
 	];
-} forEach _markersX;
+} forEach markersX;
 
-["garrison",_garrison] call A3A_fnc_setStatVariable;
 ["wurzelGarrison", _wurzelGarrison] call A3A_fnc_setStatVariable;
 ["usesWurzelGarrison", true] call A3A_fnc_setStatVariable;
 
