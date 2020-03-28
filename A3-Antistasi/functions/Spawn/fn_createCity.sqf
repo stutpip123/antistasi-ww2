@@ -136,7 +136,7 @@ else
 
 	for "_i" from 1 to _burst do
 	{
-        _p1 = _roads select _countX;
+        _p1 = _roads select _i;
         _road = roadAt _p1;
         if (!isNull _road) then
         {
