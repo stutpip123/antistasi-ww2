@@ -1,0 +1,22 @@
+General system rework
+- Arrival distance (Attacks and airstrikes should arrive and spawn scripts before physically arriving)
+- Spawn improvements for air convoys of all types
+- Convoy space needs to be kept in all cases
+- Cases for special vehicles (String instead of classname with a special function to spawn it)
+
+Airstikes
+- Need to start from runways or hangars
+- May need a rework for the actual bomb dropping
+- Rework airport selection for strikes
+
+Reinforcement convoys
+- Better arrival cases for units
+
+Attacks
+- Better troup compositions for attacks
+- Better base selection for attacks
+- Better scripts for attacks
+
+Convoy mission
+- Rework spawn and despawn
+- Rework start and end position selection
