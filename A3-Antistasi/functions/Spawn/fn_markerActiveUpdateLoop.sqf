@@ -23,10 +23,6 @@ private _usedTime = 0;
 private _timePerMarker = 1/(count markersX);
 private _counter = 0;
 
-private _deltaTime = 0;
-private _allTime = 0;
-private _debugCounter = 0;
-
 while {true} do
 {
     _counter = _counter + 1;
@@ -37,7 +33,6 @@ while {true} do
         [] call A3A_fnc_updateSpawnerUnits;
     };
 
-    _deltaTime = time;
     _usedTime = time;
     {
         private _marker = _x;
@@ -59,25 +54,10 @@ while {true} do
         };
     } forEach markersX;
 
-    if(_debugCounter < 100) then
-    {
-        _debugCounter = _debugCounter + 1;
-        _allTime = _allTime + (time - _deltaTime);
-        [2, format ["Runtime logged with %1 seconds, run %2", (time - _deltaTime), _debugCounter], "TIME DEBUG"] call A3A_fnc_log;
-    }
-    else
-    {
-        [2, format ["Average execution time was %1", (_allTime / _debugCounter)], "TIME DEBUG"] call A3A_fnc_log;
-        _debugCounter = -1000;
-    };
-
     _usedTime = abs (time - _usedTime); //abs to avoid fuckery with - values
     //Sleep only if the marker took less time than the we have time per marker (ensure stable marker check rates)
-    [3, format ["Time used: %1 seconds out of 1 seconds, Will sleep: %2", _usedTime, str (_usedTime < 1)], "DEBUG_SLEEP"] call A3A_fnc_log;
     if(_usedTime < 1) then
     {
         sleep (1 - _usedTime);
     };
-
-
 };

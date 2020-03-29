@@ -32,7 +32,7 @@ private _preferred = garrison getVariable (format ["%1_preference", _type]);
     garrison setVariable [format ["%1_garrison", _marker], _garrison, true];
     garrison setVariable [format ["%1_requested", _marker], _requested, true];
     garrison setVariable [format ["%1_locked", _marker], _locked, true];
-    garrison setVariable [format ["%1_over", _marker], [["", [""], [""]]], true];
+    //garrison setVariable [format ["%1_over", _marker], [["", [""], [""]]], true];
 
     for "_i" from 0 to ((count _preferred) - 1) do
     {
@@ -55,5 +55,5 @@ private _preferred = garrison getVariable (format ["%1_preference", _type]);
     garrison setVariable [format ["%1_garrison", _marker], _garrison, true];
     garrison setVariable [format ["%1_requested", _marker], _requested, true];
     garrison setVariable [format ["%1_locked", _marker], _locked, true];
-    garrison setVariable [format ["%1_over", _marker], [["", [""], [""]]], true];
+    //garrison setVariable [format ["%1_over", _marker], [["", [""], [""]]], true];
 } forEach _markerArray;

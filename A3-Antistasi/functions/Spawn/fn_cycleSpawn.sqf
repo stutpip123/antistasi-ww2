@@ -39,18 +39,60 @@ if(_side == sideUnknown) exitWith
 private _garrison = [_marker] call A3A_fnc_getGarrison;
 [_garrison, format ["%1_garrison",_marker]] call A3A_fnc_logArray;
 private _over = [_marker] call A3A_fnc_getOver;
+[_over, format ["%1_over",_marker]] call A3A_fnc_logArray;
 private _locked = garrison getVariable (format ["%1_locked", _marker]);
 
 //Calculate patrol marker size
 private _garCount = [_garrison + _over, true] call A3A_fnc_countGarrison;
 [_marker, _patrolMarker, _garCount] call A3A_fnc_adaptMarkerSizeToUnitCount;
 
-//Spawn in the garrison units
+//Calculate adjustment for player size
+private _activeRebelPlayer = count (allPlayers select {side (group _x) == teamPlayer});
+private _adjustment = 1;
+if(_activeRebelPlayer < 20) then
 {
-    _x params ["_vehicleType", "_crewArray", "_cargoArray"];
+    if(_activeRebelPlayer < 1) then
+    {
+        [1, "No player detected for adjustment, assuming 0.35", _fileName, true] call A3A_fnc_log;
+    }
+    else
+    {
+        _adjustment = (round (100 * (((ln _activeRebelPlayer) / 4.6088) + 0.35))) / 100;
+    };
+};
+
+[
+    2,
+    format ["Player adjustment done, spawning in %1 percent of the garrison of %2", _adjustment * 100, _marker],
+    _fileName,
+    true
+] call A3A_fnc_log;
+
+_fn_calculateRowCount =
+{
+    params ["_array", "_adjustment"];
+    private _originalCount = (count _array) - 1;
+    if(_originalCount != -1) then
+    {
+        _originalCount = round (_adjustment * _originalCount);
+    };
+    _originalCount;
+};
+
+//Spawn in the garrison units
+private _garrisonMax = [_garrison, _adjustment] call _fn_calculateRowCount;
+[
+    2,
+    format ["Spawning in %1 lines of the garrison for %2", (_garrisonMax + 1), _marker],
+    _fileName,
+    true
+] call A3A_fnc_log;
+for "_counter" from 0 to _garrisonMax do
+{
+    (_garrison select _counter) params ["_vehicleType", "_crewArray", "_cargoArray"];
 
     //Check if this vehicle (if there) is locked
-    if (!(_locked select _forEachIndex)) then
+    if (!(_locked select _counter)) then
     {
         private _vehicleGroup = grpNull;
         private _vehicle = objNull;
@@ -59,28 +101,36 @@ private _garCount = [_garrison + _over, true] call A3A_fnc_countGarrison;
         {
             //Array got a vehicle, spawn it in
             _vehicleGroup = createGroup _side;
-            _vehicle = [_marker, _vehicleType, _forEachIndex, _vehicleGroup, false] call A3A_fnc_cycleSpawnVehicle;
-            _allVehicles pushBack [_vehicle, [GARRISON, _forEachIndex]];
+            _vehicle = [_marker, _vehicleType, _counter, _vehicleGroup, false] call A3A_fnc_cycleSpawnVehicle;
+            _allVehicles pushBack [_vehicle, [GARRISON, _counter]];
             sleep 0.25;
         };
 
-        _vehicleGroup = [_marker, _side, _crewArray, _forEachIndex, _vehicleGroup, _vehicle, false] call A3A_fnc_cycleSpawnVehicleCrew;
+        _vehicleGroup = [_marker, _side, _crewArray, _counter, _vehicleGroup, _vehicle, false] call A3A_fnc_cycleSpawnVehicleCrew;
         if !(isNull _vehicleGroup) then
         {
-            _allGroups pushBack [_vehicleGroup, [GARRISON, _forEachIndex, IS_CREW]];
+            _allGroups pushBack [_vehicleGroup, [GARRISON, _counter, IS_CREW]];
         };
     };
 
-    private _groupSoldier = [_side, _marker, _cargoArray, _forEachIndex, false] call A3A_fnc_cycleSpawnSoldierGroup;
+    private _groupSoldier = [_side, _marker, _cargoArray, _counter, false] call A3A_fnc_cycleSpawnSoldierGroup;
     if !(isNull _groupSoldier) then
     {
-        _allGroups pushBack [_groupSoldier, [GARRISON, _forEachIndex, IS_CARGO]];
+        _allGroups pushBack [_groupSoldier, [GARRISON, _counter, IS_CARGO]];
     };
-} forEach _garrison;
+};
 
 //Spawn in the over units
+private _overMax = [_over, _adjustment] call _fn_calculateRowCount;
+[
+    2,
+    format ["Spawning in %1 lines of the over units for %2", (_overMax + 1), _marker],
+    _fileName,
+    true
+] call A3A_fnc_log;
+for "_counter" from 0 to _overMax do
 {
-    _x params ["_vehicleType", "_crewArray", "_cargoArray"];
+    (_over select _counter) params ["_vehicleType", "_crewArray", "_cargoArray"];
 
     private _vehicleGroup = grpNull;
     private _vehicle = objNull;
@@ -89,21 +139,21 @@ private _garCount = [_garrison + _over, true] call A3A_fnc_countGarrison;
     {
         //Array got a vehicle, spawn it in
         _vehicleGroup = createGroup _side;
-        _vehicle = [_marker, _vehicleType, _forEachIndex, _vehicleGroup, true] call A3A_fnc_cycleSpawnVehicle;
-        _allVehicles pushBack [_vehicle, [OVER, _forEachIndex]];
+        _vehicle = [_marker, _vehicleType, _counter, _vehicleGroup, true] call A3A_fnc_cycleSpawnVehicle;
+        _allVehicles pushBack [_vehicle, [OVER, _counter]];
         sleep 0.25;
     };
 
-    _vehicleGroup = [_marker, _side, _crewArray, _forEachIndex, _vehicleGroup, _vehicle, true] call A3A_fnc_cycleSpawnVehicleCrew;
+    _vehicleGroup = [_marker, _side, _crewArray, _counter, _vehicleGroup, _vehicle, true] call A3A_fnc_cycleSpawnVehicleCrew;
     if !(isNull _vehicleGroup) then
     {
-        _allGroups pushBack [_vehicleGroup, [OVER, _forEachIndex, IS_CREW]];
+        _allGroups pushBack [_vehicleGroup, [OVER, _counter, IS_CREW]];
     };
 
-    private _groupSoldier = [_side, _marker, _cargoArray, _forEachIndex, true] call A3A_fnc_cycleSpawnSoldierGroup;
+    private _groupSoldier = [_side, _marker, _cargoArray, _counter, true] call A3A_fnc_cycleSpawnSoldierGroup;
     if !(isNull _groupSoldier) then
     {
-        _allGroups pushBack [_groupSoldier, [OVER, _forEachIndex, IS_CARGO]];
+        _allGroups pushBack [_groupSoldier, [OVER, _counter, IS_CARGO]];
     };
 } forEach _over;
 
