@@ -37,6 +37,7 @@ _vehicle addEventHandler
         {
             [_marker, typeOf _vehicle, _id] call A3A_fnc_addToRequested;
         };
+        [_marker] call A3A_fnc_updateReinfState;
     }
 ];
 
@@ -61,6 +62,7 @@ _vehicle addEventHandler
             {
                 [_marker, typeOf _vehicle, _id] call A3A_fnc_addToRequested;
             };
+            [_marker] call A3A_fnc_updateReinfState;
         };
     }
 ];

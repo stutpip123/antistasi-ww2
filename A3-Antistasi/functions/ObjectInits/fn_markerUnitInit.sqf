@@ -40,6 +40,8 @@ _unit addEventHandler
         {
             [_marker, typeOf _unit, _id] call A3A_fnc_addToRequested;
         };
+        [_marker, side _group] call A3A_fnc_zoneCheck;
+        [_marker] call A3A_fnc_updateReinfState;
     }
 ];
 

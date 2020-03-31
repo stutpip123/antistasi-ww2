@@ -7,6 +7,7 @@ private ["_winner","_markerX","_looser","_positionX","_other","_flagX","_flagsX"
 _winner = _this select 0;
 _markerX = _this select 1;
 
+if(sidesX getVariable [_markerX, sideUnknown] == sideUnknown) exitWith {};
 [3, format ["Changing side of %1 to %2", _markerX, _winner], _fileName] call A3A_fnc_log;
 if ((_winner == teamPlayer) and (_markerX in airportsX) and (tierWar < 3)) exitWith {};
 if ((_winner == teamPlayer) and (sidesX getVariable [_markerX,sideUnknown] == teamPlayer)) exitWith {};
@@ -24,7 +25,7 @@ _prestigeInvaders = 0;
 _flagX = objNull;
 _size = [_markerX] call A3A_fnc_sizeMarker;
 
-if(_markerX in controlsX) then
+if(_markerX in controlsX) exitWith
 {
     if(isOnRoad _positionX) then
     {
@@ -39,9 +40,9 @@ if(_markerX in controlsX) then
         {
             case (teamPlayer):
             {
-                sidesX setVariable [_markerX,teamPlayer,true];
+                sidesX setVariable [_markerX, nil, true];
                 [0,5,getMarkerPos _markerX] remoteExec ["A3A_fnc_citySupportChange",2];
-                [[_positionX,_loser,"",false],"A3A_fnc_patrolCA"] remoteExec ["A3A_fnc_scheduler",2];
+                [[_positionX,_looser,"",false],"A3A_fnc_patrolCA"] remoteExec ["A3A_fnc_scheduler",2];
             };
             case (Occupants):
             {
@@ -228,16 +229,6 @@ if (_winner == teamPlayer) then
 	{
 	[] call A3A_fnc_tierCheck;
 
-	//Convert all of the static weapons to teamPlayer, essentially. Make them mannable by AI.
-	//Make the size larger, as rarely does the marker cover the whole outpost.
-	private _staticWeapons = nearestObjects [_positionX, ["StaticWeapon"], _size * 1.5, true];
-	{
-		if !(_x in staticsToSave) then {
-			staticsToSave pushBack _x;
-		};
-	} forEach _staticWeapons;
-	publicVariable "staticsToSave";
-
 	if (!isNull _flagX) then
 		{
 		//[_flagX,"remove"] remoteExec ["A3A_fnc_flagaction",0,_flagX];
@@ -260,10 +251,6 @@ if (_winner == teamPlayer) then
 	}
 else
 	{
-	//Remove static weapons near the marker from the saved statics array
-	private _staticWeapons = nearestObjects [_positionX, ["StaticWeapon"], _size * 1.5, true];
-	staticsToSave = staticsToSave - _staticWeapons;
-	publicVariable "staticsToSave";
 
 	if (!isNull _flagX) then
 		{

@@ -21,7 +21,7 @@ private _side = sidesX getVariable [_marker, sideUnknown];
 
 if(_side == sideUnknown) exitWith
 {
-    [1, format ["Could not get side of %1, aborting spawn!", _marker], _fileName, true] call A3A_fnc_log;
+    [2, format ["%1 has no side set, assuming destroyed roadblock, aborting spawn!", _marker], _fileName, true] call A3A_fnc_log;
 };
 
 private _patrolMarkerSize = [0,0];

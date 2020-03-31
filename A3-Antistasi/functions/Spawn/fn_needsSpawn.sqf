@@ -20,7 +20,7 @@ if(_marker in forcedSpawn) exitWith
     SPAWNED
 };
 
-private _side = sidesX getVariable _marker;
+private _side = sidesX getVariable [_marker, teamPlayer];
 private _markerPos = getMarkerPos _marker;
 private _result = DESPAWNED;
 private _spawnDistance = distanceSPWN;

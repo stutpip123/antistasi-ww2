@@ -24,7 +24,7 @@ if (_group getVariable ["isCrewGroup", false]) then
 if (_group getVariable ["isDisabled", false]) then
 {
     //Group is disabled and waiting there
-    _unit doMove (leader _group);
+    [_unit] doMove (leader _group);
     waitUntil
     {
         sleep 1;
