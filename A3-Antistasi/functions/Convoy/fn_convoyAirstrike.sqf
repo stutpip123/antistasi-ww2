@@ -1,7 +1,7 @@
 //Loadout for CSAT planes
 //["","","PylonMissile_1Rnd_Bomb_03_F","PylonMissile_1Rnd_Bomb_03_F","PylonMissile_1Rnd_Bomb_03_F","PylonMissile_1Rnd_Bomb_03_F","PylonMissile_1Rnd_Bomb_03_F","PylonMissile_1Rnd_Bomb_03_F","",""]
 
-
+//Setting the loadout of the plane
 private _pylons = ["","","PylonMissile_1Rnd_Bomb_03_F","PylonMissile_1Rnd_Bomb_03_F","PylonMissile_1Rnd_Bomb_03_F","PylonMissile_1Rnd_Bomb_03_F","PylonMissile_1Rnd_Bomb_03_F","PylonMissile_1Rnd_Bomb_03_F","",""];
 private _pylonPaths = (configProperties [configFile >> "CfgVehicles" >> typeOf plane >> "Components" >> "TransportPylonsComponent" >> "Pylons", "isClass _x"]) apply {getArray (_x >> "turret")};
 {
@@ -11,6 +11,24 @@ private _pylonPaths = (configProperties [configFile >> "CfgVehicles" >> typeOf p
     plane setPylonLoadout [_forEachIndex + 1, _x, true, _pylonPaths select _forEachIndex]
 } forEach _pylons;
 
+//Creating the data for the bomb loadout
+private _loadout = [];
+{
+    if(_x != "") then
+    {
+        //Pylon is carrying a weapon, get weapon type and amount
+        private _weapon = getText (configFile >> "CfgMagazines" >> _x >> "pylonWeapon");
+        private _index = _loadout findIf {(_x select 2) == _weapon};
+        if(_index == -1) then
+        {
+            
+        }
+        else
+        {
+            (_loadout select _index) set [3, (_loadout select _index select 3) + 1];
+        };
+    };
+} forEach (getPylonMagazines plane);
 plane setVariable ["BombLoadout", [["Bomb_03_Plane_CAS_02_F", 6]], true];
 
 [] spawn
