@@ -27,18 +27,7 @@ if (_weapon isEqualType []) then {
 };
 
 //Find out which magazine we should add to the gun.
-private _mag = [];
-
-if (_magazineType isEqualTo "") then {
-	_magazines = getArray (configFile >> "CfgWeapons" >> (_weaponArray select 0) >> "Magazines");
-	if (count _magazines > 0) then {
-		_magazineType = _magazines select 0;
-	};
-};
-
-if !(_magazineType isEqualTo "") then {
-	_mag = [_magazineType, getNumber (configFile >> "CfgMagazines" >> _magazineType >> "count")];
-};
+private _mag = [_weaponArray select 0] call A3A_fnc_loadout_defaultWeaponMag;
 
 _weaponArray set [ 4, _mag ];
 

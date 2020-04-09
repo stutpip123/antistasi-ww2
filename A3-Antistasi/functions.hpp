@@ -324,8 +324,11 @@ class A3A
 		class loadout_addVest {};
 		class loadout_addWeapon {};
 		class loadout_createBase {};
+		class loadout_defaultWeaponMag {};
 		class loadout_itemList_medicalSupplies {};
 		class loadout_itemLoad {};
+
+		class loadout_createRiflemanLoadouts {};
 	};
 
 	class Missions
