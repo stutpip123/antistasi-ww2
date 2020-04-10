@@ -62,6 +62,8 @@ _plane setPosATL [getPosATL _plane select 0, getPosATL _plane select 1, 1000];
 _plane disableAI "TARGET";
 _plane disableAI "AUTOTARGET";
 _plane flyInHeight 100;
+private _minAltASL = ATLToASL [_positionX select 0, _positionX select 1, 0];
+_plane flyInHeightASL [(_minAltASL select 2) +100, (_minAltASL select 2) +100, (_minAltASL select 2) +100];
 
 driver _plane sideChat "Starting Bomb Run. ETA 30 seconds.";
 _wp1 = group _plane addWaypoint [_pos1, 0];
@@ -70,7 +72,7 @@ _wp1 setWaypointSpeed "LIMITED";
 _wp1 setWaypointBehaviour "CARELESS";
 
 if (_typeX == "NAPALM" && napalmEnabled) then {_wp1 setWaypointStatements ["true", "[this,""NAPALM""] spawn A3A_fnc_airbomb"]} else {_typeX = "HE"};
-if (_typeX == "CARPET") then {_wp1 setWaypointStatements ["true", "[this,""CARPET""] spawn A3A_fnc_airbomb"]};
+if (_typeX == "CLUSTER") then {_wp1 setWaypointStatements ["true", "[this,""CLUSTER""] spawn A3A_fnc_airbomb"]};
 if (_typeX == "HE") then {_wp1 setWaypointStatements ["true", "[this,""HE""] spawn A3A_fnc_airbomb"]};
 
 

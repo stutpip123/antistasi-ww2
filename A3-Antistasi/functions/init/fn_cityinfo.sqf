@@ -56,7 +56,7 @@ while {visibleMap} do
                 private _data = server getVariable _marker;
                 _data params ["_numCiv", "_unused", "_prestigeOPFOR", "_prestigeBLUFOR"];
 
-    			private _influence = [_marker] call A3A_fnc_powerCheck;
+    			private _influence = [_marker] call A3A_fnc_getSideRadioTowerInfluence;
     			_text = format ["%1\n\nPop %2\n%6 Support: %3 %5\n%7 Support: %4 %5",[_marker,false] call A3A_fnc_location,_numCiv,_prestigeOPFOR,_prestigeBLUFOR,"%",nameOccupants,nameTeamPlayer];
     			private _result = "NONE";
     			switch (_influence) do

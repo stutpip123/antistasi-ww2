@@ -86,7 +86,7 @@ class A3A
 		class patrolDestinations {};
 		class placementSelection {};
 		class playableUnits {};
-		class powerCheck {};
+		class getSideRadioTowerInfluence {};
 		class powerReorg {};
 		class prestige {};
 		class radioCheck {};
