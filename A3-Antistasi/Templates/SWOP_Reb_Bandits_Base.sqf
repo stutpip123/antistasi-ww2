@@ -45,8 +45,8 @@ soldiersSDK = sdkTier1 + sdkTier2 + sdkTier3;
 //Military Vehicles
 vehSDKBike = "SW_SpeederBike";
 vehSDKLightArmed = "Swop_scavengerspeeder";
-vehSDKAT = "O_Swop_skif_1";
-vehSDKLightUnarmed = "Swop_scavengerspeeder";
+vehSDKAT = "Swop_scavengerspeeder";
+vehSDKLightUnarmed = "O_Swop_skif_1";
 vehSDKTruck = "I_G_Van_01_transport_F";
 //vehSDKHeli = "I_C_Heli_Light_01_civil_F";
 vehSDKPlane = "Swop_awchl";
@@ -101,8 +101,9 @@ initialRebelEquipment append ["SW_scattergun","SWOP_TuskenRBlasterRifle"];
 initialRebelEquipment append ["swop_dl18Pistol_Mag","swop_dl44Pistol_Mag","SW_scattergun_Mag","5Rnd_127x108_Mag"];
 initialRebelEquipment append ["Swop_TermDet_G","Swop_SmokeShell"];
 initialRebelEquipment append ["SWOP_B_BlackBackPack_RTdv_Base"];
+initialRebelEquipment append ["SWOP_Reb_f_WB_weequay_rebel_CombatUniform","SWOP_Trando_red_CombatUniform","SWOP_Trando_grey_CombatUniform","SWOP_GreClothes_Smug_FR_CombatUniform"];
 initialRebelEquipment append ["SWOP_RemBron","SWOP_RemBron2","SWOP_RemBronf","SWOP_RebSumkBron","SWOP_RebSumkBronFull"];
-initialRebelEquipment append ["ElectroBinocularsB_F","acc_flashlight"];
+initialRebelEquipment append ["ElectroBinocularsB_F","swop_dl44Pistol_Scope"];
 //TFAR Unlocks
 if (hasTFAR) then {initialRebelEquipment append ["tf_microdagr","tf_rf7800str"]};
 if (hasTFAR && startWithLongRangeRadio) then {initialRebelEquipment pushBack "tf_rt1523g_rhs"};
