@@ -73,7 +73,7 @@ switch (_type) do
     };
 };
 [
-    4,
+    3,
     format ["Result for input %1 is: %2", _type, _result],
     _fileName
 ] call A3A_fnc_log;

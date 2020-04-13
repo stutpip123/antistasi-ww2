@@ -60,8 +60,6 @@ if(_markerX in controlsX) exitWith
     else
     {
         [2, format ["Minefield %1 captured by %2", _markerX, _winner], _fileName, true] call A3A_fnc_log;
-        ["TaskSucceeded", ["", "Minefield captured"]] remoteExec ["BIS_fnc_showNotification",_winner];
-        ["TaskFailed", ["", "Minefield lost"]] remoteExec ["BIS_fnc_showNotification",_looser];
         if(_looser == Occupants) then
         {
             [-5, 0, getMarkerPos _markerX] remoteExec ["A3A_fnc_citySupportChange",2];
@@ -72,7 +70,7 @@ if(_markerX in controlsX) exitWith
             {
                 sidesX setVariable [_markerX,teamPlayer,true];
                 [0,5,getMarkerPos _markerX] remoteExec ["A3A_fnc_citySupportChange",2];
-                [[_positionX,_loser,"",false],"A3A_fnc_patrolCA"] remoteExec ["A3A_fnc_scheduler",2];
+                [[_positionX,_looser,"",false],"A3A_fnc_patrolCA"] remoteExec ["A3A_fnc_scheduler",2];
             };
             case (Occupants):
             {

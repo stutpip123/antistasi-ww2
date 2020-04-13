@@ -166,8 +166,5 @@ for "_i" from (tierPreference + 1) to tierWar do
     sleep 0.1;
 };
 
-if (!_isLoad) then
-{
-    tierPreference = tierWar;
-    publicVariable "tierPreference";
-};
+tierPreference = tierWar;
+publicVariable "tierPreference";

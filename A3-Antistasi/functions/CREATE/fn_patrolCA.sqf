@@ -614,52 +614,40 @@ else
 	};
 
 if (_isMarker) then
-	{
-	_timeX = time + 3600;
-	_size = [_markerX] call A3A_fnc_sizeMarker;
+{
 	if (_sideX == Occupants) then
-		{
-		waitUntil {sleep 5; (({!([_x] call A3A_fnc_canFight)} count _soldiers) >= 3*({([_x] call A3A_fnc_canFight)} count _soldiers)) or (time > _timeX) or (sidesX getVariable [_markerX,sideUnknown] == Occupants) or (({[_x,_markerX] call A3A_fnc_canConquer} count _soldiers) > 3*({(side _x != _sideX) and (side _x != civilian) and ([_x,_markerX] call A3A_fnc_canConquer)} count allUnits))};
-		if  ((({[_x,_markerX] call A3A_fnc_canConquer} count _soldiers) > 3*({(side _x != _sideX) and (side _x != civilian) and ([_x,_markerX] call A3A_fnc_canConquer)} count allUnits)) and (not(sidesX getVariable [_markerX,sideUnknown] == Occupants))) then
-			{
-			[Occupants,_markerX] remoteExec ["A3A_fnc_markerChange",2];
-			diag_log format ["Antistasi Debug patrolCA: Attack from %1 or %2 to retake %3 has outnumbered the enemy, changing marker!",_airportX,_base,_markerX];
-			};
+	{
+        [2, format ["Triggering zoneCheck now, checking if attack took the marker"], "patrolCA"] call A3A_fnc_log;
+        [_markerX, sidesX getVariable [_markerX, sideUnknown]] remoteExec ["A3A_fnc_zoneCheck", 2];
 		sleep 10;
 		if (!(sidesX getVariable [_markerX,sideUnknown] == Occupants)) then
-			{
-			{_x doMove _posOrigin} forEach _soldiers;
-			if (sidesX getVariable [_airportX,sideUnknown] == Occupants) then
-				{
-				_killZones = killZones getVariable [_airportX,[]];
-				_killZones = _killZones + [_markerX,_markerX];
-				killZones setVariable [_airportX,_killZones,true];
-				};
-			diag_log format ["Antistasi Debug patrolCA: Attack from %1 or %2 to retake %3 has failed as the marker is not changed!",_airportX,_base,_markerX];
-			}
-		}
-	else
 		{
-		waitUntil {sleep 5; (({!([_x] call A3A_fnc_canFight)} count _soldiers) >= 3*({([_x] call A3A_fnc_canFight)} count _soldiers))or (time > _timeX) or (sidesX getVariable [_markerX,sideUnknown] == Invaders) or (({[_x,_markerX] call A3A_fnc_canConquer} count _soldiers) > 3*({(side _x != _sideX) and (side _x != civilian) and ([_x,_markerX] call A3A_fnc_canConquer)} count allUnits))};
-		if  ((({[_x,_markerX] call A3A_fnc_canConquer} count _soldiers) > 3*({(side _x != _sideX) and (side _x != civilian) and ([_x,_markerX] call A3A_fnc_canConquer)} count allUnits)) and (not(sidesX getVariable [_markerX,sideUnknown] == Invaders))) then
+			if (sidesX getVariable [_airportX,sideUnknown] == Occupants) then
 			{
-			[Invaders,_markerX] remoteExec ["A3A_fnc_markerChange",2];
-			diag_log format ["Antistasi Debug patrolCA: Attack from %1 or %2 to retake %3 has outnumbered the enemy, changing marker!",_airportX,_base,_markerX];
-			};
-		sleep 10;
-		if (!(sidesX getVariable [_markerX,sideUnknown] == Invaders)) then
-			{
-			{_x doMove _posOrigin} forEach _soldiers;
-			if (sidesX getVariable [_airportX,sideUnknown] == Invaders) then
-				{
 				_killZones = killZones getVariable [_airportX,[]];
 				_killZones = _killZones + [_markerX,_markerX];
 				killZones setVariable [_airportX,_killZones,true];
-				};
+			};
 			diag_log format ["Antistasi Debug patrolCA: Attack from %1 or %2 to retake %3 has failed as the marker is not changed!",_airportX,_base,_markerX];
-			}
 		};
 	}
+	else
+	{
+        [2, format ["Triggering zoneCheck now, checking if attack took the marker"], "patrolCA"] call A3A_fnc_log;
+        [_markerX, sidesX getVariable [_markerX, sideUnknown]] remoteExec ["A3A_fnc_zoneCheck", 2];
+		sleep 10;
+		if (!(sidesX getVariable [_markerX,sideUnknown] == Invaders)) then
+		{
+			if (sidesX getVariable [_airportX,sideUnknown] == Invaders) then
+			{
+				_killZones = killZones getVariable [_airportX,[]];
+				_killZones = _killZones + [_markerX,_markerX];
+				killZones setVariable [_airportX,_killZones,true];
+			};
+			diag_log format ["Antistasi Debug patrolCA: Attack from %1 or %2 to retake %3 has failed as the marker is not changed!",_airportX,_base,_markerX];
+		};
+	};
+}
 else
 	{
 	_sideEnemy = if (_sideX == Occupants) then {Invaders} else {Occupants};

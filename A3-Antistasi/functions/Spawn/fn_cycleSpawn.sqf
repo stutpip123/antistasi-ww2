@@ -54,6 +54,7 @@ if(_activeRebelPlayer < 20) then
     if(_activeRebelPlayer < 1) then
     {
         [1, "No player detected for adjustment, assuming 0.35", _fileName, true] call A3A_fnc_log;
+        _adjustment = 0.35;
     }
     else
     {
@@ -128,6 +129,7 @@ private _overMax = [_over, _adjustment] call _fn_calculateRowCount;
     _fileName,
     true
 ] call A3A_fnc_log;
+
 for "_counter" from 0 to _overMax do
 {
     (_over select _counter) params ["_vehicleType", "_crewArray", "_cargoArray"];
@@ -155,7 +157,7 @@ for "_counter" from 0 to _overMax do
     {
         _allGroups pushBack [_groupSoldier, [OVER, _counter, IS_CARGO]];
     };
-} forEach _over;
+};
 
 //Spawn in statics of the marker
 private _statics = garrison getVariable [format ["%1_statics", _marker], []];

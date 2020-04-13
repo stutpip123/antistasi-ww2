@@ -95,7 +95,7 @@ if(count _possible > 0) then
 };
 
 [
-    4,
+    3,
     format ["Search for %1 place on %2 resulted in %3place found",_type, _marker, if(_result isEqualType 1) then {"no "} else {""}],
     _fileName
 ] call A3A_fnc_log;

@@ -58,6 +58,7 @@ waitUntil
 [3, format ["All groups: %1", _allGroups], _fileName, true] call A3A_fnc_log;
 [3, format ["All vehicles: %1", _allVehicles], _fileName, true] call A3A_fnc_log;
 
+[_marker, sidesX getVariable [_marker, sideUnknown]] call A3A_fnc_zoneCheck;
 [_marker] call A3A_fnc_freeSpawnPositions;
 
 deleteMarker _patrolMarker;

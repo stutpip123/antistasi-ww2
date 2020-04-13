@@ -44,7 +44,9 @@ if(_spawnParameter isEqualType []) then
     };
     _vehicle setDir (_spawnParameter select 1);
 
-    
+    //Init vehicle on marker
+    [_vehicle, _marker, _isOver, _lineIndex] call A3A_fnc_markerVehicleInit;
+
     //Add vehicle to group
     _group addVehicle _vehicle;
 

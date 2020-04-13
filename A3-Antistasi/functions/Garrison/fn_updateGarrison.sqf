@@ -37,6 +37,20 @@ for "_i" from 0 to ((count _garrison) - 1) do
     private _reqData = _requested select _i;
     private _preData = _preferred select _i;
 
+    if(isNil "_preData") exitWith
+    {
+        [
+            1,
+            format ["PreData is undefined, i was %1, marker is %2, type is %3", _i, _marker, _type],
+            _fileName
+        ] call A3A_fnc_log;
+    };
+    [
+        3,
+        format ["Checking %1/%2 for preference %3", _garData, _reqData, _preData],
+        _fileName
+    ] call A3A_fnc_log;
+
     private _newVehicle = "";
 
     //Update the vehicle if needed

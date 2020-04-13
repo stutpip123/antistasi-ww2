@@ -22,7 +22,10 @@ waitUntil {!zoneCheckInProgress};
 zoneCheckInProgress = true;
 
 //If marker is a different side than the unit which died on it, we don't care
-if(_side != sidesX getVariable [_marker, sideUnknown]) exitWith {zoneCheckInProgress = false};
+if(_side != sidesX getVariable [_marker, sideUnknown]) exitWith
+{
+    zoneCheckInProgress = false
+};
 
 private _enemy1 = sideUnknown;
 private _enemy2 = sideUnknown;
