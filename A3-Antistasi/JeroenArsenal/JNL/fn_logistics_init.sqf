@@ -534,7 +534,9 @@ jnl_attachmentOffset = [
 	["\A3\Weapons_F\Ammoboxes\Supplydrop.p3d",						[0, 0, 0.95],			[1,0,0],				1],		//Ammodrop crate
 	["\A3\Soft_F\Quadbike_01\Quadbike_01_F.p3d",					[0, 0, 1.4],			[0,1,0],				1],		//Quadbike
 	["\WW2\Assets_m\Weapons\Ammoboxes_m\IF_GER_Ammo.p3d",			[0,0,0.85],				[1,0,0],				1],		//ifa ammo
-	["\WW2\Assets_m\Weapons\Ammoboxes_m\IF_SU_Ammo.p3d",			[0,0,0.85],				[1,0,0],				1]		//ifa ammo
+	["\WW2\Assets_m\Weapons\Ammoboxes_m\IF_SU_Ammo.p3d",			[0,0,0.85],				[1,0,0],				1],		//ifa ammo
+  ["\impguns\ammo2_reb.p3d",			[0,0,0.85],				[1,0,0],				1],		//SWOP Rebel ammo
+  ["\impguns\ammo2_imp.p3d",			[0,0,0.85],				[1,0,0],				1]		//SWOP Empire ammo
 ];
 
 
