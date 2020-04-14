@@ -40,7 +40,11 @@ _unit addEventHandler
         {
             [_marker, typeOf _unit, _id] call A3A_fnc_addToRequested;
         };
-        [_marker, side _group] call A3A_fnc_zoneCheck;
+        //Do a zone check only if marker is still spawned, don't trigger on despawn bleedout
+        if(spawner getVariable _marker == 0) then
+        {
+            [_marker, side _group] call A3A_fnc_zoneCheck;
+        };
     }
 ];
 

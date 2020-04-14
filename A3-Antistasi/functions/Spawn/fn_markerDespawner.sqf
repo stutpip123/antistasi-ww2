@@ -58,6 +58,17 @@ waitUntil
 [3, format ["All groups: %1", _allGroups], _fileName, true] call A3A_fnc_log;
 [3, format ["All vehicles: %1", _allVehicles], _fileName, true] call A3A_fnc_log;
 
+if(sidesX getVariable [_marker, sideUnknown] == sideUnknown) exitWith
+{
+    //Destroyed roadblock or minefield, don't check for stuff
+    {
+    	[(_x select 0)] spawn A3A_fnc_groupDespawner;
+    } forEach _allGroups;
+    {
+        deleteVehicle (_x select 0);
+    } forEach _allVehicles;
+};
+
 [_marker, sidesX getVariable [_marker, sideUnknown]] call A3A_fnc_zoneCheck;
 [_marker] call A3A_fnc_freeSpawnPositions;
 
