@@ -22,6 +22,12 @@ if (isNil "_units") exitWith
 private _garrison = [_marker] call A3A_fnc_getGarrison;
 private _requested = [_marker] call A3A_fnc_getRequested;
 
+[
+    3,
+    format ["Adding %1 to marker %2 now", _units, _marker],
+    _fileName
+] call A3A_fnc_log;
+
 //Sorting all new units into one array, formating [name, amount]
 private _sortingUnits = [];
 {
