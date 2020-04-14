@@ -34,6 +34,12 @@ private _spawnerUnits = allPlayers + (_spawnerGroups apply {leader _x});
     };
 } forEach _spawnerUnits;
 
+[
+    3,
+    format ["Spawners are %1 / %2 / %3", _teamPlayerUnits, _occupantsUnits, _invaderUnits],
+    "UpdateSpawnerUnits"
+] call A3A_fnc_log;
+
 playerSpawner = _teamPlayerUnits; publicVariable "playerSpawner";
 occupantsSpawner = _occupantsUnits; publicVariable "occupantsSpawner";
 invadersSpawner = _invaderUnits; publicVariable "invadersSpawner";

@@ -49,18 +49,22 @@ private _garCount = [_garrison + _over, true] call A3A_fnc_countGarrison;
 //Calculate adjustment for player size
 private _activeRebelPlayer = count (allPlayers select {side (group _x) == teamPlayer});
 private _adjustment = 1;
-if(_activeRebelPlayer < 20) then
+if(_side != teamPlayer) then
 {
-    if(_activeRebelPlayer < 1) then
+    if(_activeRebelPlayer < 20) then
     {
-        [1, "No player detected for adjustment, assuming 0.35", _fileName, true] call A3A_fnc_log;
-        _adjustment = 0.35;
-    }
-    else
-    {
-        _adjustment = (round (100 * (((ln _activeRebelPlayer) / 4.6088) + 0.35))) / 100;
+        if(_activeRebelPlayer < 1) then
+        {
+            [1, "No player detected for adjustment, assuming 0.35", _fileName, true] call A3A_fnc_log;
+            _adjustment = 0.35;
+        }
+        else
+        {
+            _adjustment = (round (100 * (((ln _activeRebelPlayer) / 4.6088) + 0.35))) / 100;
+        };
     };
 };
+
 
 [
     2,
