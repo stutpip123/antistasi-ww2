@@ -68,7 +68,7 @@ if(_markerX in controlsX) exitWith
         {
             case (teamPlayer):
             {
-                sidesX setVariable [_markerX,teamPlayer,true];
+                sidesX setVariable [_markerX,nil,true];
                 [0,5,getMarkerPos _markerX] remoteExec ["A3A_fnc_citySupportChange",2];
                 [[_positionX,_looser,"",false],"A3A_fnc_patrolCA"] remoteExec ["A3A_fnc_scheduler",2];
             };
