@@ -26,18 +26,23 @@ _vehicle addEventHandler
     "Killed",
     {
         private _vehicle = _this select 0;
-        private _id = _vehicle getVariable "UnitIndex";
-        private _marker = _vehicle getVariable "UnitMarker";
-        private _isOver = _vehicle getVariable "IsOver";
-        if(_isOver) then
+        private _marker = _vehicle getVariable ["UnitMarker", ""];
+        if(_marker != "") then
         {
-            [_marker, typeOf _vehicle, _id] call A3A_fnc_removeFromOver;
-        }
-        else
-        {
-            [_marker, typeOf _vehicle, _id] call A3A_fnc_addToRequested;
+            private _id = _vehicle getVariable "UnitIndex";
+            private _isOver = _vehicle getVariable "IsOver";
+            [_marker, _vehicle] call A3A_fnc_removeFromSpawnedArrays;
+            if(_isOver) then
+            {
+                [_marker, typeOf _vehicle, _id] call A3A_fnc_removeFromOver;
+            }
+            else
+            {
+                [_marker, typeOf _vehicle, _id] call A3A_fnc_addToRequested;
+            };
+            [_marker] call A3A_fnc_updateReinfState;
+            _vehicle setVariable ["UnitMarker", "", true];
         };
-        [_marker] call A3A_fnc_updateReinfState;
     }
 ];
 
@@ -49,20 +54,29 @@ _vehicle addEventHandler
         private _unit = _this select 2;
         if(side (group _unit) == teamPlayer && (isPlayer _unit)) then
         {
-            private _id = _vehicle getVariable "UnitIndex";
-            private _marker = _vehicle getVariable "UnitMarker";
-            private _isOver = _vehicle getVariable "IsOver";
-            [_marker, _vehicle] call A3A_fnc_removeFromSpawnedArrays;
-            [_vehicle] spawn A3A_fnc_vehicleDespawner;
-            if(_isOver) then
+            private _marker = _vehicle getVariable ["UnitMarker", ""];
+            if (_marker != "") then
             {
-                [_marker, typeOf _vehicle, _id] call A3A_fnc_removeFromOver;
-            }
-            else
-            {
-                [_marker, typeOf _vehicle, _id] call A3A_fnc_addToRequested;
+                private _id = _vehicle getVariable "UnitIndex";
+                private _isOver = _vehicle getVariable "IsOver";
+                [_marker, _vehicle] call A3A_fnc_removeFromSpawnedArrays;
+                [
+                    3,
+                    format ["Vehicle %1 stolen from %2 by %3", typeOf _vehicle, _marker, _unit],
+                    _fileName
+                ] call A3A_fnc_log;
+                [_vehicle] spawn A3A_fnc_vehicleDespawner;
+                if(_isOver) then
+                {
+                    [_marker, typeOf _vehicle, _id] call A3A_fnc_removeFromOver;
+                }
+                else
+                {
+                    [_marker, typeOf _vehicle, _id] call A3A_fnc_addToRequested;
+                };
+                [_marker] call A3A_fnc_updateReinfState;
+                _vehicle setVariable ["UnitMarker", "", true];
             };
-            [_marker] call A3A_fnc_updateReinfState;
         };
     }
 ];

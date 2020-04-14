@@ -21,7 +21,11 @@ if(_object isEqualType objNull) then
 {
     private _array = [_marker, "Vehicles"] call A3A_fnc_getSpawnedArray;
     spawner setVariable [format ["%1_arraysChanging", _marker], true, true];
-    _array = _array - [_object];
+    private _index = _array findIf {(_x select 0) == _object};
+    if (_index != -1) then
+    {
+        _array deleteAt _index;
+    };
     spawner setVariable [format ["%1_vehicles", _marker], _array, true];
 }
 else
@@ -30,7 +34,11 @@ else
     {
         private _array = [_marker, "Groups"] call A3A_fnc_getSpawnedArray;
         spawner setVariable [format ["%1_arraysChanging", _marker], true, true];
-        _array = _array - [_object];
+        private _index = _array findIf {(_x select 0) == _object};
+        if (_index != -1) then
+        {
+            _array deleteAt _index;
+        };
         spawner setVariable [format ["%1_groups", _marker], _array, true];
     }
     else

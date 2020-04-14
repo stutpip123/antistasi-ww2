@@ -69,6 +69,7 @@ else
     			private _typeVeh = selectRandom arrayCivVeh;
     			private _veh = _typeVeh createVehicle _vehPos;
     			_veh setDir _vehDir;
+                _veh setVariable ["UnitMarker", _marker, true];
     			_allVehicles pushBack [_veh, [15, -1]];
     			[_veh] spawn A3A_fnc_civVEHinit;
                 _veh addEventHandler
@@ -79,7 +80,13 @@ else
                         private _unit = _this select 2;
                         if(side (group _unit) == teamPlayer) then
                         {
-                            _vehicle setVariable ["Stolen", true, true];
+                            private _marker = _vehicle getVariable ["UnitMarker", ""];
+                            if(_marker != "") then
+                            {
+                                [_marker, _vehicle] call A3A_fnc_removeFromSpawnedArrays;
+                                [_vehicle] spawn A3A_fnc_vehicleDespawner;
+                                _vehicle setVariable ["UnitMarker", "", true];
+                            };
                         };
                     }
                 ];
@@ -106,7 +113,13 @@ else
                     private _unit = _this select 2;
                     if(side (group _unit) == teamPlayer) then
                     {
-                        _vehicle setVariable ["Stolen", true, true];
+                        private _marker = _vehicle getVariable ["UnitMarker", ""];
+                        if(_marker != "") then
+                        {
+                            [_marker, _vehicle] call A3A_fnc_removeFromSpawnedArrays;
+                            [_vehicle] spawn A3A_fnc_vehicleDespawner;
+                            _vehicle setVariable ["UnitMarker", "", true];
+                        };
                     };
                 }
             ];
