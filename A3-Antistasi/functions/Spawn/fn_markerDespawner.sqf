@@ -78,9 +78,10 @@ deleteMarker _patrolMarker;
 	[(_x select 0)] spawn A3A_fnc_groupDespawner;
 } forEach _allGroups;
 
+private _side = sidesX getVariable _marker;
 private _staticArray = [];
 {
-    if(_side == teamPlayer && {(_x select 1) == 12}) then
+    if(_side == teamPlayer && {((_x select 1) select 0) == 12}) then
     {
         private _staticMarker = [(_x select 0)] call A3A_fnc_isStaticWeaponOnMarker;
         if(_staticMarker == _marker && {alive (_x select 0)}) then
