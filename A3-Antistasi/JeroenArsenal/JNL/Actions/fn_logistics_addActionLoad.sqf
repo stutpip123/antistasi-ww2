@@ -76,7 +76,12 @@ _loadActionID = _object addAction [
 		    };
 		    default
 		    {
-		   	[_nearestVehicle, _cargo, true, true] remoteexec ["jn_fnc_logistics_load", 2];
+                private _cargoMarker = _cargo getVariable ["CargoMarker", ""];
+                if(_cargoMarker != "") then
+                {
+                    [_cargoMarker, _cargo] call A3A_fnc_removeFromSpawnedArrays;
+                };
+                [_nearestVehicle, _cargo, true, true] remoteexec ["jn_fnc_logistics_load", 2];
 		    };
 			};
 	},

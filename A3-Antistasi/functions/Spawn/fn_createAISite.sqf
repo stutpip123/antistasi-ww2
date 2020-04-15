@@ -99,6 +99,7 @@ if(_marker != "Synd_HQ") then
                 _box = CSATAmmoBox createVehicle _markerPos;
                 [_box] spawn A3A_fnc_CSATcrate;
             };
+            _box setVariable ["CargoMarker", _marker, true];
             _box call jn_fnc_logistics_addAction;
 
             if (_marker in seaports) then

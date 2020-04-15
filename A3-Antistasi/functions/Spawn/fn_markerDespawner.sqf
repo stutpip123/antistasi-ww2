@@ -78,29 +78,24 @@ deleteMarker _patrolMarker;
 	[(_x select 0)] spawn A3A_fnc_groupDespawner;
 } forEach _allGroups;
 
-//It might be faster to check the vehicles arrays against the position arrays
-//Not sure if actually worth the work...
-//Might have changed during runtime
-_side = sidesX getVariable [_marker, sideUnknown];
-if(_side == teamPlayer) then
+private _staticArray = [];
 {
-    //Make sure that the players didn't disassembled a static (Disassembling sucks EH wise)
-    private _checkedArray = [];
-    private _statics = garrison getVariable [format ["%1_statics", _marker], []];
+    if(_side == teamPlayer && {(_x select 1) == 12}) then
     {
-        private _position = (_x select 0) select 0;
-        private _nearStatics = _position nearEntities ["StaticWeapon", 1];
-        if (count _nearStatics != 0 && {alive (_nearStatics select 0)}) then
+        private _staticMarker = [(_x select 0)] call A3A_fnc_isStaticWeaponOnMarker;
+        if(_staticMarker == _marker && {alive (_x select 0)}) then
         {
-            _checkedArray pushBack _x;
+            //Update positions here
+            _staticArray pushBack [[getPosATL (_x select 0), getDir (_x select 0), typeOf (_x select 0)], -1];
         };
-    } forEach _statics;
-    garrison setVariable [format ["%1_statics", _marker], _checkedArray, true];
-};
-
-{
+    };
     deleteVehicle (_x select 0);
 } forEach _allVehicles;
+
+if(_side == teamPlayer) then
+{
+    garrison setVariable [format ["%1_statics", _marker], _staticArray, true];
+};
 
 //Delete spawnedArrays
 spawner setVariable [format ["%1_groups", _marker], nil, true];
