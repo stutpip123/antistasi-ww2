@@ -19,6 +19,7 @@ params ["_vehicle", "_marker", "_isOver", "_lineIndex"];
 _vehicle setVariable ["UnitIndex", _lineIndex * 10, true];
 _vehicle setVariable ["UnitMarker", _marker, true];
 _vehicle setVariable ["IsOver", _isOver, true];
+_vehicle setVariable ["UnitSide", sidesX getVariable _marker, true];
 
 //On vehicle death, remove it from garrison
 _vehicle addEventHandler
@@ -31,14 +32,15 @@ _vehicle addEventHandler
         {
             private _id = _vehicle getVariable "UnitIndex";
             private _isOver = _vehicle getVariable "IsOver";
+            private _side = _vehicle getVariable "UnitSide";
             [_marker, _vehicle] call A3A_fnc_removeFromSpawnedArrays;
             if(_isOver) then
             {
-                [_marker, typeOf _vehicle, _id] call A3A_fnc_removeFromOver;
+                [_marker, typeOf _vehicle, _id, _side] call A3A_fnc_removeFromOver;
             }
             else
             {
-                [_marker, typeOf _vehicle, _id] call A3A_fnc_addToRequested;
+                [_marker, typeOf _vehicle, _id, _side] call A3A_fnc_addToRequested;
             };
             [_marker] call A3A_fnc_updateReinfState;
             _vehicle setVariable ["UnitMarker", "", true];
@@ -59,6 +61,7 @@ _vehicle addEventHandler
             {
                 private _id = _vehicle getVariable "UnitIndex";
                 private _isOver = _vehicle getVariable "IsOver";
+                private _side = _vehicle getVariable "UnitSide";
                 [_marker, _vehicle] call A3A_fnc_removeFromSpawnedArrays;
                 [
                     3,
@@ -68,11 +71,11 @@ _vehicle addEventHandler
                 [_vehicle] spawn A3A_fnc_vehicleDespawner;
                 if(_isOver) then
                 {
-                    [_marker, typeOf _vehicle, _id] call A3A_fnc_removeFromOver;
+                    [_marker, typeOf _vehicle, _id, _side] call A3A_fnc_removeFromOver;
                 }
                 else
                 {
-                    [_marker, typeOf _vehicle, _id] call A3A_fnc_addToRequested;
+                    [_marker, typeOf _vehicle, _id, _side] call A3A_fnc_addToRequested;
                 };
                 [_marker] call A3A_fnc_updateReinfState;
                 _vehicle setVariable ["UnitMarker", "", true];

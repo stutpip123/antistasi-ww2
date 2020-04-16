@@ -19,6 +19,7 @@ params ["_unit", "_marker", "_isOver", "_unitIndex"];
 _unit setVariable ["UnitIndex", _unitIndex, true];
 _unit setVariable ["UnitMarker", _marker, true];
 _unit setVariable ["IsOver", _isOver, true];
+_unit setVariable ["UnitSide", side (group _unit), true];
 
 //On unit death, remove it from garrison
 _unit addEventHandler
@@ -32,13 +33,14 @@ _unit addEventHandler
         private _id = _unit getVariable "UnitIndex";
         private _marker = _unit getVariable "UnitMarker";
         private _isOver = _unit getVariable "IsOver";
+        private _side = _unit getVariable "UnitSide";
         if(_isOver) then
         {
-            [_marker, typeOf _unit, _id] call A3A_fnc_removeFromOver;
+            [_marker, typeOf _unit, _id, _side] call A3A_fnc_removeFromOver;
         }
         else
         {
-            [_marker, typeOf _unit, _id] call A3A_fnc_addToRequested;
+            [_marker, typeOf _unit, _id, _side] call A3A_fnc_addToRequested;
         };
         //Do a zone check only if marker is still spawned, don't trigger on despawn bleedout
         if(spawner getVariable _marker == 0) then

@@ -28,13 +28,14 @@ if(_marker != "") then
     //Unit is stationated somewhere, remove from it
     private _id = _unit getVariable "UnitIndex";
     private _isOver = _unit getVariable "IsOver";
+    private _side = _unit getVariable "UnitSide";
     if(_isOver) then
     {
-        [_marker, typeOf _unit, _id] call A3A_fnc_removeFromOver;
+        [_marker, typeOf _unit, _id, _side] call A3A_fnc_removeFromOver;
     }
     else
     {
-        [_marker, typeOf _unit, _id] call A3A_fnc_addToRequested;
+        [_marker, typeOf _unit, _id, _side] call A3A_fnc_addToRequested;
     };
 };
 

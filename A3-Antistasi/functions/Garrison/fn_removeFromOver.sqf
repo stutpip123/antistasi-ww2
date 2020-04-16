@@ -1,4 +1,4 @@
-params ["_marker", "_unit", "_unitIndex"];
+params ["_marker", "_unit", "_unitIndex", "_side"];
 
 /*  Removes the given unit from the over units, checks if the arrays is too large for units, resizes if needed
 *   Params:
@@ -9,6 +9,8 @@ params ["_marker", "_unit", "_unitIndex"];
 *   Returns:
 *       Nothing
 */
+
+if(_side != sidesX getVariable ["_marker", sideUnknown]) exitWith {};
 
 private _unitType = _unitIndex % 10;
 private _groupID = floor (_unitIndex / 10);

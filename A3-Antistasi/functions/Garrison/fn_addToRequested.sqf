@@ -1,4 +1,4 @@
-params ["_marker", "_unit", "_unitIndex"];
+params ["_marker", "_unit", "_unitIndex", "_side"];
 
 /*  Adds the given units to the list of troups that needs to be reinforced
 *     Params:
@@ -9,6 +9,8 @@ params ["_marker", "_unit", "_unitIndex"];
 *   Returns:
 *     Nothing
 */
+
+if(_side != sidesX getVariable ["_marker", sideUnknown]) exitWith {};
 
 private _fileName = "addToRequested";
 
