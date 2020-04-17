@@ -4,7 +4,7 @@ if (isMultiplayer) then {waitUntil {!isNil "switchCom"}};
 
 private ["_textX"];
 scriptName "resourcecheck";
-_countSave = 3600;
+_countSave = autoSaveInterval;
 
 while {true} do
 	{
@@ -30,12 +30,12 @@ while {true} do
 	//_roads = _dataX select 2;
 	_prestigeNATO = _dataX select 2;
 	_prestigeSDK = _dataX select 3;
-	_power = [_city] call A3A_fnc_powerCheck;
+	_radioTowerSide = [_city] call A3A_fnc_getSideRadioTowerInfluence;
 	_popTotal = _popTotal + _numCiv;
 	_popFIA = _popFIA + (_numCiv * (_prestigeSDK / 100));
 	_popAAF = _popAAF + (_numCiv * (_prestigeNATO / 100));
-	_multiplyingRec = if (_power != teamPlayer) then {0.5} else {1};
-	//if (not _power) then {_multiplyingRec = 0.5};
+	_multiplyingRec = if (_radioTowerSide != teamPlayer) then {0.5} else {1};
+	//if (not _radioTowerSide) then {_multiplyingRec = 0.5};
 
 	if (_city in destroyedSites) then
 		{
@@ -47,7 +47,7 @@ while {true} do
 		{
 		_resourcesAddCitySDK = ((_numciv * _multiplyingRec*(_prestigeSDK / 100))/3);
 		_hrAddCity = (_numciv * (_prestigeSDK / 10000));///20000 originalmente
-		switch (_power) do
+		switch (_radioTowerSide) do
 			{
 			case teamPlayer: {[-1,_suppBoost,_city] spawn A3A_fnc_citySupportChange};
 			case Occupants: {[1,-1,_city] spawn A3A_fnc_citySupportChange};
@@ -128,7 +128,8 @@ while {true} do
 	bombRuns = bombRuns + (({sidesX getVariable [_x,sideUnknown] == teamPlayer} count airportsX) * 0.25);
 	[petros,"taxRep",_textX] remoteExec ["A3A_fnc_commsMP",[teamPlayer,civilian]];
 	[] call A3A_fnc_economicsAI;
-	
+    [] call A3A_fnc_cleanConvoyMarker;
+
 	if (isMultiplayer) then
 	{
 		[] spawn A3A_fnc_promotePlayer;
@@ -136,7 +137,7 @@ while {true} do
 		difficultyCoef = floor ((({side group _x == teamPlayer} count (call A3A_fnc_playableUnits)) - ({side group _x != teamPlayer} count (call A3A_fnc_playableUnits))) / 5);
 		publicVariable "difficultyCoef";
 	};
-	
+
 	if ((!bigAttackInProgress) and (random 100 < 50)) then {[] call A3A_fnc_missionRequestAUTO};
 	//Removed from scheduler for now, as it errors on Headless Clients.
 	//[[],"A3A_fnc_reinforcementsAI"] call A3A_fnc_scheduler;
@@ -224,16 +225,16 @@ while {true} do
 				};
 			};
 		} forEach allUnits;
-		if (autoSave) then
-			{
-			_countSave = _countSave - 600;
-			if (_countSave <= 0) then
-				{
-				_countSave = 3600;
-				_nul = [] execVM "statSave\saveLoop.sqf";
-				};
-			};
 		};
+	if (autoSave) then
+	{
+		_countSave = _countSave - 600;
+		if (_countSave <= 0) then
+		{
+			_countSave = autoSaveInterval;
+			[] remoteExecCall ["A3A_fnc_saveLoop", 0, false];
+		};
+	};
 
 	sleep 4;
 	};

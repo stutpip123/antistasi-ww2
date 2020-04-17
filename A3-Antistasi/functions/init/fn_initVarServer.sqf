@@ -108,7 +108,8 @@ server setVariable ["resourcesFIA",1000,true];
 
 prestigeOPFOR = [75, 50] select cadetMode;												//Initial % support for NATO on each city
 prestigeBLUFOR = 0;																	//Initial % FIA support on each city
-countCA = 600;																		//600
+// Indicates time in seconds before next counter attack.
+countCA = 600;																		
 
 cityIsSupportChanging = false;
 resourcesIsChanging = false;
@@ -220,8 +221,8 @@ private _vehicleIsSpecial = {
 
 	   (getNumber (_vehConfig >> "transportRepair") > 0)
 	|| (getNumber (_vehConfig >> "transportAmmo") > 0)
-	|| (getNumber (_vehConfig >> "transportFuel") > 0)
-	|| (getNumber (_vehConfig >> "ace_refuel_fuelCargo") > 0)
+//	|| (getNumber (_vehConfig >> "transportFuel") > 0)
+//	|| (getNumber (_vehConfig >> "ace_refuel_fuelCargo") > 0)
 	|| (getNumber (_vehConfig >> "ace_repair_canRepair") > 0)
 	|| (getNumber (_vehConfig >> "ace_rearm_defaultSupply") > 0)
 		//Medical vehicle
@@ -541,6 +542,8 @@ DECLARE_SERVER_VAR(sniperGroups, _sniperGroups);
 //This is all very tightly coupled.
 //Beware when changing these, or doing anything with them, really.
 
+[2,"Initializing hardcoded categories",_fileName] call A3A_fnc_log;
+[] call A3A_fnc_categoryOverrides;
 [2,"Scanning config entries for items",_fileName] call A3A_fnc_log;
 [A3A_fnc_equipmentIsValidForCurrentModset] call A3A_fnc_configSort;
 [2,"Categorizing vehicle classes",_fileName] call A3A_fnc_log;
@@ -606,6 +609,18 @@ DECLARE_SERVER_VAR(vehUnlimited, _vehUnlimited);
 
 private _vehFIA = [vehSDKBike,vehSDKLightArmed,SDKMGStatic,vehSDKLightUnarmed,vehSDKTruck,vehSDKBoat,SDKMortar,staticATteamPlayer,staticAAteamPlayer,vehSDKRepair];
 DECLARE_SERVER_VAR(vehFIA, _vehFIA);
+
+// sanity check the lists to catch some serious problems early
+private _badVehs = [];
+{  
+    if !(isClass (configFile >> "CfgVehicles" >> _x)) then {
+        _badVehs pushBackUnique _x;
+    };
+} forEach (vehNormal + vehBoats + vehAttack + vehPlanes + vehAA + vehMRLS + vehUnlimited + vehFIA);
+
+if (count _badVehs > 0) then {
+	[1, format ["Missing vehicle classnames: %1", str _badVehs], _filename] call A3A_fnc_log;
+};
 
 ///////////////////////////
 //     MOD TEMPLATES    ///

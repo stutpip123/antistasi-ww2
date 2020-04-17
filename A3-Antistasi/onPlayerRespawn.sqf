@@ -7,17 +7,28 @@ if (isNull _oldUnit) exitWith {};
 
 waitUntil {alive player};
 
+//When LAN hosting, Bohemia's Zeus module code will cause the player lose Zeus access if the body is deleted after respawning.
+//This is a workaround that re-assigns curator to the player if their body is deleted.
+//It will only run on LAN hosted MP, where the hoster is *always* admin, so we shouldn't run into any issues.
+if (isServer) then {
+	_oldUnit addEventHandler ["Deleted", {
+		[] spawn {
+			sleep 1;		// should ensure that the bug unassigns first
+			{ player assignCurator _x } forEach allCurators;
+		}
+	} ];
+};
+
 _nul = [_oldUnit] spawn A3A_fnc_postmortem;
-if !(hasACEMedical) then
-	{
-	_oldUnit setVariable ["incapacitated",false,true];
-	_newUnit setVariable ["incapacitated",false,true];
-	};
+
+_oldUnit setVariable ["incapacitated",false,true];
+_newUnit setVariable ["incapacitated",false,true];
+
 if (side group player == teamPlayer) then
 	{
 	_owner = _oldUnit getVariable ["owner",_oldUnit];
 
-	if (_owner != _oldUnit) exitWith {hint "Died while remote controlling AI"; selectPlayer _owner; disableUserInput false; deleteVehicle _newUnit};
+	if (_owner != _oldUnit) exitWith {["Remote AI", "Died while remote controlling AI"] call A3A_fnc_customHint; selectPlayer _owner; disableUserInput false; deleteVehicle _newUnit};
 
 	_nul = [0,-1,getPos _oldUnit] remoteExec ["A3A_fnc_citySupportChange",2];
 
@@ -50,6 +61,7 @@ if (side group player == teamPlayer) then
     _newUnit addOwnedMine _x;
     } count (getAllOwnedMines (_oldUnit));
 
+	// don't reinit revive because damage handlers are respawn-persistent
 	//if (!hasACEMedical) then {[_newUnit] call A3A_fnc_initRevive};
 	disableUserInput false;
 	//_newUnit enableSimulation true;
@@ -160,7 +172,7 @@ if (side group player == teamPlayer) then
 		_control
 		}];
 		*/
-	private _firedHandlerTk = 
+	private _firedHandlerTk =
 	{
 		_typeX = _this select 1;
 		if ((_typeX == "Put") or (_typeX == "Throw")) then
@@ -170,7 +182,7 @@ if (side group player == teamPlayer) then
 				deleteVehicle (_this select 6);
 				if (_typeX == "Put") then
 				{
-					if (player distance petros < 10) then 
+					if (player distance petros < 10) then
 					{
 						[player, 20, 0.34, petros] remoteExec ["A3A_fnc_punishment",player];
 					};
@@ -179,7 +191,7 @@ if (side group player == teamPlayer) then
 		};
 	};
 	player addEventHandler ["Fired", _firedHandlerTk];
-	if (hasACE) then 
+	if (hasACE) then
 	{
 		["ace_firedPlayer", _firedHandlerTk ] call CBA_fnc_addEventHandler;
 	};
