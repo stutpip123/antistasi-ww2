@@ -204,6 +204,7 @@ class A3A
 		class createAIcontrols {};
 		class createCIV {};
 		class createSDKgarrisonsTemp {};
+		class createUnit {};
 		class FIAinitBases {};
 		class invaderPunish {};
 		class minefieldAAF {};

@@ -19,6 +19,7 @@ if (_side == teamPlayer) then
             _text = format ["%2 Airbase%1", _text, nameTeamPlayer];
     		[_mrkD,format ["%1 Airbase", nameTeamPlayer]] remoteExec ["setMarkerTextLocal", [Occupants,Invaders], true];
     		if (markerType _mrkD != "flag_Syndicat") then {_mrkD setMarkerType "flag_Syndicat"};
+            _mrkD setMarkerColor "Default";
         };
         case (_marker in resourcesX):
         {
@@ -53,7 +54,7 @@ else
         {
             _mrkD setMarkerText format ["%1 Airbase", _nameOwner];
 			_mrkD setMarkerType flagNATOmrk;
-            _mrkD setMarkerColor _colorOwner;
+            _mrkD setMarkerColor "Default";
         };
         case (_marker in resourcesX):
     	{
