@@ -1,7 +1,5 @@
 params ["_marker"];
 
-private ["_mrkD"];
-
 private _side = sidesX getVariable _marker;
 private _mrkD = format ["Dum%1",_marker];
 private _text = "";
@@ -53,7 +51,7 @@ else
         case (_marker in airportsX):
         {
             _mrkD setMarkerText format ["%1 Airbase", _nameOwner];
-			_mrkD setMarkerType flagNATOmrk;
+			_mrkD setMarkerType _flag;
             _mrkD setMarkerColor "Default";
         };
         case (_marker in resourcesX):
