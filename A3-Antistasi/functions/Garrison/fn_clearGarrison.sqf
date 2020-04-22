@@ -20,6 +20,7 @@ garrison setVariable [format ["%1_garrison", _marker], [], true];
 garrison setVariable [format ["%1_over", _marker], [], true];
 garrison setVariable [format ["%1_requested", _marker], [], true];
 garrison setVariable [format ["%1_statics", _marker], [], true];
+garrison setVariable [format ["%1_patrols", _marker], [], true];
 
 if(_winner != teamPlayer) then
 {
@@ -33,13 +34,10 @@ if(_winner != teamPlayer) then
             case (_marker in outposts): {_type = "Outpost"};
             case (_marker in citiesX): {_type = "City"};
         };
-        private _preference = garrison getVariable (format ["%1_preference", _type]);
-        for "_i" from 0 to ((count _preference) - 1) do
-        {
-            private _line = ([_preference select _i, _winner] call A3A_fnc_createGarrisonLine);
-            [_line, _marker, (_preference select _i), [1,1,1]] call A3A_fnc_addGarrisonLine;
-        };
 
+        [_type, _marker] call A3A_fnc_updateGarrison;
+        [_type, _marker] call A3A_fnc_updatePatrols;
+        [_type, _marker] call A3A_fnc_updateStatics;
 
         private _soldiers = allUnits select
         {
@@ -50,7 +48,7 @@ if(_winner != teamPlayer) then
         };
         _soldiers = _soldiers apply {typeOf _x};
         _soldiers = ["", [], _soldiers];
-        [_marker, [_soldiers], _winner] call A3A_fnc_addToGarrison;    
+        [_marker, [_soldiers], _winner] call A3A_fnc_addToGarrison;
     };
 }
 else
