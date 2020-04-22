@@ -295,7 +295,7 @@ class FSM
                          "if (_convoyType isEqualTo ""reinforce"") then {" \n
                          "" \n
                          "	// add units to garrison immediately, otherwise it'll keep sending them" \n
-                         "	[_markers # 1, [["""", [], (units _cargoGroup)]]] call A3A_fnc_addSpawnedToGarrison;" \n
+                         "	[_markers # 1, [["""", [], (units _cargoGroup)]], side _cargoGroup] call A3A_fnc_addSpawnedToGarrison;" \n
                          "}" \n
                          "else { [_cargoGroup] spawn A3A_fnc_groupDespawner; };" \n
                          "" \n

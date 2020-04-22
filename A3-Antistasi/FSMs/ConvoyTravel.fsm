@@ -221,8 +221,9 @@ class FSM
                          "if (_convoyType isEqualTo ""reinforce"") then {" \n
                          "" \n
                          "	// add units to garrison immediately, otherwise it'll keep sending them" \n
+                         "  private _groupSide = side _crewGroup;" \n
                          "	private _garrison = [[_vehicle, (units _crewGroup), (units _cargoGroup)]];" \n
-                         "  [_markers # 1, _garrison] spawn A3A_fnc_addSpawnedToGarrison;" \n
+                         "  [_markers # 1, _garrison, _groupSide] spawn A3A_fnc_addSpawnedToGarrison;" \n
                          "} else {" \n
                          "	// otherwise just use the stock despawning" \n
                          "	[_crewGroup] spawn A3A_fnc_groupDespawner;" \n

@@ -52,4 +52,4 @@ private _reinforcements = [];
 } forEach _requested;
 
 garrison setVariable [format ["%1_recruit", _marker], _pointsAvailable, true];
-[_marker, _reinforcements] call A3A_fnc_addToGarrison;
+[_marker, _reinforcements, (sidesX getVariable _marker)] call A3A_fnc_addToGarrison;

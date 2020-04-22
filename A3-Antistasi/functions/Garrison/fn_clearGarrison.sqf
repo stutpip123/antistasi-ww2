@@ -50,7 +50,7 @@ if(_winner != teamPlayer) then
         };
         _soldiers = _soldiers apply {typeOf _x};
         _soldiers = ["", [], _soldiers];
-        [_marker, [_soldiers]] call A3A_fnc_addToGarrison;    
+        [_marker, [_soldiers], _winner] call A3A_fnc_addToGarrison;    
     };
 }
 else

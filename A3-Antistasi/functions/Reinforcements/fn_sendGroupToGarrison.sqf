@@ -20,7 +20,7 @@ if (spawner getVariable _marker != 2) then
         "
             private _units = (thisList select {alive _x});
             private _marker = (group this) getVariable 'DestinationMarker';
-            [_marker, [['', [], _units]]] call A3A_fnc_addSpawnedToGarrison;
+            [_marker, [['', [], _units]], teamPlayer] call A3A_fnc_addSpawnedToGarrison;
             [_marker, _units] spawn
             {
                 sleep 5;

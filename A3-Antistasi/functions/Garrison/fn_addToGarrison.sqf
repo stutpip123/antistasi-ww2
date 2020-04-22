@@ -1,4 +1,4 @@
-params ["_marker", "_units"];
+params ["_marker", "_units", "_side"];
 
 /*  Adds units to a garrison, removes them from the reinforcements
 *   Params:
@@ -13,10 +13,23 @@ private _fileName = "addToGarrison";
 if (isNil "_marker") exitWith
 {
     [1, "No marker given, check all calls!", _fileName] call A3A_fnc_log;
+    [[], []];
 };
 if (isNil "_units") exitWith
 {
     [1, "No units given, check all calls!", _fileName] call A3A_fnc_log;
+    [[], []];
+};
+
+if((_side != civilian) && {_side != sidesX getVariable [_marker, sideUnknown]}) exitWith
+{
+    [
+        2,
+        format ["Tried to add units of wrong side to marker, marker side is %1, unit side is %2", sidesX getVariable [_marker, sideUnknown], _side],
+        _fileName,
+        true
+    ] call A3A_fnc_log;
+    [[], []];
 };
 
 private _garrison = [_marker] call A3A_fnc_getGarrison;

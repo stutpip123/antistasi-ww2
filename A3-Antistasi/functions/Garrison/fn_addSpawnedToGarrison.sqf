@@ -1,4 +1,4 @@
-params ["_marker", "_units"];
+params ["_marker", "_units", "_side"];
 
 /*  Adds !!!SPAWNED!!! units to garrisons, for simulated units use addToGarrison
 
@@ -90,7 +90,7 @@ private _unitNames = [];
 ] call A3A_fnc_log;
 
 //Add the data (ONLY DATA) to the garrison data
-private _insertIndex = [_marker, _unitNames] call A3A_fnc_addToGarrison;
+private _insertIndex = [_marker, _unitNames, _side] call A3A_fnc_addToGarrison;
 
 //Units added to the garrisons, got the indeces back for every unit that was added, reparsing that into the actual objects
 private _garrisonInserts = _insertIndex select 0;
