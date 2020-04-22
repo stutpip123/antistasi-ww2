@@ -58,6 +58,7 @@ for "_i" from 0 to 2 do
         _weapons = _weapons - ["Throw", "Put"];
         [3, format ["Checking %1 now", _unit], _fileName] call A3A_fnc_log;
         [3, format ["Weapons are: %1", _weapons], _fileName] call A3A_fnc_log;
+        private _addedMags = [];
         {
             private _weapon = _x;
             private _magazines = getArray (configFile >> "CfgWeapons" >> _weapon >> "magazines");
@@ -75,15 +76,19 @@ for "_i" from 0 to 2 do
                     _weaponWells pushBackUnique _mag;
                 };
             } forEach _magazines;
-            //[3, format ["%1 mag wells are: %2", _weapon, _weaponWells], _fileName] call A3A_fnc_log;
+            [3, format ["%1 mag wells are: %2", _weapon, _weaponWells], _fileName] call A3A_fnc_log;
             {
-                _sideWell pushBackUnique _x;
+                if ((_sideWell pushBackUnique _x) != -1) then
+                {
+                    _addedMags pushBack _x;
+                };
                 if(_x in _magWells) then
                 {
                     _magWells = _magWells - [_x];
                 };
             } forEach _weaponWells;
         } forEach _weapons;
+        [3, format ["Newly added mags are: %1", _addedMags], _fileName] call A3A_fnc_log;
     } forEach _subArray;
 };
 
