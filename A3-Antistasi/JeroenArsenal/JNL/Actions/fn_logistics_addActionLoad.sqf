@@ -81,9 +81,10 @@ _loadActionID = _object addAction [
                 {
                     [_cargoMarker, _cargo] call A3A_fnc_removeFromSpawnedArrays;
                 };
+                _player setCaptive false;
                 [_nearestVehicle, _cargo, true, true] remoteexec ["jn_fnc_logistics_load", 2];
 		    };
-			};
+		};
 	},
 	nil, 1, true, false, "", "isnull attachedTo _target && vehicle player == player;", 3.5, false, ""
 ];
@@ -96,4 +97,3 @@ _object setUserActionText [
 ];
 
 _object setVariable ["jnl_loadActionID", _loadActionID, false];
-
