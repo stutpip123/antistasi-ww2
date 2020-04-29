@@ -59,7 +59,7 @@ else
 
             _gunner setVariable ["StaticIndex", _index, true];
             _gunner setVariable ["StaticMarker", _marker, true];
-            _gunner setVariable ["StaticSide", _side, true]
+            _gunner setVariable ["StaticSide", _side, true];
             _gunner addEventHandler
             [
                 "Killed",
