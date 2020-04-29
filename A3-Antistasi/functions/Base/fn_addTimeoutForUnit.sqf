@@ -1,4 +1,4 @@
-params ["_type", "_marker", "_index", "_timeout"];
+params ["_type", "_marker", "_index", "_timeout", "_side"];
 
 /*  Sets the data for the given unit to time it out for the given time
 *
@@ -9,6 +9,7 @@ params ["_type", "_marker", "_index", "_timeout"];
 *       _marker : STRING : The name of the marker the unit belonged to
 *       _index : NUMBER : The index of the given unit
 *       _timeout : NUMBER : The time in minutes the unit should not spawn
+        _side : SIDE : The side of the unit which died for safety reasons
 *
 *   Returns:
 *       Nothing
@@ -19,6 +20,9 @@ private _fileName = "addTimeoutForUnit";
 private _unitList = [];
 private _unit = "";
 private _checkFuture = false;
+
+//Unit died after marker flipped, ignore it
+if(sidesX getVariable _marker != _side) exitWith {};
 
 switch (_type) do
 {

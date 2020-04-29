@@ -132,7 +132,7 @@ private _wurzelGarrison = [];
         garrison getVariable [format ["%1_statics", _x], []],
         garrison getVariable [format ["%1_locked", _x], []]
 	];
-} forEach markersX;
+} forEach (markersX - controlsX);
 
 ["wurzelGarrison", _wurzelGarrison] call A3A_fnc_setStatVariable;
 ["usesWurzelGarrison", true] call A3A_fnc_setStatVariable;

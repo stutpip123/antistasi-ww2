@@ -57,8 +57,9 @@ else
             [_gunner, _marker] call A3A_fnc_NATOinit;
             _gunner moveInGunner _staticObject;
 
-            _gunner setVariable ["StaticIndex", _index];
-            _gunner setVariable ["StaticMarker", _marker];
+            _gunner setVariable ["StaticIndex", _index, true];
+            _gunner setVariable ["StaticMarker", _marker, true];
+            _gunner setVariable ["StaticSide", _side, true]
             _gunner addEventHandler
             [
                 "Killed",
@@ -66,7 +67,8 @@ else
                     private _gunner = _this select 0;
                     private _marker = _gunner getVariable "StaticMarker";
                     private _index = _gunner getVariable "StaticIndex";
-                    ["Static", _marker, _index, 15 * (4 - skillMult)] call A3A_fnc_addTimeoutForUnit;
+                    private _side = _gunner getVariable "StaticSide";
+                    ["Static", _marker, _index, 15 * (4 - skillMult), _side] call A3A_fnc_addTimeoutForUnit;
                 }
             ];
         };

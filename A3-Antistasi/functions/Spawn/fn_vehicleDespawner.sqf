@@ -60,7 +60,7 @@ if(_shouldDespawn) then
         private _marker = [markersX, getPos _vehicle] call BIS_fnc_nearestPosition;
         if((getMarkerPos _marker) distance2D _vehicle < 500) then
         {
-            [_marker, [_vehicleType, [], []], civilian] spawn A3A_fnc_addToGarrison;
+            [_marker, [[_vehicleType, [], []]], civilian] spawn A3A_fnc_addToGarrison;
             if(sidesX getVariable _marker == teamPlayer) then
             {
                 private _markerName = [_marker, false] call A3A_fnc_localizar;

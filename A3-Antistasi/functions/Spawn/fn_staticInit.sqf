@@ -1,6 +1,7 @@
 params ["_static", "_marker", "_side", ["_index", -1]];
 
 _static setVariable ["StaticMarker", _marker, true];
+_static setVariable ["StaticSide", _side, true];
 _static setCenterOfMass [(getCenterOfMass _static) vectorAdd [0, 0, -1], 0];
 
 private _staticType = typeOf _static;
@@ -101,10 +102,11 @@ else
         {
             private _static = _this select 0;
             private _marker = _static getVariable "StaticMarker";
+            private _side = _static getVariable "StaticSide";
             if((sidesX getVariable _marker) != teamPlayer) then
             {
                 private _index = _static getVariable "StaticIndex";
-                ["Static", _marker, _index, 30 * (4 - skillMult)] call A3A_fnc_addTimeoutForUnit;
+                ["Static", _marker, _index, 30 * (4 - skillMult), _side] call A3A_fnc_addTimeoutForUnit;
             };
             [_static] spawn A3A_fnc_postmortem;
         }
