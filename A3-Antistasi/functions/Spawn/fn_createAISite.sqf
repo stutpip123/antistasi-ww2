@@ -92,12 +92,12 @@ if(_marker != "Synd_HQ") then
             if (_side == Occupants) then
             {
                 _box = NATOAmmoBox createVehicle _markerPos;
-                [_box] spawn A3A_fnc_NATOcrate;
+                [_box] spawn A3A_fnc_fillLootCrate;
             }
             else
             {
                 _box = CSATAmmoBox createVehicle _markerPos;
-                [_box] spawn A3A_fnc_CSATcrate;
+                [_box] spawn A3A_fnc_fillLootCrate;
             };
             _box setVariable ["CargoMarker", _marker, true];
             _box call jn_fnc_logistics_addAction;
