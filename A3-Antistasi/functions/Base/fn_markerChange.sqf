@@ -222,7 +222,10 @@ if (_markerX in resourcesX) then
 
 [3, format ["Notification and points done for marker change at %1", _markerX], _fileName] call A3A_fnc_log;
 
-{_nul = [_markerX,_x] spawn A3A_fnc_deleteControls} forEach controlsX;
+//Destroy roadblocks around it
+{
+    [_markerX, _x] spawn A3A_deleteControls;
+} forEach controlsX;
 if (_winner == teamPlayer) then
 	{
 	[] call A3A_fnc_tierCheck;
