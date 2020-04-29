@@ -36,7 +36,7 @@ private _createdUnits = [];
 private _airVehicles = [];
 private _landVehicles = [];
 
-[2, format ["Spawning in convoy %1", _convoyID], "fn_spawnConvoy"] call A3A_fnc_log;
+[2, format ["Spawning in convoy %1 with side %2", _convoyID, _convoySide], "fn_spawnConvoy"] call A3A_fnc_log;
 [_units, "Convoy Units"] call A3A_fnc_logArray;
 
 for "_i" from 0 to ((count _units) - 1) do

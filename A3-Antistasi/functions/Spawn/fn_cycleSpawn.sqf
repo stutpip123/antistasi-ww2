@@ -191,6 +191,7 @@ private _mortarGroup = grpNull;
 
 //Spawning in patrol units around the marker
 private _patrols = [_marker] call A3A_fnc_getPatrols;
+[_patrols, format ["%1_patrols",_marker]] call A3A_fnc_logArray;
 {
     private _group = [_side, _marker, _x, _forEachIndex, _patrolMarker] call A3A_fnc_cycleSpawnPatrol;
     if !(isNull _group) then
