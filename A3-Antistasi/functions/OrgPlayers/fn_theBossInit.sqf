@@ -39,10 +39,10 @@ else
 		{
 		_unit hcSetGroup [_x];
 		};
-	if ((!isPlayer leader _x) and (side _x == teamPlayer)) then
-		{
+	if ((!isPlayer leader _x) && (side _x == teamPlayer) && (!(petros in units _x)) && (((units _x) select 0) getVariable ["UnitMarker", ""] == "")) then
+	{
 		_unit hcSetGroup [_x];
-		};
+	};
 	} forEach allGroups;
 	};
 

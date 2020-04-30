@@ -12,50 +12,52 @@ if (side _unit == sideLogic || {_uid == ""}) exitWith {
 };
 
 if (_unit == theBoss) then
-	{
-	{
-	if (!(_x getVariable ["esNATO",false])) then
-		{
-		if (({isPlayer _x} count (units _x) == 0) and (side _x == teamPlayer)) then
+{
+    {
+        if (!(_x getVariable ["esNATO",false])) then
+        {
+            if (({isPlayer _x} count (units _x) == 0) && (side _x == teamPlayer)) then
 			{
-			_uds = units _x;
-				{
-				//Once a player has disconnected, they no longer count as a player - so isPlayer doesn't filter them out.
-				if (_x isEqualTo _unit)	exitWith {};
-				if (alive _x) then
-					{
-					_resourcesX = _resourcesX + (server getVariable (typeOf _x));
-					_hr = _hr + 1;
-					};
-				if (!isNull (assignedVehicle _x)) then
-					{
-					_veh = assignedVehicle _x;
-					_typeVehX = typeOf _veh;
-					if ((_veh isKindOf "StaticWeapon") and (not(_veh in staticsToSave))) then
-						{
-						_resourcesX = _resourcesX + ([_typeVehX] call A3A_fnc_vehiclePrice) + ([typeOf (vehicle leader _x)] call A3A_fnc_vehiclePrice);
-						}
-					else
-						{
-						if (_typeVehX in vehFIA) then {_resourcesX = _resourcesX + ([_typeVehX] call A3A_fnc_vehiclePrice);};
-						/*
-						if (_typeVehX in vehAAFnormal) then {_resourcesX = _resourcesX + 300};
-						if (_typeVehX in vehAAFAT) then
-							{
-							if ((_typeVehX == "I_APC_tracked_03_cannon_F") or (_typeVehX == "I_APC_Wheeled_03_cannon_F")) then {_resourcesX = _resourcesX + 1000} else {_resourcesX = _resourcesX + 5000};
-							};
-						*/
-						if (count attachedObjects _veh > 0) then
-							{
-							_subVeh = (attachedObjects _veh) select 0;
-							_resourcesX = _resourcesX + ([(typeOf _subVeh)] call A3A_fnc_vehiclePrice);
-							deleteVehicle _subVeh;
-							};
-						};
-					if (!(_veh in staticsToSave)) then {deleteVehicle _veh};
-					};
-				deleteVehicle _x;
-				} forEach _uds;
+                _uds = units _x;
+                if (!(petros in _uds) && {(_uds select 0) getVariable ["UnitMarker", ""] == ""}) then
+                {
+                    {
+                        //Once a player has disconnected, they no longer count as a player - so isPlayer doesn't filter them out.
+                        if (_x isEqualTo _unit)	exitWith {};
+                        if (alive _x) then
+    					{
+                            _resourcesX = _resourcesX + (server getVariable (typeOf _x));
+                            _hr = _hr + 1;
+    					};
+                        if (!isNull (assignedVehicle _x)) then
+    					{
+                            _veh = assignedVehicle _x;
+                            _typeVehX = typeOf _veh;
+                            if ((_veh isKindOf "StaticWeapon") and (not(_veh in staticsToSave))) then
+    						{
+                                _resourcesX = _resourcesX + ([_typeVehX] call A3A_fnc_vehiclePrice) + ([typeOf (vehicle leader _x)] call A3A_fnc_vehiclePrice);
+    						}
+                            else
+    						{
+                                if (_typeVehX in vehFIA) then
+                                {
+                                    _resourcesX = _resourcesX + ([_typeVehX] call A3A_fnc_vehiclePrice);
+                                };
+                                if (count attachedObjects _veh > 0) then
+    							{
+                                    _subVeh = (attachedObjects _veh) select 0;
+                                    _resourcesX = _resourcesX + ([(typeOf _subVeh)] call A3A_fnc_vehiclePrice);
+                                    deleteVehicle _subVeh;
+    							};
+    						};
+                            if (!(_veh in staticsToSave)) then
+                            {
+                                deleteVehicle _veh
+                            };
+    					};
+                        deleteVehicle _x;
+    				} forEach _uds;
+                };
 			};
 		};
 	} forEach allGroups;
@@ -64,7 +66,11 @@ if (_unit == theBoss) then
 	//Broadcast as a public variable, otherwise new players joining will have theBoss assigned to the dead body still.
 	publicVariable "theBoss";
 	[] remoteExec ["A3A_fnc_assignBossIfNone", 2];
-	if (group petros == group _unit) then { [] spawn A3A_fnc_buildHQ}; };
+	if (group petros == group _unit) then
+    {
+        [] spawn A3A_fnc_buildHQ
+    };
+};
 
 //Need to check the group's side, as player may be a civ. Unknown is in case they've been moved out of their group.
 if (side group _unit == teamPlayer || side group _unit == sideUnknown) then
