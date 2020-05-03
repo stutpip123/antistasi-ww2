@@ -53,11 +53,11 @@ switch (_type) do
     {
         if(_side == Occupants) then
         {
-            _result = selectRandom [+groupsNATOSniper, +(groupsNATOsmall select 2)];
+            _result = selectRandom [+groupsNATOSniper, +(groupsNATOsmall select 1)];
         }
         else
         {
-            _result = selectRandom [+groupsCSATSniper, +(groupsCSATsmall select 2)];
+            _result = selectRandom [+groupsCSATSniper, +(groupsCSATsmall select 1)];
         };
     };
     case ("PATROL_DEFENSE"):
