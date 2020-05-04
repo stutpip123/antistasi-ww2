@@ -1,8 +1,8 @@
 /*
- * File: fn_loadout_createRiflemanLoadouts.sqf
+ * File: fn_loadout_createSquadLeaderLoadouts.sqf
  * Author: Spoffy
  * Description:
- *    Creates an array of rifleman loadouts.
+ *    Creates an array of squad leader loadouts.
  * Params:
  *    _quantity - Number of loadouts to create
  * Environment params:
@@ -80,6 +80,7 @@ for "_i" from 1 to _quantity do {
 
 	if (count _smokeGrenades > 0) then {
 		_grenades pushBack [selectRandom _smokeGrenades, 2, 1];
+		_grenades pushBack [selectRandom _smokeGrenades, 2, 1];
 	};
 
 	[_loadout, [
@@ -89,7 +90,7 @@ for "_i" from 1 to _quantity do {
 		_grenades
 	]] call A3A_fnc_loadout_addItems;
 
-	[_loadout, ["MAP", "WATCH", "COMPASS", "RADIO"]] call A3A_fnc_loadout_addEquipment;
+	[_loadout, ["MAP", "WATCH", "COMPASS", "RADIO", "BINOCULARS"]] call A3A_fnc_loadout_addEquipment;
 
 	_loadouts pushBack _loadout;
 };

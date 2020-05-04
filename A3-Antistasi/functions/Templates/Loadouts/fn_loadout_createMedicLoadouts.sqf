@@ -1,8 +1,8 @@
 /*
- * File: fn_loadout_createRiflemanLoadouts.sqf
+ * File: fn_loadout_createMedicLoadouts.sqf
  * Author: Spoffy
  * Description:
- *    Creates an array of rifleman loadouts.
+ *    Creates an array of medic loadouts.
  * Params:
  *    _quantity - Number of loadouts to create
  * Environment params:
@@ -23,7 +23,7 @@
  * Returns:
  *    Array of loadout arrays
  * Example Usage:
- *    3 call A3A_fnc_loadout_createRiflemanLoadouts
+ *    3 call A3A_fnc_loadout_createMedicLoadouts
  */
 
 params ["_quantity"];
@@ -65,18 +65,14 @@ for "_i" from 1 to _quantity do {
 		};
 	};
 
-	private _medicalSupplies = "STANDARD" call A3A_fnc_loadout_itemList_medicalSupplies;
+	private _medicalSupplies = "MEDIC" call A3A_fnc_loadout_itemList_medicalSupplies;
 
 	private _miscEssentials = call A3A_fnc_loadout_itemList_miscEssentials;
 	private _grenades = [];
 	
 	if (count _antiInfantryGrenades > 0) then {
-		_grenades pushBack [selectRandom _antiInfantryGrenades, 2, 1];
+		_grenades pushBack [selectRandom _antiInfantryGrenades, 1, 1];
 	}; 
-
-	if (count _antiTankGrenades > 0) then {
-		_grenades pushBack [selectRandom _antiTankGrenades, 1, 1];
-	};
 
 	if (count _smokeGrenades > 0) then {
 		_grenades pushBack [selectRandom _smokeGrenades, 2, 1];

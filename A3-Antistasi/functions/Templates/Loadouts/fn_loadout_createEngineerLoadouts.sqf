@@ -1,8 +1,8 @@
 /*
- * File: fn_loadout_createRiflemanLoadouts.sqf
+ * File: fn_loadout_createEngineerLoadouts.sqf
  * Author: Spoffy
  * Description:
- *    Creates an array of rifleman loadouts.
+ *    Creates an array of engineer loadouts.
  * Params:
  *    _quantity - Number of loadouts to create
  * Environment params:
@@ -80,12 +80,30 @@ for "_i" from 1 to _quantity do {
 
 	if (count _smokeGrenades > 0) then {
 		_grenades pushBack [selectRandom _smokeGrenades, 2, 1];
+		_grenades pushBack [selectRandom _smokeGrenades, 2, 1];
 	};
+
+	private _engineerSupplies = ["Toolkit", "MineDetector"];
+
+	if (hasACE) then {
+		_engineerSupplies append [
+			"ACE_DefusalKit",
+			"ACE_Wirecutter"
+		];
+	};
+
+	private _explosives = [];
+
+	if (count _lightExplosives > 0) then {
+		_explosives pushBack [selectRandom _lightExplosives, 1, 1];
+	};	
 
 	[_loadout, [
 		_ammoItems,
 		_medicalSupplies,
 		_miscEssentials,
+		_engineerSupplies,
+		_explosives,
 		_grenades
 	]] call A3A_fnc_loadout_addItems;
 
