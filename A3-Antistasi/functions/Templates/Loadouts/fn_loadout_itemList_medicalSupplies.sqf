@@ -61,18 +61,15 @@ if (_level == "STANDARD") exitWith {
 	}
 };
 
-if (_level == "MINIMAL") exitWith {
-	if (hasACE) then {
-		[
-			["ACE_Morphine",1],
-			["ACE_Epinephrine",1],
-			["ACE_fieldDressing",3]
-		]
-	} else {
-		[
-			["FirstAidKit",3]
-		]
-	}
-};
-
-[]
+//If neither of them, return minimal medical supplies
+if (hasACE) then {
+	[
+		["ACE_Morphine",1],
+		["ACE_Epinephrine",1],
+		["ACE_fieldDressing",3]
+	]
+} else {
+	[
+		["FirstAidKit",3]
+	]
+}
