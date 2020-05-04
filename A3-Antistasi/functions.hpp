@@ -326,9 +326,13 @@ class A3A
 		class loadout_createBase {};
 		class loadout_defaultWeaponMag {};
 		class loadout_itemList_medicalSupplies {};
+		class loadout_itemList_miscEssentials {};
 		class loadout_itemLoad {};
 
+		class loadout_createEngineerLoadouts {};
+		class loadout_createMedicLoadouts {};
 		class loadout_createRiflemanLoadouts {};
+		class loadout_createSquadLeaderLoadouts {};
 	};
 
 	class Missions
