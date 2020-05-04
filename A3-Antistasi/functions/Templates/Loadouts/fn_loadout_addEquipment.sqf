@@ -51,6 +51,10 @@ params ["_loadout", "_equipment"];
 			private _nvg = ["NVGoggles", _specificClass] select (_specificClass != "");
 			(_loadout select 9) set [5, _nvg];
 		};
+		case "BINOCULARS": {
+			private _binoculars = ["Binocular", _specificClass] select (specificClass != "");
+			_loadout set [8, [_binoculars, "", "", "", [], [], ""]]
+		};
 	};
 } forEach _equipment;
 
