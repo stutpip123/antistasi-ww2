@@ -99,6 +99,7 @@ if (count _backpack > 0) then {
 	//If we're no longer removing items, we can stop looping.
 	private _itemRemoved = true;
 	while {_batchLoad > _spareLoad && _itemRemoved} do {
+		_itemRemoved = false;
 		{
 			_x params ["_itemInfo", "_unitLoad", "_totalLoad"];
 			_itemInfo params ["_class", "_count"];
@@ -108,6 +109,7 @@ if (count _backpack > 0) then {
 				_x set [2, _totalLoad - _unitLoad];
 				_batchLoad = _batchLoad - _unitLoad;
 				_batchInfo set [0, _batchLoad];
+				_itemRemoved = true;
 			};
 
 			//We can stop trimming if we've got enough space.
