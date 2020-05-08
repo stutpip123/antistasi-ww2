@@ -292,6 +292,7 @@ class A3A
 		class getGarrisonRatio {};
 		class getGarrisonStatus {};
 		class getRequested {};
+        class getVehicleCost {};
 		class getVehicleCrew {};
 		class initPreference {};
 		class logArray {};
