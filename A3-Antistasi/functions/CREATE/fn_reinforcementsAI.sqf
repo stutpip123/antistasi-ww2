@@ -6,7 +6,7 @@ _reinfPlaces = [];
 	_airportX = _x;
 	_numberX = 8;
 	_numGarr = [_airportX] call A3A_fnc_garrisonSize;
-	_numReal = count (garrison getVariable _airportX);
+	_numReal = count (garrison getVariable [_airportX, []]);
 	_sideX = sidesX getVariable [_airportX,sideUnknown];
 
 	//Self reinforce the airport if needed
@@ -41,7 +41,7 @@ _reinfPlaces = [];
 			_siteX = "";
 			{
 				_numGarr = [_x] call A3A_fnc_garrisonSize;
-				_numReal = count (garrison getVariable _x);
+				_numReal = count (garrison getVariable [_x, []]);
 				if (_numGarr - _numReal > _countX) then
 				{
 					_countX = _numGarr - _numReal;
@@ -97,6 +97,7 @@ if ((count _reinfPlaces == 0) and (AAFpatrols <= 3)) then {[] spawn A3A_fnc_AAFr
 	{
 		_target = (_x select 1);
 		[_target, "Reinforce", _side, [_canReinf]] remoteExec ["A3A_fnc_createAIAction", 2];
+		sleep 10;		// prevents convoys spawning on top of each other
 		//TODO add a feedback if something was send or not
 	} forEach _reinfMarker;
 } forEach [Occupants, Invaders];

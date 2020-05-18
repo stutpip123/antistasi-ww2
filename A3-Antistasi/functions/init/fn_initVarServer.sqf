@@ -1,6 +1,6 @@
 /*
  * This file is called after initVarCommon.sqf, on the server only.
- * 
+ *
  * We also initialise anything in here that we don't want a client that's joining to overwrite, as JIP happens before initVar.
  */
 scriptName "initVarServer.sqf";
@@ -13,9 +13,9 @@ serverInitialisedVariables = ["serverInitialisedVariables"];
 
 private _declareServerVariable = {
 	params ["_varName", "_varValue"];
-	
+
 	serverInitialisedVariables pushBackUnique _varName;
-	
+
 	if (!isNil "_varValue") then {
 		missionNamespace setVariable [_varName, _varValue];
 	};
@@ -34,19 +34,19 @@ private _declareServerVariable = {
 [2,"initialising general server variables",_fileName] call A3A_fnc_log;
 
 //time to delete dead bodies, vehicles etc..
-DECLARE_SERVER_VAR(cleantime, 3600);		
-//initial spawn distance. Less than 1Km makes parked vehicles spawn in your nose while you approach.										
+DECLARE_SERVER_VAR(cleantime, 3600);
+//initial spawn distance. Less than 1Km makes parked vehicles spawn in your nose while you approach.
 DECLARE_SERVER_VAR(distanceSPWN, 1000);
 DECLARE_SERVER_VAR(distanceSPWN1, 1300);
 DECLARE_SERVER_VAR(distanceSPWN2, 500);
-//Quantity of Civs to spawn in
-DECLARE_SERVER_VAR(civPerc, 40);
+//Quantity of Civs to spawn in (most likely per client - Bob Murphy 26.01.2020)
+DECLARE_SERVER_VAR(civPerc, 5);
 //The furthest distance the AI can attack from using helicopters or planes
 DECLARE_SERVER_VAR(distanceForAirAttack, 10000);
 //The furthest distance the AI can attack from using trucks and armour
 DECLARE_SERVER_VAR(distanceForLandAttack, if (hasIFA) then {5000} else {3000});
 //Max units we aim to spawn in. It's not very strictly adhered to.
-DECLARE_SERVER_VAR(maxUnits, 140);	
+DECLARE_SERVER_VAR(maxUnits, 140);
 
 //Disabled DLC according to server parameters
 DECLARE_SERVER_VAR(disabledMods, call A3A_fnc_initDisabledMods);
@@ -65,7 +65,6 @@ DECLARE_SERVER_VAR(smallCApos, []);
 DECLARE_SERVER_VAR(attackPos, []);
 DECLARE_SERVER_VAR(attackMrk, []);
 DECLARE_SERVER_VAR(airstrike, []);
-DECLARE_SERVER_VAR(convoyMarker, []);
 
 //Vehicles currently in the garage
 DECLARE_SERVER_VAR(vehInGarage, []);
@@ -75,9 +74,13 @@ DECLARE_SERVER_VAR(chopForest, false);
 
 DECLARE_SERVER_VAR(skillFIA, 1);																		//Initial skill level for FIA soldiers
 //Initial Occupant Aggression
-DECLARE_SERVER_VAR(prestigeNATO, 5);
+DECLARE_SERVER_VAR(aggressionOccupants, 0);
+DECLARE_SERVER_VAR(aggressionStackOccupants, []);
+DECLARE_SERVER_VAR(aggressionLevelOccupants, 1);
 //Initial Invader Aggression
-DECLARE_SERVER_VAR(prestigeCSAT, 5);
+DECLARE_SERVER_VAR(aggressionInvaders, 0);
+DECLARE_SERVER_VAR(aggressionStackInvaders, []);
+DECLARE_SERVER_VAR(aggressionLevelInvaders, 1);
 //Initial war tier.
 DECLARE_SERVER_VAR(tierWar, 1);
 DECLARE_SERVER_VAR(bombRuns, 0);
@@ -94,7 +97,7 @@ DECLARE_SERVER_VAR(haveRadio, hasTFAR || hasACRE);
 //List of vehicles that are reported (I.e - Players can't go undercover in them)
 DECLARE_SERVER_VAR(reportedVehs, []);
 //Currently destroyed buildings.
-DECLARE_SERVER_VAR(destroyedBuildings, []);
+//DECLARE_SERVER_VAR(destroyedBuildings, []);
 //Initial HR
 server setVariable ["hr",8,true];
 //Initial faction money pool
@@ -109,7 +112,9 @@ server setVariable ["resourcesFIA",1000,true];
 
 prestigeOPFOR = [75, 50] select cadetMode;												//Initial % support for NATO on each city
 prestigeBLUFOR = 0;																	//Initial % FIA support on each city
-countCA = 600;																		//600
+// Indicates time in seconds before next counter attack.
+attackCountdownOccupants = 600;
+attackCountdownInvaders = 600;																	
 
 cityIsSupportChanging = false;
 resourcesIsChanging = false;
@@ -124,6 +129,8 @@ markersChanging = [];
 
 playerHasBeenPvP = [];
 
+destroyedBuildings = [];		// synced only on join, to avoid spam on change
+
 ///////////////////////////////////////////
 //     INITIALISING ITEM CATEGORIES     ///
 ///////////////////////////////////////////
@@ -131,7 +138,7 @@ playerHasBeenPvP = [];
 
 //We initialise a LOT of arrays based on the categories. Every category gets a 'allX' variables and an 'unlockedX' variable.
 
-private _unlockableCategories = allCategoriesExceptSpecial + ["AA", "AT", "GrenadeLaunchers"];
+private _unlockableCategories = allCategoriesExceptSpecial + ["AA", "AT", "GrenadeLaunchers", "ArmoredVests", "ArmoredHeadgear", "BackpacksCargo"];
 
 //Build list of 'allX' variables, such as 'allWeapons'
 DECLARE_SERVER_VAR(allEquipmentArrayNames, allCategories apply {"all" + _x});
@@ -180,10 +187,8 @@ everyEquipmentRelatedArrayName = allEquipmentArrayNames + unlockedEquipmentArray
 [2,"Setting mod configs",_fileName] call A3A_fnc_log;
 
 //TFAR config
-DECLARE_SERVER_VAR(startLR, false);
 if (hasTFAR) then
 {
-	startLR = true;																			//set to true to start with LR radios unlocked.
 	if (isServer) then
 	{
 		[] spawn {
@@ -213,65 +218,6 @@ if (hasTFAR) then
 private _arrayCivs = ["C_man_polo_1_F","C_man_polo_1_F_afro","C_man_polo_1_F_asia","C_man_polo_1_F_euro","C_man_sport_1_F_tanoan"];
 DECLARE_SERVER_VAR(arrayCivs, _arrayCivs);
 
-////////////////////////////////////
-//      CIVILIAN VEHICLES       ///
-////////////////////////////////////
-[2,"Creating vehicles list",_fileName] call A3A_fnc_log;
-
-private _vehicleIsSpecial = {
-	params ["_vehConfig"];
-
-	   (getNumber (_vehConfig >> "transportRepair") > 0)
-	|| (getNumber (_vehConfig >> "transportAmmo") > 0)
-	|| (getNumber (_vehConfig >> "transportFuel") > 0)
-	|| (getNumber (_vehConfig >> "ace_refuel_fuelCargo") > 0)
-	|| (getNumber (_vehConfig >> "ace_repair_canRepair") > 0)
-	|| (getNumber (_vehConfig >> "ace_rearm_defaultSupply") > 0)
-		//Medical vehicle
-	|| (getNumber (_vehConfig >> "attendant") > 0)
-
-};
-
-private _civVehConfigs = "(
-	getNumber (_x >> 'scope') isEqualTo 2 && {
-		getNumber (_x >> 'side') isEqualTo 3 && {
-			getText (_x >> 'vehicleClass') in ['Car','Support'] && {
-				getText (_x >> 'simulation') == 'carx'
-			}
-		}
-	}
-)" configClasses (configFile >> "CfgVehicles");
-
-private _vehIsValid = {
-	params ["_vehConfig"];
-
-	private _mod = _vehConfig call A3A_fnc_getModOfConfigClass;
-
-	//If we have IFA and vehicle is vanilla
-	if(hasIFA && {_mod == ""}) exitWith {
-		false;
-	};
-
-	if (_vehConfig call _vehicleIsSpecial) exitWith {
-		false;
-	};
-
-	//Check if mod is disabled
-	!(_vehConfig call A3A_fnc_getModOfConfigClass in disabledMods);
-};
-
-DECLARE_SERVER_VAR(arrayCivVeh, (_civVehConfigs select {_x call _vehIsValid} apply {configName _x}));
-
-//Civilian Boats
-_civBoatConfigs = "(
-	getNumber (_x >> 'scope') isEqualTo 2 && {
-		getNumber (_x >> 'side') isEqualTo 3 && {
-			getText (_x >> 'vehicleClass') isEqualTo 'Ship'
-		}
-	}
-)" configClasses (configFile >> "CfgVehicles");
-
-DECLARE_SERVER_VAR(CivBoats, (_civBoatConfigs select {_x call _vehIsValid} apply {configName _x}));
 
 //////////////////////////////////////
 //         TEMPLATE SELECTION      ///
@@ -333,6 +279,11 @@ private _templateVariables = [
 	"supportStaticsSDKB3",
 	"ATMineMag",
 	"APERSMineMag",
+
+	//@Spoffy, is the correct like this?
+	"breachingExplosivesAPC",
+	"breachingExplosivesTank",
+
 	//Occupants
 	"nameOccupants",
 	"factionGEN",
@@ -450,6 +401,7 @@ private _templateVariables = [
 	"vehCSATLightUnarmed",
 	"vehCSATTrucks",
 	"vehCSATAmmoTruck",
+	"vehCSATRepairTruck",
 	"vehCSATLight",
 	"vehCSATAPC",
 	"vehCSATTank",
@@ -490,6 +442,7 @@ private _templateVariables = [
 	ONLY_DECLARE_SERVER_VAR_FROM_VARIABLE(_x);
 } forEach _templateVariables;
 
+
 if !(hasIFA) then {
 	//Rebel Templates
 	switch (true) do {
@@ -515,13 +468,96 @@ if !(hasIFA) then {
 		case (hasTIOW): {call compile preProcessFileLineNumbers "Templates\TIOW_Inv_ORK_Arid.sqf"};
 		case (activeAFRF): {call compile preProcessFileLineNumbers "Templates\RHS_Inv_AFRF_Arid.sqf"};
 	};
+	//Civilian Templates
+	switch (true) do {
+		case (!activeAFRF): {call compile preProcessFileLineNumbers "Templates\Vanilla_Civ.sqf";};
+		case (has3CB): {call compile preProcessFileLineNumbers "Templates\3CB_Civ.sqf"};
+		case (activeAFRF): {call compile preProcessFileLineNumbers "Templates\RHS_Civ.sqf"};
+	};
 }
 else {
 	//IFA Templates
 	call compile preProcessFileLineNumbers "Templates\IFA_Reb_POL_Temp.sqf";
 	call compile preProcessFileLineNumbers "Templates\IFA_Inv_SOV_Temp.sqf";
 	call compile preProcessFileLineNumbers "Templates\IFA_Occ_WEH_Temp.sqf";
+	call compile preProcessFileLineNumbers "Templates\IFA_Civ.sqf";
 };
+
+////////////////////////////////////
+//      CIVILIAN VEHICLES       ///
+////////////////////////////////////
+[2,"Creating civilian vehicles lists",_fileName] call A3A_fnc_log;
+
+private _fnc_vehicleIsValid = {
+	params ["_type"];
+	private _configClass = configFile >> "CfgVehicles" >> _type;
+	if !(isClass _configClass) exitWith {
+		[1, format ["Vehicle class %1 not found", _type], _filename] call A3A_fnc_Log;	
+		false;
+	};
+	if (_configClass call A3A_fnc_getModOfConfigClass in disabledMods) then {false} else {true};
+};
+
+private _fnc_filterAndWeightArray = {
+
+	params ["_array", "_targWeight"];
+	private _output = [];
+	private _curWeight = 0;
+
+	// first pass, filter and find total weight
+	for "_i" from 0 to (count _array - 2) step 2 do {
+		if ((_array select _i) call _fnc_vehicleIsValid) then {
+			_output pushBack (_array select _i);
+			_output pushBack (_array select (_i+1));
+			_curWeight = _curWeight + (_array select (_i+1));
+		};
+	};
+	if (_curWeight == 0) exitWith {_output};
+
+	// second pass, re-weight
+	private _weightMod = _targWeight / _curWeight;
+	for "_i" from 0 to (count _output - 2) step 2 do {
+		_output set [_i+1, _weightMod * (_output select (_i+1))]; 
+	};
+	_output;
+};
+
+private _civVehicles = [];
+private _civVehiclesWeighted = [];
+
+_civVehiclesWeighted append ([civVehCommonData, 4] call _fnc_filterAndWeightArray);
+_civVehiclesWeighted append ([civVehIndustrialData, 1] call _fnc_filterAndWeightArray);
+_civVehiclesWeighted append ([civVehMedicalData, 0.1] call _fnc_filterAndWeightArray);
+_civVehiclesWeighted append ([civVehRepairData, 0.1] call _fnc_filterAndWeightArray);
+_civVehiclesWeighted append ([civVehRefuelData, 0.1] call _fnc_filterAndWeightArray);
+
+for "_i" from 0 to (count _civVehiclesWeighted - 2) step 2 do {
+	_civVehicles pushBack (_civVehiclesWeighted select _i);
+};
+
+DECLARE_SERVER_VAR(arrayCivVeh, _civVehicles);
+DECLARE_SERVER_VAR(civVehiclesWeighted, _civVehiclesWeighted);
+
+
+private _civBoats = [];
+private _civBoatsWeighted = [];
+
+// Boats don't need any re-weighting, so just copy the data
+
+for "_i" from 0 to (count civBoatData - 2) step 2 do {
+	private _boat = civBoatData select _i;
+	if (_boat call _fnc_vehicleIsValid) then {
+		_civBoats pushBack _boat;
+		_civBoatsWeighted pushBack _boat;
+		_civBoatsWeighted pushBack (civBoatData select (_i+1));
+	};
+};
+
+DECLARE_SERVER_VAR(civBoats, _civBoats);
+DECLARE_SERVER_VAR(civBoatsWeighted, _civBoatsWeighted);
+
+private _undercoverVehicles = (arrayCivVeh - ["C_Quadbike_01_F"]) + civBoats + [civHeli];
+DECLARE_SERVER_VAR(undercoverVehicles, _undercoverVehicles);
 
 //////////////////////////////////////
 //      GROUPS CLASSIFICATION      ///
@@ -540,9 +576,11 @@ DECLARE_SERVER_VAR(sniperGroups, _sniperGroups);
 //////////////////////////////////////
 //        ITEM INITIALISATION      ///
 //////////////////////////////////////
-//This is all very tightly coupled. 
+//This is all very tightly coupled.
 //Beware when changing these, or doing anything with them, really.
 
+[2,"Initializing hardcoded categories",_fileName] call A3A_fnc_log;
+[] call A3A_fnc_categoryOverrides;
 [2,"Scanning config entries for items",_fileName] call A3A_fnc_log;
 [A3A_fnc_equipmentIsValidForCurrentModset] call A3A_fnc_configSort;
 [2,"Categorizing vehicle classes",_fileName] call A3A_fnc_log;
@@ -609,6 +647,18 @@ DECLARE_SERVER_VAR(vehUnlimited, _vehUnlimited);
 private _vehFIA = [vehSDKBike,vehSDKLightArmed,SDKMGStatic,vehSDKLightUnarmed,vehSDKTruck,vehSDKBoat,SDKMortar,staticATteamPlayer,staticAAteamPlayer,vehSDKRepair];
 DECLARE_SERVER_VAR(vehFIA, _vehFIA);
 
+// sanity check the lists to catch some serious problems early
+private _badVehs = [];
+{
+    if !(isClass (configFile >> "CfgVehicles" >> _x)) then {
+        _badVehs pushBackUnique _x;
+    };
+} forEach (vehNormal + vehBoats + vehAttack + vehPlanes + vehAA + vehMRLS + vehUnlimited + vehFIA);
+
+if (count _badVehs > 0) then {
+	[1, format ["Missing vehicle classnames: %1", str _badVehs], _filename] call A3A_fnc_log;
+};
+
 ///////////////////////////
 //     MOD TEMPLATES    ///
 ///////////////////////////
@@ -628,27 +678,6 @@ if (hasIFA) then {
 //     ACRE ITEM MODIFICATIONS   ///
 ////////////////////////////////////
 if (hasACRE) then {initialRebelEquipment append ["ACRE_PRC343","ACRE_PRC148","ACRE_PRC152","ACRE_PRC77","ACRE_PRC117F"];};
-
-////////////////////////////////////
-//     BREACHING SCRIPTS   ///
-////////////////////////////////////
-//Breaching logic
-DECLARE_SERVER_VAR(breachExplosiveSmall, ["DemoCharge_Remote_Mag"]);
-DECLARE_SERVER_VAR(breachExplosiveLarge, ["SatchelCharge_Remote_Mag"]);
-
-if(hasRHS && !hasIFA) then
-{
-	breachExplosiveSmall = ["rhs_ec200_mag", "rhs_ec200_camo_mag"];
-	breachExplosiveLarge = ["rhs_ec400_mag", "rhs_ec400_camo_mag"];
-}
-else
-{
-	if(hasIFA) then
-	{
-		breachExplosiveSmall = ["LIB_Ladung_Small_MINE_mag"];
-		breachExplosiveLarge = ["LIB_Ladung_Big_MINE_mag"];
-	};
-};
 
 ////////////////////////////////////
 //    UNIT AND VEHICLE PRICES    ///

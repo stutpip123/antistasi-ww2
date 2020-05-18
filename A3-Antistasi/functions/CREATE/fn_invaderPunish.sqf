@@ -114,7 +114,7 @@ for "_i" from 0 to _numCiv do {
 		_pos = _posDestination getPos [random _size,random 360];
 		if (!surfaceIsWater _pos) exitWith {};
 	};
-	_civ = _groupCivil createUnit [_typeUnit,_pos, [],0,"NONE"];
+	_civ = [_groupCivil, _typeUnit,_pos, [],0,"NONE"] call A3A_fnc_createUnit;
 	_civ forceAddUniform (selectRandom allCivilianUniforms);
 	_rnd = random 100;
 	if (_rnd < 90) then {
@@ -150,7 +150,13 @@ if ((({not (captive _x)} count _soldiers) < ({captive _x} count _soldiers)) or (
 	["invaderPunish",[format ["%2 is attacking innocent civilians in %1! Defend the city at all costs",_nameDestination,nameInvaders],format ["%1 Punishment",nameInvaders],_attackDestination],getMarkerPos _attackDestination,"SUCCEEDED"] call A3A_fnc_taskUpdate;
 	if ({(side _x == teamPlayer) and (_x distance _posDestination < _size * 2)} count allUnits >= {(side _x == _sideTarget) and (_x distance _posDestination < _size * 2)} count allUnits) then {
 		if (sidesX getVariable [_attackDestination,sideUnknown] == Occupants) then {[-15,15,_posDestination] remoteExec ["A3A_fnc_citySupportChange",2]} else {[-5,15,_posDestination] remoteExec ["A3A_fnc_citySupportChange",2]};
-		[-5,0] remoteExec ["A3A_fnc_prestige",2];
+        [
+            3,
+            "Rebels won a punishment mission",
+            "aggroEvent",
+            true
+        ] call A3A_fnc_log;
+        [[-10, 90], [40, 150]] remoteExec ["A3A_fnc_prestige",2];
 		{[-10,10,_x] remoteExec ["A3A_fnc_citySupportChange",2]} forEach citiesX;
 		{if (isPlayer _x) then {[10,_x] call A3A_fnc_playerScoreAdd}} forEach ([500,0,_posDestination,teamPlayer] call A3A_fnc_distanceUnits);
 		[10,theBoss] call A3A_fnc_playerScoreAdd;
@@ -173,7 +179,7 @@ if ((({not (captive _x)} count _soldiers) < ({captive _x} count _soldiers)) or (
 
 sleep 15;
 _nul = [0,"invaderPunish"] spawn A3A_fnc_deleteTask;
-[7200] remoteExec ["A3A_fnc_timingCA",2];
+[7200, Invaders] remoteExec ["A3A_fnc_timingCA",2];
 
 {
 	_veh = _x;

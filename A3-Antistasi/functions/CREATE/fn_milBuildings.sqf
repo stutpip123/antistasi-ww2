@@ -90,7 +90,23 @@ for "_i" from 0 to (count _buildings) - 1 do
 		_veh = createVehicle [_typeVehX, (_building buildingPos 8), [],0, "CAN_COLLIDE"];
 		_veh setDir (getDir _building);
 		_veh setPosATL [(getPos _building select 0),(getPos _building select 1),(getPosATL _veh select 2)];
-		_unit = _groupX createUnit [_typeUnit, _positionX, [], 0, "NONE"];
+		_unit = [_groupX, _typeUnit, _positionX, [], 0, "NONE"] call A3A_fnc_createUnit;
+		[_unit,_markerX] call A3A_fnc_NATOinit;
+		_unit moveInGunner _veh;
+		_soldiers pushBack _unit;
+		_vehiclesX pushBack _veh;
+	}
+else
+{
+	if 	((_typeB == "Land_Cargo_Patrol_V1_F") or (_typeB == "Land_Cargo_Patrol_V2_F") or (_typeB == "Land_Cargo_Patrol_V3_F")) then
+	{
+		_typeVehX = if (_sideX == Occupants) then {NATOMG} else {CSATMG};
+		_veh = createVehicle [_typeVehX, (_building buildingPos 1), [], 0, "CAN_COLLIDE"];
+		_ang = (getDir _building) - 180;
+		_pos = [getPosATL _veh, 2.5, _ang] call BIS_Fnc_relPos;
+		_veh setPosATL _pos;
+		_veh setDir (getDir _building) - 180;
+		_unit = [_groupX, _typeUnit, _positionX, [], 0, "NONE"] call A3A_fnc_createUnit;
 		[_unit,_markerX] call A3A_fnc_NATOinit;
 		_unit moveInGunner _veh;
 		_soldiers pushBack _unit;
@@ -98,15 +114,15 @@ for "_i" from 0 to (count _buildings) - 1 do
 	}
 	else
 	{
-		if 	((_typeB == "Land_Cargo_Patrol_V1_F") or (_typeB == "Land_Cargo_Patrol_V2_F") or (_typeB == "Land_Cargo_Patrol_V3_F")) then
+		if 	((_typeB == "Land_fortified_nest_small_EP1") or (_typeB == "Land_BagBunker_Small_F") or (_typeB == "Land_BagBunker_01_small_green_F") or (_typeB == "Land_fortified_nest_small") or (_typeB == "Fort_Nest")) then
 		{
 			_typeVehX = if (_sideX == Occupants) then {NATOMG} else {CSATMG};
 			_veh = createVehicle [_typeVehX, (_building buildingPos 1), [], 0, "CAN_COLLIDE"];
 			_ang = (getDir _building) - 180;
-			_pos = [getPosATL _veh, 2.5, _ang] call BIS_Fnc_relPos;
+			_pos = [getPosATL _veh, -1, _ang] call BIS_Fnc_relPos;
 			_veh setPosATL _pos;
 			_veh setDir (getDir _building) - 180;
-			_unit = _groupX createUnit [_typeUnit, _positionX, [], 0, "NONE"];
+			_unit = [_groupX, _typeUnit, _positionX, [], 0, "NONE"] call A3A_fnc_createUnit;
 			[_unit,_markerX] call A3A_fnc_NATOinit;
 			_unit moveInGunner _veh;
 			_soldiers pushBack _unit;
@@ -114,25 +130,45 @@ for "_i" from 0 to (count _buildings) - 1 do
 		}
 		else
 		{
-			if 	(_typeB in listbld) then
+			if 	((_typeB == "Land_Hlaska")) then
 			{
 				_typeVehX = if (_sideX == Occupants) then {NATOMG} else {CSATMG};
-				_veh = createVehicle [_typeVehX, (_building buildingPos 11), [], 0, "CAN_COLLIDE"];
-				_unit = _groupX createUnit [_typeUnit, _positionX, [], 0, "NONE"];
+				_veh = createVehicle [_typeVehX, (_building buildingPos 1), [], 0, "CAN_COLLIDE"];
+				_ang = (getDir _building) - 180;
+				_pos = [getPosATL _veh, -1, _ang] call BIS_Fnc_relPos;
+				_veh setPosATL _pos;
+				_veh setDir (getDir _building) - 180;
+							 
+			  
+																					   
+				_unit = [_groupX, _typeUnit, _positionX, [], 0, "NONE"] call A3A_fnc_createUnit;
 				[_unit,_markerX] call A3A_fnc_NATOinit;
 				_unit moveInGunner _veh;
 				_soldiers pushBack _unit;
 				_vehiclesX pushBack _veh;
-				sleep 0.5;
-				_veh = createVehicle [_typeVehX, (_building buildingPos 13), [], 0, "CAN_COLLIDE"];
-				_unit = _groupX createUnit [_typeUnit, _positionX, [], 0, "NONE"];
-				[_unit,_markerX] call A3A_fnc_NATOinit;
-				_unit moveInGunner _veh;
-				_soldiers pushBack _unit;
-				_vehiclesX pushBack _veh;
+			}
+			else
+			{
+				if 	(_typeB in listbld) then
+				{
+					_typeVehX = if (_sideX == Occupants) then {NATOMG} else {CSATMG};
+					_veh = createVehicle [_typeVehX, (_building buildingPos 11), [], 0, "CAN_COLLIDE"];
+					_unit = [_groupX, _typeUnit, _positionX, [], 0, "NONE"] call A3A_fnc_createUnit;
+					[_unit,_markerX] call A3A_fnc_NATOinit;
+					_unit moveInGunner _veh;
+					_soldiers pushBack _unit;
+					_vehiclesX pushBack _veh;
+					sleep 0.5;
+					_veh = createVehicle [_typeVehX, (_building buildingPos 13), [], 0, "CAN_COLLIDE"];
+					_unit = [_groupX, _typeUnit, _positionX, [], 0, "NONE"] call A3A_fnc_createUnit;
+					[_unit,_markerX] call A3A_fnc_NATOinit;
+					_unit moveInGunner _veh;
+					_soldiers pushBack _unit;
+					_vehiclesX pushBack _veh;
+				};
 			};
 		};
 	};
 };
-
+};
 [_groupX,_vehiclesX,_soldiers]

@@ -6,7 +6,8 @@ removeGoggles petros;
 petros setSkill 1;
 petros setVariable ["respawning",false];
 petros allowDamage false;
-[petros,(selectRandom unlockedRifles), 8, 0] call BIS_fnc_addWeapon;
+
+[petros,unlockedRifles] call A3A_fnc_randomRifle;
 petros selectWeapon (primaryWeapon petros);
 petros addEventHandler
 [
@@ -31,9 +32,9 @@ petros addEventHandler
         {
             if (_damage > 1) then
             {
-                if (!(petros getVariable ["INCAPACITATED",false])) then
+                if (!(petros getVariable ["incapacitated",false])) then
                 {
-                    petros setVariable ["INCAPACITATED",true,true];
+                    petros setVariable ["incapacitated",true,true];
                     _damage = 0.9;
                     if (!isNull _injurer) then {[petros,side _injurer] spawn A3A_fnc_unconscious} else {[petros,sideUnknown] spawn A3A_fnc_unconscious};
                 }
@@ -93,9 +94,21 @@ petros addMPEventHandler ["mpkilled",
 	};
 }];
 [] spawn {sleep 120; petros allowDamage true;};
-//Disable ACE Interactions
-if (hasACE) then {
-    [typeOf petros, 0,["ACE_ApplyHandcuffs"]] call ace_interact_menu_fnc_removeActionFromClass;
-    [typeOf petros, 0,["ACE_MainActions", "ACE_JoinGroup"]] call ace_interact_menu_fnc_removeActionFromClass;
+
+private _removeProblematicAceInteractions = {
+    _this spawn {
+        //Wait until we've got hasACE initialised fully
+        waitUntil {!isNil "initVar"};
+        //Disable ACE Interactions
+        if (hasInterface && hasACE) then {
+            [typeOf _this, 0,["ACE_ApplyHandcuffs"]] call ace_interact_menu_fnc_removeActionFromClass;
+            [typeOf _this, 0,["ACE_MainActions", "ACE_JoinGroup"]] call ace_interact_menu_fnc_removeActionFromClass;
+        };
+    };
 };
+
+//We're doing it per-init of petros, because the type of petros on respawn might be different to initial type.
+//This'll prevent it breaking in the future.
+[petros, _removeProblematicAceInteractions] remoteExec ["call", 0, petros];
+
 [2,"initPetros completed",_fileName] call A3A_fnc_log;

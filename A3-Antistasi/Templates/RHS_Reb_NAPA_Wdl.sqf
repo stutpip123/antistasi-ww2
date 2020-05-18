@@ -86,11 +86,17 @@ supportStaticsSDKB3 = "RHS_Podnos_Bipod_Bag";
 //             ITEMS             ///
 ////////////////////////////////////
 //Mines
-ATMineMag = "rhs_mine_ptm1_mag";
+ATMineMag = "rhs_mag_mine_ptm1";
 APERSMineMag = "rhs_mine_ozm72_b_mag";
+
+//Breaching explosives
+//Breaching APCs needs one demo charge
+breachingExplosivesAPC = [["rhs_ec200_mag", 1], ["rhs_ec200_sand_mag", 1], ["rhsusf_m112_mag", 1]];
+//Breaching tanks needs one satchel charge or two demo charges
+breachingExplosivesTank = [["rhs_ec400_mag", 1], ["rhs_ec400_sand_mag", 1], ["rhs_ec200_mag", 2], ["rhs_ec200_sand_mag", 2], ["rhsusf_m112x4_mag", 1], ["rhs_charge_M2tet_x2_mag", 1]];
+
 //Starting Unlocks
-initialRebelEquipment append ["rhs_weap_type94_new","rhs_weap_tt33","rhs_weap_Izh18","rhs_weap_kar98k","rhs_weap_panzerfaust60"];
-initialRebelEquipment append ["rhs_weap_Izh18","rhs_weap_m1garand_sa43"];
+initialRebelEquipment append ["rhs_weap_type94_new","rhs_weap_tt33","rhs_weap_Izh18","rhs_weap_kar98k"];
 initialRebelEquipment append ["rhs_weap_rpg75"];
 initialRebelEquipment append ["rhs_mag_6x8mm_mhp","rhs_mag_762x25_8","rhsgref_1Rnd_00Buck","rhsgref_1Rnd_Slug","rhsgref_5Rnd_792x57_kar98k","rhs_grenade_mkii_mag","rhs_grenade_mki_mag","rhs_mag_rdg2_black","rhs_grenade_m15_mag"];
 initialRebelEquipment append ["B_FieldPack_oli","B_FieldPack_blk","B_FieldPack_ocamo","B_FieldPack_oucamo","B_FieldPack_cbr"];
@@ -98,4 +104,4 @@ initialRebelEquipment append ["rhsgref_chestrig","rhsgref_chicom","rhs_vydra_3m"
 initialRebelEquipment append ["rhs_acc_2dpZenit","Binocular"];
 //TAFR Unlocks
 if (hasTFAR) then {initialRebelEquipment append ["tf_microdagr","tf_anprc154"]};
-if (startLR) then {initialRebelEquipment pushBack "tf_anprc155_coyote"};
+if (hasTFAR && startWithLongRangeRadio) then {initialRebelEquipment pushBack "tf_anprc155_coyote"};

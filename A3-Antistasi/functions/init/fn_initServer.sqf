@@ -25,6 +25,7 @@ if (isMultiplayer) then {
 	loadLastSave = if ("loadSave" call BIS_fnc_getParamValue == 1) then {true} else {false};
 	gameMode = "gameMode" call BIS_fnc_getParamValue; publicVariable "gameMode";
 	autoSave = if ("autoSave" call BIS_fnc_getParamValue == 1) then {true} else {false};
+	autoSaveInterval = "autoSaveInterval" call BIS_fnc_getParamValue;
 	membershipEnabled = if ("membership" call BIS_fnc_getParamValue == 1) then {true} else {false};
 	switchCom = if ("switchComm" call BIS_fnc_getParamValue == 1) then {true} else {false};
 	tkPunish = if ("tkPunish" call BIS_fnc_getParamValue == 1) then {true} else {false};
@@ -38,21 +39,27 @@ if (isMultiplayer) then {
 	memberDistance = "memberDistance" call BIS_fnc_getParamValue; publicVariable "memberDistance";
 	limitedFT = if ("allowFT" call BIS_fnc_getParamValue == 1) then {true} else {false}; publicVariable "limitedFT";
 	napalmEnabled = if ("napalmEnabled" call BIS_fnc_getParamValue == 1) then {true} else {false}; publicVariable "napalmEnabled";
+	startWithLongRangeRadio = if ("startWithLongRangeRadio" call BIS_fnc_getParamValue == 1) then {true} else {false}; publicVariable "startWithLongRangeRadio";
 	teamSwitchDelay = "teamSwitchDelay" call BIS_fnc_getParamValue;
 	playerMarkersEnabled = ("pMarkers" call BIS_fnc_getParamValue == 1); publicVariable "playerMarkersEnabled";
 	minPlayersRequiredforPVP = "minPlayersRequiredforPVP" call BIS_fnc_getParamValue; publicVariable "minPlayersRequiredforPVP";
+	helmetLossChance = "helmetLossChance" call BIS_fnc_getParamValue; publicVariable "helmetLossChance";
 } else {
 	[2, "Setting Singleplayer Params", _fileName] call A3A_fnc_log;
-	//loadLastSave is set elsewhere.
-	gameMode = 1;
+	//These should be set in the set parameters dialog.
+	//This is just a fallback so we don't break
+	loadLastSave = if (isNil "loadLastSave") then {[1, "No loadLastSave setting", _fileName] call A3A_fnc_log; true} else {loadLastSave};
+	gameMode = if (isNil "gameMode") then {[1, "No gameMode setting", _fileName] call A3A_fnc_log; 1} else {gameMode};
 	autoSave = false;
+	autoSaveInterval = 3600;
 	membershipEnabled = false;
 	switchCom = false;
 	tkPunish = false;
 	distanceMission = 4000;
 	pvpEnabled = false;
-	skillMult = 2;
-	minWeaps = 25;
+	skillMult = if (isNil "skillMult") then {2} else {skillMult};
+	//Acceptable to default this one.
+	minWeaps = if (isNil "minWeaps") then {25} else {minWeaps};
 	memberOnlyMagLimit = 0;
 	allowMembersFactionGarageAccess = true;
 	civTraffic = 1;
@@ -62,6 +69,8 @@ if (isMultiplayer) then {
 	teamSwitchDelay = 0;
 	playerMarkersEnabled = true;
 	minPlayersRequiredforPVP = 2;
+	helmetLossChance = 33;
+    startWithLongRangeRadio = true;
 };
 
 [] call A3A_fnc_crateLootParams;
@@ -83,6 +92,7 @@ savingServer = true;
 [2,format ["%1 server version: %2", ["SP","MP"] select isMultiplayer, localize "STR_antistasi_credits_generic_version_text"],_fileName] call A3A_fnc_log;
 bookedSlots = floor ((("memberSlots" call BIS_fnc_getParamValue)/100) * (playableSlotsNumber teamPlayer)); publicVariable "bookedSlots";
 _nul = call A3A_fnc_initFuncs;
+if (hasACEMedical) then { call A3A_fnc_initACEUnconsciousHandler };
 _nul = call A3A_fnc_initZones;
 if (gameMode != 1) then {
 	Occupants setFriend [Invaders,1];
@@ -90,17 +100,16 @@ if (gameMode != 1) then {
 	if (gameMode == 3) then {"CSAT_carrier" setMarkerAlpha 0};
 	if (gameMode == 4) then {"NATO_carrier" setMarkerAlpha 0};
 };
-[] spawn A3A_fnc_initPetros;
 ["Initialize"] call BIS_fnc_dynamicGroups;//Exec on Server
 hcArray = [];
 
 waitUntil {count (call A3A_fnc_playableUnits) > 0};
-waitUntil {({(isPlayer _x) and (!isNull _x) and (_x == _x)} count allUnits) == (count (call A3A_fnc_playableUnits))};//ya estamos todos
+waitUntil {({(isPlayer _x) and (!isNull _x) and (_x == _x)} count allUnits) == (count (call A3A_fnc_playableUnits))};
 [] spawn A3A_fnc_modBlacklist;
 
 if (loadLastSave) then {
 	[2,"Loading saved data",_fileName] call A3A_fnc_log;
-	["membersX"] call fn_LoadStat;
+	["membersX"] call A3A_fnc_getStatVariable;
 	if (isNil "membersX") then {
 		loadLastSave = false;
 		[2,"No member data found, skipping load",_fileName] call A3A_fnc_log;
@@ -119,7 +128,7 @@ if (loadLastSave) then {
 		publicVariable "membersX";
 	};
 	if (membershipEnabled and (membersX isEqualTo [])) then {
-		[petros,"hint","Membership is enabled but members list is empty. Current players will be added to the member list"] remoteExec ["A3A_fnc_commsMP"];
+		[petros,"hint","Membership is enabled but members list is empty. Current players will be added to the member list", "Membership"] remoteExec ["A3A_fnc_commsMP"];
 		[2,"Previous data loaded",_fileName] call A3A_fnc_log;
 		[2,"Membership enabled, adding current players to list",_fileName] call A3A_fnc_log;
 		membersX = [];
@@ -165,8 +174,9 @@ if !(loadLastSave) then {
 	} foreach initialRebelEquipment;
 	[2,"Initial arsenal unlocks completed",_fileName] call A3A_fnc_log;
 };
+call A3A_fnc_createPetros;
 
-[[petros,"hint","Server load finished"],"A3A_fnc_commsMP"] call BIS_fnc_MP;
+[petros,"hint","Server load finished", "Server Information"] remoteExec ["A3A_fnc_commsMP", 0];
 
 //HandleDisconnect doesn't get 'owner' param, so we can't use it to handle headless client disconnects.
 addMissionEventHandler ["HandleDisconnect",{_this call A3A_fnc_onPlayerDisconnect;false}];
@@ -180,16 +190,23 @@ addMissionEventHandler ["BuildingChanged", {
 		_oldBuilding setVariable ["ruins", _newBuilding];
 		_newBuilding setVariable ["building", _oldBuilding];
 
-		destroyedBuildings pushBack (getPosATL _oldBuilding);
+		// Antenna dead/alive status is handled separately
+		if !(_oldBuilding in antennas || _oldBuilding in antennasDead) then {
+			destroyedBuildings pushBack _oldBuilding;
+		};
 	};
 }];
 
 serverInitDone = true; publicVariable "serverInitDone";
 [2,"Setting serverInitDone as true",_fileName] call A3A_fnc_log;
 
+
+[2, "Waiting for HQ placement", _fileName] call A3A_fnc_log;
 waitUntil {sleep 1;!(isNil "placementDone")};
+[2, "HQ Placed, continuing init", _fileName] call A3A_fnc_log;
 distanceXs = [] spawn A3A_fnc_distance;
 [] spawn A3A_fnc_resourcecheck;
+[] spawn A3A_fnc_aggressionUpdateLoop;
 [] execVM "Scripts\fn_advancedTowingInit.sqf";
 savingServer = false;
 
@@ -197,9 +214,11 @@ savingServer = false;
 
 //Enable performance logging
 [] spawn {
+	private _logPeriod = [30, 10] select (logLevel == 3);
 	while {true} do {
 		[] call A3A_fnc_logPerformance;
-		sleep 30;
+		sleep _logPeriod;
 	};
 };
+execvm "functions\init\fn_initSnowFall.sqf";
 [2,"initServer completed",_fileName] call A3A_fnc_log;

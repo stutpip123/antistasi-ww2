@@ -11,7 +11,7 @@ if (isOnRoad _positionX) then {_isRoad = true};
 if (_isRoad) then
 	{
 	_radiusX = 1;
-	_garrison = garrison getVariable _markerX;
+	_garrison = garrison getVariable [_markerX, []];
 	_veh = objNull;
 
 	if (isNil "_garrison") then
@@ -39,7 +39,7 @@ if (_isRoad) then
 		sleep 1;
 		};
 	_groupX = [_positionX, teamPlayer, _garrison,true,false] call A3A_fnc_spawnGroup;
-	//_unit = _groupX createUnit [staticCrewTeamPlayer, _positionX, [], 0, "NONE"];
+	//_unit = [_groupX, staticCrewTeamPlayer, _positionX, [], 0, "NONE"] call A3A_fnc_createUnit;
 	//_unit moveInGunner _veh;
 	{[_x,_markerX] spawn A3A_fnc_FIAinitBases; if (typeOf _x == staticCrewTeamPlayer) then {_x moveInGunner _veh}} forEach units _groupX;
 	}
@@ -67,11 +67,11 @@ if ({alive _x} count units _groupX == 0) then
 	deleteMarker _markerX;
 	if (_isRoad) then
 		{
-		[["TaskFailed", ["", "Roadblock Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
+		["TaskFailed", ["", "Roadblock Lost"]] remoteExec ["BIS_fnc_showNotification", 0];
 		}
 	else
 		{
-		[["TaskFailed", ["", "Watchpost Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
+		["TaskFailed", ["", "Watchpost Lost"]] remoteExec ["BIS_fnc_showNotification", 0];
 		};
 	};
 

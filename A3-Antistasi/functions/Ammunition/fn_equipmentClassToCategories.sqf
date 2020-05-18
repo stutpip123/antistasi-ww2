@@ -10,6 +10,10 @@
 
 params ["_className"];
 
+// First check if the item has hardcoded categories
+private _categories = categoryOverrides getVariable [_className, []];
+if (count _categories > 0) exitWith { _categories };
+
 private _itemType = [_className] call A3A_fnc_itemType;
 
 private _baseCategory =	switch (_itemType select 1) do
@@ -77,8 +81,6 @@ private _baseCategory =	switch (_itemType select 1) do
 		default {"Unknown"};
 	};
 
-private _categories = [];
-
 if (_baseCategory != "") then { _categories pushBack _baseCategory};
 
 private _aggregateCategory = switch (_itemType select 0) do {
@@ -123,6 +125,25 @@ if (_baseCategory == "Rifles") then {
 	// workaround for RHS having an extra muzzle for "SAFE"
 	if (count _muzzles >= 2 && {"gl" == getText (_config >> (_muzzles select 1) >> "cursorAim")}) then {
 		_categories pushBack "GrenadeLaunchers";
+	};
+};
+
+if (_basecategory == "Vests") then {
+	if (getNumber (configfile >> "CfgWeapons" >> _className >> "ItemInfo" >> "HitpointsProtectionInfo" >> "Chest" >> "armor") > 5) then {
+		_categories pushBack "ArmoredVests";
+	};
+};
+
+if (_basecategory == "Headgear") then {
+	if (getNumber (configfile >> "CfgWeapons" >> _className >> "ItemInfo" >> "HitpointsProtectionInfo" >> "Head" >> "armor") > 0) then {
+		_categories pushBack "ArmoredHeadgear";
+	};
+};
+
+if (_basecategory == "Backpacks") then {
+	// 160 = assault pack. Just a way to limit which backpacks friendly AI are using.
+	if (getNumber (configFile >> "CfgVehicles" >> _className >> "maximumLoad") >= 160) then {
+		_categories pushBack "BackpacksCargo";
 	};
 };
 
