@@ -18,8 +18,13 @@
 		case "rhsgref_faction_cdf_ng_b": {if ((!has3CB) and teamPlayer isEqualTo west) then {allRebelUniforms pushBack _x};};
 		//3CB
 		//case "IND_F": {if ((has3CB) and nameTeamPlayer isEqualTo "TTF") then {allRebelUniforms pushBack _x};};
-		//TIOW
-		/*TIOWTODO Uniforms*/
+		//TIOW		/*TIOWTODO Uniforms*/
+		case "TIOW_BP_BLU": {allRebelUniforms pushBack _x}; // No Independent Uniform Versions
+		case "TIOW_Chaos_HQ_B": {allRebelUniforms pushBack _x};
+		case "TIOW_Ren_B_B": {allRebelUniforms pushBack _x};
+		case "TIOW_Ren_BL_B": {allRebelUniforms pushBack _x};
+		case "TIOW_Ren_G_B": {allRebelUniforms pushBack _x};
+		case "TIOW_Ren_GR_B": {allRebelUniforms pushBack _x};
 		//IFA
 		case "LIB_GUER": {if (hasIFA) then {allRebelUniforms pushBack _x};};
 		//Vanilla
