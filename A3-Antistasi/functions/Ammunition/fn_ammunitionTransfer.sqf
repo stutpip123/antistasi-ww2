@@ -147,7 +147,7 @@ else
 if (_destinationX == boxX) then
 	{
 	{if (_x distance boxX < 10) then {[petros,"hint","Ammobox Loaded"] remoteExec ["A3A_fnc_commsMP",_x]}} forEach (call A3A_fnc_playableUnits);
-	if ((_originX isKindOf "ReammoBox_F") and (_originX != vehicleBox)) then {deleteVehicle _originX};
+	if ((_originX isKindOf "ReammoBox_F" || _originX isKindOf "TIOW_IG_WeaponBox1_700") and (_originX != vehicleBox)) then {deleteVehicle _originX}; /*TIOWTODO Box not parent to ReammoBox_F*/
 	_updated = [] call A3A_fnc_arsenalManage;
 	if (_updated != "") then
 		{
