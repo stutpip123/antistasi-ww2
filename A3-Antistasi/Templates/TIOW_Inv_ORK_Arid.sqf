@@ -10,13 +10,17 @@ factionMaleInvaders = "Orks_OP";
 if (gameMode == 4) then {factionFIA = "Orks_OP"};
 
 //Flag Images
-CSATFlag = "Flag_Syndikat_F";
-CSATFlagTexture = "\a3\data_f_exp\flags\flag_synd_co.paa";
+CSATFlag = "Flag_Syndikat_F"; // "776th_flag" not having texture replaced
+CSATFlagTexture = "a3\data_f_exp\flags\flag_synd_co.paa";
 flagCSATmrk = "flag_Syndikat";
-if (isServer) then {"CSAT_carrier" setMarkerText "Ork Battleship Slamblasta"};
-	
+if (isServer) then {
+	"CSAT_carrier" setMarkerText "Ork Battleship Slamblasta";
+	"CSAT_carrier" setMarkerType "flag_Spetsnaz";
+};
+createVehicle ["TIOW_Oberon" ,((getMarkerPos "CSAT_carrier") vectorAdd [0,0,500]),[], 0, "FLY"];
+
 //Loot Crate
-CSATAmmoBox = "CargoNet_01_box_F";
+CSATAmmoBox = "Box_FIA_Support_F";  //CargoNet_01_box_F
 
 ////////////////////////////////////
 //   PVP LOADOUTS AND VEHICLES   ///
@@ -24,17 +28,17 @@ CSATAmmoBox = "CargoNet_01_box_F";
 //PvP Loadouts
 NATOPlayerLoadouts = [
 	//Team Leader
-	["TIOW_Ork_teamLeader"] call A3A_fnc_getLoadout,
+	"Boss2_OP",				//["TIOW_Ork_teamLeader"] call A3A_fnc_getLoadout,
 	//Medic
-	["TIOW_Ork_medic"] call A3A_fnc_getLoadout,
+	"ArdBoy2_OP",			//["TIOW_Ork_medic"] call A3A_fnc_getLoadout,
 	//Autorifleman
-	["TIOW_Ork_machineGunner"] call A3A_fnc_getLoadout,
+	"ShootaBoy2_OP",		//["TIOW_Ork_machineGunner"] call A3A_fnc_getLoadout,
 	//Marksman
-	["TIOW_Ork_marksman"] call A3A_fnc_getLoadout,
+	"ArdBoy2_OP",			//["TIOW_Ork_marksman"] call A3A_fnc_getLoadout,
 	//Anti-tank Scout
-	["TIOW_Ork_AT"] call A3A_fnc_getLoadout,
+	"TankBusta2_OP",			//["TIOW_Ork_AT"] call A3A_fnc_getLoadout,
 	//AT2
-	["TIOW_Ork_rifleman"] call A3A_fnc_getLoadout
+	"TankBusta2_OP"			//["TIOW_Ork_rifleman"] call A3A_fnc_getLoadout
 ];
 
 //PVP Player Vehicles

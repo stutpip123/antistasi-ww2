@@ -2,9 +2,16 @@
 //       NAMES AND FLAGS         ///
 ////////////////////////////////////
 nameTeamPlayer = "Renegade";
-SDKFlag = "Flag_Syndikat_F";
-SDKFlagTexture = "\A3\Data_F\Flags\Flag_Altis_CO.paa";
+SDKFlag = "776th_flag";
 typePetros = "TIOW_Cultist_I";
+_TIOW_maps = ["coci_concretumcivitas"];
+
+if (worldName in _TIOW_maps) then {
+	mapX setObjectTexture [0,"TIOW_Whiteboard.jpg"];
+	SDKFlagTexture = "TIOW_Renegade_Flag.jpg";
+}else{
+	SDKFlagTexture = "a3\data_f\flags\flag_fd_red_co.paa";
+};
 
 ////////////////////////////////////
 //             UNITS             ///

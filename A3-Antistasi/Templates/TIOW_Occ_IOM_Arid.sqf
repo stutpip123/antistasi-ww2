@@ -12,10 +12,14 @@ factionMaleOccupants = "DKoK_1489th";
 if ((gameMode != 4) and (!hasFFAA)) then {factionFIA = "TIOW_Val_Blu"};
 
 //Flag Images
-NATOFlag = "Flag_NATO_F";
-NATOFlagTexture = "\A3\Data_F\Flags\Flag_NATO_CO.paa";
-flagNATOmrk = "flag_NATO";
-if (isServer) then {"NATO_carrier" setMarkerText "Oberon Class Battleship"};
+NATOFlag = "Flag_NATO_F"; // 700th_flag
+NATOFlagTexture = "whobjects3\super_assets\military\tiow_flagpole\data\700th_cadian_flag_ca.paa";	// \A3\Data_F\Flags\Flag_NATO_CO.paa
+flagNATOmrk = "flag_UK"; //flag_NATO
+if (isServer) then {
+	"NATO_carrier" setMarkerText "Oberon Class Battleship";
+	"NATO_carrier" setMarkerType "flag_UK";
+};
+createVehicle ["TIOW_Oberon" ,((getMarkerPos "NATO_carrier") vectorAdd [0,0,500]),[], 0, "FLY"];
 
 //Loot Crate
 NATOAmmobox = "TIOW_IG_WeaponBox1_700";
@@ -26,17 +30,17 @@ NATOAmmobox = "TIOW_IG_WeaponBox1_700";
 //PvP Loadouts
 NATOPlayerLoadouts = [
 	//Team Leader
-	["TIOW_IOM_teamLeader"] call A3A_fnc_getLoadout,
+	"TIOW_Cad_Kasr700th",			//["TIOW_IOM_teamLeader"] call A3A_fnc_getLoadout,
 	//Medic
-	["TIOW_IOM_medic"] call A3A_fnc_getLoadout,
+	"TIOW_Cad_Med700th",			//["TIOW_IOM_medic"] call A3A_fnc_getLoadout,
 	//Autorifleman
-	["TIOW_IOM_machineGunner"] call A3A_fnc_getLoadout,
+	"TIOW_Cad_Kasr700th",			//["TIOW_IOM_machineGunner"] call A3A_fnc_getLoadout,
 	//Marksman
-	["TIOW_IOM_marksman"] call A3A_fnc_getLoadout,
+	"TIOW_Cad_Kasr700th",			//["TIOW_IOM_marksman"] call A3A_fnc_getLoadout,
 	//Anti-tank Scout
-	["TIOW_IOM_AT"] call A3A_fnc_getLoadout,
+	"TIOW_Cad_Kasr700th",			//["TIOW_IOM_AT"] call A3A_fnc_getLoadout,
 	//AT2
-	["TIOW_IOM_rifleman"] call A3A_fnc_getLoadout
+	"TIOW_Cad_Kasr700th"			//["TIOW_IOM_rifleman"] call A3A_fnc_getLoadout
 ];
 
 //PVP Player Vehicles
@@ -55,7 +59,7 @@ NATOUnarmed = "B_Survivor_F";
 NATOMarksman = "TIOW_Cad_VET700th";
 staticCrewOccupants = "TIOW_Cad_GM700th";
 NATOPilot = "TIOW_Cad_Tnk700th";
-//Caleb's Addition Unit Variables
+//Caleb's Additional Unit Variables
 NATOMedic = "TIOW_Cad_Med700th";
 NATOSpec = "TIOW_Cad_Kasr700th";
 
@@ -140,8 +144,8 @@ vehNATOBoat = "B_Boat_Armed_01_minigun_F";
 vehNATORBoat = "B_T_Boat_Transport_01_F";
 vehNATOBoats = [vehNATOBoat,vehNATORBoat];
 //Planes
-vehNATOPlane = "TIOW_Valkyrie_Rocket_M_B";
-vehNATOPlaneAA = "TIOW_Valkyrie_Rocket_M_B";
+vehNATOPlane = "TIOW_Thunderbolt_Base";
+vehNATOPlaneAA = "TIOW_Thunderbolt_Base";
 vehNATOTransportPlanes = ["TIOW_Valkyrie_Fuel_M_B"];
 //Heli
 vehNATOPatrolHeli = "TIOW_Valkyrie_Fuel_B";
