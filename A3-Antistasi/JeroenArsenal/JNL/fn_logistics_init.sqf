@@ -228,10 +228,18 @@ jnl_vehicleHardpoints = [
         [1,[0.0383301,-2.51055,-0.504599],[6,7,8,9,12,13]]
     ]],
 
-	//TIOW
-	[null,[ /*TIOWTODO HardPoints*/
+	//TIOW "STeG-3 Cargo (Beige)"
+	["\TIOW_STeG4\Model\STeG4_Cargo\TIOW_STeG4_Cargo.p3d",[ /*TIOWTODO HardPoints*/
 	//TYPE, [left/right,   for/aft,  up/down], seat disabler
-		[null,[],[]]
+		[0,		[-0.04,-1.7,-0.72],		[]],		//weapon node
+    	[1,		[-0.04,-1.7,-0.72],		[]]		//cargo node
+	]],
+	
+	//TIOW "Imperial Guard Centaur"
+	["WHTransports\Model\TIOW_IG_Centaur.p3d",[ /*TIOWTODO HardPoints*/
+	//TYPE, [left/right,   for/aft,  up/down], seat disabler
+		[0,		[-0.04,-1.7,-0.72],		[]],		//weapon node
+    	[1,		[-0.04,-1.7,-0.72],		[]]		//cargo node
 	]]
 ];
 
@@ -239,7 +247,9 @@ jnl_vehicleHardpoints = [
 jnl_vehicleLockedSeats = [
 	["\A3\soft_f\Offroad_01\Offroad_01_unarmed_F",[1,2,3,4]],
 	["\A3\soft_f_gamma\van_01\Van_01_transport_F.p3d",[]],
-	["\A3\soft_f_beta\Truck_02\Truck_02_transport_F",[2,3,4,5,6,7,8,9,10,11,12,13]]
+	["\A3\soft_f_beta\Truck_02\Truck_02_transport_F",[2,3,4,5,6,7,8,9,10,11,12,13]],
+	["\TIOW_STeG4\Model\STeG4_Cargo\TIOW_STeG4_Cargo.p3d",[]],	/*TIOWTODO Locked Seats*/
+	["WHTransports\Model\TIOW_IG_Centaur.p3d",[]]				/*TIOWTODO Locked Seats*/
 ];
 
 //The list of static weapons that can be attached to a certain vehicle
@@ -314,8 +324,24 @@ jnl_allowedWeapons = [
 		"\rhsafrf\addons\rhs_heavyweapons\AGS30\AGS_static",			//RHS AGS-30 the russian GMG, facing to the right
 		"rhsafrf\addons\rhs_heavyweapons\igla\igla_AA_pod"				//RHS double Igla launcher
 	]],
-	[null,[/*TIOWTODO Static Weapon Attach List*/
-		null
+	//"Imperial Guard Centaur"		/*TIOWTODO Static Weapon Attach List*/
+	["WHTransports\Model\TIOW_IG_Centaur.p3d", [
+		"\A3\Static_F_Gamma\AT_01\AT_01.p3d",							//AT titan, facing to the right
+		"\A3\Static_F_Gamma\GMG_01\GMG_01_high_F.p3d",					//Static GMG
+		"\A3\Static_F_Gamma\HMG_01\HMG_01_high_F.p3d",					//Static HMG
+		"rhsusf\addons\rhsusf_heavyweapons\TOW\TOW_static",				//RHS TOW launcher
+		"\rhsusf\addons\rhsusf_heavyweapons\m2_mg",						//RHS M2HB machinegun
+		"\rhsusf\addons\rhsusf_heavyweapons\m2_mg2",					//RHS M2HB sitting machinegun
+		"\rhsusf\addons\rhsusf_heavyweapons\Mk19_minitripod\mk19_stat", //RHS mk.19 GMG, facing to the right
+		"\rhsafrf\addons\rhs_heavyweapons\DShKM\DShKM_mg",				//RHS DShKM
+		"rhsafrf\addons\rhs_heavyweapons\DShKM\DShKM_mg2",				//RHS DShKM sitting, facing to the right
+		"\rhsafrf\addons\rhs_heavyweapons\mg\bis_kord\KORD_6u16sp",		//RHS Kord
+		"\rhsafrf\addons\rhs_heavyweapons\mg\bis_kord\kord",			//RHS Kord sitting, facing to the right
+		"\rhsafrf\addons\rhs_heavyweapons\mg\rhs_nsv_tripod",			//RHS NSV sitting, facing to the right
+		"\rhsafrf\addons\rhs_heavyweapons\kornet\kornet.p3d",			//RHS kornet, facing to the right
+		"\rhsafrf\addons\rhs_heavyweapons\spg9\spg9.p3d",				//RHS SPG-9, facing 75 degrees to the left
+		"\rhsafrf\addons\rhs_heavyweapons\AGS30\AGS_static",			//RHS AGS-30 the russian GMG, facing to the right
+		"rhsafrf\addons\rhs_heavyweapons\igla\igla_AA_pod"				//RHS double Igla launcher
 	]]
 ];
 
@@ -351,8 +377,10 @@ jnl_attachmentOffset = [
 	["\A3\Weapons_F\Ammoboxes\Supplydrop.p3d",						[0, 0, 0.95],			[1,0,0],				1],		//Ammodrop crate
 	["\A3\Soft_F\Quadbike_01\Quadbike_01_F.p3d",					[0, 0, 1.4],			[0,1,0],				1],		//Quadbike
 	["\WW2\Assets_m\Weapons\Ammoboxes_m\IF_GER_Ammo.p3d",			[0,0,0.85],				[1,0,0],				1],		//ifa ammo
-	["\WW2\Assets_m\Weapons\Ammoboxes_m\IF_SU_Ammo.p3d",			[0,0,0.85],				[1,0,0],				1]		//ifa ammo
+	["\WW2\Assets_m\Weapons\Ammoboxes_m\IF_SU_Ammo.p3d",			[0,0,0.85],				[1,0,0],				1],		//ifa ammo
 	/*TIOWTODO Loot Crates*/
+	["TIOW_Storage\IG\Model\Ammobox1.p3d",							[0, 0, 0.95],			[1,0,0],				1],		//"TIOW_IG_WeaponBox1_700" //Occ IOM Ammo Crate
+	["\A3\Weapons_F_Bootcamp\Ammoboxes\Itembox_02_F.p3d",			[0, 0, 0.95],			[1,0,0],				1]		//"Box_FIA_Support_F" //Inv Orkz Ammo Crate
 ];
 
 
