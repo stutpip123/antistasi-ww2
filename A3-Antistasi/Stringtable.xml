@@ -714,6 +714,24 @@
         <Original>placeholder</Original>
         <English>placeholder</English>
       </Key>
+      <Key ID="STR_antistasi_mission_info_concertumcivitas_mapname_short_text">
+        <Original>Antistasi Concertum Civitas</Original>
+        <English>Antistasi Concertum Civitas</English>
+      </Key>
+      <Key ID="STR_antistasi_mission_info_concertumcivitas_blurb_text">
+        <Original>Beginning reform is beginning revolution.</Original>
+        <English>Beginning reform is beginning revolution.</English>
+      </Key>
+      <Key ID="STR_antistasi_mission_info_concertumcivitas_mapname_text">
+        <Original>Antistasi - Eternal Life demands Eternal War.</Original>
+        <English>Antistasi - Eternal Life demands Eternal War.</English>
+      </Key>
+      <Key ID="STR_antistasi_mission_info_concertumcivitas_description_text">
+        <Original>Be the Chaos Usurper. Fight against a superior enemy in technology, number, assets and vehicles. Use guerrilla tactics in a totally dynamic world, with around 18 sidemissions, everywhere, anytime, anything.</Original>
+        <English>Be the Chaos Usurper. Fight against a superior enemy in technology, number, assets and vehicles. Use guerrilla tactics in a totally dynamic world, with around 18 sidemissions, everywhere, anytime, anything.</English>
+        <French>Devenez le Chef de la Résistance. Battez-vous contre un ennemi en surnombre et avec un niveau technologique supérieur. Utilisez les tactiques des Guerrillas dans un monde complétement dynamique, avec environ 18 missions. Quand vous voulez, où vous voulez, avec ce que vous voulez...</French>
+        <Russian>Стань лидером сопротивления. Сражайся против врага превосходящего в технологии, количистве, вооружении и технике. Используй партизанскую тактику в полностью динамическом мире.</Russian>
+      </Key>
     </Container>
     <Container name="journal_entries">
       <Key ID="STR_antistasi_journal_entry_header_tutorial_1">
