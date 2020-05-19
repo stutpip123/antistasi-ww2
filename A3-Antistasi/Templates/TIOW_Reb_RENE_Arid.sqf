@@ -7,7 +7,7 @@ typePetros = "TIOW_Cultist_I";
 _TIOW_maps = ["coci_concretumcivitas"];
 
 if (worldName in _TIOW_maps) then {
-	SDKFlagTexture = "TIOW_Renegade_Flag.jpg";
+	SDKFlagTexture = "Pictures\Mission\TIOW_Renegade_Flag.jpg";
 }else{
 	SDKFlagTexture = "a3\data_f\flags\flag_fd_red_co.paa";
 };
@@ -104,12 +104,12 @@ breachingExplosivesTank = [["TIOW_melta_bomb_placeable_Mag", 1], ["TIOW_Tau_ExpB
 //Starting Unlocks
 initialRebelEquipment append ["AgripinaaAutoChaos","Antioc43Lasgun","TIOW_Chaos_Shotgun","Lucius22c"];
 initialRebelEquipment append ["MissileLauncherDKOKBlack"];
-initialRebelEquipment append ["20Rnd_Agrip_mag","TIOW_Antioc43_Mag","TIOW_Shotgun_pellets_mag"];
+initialRebelEquipment append ["20Rnd_Agrip_mag","TIOW_Antioc43_Mag","TIOW_Shotgun_pellets_mag","Lucius22c_Pellet"];
 initialRebelEquipment append ["TIOW_ig_smoke_grenade_mag","TIOW_chaos_frag_grenade_mag","TIOW_chaos_krak_grenade_mag"];
-initialRebelEquipment append ["RPG7_F"]; //Death Korps Missle Luancher Accepts RPG.
+initialRebelEquipment append ["RPG7_F"];	// Death Korps Missle Launcher Accepts RPG.
 initialRebelEquipment append ["Ren_Backpack_02_black_Ammo","Ren_Backpack_02_black","TIOW_Chaos_Vox_Caster","TIOW_Valhallan_Bandolier"];
 initialRebelEquipment append ["Ren_ArmorSet_02_brown","TIOW_Cultist_Gear","TIOW_Cultist_Gear2","Ren_ArmorSet_01_brown"];
 initialRebelEquipment append ["Binocular"];
 //TAFR Unlocks
 if (hasTFAR) then {initialRebelEquipment append ["tf_microdagr","tf_anprc154"]};
-if (startLR) then {initialRebelEquipment pushBack "tf_anprc155_coyote"};
+if (hasTFAR && startWithLongRangeRadio) then {initialRebelEquipment pushBack "tf_anprc155_coyote"};
