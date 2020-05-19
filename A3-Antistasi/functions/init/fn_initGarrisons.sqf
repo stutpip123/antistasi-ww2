@@ -146,6 +146,10 @@ if (gameMode == 1) then
 		case "stratis": {
 			_mrkCSAT = ["outpost_3"];
 		};
+		case "coci_concretumcivitas": {
+			_mrkCSAT = ["outpost_6","factory_4"];
+			_controlsCSAT = [];
+		};
 	};
     _controlsNATO = _controlsNATO - _controlsCSAT;
 	_mrkNATO = markersX - _mrkCSAT - ["Synd_HQ"];
