@@ -269,10 +269,15 @@ switch (toLower worldName) do {
 		//Roads DB
 		call compile preprocessFileLineNumbers "Navigation\roadsDBstratis.sqf";
 	};
-		case "coci_concretumcivitas":
+	case "coci_concretumcivitas":
 	{
 		//Roads DB
 		call compile preprocessFileLineNumbers "Navigation\roadsDBcoci_concretumcivitas.sqf";
+	};
+	case "coci_nosky_concretumcivitas_nosky":
+	{
+		//Roads DB
+		call compile preprocessFileLineNumbers "Navigation\roadsDBcoci_nosky_concretumcivitas_nosky.sqf";
 	};
 };
 

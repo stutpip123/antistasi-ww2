@@ -150,6 +150,10 @@ if (gameMode == 1) then
 			_mrkCSAT = ["outpost_6","factory_4"];
 			_controlsCSAT = [];
 		};
+		case "coci_nosky_concretumcivitas_nosky": {
+			_mrkCSAT = ["outpost_6","factory_4"];
+			_controlsCSAT = [];
+		};
 	};
     _controlsNATO = _controlsNATO - _controlsCSAT;
 	_mrkNATO = markersX - _mrkCSAT - ["Synd_HQ"];

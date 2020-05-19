@@ -222,6 +222,12 @@ switch (worldName) do {
 		_blackListPos = [];
 		antennas = [];
 	};
+	case "coci_nosky_concretumcivitas_nosky": {
+		_posAntennas = [[817.597,419.216,0],[1909.37,329.208,0],[4689.49,335.305,0],[4345.39,1256.53,0],[2436.63,630.477,0],[2120.03,781.645,0],[988.674,1878.69,0],[1142.56,2385.94,0],[2147.81,4170.39],[357.391,3712.76,0]];
+		_posBank = [[4563.63,3359.5,0],[3367.27,1574.05,0]];
+		_blackListPos = [];
+		antennas = [];
+	};
 	default {
 		antennas = nearestObjects [[worldSize /2, worldSize/2], ["Land_TTowerBig_1_F", "Land_TTowerBig_2_F", "Land_Communication_F", "Land_Vysilac_FM","Land_A_TVTower_base", "Land_Telek1"], worldSize];
 

@@ -4,7 +4,7 @@
 nameTeamPlayer = "Renegade";
 SDKFlag = "776th_flag";
 typePetros = "TIOW_Cultist_I";
-_TIOW_maps = ["coci_concretumcivitas"];
+_TIOW_maps = ["coci_concretumcivitas","coci_nosky_concretumcivitas_nosky"];
 
 if (worldName in _TIOW_maps) then {
 	SDKFlagTexture = "Pictures\Mission\TIOW_Renegade_Flag.jpg";
