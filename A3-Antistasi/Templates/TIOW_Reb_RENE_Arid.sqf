@@ -11,6 +11,7 @@ if (worldName in _TIOW_maps) then {
 }else{
 	SDKFlagTexture = "a3\data_f\flags\flag_fd_red_co.paa";
 };
+flagX setFlagTexture SDKFlagTexture;	// Assertive Texture update
 
 ////////////////////////////////////
 //             UNITS             ///
@@ -82,11 +83,11 @@ ATStaticSDKB = "TIOW_IG_MissileLauncher_AT_Bag1_INDEP";
 AAStaticSDKB = "TIOW_IG_MissileLauncher_AA_Bag1_INDEP";
 MortStaticSDKB = "TIOW_IG_Mortar_Bag1_INDEP";
 //Short Support
-supportStaticSDKB = "Execption: TIOW_Reb_RENE_Arid supportStaticSDKB";
+supportStaticSDKB = "TIOW_IG_HeavyBolter_Bag2_INDEP";
 //Tall Support
-supportStaticsSDKB2 = "Execption: TIOW_Reb_RENE_Arid supportStaticsSDKB2";
+supportStaticsSDKB2 = "TIOW_IG_MissileLauncher_AT_Bag2_INDEP";	//NOT COMPATIBLE WITH AA
 //Mortar Support
-supportStaticsSDKB3 = "Execption: TIOW_Reb_RENE_Arid supportStaticsSDKB3";
+supportStaticsSDKB3 = "TIOW_IG_Mortar_Bag2_INDEP";
 
 ////////////////////////////////////
 //             ITEMS             ///
