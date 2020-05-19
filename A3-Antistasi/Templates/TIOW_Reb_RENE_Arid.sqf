@@ -7,7 +7,6 @@ typePetros = "TIOW_Cultist_I";
 _TIOW_maps = ["coci_concretumcivitas"];
 
 if (worldName in _TIOW_maps) then {
-	mapX setObjectTexture [0,"TIOW_Whiteboard.jpg"];
 	SDKFlagTexture = "TIOW_Renegade_Flag.jpg";
 }else{
 	SDKFlagTexture = "a3\data_f\flags\flag_fd_red_co.paa";
