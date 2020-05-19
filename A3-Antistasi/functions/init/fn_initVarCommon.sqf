@@ -269,6 +269,11 @@ switch (toLower worldName) do {
 		//Roads DB
 		call compile preprocessFileLineNumbers "Navigation\roadsDBstratis.sqf";
 	};
+		case "coci_concretumcivitas":
+	{
+		//Roads DB
+		call compile preprocessFileLineNumbers "Navigation\roadsDBcoci_concretumcivitas.sqf";
+	};
 };
 
 [2,"initVarCommon completed",_fileName] call A3A_fnc_log;
