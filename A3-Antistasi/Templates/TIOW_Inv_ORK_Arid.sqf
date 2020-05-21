@@ -16,8 +16,8 @@ flagCSATmrk = "flag_Syndikat";
 if (isServer) then {
 	"CSAT_carrier" setMarkerText "Ork Battleship Slamblasta";
 	"CSAT_carrier" setMarkerType "flag_Spetsnaz";
+	createVehicle ["TIOW_Oberon" ,((getMarkerPos "CSAT_carrier") vectorAdd [0,0,500]),[], 0, "FLY"];
 };
-createVehicle ["TIOW_Oberon" ,((getMarkerPos "CSAT_carrier") vectorAdd [0,0,500]),[], 0, "FLY"];
 
 //Loot Crate
 CSATAmmoBox = "Box_FIA_Support_F";  //CargoNet_01_box_F
@@ -42,7 +42,7 @@ NATOPlayerLoadouts = [
 ];
 
 //PVP Player Vehicles
-vehCSATPVP = ["Trukk1_OP"];
+vehCSATPVP = ["Trukk1_OP","I_C_Offroad_02_unarmed_brown_F","I_C_Offroad_02_LMG_F","I_C_Offroad_02_AT_F"];
 
 ////////////////////////////////////
 //             UNITS             ///

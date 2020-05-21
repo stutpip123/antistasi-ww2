@@ -18,8 +18,8 @@ flagNATOmrk = "flag_UK"; //flag_NATO
 if (isServer) then {
 	"NATO_carrier" setMarkerText "Oberon Class Battleship";
 	"NATO_carrier" setMarkerType "flag_UK";
+	createVehicle ["TIOW_Oberon" ,((getMarkerPos "NATO_carrier") vectorAdd [0,0,500]),[], 0, "FLY"];
 };
-createVehicle ["TIOW_Oberon" ,((getMarkerPos "NATO_carrier") vectorAdd [0,0,500]),[], 0, "FLY"];
 
 //Loot Crate
 NATOAmmobox = "TIOW_IG_WeaponBox1_700";
@@ -44,7 +44,7 @@ NATOPlayerLoadouts = [
 ];
 
 //PVP Player Vehicles
-vehNATOPVP = ["TIOW_Centaur_01_Cadian_700_Blu"];
+vehNATOPVP = ["TIOW_Centaur_01_Cadian_700_Blu","I_C_Offroad_02_unarmed_brown_F","I_C_Offroad_02_LMG_F","I_C_Offroad_02_AT_F"];
 
 ////////////////////////////////////
 //             UNITS             ///
