@@ -150,11 +150,11 @@ vehCSATAir = vehCSATTransportHelis + vehCSATAttackHelis + [vehCSATPlane,vehCSATP
 
 //Militia Vehicles
 if (gameMode == 4) then
-	{
+{
 	vehFIAArmedCar = "Trukk1_OP";
 	vehFIATruck = "Trukk1_OP";
 	vehFIACar = "Trukk1_OP";
-	};
+};
 
 ////////////////////////////////////
 //        STATIC WEAPONS         ///

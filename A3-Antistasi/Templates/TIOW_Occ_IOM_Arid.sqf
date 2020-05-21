@@ -53,7 +53,7 @@ vehNATOPVP = ["TIOW_Centaur_01_Cadian_700_Blu","I_C_Offroad_02_unarmed_brown_F",
 NATOGrunt = "TIOW_Cad_GM700th";
 NATOOfficer = "TIOW_Comissar_Red";
 NATOOfficer2 = "TIOW_Priest1";
-NATOBodyG = "TIOW_Cad_GM_Melta_700th";
+NATOBodyG = "TIOW_Cad_GM_Flamer_700th";
 NATOCrew = "TIOW_Cad_Tnk700th";
 NATOUnarmed = "B_Survivor_F";
 NATOMarksman = "TIOW_Cad_VET700th";
@@ -66,8 +66,8 @@ NATOSpec = "TIOW_Cad_Kasr700th";
 //Militia Units
 if (gameMode != 4) then
 {
-	FIARifleman = "TIOW_Valhallan_Trooper_1_brown_Blu";
-	FIAMarksman = "TIOW_Valhallan_NCO_1_brown_Blu";
+	FIARifleman = "DKoK_Off_1491st";
+	FIAMarksman = "DKoK_Gren_1491st";
 };
 
 //Police Units
@@ -80,11 +80,11 @@ policeGrunt = "TIOW_Mordian_Trooper_1_Blu";
 //Military Groups
 //Teams
 groupsNATOSentry = [NATOBodyG,NATOGrunt];
-groupsNATOSniper = ["TIOW_Valhallan_NCO_1_brown_Blu","TIOW_Valhallan_Trooper_1_brown_Blu"];
+groupsNATOSniper = ["DKoK_Gren_1491st","DKoK_Off_1491st"];
 groupsNATOsmall = [groupsNATOSentry,groupsNATOSniper];
 //Fireteams
-groupsNATOAA = ["DKoK_Off_1491st","DKoK_GM_WM_1491st","DKoK_GM_1491st","DKoK_GM_1491st_HStubber"];
-groupsNATOAT = ["DKoK_QM_1491st","DKoK_Gren_1491st","DKoK_GM_1491st","DKoK_Gren_1491st_AT"];
+groupsNATOAA = ["DKoK_Off_1491st","DKoK_GM_WM_1491st","DKoK_GM_1491st_HStubber","DKoK_GM_1491st_HStubber"];
+groupsNATOAT = ["DKoK_QM_1491st","DKoK_GM_1491st","DKoK_Gren_1491st_AT","DKoK_Gren_1491st_AT"];
 groupsNATOmid = [["DKoK_Off_1491st","DKoK_GM_1491st_HStubber","DKoK_GM_1491st","DKoK_GM_1491st"],groupsNATOAA,groupsNATOAT];
 //Squads
 NATOSquad = [NATOOfficer2,NATOOfficer,NATOBodyG,NATOBodyG,NATOGrunt,NATOGrunt,NATOMarksman,NATOMedic];
@@ -163,11 +163,11 @@ vehNATOAir = vehNATOTransportHelis + vehNATOAttackHelis + [vehNATOPlane,vehNATOP
 
 //Militia Vehicles
 if (gameMode != 4) then
-	{
+{
 	vehFIAArmedCar = "TIOW_Taurox_HS_700";
 	vehFIATruck = "TIOW_Centaur_01_Cadian_700_Blu";
 	vehFIACar = "C_Offroad_02_unarmed_green_F";	// Jeep Wrangler
-	};
+};
 
 //Police Vehicles
 vehPoliceCar = "C_Offroad_02_unarmed_blue_F";	// Jeep Wrangler
