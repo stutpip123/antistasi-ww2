@@ -135,8 +135,8 @@ vehCSATPlaneAA = "Valkyrie_Looted_0";
 vehCSATTransportPlanes = ["Valkyrie_Looted_0"];
 //Heli
 vehCSATPatrolHeli = "Deffkopta_02_0";
-vehCSATTransportHelis = ["MDK_0"];
-vehCSATAttackHelis = ["MDK_0","Deffkopta_01_0","Deffkopta_01_0","Deffkopta_02_0","Deffkopta_02_0"];
+vehCSATTransportHelis = ["Valkyrie_Looted_0"]; //["MDK_0"]; // Mega Deff Kopter is currently bugged as fuck, Temp replaced by Looted Valkyrie.
+vehCSATAttackHelis = [/*"MDK_0",*/"Deffkopta_01_0","Deffkopta_01_0","Deffkopta_02_0","Deffkopta_02_0"];
 //UAV
 vehCSATUAV = "O_T_UAV_04_CAS_F";
 vehCSATUAVSmall = "O_UGV_01_rcws_F";
