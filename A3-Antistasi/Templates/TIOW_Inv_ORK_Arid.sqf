@@ -34,9 +34,9 @@ NATOPlayerLoadouts = [
 	//Autorifleman
 	"ShootaBoy2_OP",		//["TIOW_Ork_machineGunner"] call A3A_fnc_getLoadout,
 	//Marksman
-	"ArdBoy2_OP",			//["TIOW_Ork_marksman"] call A3A_fnc_getLoadout,
+	"StormBoy1_OP",			//["TIOW_Ork_marksman"] call A3A_fnc_getLoadout,
 	//Anti-tank Scout
-	"TankBusta2_OP",			//["TIOW_Ork_AT"] call A3A_fnc_getLoadout,
+	"TankBusta2_OP",		//["TIOW_Ork_AT"] call A3A_fnc_getLoadout,
 	//AT2
 	"TankBusta2_OP"			//["TIOW_Ork_rifleman"] call A3A_fnc_getLoadout
 ];
@@ -52,7 +52,7 @@ CSATGrunt = "Naked1_OP";
 CSATOfficer = "Boss1_OP";
 CSATBodyG = "ArdBoy1_OP";
 CSATCrew = "Naked1_OP";
-CSATMarksman = "ShootaBoy1_OP";
+CSATMarksman = "StormBoy1_OP";
 staticCrewInvaders = "Naked1_OP";
 CSATPilot = "Naked1_OP";
 
@@ -73,11 +73,11 @@ groupsCSATSniper = [CSATMarksman,CSATMarksman];
 groupsCSATsmall = [groupsCSATSentry,[CSATBodyG,CSATBodyG],groupsCSATSniper];
 //Fireteams
 groupsCSATAA = ["Boss1_OP","ShootaBoy1_OP","ShootaBoy1_OP","TankBusta1_OP"];
-groupsCSATAT = ["Boss1_OP","TankBusta1_OP","TankBusta1_OP","TankBusta1_OP"];
+groupsCSATAT = ["Boss1_OP","Naked1_OP","TankBusta1_OP","TankBusta1_OP"];
 groupsCSATmid = [[CSATOfficer,CSATBodyG,CSATBodyG,CSATBodyG],groupsCSATAA,groupsCSATAT];
 //Squads
 CSATSquad = [CSATOfficer,CSATBodyG,CSATBodyG,CSATBodyG,groupsCSATAA,groupsCSATAT];
-CSATSpecOp = ["Boss2_OP","ArdBoy2_OP","ArdBoy2_OP","ArdBoy2_OP","ShootaBoy2_OP","ShootaBoy2_OP","TankBusta2_OP","TankBusta2_OP"];
+CSATSpecOp = ["Boss2_OP","ArdBoy2_OP","ArdBoy2_OP","ArdBoy2_OP","ShootaBoy2_OP","ShootaBoy2_OP","StormBoy1_OP","TankBusta2_OP"];
 groupsCSATSquad =
 	[
 	CSATSquad,
@@ -141,8 +141,8 @@ vehCSATAttackHelis = [/*"MDK_0",*/"Deffkopta_01_0","Deffkopta_01_0","Deffkopta_0
 vehCSATUAV = "O_T_UAV_04_CAS_F";
 vehCSATUAVSmall = "O_UGV_01_rcws_F";
 //Artillery
-vehCSATMRLS = "O_MBT_02_arty_F";
-vehCSATMRLSMags = "32Rnd_155mm_Mo_shells";
+vehCSATMRLS = "TIOW_RenegadeWyvern_Brown";
+vehCSATMRLSMags = "TIOW_StormShard_Mag";
 //Combined Arrays
 vehCSATNormal = vehCSATLight + vehCSATTrucks + [vehCSATAmmoTruck];
 vehCSATAir = vehCSATTransportHelis + vehCSATAttackHelis + [vehCSATPlane,vehCSATPlaneAA] + vehCSATTransportPlanes;

@@ -155,8 +155,8 @@ vehNATOAttackHelis = ["TIOW_Valkyrie_Rocket_M_B","TIOW_Valkyrie_Rocket_B"];
 vehNATOUAV = "B_UAV_05_F";
 vehNATOUAVSmall = "B_UGV_02_Demining_F";
 //Artillery
-vehNATOMRLS = "B_MBT_01_mlrs_F";
-vehNATOMRLSMags = "rockets_230mm_GAT";
+vehNATOMRLS = "TIOW_CadianWyvern_700";
+vehCSATMRLSMags = "TIOW_StormShard_Mag";
 //Combined Arrays
 vehNATONormal = vehNATOLight + vehNATOTrucks + [vehNATOAmmoTruck, vehNATORepairTruck];
 vehNATOAir = vehNATOTransportHelis + vehNATOAttackHelis + [vehNATOPlane,vehNATOPlaneAA] + vehNATOTransportPlanes;
