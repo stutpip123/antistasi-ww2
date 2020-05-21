@@ -127,7 +127,7 @@ groupsNATOGen = [policeOfficer,policeGrunt];
 //Military Vehicles
 //Light
 vehNATOBike = "B_Quadbike_01_F";
-vehNATOLightArmed = ["Sentinel_AC_1491st_1","Sentinel_CS_1491st_1","Sentinel_HB_1491st_1","Sentinel_LC_1491st_1","Sentinel_MLA_1491st_1","Sentinel_ML_1491st_1","Sentinel_PC_1491st_1"];
+vehNATOLightArmed = ["Sentinel_AC_1491th_1","Sentinel_CS_1491th_1","Sentinel_HB_1491th_1","Sentinel_LC_1491th_1","Sentinel_MLA_1491th_1","Sentinel_ML_1491th_1","Sentinel_PC_1491th_1"];
 vehNATOLightUnarmed = ["TIOW_Centaur_01_Cadian_700_Blu"];
 vehNATOTrucks = ["TIOW_Centaur_01_Cadian_700_Blu"];
 vehNATOCargoTrucks = ["TIOW_Centaur_01_Cadian_700_Blu"];
