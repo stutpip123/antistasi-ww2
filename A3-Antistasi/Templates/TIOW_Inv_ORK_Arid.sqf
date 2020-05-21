@@ -113,18 +113,19 @@ if (gameMode == 4) then
 //           VEHICLES            ///
 ////////////////////////////////////
 //Military Vehicles
-//Lite
+//Light
 vehCSATBike = "Trukk1_OP";
 vehCSATLightArmed = ["Trukk1_OP"];
 vehCSATLightUnarmed = ["Trukk1_OP"];
 vehCSATTrucks = ["Trukk1_OP"];
-vehCSATAmmoTruck = "Trukk1_OP";
+vehCSATAmmoTruck = "TIOW_RenegadeTrojan_Grey_OP";
+vehCSATRepairTruck = "TIOW_RenegadeTrojan_Grey_OP";
 vehCSATLight = vehCSATLightArmed + vehCSATLightUnarmed;
 //Armored
-vehCSATAPC = ["Trukk1_OP"];
-vehCSATTank = "TIOW_Stompa_01_es_OP";
-vehCSATAA = "TIOW_FlakkaDakka_Turret_OP";
-vehCSATAttack = vehCSATAPC + ["Deffkopta_02_0"];
+vehCSATAPC = ["Trukk1_OP","_RenegadeChimAuto_Grey_OP"];
+vehCSATTank = "TIOW_RenegadeSTeG4_Grey_OP";
+vehCSATAA = "TIOW_RenegadeHydra_Grey";
+vehCSATAttack = vehCSATAPC + vehCSATTank + ["Deffkopta_01_0"];
 //Boats
 vehCSATBoat = "O_T_Boat_Armed_01_hmg_F";
 vehCSATRBoat = "O_T_Boat_Transport_01_F";
@@ -141,7 +142,7 @@ vehCSATAttackHelis = [/*"MDK_0",*/"Deffkopta_01_0","Deffkopta_01_0","Deffkopta_0
 vehCSATUAV = "O_T_UAV_04_CAS_F";
 vehCSATUAVSmall = "O_UGV_01_rcws_F";
 //Artillery
-vehCSATMRLS = "TIOW_RenegadeWyvern_Brown";
+vehCSATMRLS = "TIOW_RenegadeWyvern_Grey";
 vehCSATMRLSMags = "TIOW_StormShard_Mag";
 //Combined Arrays
 vehCSATNormal = vehCSATLight + vehCSATTrucks + [vehCSATAmmoTruck];
