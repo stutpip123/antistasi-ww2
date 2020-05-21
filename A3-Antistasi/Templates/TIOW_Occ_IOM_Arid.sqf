@@ -7,7 +7,7 @@ nameOccupants = "Imperium";
 //Police Faction
 factionGEN = "TIOW_Mordian_Blu";
 //SF Faction
-factionMaleOccupants = "DKoK_1489th";
+factionMaleOccupants = "DKoK_1491st";
 //Miltia Faction
 if ((gameMode != 4) and (!hasFFAA)) then {factionFIA = "TIOW_Val_Blu"};
 
@@ -83,9 +83,9 @@ groupsNATOSentry = [NATOBodyG,NATOGrunt];
 groupsNATOSniper = ["TIOW_Valhallan_NCO_1_brown_Blu","TIOW_Valhallan_Trooper_1_brown_Blu"];
 groupsNATOsmall = [groupsNATOSentry,groupsNATOSniper];
 //Fireteams
-groupsNATOAA = ["DKoK_Off_1489th","DKoK_GM_WM_1489th","DKoK_GM_1489th","DKoK_GM_1489th_HStubber"];
-groupsNATOAT = ["DKoK_QM_1489th","DKoK_Gren_1489th","DKoK_GM_1489th","DKoK_Gren_1489th_AT"];
-groupsNATOmid = [["DKoK_Off_1489th","DKoK_GM_1489th_HStubber","DKoK_GM_1489th","DKoK_GM_1489th"],groupsNATOAA,groupsNATOAT];
+groupsNATOAA = ["DKoK_Off_1491st","DKoK_GM_WM_1491st","DKoK_GM_1491st","DKoK_GM_1491st_HStubber"];
+groupsNATOAT = ["DKoK_QM_1491st","DKoK_Gren_1491st","DKoK_GM_1491st","DKoK_Gren_1491st_AT"];
+groupsNATOmid = [["DKoK_Off_1491st","DKoK_GM_1491st_HStubber","DKoK_GM_1491st","DKoK_GM_1491st"],groupsNATOAA,groupsNATOAT];
 //Squads
 NATOSquad = [NATOOfficer2,NATOOfficer,NATOBodyG,NATOBodyG,NATOGrunt,NATOGrunt,NATOMarksman,NATOMedic];
 NATOSpecOp = [NATOSpec,NATOSpec,NATOSpec,NATOSpec,NATOSpec,NATOSpec,NATOSpec,NATOSpec];
@@ -93,8 +93,8 @@ groupsNATOSquad =
 	[
 	NATOSquad,
 	NATOSquad,
-	["DKoK_Off_1489th","DKoK_GM_1489th_HStubber","DKoK_GM_1489th","DKoK_GM_1489th","DKoK_GM_1489th","DKoK_GM_1489th","DKoK_GM_1489th_AT","TIOW_Priest"],
-	["TIOW_Comissar_Krieg","DKoK_Off_1489th","DKoK_GM_1489th_HStubber","DKoK_GM_1489th_HStubber","DKoK_GM_WM_1489th","DKoK_GM_1489th","DKoK_Eng_1489th","TIOW_Priest3"]
+	["DKoK_Off_1491st","DKoK_GM_1491st_HStubber","DKoK_GM_1491st","DKoK_GM_1491st","DKoK_GM_1491st","DKoK_GM_1491st","DKoK_GM_1491st_AT","TIOW_Priest"],
+	["TIOW_Comissar_Krieg","DKoK_Off_1491st","DKoK_GM_1491st_HStubber","DKoK_GM_1491st_HStubber","DKoK_GM_WM_1491st","DKoK_GM_1491st","DKoK_Eng_1491st","TIOW_Priest3"]
 	];
 
 //Militia Groups
@@ -103,17 +103,17 @@ if (gameMode != 4) then
 	//Teams
 	groupsFIASmall =
 		[
-		["DKoK_Eng_1489th","DKoK_GM_1489th"],
-		["DKoK_GM_WM_1489th","DKoK_GM_1489th"]
+		["DKoK_Eng_1491st","DKoK_GM_1491st"],
+		["DKoK_GM_WM_1491st","DKoK_GM_1491st"]
 		];
 	//Fireteams
 	groupsFIAMid =
 		[
-		["DKoK_Off_1489th","DKoK_GM_1489th_HStubber","DKoK_GM_WM_1489th","DKoK_Eng_1489th"],
-		["DKoK_Off_1489th","DKoK_GM_1489th","DKoK_GM_1489th","DKoK_Eng_1489th"]
+		["DKoK_Off_1491st","DKoK_GM_1491st_HStubber","DKoK_GM_WM_1491st","DKoK_Eng_1491st"],
+		["DKoK_Off_1491st","DKoK_GM_1491st","DKoK_GM_1491st","DKoK_Eng_1491st"]
 		];
 	//Squads
-	FIASquad = ["DKoK_QM_1489th","DKoK_GM_1489th_HStubber","DKoK_GM_WM_1489th","DKoK_GM_1489th","DKoK_GM_1489th","DKoK_GM_1489th","DKoK_GM_1489th_AT","DKoK_Eng_1489th"];
+	FIASquad = ["DKoK_QM_1491st","DKoK_GM_1491st_HStubber","DKoK_GM_WM_1491st","DKoK_GM_1491st","DKoK_GM_1491st","DKoK_GM_1491st","DKoK_GM_1491st_AT","DKoK_Eng_1491st"];
 	groupsFIASquad = [FIASquad];
 };
 
@@ -127,7 +127,7 @@ groupsNATOGen = [policeOfficer,policeGrunt];
 //Military Vehicles
 //Lite
 vehNATOBike = "B_Quadbike_01_F";
-vehNATOLightArmed = ["Sentinel_AC_1489th_1","Sentinel_CS_1489th_1","Sentinel_HB_1489th_1","Sentinel_LC_1489th_1","Sentinel_MLA_1489th_1","Sentinel_ML_1489th_1","Sentinel_PC_1489th_1"];
+vehNATOLightArmed = ["Sentinel_AC_1491st_1","Sentinel_CS_1491st_1","Sentinel_HB_1491st_1","Sentinel_LC_1491st_1","Sentinel_MLA_1491st_1","Sentinel_ML_1491st_1","Sentinel_PC_1491st_1"];
 vehNATOLightUnarmed = ["TIOW_Centaur_01_Cadian_700_Blu"];
 vehNATOTrucks = ["TIOW_Centaur_01_Cadian_700_Blu"];
 vehNATOCargoTrucks = ["TIOW_Centaur_01_Cadian_700_Blu"];
@@ -135,7 +135,7 @@ vehNATOAmmoTruck = "TIOW_CadianTrojan_700";
 vehNATORepairTruck = "TIOW_CadianTrojan_700";
 vehNATOLight = vehNATOLightArmed + vehNATOLightUnarmed;
 //Armored
-vehNATOAPC = ["_1489thChimAuto","TIOW_ValhallanChimAuto_Brown","TIOW_Centaur_01_Cadian_700_Blu"];
+vehNATOAPC = ["_1491stChimAuto","TIOW_ValhallanChimAuto_Brown","TIOW_Centaur_01_Cadian_700_Blu"];
 vehNATOTank = "TIOW_Cad_LR_Demolisher_700th_Blu";
 vehNATOAA = "TIOW_Cad_LR_Punisher_700th_Blu";
 vehNATOAttack = vehNATOAPC + [vehNATOTank];
