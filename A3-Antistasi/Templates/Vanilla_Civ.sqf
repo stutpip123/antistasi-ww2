@@ -7,7 +7,6 @@ civVehCommonData = [
 	,"C_SUV_01_F", 1.0
 	,"C_Van_02_vehicle_F", 1.0				// van from Orange
 	,"C_Van_02_transport_F", 0.2			// minibus
-	,"C_Offroad_02_unarmed_F", 0.5			// Apex 4WD
 	,"C_Offroad_01_comms_F", 0.1			// Contact
 	,"C_Offroad_01_covered_F", 0.1
 ];

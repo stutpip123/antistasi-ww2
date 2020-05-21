@@ -125,7 +125,7 @@ groupsNATOGen = [policeOfficer,policeGrunt];
 //           VEHICLES            ///
 ////////////////////////////////////
 //Military Vehicles
-//Lite
+//Light
 vehNATOBike = "B_Quadbike_01_F";
 vehNATOLightArmed = ["Sentinel_AC_1491st_1","Sentinel_CS_1491st_1","Sentinel_HB_1491st_1","Sentinel_LC_1491st_1","Sentinel_MLA_1491st_1","Sentinel_ML_1491st_1","Sentinel_PC_1491st_1"];
 vehNATOLightUnarmed = ["TIOW_Centaur_01_Cadian_700_Blu"];
@@ -135,9 +135,9 @@ vehNATOAmmoTruck = "TIOW_CadianTrojan_700";
 vehNATORepairTruck = "TIOW_CadianTrojan_700";
 vehNATOLight = vehNATOLightArmed + vehNATOLightUnarmed;
 //Armored
-vehNATOAPC = ["_1491stChimAuto","TIOW_ValhallanChimAuto_Brown","TIOW_Centaur_01_Cadian_700_Blu"];
-vehNATOTank = "TIOW_Cad_LR_Demolisher_700th_Blu";
-vehNATOAA = "TIOW_Cad_LR_Punisher_700th_Blu";
+vehNATOAPC = ["TIOW_CadianChimAuto_700","TIOW_Taurox_AC_700","TIOW_Taurox_HS_700"];
+vehNATOTank = "TIOW_Cad_LR_Executioner_700th_Blu";
+vehNATOAA = "TIOW_CadianHydra_700";
 vehNATOAttack = vehNATOAPC + [vehNATOTank];
 //Boats
 vehNATOBoat = "B_Boat_Armed_01_minigun_F";
@@ -150,7 +150,7 @@ vehNATOTransportPlanes = ["TIOW_Valkyrie_Fuel_M_B"];
 //Heli
 vehNATOPatrolHeli = "TIOW_Valkyrie_Fuel_B";
 vehNATOTransportHelis = ["TIOW_Valkyrie_Fuel_M_B","TIOW_Valkyrie_Fuel_B"];
-vehNATOAttackHelis = ["TIOW_Valkyrie_Rocket_M_B","TIOW_Valkyrie_Rocket_B"];
+vehNATOAttackHelis = ["TIOW_Valkyrie_Rocket_M_B"];
 //UAV
 vehNATOUAV = "B_UAV_05_F";
 vehNATOUAVSmall = "B_UGV_02_Demining_F";
@@ -164,13 +164,13 @@ vehNATOAir = vehNATOTransportHelis + vehNATOAttackHelis + [vehNATOPlane,vehNATOP
 //Militia Vehicles
 if (gameMode != 4) then
 	{
-	vehFIAArmedCar = "B_LSV_01_armed_F";
-	vehFIATruck = "B_Truck_01_transport_F";
-	vehFIACar = "B_LSV_01_unarmed_F";
+	vehFIAArmedCar = "TIOW_Taurox_HS_700";
+	vehFIATruck = "TIOW_Centaur_01_Cadian_700_Blu";
+	vehFIACar = "C_Offroad_02_unarmed_green_F";	// Jeep Wrangler
 	};
 
 //Police Vehicles
-vehPoliceCar = "TIOW_Centaur_01_Cadian_700_Blu";
+vehPoliceCar = "C_Offroad_02_unarmed_blue_F";	// Jeep Wrangler
 
 ////////////////////////////////////
 //        STATIC WEAPONS         ///
