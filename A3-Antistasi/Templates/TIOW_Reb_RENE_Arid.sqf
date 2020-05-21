@@ -8,7 +8,7 @@ _TIOW_maps = ["coci_concretumcivitas","coci_nosky_concretumcivitas_nosky"];
 
 if (worldName in _TIOW_maps) then {
 	SDKFlagTexture = "Pictures\Mission\TIOW_Renegade_Flag.jpg";
-}else{
+} else {
 	SDKFlagTexture = "a3\data_f\flags\flag_fd_red_co.paa";
 };
 flagX setFlagTexture SDKFlagTexture;	// Assertive Texture update

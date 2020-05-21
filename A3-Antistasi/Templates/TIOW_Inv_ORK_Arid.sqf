@@ -57,8 +57,7 @@ staticCrewInvaders = "Naked1_OP";
 CSATPilot = "Naked1_OP";
 
 //Militia Units
-if (gameMode == 4) then
-	{
+if (gameMode == 4) then	{
 	FIARifleman = "Naked1_OP";
 	FIAMarksman = "ShootaBoy1_OP";
 	};
@@ -86,28 +85,21 @@ groupsCSATSquad =
 	];
 
 //Militia Groups
-if (gameMode == 4) then
-	{
+if (gameMode == 4) then	{
 	//Teams
-	groupsFIASmall =
-		[
+	groupsFIASmall = [
 		["TankBusta1_OP","Naked1_OP"],
 		["ShootaBoy1_OP","ArdBoy1_OP"]
-		];
+	];
 	//Fireteams
-	groupsFIAMid =
-		[
+	groupsFIAMid = [
 		["Boss1_OP","Naked1_OP","ShootaBoy1_OP","TankBusta1_OP"],
 		["Boss1_OP","Naked1_OP","ShootaBoy1_OP","ShootaBoy1_OP"]
-		];
+	];
 	//Squads
 	FIASquad = ["Boss1_OP","Naked1_OP","Naked1_OP","ArdBoy1_OP","ArdBoy1_OP","ShootaBoy1_OP","ShootaBoy1_OP","TankBusta1_OP"];
-	groupsFIASquad = 
-	[
-		FIASquad,
-		["Boss2_OP","ArdBoy2_OP","ArdBoy2_OP","ArdBoy2_OP","ShootaBoy2_OP","ShootaBoy2_OP","TankBusta2_OP","TankBusta2_OP"]
-	];
-	};
+	groupsFIASquad = [FIASquad, ["Boss2_OP","ArdBoy2_OP","ArdBoy2_OP","ArdBoy2_OP","ShootaBoy2_OP","ShootaBoy2_OP","TankBusta2_OP","TankBusta2_OP"]];
+};
 
 ////////////////////////////////////
 //           VEHICLES            ///
@@ -149,8 +141,7 @@ vehCSATNormal = vehCSATLight + vehCSATTrucks + [vehCSATAmmoTruck];
 vehCSATAir = vehCSATTransportHelis + vehCSATAttackHelis + [vehCSATPlane,vehCSATPlaneAA] + vehCSATTransportPlanes;
 
 //Militia Vehicles
-if (gameMode == 4) then
-{
+if (gameMode == 4) then {
 	vehFIAArmedCar = "Trukk1_OP";
 	vehFIATruck = "Trukk1_OP";
 	vehFIACar = "Trukk1_OP";

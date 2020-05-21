@@ -64,8 +64,7 @@ NATOMedic = "TIOW_Cad_Med700th";
 NATOSpec = "TIOW_Cad_Kasr700th";
 
 //Militia Units
-if (gameMode != 4) then
-{
+if (gameMode != 4) then {
 	FIARifleman = "DKoK_Off_1491st";
 	FIAMarksman = "DKoK_Gren_1491st";
 };
@@ -98,20 +97,17 @@ groupsNATOSquad =
 	];
 
 //Militia Groups
-if (gameMode != 4) then
-{
+if (gameMode != 4) then {
 	//Teams
-	groupsFIASmall =
-		[
+	groupsFIASmall = [
 		["DKoK_Eng_1491st","DKoK_GM_1491st"],
 		["DKoK_GM_WM_1491st","DKoK_GM_1491st"]
-		];
+	];
 	//Fireteams
-	groupsFIAMid =
-		[
+	groupsFIAMid = [
 		["DKoK_Off_1491st","DKoK_GM_1491st_HStubber","DKoK_GM_WM_1491st","DKoK_Eng_1491st"],
 		["DKoK_Off_1491st","DKoK_GM_1491st","DKoK_GM_1491st","DKoK_Eng_1491st"]
-		];
+	];
 	//Squads
 	FIASquad = ["DKoK_QM_1491st","DKoK_GM_1491st_HStubber","DKoK_GM_WM_1491st","DKoK_GM_1491st","DKoK_GM_1491st","DKoK_GM_1491st","DKoK_GM_1491st_AT","DKoK_Eng_1491st"];
 	groupsFIASquad = [FIASquad];
@@ -162,8 +158,7 @@ vehNATONormal = vehNATOLight + vehNATOTrucks + [vehNATOAmmoTruck, vehNATORepairT
 vehNATOAir = vehNATOTransportHelis + vehNATOAttackHelis + [vehNATOPlane,vehNATOPlaneAA] + vehNATOTransportPlanes;
 
 //Militia Vehicles
-if (gameMode != 4) then
-{
+if (gameMode != 4) then {
 	vehFIAArmedCar = "TIOW_Taurox_HS_700";
 	vehFIATruck = "TIOW_Centaur_01_Cadian_700_Blu";
 	vehFIACar = "C_Offroad_02_unarmed_green_F";	// Jeep Wrangler
