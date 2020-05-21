@@ -117,7 +117,7 @@ vehCSATLight = vehCSATLightArmed + vehCSATLightUnarmed;
 vehCSATAPC = ["Trukk1_OP","_RenegadeChimAuto_Grey_OP"];
 vehCSATTank = "TIOW_RenegadeSTeG4_Grey_OP";
 vehCSATAA = "TIOW_RenegadeHydra_Grey";
-vehCSATAttack = vehCSATAPC + vehCSATTank + ["Deffkopta_01_0"];
+vehCSATAttack = vehCSATAPC + [vehCSATTank];
 //Boats
 vehCSATBoat = "O_T_Boat_Armed_01_hmg_F";
 vehCSATRBoat = "O_T_Boat_Transport_01_F";
