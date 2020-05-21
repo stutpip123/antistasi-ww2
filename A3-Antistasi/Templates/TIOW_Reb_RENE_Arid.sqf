@@ -83,9 +83,9 @@ ATStaticSDKB = "TIOW_IG_MissileLauncher_AT_Bag1_INDEP";
 AAStaticSDKB = "TIOW_IG_MissileLauncher_AA_Bag1_INDEP";
 MortStaticSDKB = "TIOW_IG_Mortar_Bag1_INDEP";
 //Short Support
-supportStaticSDKB = "TIOW_IG_HeavyBolter_Bag2_INDEP";
+supportStaticSDKB = "TIOW_IG_HeavyBolter_Bag2_INDEP";			// ONLY FOR MG
 //Tall Support
-supportStaticsSDKB2 = "TIOW_IG_MissileLauncher_AT_Bag2_INDEP";	//NOT COMPATIBLE WITH AA
+supportStaticsSDKB2 = "TIOW_IG_MissileLauncher_AT_Bag2_INDEP";	// NOT COMPATIBLE WITH AA OR MG
 //Mortar Support
 supportStaticsSDKB3 = "TIOW_IG_Mortar_Bag2_INDEP";
 

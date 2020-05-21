@@ -169,9 +169,9 @@ MGStaticNATOB = "TIOW_IG_HeavyBolter_Bag1_Blu";
 ATStaticNATOB = "TIOW_IG_Lascannon_Bag1_Blu";
 AAStaticNATOB = "TIOW_IG_MissileLauncher_AA_Bag1_Blu";
 MortStaticNATOB = "TIOW_IG_Mortar_Bag1_Blu";
-//Short Support
-supportStaticNATOB = "Execption: TIOW_Occ_IOM_Arid supportStaticNATOB";
+//Short Support			// ORKZ CAN"T DISSEMBLE THEIR STATICS, GORK AND MORK KEEP THEIR SHIT TOGETHER.
+supportStaticNATOB = "TIOW_IG_HeavyBolter_Bag2_Blu";	// ONLY FOR MG
 //Tall Support
-supportStaticNATOB2 = "Execption: TIOW_Occ_IOM_Arid supportStaticNATOB2";
+supportStaticNATOB2 = "TIOW_IG_Lascannon_Bag2_Blu";		// NOT COMPATIBLE WITH AA OR MG
 //Mortar Support
-supportStaticNATOB3 = "Execption: TIOW_Occ_IOM_Arid supportStaticNATOB3";
+supportStaticNATOB3 = "TIOW_IG_Mortar_Bag2_Blu";
