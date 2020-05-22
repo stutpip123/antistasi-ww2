@@ -18,7 +18,7 @@ flagNATOmrk = "flag_UK"; //flag_NATO
 if (isServer) then {
 	"NATO_carrier" setMarkerText "Oberon Class Battleship";
 	"NATO_carrier" setMarkerType "flag_UK";
-	createVehicle ["TIOW_Oberon" ,((getMarkerPos "NATO_carrier") vectorAdd [0,0,500]),[], 0, "FLY"];
+	createVehicle ["TIOW_Oberon" ,((getMarkerPos "NATO_carrier") vectorAdd [0,0,1000]),[], 0, "FLY"];
 };
 
 //Loot Crate

@@ -16,7 +16,7 @@ flagCSATmrk = "flag_Syndikat";
 if (isServer) then {
 	"CSAT_carrier" setMarkerText "Ork Battleship Slamblasta";
 	"CSAT_carrier" setMarkerType "flag_Spetsnaz";
-	createVehicle ["TIOW_Oberon" ,((getMarkerPos "CSAT_carrier") vectorAdd [0,0,500]),[], 0, "FLY"];
+	createVehicle ["TIOW_Oberon" ,((getMarkerPos "CSAT_carrier") vectorAdd [0,0,1000]),[], 0, "FLY"];
 };
 
 //Loot Crate
