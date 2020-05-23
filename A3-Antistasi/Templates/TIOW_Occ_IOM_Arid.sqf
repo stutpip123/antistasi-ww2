@@ -88,13 +88,12 @@ groupsNATOmid = [["DKoK_Off_1491st","DKoK_GM_1491st_HStubber","DKoK_GM_1491st","
 //Squads
 NATOSquad = [NATOOfficer2,NATOOfficer,NATOBodyG,NATOBodyG,NATOGrunt,NATOGrunt,NATOMarksman,NATOMedic];
 NATOSpecOp = [NATOSpec,NATOSpec,NATOSpec,NATOSpec,NATOSpec,NATOSpec,NATOSpec,NATOSpec];
-groupsNATOSquad =
-	[
+groupsNATOSquad = [
 	NATOSquad,
 	NATOSquad,
 	["DKoK_Off_1491st","DKoK_GM_1491st_HStubber","DKoK_GM_1491st","DKoK_GM_1491st","DKoK_GM_1491st","DKoK_GM_1491st","DKoK_GM_1491st_AT","TIOW_Priest"],
 	["TIOW_Comissar_Krieg","DKoK_Off_1491st","DKoK_GM_1491st_HStubber","DKoK_GM_1491st_HStubber","DKoK_GM_WM_1491st","DKoK_GM_1491st","DKoK_Eng_1491st","TIOW_Priest3"]
-	];
+];
 
 //Militia Groups
 if (gameMode != 4) then {

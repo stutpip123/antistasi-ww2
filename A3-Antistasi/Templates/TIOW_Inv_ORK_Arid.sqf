@@ -60,7 +60,7 @@ CSATPilot = "Naked1_OP";
 if (gameMode == 4) then	{
 	FIARifleman = "Naked1_OP";
 	FIAMarksman = "ShootaBoy1_OP";
-	};
+};
 
 ////////////////////////////////////
 //            GROUPS             ///
@@ -77,12 +77,11 @@ groupsCSATmid = [[CSATOfficer,CSATBodyG,CSATBodyG,CSATBodyG],groupsCSATAA,groups
 //Squads
 CSATSquad = [CSATOfficer,CSATBodyG,CSATBodyG,CSATBodyG,groupsCSATAA,groupsCSATAT];
 CSATSpecOp = ["Boss2_OP","ArdBoy2_OP","ArdBoy2_OP","ArdBoy2_OP","ShootaBoy2_OP","ShootaBoy2_OP","StormBoy1_OP","TankBusta2_OP"];
-groupsCSATSquad =
-	[
+groupsCSATSquad = [
 	CSATSquad,
 	groupsCSATAA + groupsCSATAA,
 	groupsCSATAT + groupsCSATAT
-	];
+];
 
 //Militia Groups
 if (gameMode == 4) then	{
