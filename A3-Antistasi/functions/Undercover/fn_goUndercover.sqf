@@ -205,7 +205,7 @@ do {
 		};
 	};
 };
-diag_log format["[Antistasi] Player detected in %1 (undercover.sqf)", _onDetectionMarker];
+//diag_log format["[Antistasi] Player detected in %1 (undercover.sqf)", _onDetectionMarker];
 
 if (captive _player) then {
 	[_player, false] remoteExec["setCaptive"];
@@ -285,7 +285,7 @@ switch _changeX do {
 	case "NoFly":{
             private _veh = vehicle _player;
             private _detectedBy = _veh getVariable "NoFlyZoneDetected";
-			["Undercover", format ["You have violated the airspace of %1", [_detectedBy] call A3A_fnc_locilizar]] call A3A_fnc_customHint;
+			["Undercover", format ["You have violated the airspace of %1", [_detectedBy] call A3A_fnc_localizar]] call A3A_fnc_customHint;
 			//_compromised = _player getVariable "compromised";
 			reportedVehs pushBackUnique _veh;
 			publicVariable "reportedVehs";

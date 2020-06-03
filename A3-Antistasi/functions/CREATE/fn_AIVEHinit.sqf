@@ -213,7 +213,7 @@ if(_veh isKindOf "Air") then
         "GetIn",
         {
             params ["_veh", "_role", "_unit"];
-            if(side group _unit == teamPlayer) then
+            if((side (group _unit) == teamPlayer) && {isPlayer _unit}) then
             {
                 [_veh] spawn A3A_fnc_airspaceControl;
             };

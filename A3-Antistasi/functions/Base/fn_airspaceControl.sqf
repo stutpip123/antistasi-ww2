@@ -70,7 +70,7 @@ while {!(isNull _vehicle) && {alive _vehicle && {count (crew _vehicle) != 0}}} d
             {_markerPos distance2D _vehPos < _airportWarningRange}
         };
 
-        private _newAirports = _inWarningRangeAirport - _airportsInWarningRange;
+        private _newAirports = _airportsInWarningRange - _inWarningRangeAirport;
         _inWarningRangeAirport = _airportsInWarningRange;
 
         private _outpostsInWarningRange = _enemyOutposts select
@@ -81,13 +81,13 @@ while {!(isNull _vehicle) && {alive _vehicle && {count (crew _vehicle) != 0}}} d
             {_markerPos distance2D _vehPos < _outpostWarningRange}
         };
 
-        private _newOutposts = _inWarningRangeOutpost - _outpostsInWarningRange;
+        private _newOutposts = _outpostsInWarningRange - _inWarningRangeOutpost;
         _inWarningRangeOutpost = _outpostsInWarningRange;
 
         {
             //Assuming you only get a single one each second, need to split it otherwise
-            private _warningText = format ["Unidentified helicopter</br>You are closing in on the airspace of %1. Change your course or we will take defensive actions!", [_x] call A3A_fnc_locilizar];
-            [_warningText] remoteExec ["hint", (crew _vehicle)];
+            private _warningText = format ["Unidentified helicopter<br/><br/>You are closing in on the airspace of %1.<br/><br/> Change your course or we will take defensive actions!", [_x] call A3A_fnc_localizar];
+            ["Undercover", _warningText] remoteExec ["A3A_fnc_customHint", (crew _vehicle)];
         } forEach _newAirports + _newOutposts;
 
         {
@@ -96,7 +96,7 @@ while {!(isNull _vehicle) && {alive _vehicle && {count (crew _vehicle) != 0}}} d
             if(_heightDiff < _airportDetectionHeight && {_markerPos distance2D _vehPos < _airportDetectionRange}) exitWith
             {
                 //Too close to airport, break undercover and let the other routine handle it
-                _vehicle getVariable ["NoFlyZoneDetected", _x, true];
+                _vehicle setVariable ["NoFlyZoneDetected", _x, true];
                 _vehicleIsUndercover = false;
             };
         } forEach _inWarningRangeAirport;
@@ -107,7 +107,7 @@ while {!(isNull _vehicle) && {alive _vehicle && {count (crew _vehicle) != 0}}} d
             if(_heightDiff < _outpostDetectionHeight && {_markerPos distance2D _vehPos < _outpostDetectionRange}) exitWith
             {
                 //Too close to airport, break undercover and let the other routine handle it
-                _vehicle getVariable ["NoFlyZoneDetected", _x, true];
+                _vehicle setVariable ["NoFlyZoneDetected", _x, true];
                 _vehicleIsUndercover = false;
             };
         } forEach _inWarningRangeOutpost;
@@ -123,7 +123,7 @@ while {!(isNull _vehicle) && {alive _vehicle && {count (crew _vehicle) != 0}}} d
             {_markerPos distance2D _vehPos < _airportDetectionRange}
         };
 
-        private _newAirports = _inDetectionRangeAirport - _airportsInRange;
+        private _newAirports = _airportsInRange - _inDetectionRangeAirport;
         _inDetectionRangeAirport = _airportsInRange;
 
         if(count _newAirports > 0) then
@@ -145,8 +145,8 @@ while {!(isNull _vehicle) && {alive _vehicle && {count (crew _vehicle) != 0}}} d
                     {_markerPos distance2D _vehPos < _outpostDetectionRange}
                 };
 
-                private _newOutposts = _inDetectionRangeOutpost - _outpostsInRange;
-                _inDetectionRangeOutpost = _outpostsInRange
+                private _newOutposts = _outpostsInRange - _inDetectionRangeOutpost;
+                _inDetectionRangeOutpost = _outpostsInRange;
 
                 if(count _newOutposts > 0) then
                 {
