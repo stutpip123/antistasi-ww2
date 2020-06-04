@@ -2,6 +2,18 @@
 #define MIL_HELI        1
 #define JET             2
 
+/*  Handles the airspace control of any player aircraft, breaking undercover and calling support
+
+    Execution on: Any
+
+    Scope: Internal
+
+    Params:
+        _vehicle: OBJECT : The vehicles that should be checked against enemy positions
+
+    Returns:
+        Nothing
+*/
 
 params ["_vehicle"];
 
@@ -10,6 +22,7 @@ if(_vehicle getVariable ["airspaceControl", false]) exitWith {};
 
 _vehicle setVariable ["airspaceControl", true, true];
 
+//Select the kind of aircraft
 private _airType = -1;
 if(_vehicle isKindOf "Helicopter") then
 {
@@ -43,6 +56,7 @@ private _outpostWarningHeight = 250;
 private _airportWarningRange = 750;
 private _airportWarningHeight = 750;
 
+//Initialize needed variables
 private _inWarningRangeOutpost = [];
 private _inDetectionRangeOutpost = [];
 private _inWarningRangeAirport = [];
@@ -51,14 +65,18 @@ private _vehicleIsUndercover = false;
 private _supportCallAt = -1;
 private _vehPos = [];
 
+//While not in garage and alive and crewed we check what the aircraft is doing
 while {!(isNull _vehicle) && {alive _vehicle && {count (crew _vehicle) != 0}}} do
 {
+    //Check undercover status
     _vehicleIsUndercover = captive ((crew _vehicle) select 0);
     _vehPos = getPos _vehicle;
 
+    //Get all enemy airports and outposts to not search that much options
     private _enemyAirports = airportsX select {sidesX getVariable [_x, sideUnknown] != teamPlayer};
     private _enemyOutposts = outposts select {sidesX getVariable [_x, sideUnknown] != teamPlayer};
 
+    //Check vehicles undercover status
     if(_vehicleIsUndercover && {_vehicle getVariable ["NoFlyZoneDetected", ""] == ""}) then
     {
         //Warnings will be issued before undercover is broken
@@ -70,6 +88,7 @@ while {!(isNull _vehicle) && {alive _vehicle && {count (crew _vehicle) != 0}}} d
             {_markerPos distance2D _vehPos < _airportWarningRange}
         };
 
+        //NewAirport will contain all airports of which the warning zone has just been entered
         private _newAirports = _airportsInWarningRange - _inWarningRangeAirport;
         _inWarningRangeAirport = _airportsInWarningRange;
 
@@ -81,6 +100,7 @@ while {!(isNull _vehicle) && {alive _vehicle && {count (crew _vehicle) != 0}}} d
             {_markerPos distance2D _vehPos < _outpostWarningRange}
         };
 
+        //NewOutposts will contain all outposts of which the warning zone has just been entered
         private _newOutposts = _outpostsInWarningRange - _inWarningRangeOutpost;
         _inWarningRangeOutpost = _outpostsInWarningRange;
 
@@ -90,6 +110,7 @@ while {!(isNull _vehicle) && {alive _vehicle && {count (crew _vehicle) != 0}}} d
             ["Undercover", _warningText] remoteExec ["A3A_fnc_customHint", (crew _vehicle)];
         } forEach _newAirports + _newOutposts;
 
+        //Check if the aircraft got to close to any airport in which warning zone it already is
         {
             private _markerPos = getMarkerPos _x;
             private _heightDiff = (_vehPos select 2) - (_markerPos select 2);
@@ -101,6 +122,7 @@ while {!(isNull _vehicle) && {alive _vehicle && {count (crew _vehicle) != 0}}} d
             };
         } forEach _inWarningRangeAirport;
 
+        //Check if the aircraft got to close to any outpost in which warning zone it already is
         {
             private _markerPos = getMarkerPos _x;
             private _heightDiff = (_vehPos select 2) - (_markerPos select 2);
@@ -114,6 +136,7 @@ while {!(isNull _vehicle) && {alive _vehicle && {count (crew _vehicle) != 0}}} d
     }
     else
     {
+        //This case ic currently not really needed, will get interesting with the support update
         //Vehicles will be attacked instantly once detected
         private _airportsInRange = _enemyAirports select
         {
@@ -123,6 +146,7 @@ while {!(isNull _vehicle) && {alive _vehicle && {count (crew _vehicle) != 0}}} d
             {_markerPos distance2D _vehPos < _airportDetectionRange}
         };
 
+        //newAirports will contain all airports which just detected the aircraft
         private _newAirports = _airportsInRange - _inDetectionRangeAirport;
         _inDetectionRangeAirport = _airportsInRange;
 
@@ -145,6 +169,7 @@ while {!(isNull _vehicle) && {alive _vehicle && {count (crew _vehicle) != 0}}} d
                     {_markerPos distance2D _vehPos < _outpostDetectionRange}
                 };
 
+                //Same as above
                 private _newOutposts = _outpostsInRange - _inDetectionRangeOutpost;
                 _inDetectionRangeOutpost = _outpostsInRange;
 
