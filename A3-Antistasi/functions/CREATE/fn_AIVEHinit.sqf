@@ -207,7 +207,7 @@ if (_side != teamPlayer) then {
 
 if(_veh isKindOf "Air") then
 {
-    //Start airspace control script if rebel unit enters
+    //Start airspace control script if rebel player enters
     _veh addEventHandler
     [
         "GetIn",
