@@ -16,6 +16,7 @@ params ["_target", "_precision", "_supportTypes", "_side", "_revealCall"];
     Returns:
         Nothing
 */
+
 private _fileName = "sendSupport";
 
 //Calculate deprecision on position
@@ -34,30 +35,35 @@ if(_side == Occupants) then
         _supportType = _x;
         private _index = -1;
         _index = occupantsSupports findIf {((_x select 0) == _supportType) && {_supportPos inArea (_x select 1)}};
+
         if((_index != -1) && {_supportType in ["AIRSTRIKE", "QRF"]}) then
         {
             [2, format ["Blocking %1 support for given position, as another support of this type is near", _supportType], _fileName] call A3A_fnc_log;
             _index = -1;
             _blockedSupports pushBack _supportType;
         };
+
         if(_index != -1) exitWith
         {
             _supportObject = occupantsSupports select _index select 2;
         };
     } forEach _supportTypes;
 };
+
 if(_side == Invaders) then
 {
     {
         _supportType = _x;
         private _index = -1;
         _index = invadersSupports findIf {((_x select 0) == _supportType) && {_supportPos inArea (_x select 1)}};
+
         if((_index != -1) && {_supportType in ["AIRSTRIKE", "QRF"]}) then
         {
             [2, format ["Blocking %1 support for given position, as another support of this type is near", _supportType], _fileName] call A3A_fnc_log;
             _index = -1;
             _blockedSupports pushBack _supportType;
         };
+
         if(_index != -1) exitWith
         {
             _supportObject = invadersSupports select _index select 2;
@@ -75,6 +81,7 @@ if (_supportObject != "") exitWith
             format ["Support of type %1 is already in the area, transmitting attack orders", _supportType],
             _fileName
         ] call A3A_fnc_log;
+
         //Attack with already existing support
         if(_supportType in ["MORTAR"]) then
         {
@@ -99,6 +106,7 @@ if (_supportObject != "") exitWith
 //Delete blocked supports
 _supportTypes = _supportTypes - _blockedSupports;
 
+
 private _selectedSupport = "";
 private _timerIndex = -1;
 {
@@ -108,6 +116,7 @@ private _timerIndex = -1;
         _selectedSupport = _x;
     };
 } forEach _supportTypes;
+
 
 //Temporary fix as most supports are not yet available (only airstrikes and QRFs)
 if(_selectedSupport == "") then
