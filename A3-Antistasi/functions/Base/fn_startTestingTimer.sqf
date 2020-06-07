@@ -1,6 +1,6 @@
 #define TESTING_INTERVAL        300
 
-/*  Starts the timer used by Wurzel to determine testing quality
+/*  Starts the timer used by Wurzel to determine testing quantity
 
     Execution on: Server
 
