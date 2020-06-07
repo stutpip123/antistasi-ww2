@@ -1,4 +1,4 @@
-#define TESTING_INTERVAL        10
+#define TESTING_INTERVAL        300
 
 /*  Starts the timer used by Wurzel to determine testing quality
 
