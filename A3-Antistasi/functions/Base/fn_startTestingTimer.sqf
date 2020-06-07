@@ -13,6 +13,12 @@
         Nothing
 */
 
+//Ensure that script can sleep
+if !(canSuspend) exitWith
+{
+    [] spawn A3A_fnc_startTestingTimer;
+};
+
 private _fileName = "testingTimer";
 
 [
@@ -46,7 +52,7 @@ while {true} do
     {
         private _player = _x;
         //Check if player was online before
-        _index = _peopleOnline findIf {(_x select 1) isEqualTo _player};
+        _index = _peopleOnline findIf {(_x select 0) isEqualTo _player};
         if(_index != -1) then
         {
             //If online, check if the player has moved at least 5 meters in the mean time
@@ -59,7 +65,7 @@ while {true} do
     } forEach (allPlayers - (entities "HeadlessClient_F"));
 
     //Replace array with new data
-    _playersActive = _newOnline;
+    _peopleOnline = _newOnline;
 
     //Limit counted players to a maximum of 10
     _playersActive = _playersActive min 10;
