@@ -1,3 +1,5 @@
+#define TESTING_INTERVAL        10
+
 /*  Starts the timer used by Wurzel to determine testing quality
 
     Execution on: Server
@@ -37,7 +39,7 @@ while {true} do
     };
 
     //Sleep 5 minutes
-    sleep 300;
+    sleep TESTING_INTERVAL;
 
     private _newOnline = [];
     private _index = 0;
@@ -63,11 +65,17 @@ while {true} do
     _playersActive = _playersActive min 10;
 
     //Add new testing time
-    _testedTime = _testedTime + (_playersActive * 300);
+    _testedTime = _testedTime + (_playersActive * TESTING_INTERVAL);
 
     [
         3,
-        format ["Total testing time: %1 Testing time last cycle: %2 Active players: %3", _testedTime/3600, (_playersActive * 300)/3600, _playersActive],
+        format
+        [
+            "Total testing time: %1 || Testing time last cycle: %2 || Active players: %3",
+            _testedTime/3600,
+            (_playersActive * TESTING_INTERVAL)/3600,
+            _playersActive
+        ],
         _fileName
     ] call A3A_fnc_log;
 
