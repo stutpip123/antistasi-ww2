@@ -19,7 +19,7 @@ private _fileName = "testingTimer";
     _fileName
 ] call A3A_fnc_log;
 
-
+testingTimerIsActive = true;
 private _testedTime = 0;
 
 private _peopleOnline = [];
