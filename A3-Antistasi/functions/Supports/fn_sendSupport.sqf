@@ -154,10 +154,10 @@ if(_selectedSupport == "") exitWith
 if(_selectedSupport in ["MORTAR", "QRF", "AIRSTRIKE"]) then
 {
     //Areal support methods, transmit position info
-    [_side, _timerIndex, _selectedSupport, _supportPos, _precision, _revealCall] spawn A3A_fnc_createArealSupport;
+    [_side, _timerIndex, _selectedSupport, _supportPos, _precision, _revealCall] spawn A3A_fnc_createSupport;
 };
 if(_selectedSupport in ["CAS", "AAPLANE", "SAM", "GUNSHIP"]) then
 {
     //Target support methods, transmit target info
-    [_side, _timerIndex, _selectedSupport, _target, _precision, _revealCall] spawn A3A_fnc_createTargetSupport;
+    [_side, _timerIndex, _selectedSupport, _target, _precision, _revealCall] spawn A3A_fnc_createSupport;
 };
