@@ -1,4 +1,4 @@
-params ["_side", "_timerIndex", "_supportType", "_supportPos", "_precision", "_revealCall"];
+params ["_side", "_timerIndex", "_supportType", "_supportTarget", "_precision", "_revealCall"];
 
 /*  Creates an support type that attacks areas
 
@@ -9,15 +9,15 @@ params ["_side", "_timerIndex", "_supportType", "_supportPos", "_precision", "_r
     Parameters:
         _side: SIDE: The side of the support unit
         _timerIndex: NUMBER: The number of the timer for the support
-        _supportType: STRING : The type of support to send
-        _supportPos: POSITION : The position which will be attack
-        _precision: NUMBER : How precise the target info is
+        _supportType: STRING: The type of support to send
+        _supportTarget: POSITION or OBJECT: The position or object which will be attacked
+        _precision: NUMBER: How precise the target info is
 
     Returns:
         Nothing
 */
 
-private _fileName = "createArealSupport";
+private _fileName = "createSupport";
 
 //Selecting the first available name of support type
 private _supportIndex = 0;
@@ -39,21 +39,21 @@ switch (_supportType) do
 {
     case ("QRF"):
     {
-        _supportMarker = [_side, _supportPos, _supportName] call A3A_fnc_SUP_QRF;
+        _supportMarker = [_side, _supportTarget, _supportName] call A3A_fnc_SUP_QRF;
     };
     case ("AIRSTRIKE"):
     {
-        _supportMarker = [_side, _timerIndex, _supportPos, _supportName] call A3A_fnc_SUP_airstrike;
+        _supportMarker = [_side, _timerIndex, _supportTarget, _supportName] call A3A_fnc_SUP_airstrike;
     };
     case ("MORTAR"):
     {
-        _supportMarker = [_side, _timerIndex, _supportPos, _supportName] call A3A_fnc_SUP_mortar;
+        _supportMarker = [_side, _timerIndex, _supportTarget, _supportName] call A3A_fnc_SUP_mortar;
     };
 };
 
 if(_supportMarker != "") then
 {
-    server setVariable [format ["%1_targets", _supportName], [[[_supportPos, _precision], _revealCall]], true];
+    server setVariable [format ["%1_targets", _supportName], [[[_supportTarget, _precision], _revealCall]], true];
     if (_side == Occupants) then
     {
         occupantsSupports pushBack [_supportType, _supportMarker, _supportName];
