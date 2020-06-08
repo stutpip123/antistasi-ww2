@@ -1,8 +1,11 @@
 params ["_reveal", "_position", "_side", "_supportType", "_marker", "_textMarker"];
 
 /*  Shows the intercepted radio message to the players
+
     Execution on: Server
+
     Scope: Internal
+
     Parameters:
         _reveal: NUMBER : Decides how much of the info will be revealed
         _position: POSITION : The position where the support is called to
@@ -10,6 +13,7 @@ params ["_reveal", "_position", "_side", "_supportType", "_marker", "_textMarker
         _supportType: NAME : The name of the support (not the callsign!!)
         _marker: MARKER : The marker which covers the area of the attack
         _textMarker: MARKER : The marker which is holding the text of the support
+
     Returns:
         Nothing
 */
