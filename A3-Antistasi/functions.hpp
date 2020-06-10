@@ -36,6 +36,7 @@ class A3A
 		class addTimeForIdle {};
         class aggressionUpdateLoop {};
 		class AILoadInfo {};
+        class airspaceControl {};
 		class rebelAttack {};
 		class blackout {};
 		class buildHQ {};

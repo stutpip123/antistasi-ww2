@@ -193,18 +193,19 @@ do {
 				};
 			}
 			else {
-				if (_typeX == civHeli) then {
-					_base = [_airportsX1, _player] call BIS_fnc_nearestPosition;
-					_size = [_base] call A3A_fnc_sizeMarker;
-					if ((_player distance2d getMarkerPos _base < _size * 3) and((sidesX getVariable[_base, sideUnknown] == Occupants) or(sidesX getVariable[_base, sideUnknown] == Invaders))) then {
-						_changeX = "NoFly";
-					};
+				if (_typeX == civHeli) then
+                {
+                    if(_veh getVariable ["NoFlyZoneDetected", ""] != "") then
+                    {
+                        _changeX = "NoFly";
+                    };
+
 				};
 			};
 		};
 	};
 };
-diag_log format["[Antistasi] Player detected in %1 (undercover.sqf)", _onDetectionMarker];
+//diag_log format["[Antistasi] Player detected in %1 (undercover.sqf)", _onDetectionMarker];
 
 if (captive _player) then {
 	[_player, false] remoteExec["setCaptive"];
@@ -282,10 +283,13 @@ switch _changeX do {
 			};
 		};
 	case "NoFly":{
-			["Undercover", "You have gotten too close to an enemy Airbase no-fly zone"] call A3A_fnc_customHint;
+            private _veh = vehicle _player;
+            private _detectedBy = _veh getVariable "NoFlyZoneDetected";
+			["Undercover", format ["You have violated the airspace of %1", [_detectedBy] call A3A_fnc_localizar]] call A3A_fnc_customHint;
 			//_compromised = _player getVariable "compromised";
-			reportedVehs pushBackUnique(vehicle _player);
+			reportedVehs pushBackUnique _veh;
 			publicVariable "reportedVehs";
+            _veh setVariable ["NoFlyZoneDetected", nil, true];
 		};
 	case "Control":{
 			["Undercover", "The Installation Garrison has recognised you"] call A3A_fnc_customHint;

@@ -410,3 +410,6 @@ deleteMarker _mrk;
 		else { if !(_x isKindOf "StaticWeapon") then { [_x] spawn A3A_fnc_VEHdespawner } };
 	};
 } forEach _vehiclesX;
+
+// Delete ammobox if it's within 200m. Magic number bad.
+if (_ammoBox distance2d _positionX < 200) then { deleteVehicle _ammoBox };
