@@ -130,6 +130,7 @@ class A3A
 		class autoHealFnc {};
 		class autoLoot {};
 		class autoRearm {};
+        class callForSupport {};
 		class canConquer {};
 		class canFight {};
 		class captureX {};
@@ -511,6 +512,18 @@ class A3A
 		class varNameToSaveName {};
 		class saveLoop {};
 	};
+
+    class Supports
+    {
+        class addSupportTarget {};
+        class calculateSupportCallReveal {};
+        class createSupport {};
+        class endSupport {};
+        class sendSupport {};
+        class showInterceptedSetupCall {};
+        class showInterceptedSupportCall {};
+        class supportAvailable {};
+    };
 
 	class Templates
 	{
