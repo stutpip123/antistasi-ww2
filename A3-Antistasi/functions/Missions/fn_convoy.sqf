@@ -411,7 +411,6 @@ if (_typeConvoyX == "ammunition") then
 		[1800*_bonus, _sideX] remoteExec ["A3A_fnc_timingCA",2];
 		{if (isPlayer _x) then {[10*_bonus,_x] call A3A_fnc_playerScoreAdd}} forEach ([500,0,_vehObj,teamPlayer] call A3A_fnc_distanceUnits);
 		[5*_bonus,theBoss] call A3A_fnc_playerScoreAdd;
-		[getPosASL _vehObj,_sideX,"",false] spawn A3A_fnc_patrolCA;
         [
             3,
             "Rebels won a ammo convoy mission",
@@ -462,7 +461,6 @@ if (_typeConvoyX == "Armor") then
 		[1800*_bonus, _sideX] remoteExec ["A3A_fnc_timingCA",2];
 		{if (isPlayer _x) then {[10*_bonus,_x] call A3A_fnc_playerScoreAdd}} forEach ([500,0,_vehObj,teamPlayer] call A3A_fnc_distanceUnits);
 		[5*_bonus,theBoss] call A3A_fnc_playerScoreAdd;
-		[getPosASL _vehObj,_sideX,"",false] spawn A3A_fnc_patrolCA;
         [
             3,
             "Rebels won a armor convoy mission",
@@ -508,7 +506,6 @@ if (_typeConvoyX == "Prisoners") then
 	};
 	if ((not alive driver _vehObj) or ((driver _vehObj getVariable ["spawner",false]) and (side group (driver _vehObj) == teamPlayer))) then
 	{
-		[getPosASL _vehObj,_sideX,"",false] spawn A3A_fnc_patrolCA;
 		{[_x,false] remoteExec ["setCaptive",0,_x]; _x setCaptive false; _x enableAI "MOVE"; [_x] orderGetin false} forEach _POWs;
 		waitUntil {sleep 2; ({alive _x} count _POWs == 0) or ({(alive _x) and (_x distance _posHQ < 50)} count _POWs > 0) or (dateToNumber date > _enddateNum)};
 		if (({alive _x} count _POWs == 0) or (dateToNumber date > _enddateNum)) then
@@ -627,7 +624,6 @@ if (_typeConvoyX == "Money") then
 		}
 		else
 		{
-			[getPosASL _vehObj,_sideX,"",false] spawn A3A_fnc_patrolCA;
 			[1200*_bonus, _sideX] remoteExec ["A3A_fnc_timingCA",2];
 			_taskState1 = "FAILED";
 			_killZones = killZones getVariable [_base,[]];
@@ -637,7 +633,6 @@ if (_typeConvoyX == "Money") then
 	};
 	if ((driver _vehObj getVariable ["spawner",false]) and (side group (driver _vehObj) == teamPlayer)) then
 	{
-		[getPosASL _vehObj,_sideX,"",false] spawn A3A_fnc_patrolCA;
 		waitUntil {sleep 2; (_vehObj distance _posHQ < 50) or (not alive _vehObj) or (dateToNumber date > _enddateNum)};
 		if ((not alive _vehObj) or (dateToNumber date > _enddateNum)) then
 		{
@@ -690,7 +685,6 @@ if (_typeConvoyX == "Supplies") then
 	waitUntil {sleep 1; (dateToNumber date > _enddateNum) or (_vehObj distance _posDestination < _distanceFromTargetForArrival) or (not alive _vehObj) or ((driver _vehObj getVariable ["spawner",false]) and (side group (driver _vehObj) == teamPlayer))};
 	if (not alive _vehObj) then
 	{
-		[getPosASL _vehObj,_sideX,"",false] spawn A3A_fnc_patrolCA;
 		_taskState = "FAILED";
 		_taskState1 = "FAILED";
         [
@@ -716,7 +710,6 @@ if (_typeConvoyX == "Supplies") then
 	{
 		if ((driver _vehObj getVariable ["spawner",false]) and (side group (driver _vehObj) == teamPlayer)) then
 		{
-			[getPosASL _vehObj,_sideX,"",false] spawn A3A_fnc_patrolCA;
 			waitUntil {sleep 1; (_vehObj distance _posDestination < 100) or (not alive _vehObj) or (dateToNumber date > _enddateNum)};
 			if (_vehObj distance _posDestination < 100) then
 			{
@@ -786,4 +779,3 @@ _nul = [0,"CONVOY1"] spawn A3A_fnc_deleteTask;
 
 { [_x] spawn A3A_fnc_groupDespawner } forEach _groups;
 { [_x] spawn A3A_fnc_VEHdespawner } forEach _vehiclesX;
-
