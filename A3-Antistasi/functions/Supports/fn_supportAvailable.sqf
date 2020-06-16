@@ -20,8 +20,7 @@ switch (_supportType) do
 {
     case ("QRF"):
     {
-        //_timerIndex = [_side, _position] call A3A_fnc_SUP_QRFAvailable;
-        _timerIndex = -1;
+        _timerIndex = [_side, _position] call A3A_fnc_SUP_QRFAvailable;
     };
     case ("AIRSTRIKE"):
     {
