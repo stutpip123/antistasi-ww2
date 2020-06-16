@@ -135,6 +135,7 @@ class A3A
 		class canFight {};
 		class captureX {};
 		class chargeWithSmoke {};
+        class chooseSupport {};
 		class coverage {};
 		class destroyBuilding {};
 		class doFlank {};
