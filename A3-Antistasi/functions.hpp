@@ -41,6 +41,7 @@ class A3A
 		class blackout {};
 		class buildHQ {};
         class calculateAggression {};
+        class chooseAttackType {};
 		class citiesToCivPatrol {};
 		class citySupportChange {};
 		class commsMP {};
@@ -55,6 +56,7 @@ class A3A
 		class economicsAI {};
 		class ejectPvPPlayerIfInvalidVehicle {};
 		class FIAradio {};
+        class findBaseForQRF {};
 		class findBasesForConvoy {};
 		class findNearestGoodRoad {};
 		class flagaction {};
@@ -210,6 +212,7 @@ class A3A
 		class createAIOutposts {};
 		class createAIResources {};
 		class createAISite {};
+        class createAttackVehicle {};
 		class createCIV {};
 		class createFIAOutposts2 {};
 		class createSDKGarrisons {};
