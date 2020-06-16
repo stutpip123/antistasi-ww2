@@ -17,12 +17,6 @@ params ["_group", "_enemy"];
 private _fileName = "chooseSupport";
 private _supportTypes = [];
 
-//If _enemy is not set or the same side (collision for example), abort here
-if((isNil "_enemy") || {(isNull _enemy) || {side (group _enemy) == side _group}}) exitWith
-{
-    _supportTypes;
-};
-
 //If enemy is more than 600 meters away we always force the support
 private _forceSupport = false;
 if(_enemy distance2D (getPos (leader _group)) > 600) then
