@@ -233,7 +233,7 @@ class CfgNotifications
         // Brief description displayed as structured text. Colored by "color", filled by arguments.
         description = "%1";
         // Icon and text color (copied from taskSucceeded)
-        color[] = {0.7,1,0.3,1};
+        color[] = {1,1,1,1};
         // How many seconds will the notification be displayed
         duration = 5;
         // Priority; higher number = more important; tasks in queue are selected by priority
