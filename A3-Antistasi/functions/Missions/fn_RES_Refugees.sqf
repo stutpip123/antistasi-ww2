@@ -82,7 +82,7 @@ if (_sideX == Invaders) then
 			if (count _airportsX > 0) then
 				{
 				_airportX = [_airportsX, position houseX] call BIS_fnc_nearestPosition;
-				[[getPosASL _houseX,_airportX,"",false],"A3A_fnc_patrolCA"] remoteExec ["A3A_fnc_scheduler",2];
+				[[getPosASL _houseX,_airportX,false],"A3A_fnc_singleAttack"] remoteExec ["A3A_fnc_scheduler",2];
 				};
 			};
 		};
@@ -215,7 +215,7 @@ if (_sideX == Occupants) then
 	deleteMarkerLocal _mrk;
 	if (!isNull _veh) then { [_veh] spawn A3A_fnc_vehDespawner };
 	if (!isNull _groupX1) then { [_groupX1] spawn A3A_fnc_groupDespawner };
-	[_groupX] spawn A3A_fnc_groupDespawner; 
+	[_groupX] spawn A3A_fnc_groupDespawner;
 };
 
 //sleep (540 + random 1200);

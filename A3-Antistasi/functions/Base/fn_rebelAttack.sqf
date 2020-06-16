@@ -1,3 +1,5 @@
+params [["_side", sideEnemy]];
+
 /*  Handles the large attack that also are missions
 
     Execution on: HC or Server
@@ -10,8 +12,6 @@
     Returns:
         Nothing
 */
-
-params [["_side", sideEnemy]];
 
 private _fileName = "rebelAttack";
 [
@@ -301,9 +301,9 @@ if(count _easyTargets >= 4) then
 
     //Execute the attacks from the given bases to the targets
     {
-        [[_x select 2, _x select 0, "", false],"A3A_fnc_patrolCA"] remoteExec ["A3A_fnc_scheduler",2];
+        [[_x select 2, _x select 0, false],"A3A_fnc_singleAttack"] remoteExec ["A3A_fnc_scheduler",2];
         //[sidesX getVariable (_x select 0), (_x select 2)] call A3A_fnc_markerChange;
-        sleep 30;
+        sleep 300;
     } forEach _attackList;
 }
 else
