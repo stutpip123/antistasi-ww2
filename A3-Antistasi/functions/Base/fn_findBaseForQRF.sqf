@@ -17,7 +17,7 @@ params ["_posDestination", "_side"];
 private _threatEvalLand = [_posDestination,_side] call A3A_fnc_landThreatEval;;
 
 //Start selecting the starting base
-private _availableAirports = airportsX select
+private _availableAirports = (airportsX + ["CSAT_carrier", "NATO_carrier"]) select
 {
     (sidesX getVariable [_x,sideUnknown] == _side) &&
     {([_x,true] call A3A_fnc_airportCanAttack) &&

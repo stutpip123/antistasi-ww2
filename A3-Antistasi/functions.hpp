@@ -237,6 +237,7 @@ class A3A
 		class remoteBattle {};
 		class removeVehFromPool {};
 		class safeVehicleSpawn {};
+        class singleAttack {};
 		class spawnGroup {};
 		class vehAvailable {};
 		class VEHdespawner {};
