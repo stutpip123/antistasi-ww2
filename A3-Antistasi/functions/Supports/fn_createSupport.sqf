@@ -62,5 +62,6 @@ if(_supportMarker != "") then
     {
         invadersSupports pushBack [_supportType, _supportMarker, _supportName];
     };
+    private _supportPos = if (_supportTarget isEqualType objNull) then {getPos _supportTarget} else {_supportTarget};
     [_revealCall + (random 0.4) - 0.2, _side, toLower _supportType, _supportPos] spawn A3A_fnc_showInterceptedSetupCall;
 };

@@ -1,4 +1,4 @@
-params ["_vehicleType", "_pos", "_dir", "_typeOfAttack", "_landPosBlacklist"];
+params ["_vehicleType", "_pos", "_dir", "_typeOfAttack", "_landPosBlacklist", "_side"];
 
 /*  Creates a vehicle for a QRF or small attack, including crew and cargo
 
@@ -12,24 +12,21 @@ params ["_vehicleType", "_pos", "_dir", "_typeOfAttack", "_landPosBlacklist"];
         _dir: NUMBER : Direction of the vehicle (NOT YET USED AS THE SAFE SPAWN DOES NOT HANDLES IT YET)
         _typeOfAttack: STRING : The type of the attack
         _landPosBlacklist: ARRAY : List of blacklisted position
+        _side: SIDE : The side of the attacker
 
     Returns:
         _vehicleData: ARRAY : [_vehicle, _crewGroup, _cargoGroup, _landPosBlacklist]
 */
 
 private _fileName = "createAttackVehicle";
+
 private _vehicle = [_vehicleType, _pos, 100, 5, true] call A3A_fnc_safeVehicleSpawn;
 private _crewGroup = createVehicleCrew _vehicle;
-
-if(_vehicle isKindOf "Air") then
-{
-    _vehicle setPos ((getPos _vehicle) vectorAdd [0, 0, 100]);
-};
 
 {
     [_x] call A3A_fnc_NATOinit
 } forEach (units _crewGroup);
-[_vehicle] call A3A_fnc_AIVEHinit;
+[_vehicle, _side] call A3A_fnc_AIVEHinit;
 
 private _cargoGroup = grpNull;
 if ((([_vehicleType, true] call BIS_fnc_crewCount) - ([_vehicleType, false] call BIS_fnc_crewCount)) > 0) then

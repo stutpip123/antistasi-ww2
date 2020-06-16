@@ -33,24 +33,23 @@ if(isNull _enemyVehicle && {!(_enemy isKindOf "Man")}) then
 
 //Check groups combat abilities
 private _unitsInGroup = {[_x] call A3A_fnc_canFight} count (units _group);
-private _ATLauncherInGroup = {(([_x] call A3A_fnc_typeOfSoldier) == "ATMan") && {[_x] call A3A_fnc_canFight}} count (units _group);
-private _AALauncherInGroup = {(([_x] call A3A_fnc_typeOfSoldier) == "AAMan") && {[_x] call A3A_fnc_canFight}} count (units _group);
+private _ATLauncherInGroup = {((_x call A3A_fnc_typeOfSoldier) == "ATMan") && {[_x] call A3A_fnc_canFight}} count (units _group);
+private _AALauncherInGroup = {((_x call A3A_fnc_typeOfSoldier) == "AAMan") && {[_x] call A3A_fnc_canFight}} count (units _group);
 
 //Determine class of enemy/ his vehicle
-private _enemyType = UNDEFINED;
 switch (true) do
 {
     case (_enemy isKindOf "Man"):
     {
-        private _enemiesNearEnemy = allUnits select {(side (group _x)) == (side (group _enemy)) && {_x distance2D _enemy < 100}};
-        if(count _enemiesNearEnemy > 2) then
+        private _enemiesNearEnemy = count (allUnits select {(side (group _x)) == (side (group _enemy)) && {_x distance2D _enemy < 100}});
+        if(_enemiesNearEnemy > 2) then
         {
             //They are fighting some larger group of enemies
             if
             (
                 _forceSupport ||
                 //Not enough guys to effectively fight
-                {(_aliveGroupUnits <= 4) ||
+                {(_unitsInGroup <= 4) ||
                 //Outnumbered
                 {(random 2) < (_enemiesNearEnemy/_unitsInGroup)}}
             ) then

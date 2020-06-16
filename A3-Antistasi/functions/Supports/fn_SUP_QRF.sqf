@@ -31,6 +31,12 @@ if (_markerOrigin == "") exitWith
 };
 private _posOrigin = getMarkerPos _markerOrigin;
 
+[
+    3,
+    format ["%1 will be send from %2", _supportName, _markerOrigin],
+    _fileName
+] call A3A_fnc_log;
+
 private _targetMarker = createMarker [format ["%1_coverage", _supportName], _posDestination];
 
 _targetMarker setMarkerShape "ELLIPSE";
@@ -82,21 +88,19 @@ if ((_posOrigin distance2D _posDestination < distanceForLandAttack) && {[_posOri
         _index = airportsX find _markerOrigin;
     };
 
-	private _spawnPoint = objNull;
+	private _spawnPoint = [];
 	private _dir = 0;
 
 	if (_index > -1) then
 	{
 		_spawnPoint = server getVariable (format ["spawn_%1", _markerOrigin]);
-		_pos = getMarkerPos _spawnPoint;
+		_spawnPoint = getMarkerPos _spawnPoint;
 		_dir = markerDir _spawnPoint;
 	}
 	else
 	{
 		_spawnPoint = [_posOrigin] call A3A_fnc_findNearestGoodRoad;
-		_pos = position _spawnPoint;
-        //Always returns 0 but fine
-		_dir = getDir _spawnPoint;
+		_spawnPoint = position _spawnPoint;
 	};
 
 	private _vehPool = [_side] call A3A_fnc_getVehiclePoolForQRFs;
@@ -115,7 +119,7 @@ if ((_posOrigin distance2D _posDestination < distanceForLandAttack) && {[_posOri
 	for "_i" from 1 to _vehicleCount do
 	{
         private _vehicleType = selectRandomWeighted _vehPool;
-        private _vehicleData = [_vehicleType, _spawnPoint, _dir, _typeOfAttack, _landPosBlacklist] call A3A_fnc_createAttackVehicle;
+        private _vehicleData = [_vehicleType, _spawnPoint, _dir, _typeOfAttack, _landPosBlacklist, _side] call A3A_fnc_createAttackVehicle;
         _vehicles pushBack (_vehicleData select 0);
         _groups pushBack (_vehicleData select 1);
         if !(isNull (_vehicleData select 2)) then
@@ -162,7 +166,7 @@ else
 		if (count _pos == 0) then {_pos = _posOrigin};
         //Runway found or not found, position selected
 
-        private _vehicleData = [_vehicleType, _pos, _dir, _typeOfAttack, _landPosBlacklist] call A3A_fnc_createAttackVehicle;
+        private _vehicleData = [_vehicleType, _pos, _ang, _typeOfAttack, _landPosBlacklist, _side] call A3A_fnc_createAttackVehicle;
         _vehicles pushBack (_vehicleData select 0);
         _groups pushBack (_vehicleData select 1);
         if !(isNull (_vehicleData select 2)) then

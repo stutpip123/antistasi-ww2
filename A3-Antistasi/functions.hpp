@@ -218,6 +218,7 @@ class A3A
 		class createSDKGarrisons {};
 		class createSDKgarrisonsTemp {};
 		class createUnit {};
+        class createVehicleQRFBehaviour {};
 		class cycleSpawn {};
 		class FIAinitBases {};
 		class findSpawnPosition {};
@@ -231,7 +232,6 @@ class A3A
 		class minefieldAAF {};
 		class mortarPos {};
 		class NATOinit {};
-		class patrolCA {};
 		class patrolReinf {};
 		class reinforcementsAI {};
 		class remoteBattle {};

@@ -106,6 +106,31 @@ switch (true) do
                 deleteVehicle _pad
             };
 
+            /*
+            private _driver = fullCrew [_vehicle, ""];
+            {
+                private _unit = _x select 0;
+                _unit disableAI "AUTOTARGET";
+                _unit disableAI "TARGET";
+                _unit disableAI "FSM";
+                _unit disableAI "SUPPRESSION";
+                _unit disableAI "AUTOCOMBAT";
+            } forEach _driver;
+            */
+
+            {
+                private _unit = _x;
+                _unit disableAI "AUTOTARGET";
+                _unit disableAI "TARGET";
+                _unit disableAI "FSM";
+                _unit disableAI "SUPPRESSION";
+                _unit disableAI "AUTOCOMBAT";
+            } forEach (units _crewGroup);
+
+
+            _crewGroup setBehaviour "CARELESS";
+            _crewGroup setCombatMode "GREEN";
+
             //Create the waypoints for the crewGroup
             private _vehWP0 = _crewGroup addWaypoint [_landpos, 0];
             _vehWP0 setWaypointType "TR UNLOAD";

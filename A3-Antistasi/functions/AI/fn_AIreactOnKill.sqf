@@ -117,10 +117,10 @@ if(_group getVariable ["canCallSupportAt", -1] < dateToNumber date) then
             {
                 if (_unitCount > 0) then
                 {
-                    _x allowFleeing (1 -(_x skill "courage") + (({!([_x] call A3A_fnc_canFight)} _unitCount)/(_unitCount)));
+                    _x allowFleeing (1 -(_x skill "courage") + (_unitCount/(count units _group)));
                 };
             };
 		};
 	};
     sleep 1 + (random 1);
-} forEach units _group;
+} forEach _aliveGroupMembers;
