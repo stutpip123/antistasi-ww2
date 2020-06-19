@@ -138,6 +138,7 @@ class A3A
 		class captureX {};
 		class chargeWithSmoke {};
         class chooseSupport {};
+        class combatLanding {};
 		class coverage {};
 		class destroyBuilding {};
 		class doFlank {};

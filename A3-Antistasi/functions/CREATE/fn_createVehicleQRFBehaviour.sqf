@@ -94,6 +94,14 @@ switch (true) do
     {
         //Transport helicopter
         _landPos = [_posDestination, 100, 150, 10, 0, 0.12, 0, [], [[0,0,0],[0,0,0]]] call BIS_fnc_findSafePos;
+
+        {
+            if(_x distance2D _landPos < 20) exitWith
+            {
+                _landPos = [0, 0, 0];
+            };
+        } forEach _landPosBlacklist;
+
         if !(_landPos isEqualTo [0,0,0]) then
         {
             _landPos set [2, 0];
@@ -103,60 +111,27 @@ switch (true) do
             {
                 params ["_pad", "_heli"];
                 waitUntil {sleep 60; (isNull _heli) || !(alive _heli)};
-                deleteVehicle _pad
+                deleteVehicle _pad;
             };
-
-            /*
-            private _driver = fullCrew [_vehicle, ""];
-            {
-                private _unit = _x select 0;
-                _unit disableAI "AUTOTARGET";
-                _unit disableAI "TARGET";
-                _unit disableAI "FSM";
-                _unit disableAI "SUPPRESSION";
-                _unit disableAI "AUTOCOMBAT";
-            } forEach _driver;
-            */
-
-            {
-                private _unit = _x;
-                _unit disableAI "AUTOTARGET";
-                _unit disableAI "TARGET";
-                _unit disableAI "FSM";
-                _unit disableAI "SUPPRESSION";
-                _unit disableAI "AUTOCOMBAT";
-            } forEach (units _crewGroup);
-
-
-            _crewGroup setBehaviour "CARELESS";
-            _crewGroup setCombatMode "GREEN";
+            _vehicle setVariable ["LandingPad", _pad, true];
+            _vehicle setVariable ["PosDestination", _posDestination, true];
+            _vehicle setVariable ["PosOrigin", _posOrigin, true];
 
             //Create the waypoints for the crewGroup
             private _vehWP0 = _crewGroup addWaypoint [_landpos, 0];
-            _vehWP0 setWaypointType "TR UNLOAD";
-            _vehWP0 setWaypointStatements ["true", "(vehicle this) land 'GET OUT';[vehicle this] call A3A_fnc_smokeCoverAuto"];
+            _vehWP0 setWaypointType "MOVE";
+            _vehWP0 setWaypointSpeed "FULL";
+            _vehWP0 setWaypointCompletionRadius 10;
             _vehWP0 setWaypointBehaviour "CARELESS";
-            private _vehWP1 = _crewGroup addWaypoint [_posOrigin, 1];
-            _vehWP1 setWaypointType "MOVE";
-            _vehWP1 setWaypointStatements ["true", "deleteVehicle (vehicle this); {deleteVehicle _x} forEach thisList"];
-            _vehWP1 setWaypointBehaviour "AWARE";
 
-            //Set the waypoints for cargoGroup
-            private _cargoWP0 = _cargoGroup addWaypoint [_landpos, 0];
-            _cargoWP0 setWaypointType "GETOUT";
-            _cargoWP0 setWaypointStatements ["true", "(group this) spawn A3A_fnc_attackDrillAI"];
-            private _cargoWP1 = _cargoGroup addWaypoint [_posDestination, 1];
-            _cargoWP1 setWaypointType "MOVE";
-            _cargoWP1 setWaypointBehaviour "AWARE";
-            _cargoWP1 setWaypointSpeed "FULL";
-            private _cargoWP2 = _cargoGroup addWaypoint [_posDestination, 2];
-            _cargoWP2 setWaypointType "SAD";
-            _cargoWP2 setWaypointBehaviour "COMBAT";
-            //God AI again
-            //_cargoWP1 setWaypointStatements ["true","{if (side _x != side this) then {this reveal [_x,4]}} forEach allUnits"];
+            [_vehicle, _landPos] spawn
+            {
+                params ["_vehicle", "_landPos"];
+                waitUntil {sleep 1; (_vehicle distance2D _landPos) < 250};
+                [_vehicle] spawn A3A_fnc_combatLanding
+            };
 
-            //Link the waypoints
-            _vehWP0 synchronizeWaypoint [_cargoWP0];
+            _landPosBlacklist pushBack _landPos;
         }
         else
         {

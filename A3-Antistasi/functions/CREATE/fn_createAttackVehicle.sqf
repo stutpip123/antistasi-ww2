@@ -1,4 +1,4 @@
-params ["_vehicleType", "_pos", "_dir", "_typeOfAttack", "_landPosBlacklist", "_side"];
+params ["_vehicleType", "_pos", "_dir", "_typeOfAttack", "_landPosBlacklist", "_side", "_markerOrigin"];
 
 /*  Creates a vehicle for a QRF or small attack, including crew and cargo
 
@@ -13,6 +13,7 @@ params ["_vehicleType", "_pos", "_dir", "_typeOfAttack", "_landPosBlacklist", "_
         _typeOfAttack: STRING : The type of the attack
         _landPosBlacklist: ARRAY : List of blacklisted position
         _side: SIDE : The side of the attacker
+        _markerOrigin: STRING : The name of the marker marking the origin
 
     Returns:
         _vehicleData: ARRAY : [_vehicle, _crewGroup, _cargoGroup, _landPosBlacklist]
