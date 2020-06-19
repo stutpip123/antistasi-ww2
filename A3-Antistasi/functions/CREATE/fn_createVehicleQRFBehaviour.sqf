@@ -121,13 +121,13 @@ switch (true) do
             private _vehWP0 = _crewGroup addWaypoint [_landpos, 0];
             _vehWP0 setWaypointType "MOVE";
             _vehWP0 setWaypointSpeed "FULL";
-            _vehWP0 setWaypointCompletionRadius 10;
+            _vehWP0 setWaypointCompletionRadius 150;
             _vehWP0 setWaypointBehaviour "CARELESS";
 
             [_vehicle, _landPos] spawn
             {
                 params ["_vehicle", "_landPos"];
-                waitUntil {sleep 1; (_vehicle distance2D _landPos) < 250};
+                waitUntil {sleep 1; (_vehicle distance2D _landPos) < 600};
                 [_vehicle] spawn A3A_fnc_combatLanding
             };
 

@@ -1,5 +1,3 @@
-#define LANDING_TIME    12
-
 params ["_helicopter"];
 
 private _originPos = _helicopter getVariable "PosOrigin";
@@ -20,6 +18,16 @@ private _startPos = getPosASL _helicopter;
 
 private _midPos = +_endPos;
 _midPos set [2, _startPos select 2];
+
+private _initialVelocity = (velocity _helicopter);
+_initialVelocity set [2, 0];
+_initialVelocity = vectorMagnitude _initialVelocity;
+//We got the initial velocity of the heli
+
+private _distance = _startPos distance2D _midPos;
+private _landingTime = _distance/_initialVelocity * 1.3;
+
+private _maxAngle = ((_initialVelocity * _initialVelocity/3600) * 35) min 35;
 
 //Starting land approach with bezier curve
 private _startToMidVector = _midPos vectorDiff _startPos;
@@ -46,7 +54,7 @@ while {_interval < 0.9999} do
     _vectorUp = vectorUp _helicopter;
 
     //Calculating the current angle and what the helicopter should turn too
-    _angleTarget = sin (_interval * 180) * 35;
+    _angleTarget = sin (_interval * 180) * _maxAngle;
     _angleIs = (asin (_vectorDir select 2));
     _angleDiff = _angleTarget - _angleIs;
     if(_angleDiff > _angleStep) then {_angleDiff = _angleStep;};
@@ -74,7 +82,7 @@ while {_interval < 0.9999} do
 
     _time = time;
     sleep 0.001;
-    _interval = _interval + (((time - _time)/LANDING_TIME) * (1 - (_interval / 1.5)));
+    _interval = _interval + (((time - _time)/_landingTime) * (1 - (_interval / 2)));
 
     if((!(alive _helicopter)) || (!(alive _driver))) exitWith {};
 };
