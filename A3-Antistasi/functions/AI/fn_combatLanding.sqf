@@ -25,7 +25,7 @@ _initialVelocity = vectorMagnitude _initialVelocity;
 //We got the initial velocity of the heli
 
 private _distance = _startPos distance2D _midPos;
-private _landingTime = _distance/_initialVelocity * 1.3;
+private _landingTime = _distance/_initialVelocity * 1.35;
 
 private _maxAngle = ((_initialVelocity * _initialVelocity/3600) * 35) min 35;
 
@@ -40,7 +40,7 @@ _helicopter flyInHeight 0;
 
 private _interval = 0;
 private _time = 0;
-private _angleStep = 1;
+private _angleStep = 0.25;
 private _angleTarget = 0;
 private _angleIs = 0;
 private _angleDiff = 0;
