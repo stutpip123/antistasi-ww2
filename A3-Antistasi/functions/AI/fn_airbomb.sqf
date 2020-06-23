@@ -4,7 +4,7 @@ if (not isServer and hasInterface) exitWith {};
 
 */
 
-params ["_plane", "_bombType", "_bombCount", "_bombRunLength"];
+params ["_pilot", "_bombType", "_bombCount", "_bombRunLength"];
 private _filename = "fn_airbomb";
 
 private _ammo = "";
@@ -30,20 +30,19 @@ switch (_bombType) do
 
 if(_ammo == "") exitWith {};
 
-private _speedInMeters = (speed _plane) / 3.6;
+private _speedInMeters = (speed _pilot) / 3.6;
 private _metersPerBomb = _bombRunLength / _bombCount;
 private _timeBetweenBombs = _metersPerBomb / _speedInMeters;
-
 
 for "_i" from 1 to _bombCount do
 {
 	sleep _timeBetweenBombs;
-	if (alive _plane) then
+	if (alive _pilot) then
 	{
-        private _bombPos = (getPos _plane) vectorAdd [0, 0, -5];
+        private _bombPos = (getPos _pilot) vectorAdd [0, 0, -5];
 		_bomb = _ammo createvehicle _bombPos;
 		waituntil {!isnull _bomb};
-		_bomb setDir (getDir _plane);
+		_bomb setDir (getDir _pilot);
 		_bomb setVelocity [0,0,-50];
 		if (_bombType == "NAPALM") then
 		{
