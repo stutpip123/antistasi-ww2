@@ -11,7 +11,7 @@ params ["_side", "_timerIndex", "_supportPos", "_supportName"];
         _timerIndex: NUMBER
         _supportPos: POSITION : The position the mortar should be able to target
         _supportName: STRING : The call name of the mortar support
-        
+
     Returns:
         The name of the marker, covering the whole support area
 */
@@ -93,14 +93,10 @@ if(_isMortar) then
 
         //Spawn in crew
     	private _unit = [_mortarGroup, _crewType, (_spawnParams select 0), [], 5, "NONE"] call A3A_fnc_createUnit;
-    	[_unit] call A3A_fnc_NATOinit;
 
         //Moving crew in
     	_unit moveInGunner _mortar;
     	_crew pushBack _unit;
-
-        //Init mortar (needed?)
-        [_mortar] call A3A_fnc_AIVEHinit;
     }
     else
     {
@@ -112,14 +108,10 @@ if(_isMortar) then
 
         //Spawn in crew
         private _unit = [_mortarGroup, _crewType, _basePos, [], 5, "NONE"] call A3A_fnc_createUnit;
-    	[_unit] call A3A_fnc_NATOinit;
 
         //Moving crew in
         _unit moveInGunner _mortar;
     	_crew pushBack _unit;
-
-        //Init mortar (needed?)
-        [_mortar] call A3A_fnc_AIVEHinit;
     };
 }
 else
@@ -142,12 +134,8 @@ else
 
     _crew = _mortar select 1;
     _mortarGroup = _mortar select 2;
-    {
-        [_x] call A3A_fnc_NATOinit
-    } forEach _crew;
 
     _mortar = _mortar select 0;
-    [_mortar] call A3A_fnc_AIVEHinit;
 };
 
 if(isNull _mortar) exitWith

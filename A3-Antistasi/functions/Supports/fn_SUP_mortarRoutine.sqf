@@ -1,13 +1,17 @@
 params ["_mortar", "_crewGroup", "_supportName", "_side"];
 
 /*  The routine which controls the mortar support in all aspects
+
     Execution on: Server
+
     Scope: Internal
+
     Params:
         _mortar: OBJECT : The actual mortar object
         _crewGroup: GROUP : The crewgroup of the mortar
         _supportName: STRING : The callsign of the support
         _side: SIDE : The side of the support
+        
     Returns:
         Nothing
 */
