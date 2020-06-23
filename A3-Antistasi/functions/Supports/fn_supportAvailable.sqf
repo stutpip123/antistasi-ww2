@@ -15,7 +15,6 @@ params ["_supportType", "_side", "_position"];
 */
 
 private _timerIndex = -1;
-//All options deactivated for merging
 switch (_supportType) do
 {
     case ("QRF"):
@@ -28,9 +27,7 @@ switch (_supportType) do
     };
     case ("MORTAR"):
     {
-
-        //_timerIndex = [_side] call A3A_fnc_SUP_mortarAvailable;
-        _timerIndex = -1;
+        _timerIndex = [_side] call A3A_fnc_SUP_mortarAvailable;
     };
     default
     {
