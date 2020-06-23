@@ -162,11 +162,15 @@ switch (true) do
             };
         };
     };
+    case (_enemyVehicle isKindOf "Ship"):
+    {
+        _supportTypes = ["MORTAR", "CAS", "GUNSHIP"];
+    };
     default
     {
         [
             1,
-            format ["Cannot figure out class for unit %1 (vehicle %2)", _enemy, _enemyVehicle],
+            format ["Cannot figure out class for unit %1 (vehicle %2)", _enemy, typeOf _enemyVehicle],
             _fileName
         ] call A3A_fnc_log;
     };
