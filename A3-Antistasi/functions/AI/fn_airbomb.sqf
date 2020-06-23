@@ -31,14 +31,9 @@ switch (_bombType) do
 if(_ammo == "") exitWith {};
 
 private _speedInMeters = (speed _plane) / 3.6;
-
 private _metersPerBomb = _bombRunLength / _bombCount;
-private _offset = _metersPerBomb / 2;
-
 private _timeBetweenBombs = _metersPerBomb / _speedInMeters;
-private _timeOffset = _offset / _speedInMeters;
 
-sleep _timeOffset;
 
 for "_i" from 1 to _bombCount do
 {

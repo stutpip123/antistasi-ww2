@@ -47,8 +47,9 @@ switch (_side) do
 
 [0,0,0] params ["_defenderUnitCount", "_enemy1UnitCount", "_enemy2UnitCount"];
 
+private _markerPos = getMarkerPos _marker;
 {
-    if([_x, _marker] call A3A_fnc_canConquer) then
+    if((_markerPos distance2D _x < 300) && {[_x] call A3A_fnc_canFight}) then
     {
         switch (side (group _x)) do
         {

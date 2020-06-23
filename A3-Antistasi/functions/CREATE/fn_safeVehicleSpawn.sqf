@@ -13,12 +13,12 @@ private _willCollide = true;
 private _vehicle = objNull;
 if(_vehicleType isKindOf "Air") then
 {
-    _vehicle = createVehicle [_vehicleType, [0,0,0], [], 0, "FLY"];
+    _vehicle = createVehicle [_vehicleType, [0,0,100], [], 0, "FLY"];
     _pos = _pos vectorAdd [0, 0, 100];
 }
 else
 {
-    _vehicle = createVehicle [_vehicleType, [0,0,0], [], 0, "NONE"];
+    _vehicle = createVehicle [_vehicleType, [0,0,100], [], 0, "CAN_COLLIDE"];
 };
 //Disable simulation while we're testing. Save performance AND avoid it blowing up.
 _vehicle enableSimulation false;

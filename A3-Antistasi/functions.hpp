@@ -527,6 +527,9 @@ class A3A
         class sendSupport {};
         class showInterceptedSetupCall {};
         class showInterceptedSupportCall {};
+        class SUP_airstrike {};
+        class SUP_airstrikeAvailable {};
+        class SUP_airstrikeRoutine {};
         class SUP_QRF {};
         class SUP_QRFAvailable {};
         class SUP_QRFRoutine {};

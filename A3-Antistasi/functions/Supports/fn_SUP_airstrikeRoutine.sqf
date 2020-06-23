@@ -11,6 +11,8 @@ while {_sleepTime > 0} do
 };
 
 _strikePlane setFuel 1;
+_strikePlane hideObjectGlobal false;
+_strikePlane enableSimulation true;
 
 private _targetList = server getVariable [format ["%1_targets", _supportName], []];
 private _reveal = _targetList select 0 select 1;
@@ -63,17 +65,20 @@ private _bombParams = [_strikePlane, _strikePlane getVariable "bombType", _bombC
 (driver _strikePlane) setVariable ["bombParams", _bombParams, true];
 
 private _wp1 = _strikeGroup addWaypoint [_preBombPosition, 0];
-_wp0 setWaypointType "MOVE";
+_wp1 setWaypointType "MOVE";
 _wp1 setWaypointSpeed "FULL";
 _wp1 setWaypointBehaviour "CARELESS";
+_wp1 setWaypointCompletionRadius 250;
 
 private _wp2 = _strikeGroup addWaypoint [_startBombPosition, 1];
 _wp2 setWaypointType "MOVE";
 _wp2 setWaypointSpeed _flightSpeed;
+_wp2 setWaypointCompletionRadius 150;
 _wp2 setWaypointStatements ["true", "(this getVariable 'bombParams') spawn A3A_fnc_airbomb"];
 
 private _wp3 = _strikeGroup addWaypoint [_endBombPosition, 2];
 _wp3 setWaypointType "MOVE";
+_wp3 setWaypointCompletionRadius 50;
 _wp3 setWaypointSpeed _flightSpeed;
 
 private _wp4 = _strikeGroup addWaypoint [_airportPos, 3];
