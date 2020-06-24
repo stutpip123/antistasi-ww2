@@ -1,4 +1,4 @@
-params ["_side", "_timerIndex", "_supportPos", "_supportName"];
+params ["_side", "_timerIndex", "_supportObj", "_supportName"];
 
 /*  Sets up the CAS support
 
@@ -7,9 +7,9 @@ params ["_side", "_timerIndex", "_supportPos", "_supportName"];
     Scope: Internal
 
     Params:
-        _side: SIDE : The side of which the airstrike should be send
+        _side: SIDE : The side of which the CAS should be send
         _timerIndex: NUMBER :  The number of the support timer
-        _supportPos: POSITION : The position to which the airstrike should be carried out
+        _supportObj: OBJ : The position to which the airstrike should be carried out
         _supportName: STRING : The callsign of the support
 
     Returns:
@@ -18,7 +18,7 @@ params ["_side", "_timerIndex", "_supportPos", "_supportName"];
 
 
 private _fileName = "SUP_CAS";
-private _airport = [_supportPos, _side] call A3A_fnc_findAirportForAirstrike;
+private _airport = [_supportObj, _side] call A3A_fnc_findAirportForAirstrike;
 
 if(_airport == "") exitWith
 {
@@ -35,7 +35,7 @@ private _crewUnits = if(_side == Occupants) then {NATOCrew} else {CSATCrew};
 
 //TODO Select a loadout for the plane
 
-private _targetMarker = createMarker [format ["%1_coverage", _supportName], _supportPos];
+private _targetMarker = createMarker [format ["%1_coverage", _supportName], getPos _supportObj];
 
 _targetMarker setMarkerShape "ELLIPSE";
 _targetMarker setMarkerBrush "Grid";
@@ -49,7 +49,7 @@ if(_side == Invaders) then
 {
     _targetMarker setMarkerColor colorInvaders;
 };
-_targetMarker setMarkerAlpha 1;
+_targetMarker setMarkerAlpha 0;
 
 //Blocks the airport from spawning in other planes while the support is waiting
 //to avoid spawning planes in each other and sudden explosions
@@ -76,7 +76,7 @@ else
     //150 is more likely to be in the actual viewcone of a player
     private _spawnPos = (getMarkerPos _airport);
     _strikePlane = createVehicle [_plane, _spawnPos, [], 0, "FLY"];
-    _strikePlane setDir _dir;
+    _strikePlane setDir (_spawnPos getDir _supportObj);
 
     //Put it in the sky
     _strikePlane setPosATL (_spawnPos vectorAdd [0, 0, 1000]);
@@ -164,7 +164,7 @@ _strikePlane addEventHandler
 [
     "HandleDamage",
     {
-        params ["_unit", "_selection", "_damage", "_vehicle", "_projectile"];
+        params ["_plane", "_selection", "_damage", "_vehicle", "_projectile"];
         //Check if bullet, we dont care about missiles, as these are handled above
         if(_projectile isKindOf "BulletCore") then
         {
@@ -187,7 +187,7 @@ _strikePlane addEventHandler
                 };
             };
         };
-    };
+    }
 ];
 
 _pilot setVariable ["Plane", _strikePlane, true];
@@ -206,6 +206,6 @@ _pilot addEventHandler
 ];
 _strikeGroup deleteGroupWhenEmpty true;
 
-[_side, _strikePlane, _strikeGroup , _airport, _supportPos, _supportName] spawn A3A_fnc_SUP_airstrikeRoutine;
+[_strikePlane, _strikeGroup , _airport, _supportName, getPos _supportObj] spawn A3A_fnc_SUP_CASRoutine;
 
 _targetMarker;

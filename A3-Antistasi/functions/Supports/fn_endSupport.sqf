@@ -14,6 +14,7 @@ params ["_supportName", "_side"];
         Nothing
 */
 
+private _fileName = "endSupport";
 server setVariable [format ["%1_targets", _supportName], nil, true];
 
 if (_side == Occupants) then
@@ -29,3 +30,6 @@ if(_side == Invaders) then
 };
 
 deleteMarker (format ["%1_coverage", _supportName]);
+deleteMarker (format ["%1_text", _supportName]);
+
+[2, format ["Ended support and deleted data for %1", _supportName], _fileName] call A3A_fnc_log;

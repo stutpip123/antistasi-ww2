@@ -49,6 +49,10 @@ switch (_supportType) do
     {
         _supportMarker = [_side, _timerIndex, _supportTarget, _supportName] call A3A_fnc_SUP_mortar;
     };
+    case ("CAS"):
+    {
+        _supportMarker = [_side, _timerIndex, _supportTarget, _supportName] call A3A_fnc_SUP_CAS;
+    };
 };
 
 if(_supportMarker != "") then
