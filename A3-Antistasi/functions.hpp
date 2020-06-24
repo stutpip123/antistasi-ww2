@@ -528,6 +528,8 @@ class A3A
         class SUP_airstrike {};
         class SUP_airstrikeAvailable {};
         class SUP_airstrikeRoutine {};
+        class SUP_CAS {};
+        class SUP_CASAvailable {};
         class SUP_mortar {};
         class SUP_mortarAvailable {};
         class SUP_mortarRoutine {};

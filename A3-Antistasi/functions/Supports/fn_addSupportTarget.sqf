@@ -23,8 +23,27 @@ if(supportTargetsChanging) then
 supportTargetsChanging = true;
 
 private _targetList = server getVariable [format ["%1_targets", _supportObject], []];
-_targetList pushBack [_targetParams, _revealCall];
-server setVariable [format ["%1_targets", _supportObject], _targetList, true];
+
+if((_targetParams select 0) isEqualType objNull) then
+{
+    private _isInList = false;
+    {
+        if((_x select 0 select 0) == (_targetParams select 0)) exitWith
+        {
+            _isInList = true;
+        };
+    } forEach _targetList;
+    if !(_isInList) then
+    {
+        _targetList pushBack [_targetParams, _revealCall];
+        server setVariable [format ["%1_targets", _supportObject], _targetList, true];
+    };
+}
+else
+{
+    _targetList pushBack [_targetParams, _revealCall];
+    server setVariable [format ["%1_targets", _supportObject], _targetList, true];
+};
 
 supportTargetsChanging = false;
 
