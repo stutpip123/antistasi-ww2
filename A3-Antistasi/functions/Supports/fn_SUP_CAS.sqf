@@ -33,8 +33,6 @@ if(_airport == "") exitWith
 private _plane = if (_side == Occupants) then {vehNATOPlane} else {vehCSATPlane};
 private _crewUnits = if(_side == Occupants) then {NATOCrew} else {CSATCrew};
 
-//TODO Select a loadout for the plane
-
 private _targetMarker = createMarker [format ["%1_coverage", _supportName], getPos _supportObj];
 
 _targetMarker setMarkerShape "ELLIPSE";

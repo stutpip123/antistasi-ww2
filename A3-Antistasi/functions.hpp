@@ -102,6 +102,7 @@ class A3A
 		class scheduler {};
 		class sellVehicle {};
 		class setMarkerAlphaForSide {};
+        class setPlaneLoadout {};
         class singlePlayerBlackScreenWarning {};
 		class sizeMarker {};
 		class splitVehicleCrewIntoOwnGroups {};

@@ -37,6 +37,7 @@ if(_sideAggression < (30 + (random 40))) then
     _missilesLeft = 6;
 };
 
+[_strikePlane, "CAS"] call A3A_fnc_setPlaneLoadout;
 
 _strikePlane setVariable ["InArea", false, true];
 _strikePlane setVariable ["CurrentlyAttacking", false, true];

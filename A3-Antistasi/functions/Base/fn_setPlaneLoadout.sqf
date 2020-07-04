@@ -1,4 +1,4 @@
-private ["_plane", "_type"];
+params ["_plane", "_type"];
 
 /*  Equips a plane with the needed loadout
 
@@ -21,17 +21,17 @@ if (_type == "CAS") then
     switch (typeOf _plane) do
     {
         //Vanilla NATO CAS (A-10)
-        case ("B_Plane_CAS_01_F"):
+        case ("B_Plane_CAS_01_dynamicLoadout_F"):
         {
             _loadout = ["PylonRack_3Rnd_LG_scalpel","PylonRack_1Rnd_Missile_AGM_02_F","PylonRack_3Rnd_LG_scalpel","PylonRack_3Rnd_Missile_AGM_02_F","PylonRack_3Rnd_LG_scalpel","PylonRack_3Rnd_LG_scalpel","PylonRack_3Rnd_Missile_AGM_02_F","PylonRack_3Rnd_LG_scalpel","PylonRack_1Rnd_Missile_AGM_02_F","PylonRack_3Rnd_LG_scalpel"];
         };
         //Vanilla CSAT CAS
-        case ("O_Plane_CAS_02_F"):
+        case ("O_Plane_CAS_02_dynamicLoadout_F"):
         {
             _loadout = ["PylonMissile_1Rnd_LG_scalpel","PylonRack_4Rnd_LG_scalpel","PylonRack_4Rnd_LG_scalpel","PylonRack_4Rnd_LG_scalpel","PylonRack_4Rnd_LG_scalpel","PylonRack_4Rnd_LG_scalpel","PylonRack_4Rnd_LG_scalpel","PylonRack_4Rnd_LG_scalpel","PylonRack_4Rnd_LG_scalpel","PylonMissile_1Rnd_LG_scalpel"];
         };
         //Vanilla IND CAS
-        case ("I_Plane_Fighter_03_F"):
+        case ("I_Plane_Fighter_03_dynamicLoadout_F"):
         {
             _loadout = ["PylonRack_1Rnd_LG_scalpel","PylonRack_3Rnd_LG_scalpel","PylonRack_3Rnd_LG_scalpel","","PylonRack_3Rnd_LG_scalpel","PylonRack_3Rnd_LG_scalpel","PylonRack_1Rnd_LG_scalpel"];
         };
@@ -69,14 +69,8 @@ if (_type == "AA") then
 
 if !(_loadout isEqualTo []) then
 {
-    private _pylonPaths = (configProperties [configFile >> "CfgVehicles" >> typeOf _plane >> "Components" >> "TransportPylonsComponent" >> "Pylons", "isClass _x"]) apply
+    [3, "Selected new loadout for plane, now equiping plane with it", _fileName] call A3A_fnc_log;
     {
-        getArray (_x >> "turret")
-    };
-    {
-        _plane removeWeaponGlobal getText (configFile >> "CfgMagazines" >> _x >> "pylonWeapon")
-    } forEach getPylonMagazines _plane;
-    {
-        _plane setPylonLoadout [_forEachIndex + 1, _x, true, _pylonPaths select _forEachIndex]
+        _plane setPylonLoadout [_forEachIndex + 1, _x, true];
     } forEach _loadout;
 };
