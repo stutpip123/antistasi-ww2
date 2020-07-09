@@ -29,6 +29,7 @@ if (!isServer) then {
 	call A3A_fnc_initVar;
 	if (!hasInterface) exitWith {
 		[2,format ["Headless client version: %1",localize "STR_antistasi_credits_generic_version_text"],_fileName] call A3A_fnc_log;
+		call A3A_fnc_loadNavGrid;
 		[clientOwner] remoteExec ["A3A_fnc_addHC",2];
 	};
 	[2,format ["MP client version: %1",localize "STR_antistasi_credits_generic_version_text"],_fileName] call A3A_fnc_log;
@@ -57,7 +58,6 @@ if (isMultiplayer) then {
 		[] execVM "orgPlayers\radioJam.sqf";
 	};
 	tkPunish = if ("tkPunish" call BIS_fnc_getParamValue == 1) then {true} else {false};
-	call A3A_fnc_punishment_FF_addEH;
 	if (!isNil "placementDone") then {_isJip = true};//workaround for BIS fail on JIP detection
 }
 else {
