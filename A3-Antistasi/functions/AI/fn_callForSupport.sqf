@@ -18,6 +18,11 @@ params ["_group", "_supportTypes", "_target"];
 private _fileName = "callForSupport";
 private _groupLeader = leader _group;
 
+if(side _group == teamPlayer) exitWith
+{
+    [1, format ["Rebel group %1 managed to call callForSupport, not allowed for rebel groups", _group], _fileName] call A3A_fnc_log;
+};
+
 if((_group getVariable ["canCallSupportAt", -1]) > (dateToNumber date)) exitWith {};
 
 //Block the group from calling support again
