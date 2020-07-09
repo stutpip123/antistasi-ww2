@@ -140,7 +140,7 @@ while {true} do
 			if !(isNull _air) then
 			{
                 private _supportTypes = [_groupX, _air] call A3A_fnc_chooseSupport;
-                if (count _supportTypes) > 0) then
+                if ((count _supportTypes) > 0) then
                 {
                     [_groupX, _supportTypes, _air] spawn A3A_fnc_callForSupport;
                 };
@@ -150,7 +150,7 @@ while {true} do
 			if !(isNull _tanksX) then
 			{
                 private _supportTypes = [_groupX, _tanksX] call A3A_fnc_chooseSupport;
-                if (count _supportTypes) > 0) then
+                if ((count _supportTypes) > 0) then
                 {
                     [_groupX, _supportTypes, _tanksX] spawn A3A_fnc_callForSupport;
                 };
@@ -162,7 +162,7 @@ while {true} do
 				if !(isNull _nearX) then
 				{
                     private _supportTypes = [_groupX, _nearX] call A3A_fnc_chooseSupport;
-                    if (count _supportTypes) > 0) then
+                    if ((count _supportTypes) > 0) then
                     {
                         [_groupX, _supportTypes, _nearX] spawn A3A_fnc_callForSupport;
                     };
