@@ -39,6 +39,29 @@ if(_sideAggression < (30 + (random 40))) then
 
 [_strikePlane, "CAS"] call A3A_fnc_setPlaneLoadout;
 
+_strikePlane addEventHandler
+[
+    "Fired",
+    {
+        params ["_unit", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile", "_gunner"];
+        if (_ammo isKindOf "MissileBase") then
+        {
+            //Fired weapon was a missile, further investigation needed
+            private _lockStates = [configFile >> "CfgAmmo" >> _ammo, "weaponLockSystem"] call BIS_fnc_returnConfigEntry;
+            if(_lockStates isEqualType -1 && {_lockStates == 0}) then
+            {
+                //Unguided weapon, fire six more :)
+
+            }
+            else
+            {
+                //Guided weapon, fire a second
+                _unit fireAtTarget [_target, _muzzle];
+            };
+        };
+    }
+];
+
 _strikePlane setVariable ["InArea", false, true];
 _strikePlane setVariable ["CurrentlyAttacking", false, true];
 
