@@ -114,6 +114,7 @@ if (gameMode == 4) then
 //          WEAPONS               //
 ////////////////////////////////////
 
+//Use this array to define the weapon wells related to the faction
 invaderWeaponWells =
 [
     "Katiba_65x39","Pistol_9x21","Cylinder_45ACP","150Rnd_762x54_Box","150Rnd_762x54_Box_Tracer",
@@ -122,6 +123,9 @@ invaderWeaponWells =
     "Titan_Long","Laserbatteries","GM6_127x108","Cyrus_93","ASP1_127x54","CTAR_580x42",
     "CTAR_580x42_Large","20Rnd_650x39_Cased_Mag_F","Vorona_HEAT","Vorona_HE","AK_762x39"
 ];
+
+//Use this array to filter out false positives
+invaderBlockedWeapons = [];
 
 ////////////////////////////////////
 //           VEHICLES            ///

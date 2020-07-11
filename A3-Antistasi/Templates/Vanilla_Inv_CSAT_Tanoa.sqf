@@ -123,6 +123,9 @@ invaderWeaponWells =
     "CTAR_580x42_Large","20Rnd_650x39_Cased_Mag_F","Vorona_HEAT","Vorona_HE","AK_762x39"
 ];
 
+//Use this array to filter out false positives
+invaderBlockedWeapons = [];
+
 ////////////////////////////////////
 //           VEHICLES            ///
 ////////////////////////////////////
