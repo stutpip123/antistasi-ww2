@@ -142,8 +142,9 @@ occupantBlockedWeapons =
 [
     "arifle_Mk20_F", "arifle_Mk20_plain_F", "arifle_Mk20C_F", "arifle_Mk20C_plain_F", "arifle_Mk20_GL_F",
     "arifle_Mk20_GL_plain_F", "arifle_TRG21_F", "arifle_TRG20_F", "arifle_TRG21_GL_F", "hgun_PDW2000_F",
-    "SMG_02_F"
+    "SMG_02_F", "srifle_DMR_06_hunter_F", "srifle_DMR_06_olive_F", "srifle_DMR_06_camo_F"
 ];
+
 
 ////////////////////////////////////
 //           VEHICLES            ///
