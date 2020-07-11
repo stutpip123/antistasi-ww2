@@ -147,6 +147,11 @@ DECLARE_SERVER_VAR(allEquipmentArrayNames, allCategories apply {"all" + _x});
 //Build list of 'unlockedX' variables, such as 'allWeapons'
 DECLARE_SERVER_VAR(unlockedEquipmentArrayNames, _unlockableCategories apply {"unlocked" + _x});
 
+//Build list of 'factionX' variables, such as 'rebelRifles'
+DECLARE_SERVER_VAR(rebelWeaponsArrayNames, weaponCategories apply {"rebel" + _x});
+DECLARE_SERVER_VAR(occupantWeaponsArrayNames, weaponCategories apply {"occupant" + _x});
+DECLARE_SERVER_VAR(invaderWeaponsArrayNames, weaponCategories apply {"invader" + _x});
+
 //Various arrays used by the loot system. Could also be done using DECLARE_SERVER_VAR individually.
 private _otherEquipmentArrayNames = [
 	"initialRebelEquipment",
@@ -176,7 +181,7 @@ private _otherEquipmentArrayNames = [
 DECLARE_SERVER_VAR(otherEquipmentArrayNames, _otherEquipmentArrayNames);
 
 //We're going to use this to sync the variables later.
-everyEquipmentRelatedArrayName = allEquipmentArrayNames + unlockedEquipmentArrayNames + otherEquipmentArrayNames;
+everyEquipmentRelatedArrayName = allEquipmentArrayNames + unlockedEquipmentArrayNames + otherEquipmentArrayNames + rebelWeaponsArrayNames + occupantWeaponsArrayNames + invaderWeaponsArrayNames;
 
 //Initialise them all as empty arrays.
 {

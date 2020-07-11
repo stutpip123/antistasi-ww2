@@ -42,6 +42,39 @@ private _allConfigs = _allWeaponConfigs + _allMagazineConfigs + _allBackpackConf
 _allConfigs = _allConfigs select {!(_x call A3A_fnc_getModOfConfigClass in disabledMods)};
 
 //////////////////////////////
+//   Faction sorting        //
+//////////////////////////////
+
+//Check if the data is defined in the templates, currently only vanilla
+private _fileName = "configSort";
+private _sideSortingActive = true;
+if(isNil "rebelWeaponWells" || {isNil 'occupantWeaponWells' || {isNil 'invaderWeaponWells'}}) then
+{
+    [1, "At least one of the active templates dont have weapon wells defined, cannot sort weapons by side", _fileName] call A3A_fnc_log;
+    _sideSortingActive = false;
+};
+
+if(rebelWeaponWells isEqualTo [] || occupantWeaponWells isEqualTo [] || invaderWeaponWells isEqualTo []) then
+{
+    [1, "At least on of the active templates has an empty array for weapon wells, cannot sort weapons by side", _fileName] call A3A_fnc_log;
+    _sideSortingActive = false;
+};
+
+private _mags = [];
+if(_sideSortingActive) then
+{
+    [3, "Preparing data for weapon side detection", _fileName] call A3A_fnc_log;
+    //Prepare data used for mag well detection
+    private _magWells = ("true" configClasses (configFile >> "CfgMagazineWells")) apply {configName _x};
+
+    {
+        _mags pushBack [_x, (getArray(configfile >> "CfgMagazineWells" >> _x >> "BI_Magazines") + getArray(configfile >> "CfgMagazineWells" >> _x >> "BI_Enoch_Magazines"))];
+    } forEach _magWells;
+    missionNamespace setVariable ["weaponMags", _mags];
+    [3, format ["Found %1 mag wells in the config", count _magWells], _fileName] call A3A_fnc_log;
+};
+
+//////////////////////////////
 //    Sorting Function     ///
 //////////////////////////////
 private _nameX = "";
@@ -51,10 +84,10 @@ private _nameX = "";
 	{
 		_nameX = [_nameX] call BIS_fnc_baseWeapon;
 	};
-	
+
 	private _item = [_nameX] call A3A_fnc_itemType;
 	private _itemType = _item select 1;
-	
+
 	if !([_x, _item] call _filter) then
 	{
 		private _categories = _nameX call A3A_fnc_equipmentClassToCategories;
