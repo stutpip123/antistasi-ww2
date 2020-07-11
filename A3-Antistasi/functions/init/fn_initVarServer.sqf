@@ -135,7 +135,7 @@ destroyedBuildings = [];		// synced only on join, to avoid spam on change
 ///////////////////////////////////////////
 //     INITIALISING ITEM CATEGORIES     ///
 ///////////////////////////////////////////
-[2,"Initialising item categories",__FILE__] call A3A_fnc_log;
+[2,"Initialising item categories",_fileName] call A3A_fnc_log;
 
 //We initialise a LOT of arrays based on the categories. Every category gets a 'allX' variables and an 'unlockedX' variable.
 

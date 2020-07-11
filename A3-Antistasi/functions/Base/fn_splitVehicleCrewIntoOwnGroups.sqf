@@ -10,7 +10,9 @@
 
 params ["_vehicle"];
 
-[3, format ["Splitting the crew of %1, type of %2", _vehicle, typeOf _vehicle], __FILE__] call A3A_fnc_log;
+private _fileName = "splitVehicleCrewIntoOwnGroups";
+
+[3, format ["Splitting the crew of %1, type of %2", _vehicle, typeOf _vehicle], _fileName] call A3A_fnc_log;
 
 private _crew = fullCrew _vehicle select {_x select 1 != "cargo"};
 if (_crew isEqualTo []) exitWith {
@@ -21,7 +23,7 @@ private _crewGroups = [];
 
 private _groupName = groupId group (_crew select 0 select 0);
 
-[3, format ["Crew is %1", str _crew], __FILE__] call A3A_fnc_log;
+[3, format ["Crew is %1", str _crew], _fileName] call A3A_fnc_log;
 
 {
 	private _unit = _x select 0;
