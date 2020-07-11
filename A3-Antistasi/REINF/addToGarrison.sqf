@@ -39,6 +39,13 @@ else
 
 _leave = false;
 
+private _alreadyInGarrison = false;
+{
+	private _garrisondIn = _x getVariable "markerX";
+	if !(isNil "_garrisondIn") then {_alreadyInGarrison = true};
+} forEach _unitsX;
+if _alreadyInGarrison exitWith {["Garrison", "The units selected already are in a garrison"] call A3A_fnc_customHint};
+
 {
 if ((typeOf _x == staticCrewTeamPlayer) or (typeOf _x == SDKUnarmed) or (typeOf _x in arrayCivs) or (!alive _x)) exitWith {_leave = true}
 } forEach _unitsX;
@@ -146,11 +153,11 @@ else
 				if (side _killer == Occupants) then
 					{
 					_nul = [0.25,0,getPos _victim] remoteExec ["A3A_fnc_citySupportChange",2];
-					[-0.25,0] remoteExec ["A3A_fnc_prestige",2];
+					[[-1, 30], [0, 0]] remoteExec ["A3A_fnc_prestige",2];
 					}
 				else
 					{
-					if (side _killer == Invaders) then {[0,-0.25] remoteExec ["A3A_fnc_prestige",2]};
+					if (side _killer == Invaders) then {[[0, 0], [-1, 30]] remoteExec ["A3A_fnc_prestige",2]};
 					};
 				};
 			_victim setVariable ["spawner",nil,true];
@@ -160,4 +167,3 @@ else
 	theBoss hcSetGroup [_groupX];
 	["Garrison", format ["Group %1 is back to HC control because the zone which was pointed to garrison has been lost",groupID _groupX]] call A3A_fnc_customHint;
 	};
-

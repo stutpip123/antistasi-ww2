@@ -26,17 +26,17 @@ NATOAmmobox = "I_supplyCrate_F";
 //PvP Loadouts
 NATOPlayerLoadouts = [
 	//Team Leader
-	"UK3CB_TKA_B_SF_SL",
+	["3CB_TKM_Teamleader"] call A3A_fnc_getLoadout,
 	//Medic
-	"UK3CB_TKA_B_SF_MD",
+	["3CB_TKM_Medic"] call A3A_fnc_getLoadout,
 	//Autorifleman
-	"UK3CB_TKA_B_SF_AR",
+	["3CB_TKM_MachineGunner"] call A3A_fnc_getLoadout,
 	//Marksman
-	"UK3CB_TKA_B_SF_MK",
+	["3CB_TKM_Marksman"] call A3A_fnc_getLoadout,
 	//Anti-tank Scout
-	"UK3CB_TKA_B_SF_LAT",
+	["3CB_TKM_AT"] call A3A_fnc_getLoadout,
 	//AT2
-	"UK3CB_TKA_B_SF_LAT"
+	["3CB_TKM_AT2"] call A3A_fnc_getLoadout
 ];
 
 //PVP Player Vehicles
@@ -72,7 +72,7 @@ policeGrunt = "UK3CB_TKP_I_RIF_2";
 ////////////////////////////////////
 //Military Groups
 //Teams
-groupsNATOSentry = ["UK3CB_TKA_I_GL",NATOGrunt];
+groupsNATOSentry = ["UK3CB_TKA_I_MK",NATOGrunt];
 groupsNATOSniper = ["UK3CB_TKA_I_SF_SNI","UK3CB_TKA_I_SF_SPOT"];
 groupsNATOsmall = [groupsNATOSentry,groupsNATOSniper];
 //Fireteams
