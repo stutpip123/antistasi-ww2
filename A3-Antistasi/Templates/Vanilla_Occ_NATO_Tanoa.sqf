@@ -137,7 +137,12 @@ occupantWeaponWells =
 ];
 
 //Use this array to filter out false positives
-occupantBlockedWeapons = [];
+occupantBlockedWeapons =
+[
+    "arifle_Mk20_F", "arifle_Mk20_plain_F", "arifle_Mk20C_F", "arifle_Mk20C_plain_F", "arifle_Mk20_GL_F",
+    "arifle_Mk20_GL_plain_F", "arifle_TRG21_F", "arifle_TRG20_F", "arifle_TRG21_GL_F", "hgun_PDW2000_F",
+    "SMG_02_F"
+];
 
 ////////////////////////////////////
 //           VEHICLES            ///

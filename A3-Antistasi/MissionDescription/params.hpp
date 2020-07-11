@@ -270,6 +270,13 @@ class Params
 		  texts[] = {"Error", "Info", "Debug"};
 		  default = 3;
 	 };
+     class allowUnusedWeaponsForRebels
+     {
+         title = "[Experimental] Allow the usage of weapons which are not used by a specific faction?";
+         values[] = {1,0};
+         texts[] = {"Yes (Not recommended)","No"};
+         default = 0;
+     };
      class CrateOptions
      {
           title = "LOOT CRATE OPTIONS";

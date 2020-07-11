@@ -77,6 +77,7 @@ if(_sideSortingActive) then
 //////////////////////////////
 //    Sorting Function     ///
 //////////////////////////////
+private _checkedItems = [];
 private _nameX = "";
 {
 	_nameX = configName _x;
@@ -84,18 +85,28 @@ private _nameX = "";
 	{
 		_nameX = [_nameX] call BIS_fnc_baseWeapon;
 	};
+    if !(_nameX in _checkedItems) then
+    {
+        _checkedItems pushBack _nameX;
+        private _item = [_nameX] call A3A_fnc_itemType;
+    	private _itemType = _item select 1;
 
-	private _item = [_nameX] call A3A_fnc_itemType;
-	private _itemType = _item select 1;
-
-	if !([_x, _item] call _filter) then
-	{
-		private _categories = _nameX call A3A_fnc_equipmentClassToCategories;
-		{
-			//We're not returning a default value with getVariable, becuase it *must* be instantiated before now. If it isn't, we *need* it to error.
-			private _categoryName = _x;
-			(missionNamespace getVariable ("all" + _categoryName)) pushBackUnique _nameX;
-		} forEach _categories;
-	};
-
+    	if !([_x, _item] call _filter) then
+    	{
+    		private _categories = _nameX call A3A_fnc_equipmentClassToCategories;
+    		{
+    			//We're not returning a default value with getVariable, becuase it *must* be instantiated before now. If it isn't, we *need* it to error.
+    			private _categoryName = _x;
+    			(missionNamespace getVariable ("all" + _categoryName)) pushBackUnique _nameX;
+                //Sort by weapon side
+                if(_sideSortingActive && {_categoryName in weaponCategories}) then
+                {
+                    private _sides = [_nameX] call A3A_fnc_weaponSide;
+                    {
+                        (missionNamespace getVariable (_x + _categoryName)) pushBackUnique _nameX;
+                    } forEach _sides;
+                };
+    		} forEach _categories;
+    	};
+    };
 } forEach _allConfigs;

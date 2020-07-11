@@ -24,7 +24,7 @@ if(_weaponConfigName == "") exitWith
 //Get the weapons magazine wells and match them with existing ones
 private _mags = missionNamespace getVariable "weaponMags";
 private _magazines = getArray (configFile >> "CfgWeapons" >> _weaponConfigName >> "magazines");
-private _weaponWells = [(configFile >> "CfgWeapons" >> _weapon), "magazineWell", []] call BIS_fnc_returnConfigEntry;
+private _weaponWells = [(configFile >> "CfgWeapons" >> _weaponConfigName), "magazineWell", []] call BIS_fnc_returnConfigEntry;
 
 {
     private _mag = _x;
@@ -45,21 +45,24 @@ private _weaponWells = [(configFile >> "CfgWeapons" >> _weapon), "magazineWell",
 private _weaponDisplayName = getText(configFile >> "CfgWeapons" >> _weaponConfigName >> "displayName");
 
 //Search for a perfect match, the faction mag wells need to have all wells of the weapon for a match
-[true, true, true] params ["_isRebel", "_isOccupant", "_isInvader"];
+[true, true, true, false] params ["_isRebel", "_isOccupant", "_isInvader", "_blocked"];
 if(_weaponConfigName in rebelBlockedWeapons) then
 {
     [3, format ["%1 is blocked for rebels, sorting out rebel side", _weaponDisplayName], _fileName] call A3A_fnc_log;
     _isRebel = false;
+    _blocked = true;
 };
 if(_weaponConfigName in occupantBlockedWeapons) then
 {
-    [3, format ["%1 is blocked for occupants, sorting out rebel side", _weaponDisplayName], _fileName] call A3A_fnc_log;
+    [3, format ["%1 is blocked for occupants, sorting out occupant side", _weaponDisplayName], _fileName] call A3A_fnc_log;
     _isOccupant = false;
+    _blocked = true;
 };
 if(_weaponConfigName in invaderBlockedWeapons) then
 {
-    [3, format ["%1 is blocked for invaders, sorting out rebel side", _weaponDisplayName], _fileName] call A3A_fnc_log;
+    [3, format ["%1 is blocked for invaders, sorting out invader side", _weaponDisplayName], _fileName] call A3A_fnc_log;
     _isInvader = false;
+    _blocked = true;
 };
 
 {
@@ -94,6 +97,12 @@ if(_isRebel) then {_sides pushBack "rebel"};
 if(_isOccupant) then {_sides pushBack "occupant"};
 if(_isInvader) then {_sides pushBack "invader"};
 
-[3, format ["Side check for %1 will return %2", _weaponDisplayName, _sides], _fileName] call A3A_fnc_log;
+if((_sides isEqualTo []) && !(_blocked) && allowUnusedWeaponsForRebels) then
+{
+    [3, format ["Weapon %1 has no side, adding to rebel side", _weaponDisplayName], _fileName] call A3A_fnc_log;
+    _sides pushBack "rebel";
+};
+
+[3, format ["Side check for %3 (%1) will return %2", _weaponDisplayName, _sides, _weaponConfigName], _fileName] call A3A_fnc_log;
 
 _sides;

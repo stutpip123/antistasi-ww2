@@ -132,7 +132,7 @@ occupantWeaponWells =
 ];
 
 //Use this array to filter out false positives
-occupantBlockedWeapons = [];
+occupantBlockedWeapons = ["srifle_EBR_F", "hgun_Pistol_heavy_01_F", "hgun_Pistol_heavy_02_F"];
 
 ////////////////////////////////////
 //           VEHICLES            ///
