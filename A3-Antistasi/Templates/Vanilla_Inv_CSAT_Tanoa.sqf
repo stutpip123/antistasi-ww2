@@ -121,7 +121,7 @@ invaderWeaponWells =
     "Rahim_762x54","RPG32","30Rnd_9x21_Mag_SMG_02","30Rnd_9x21_Mag_SMG_02_Tracer_Red",
     "30Rnd_9x21_Mag_SMG_02_Tracer_Yellow","30Rnd_9x21_Mag_SMG_02_Tracer_Green","Titan_Short",
     "Titan_Long","Laserbatteries","GM6_127x108","Cyrus_93","ASP1_127x54","CTAR_580x42",
-    "CTAR_580x42_Large","20Rnd_650x39_Cased_Mag_F","Vorona_HEAT","Vorona_HE","AK_762x39"
+    "CTAR_580x42_Large","20Rnd_650x39_Cased_Mag_F","Vorona_HEAT","Vorona_HE","AK_762x39", "150Rnd_93x64_Mag"
 ];
 
 //Use this array to filter out false positives
