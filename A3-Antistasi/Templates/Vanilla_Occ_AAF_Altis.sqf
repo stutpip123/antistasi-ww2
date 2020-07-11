@@ -118,6 +118,23 @@ if (gameMode != 4) then
 groupsNATOGen = [policeOfficer,policeGrunt];
 
 ////////////////////////////////////
+//          WEAPONS               //
+////////////////////////////////////
+
+//Use this array to define the weapon wells related to the faction
+occupantWeaponWells =
+[
+    "STANAG_556x45","ACPC2_45ACP","Mk200_65x39","M14_762x51","NLAW","Titan_Short",
+    "Titan_Long","Pistol_9x21","20Rnd_556x45_UW_mag","Laserbatteries","AK_762x39",
+    "10Rnd_9x21_Mag","M249_556x45","AK_545x39","RPG7","MRAWS_HEAT_F","MRAWS_HE_F",
+    "MRAWS_HEAT55_F","PistolHeavy_01_45ACP","50Rnd_570x28_SMG_03","Cylinder_45ACP",
+    "HunterShotgun_01_12GA"
+];
+
+//Use this array to filter out false positives
+occupantBlockedWeapons = [];
+
+////////////////////////////////////
 //           VEHICLES            ///
 ////////////////////////////////////
 //Military Vehicles
