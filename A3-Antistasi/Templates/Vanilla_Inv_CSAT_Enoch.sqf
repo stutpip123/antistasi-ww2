@@ -114,6 +114,7 @@ if (gameMode == 4) then
 //          WEAPONS               //
 ////////////////////////////////////
 
+//Use this array to define the weapon wells related to the faction
 invaderWeaponWells =
 [
     "Katiba_65x39","Pistol_9x21","Cylinder_45ACP","150Rnd_762x54_Box","150Rnd_762x54_Box_Tracer",
