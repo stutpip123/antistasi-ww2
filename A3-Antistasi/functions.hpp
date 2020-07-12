@@ -546,6 +546,7 @@ class A3A
     class Weapons
     {
         class createMagWellData {};
+        class sortWeaponArrays {};
         class sortWeaponsByWells {};
         class weaponSide {};
     };
