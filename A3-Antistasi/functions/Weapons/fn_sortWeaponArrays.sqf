@@ -94,7 +94,7 @@ private _weaponsData = [];
         _maxRange = _maxRange / 800;
     };
 
-    [3, format ["Weapon data: %1", [_weaponName, _DPM, _timeTo100Meters, _dispersion, _maxRange]], _fileName] call A3A_fnc_log;
+    [4, format ["Weapon data: %1", [_weaponName, _DPM, _timeTo100Meters, _dispersion, _maxRange]], _fileName] call A3A_fnc_log;
     _weaponsData pushBack [_weaponName, _DPM, _timeTo100Meters, _dispersion, _maxRange];
 } forEach (missionNamespace getVariable _weaponsArrayName);
 
@@ -158,7 +158,7 @@ _weaponsScore sort true;
 private _sortedArray = [];
 {
     _sortedArray pushBack (_x select 1);
-    [3, format ["%1 array index %2: %3", _weaponsArrayName, _forEachIndex, _x select 1], _fileName] call A3A_fnc_log;
+    [4, format ["%1 array index %2: %3", _weaponsArrayName, _forEachIndex, _x select 1], _fileName] call A3A_fnc_log;
 } forEach _weaponsScore;
 
 missionNamespace setVariable [_weaponsArrayName, _sortedArray];
