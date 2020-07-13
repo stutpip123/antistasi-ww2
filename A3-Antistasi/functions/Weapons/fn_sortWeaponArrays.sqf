@@ -31,7 +31,9 @@ private _weaponsData = [];
     private _timeBetweenShots = getNumber (_weaponConfig >> "reloadTime");
     private _initSpeed = getNumber (_weaponConfig >> "initSpeed");
     private _dispersion = getNumber (_weaponConfig >> "dispersion");
-    private _maxRange = getNumber (_weaponConfig >> "maxRange");
+    private _dispersionX = getNumber (_weaponConfig >> "aiDispersionCoefX");
+    private _dispersionY = getNumber (_weaponConfig >> "aiDispersionCoefY");
+    private _maxRange = getNumber (_weaponConfig >> "maxZeroing");
 
     //Get the used magazine and the related config
     private _weaponMag = (getArray (_weaponConfig >> "magazines")) select 0;
@@ -48,33 +50,59 @@ private _weaponsData = [];
     //Get the needed variables for calculation
     private _caliber = getNumber (_ammoConfig >> "caliber");
     private _hit = getNumber (_ammoConfig >> "hit");
-    private _airFriction = (-1) * (getNumber (_ammoConfig >> "airFriction"));
+    private _airFriction = getNumber (_ammoConfig >> "airFriction");
 
-    //Calculating damage per second
-    private _DPS = _caliber * _hit * (_ammoCount / (_timeBetweenShots * _ammoCount + 2));
+    //Calculating damage per minute score
+    private _DPM = _caliber * _hit * (_ammoCount / (_timeBetweenShots * _ammoCount + 2));
+    if(_DPM != 0) then
+    {
+        _DPM = _DPM / 25;
+    };
 
     //Get the initial velocity (thanks for that one arma)
     if(_initSpeed < 0) then
     {
         _initSpeed = _initSpeedMag * (-1) * _initSpeed;
     };
+    if(_initSpeed == 0) then
+    {
+        _initSpeed = _initSpeedMag;
+    };
 
     //Calculates the time a bullet needs to reach 100 meters distance
     private _timeTo100Meters = 0;
     if(_initSpeed != 0) then
     {
-        _timeTo100Meters = ((exp (100 * _airFriction)) + 1)/(_airFriction * _initSpeed);
+        _timeTo100Meters = (-(exp (100 * _airFriction) + 1))/(_airFriction * _initSpeed);
+    };
+    //Get score by comparision with norminal value
+    if(_timeTo100Meters != 0) then
+    {
+        _timeTo100Meters = 1.5 / _timeTo100Meters;
     };
 
-    [3, format ["Weapon data: %1", [_weaponName, _DPS, _timeTo100Meters, _dispersion, _maxRange]], _fileName] call A3A_fnc_log;
-    _weaponsData pushBack [_weaponName, _DPS, _timeTo100Meters, _dispersion, _maxRange];
+    _dispersion = _dispersion * ((_dispersionX + _dispersionY)/2);
+    //Get score by comparision with norminal value
+    if(_dispersion != 0) then
+    {
+        _dispersion =  (0.0015 * 0.0015) / (_dispersion * _dispersion);
+    };
+
+    //Get score by comparision with norminal value
+    if(_maxRange != 0) then
+    {
+        _maxRange = _maxRange / 800;
+    };
+
+    [3, format ["Weapon data: %1", [_weaponName, _DPM, _timeTo100Meters, _dispersion, _maxRange]], _fileName] call A3A_fnc_log;
+    _weaponsData pushBack [_weaponName, _DPM, _timeTo100Meters, _dispersion, _maxRange];
 } forEach (missionNamespace getVariable _weaponsArrayName);
 
 private _fnc_calculateWeaponScore =
 {
-    params ["_weaponsArray", "_DPSFactor", "_velocityFactor", "_dispersionFactor", "_rangeFactor"];
+    params ["_weaponsArray", "_DPMFactor", "_velocityFactor", "_dispersionFactor", "_rangeFactor"];
 
-    private _score = (_weaponsArray select 1) * _DPSFactor +
+    private _score = (_weaponsArray select 1) * _DPMFactor +
                      (_weaponsArray select 2) * _velocityFactor +
                      (_weaponsArray select 3) * _dispersionFactor +
                      (_weaponsArray select 4) * _rangeFactor;
