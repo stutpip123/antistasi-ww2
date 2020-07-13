@@ -64,7 +64,8 @@ rebelBlockedWeapons =
 [
     "srifle_EBR_F", "hgun_Pistol_heavy_01_F", "hgun_Pistol_heavy_02_F", "srifle_DMR_03_F",
     "srifle_DMR_03_tan_F", "srifle_DMR_03_khaki_F", "srifle_DMR_03_multicam_F", "srifle_DMR_03_woodland_F",
-    "arifle_SPAR_03_blk_F", "arifle_SPAR_03_khk_F", "arifle_SPAR_03_snd_F", "hgun_Pistol_heavy_01_green_F"
+    "arifle_SPAR_03_blk_F", "arifle_SPAR_03_khk_F", "arifle_SPAR_03_snd_F", "hgun_Pistol_heavy_01_green_F",
+    "hgun_esd_01_F"
 ];
 
 ////////////////////////////////////

@@ -46,11 +46,12 @@ soldiersSDK = sdkTier1 + sdkTier2 + sdkTier3;
 //Use this array to define the weapon wells related to the faction
 rebelWeaponWells =
 [
-    "STANAG_556x45","ACPC2_45ACP","Mk200_65x39","M14_762x51","NLAW","Titan_Short",
-    "Titan_Long","Pistol_9x21","20Rnd_556x45_UW_mag","Laserbatteries","AK_762x39",
-    "10Rnd_9x21_Mag","M249_556x45","AK_545x39","RPG7","MRAWS_HEAT_F","MRAWS_HE_F",
-    "MRAWS_HEAT55_F","PistolHeavy_01_45ACP","50Rnd_570x28_SMG_03","Cylinder_45ACP",
-    "HunterShotgun_01_12GA", "MX_65x39_MSBS"
+    "MX_65x39","MX_65x39_Large","Pistol_9x21","NLAW","30Rnd_45ACP_Mag_SMG_01","30Rnd_45ACP_Mag_SMG_01_tracer_green",
+    "30Rnd_45ACP_Mag_SMG_01_Tracer_Red","30Rnd_45ACP_Mag_SMG_01_Tracer_Yellow","Titan_Short","Titan_Long",
+    "PistolHeavy_01_45ACP","Laserbatteries","M320_408","M14_762x51","MAR10_338","SPMG_338","STANAG_556x45",
+    "STANAG_556x45_Large","30Rnd_9x21_Mag_SMG_02","30Rnd_9x21_Mag_SMG_02_Tracer_Red",
+    "30Rnd_9x21_Mag_SMG_02_Tracer_Yellow","30Rnd_9x21_Mag_SMG_02_Tracer_Green","50Rnd_570x28_SMG_03",
+    "MRAWS_HEAT_F","MRAWS_HE_F","MRAWS_HEAT55_F"
 ];
 
 //Use this array for mags that are not used or used by weapons not used by the factions
@@ -62,9 +63,9 @@ unusedWeaponWells =
 //Use this array to filter out false positives
 rebelBlockedWeapons =
 [
-    "srifle_EBR_F", "hgun_Pistol_heavy_01_F", "hgun_Pistol_heavy_02_F", "srifle_DMR_03_F",
-    "srifle_DMR_03_tan_F", "srifle_DMR_03_khaki_F", "srifle_DMR_03_multicam_F", "srifle_DMR_03_woodland_F",
-    "arifle_SPAR_03_blk_F", "arifle_SPAR_03_khk_F", "arifle_SPAR_03_snd_F", "hgun_Pistol_heavy_01_green_F"
+    "arifle_Mk20_F", "arifle_Mk20_plain_F", "arifle_Mk20C_F", "arifle_Mk20C_plain_F", "arifle_Mk20_GL_F",
+    "arifle_Mk20_GL_plain_F", "arifle_TRG21_F", "arifle_TRG20_F", "arifle_TRG21_GL_F", "hgun_PDW2000_F",
+    "SMG_02_F", "srifle_DMR_06_hunter_F", "srifle_DMR_06_olive_F", "srifle_DMR_06_camo_F", "hgun_esd_01_F"
 ];
 
 ////////////////////////////////////

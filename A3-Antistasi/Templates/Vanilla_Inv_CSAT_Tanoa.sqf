@@ -125,7 +125,7 @@ invaderWeaponWells =
 ];
 
 //Use this array to filter out false positives
-invaderBlockedWeapons = ["hgun_PDW2000_F"];
+invaderBlockedWeapons = ["hgun_PDW2000_F", "hgun_esd_01_F"];
 
 ////////////////////////////////////
 //           VEHICLES            ///
