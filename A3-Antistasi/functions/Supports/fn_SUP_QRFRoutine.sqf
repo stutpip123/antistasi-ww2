@@ -56,7 +56,7 @@ while {true} do
     else
     {
         //QRF in combat, check if won
-        private _nearbyEnemyGroups = allGroups select {getPos (leader _x) distance2D _posDestination < 300};
+        private _nearbyEnemyGroups = allGroups select {(side _x != _side) && (side _x != civilian) && {getPos (leader _x) distance2D _posDestination < 300}};
         if(count _nearbyEnemyGroups == 0) then
         {
             [2, format ["%1 has cleared the area, starting despawn routines", _supportName], _fileName] call A3A_fnc_log;
@@ -86,7 +86,6 @@ while {true} do
     };
 };
 
-deleteMarker format ["%1_text", _supportName];
 {
     [_x] spawn A3A_fnc_VEHDespawner;
 } forEach _vehicles;

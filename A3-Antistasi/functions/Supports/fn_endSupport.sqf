@@ -29,3 +29,4 @@ if(_side == Invaders) then
 };
 
 deleteMarker (format ["%1_coverage", _supportName]);
+deleteMarker (format ["%1_text", _supportName]);
