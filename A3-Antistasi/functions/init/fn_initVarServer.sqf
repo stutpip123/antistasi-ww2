@@ -446,7 +446,7 @@ private _templateVariables = [
 } forEach _templateVariables;
 
 call compile preProcessFileLineNumbers "Templates\selector.sqf";
-
+_fileName = "initVarServer.sqf"; //reset filename to un-confuse the logs
 ////////////////////////////////////
 //      CIVILIAN VEHICLES       ///
 ////////////////////////////////////

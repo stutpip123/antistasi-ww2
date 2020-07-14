@@ -85,6 +85,7 @@ activeGREF = false;
 hasFFAA = false;
 hasIFA = false;
 has3CB = false;
+hasIvory = false;
 //Systems Mods
 hasACE = false;
 hasACEHearing = false;
@@ -117,6 +118,8 @@ if (activeAFRF && activeUSAF && isClass (configFile >> "CfgFactionClasses" >> "r
 if (activeAFRF && activeUSAF && activeGREF && isClass (configfile >> "CfgPatches" >> "UK3CB_BAF_Weapons")) then {has3CB = true; diag_log format ["%1: [Antistasi] | INFO | initVar | 3CB Detected.",servertime];};
 //FFAA Detection
 if (isClass (configfile >> "CfgPatches" >> "ffaa_armas")) then {hasFFAA = true; diag_log format ["%1: [Antistasi] | INFO | initVar | FFAA Detected.",servertime];};
+//Ivory Car Pack Detection
+if (isClass (configfile >> "CfgPatches" >> "Ivory_Data")) then {hasIvory = true; diag_log format ["%1: [Antistasi] | INFO | initVar | Ivory Cars Detected.",servertime];};
 
 ////////////////////////////////////
 //        BUILDINGS LISTS        ///
