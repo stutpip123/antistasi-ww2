@@ -2,7 +2,7 @@
     This file controls the selection of templates based on the mods loaded and map used.
     When porting new mods/maps be sure to add them to their respective sections!
 */
-_filename = "selector.sqf";
+private _filename = "selector.sqf";
 //Map checker
 aridmaps = ["Altis","Kunduz","Malden","tem_anizay","Tembelan"];
 tropicalmaps = ["Tanoa"];
