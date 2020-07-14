@@ -14,6 +14,8 @@ _strikePlane setFuel 1;
 _strikePlane hideObjectGlobal false;
 _strikePlane enableSimulation true;
 
+_strikePlane setVelocityModelSpace [0, 150, 0];
+
 private _targetList = server getVariable [format ["%1_targets", _supportName], []];
 private _reveal = _targetList select 0 select 1;
 
