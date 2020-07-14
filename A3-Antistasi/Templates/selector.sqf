@@ -156,4 +156,7 @@ if(teamplayer != independent) then {//This section is for Altis Blufor ONLY!
 };
 
 //Addon mod loading
-if (hasIvory) then {call compile preProcessFileLineNumbers "Templates\Ivory_Civ.sqf";[2, "Using Addon Ivory Cars Template", _filename] call A3A_fnc_log;};
+if (hasIvory) then {
+  call compile preProcessFileLineNumbers "Templates\Ivory_Civ.sqf";
+  [2, "Using Addon Ivory Cars Template", _filename] call A3A_fnc_log;
+};
