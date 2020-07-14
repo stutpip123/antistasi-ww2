@@ -26,17 +26,17 @@ NATOAmmobox = "I_supplyCrate_F";
 //PvP Loadouts
 NATOPlayerLoadouts = [
 	//Team Leader
-	["rhs_gref_teamLeader"] call A3A_fnc_getLoadout,
+	["\Templates\RHS\Loadouts\rhs_gref_teamLeader"] call A3A_fnc_getLoadout,
 	//Medic
-	["rhs_gref_medic"] call A3A_fnc_getLoadout,
+	["\Templates\RHS\Loadouts\rhs_gref_medic"] call A3A_fnc_getLoadout,
 	//Autorifleman
-	["rhs_gref_machineGunner"] call A3A_fnc_getLoadout,
+	["\Templates\RHS\Loadouts\rhs_gref_machineGunner"] call A3A_fnc_getLoadout,
 	//Marksman
-	["rhs_gref_marksman"] call A3A_fnc_getLoadout,
+	["\Templates\RHS\Loadouts\rhs_gref_marksman"] call A3A_fnc_getLoadout,
 	//Anti Tank
-	["rhs_gref_AT"] call A3A_fnc_getLoadout,
+	["\Templates\RHS\Loadouts\rhs_gref_AT"] call A3A_fnc_getLoadout,
 	//Assistant Anti Tank
-	["rhs_gref_AAT"] call A3A_fnc_getLoadout
+	["\Templates\RHS\Loadouts\rhs_gref_AAT"] call A3A_fnc_getLoadout
 ];
 
 //PVP Player Vehicles
@@ -48,7 +48,7 @@ vehNATOPVP = ["rhsgref_ins_g_uaz","rhsgref_ins_g_uaz_open","rhsgref_BRDM2UM_ins_
 //Military Units
 NATOGrunt = "rhsgref_cdf_reg_rifleman";
 NATOOfficer = "rhsgref_cdf_reg_general";
-NATOOfficer2 = "rhsgref_cdf_ngd_commander";
+NATOOfficer2 = "rhsgref_cdf_ngd_officer";
 NATOBodyG = "rhsgref_cdf_ngd_rifleman_lite";
 NATOCrew = "rhsgref_cdf_ngd_crew";
 NATOUnarmed = "I_G_Survivor_F";
