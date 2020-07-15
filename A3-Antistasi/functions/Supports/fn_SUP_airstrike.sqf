@@ -39,8 +39,7 @@ _targetMarker setMarkerShape "ELLIPSE";
 _targetMarker setMarkerBrush "Grid";
 _targetMarker setMarkerSize [25, 100];
 
-private _dir = (getMarkerPos _airport) getDir _supportPos;
-_targetMarker setMarkerDir _dir;
+
 
 if(_side == Occupants) then
 {
@@ -99,6 +98,7 @@ private _spawnParams = [_airport] call A3A_fnc_getRunwayTakeoffForAirportMarker;
 private _strikePlane = objNull;
 private _strikeGroup = createGroup _side;
 private _pilot = objNull;
+private _startPos = [];
 
 if !(_spawnParams isEqualTo []) then
 {
@@ -106,6 +106,7 @@ if !(_spawnParams isEqualTo []) then
 
     _strikePlane = _plane createVehicle _spawnPos;
     _strikePlane setDir _spawnDir;
+    _startPos = _spawnPos getPos [2000, _spawnDir];
 }
 else
 {
@@ -115,6 +116,7 @@ else
     //150 is more likely to be in the actual viewcone of a player
     private _spawnPos = (getMarkerPos _airport);
     _strikePlane = createVehicle [_plane, _spawnPos, [], 0, "FLY"];
+    private _dir = _spawnPos getDir _supportPos;
     _strikePlane setDir _dir;
 
     //Put it in the sky
@@ -124,6 +126,7 @@ else
     _strikePlane hideObjectGlobal true;
     _strikePlane enableSimulation false;
     _strikePlane setVelocityModelSpace (velocityModelSpace _strikePlane vectorAdd [0, 150, 0]);
+    _startPos = _spawnPos;
 };
 
 _pilot = [_strikeGroup, _crewUnits, getPos _strikePlane] call A3A_fnc_createUnit;
@@ -200,6 +203,8 @@ _pilot addEventHandler
 ];
 _strikeGroup deleteGroupWhenEmpty true;
 
+private _markerDir = _startPos getDir _supportPos;
+_targetMarker setMarkerDir _markerDir;
 [_side, _strikePlane, _strikeGroup , _airport, _supportPos, _supportName] spawn A3A_fnc_SUP_airstrikeRoutine;
 
 _targetMarker;

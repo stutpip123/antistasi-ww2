@@ -43,7 +43,7 @@ for "_i" from 1 to _bombCount do
         private _bombPos = (getPos _pilot) vectorAdd [0, 0, -5];
 		_bomb = _ammo createvehicle _bombPos;
 		waituntil {!isnull _bomb};
-		_bomb setDir (getDir _plane);
+		_bomb setDir (getDir _pilot);
 		_bomb setVelocity [0,0,-50];
 		if (_bombType == "NAPALM") then
 		{

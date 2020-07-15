@@ -14,7 +14,14 @@ _strikePlane setFuel 1;
 _strikePlane hideObjectGlobal false;
 _strikePlane enableSimulation true;
 
-_strikePlane setVelocityModelSpace [0, 150, 0];
+//Give the plane some starting assist
+while {((velocity _strikePlane) select 2) < 1} do
+{
+    private _velocity = velocityModelSpace _strikePlane;
+    _velocity set [1, (_velocity select 1) * 1.025];
+    _strikePlane setVelocityModelSpace _velocity;
+    sleep 0.1;
+};
 
 private _targetList = server getVariable [format ["%1_targets", _supportName], []];
 private _reveal = _targetList select 0 select 1;
@@ -40,12 +47,15 @@ private _minAltASL = ATLToASL [_targetPos select 0, _targetPos select 1, 0];
 _strikePlane flyInHeightASL [(_minAltASL select 2) +150, (_minAltASL select 2) +150, (_minAltASL select 2) +150];
 
 private _airportPos = getMarkerPos _airport;
-private _dir = _airportPos getDir _targetPos;
+private _dir = markerDir (format ["%1_coverage", _supportName]);
 
 //Have a preBomb position to ensure nearly perfect flight path
-private _preBombPosition = _targetPos getPos [1500, _dir + 180];
-private _startBombPosition = _targetPos getPos [250, _dir + 180];
+private _preBombPosition = _targetPos getPos [750, _dir + 180];
+_preBombPosition set [2, 150];
+private _startBombPosition = _targetPos getPos [300, _dir + 180];
+_startBombPosition set [2, 150];
 private _endBombPosition = _targetPos getPos [100, _dir];
+_endBombPosition set [2, 150];
 
 //Determine speed and bomb count on aggression
 private _aggroValue = if(_side == Occupants) then {aggressionOccupants} else {aggressionInvaders};
@@ -70,12 +80,13 @@ private _wp1 = _strikeGroup addWaypoint [_preBombPosition, 0];
 _wp1 setWaypointType "MOVE";
 _wp1 setWaypointSpeed "FULL";
 _wp1 setWaypointBehaviour "CARELESS";
-_wp1 setWaypointCompletionRadius 250;
+_wp1 setWaypointCompletionRadius 500;
+_wp1 setWaypointStatements ["true", "group this setCurrentWaypoint [(group this), 1]"];
 
 private _wp2 = _strikeGroup addWaypoint [_startBombPosition, 1];
 _wp2 setWaypointType "MOVE";
 _wp2 setWaypointSpeed _flightSpeed;
-_wp2 setWaypointCompletionRadius 150;
+_wp2 setWaypointCompletionRadius 10;
 _wp2 setWaypointStatements ["true", "(this getVariable 'bombParams') spawn A3A_fnc_airbomb"];
 
 private _wp3 = _strikeGroup addWaypoint [_endBombPosition, 2];
