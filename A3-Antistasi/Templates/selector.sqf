@@ -135,13 +135,12 @@ if(teamplayer != independent) then {//This section is for Altis Blufor ONLY!
     };
   };
 };
-[2,"JNL node calls started",_fileName] call A3A_fnc_log;
+[2,"Reading JNL Node files.",_fileName] call A3A_fnc_log;
 //Addon pack loading goes here.
     //need to redo Ivory here when done.
 //JNL node loading is done here
-call compile preProcessFileLineNumbers "Templates\Vanilla\Vanilla_JNL_Nodes.sqf";//Always call vanilla as it is used in conjunction with most mods.
+call compile preProcessFileLineNumbers "Templates\Vanilla\Vanilla_JNL_Nodes.sqf";//Always call vanilla as it initialises the arrays.
 if (hasRHS) then {call compile preProcessFileLineNumbers "\Templates\RHS\RHS_JNL_Nodes.sqf"};
 if (has3CB) then {call compile preProcessFileLineNumbers "\Templates\3CB\RHS_JNL_Nodes.sqf"};
 if (hasIFA) then {call compile preProcessFileLineNumbers "\Templates\IFA\RHS_JNL_Nodes.sqf"};
 //if (hasFFAA) then {call compile preProcessFileLineNumbers "\Templates\FFAA\RHS_JNL_Nodes.sqf"}; Commented out until it exists.
-[2,"JNL node calls done",_fileName] call A3A_fnc_log;

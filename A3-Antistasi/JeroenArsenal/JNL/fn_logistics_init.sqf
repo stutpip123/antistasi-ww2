@@ -2,8 +2,6 @@
   As of the MIE project, this file is now only used for defining the arrays and for the code at the bottom.
   All data entry has been moved into the Templates folder.
 */
-private _filename = "JNL init";
-[2,"JNL initialising",_fileName] call A3A_fnc_log;
 //This array hold the nodes for attaching weapons and cargo.
 //jnl_vehicleHardpoints = [];
 
@@ -38,5 +36,3 @@ _defaultCrew = gettext (configfile >> "cfgvehicles" >> "all" >> "crew");
 } foreach ("isclass _x && {getnumber (_x >> 'scope') == 2} && {gettext (_x >> 'crew') != _defaultCrew}" configclasses (configfile >> "cfgvehicles"));
 
 jnl_initCompleted = true;
-
-[2,"JNL initialised",_fileName] call A3A_fnc_log;
