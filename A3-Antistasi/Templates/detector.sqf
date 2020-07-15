@@ -12,6 +12,7 @@ activeGREF = false;
 hasFFAA = false;
 hasIFA = false;
 has3CB = false;
+hasIvory
 
 //Actual Detection
 //IFA Detection
@@ -38,3 +39,6 @@ if (hasRHS && isClass (configfile >> "CfgPatches" >> "UK3CB_BAF_Weapons")) then 
 
 //FFAA Detection
 if (isClass (configfile >> "CfgPatches" >> "ffaa_armas")) then {hasFFAA = true; diag_log format ["%1: [Antistasi] | INFO | initVar | FFAA Detected.",servertime];};
+
+//Ivory Car Pack Detection
+if (isClass (configfile >> "CfgPatches" >> "Ivory_Data")) then {hasIvory = true; diag_log format ["%1: [Antistasi] | INFO | initVar | Ivory Cars Detected.",servertime];};
