@@ -50,19 +50,18 @@ if(_isMortar) then
     if(count _possibleBases == 0) exitWith {};
 
     //Search for an outpost with a designated mortar position if possible
+    private _index = -1;
     private _spawnParams = -1;
-    private _index = _possibleBases findIf
     {
         _spawnParams = [_x, "Mortar"] call A3A_fnc_findSpawnPosition;
         if (_spawnParams isEqualType []) exitWith
         {
             //Will occupy a mortar spawn position until the outpost spawnes in and despawns again (Currently we dont spawn mortars at outposts anyways)
             _spawnRadius = 0;
-            true
+            _index = _forEachIndex;
         };
         [_x] spawn A3A_fnc_freeSpawnPositions;
-        false;
-    };
+    } forEach _possibleBases;
 
     if(_index != -1) then
     {
