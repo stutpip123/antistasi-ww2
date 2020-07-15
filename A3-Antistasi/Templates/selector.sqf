@@ -157,13 +157,13 @@ if(teamplayer != independent) then {//This section is for Altis Blufor ONLY!
 [2,"Reading Addon mod files.",_fileName] call A3A_fnc_log;
 //Addon pack loading goes here.
 if (hasIvory) then {
-  call compile preProcessFileLineNumbers "\Templates\AddonVics\ivory_Civ.sqf";
+  call compile preProcessFileLineNumbers "Templates\AddonVics\ivory_Civ.sqf";
   [2, "Using Addon Ivory Cars Template", _filename] call A3A_fnc_log;
 };
 //JNL node loading is done here
 [2,"Reading JNL Node files.",_fileName] call A3A_fnc_log;
 call compile preProcessFileLineNumbers "Templates\Vanilla\Vanilla_JNL_Nodes.sqf";//Always call vanilla as it initialises the arrays.
-if (hasRHS) then {call compile preProcessFileLineNumbers "\Templates\RHS\RHS_JNL_Nodes.sqf"};
-if (has3CB) then {call compile preProcessFileLineNumbers "\Templates\3CB\RHS_JNL_Nodes.sqf"};
-if (hasIFA) then {call compile preProcessFileLineNumbers "\Templates\IFA\RHS_JNL_Nodes.sqf"};
+if (hasRHS) then {call compile preProcessFileLineNumbers "Templates\RHS\RHS_JNL_Nodes.sqf"};
+if (has3CB) then {call compile preProcessFileLineNumbers "Templates\3CB\RHS_JNL_Nodes.sqf"};
+if (hasIFA) then {call compile preProcessFileLineNumbers "Templates\IFA\RHS_JNL_Nodes.sqf"};
 //if (hasFFAA) then {call compile preProcessFileLineNumbers "\Templates\FFAA\RHS_JNL_Nodes.sqf"}; Commented out until it exists.
