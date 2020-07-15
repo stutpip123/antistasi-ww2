@@ -4,7 +4,7 @@
       To add a new mod, give it a hadMod variable with the rest, then add an if (isClass) entry like the FFAA one. (You could even copy/paste the FFAA one and replace its calls with the ones you need.)
 */
 //Var initialisation
-private _filename = "detector.sqf"
+private _filename = "detector.sqf";
 hasRHS = false;
 activeAFRF = false;
 activeUSAF = false;
