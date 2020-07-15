@@ -33,6 +33,13 @@ if(isNull _enemyVehicle && {!(_enemy isKindOf "Man")}) then
 
 //Check groups combat abilities
 private _unitsInGroup = {[_x] call A3A_fnc_canFight} count (units _group);
+
+if(_unitsInGroup == 0) exitWith
+{
+    //All units uncon, group not able to fight any more
+    _supportTypes;
+};
+
 private _ATLauncherInGroup = {((_x call A3A_fnc_typeOfSoldier) == "ATMan") && {[_x] call A3A_fnc_canFight}} count (units _group);
 private _AALauncherInGroup = {((_x call A3A_fnc_typeOfSoldier) == "AAMan") && {[_x] call A3A_fnc_canFight}} count (units _group);
 

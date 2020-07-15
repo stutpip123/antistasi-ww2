@@ -21,7 +21,9 @@ _midPos set [2, _startPos select 2];
 
 private _initialVelocity = (velocity _helicopter);
 _initialVelocity set [2, 0];
+private _velocityVector = +_initialVelocity;
 _initialVelocity = vectorMagnitude _initialVelocity;
+private _initialSpeed = speed _helicopter;
 //We got the initial velocity of the heli
 
 private _distance = _startPos distance2D _midPos;
@@ -46,6 +48,7 @@ private _angleIs = 0;
 private _angleDiff = 0;
 private _heightDiff = 0;
 
+
 private _driver = driver _helicopter;
 while {_interval < 0.9999} do
 {
@@ -67,12 +70,15 @@ while {_interval < 0.9999} do
     _heightDiff = (sin (_angleIs + _angleDiff)) - (_vectorDir select 2);
     _vectorDir = _vectorDir vectorAdd [0, 0, _heightDiff];
 
+    private _lineStart = _startPos vectorAdd (_startToMidVector vectorMultiply _interval);
+    private _lineEnd = _midPos vectorAdd (_midToEndVector vectorMultiply _interval);
+
     _helicopter setVelocityTransformation
     [
-        _startPos vectorAdd (_startToMidVector vectorMultiply _interval),
-        _midPos vectorAdd (_midToEndVector vectorMultiply _interval),
-        [0, 0, 0],
-        [0, 0, 0],
+        _lineStart,
+        _lineEnd,
+        _velocityVector,
+        _velocityVector,
         _vectorDir,
         _vectorDir,
         _vectorUp,
@@ -83,6 +89,9 @@ while {_interval < 0.9999} do
     _time = time;
     sleep 0.001;
     _interval = _interval + (((time - _time)/_landingTime) * (1 - (_interval / 2)));
+
+    _velocityVector = _lineEnd vectorDiff _lineStart;
+    _velocityVector = (vectorNormalized _velocityVector) vectorMultiply (_initialSpeed * (1 - _interval));
 
     if((!(alive _helicopter)) || (!(alive _driver))) exitWith {};
 };
