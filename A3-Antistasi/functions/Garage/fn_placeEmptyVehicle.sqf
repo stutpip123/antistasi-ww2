@@ -13,4 +13,6 @@ clearBackpackCargoGlobal _garageVeh;
 _garageVeh allowDamage true;
 _garageVeh enableSimulation true;
 
+if(!hasIFA && ((_vehicletype == vehSDKBike) || (_vehicletype == vehNATOBike) || (_vehicletype == vehCSATBike))) then {_garageVeh call jn_fnc_logistics_addAction;};
+
 _garageVeh;
