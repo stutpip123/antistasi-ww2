@@ -6,4 +6,4 @@ To see how the various files should be made, look at the files in the Example fo
 
 Integrated mods should be detected in the same way as any other in detector.sqf
 
-Templates should be selected in the same way as any other in selector.sqf
+Templates should be selected in the same way as any other in selector.sqf, also make sure you add the call to your JNL nodes file.

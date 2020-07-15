@@ -135,3 +135,12 @@ if(teamplayer != independent) then {//This section is for Altis Blufor ONLY!
     };
   };
 };
+
+//Addon pack loading goes here.
+    //need to redo Ivory here when done.
+//JNL node loading is done here
+call compile preProcessFileLineNumbers "Templates\Vanilla\Vanilla_JNL_Nodes.sqf";//Always call vanilla as it is used in conjunction with most mods.
+if (hasRHS) then {call compile preProcessFileLineNumbers "\Templates\RHS\RHS_JNL_Nodes.sqf"};
+if (has3CB) then {call compile preProcessFileLineNumbers "\Templates\3CB\RHS_JNL_Nodes.sqf"};
+if (hasIFA) then {call compile preProcessFileLineNumbers "\Templates\IFA\RHS_JNL_Nodes.sqf"};
+//if (hasFFAA) then {call compile preProcessFileLineNumbers "\Templates\FFAA\RHS_JNL_Nodes.sqf"}; Commented out until it exists.
