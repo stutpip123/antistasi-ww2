@@ -26,7 +26,7 @@ NATOAmmobox = "";//classname of the box used for loot. DO NOT CHANGE unless you 
 //PvP Loadouts - These should match the file path to the loadouts folder minus the file extension. First line is an example
 NATOPlayerLoadouts = [
 	//Team Leader
-	["\Templates\Example\Loadouts\Example loadout"] call A3A_fnc_getLoadout,
+	["Templates\Example\Loadouts\Example loadout"] call A3A_fnc_getLoadout,
 	//Medic
 	[""] call A3A_fnc_getLoadout,
 	//Autorifleman
