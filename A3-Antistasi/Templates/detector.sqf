@@ -12,7 +12,7 @@ activeGREF = false;
 hasFFAA = false;
 hasIFA = false;
 has3CB = false;
-hasIvory
+hasIvory = false;
 
 //Actual Detection
 //IFA Detection
