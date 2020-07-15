@@ -1,4 +1,4 @@
-jnl_vehicleHardpoints append [
+jnl_vehicleHardpoints = [
 //4x4s
 //Offroad
   ["\A3\soft_f\Offroad_01\Offroad_01_unarmed_F", [
@@ -11,7 +11,7 @@ jnl_vehicleHardpoints append [
   ["\a3\Soft_F_Orange\Van_02\Van_02_vehicle_F.p3d", [
     [1,		[0,0,-1],		[1,2,3,4,5,6,7]],
     [1,		[0,-2,-1],	[8,9]]
-]],
+  ]],
 
 //Van Transport
   ["\a3\Soft_F_Orange\Van_02\Van_02_transport_F.p3d", [
@@ -79,11 +79,11 @@ jnl_vehicleHardpoints append [
 
 //Vanilla HEMTT Cargo
   ["a3\Soft_F_Gamma\Truck_01\Truck_01_cargo_F.p3d",[
-      [0,[0.0,-0.29,-0.51],[]],
-      [0,[0.0,-2.97,-0.51],[]],
-      [1,[0.0,0.5,-0.51],[]],
-      [1,[0.0,-1.25,-0.51],[]],
-      [1,[0.0,-2.97,-0.51],[]]
+    [0,[0.0,-0.29,-0.51],[]],
+    [0,[0.0,-2.97,-0.51],[]],
+    [1,[0.0,0.5,-0.51],[]],
+    [1,[0.0,-1.25,-0.51],[]],
+    [1,[0.0,-2.97,-0.51],[]]
   ]],
 
 //Boats
@@ -114,18 +114,18 @@ jnl_vehicleHardpoints append [
 
 ];
 //Add to weapon sets
-jnl_smallVicWeapons append [
+jnl_smallVicWeapons = [
   "\A3\Static_F_Gamma\AT_01\AT_01.p3d",					//AT titan, facing to the right
   "\A3\Static_F_Gamma\GMG_01\GMG_01_high_F.p3d",//Static GMG
   "\A3\Static_F_Gamma\HMG_01\HMG_01_high_F.p3d" //Static HMG
 ];
-jnl_largeVicWeapons append [
+jnl_largeVicWeapons = [
   "\A3\Static_F_Gamma\AT_01\AT_01.p3d",				  //AT titan, facing to the right
   "\A3\Static_F_Gamma\GMG_01\GMG_01_high_F.p3d",//Static GMG
-  "\A3\Static_F_Gamma\HMG_01\HMG_01_high_F.p3d",//Static HMG
+  "\A3\Static_F_Gamma\HMG_01\HMG_01_high_F.p3d"//Static HMG
 ];
 //Weapon lists for each vehicle.
-jnl_allowedWeapons append [
+jnl_allowedWeapons = [
 //Offroad
   ["\A3\soft_f\Offroad_01\Offroad_01_unarmed_F", jnl_smallVicWeapons],
 //Boxer truck
@@ -134,7 +134,7 @@ jnl_allowedWeapons append [
   ["\A3\soft_f_beta\Truck_02\Truck_02_transport_F", jnl_largeVicWeapons]
 ];
 //Offsets for adding new statics/boxes to the JNL script.
-jnl_attachmentOffset append [
+jnl_attachmentOffset = [
 //Weapons
   ["\A3\Static_F_Gamma\AT_01\AT_01.p3d",					                       		[-0.5, 0.0, 1.05],	[1,0,0],	0],		//AT titan, facing to the right
   ["\A3\Static_F_Gamma\GMG_01\GMG_01_high_F.p3d",		                       	[0.2, -0.3, 1.7],		[0,1,0],	0],		//Static GMG
@@ -148,5 +148,5 @@ jnl_attachmentOffset append [
   ["\A3\Weapons_F\Ammoboxes\Proxy_UsBasicExplosives.p3d",	              		[0,0,0.85],		   		[1,0,0],  1], 	//Stef test Devin crate3
   ["\A3\Weapons_F\Ammoboxes\Supplydrop.p3d",					                      [0, 0, 0.95],	   		[1,0,0],  1],		//Ammodrop crate
 //Other
-  ["\A3\Soft_F\Quadbike_01\Quadbike_01_F.p3d",	                         		[0, 0, 1.4],  			[0,1,0],  1],		//Quadbike
+  ["\A3\Soft_F\Quadbike_01\Quadbike_01_F.p3d",	                         		[0, 0, 1.4],  			[0,1,0],  1]		//Quadbike
 ];

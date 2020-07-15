@@ -2,8 +2,10 @@
   As of the MIE project, this file is now only used for defining the arrays and for the code at the bottom.
   All data entry has been moved into the Templates folder.
 */
+private _filename = "JNL init";
+[2,"JNL initialising",_fileName] call A3A_fnc_log;
 //This array hold the nodes for attaching weapons and cargo.
-jnl_vehicleHardpoints = [];
+//jnl_vehicleHardpoints = [];
 
 //lock seats when cargo is added || Not sure why this is here when it's defined on the node mapping.
 jnl_vehicleLockedSeats = [
@@ -13,14 +15,14 @@ jnl_vehicleLockedSeats = [
 ];
 
 //These are arrays for the weapon sets for different vehicle classes
-jnl_smallVicWeapons = [];
-jnl_largeVicWeapons = [];
+//jnl_smallVicWeapons = [];
+//jnl_largeVicWeapons = [];
 
 //This array lists the static weapons that can be attached to any given vehicle
-jnl_allowedWeapons = [];
+//jnl_allowedWeapons = [];
 
 //This array holds the list of offsets for static weapons.
-jnl_attachmentOffset = [];
+//jnl_attachmentOffset = [];
 
 //Beyond this point is code that is still used and has not been touched in the MIE project.
 //todo replace with real items that are avalable
@@ -36,3 +38,5 @@ _defaultCrew = gettext (configfile >> "cfgvehicles" >> "all" >> "crew");
 } foreach ("isclass _x && {getnumber (_x >> 'scope') == 2} && {gettext (_x >> 'crew') != _defaultCrew}" configclasses (configfile >> "cfgvehicles"));
 
 jnl_initCompleted = true;
+
+[2,"JNL initialised",_fileName] call A3A_fnc_log;

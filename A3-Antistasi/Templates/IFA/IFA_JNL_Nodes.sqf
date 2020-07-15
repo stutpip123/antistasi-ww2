@@ -31,7 +31,7 @@ jnl_vehicleHardpoints append [
 //Studebaker
   ["\WW2\Assets_m\Vehicles\Trucks_m\IF_Us6.p3d",[
     [1,		[0,-0.82,0.17],					[2,3,4,5,6,7,8]]
-  ]],
+  ]]
 
 ];
 //Add to the weapon sets
