@@ -26,17 +26,17 @@ NATOAmmobox = "I_supplyCrate_F";
 //PvP Loadouts
 NATOPlayerLoadouts = [
 	//Team Leader
-	["\Templates\3CB\Loadouts\3CB_TKA_Teamleader"] call A3A_fnc_getLoadout,
+	["Templates\3CB\Loadouts\3CB_TKA_Teamleader"] call A3A_fnc_getLoadout,
 	//Medic
-	["\Templates\3CB\Loadouts\3CB_TKA_Medic"] call A3A_fnc_getLoadout,
+	["Templates\3CB\Loadouts\3CB_TKA_Medic"] call A3A_fnc_getLoadout,
 	//Autorifleman
-	["\Templates\3CB\Loadouts\3CB_TKA_MachineGunner"] call A3A_fnc_getLoadout,
+	["Templates\3CB\Loadouts\3CB_TKA_MachineGunner"] call A3A_fnc_getLoadout,
 	//Marksman
-	["\Templates\3CB\Loadouts\3CB_TKA_Marksman"] call A3A_fnc_getLoadout,
+	["Templates\3CB\Loadouts\3CB_TKA_Marksman"] call A3A_fnc_getLoadout,
 	//Anti-tank Scout
-	["\Templates\3CB\Loadouts\3CB_TKA_AT"] call A3A_fnc_getLoadout,
+	["Templates\3CB\Loadouts\3CB_TKA_AT"] call A3A_fnc_getLoadout,
 	//AT2
-	["\Templates\3CB\Loadouts\3CB_TKA_AT2"] call A3A_fnc_getLoadout
+	["Templates\3CB\Loadouts\3CB_TKA_AT2"] call A3A_fnc_getLoadout
 ];
 
 //PVP Player Vehicles

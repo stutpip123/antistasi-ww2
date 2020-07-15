@@ -26,17 +26,17 @@ NATOAmmobox = "B_supplyCrate_F";
 //PvP Loadouts
 NATOPlayerLoadouts = [
 	//Team Leader
-	["\Templates\Vanilla\Loadouts\vanilla_blufor_teamLeader_altis"] call A3A_fnc_getLoadout,
+	["Templates\Vanilla\Loadouts\vanilla_blufor_teamLeader_altis"] call A3A_fnc_getLoadout,
 	//Medic
-	["\Templates\Vanilla\Loadouts\vanilla_blufor_medic_altis"] call A3A_fnc_getLoadout,
+	["Templates\Vanilla\Loadouts\vanilla_blufor_medic_altis"] call A3A_fnc_getLoadout,
 	//Autorifleman
-	["\Templates\Vanilla\Loadouts\vanilla_blufor_machineGunner_altis"] call A3A_fnc_getLoadout,
+	["Templates\Vanilla\Loadouts\vanilla_blufor_machineGunner_altis"] call A3A_fnc_getLoadout,
 	//Marksman
-	["\Templates\Vanilla\Loadouts\vanilla_blufor_marksman_altis"] call A3A_fnc_getLoadout,
+	["Templates\Vanilla\Loadouts\vanilla_blufor_marksman_altis"] call A3A_fnc_getLoadout,
 	//Anti-tank Scout
-	["\Templates\Vanilla\Loadouts\vanilla_blufor_AT_altis"] call A3A_fnc_getLoadout,
+	["Templates\Vanilla\Loadouts\vanilla_blufor_AT_altis"] call A3A_fnc_getLoadout,
 	//AT2
-	["\Templates\Vanilla\Loadouts\vanilla_blufor_rifleman_altis"] call A3A_fnc_getLoadout
+	["Templates\Vanilla\Loadouts\vanilla_blufor_rifleman_altis"] call A3A_fnc_getLoadout
 ];
 
 //PVP Player Vehicles
