@@ -94,8 +94,9 @@ if ((_posOrigin distance2D _posDestination < distanceForLandAttack) && {[_posOri
 	if (_index > -1) then
 	{
 		_spawnPoint = server getVariable (format ["spawn_%1", _markerOrigin]);
+        _dir = markerDir _spawnPoint;
 		_spawnPoint = getMarkerPos _spawnPoint;
-		_dir = markerDir _spawnPoint;
+
 	}
 	else
 	{
