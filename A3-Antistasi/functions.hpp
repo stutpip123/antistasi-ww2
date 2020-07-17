@@ -95,14 +95,12 @@ class A3A
 		class rebuildRadioTower {};
 		class relocateHQObjects {};
 		class repairRuinedBuilding {};
-		class requestDataFromServer {};
 		class resourceCheckSkipTime {};
 		class resourcesFIA {};
 		class returnMuzzle {};
 		class revealToPlayer {};
 		class scheduler {};
 		class sellVehicle {};
-		class setDataOnClient {};
 		class setMarkerAlphaForSide {};
         class singlePlayerBlackScreenWarning {};
 		class sizeMarker {};
@@ -216,6 +214,7 @@ class A3A
         class createAttackVehicle {};
 		class createCIV {};
 		class createFIAOutposts2 {};
+		class createQRF {};
 		class createSDKGarrisons {};
 		class createSDKgarrisonsTemp {};
 		class createUnit {};
@@ -240,6 +239,7 @@ class A3A
 		class safeVehicleSpawn {};
         class singleAttack {};
 		class spawnGroup {};
+		class updateCAMark {};
 		class vehAvailable {};
 		class VEHdespawner {};
 		class vehKilledOrCaptured {};
@@ -256,7 +256,6 @@ class A3A
 
 	class Dialogs
 	{
-
 		class buyVehicle {};
 		class buyVehicleCiv {};
 		class clearForest {};
@@ -264,8 +263,10 @@ class A3A
 		class createDialog_shouldLoadPersonalSave {};
 		class dialogHQ {};
 		class fastTravelRadio {};
+		class loadPreviousSession {};
 		class mineDialog {};
 		class moveHQObject {};
+		class persistentSave {};
 		class skiptime {};
 		class squadOptions {};
 		class squadRecruit {};
@@ -441,6 +442,7 @@ class A3A
 		class punishment_removeActionForgive {};
 		class punishment_sentence_client {};
 		class punishment_sentence_server {};
+		class punishment_notPlayer {};
 	};
 
 	class pvp
@@ -505,12 +507,12 @@ class A3A
 	{
 		class deleteSave {};
 		class loadPlayer {};
-		class loadPreviousSession {};
 		class loadServer {};
 		class playerHasSave {};
 		class savePlayer {};
 		class getStatVariable {};
 		class loadStat {};
+		class resetPlayer {};
 		class retrievePlayerStat {};
 		class returnSavedStat {};
 		class savePlayerStat {};

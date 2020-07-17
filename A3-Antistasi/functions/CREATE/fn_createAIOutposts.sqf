@@ -169,8 +169,9 @@ if ((_markerX in seaports) and !hasIFA) then
 			diag_log format ["createAIOutposts: Could not find seaSpawn marker on %1!", _markerX];
 		};
 	};
+	sleep 1;    //make sure fillLootCrate finished clearing the crate
 	{
-		_ammoBox addItemCargoGlobal [_x,2]
+		 _ammoBox addItemCargoGlobal [_x, round random [2,6,8]];
 	} forEach diveGear;
 }
 else
@@ -327,13 +328,6 @@ for "_i" from 0 to (count _array - 1) do
 		_nul = [leader _groupX, _markerX, "SAFE", "SPAWNED", "RANDOM","NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 	};
 };//TODO need delete UPSMON link
-
-
-if (_markerX in seaports) then
-	{
-	_ammoBox addItemCargo ["V_RebreatherIA",round random 5];
-	_ammoBox addItemCargo ["G_I_Diving",round random 5];
-	};
 
 waitUntil {sleep 1; (spawner getVariable _markerX == 2)};
 
