@@ -9,7 +9,7 @@ class Params
      };
      class gameMode
      {
-          title = "Game Mode";
+          title = "Game Mode - Do NOT change this mid mission";
           values[] = {1,2,3,4};
           texts[] = {"Reb vs Gov vs Inv","Reb vs Gov & Inv","Reb vs Gov","Reb vs Inv"};
           default = 1;
@@ -115,6 +115,13 @@ class Params
           texts[] = {"Yes", "No"};
           values[] = {1,0};
           default = 1;
+     };
+     class personalGarageMax
+     {
+          title = "Max personal garage slots";
+          texts[] = {"Unlimited", "2", "5", "10"};
+          values[] = {0,2,5,10};
+          default = 2;
      };
      class allowFT
      {
