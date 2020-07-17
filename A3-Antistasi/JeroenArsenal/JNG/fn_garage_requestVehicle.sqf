@@ -6,7 +6,7 @@ with missionNamespace do{
 	_array = jng_vehicleList select _index;
 
 	{
-		_data = _x;
+		_data = _this;
 		_name2 = _data select 0;
 		_beingChanged2 = _data select 1;
 		_message = false;

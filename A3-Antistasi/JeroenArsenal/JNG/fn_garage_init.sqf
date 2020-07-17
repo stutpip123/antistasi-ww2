@@ -29,7 +29,7 @@ if(hasInterface)then{
 	//add garage button to object
     _object addaction [
 
-        localize"STR_ACT_GARAGE",
+        "JNG",
         {
             //["jn_fnc_garage"] call bis_fnc_startloadingscreen;
             UINamespace setVariable ["jn_type","garage"];

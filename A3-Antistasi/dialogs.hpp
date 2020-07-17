@@ -1815,13 +1815,13 @@ class commander_comm 		{
 		class 8slots_R3: RscButton
 		{
 			idc = -1;
-			text = "Faction Garage"; //--- ToDo: Localize;
+			text = "Jeroen Garage"; //--- ToDo: Localize;
 			x = 0.482498 * safezoneW + safezoneX;
 			y = 0.514003 * safezoneH + safezoneY;
 			w = 0.175015 * safezoneW;
 			h = 0.0560125 * safezoneH;
-			tooltip = "Look at a vehicle and garage it into faction garage (shared among commanders)";
-			action = "closeDialog 0; [true] call A3A_fnc_garageVehicle;";
+			tooltip = "Look at a vehicle and garage it into Jeroen garage (shared among commanders)";
+			action = "closeDialog 0; [true] call jn_fnc_garageVehicle;";
 		};
 		class 8slots_L4: RscButton
 		{
@@ -2435,12 +2435,12 @@ class garage_check 				{
 		class HQ_button_Gstatic: RscButton
 		{
 			idc = -1;
-			text = "Faction Garage"; //--- ToDo: Localize;
+			text = "Jeroen Garage"; //--- ToDo: Localize;
 			x = 0.482498 * safezoneW + safezoneX;
 			y = 0.317959 * safezoneH + safezoneY;
 			w = 0.175015 * safezoneW;
 			h = 0.0560125 * safezoneH;
-			action = "closeDialog 0; nul = [true] call A3A_fnc_garageVehicle;";
+			action = "closeDialog 0; nul = [cursorTarget] call jn_fnc_garage_garageVehicle;";
 		};
 		/*
 		class HQ_button_Gremove: RscButton
