@@ -237,6 +237,7 @@ class A3A
 		class safeVehicleSpawn {};
         class singleAttack {};
 		class spawnGroup {};
+        class spawnVehicleAtMarker {};
 		class updateCAMark {};
 		class vehAvailable {};
 		class VEHdespawner {};
