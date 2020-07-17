@@ -120,7 +120,7 @@ if ((_posOrigin distance2D _posDestination < distanceForLandAttack) && {[_posOri
 	for "_i" from 1 to _vehicleCount do
 	{
         private _vehicleType = selectRandomWeighted _vehPool;
-        private _vehicleData = [_vehicleType, _spawnPoint, _dir, _typeOfAttack, _landPosBlacklist, _side, _markerOrigin] call A3A_fnc_createAttackVehicle;
+        private _vehicleData = [_vehicleType, _typeOfAttack, _landPosBlacklist, _side, _markerOrigin] call A3A_fnc_createAttackVehicle;
         _vehicles pushBack (_vehicleData select 0);
         _groups pushBack (_vehicleData select 1);
         if !(isNull (_vehicleData select 2)) then
@@ -167,7 +167,7 @@ else
 		if (count _pos == 0) then {_pos = _posOrigin};
         //Runway found or not found, position selected
 
-        private _vehicleData = [_vehicleType, _pos, _ang, _typeOfAttack, _landPosBlacklist, _side, _markerOrigin] call A3A_fnc_createAttackVehicle;
+        private _vehicleData = [_vehicleType, _typeOfAttack, _landPosBlacklist, _side, _markerOrigin] call A3A_fnc_createAttackVehicle;
         _vehicles pushBack (_vehicleData select 0);
         _groups pushBack (_vehicleData select 1);
         if !(isNull (_vehicleData select 2)) then

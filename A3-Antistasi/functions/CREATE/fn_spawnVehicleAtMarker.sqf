@@ -17,9 +17,7 @@ params
     Returns:
         OBJECT : The vehicle object, objNull if spawn wasnt possible
 */
-
 private _fileName = "spawnVehicleAtMarker";
-private _vehicleType = "Vehicle";
 
 if(_vehicle == "" || _marker == "") exitWith
 {
@@ -27,22 +25,15 @@ if(_vehicle == "" || _marker == "") exitWith
     objNull;
 };
 
-//Determine vehicle type (there are some glitches with UAVs considered helicopters or drones considered planes)
-if(_vehicle isKindOf "Air") then
+private _vehicleObj = objNull;
+if(_vehicle isKindOf "Air") exitWith
 {
-    if (_vehicle isKindOf "Helicopter") then
-    {
-        _vehicleType = "Heli";
-    }
-    else
-    {
-        _vehicleType = "Plane";
-    };
+    _vehicleObj = [_vehicle, getMarkerPos _marker, 100, 5, true] call A3A_fnc_safeVehicleSpawn;
+    _vehicleObj;
 };
 
 //Get the spawn place of the marker
-private _spawnParams = [_marker, _vehicleType] call A3A_fnc_findSpawnPosition;
-private _vehicleObj = objNull;
+private _spawnParams = [_marker, "Vehicle"] call A3A_fnc_findSpawnPosition;
 
 if(_spawnParams != -1) then
 {
