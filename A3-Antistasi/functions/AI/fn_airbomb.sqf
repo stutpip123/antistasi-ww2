@@ -60,5 +60,5 @@ for "_i" from 1 to _bombCount do
 			};
 		};
 	};
-};
+[3, format ["Bombs dropped: %1", _debugCounter], _filename] call A3A_fnc_log;
 //_bomba is used to track when napalm bombs hit the ground in order to call the napalm script on the correct position

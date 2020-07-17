@@ -67,7 +67,8 @@ if (_winner == teamPlayer) then
     //Disable guaranteed attacks on takeover, the units on the marker call support
 	//[[_markerX,_looser,"",_super],"A3A_fnc_patrolCA"] call A3A_fnc_scheduler;
 	//sleep 15;
-	[[_markerX],"A3A_fnc_autoGarrison"] call A3A_fnc_scheduler;
+	// Removed for the moment, old broken stuff
+//	[[_markerX],"A3A_fnc_autoGarrison"] call A3A_fnc_scheduler;
 }
 else
 {
