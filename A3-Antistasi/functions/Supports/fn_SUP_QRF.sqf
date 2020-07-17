@@ -110,7 +110,7 @@ for "_i" from 1 to _vehicleCount do
 {
     private _vehicleType = selectRandomWeighted _vehPool;
     private _vehicleData = [_vehicleType, _typeOfAttack, _landPosBlacklist, _side, _markerOrigin] call A3A_fnc_createAttackVehicle;
-    if !(isNull _vehicleData) then
+    if (_vehicleData isEqualType []) then
     {
         _vehicles pushBack (_vehicleData select 0);
         _groups pushBack (_vehicleData select 1);
@@ -119,7 +119,9 @@ for "_i" from 1 to _vehicleCount do
             _groups pushBack (_vehicleData select 2);
         };
         _landPosBlacklist = (_vehicleData select 3);
+        sleep 5;
     };
+
 };
 [2, format ["Spawn Performed: %1 QRF sent with %2 vehicles, callsign %3", _typeOfAttack, count _vehicles, _supportName], _filename] call A3A_fnc_log;
 

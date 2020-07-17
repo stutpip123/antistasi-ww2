@@ -35,7 +35,7 @@ if(_vehicle isKindOf "Air") exitWith
 //Get the spawn place of the marker
 private _spawnParams = [_marker, "Vehicle"] call A3A_fnc_findSpawnPosition;
 
-if(_spawnParams != -1) then
+if(_spawnParams isEqualType []) then
 {
     //Place found spawn in vehicle now
     _vehicleObj = createVehicle [_vehicle, (_spawnParams select 0), [], 0, "CAN_COLLIDE"];

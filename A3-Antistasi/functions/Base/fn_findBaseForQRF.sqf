@@ -62,7 +62,7 @@ private _finalOriginMarkers = [];
     //If marker not spawned, released locked places
     if(spawner getVariable [_x, -1] == 2) then
     {
-        [_marker] call A3A_fnc_freeSpawnPositions;
+        [_x] call A3A_fnc_freeSpawnPositions;
     };
 } forEach _availableAirports;
 

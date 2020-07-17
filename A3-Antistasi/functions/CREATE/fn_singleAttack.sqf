@@ -117,7 +117,7 @@ for "_i" from 1 to _vehicleCount do
 {
     private _vehicleType = selectRandomWeighted _vehPool;
     private _vehicleData = [_vehicleType, _typeOfAttack, _landPosBlacklist, _side, _markerOrigin] call A3A_fnc_createAttackVehicle;
-    if !(isNull _vehicleData) then
+    if (_vehicleData isEqualType []) then
     {
         _vehicles pushBack (_vehicleData select 0);
         _groups pushBack (_vehicleData select 1);
@@ -126,7 +126,7 @@ for "_i" from 1 to _vehicleCount do
             _groups pushBack (_vehicleData select 2);
         };
         _landPosBlacklist = (_vehicleData select 3);
-        sleep 1;
+        sleep 5;
     };
 };
 [2, format ["Spawn Performed: Small %1 attack sent with %2 vehicles", _typeOfAttack, count _vehicles], _filename] call A3A_fnc_log;
