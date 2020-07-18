@@ -71,18 +71,18 @@ _veh = objNull;
 _groupX1 = grpNull;
 if (_sideX == Invaders) then
 	{
-	_nul = [_houseX] spawn
+	_nul = [_markerX] spawn
 		{
-		private ["_houseX"];
-		_houseX = _this select 0;
+		private ["_marker"];
+		_marker = _this select 0;
 		if (_difficultX) then {sleep 300} else {sleep 300 + (random 1800)};
 		if (["RES"] call BIS_fnc_taskExists) then
 			{
 			_airportsX = airportsX select {(sidesX getVariable [_x,sideUnknown] == Invaders) and ([_x,true] call A3A_fnc_airportCanAttack)};
 			if (count _airportsX > 0) then
 				{
-				_airportX = [_airportsX, position houseX] call BIS_fnc_nearestPosition;
-				[[getPosASL _houseX,_airportX,false],"A3A_fnc_singleAttack"] remoteExec ["A3A_fnc_scheduler",2];
+				_airportX = [_airportsX, getMarkerPos _marker] call BIS_fnc_nearestPosition;
+				[[_marker,_airportX,false],"A3A_fnc_singleAttack"] remoteExec ["A3A_fnc_scheduler",2];
 				};
 			};
 		};
