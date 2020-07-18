@@ -103,7 +103,11 @@ _dataX = server getVariable _attackDestination;
 _numCiv = _dataX select 0;
 _numCiv = round (_numCiv /10);
 //Is this intended to be another attack or should that be a small attack instead?
-if (sidesX getVariable [_attackDestination,sideUnknown] == Occupants) then {[[_attackDestination,Occupants,false],"A3A_fnc_singleAttack"] remoteExec ["A3A_fnc_scheduler",2]};
+if (sidesX getVariable [_attackDestination,sideUnknown] == Occupants) then
+{
+    private _reveal = [_posDestination, Invaders] call A3A_fnc_calculateSupportCallReveal;
+    [_posDestination, 4, ["QRF"], Invaders, _reveal] spawn A3A_fnc_sendSupport;
+};
 if (_numCiv < 8) then {_numCiv = 8};
 
 _size = [_attackDestination] call A3A_fnc_sizeMarker;
