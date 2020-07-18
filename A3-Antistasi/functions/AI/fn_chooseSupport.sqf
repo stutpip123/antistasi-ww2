@@ -62,7 +62,7 @@ switch (true) do
             ) then
             {
                 //Use spread out attacks first, if not available use more precise attacks
-                _supportTypes = ["QRF", "MORTAR", "CANNON", "AIRSTRIKE", "AIRDROP", "GUNSHIP", "ORBSTRIKE"];
+                _supportTypes = ["MORTAR", "CANNON", "AIRSTRIKE", "AIRDROP", "GUNSHIP", "ORBSTRIKE", "QRF"];
             };
         }
         else
@@ -76,7 +76,7 @@ switch (true) do
             ) then
             {
                 //Use more precise attacks first, if not available use spread out ones
-                _supportTypes = ["QRF", "AIRSTRIKE", "MORTAR", "CANNON"];
+                _supportTypes = ["AIRSTRIKE", "MORTAR", "CANNON", "QRF"];
             };
         };
     };
