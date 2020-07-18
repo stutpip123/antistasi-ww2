@@ -11,7 +11,7 @@ params ["_side", "_timerIndex", "_supportPos", "_supportName"];
         _timerIndex: NUMBER :  The number of the support timer
         _supportPos: POSITION : The position to which the airstrike should be carried out
         _supportName: STRING : The callsign of the support
-        
+
     Returns:
         The name of the target marker, empty string if not created
 */
@@ -161,6 +161,7 @@ _strikePlane addEventHandler
     "Killed",
     {
         params ["_strikePlane"];
+        [2, format ["Plane for %1 destroyed, airstrike aborted", _strikePlane getVariable "supportName"], "SUP_airstrike"] call A3A_fnc_log;
         ["TaskSucceeded", ["", "Airstrike Vessel Destroyed"]] remoteExec ["BIS_fnc_showNotification", teamPlayer];
         private _timerArray = _strikePlane getVariable "TimerArray";
         private _timerIndex = _strikePlane getVariable "TimerIndex";
@@ -176,6 +177,7 @@ _strikePlane addEventHandler
         params ["_vehicle", "_role", "_unit", "_turret"];
         if(side (group _unit) == teamPlayer) then
         {
+            [2, format ["Plane for %1 stolen, airstrike aborted", _vehicle getVariable "supportName"], "SUP_airstrike"] call A3A_fnc_log;
             ["TaskSucceeded", ["", "Airstrike Vessel Stolen"]] remoteExec ["BIS_fnc_showNotification", teamPlayer];
             _vehicle setVariable ["Stolen", true, true];
             _vehicle setFuel 1;
@@ -195,6 +197,7 @@ _pilot addEventHandler
         params ["_unit"];
         ["TaskSucceeded", ["", "Airstrike crew killed"]] remoteExec ["BIS_fnc_showNotification", teamPlayer];
         private _strikePlane = _unit getVariable "Plane";
+        [2, format ["Crew for %1 killed, airstrike aborted", _strikePlane getVariable "supportName"], "SUP_airstrike"] call A3A_fnc_log;
         private _timerArray = _strikePlane getVariable "TimerArray";
         private _timerIndex = _strikePlane getVariable "TimerIndex";
         _timerArray set [_timerIndex, (_timerArray select _timerIndex) + 1200];
