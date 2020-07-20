@@ -13,7 +13,7 @@ if (gameMode != 4) then {factionFIA = "FFAA"};
 
 //Flag Images
 NATOFlag = "ffaa_bandera_espa";
-NATOFlagTexture = "\A3\Data_F\Flags\Flag_NATO_CO.paa";
+NATOFlagTexture = "ffaa_data\bandera\flag_espana_co.paa";
 flagNATOmrk = "flag_Spain";
 if (isServer) then {"NATO_carrier" setMarkerText "Juan Carlos I"};
 
