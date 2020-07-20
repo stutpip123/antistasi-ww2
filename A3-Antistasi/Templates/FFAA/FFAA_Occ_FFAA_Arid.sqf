@@ -157,7 +157,7 @@ vehNATONormal = vehNATOLight + vehNATOTrucks + [vehNATOAmmoTruck, vehNATORepairT
 vehNATOAir = vehNATOTransportHelis + vehNATOAttackHelis + [vehNATOPlane,vehNATOPlaneAA] + vehNATOTransportPlanes;
 
 //Militia Vehicles
-if ((gameMode != 4) and (!hasFFAA)) then
+if (gamemode != 4) then
 	{
 	vehFIAArmedCar = "ffaa_et_lince_mg3";
 	vehFIATruck = "ffaa_et_pegaso_carga_lona";

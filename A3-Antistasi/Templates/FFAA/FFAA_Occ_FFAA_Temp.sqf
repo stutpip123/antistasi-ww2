@@ -157,7 +157,7 @@ vehNATONormal = vehNATOLight + vehNATOTrucks + [vehNATOAmmoTruck, vehNATORepairT
 vehNATOAir = vehNATOTransportHelis + vehNATOAttackHelis + [vehNATOPlane,vehNATOPlaneAA] + vehNATOTransportPlanes;
 
 //Militia Vehicles
-if ((gameMode != 4) and (!hasFFAA)) then
+if (gameMode != 4) then
 	{
 	vehFIAArmedCar = "ffaa_et_lince_mg3";
 	vehFIATruck = "ffaa_et_pegaso_carga_lona";
@@ -171,7 +171,7 @@ vehPoliceCar = "ffaa_et_vamtac_ume";
 //        STATIC WEAPONS         ///
 ////////////////////////////////////
 //Assembled Statics
-NATOMG = "ffaa_m2_tripode";
+NATOMG = "I_G_HMG_02_high_F";
 staticATOccupants = "ffaa_spike_tripode";
 staticAAOccupants = "ffaa_mistral_tripode";
 NATOMortar = "B_Mortar_01_F";
