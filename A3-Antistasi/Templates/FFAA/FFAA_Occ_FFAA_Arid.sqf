@@ -5,11 +5,11 @@
 nameOccupants = "FFAA";
 
 //Police Faction
-factionGEN = "FFAA";
+factionGEN = "";
 //SF Faction
-factionMaleOccupants = "FFAA";
+factionMaleOccupants = "";
 //Miltia Faction
-if (gameMode != 4) then {factionFIA = "FFAA"};
+if (gameMode != 4) then {factionFIA = ""};
 
 //Flag Images
 NATOFlag = "ffaa_bandera_espa";
@@ -20,9 +20,9 @@ if (isServer) then {"NATO_carrier" setMarkerText "Juan Carlos I"};
 //Loot Crate
 NATOAmmobox = "B_supplyCrate_F";
 
-////////////////////////////////////
-//   PVP LOADOUTS AND VEHICLES   ///
-////////////////////////////////////
+///////////////////////////////////
+//   PVP LOADOUTS AND VEHICLES   //
+///////////////////////////////////
 //PvP Loadouts
 NATOPlayerLoadouts = [
 	//Team Leader
@@ -139,8 +139,8 @@ vehNATOBoat = "ffaa_ar_zodiac_hurricane_long";
 vehNATORBoat = "ffaa_ar_supercat";
 vehNATOBoats = [vehNATOBoat,vehNATORBoat];
 //Planes
-vehNATOPlane = "ffaa_ar_harrier";
-vehNATOPlaneAA = "ffaa_ar_harrier";
+vehNATOPlane = "ffaa_ar_harrier_cas";
+vehNATOPlaneAA = "ffaa_ar_harrier_cap";
 vehNATOTransportPlanes = ["ffaa_ea_hercules"];
 //Heli
 vehNATOPatrolHeli = "ffaa_nh90_tth_transport";
