@@ -327,4 +327,4 @@ call compile preProcessFileLineNumbers "Templates\Vanilla\Vanilla_JNL_Nodes.sqf"
 if (hasRHS) then {call compile preProcessFileLineNumbers "Templates\RHS\RHS_JNL_Nodes.sqf"};
 if (has3CB) then {call compile preProcessFileLineNumbers "Templates\3CB\3CB_JNL_Nodes.sqf"};
 if (hasIFA) then {call compile preProcessFileLineNumbers "Templates\IFA\IFA_JNL_Nodes.sqf"};
-if (hasFFAA) then {call compile preProcessFileLineNumbers "\Templates\FFAA\FFAA_JNL_Nodes.sqf"};
+if (hasFFAA) then {call compile preProcessFileLineNumbers "Templates\FFAA\FFAA_JNL_Nodes.sqf"};
