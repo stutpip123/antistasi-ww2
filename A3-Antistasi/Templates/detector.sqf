@@ -6,9 +6,6 @@
 //Var initialisation
 private _filename = "detector.sqf";
 hasRHS = false;
-activeAFRF = false;
-activeUSAF = false;
-activeGREF = false;
 hasFFAA = false;
 hasIFA = false;
 has3CB = false;
@@ -27,9 +24,6 @@ if isClass (configFile >> "CfgPatches" >> "LIB_Core") then
 
 //RHS Detection
 if (isClass (configFile >> "CfgFactionClasses" >> "rhs_faction_vdv") && isClass (configFile >> "CfgFactionClasses" >> "rhs_faction_usarmy") && isClass (configFile >> "CfgFactionClasses" >> "rhsgref_faction_tla")) then {
-  activeAFRF = true;//Obsolete, please kill
-  activeUSAF = true;//Obsolete, please kill
-  activeGREF = true;//Obsolete, please kill. WHY IS THIS USED FUCKING EVERYWHERE?
   hasRHS = true;
   diag_log format ["%1: [Antistasi] | INFO | initVar | RHS Pack Detected.",servertime];
 };
