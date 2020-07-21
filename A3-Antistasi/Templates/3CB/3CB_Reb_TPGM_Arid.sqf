@@ -48,7 +48,6 @@ vehSDKLightArmed = "UK3CB_UN_B_Hilux_Pkm";
 vehSDKAT = "UK3CB_UN_B_LR_SPG9";
 vehSDKLightUnarmed = "UK3CB_UN_B_Hilux_Closed";
 vehSDKTruck = "UK3CB_UN_B_V3S_Closed";
-//vehSDKHeli = "rhsgref_ins_g_Mi8amt";
 vehSDKPlane = "UK3CB_UN_B_C130J";
 vehSDKBoat = "I_C_Boat_Transport_01_F";
 vehSDKRepair = "UK3CB_UN_B_V3S_Repair";

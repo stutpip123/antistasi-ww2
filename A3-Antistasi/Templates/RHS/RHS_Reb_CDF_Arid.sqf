@@ -48,7 +48,6 @@ vehSDKLightArmed = "rhsgref_cdf_b_reg_uaz_dshkm";
 vehSDKAT = "rhsgref_cdf_b_reg_uaz_spg9";
 vehSDKLightUnarmed = "rhsgref_cdf_b_reg_uaz_open";
 vehSDKTruck = "rhsgref_cdf_b_ural_open";
-//vehSDKHeli = "I_C_Heli_Light_01_civil_F";
 vehSDKPlane = "RHS_AN2_B";
 vehSDKBoat = "B_G_Boat_Transport_01_F";
 vehSDKRepair = "rhsgref_cdf_b_ural_repair";

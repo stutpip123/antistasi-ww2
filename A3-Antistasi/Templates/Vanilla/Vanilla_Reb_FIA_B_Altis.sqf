@@ -48,7 +48,6 @@ vehSDKLightArmed = "B_G_Offroad_01_armed_F";
 vehSDKAT = "B_G_Offroad_01_AT_F";
 vehSDKLightUnarmed = "B_G_Offroad_01_F";
 vehSDKTruck = "B_G_Van_01_transport_F";
-//vehSDKHeli = "I_C_Heli_Light_01_civil_F";
 vehSDKPlane = "C_Plane_Civil_01_F";
 vehSDKBoat = "B_G_Boat_Transport_01_F";
 vehSDKRepair = "B_G_Offroad_01_repair_F";
