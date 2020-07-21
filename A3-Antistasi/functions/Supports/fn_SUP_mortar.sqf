@@ -43,7 +43,7 @@ if(_isMortar) then
     private _possibleBases = (outposts + airportsX) select
     {
         (sidesX getVariable [_x, sideUnknown] == _side) &&
-        {((getMarkerPos _x) distance2D _supportPos <= 2000) &&
+        {((getMarkerPos _x) distance2D _supportPos <= 3000) &&
         {spawner getVariable [_x, -1] == 2}}
     };
 
@@ -79,7 +79,7 @@ else
     private _possibleBases = airportsX select
     {
         (sidesX getVariable [_x, sideUnknown] == _side) &&
-        {((getMarkerPos _x) distance2D _supportPos <= 8000) &&
+        {((getMarkerPos _x) distance2D _supportPos <= 10000) &&
         {((getMarkerPos _X) distance2D _supportPos > 2000) &&
         {spawner getVariable [_x, -1] == 2}}}
     };
@@ -122,12 +122,12 @@ else
 private _timerArray = if(_side == Occupants) then {occupantsMortarTimer} else {invadersMortarTimer};
 if(_isMortar) then
 {
-    _coverageMarker setMarkerSize [2000, 2000];
+    _coverageMarker setMarkerSize [3000, 3000];
     _timerArray set [_timerIndex, time + 1800];
 }
 else
 {
-    _coverageMarker setMarkerSize [8000, 8000];
+    _coverageMarker setMarkerSize [10000, 10000];
     _timerArray set [_timerIndex, time + 3600];
 };
 
