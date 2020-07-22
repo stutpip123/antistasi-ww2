@@ -40,7 +40,7 @@ if(teamplayer != independent) then {//This section is for Altis Blufor ONLY!
     case (hasUNSUNG): {
       call compile preProcessFileLineNumbers "Templates\UNSUNG\UNSUNG_Reb_ARVN_Trop.sqf";
       [2, "Using UNSUNG ARVN Template", _filename] call A3A_fnc_log;
-    }
+    };
     case (has3CB): {
       switch(true) do {
         case (worldName in arcticmaps): {
@@ -143,7 +143,7 @@ if(teamplayer != independent) then {//This section is for Altis Blufor ONLY!
     case (hasUNSUNG): {
       call compile preProcessFileLineNumbers "Templates\UNSUNG\UNSUNG_Occ_USA_Trop.sqf";
       [2, "Using UNSUNG USA Template", _filename] call A3A_fnc_log;
-    }
+    };
     case (has3CB): {
       switch(true) do {
         case (worldName in arcticmaps): {
@@ -227,7 +227,7 @@ if(teamplayer != independent) then {//This section is for Altis Blufor ONLY!
     case (hasUNSUNG): {
       call compile preProcessFileLineNumbers "Templates\UNSUNG\UNSUNG_INV_VC_Trop.sqf";
       [2, "Using UNSUNG VC Template", _filename] call A3A_fnc_log;
-    }
+    };
     case (has3CB): {
       switch(true) do {
         case (worldName in arcticmaps): {
@@ -307,6 +307,10 @@ if(teamplayer != independent) then {//This section is for Altis Blufor ONLY!
   };
   //Civ Templates
   switch(true) do{
+    case (hasUNSUNG): {
+      call compile preProcessFileLineNumbers "Templates\UNSUNG\UNSUNG_Civ.sqf";
+      [2, "Using UNSUNG Civ Template", _filename] call A3A_fnc_log;
+    };
     case (has3CB): {
       call compile preProcessFileLineNumbers "Templates\3CB\3CB_Civ.sqf";
       [2, "Using 3CB Civ Template", _filename] call A3A_fnc_log;
