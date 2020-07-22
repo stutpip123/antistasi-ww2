@@ -10,7 +10,6 @@ hasFFAA = false;
 hasIFA = false;
 has3CB = false;
 hasIvory = false;
-hasUNSUNG = false;
 hasTCGM = false;
 hasADV = false;
 
@@ -39,6 +38,9 @@ if (hasRHS && (
   isClass (configfile >> "CfgPatches" >> "UK3CB_BAF_Equipment") &&
   isClass (configfile >> "CfgPatches" >> "UK3CB_BAF_Factions")
 ) ) then {has3CB = true; diag_log format ["%1: [Antistasi] | INFO | initVar | 3CB Detected.",servertime];};
+
+//UNSUNG Detection
+if (isClass (configfile >> "CfgPatches" >> "")) then {hasUNSUNG = true; diag_log format ["%1: [Antistasi] | INFO | initVar | UNSUNG Detected.",servertime];};
 
 //FFAA Detection
 if (isClass (configfile >> "CfgPatches" >> "ffaa_armas")) then {hasFFAA = true; diag_log format ["%1: [Antistasi] | INFO | initVar | FFAA Detected.",servertime];};
