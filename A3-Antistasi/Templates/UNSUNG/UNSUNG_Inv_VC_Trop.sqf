@@ -2,7 +2,7 @@
 //       NAMES AND FLAGS         ///
 ////////////////////////////////////
 //Name Used for notifications
-nameInvaders = "UNSUNG_EV";
+nameInvaders = "VC";
 
 //SF Faction
 factionMaleInvaders = "UNSUNG_E";
@@ -12,7 +12,7 @@ if (gameMode == 4) then {factionFIA = ""};
 //Flag Images
 CSATFlag = "pook_siteFlag_NVA";
 CSATFlagTexture = "pook_sam\structures\flags\nva_flag.paa";
-flagCSATmrk = "Factions_UNS_VC";
+flagCSATmrk = "Faction_UNS_VC";
 if (isServer) then {"CSAT_carrier" setMarkerText "VC Carrier?!? (Don't ask...)"};
 
 //Loot Crate
@@ -118,7 +118,7 @@ if (gameMode == 4) then
 vehCSATBike = "O_Quadbike_01_F";
 vehCSATLightArmed = ["uns_Type55_LMG","uns_Type55_MG","uns_Type55_twinMG","uns_Type55_patrol","uns_Type55_RR57","uns_Type55_RR73","uns_Type55_M40"];
 vehCSATLightUnarmed = ["uns_Type55"];
-vehCSATTrucks = ["uns_nvatruck","uns_nvatruck_camo","uns_nvatruck_open","uns_zil157","uns_nvatruck_mg"];
+vehCSATTrucks = ["uns_nvatruck","uns_nvatruck_camo","uns_nvatruck_open","uns_nvatruck_mg"];
 vehCSATAmmoTruck = "uns_nvatruck_reammo";
 vehCSATRepairTruck = "uns_nvatruck_repair";
 vehCSATLight = vehCSATLightArmed + vehCSATLightUnarmed;
@@ -146,14 +146,14 @@ vehCSATUAVSmall = "not_supported";
 vehCSATMRLS = "Uns_D20_artillery";
 vehCSATMRLSMags = "uns_30Rnd_155mmWP";
 //Combined Arrays
-vehCSATNormal = vehCSATLight + vehCSATTrucks + [vehCSATAmmoTruck, vehCSATRepairTruck, "uns_Zil157_refuel","uns_zil157_repair","uns_nvatruck_refuel","uns_Type63_amb"];
+vehCSATNormal = vehCSATLight + vehCSATTrucks + [vehCSATAmmoTruck, vehCSATRepairTruck, "uns_nvatruck_refuel","uns_Type63_amb"];
 vehCSATAir = vehCSATTransportHelis + vehCSATAttackHelis + [vehCSATPlane,vehCSATPlaneAA] + vehCSATTransportPlanes;
 
 //Militia Vehicles
 if (gameMode == 4) then
 	{
 	vehFIAArmedCar = "uns_nvatruck_mg";
-	vehFIATruck = "uns_zil157";
+	vehFIATruck = "uns_nvatruck";
 	vehFIACar = "uns_Type55";
 	};
 

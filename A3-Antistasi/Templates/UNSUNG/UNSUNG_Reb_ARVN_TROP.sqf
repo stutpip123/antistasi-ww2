@@ -45,16 +45,16 @@ soldiersSDK = sdkTier1 + sdkTier2 + sdkTier3;
 //Military Vehicles
 vehSDKBike = "uns_m274";
 vehSDKLightArmed = "uns_willys_2_m60_arvn";
-vehSDKAT = "uns_m274_m40";
+vehSDKAT = "uns_willysm40";
 vehSDKLightUnarmed = "uns_willys_2_arvn";
-vehSDKTruck = "uns_zil157";
+vehSDKTruck = "uns_nvatruck";
 vehSDKPlane = "uns_A1H_CAS";
 vehSDKBoat = "UNS_PATROL_BOAT_VC";
 vehSDKRepair = "uns_zil157_repair";
 
 //Civilian Vehicles
-civCar = "not_supported";
-civTruck = "not_supported";
+civCar = "uns_willys";
+civTruck = "uns_zil157";
 civHeli = "not_supported";
 civBoat = "UNS_skiff_C";
 

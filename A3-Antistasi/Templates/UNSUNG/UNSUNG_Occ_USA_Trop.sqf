@@ -2,7 +2,7 @@
 //       NAMES AND FLAGS         ///
 ////////////////////////////////////
 //Name Used for notifications
-nameOccupants = "UNSUNG_W";
+nameOccupants = "USAF";
 
 //Police Faction
 factionGEN = "UNSUNG_AUS";
@@ -14,7 +14,7 @@ if (gameMode != 4) then {factionFIA = "UNSUNG_ROK"};
 //Flag Images
 NATOFlag = "Flag_US_F";
 NATOFlagTexture = "a3\data_f\flags\flag_us_co.paa";
-flagNATOmrk = "flag_US";
+flagNATOmrk = "Faction_UNS_USA";
 if (isServer) then {"NATO_carrier" setMarkerText "USS Oklahoma City"};
 
 //Loot Crate
@@ -127,8 +127,8 @@ groupsNATOGen = [policeOfficer,policeGrunt];
 //Military Vehicles
 //Lite
 vehNATOBike = "uns_m274";
-vehNATOLightArmed = ["uns_m274_m60","uns_m274_m40","uns_willysmg","uns_willysmg50","uns_willys_2_m1919","uns_willysm40","uns_m37b1_m1919"];
-vehNATOLightUnarmed = ["uns_willys_2","uns_willys"];
+vehNATOLightArmed = ["uns_willysmg","uns_willysmg50","uns_willys_2_m1919","uns_willysm40","uns_m37b1_m1919"];
+vehNATOLightUnarmed = ["uns_willys_2"];
 vehNATOTrucks = ["uns_m37b1","uns_M35A2_Open","uns_M35A2"];
 vehNATOCargoTrucks = ["uns_M35A2_Open","uns_M35A2"];
 vehNATOAmmoTruck = "uns_M35A2_ammo";
