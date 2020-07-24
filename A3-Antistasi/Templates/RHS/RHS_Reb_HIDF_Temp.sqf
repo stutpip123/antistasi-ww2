@@ -74,7 +74,7 @@ SDKMortarSmokeMag = "8Rnd_82mm_Mo_Smoke_white";
 //Static Weapon Bags
 MGStaticSDKB = "RHS_M2_Gun_Bag";
 ATStaticSDKB = "RHS_SPG9_Gun_Bag";
-AAStaticSDKB = "no_exists";
+AAStaticSDKB = "not_supported";
 MortStaticSDKB = "rhs_M252_Gun_Bag";
 //Short Support
 supportStaticSDKB = "RHS_SPG9_Tripod_Bag";
