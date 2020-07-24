@@ -51,7 +51,7 @@ vehSDKTruck = "uns_nvatruck";
 vehSDKPlane = "uns_A1H_CAS";
 vehSDKBoat = "UNS_PATROL_BOAT_VC";
 vehSDKRepair = "uns_zil157_repair";
-vehSDKAA = "uns_nvatruck_s60";
+vehSDKAA = "uns_nvatruck_zpu";
 
 //Civilian Vehicles
 civCar = "uns_willys";
