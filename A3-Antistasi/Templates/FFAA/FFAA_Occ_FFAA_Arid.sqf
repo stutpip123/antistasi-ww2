@@ -26,17 +26,17 @@ NATOAmmobox = "B_supplyCrate_F";
 //PvP Loadouts
 NATOPlayerLoadouts = [
 	//Team Leader
-	"ffaa_et_moe_lider_ds",
+	["Templates\FFAA\Loadouts\FFAA_Occ_MOE_Arid_teamLeader"] call A3A_fnc_getLoadout,
 	//Medic
-	"ffaa_et_moe_medico_ds",
-	//Autorifleman
-	"ffaa_et_moe_mg_ds",
+	["Templates\FFAA\Loadouts\FFAA_Occ_MOE_Arid_medic"] call A3A_fnc_getLoadout,
+	//Machinegunner
+	["Templates\FFAA\Loadouts\FFAA_Occ_MOE_Arid_machineGunner"] call A3A_fnc_getLoadout,
 	//Marksman
-	"ffaa_et_moe_tirador_ds",
-	//Anti-tank Scout
-	"ffaa_et_moe_at_ds",
-	//AT2
-	"ffaa_et_moe_at_ds"
+	["Templates\FFAA\Loadouts\FFAA_Occ_MOE_Arid_marksman"] call A3A_fnc_getLoadout,
+	//AT
+	["Templates\FFAA\Loadouts\FFAA_Occ_MOE_Arid_AT"] call A3A_fnc_getLoadout,
+	//Assistant AT
+	["Templates\FFAA\Loadouts\FFAA_Occ_MOE_Arid_AAT"] call A3A_fnc_getLoadout
 ];
 
 //PVP Player Vehicles
