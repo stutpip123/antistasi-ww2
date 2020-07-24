@@ -121,7 +121,7 @@ if (_esinf) then {
 
 	if (_typeGroup == staticAAteamPlayer) then
 	{
-		private _vehType = if (hasRHS) then {"rhsgref_ins_g_ural_Zu23"} else {vehSDKTruck};
+		private _vehType = if (vehSDKAA != "not_supported") then {vehSDKAA} else {vehSDKTruck};
 		_truckX = createVehicle [_vehType, _pos, [], 0, "NONE"];
 		_truckX setDir _roadDirection;
 
@@ -131,7 +131,7 @@ if (_esinf) then {
 		_driver moveInDriver _truckX;
 		_driver assignAsDriver _truckX;
 
-		if (!hasRHS) then
+		if (vehSDKAA == "not_supported") then
 		{
 			private _lpos = _pos vectorAdd [0,0,1000];
 			private _launcher = createVehicle [staticAAteamPlayer, _lpos, [], 0, "CAN_COLLIDE"];
@@ -140,13 +140,11 @@ if (_esinf) then {
 			_gunner moveInGunner _launcher;
 			_gunner assignAsGunner _launcher;
 //			[_launcher] call A3A_fnc_AIVEHinit;			// don't need separate despawn/killed handlers
-		}
-		else {
+		} else {
 			_gunner moveInGunner _truckX;
 			_gunner assignAsGunner _truckX;
 		};
-	}
-	else {
+	} else {
 		private _veh = [_pos, _roadDirection,_typeGroup, teamPlayer] call bis_fnc_spawnvehicle;
 		_truckX = _veh select 0;
 		_groupX = _veh select 2;

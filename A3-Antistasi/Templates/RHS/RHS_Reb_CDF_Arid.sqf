@@ -51,6 +51,7 @@ vehSDKTruck = "rhsgref_cdf_b_ural_open";
 vehSDKPlane = "RHS_AN2_B";
 vehSDKBoat = "B_G_Boat_Transport_01_F";
 vehSDKRepair = "rhsgref_cdf_b_ural_repair";
+vehSDKAA = "rhsgref_cdf_b_gaz66_zu23";
 
 //Civilian Vehicles
 civCar = "C_Offroad_01_F";
@@ -72,7 +73,7 @@ SDKMortarSmokeMag = "8Rnd_82mm_Mo_Smoke_white";
 //Static Weapon Bags
 MGStaticSDKB = "RHS_DShkM_Gun_Bag";
 ATStaticSDKB = "RHS_SPG9_Gun_Bag";
-AAStaticSDKB = "no_exists";
+AAStaticSDKB = "not_supported";
 MortStaticSDKB = "rhs_M252_Gun_Bag";
 //Short Support
 supportStaticSDKB = "RHS_SPG9_Tripod_Bag";
