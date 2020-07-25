@@ -321,6 +321,7 @@ class A3A
 		class loadout_addEquipment {};
 		class loadout_addHelmet {};
 		class loadout_addItems {};
+		class loadout_additionalMuzzleMags {};
 		class loadout_addVest {};
 		class loadout_addWeapon {};
 		class loadout_createBase {};
@@ -330,6 +331,8 @@ class A3A
 		class loadout_itemLoad {};
 
 		class loadout_createEngineerLoadouts {};
+		class loadout_createExplosivesExpertLoadouts {};
+		class loadout_createGrenadierLoadouts {};
 		class loadout_createMedicLoadouts {};
 		class loadout_createRiflemanLoadouts {};
 		class loadout_createSquadLeaderLoadouts {};
