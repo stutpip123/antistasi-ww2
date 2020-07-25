@@ -1,12 +1,20 @@
 params ["_container"];
 scopeName "Main";
 
+if (_container getVariable ["Looting", false]) exitWith {["Loot crate", "Cooldown still active"] call A3A_fnc_customHint};
+_container setVariable ["Looting", true, true];
+_container spawn {sleep 3; _this setVariable ["Looting", nil, true]};
+["Loot crate", "Looting..."] call A3A_fnc_customHint;
+
 private "_unlocked";
 if (LTCLootUnlocked) then {
 	_unlocked = [];
 } else {
 	_unlocked = (unlockedHeadgear + unlockedVests + unlockedNVGs + unlockedOptics + unlockedItems + unlockedWeapons + unlockedBackpacks + unlockedMagazines);
 };
+
+_targets = nearestObjects [getposATL _container, ["Man"], 10];
+_weaponHolders = nearestObjects [getposATL _container, ["WeaponHolder","WeaponHolderSimulated"], 10];
 
 //----------------------------//
 //Loot Bodies
@@ -27,7 +35,12 @@ _lootBodies = {
 	(_gear#2) append assignedItems _unit;
 	removeAllAssignedItems _unit;
 
-	(_gear#1) append (magazinesAmmoFull _unit);
+	_mags = [];
+	{
+		_x params ["_type", "_count"];
+		_mags pushBack [_type, _count];		
+	} forEach (magazinesAmmoFull _unit);
+	(_gear#1) append _mags;
 	clearMagazineCargoGlobal _unit;
 
 	(_gear#2) append (items _unit);
@@ -63,30 +76,29 @@ _lootBodies = {
 		if ((_container canAdd _x) and !(_x in _unlocked)) then {
 			_container addWeaponCargoGlobal [_x,1];
 			_remaining set [0,(_remaining#0) - [_x]];
-		};		
+		};
 	} forEach (_gear#0);
 
 	{
-		_magType = _x#0;
-		_ammoCount = _x#1;
+		_x params ["_magType", "_ammoCount"];
 		if ((_container canAdd _magType) and !(_magType in _unlocked)) then {
 			_container addMagazineAmmoCargo [_magType, 1, _ammoCount];
 			_remaining set [1,(_remaining#1) - [_x]];
-		};			
+		};
 	} forEach (_gear#1);
 
 	{
 		if ((_container canAdd _x) and !(_x in _unlocked)) then {
 			_container addItemCargoGlobal [_x,1];
 			_remaining set [2,(_remaining#2) - [_x]];
-		};		
+		};
 	} forEach (_gear#2);
 
 	{
 		if ((_container canAdd _x) and !(_x in _unlocked)) then {
 			_container addBackpackCargoGlobal [_x,1];
 			_remaining set [3,(_remaining#3) - [_x]];
-		};		
+		};
 	} forEach (_gear#3);
 
 	//Deal with leftovers
@@ -111,49 +123,59 @@ _lootBodies = {
 	_container setPos _pos;
 };
 
-_targets = nearestObjects [getpos _container, ["Man"], 10, true]; //2d because it dosnt pick up bodies when not on ground otherwise
 _targets = _targets select {!alive _x};
 {[_x, _container] call _lootBodies} forEach _targets;
-
 
 //----------------------------//
 //pickup weapons on the ground
 //----------------------------//
-_weaponHolders = nearestObjects [getpos _container, ["WeaponHolder","WeaponHolderSimulated"], 10, true];
-_lootedAll = true;
+
+_allUnlockedArray = [];
 {
-	_pos = getPos _x;
-	_remainder = [_x, _container] call A3A_fnc_lootFromContainer;
+	_pos = getPosATL _x;
+	_return = [_x, _container] call A3A_fnc_lootFromContainer;
+	_return params ["_remainder", "_allUnlocked"];
+	_allUnlockedArray pushBack _allUnlocked;
+
 	if !(_remainder isEqualTo [[],[],[],[]]) then {
+		
+		_newContainer = "GroundWeaponHolder" createVehicle _pos;
+
+		_remainder params ["_weaponsArray", "_magsArray", "_itemsArray", "_backpacksArray"];
+		
 		{
-			_array = _x;
-			if ((_array#0) isEqualType "") then {
-				if (_array findIf {!(_x in _unlocked)} != -1) then {_lootedAll = false};
-			} else {
-				if (_array findIf {!((_x#0) in _unlocked)} != -1) then {_lootedAll = false};
-			};			
-		} forEach _remainder;
-		_container = "GroundWeaponHolder" createVehicle _pos;
-		{
-			_container addWeaponCargoGlobal [_x, 1];	
-		} forEach (_remainder#0);
+			_x params ["_type", "_count"];
+			if !(_type in _unlocked) then {_allUnlocked = false};
+			_newContainer addWeaponCargoGlobal [_type, _count];		
+		} forEach _weaponsArray;
 
 		{
-			_container addMagazineAmmoCargo [(_x#0), 1, (_x#1)];
-		} forEach (_remainder#1);
+			_x params ["_type", "_count", "_max", "_remainder"];
+			if !(_type in _unlocked) then {_allUnlocked = false};
+			_newContainer addMagazineAmmoCargo [_type, _count, _max];
+			_newContainer addMagazineAmmoCargo [_type, 1, _remainder];
+		} forEach _magsArray;
 
 		{
-			_container addItemCargoGlobal [_x, 1];
-		} forEach (_remainder#2);
+			_x params ["_type", "_count"];
+			if !(_type in _unlocked) then {_allUnlocked = false};
+			_newContainer addItemCargoGlobal [_type, _count];		
+		} forEach _itemsArray;
 
 		{
-			_container addBackpackCargoGlobal [_x, 1];
-		} forEach (_remainder#3);
-		_container setPos _pos;
+			_x params ["_type", "_count"];
+			if !(_type in _unlocked) then {_allUnlocked = false};
+			_newContainer addBackpackCargoGlobal [_type, _count];		
+		} forEach _backpacksArray;
+
+		_allUnlockedArray pushBack _allUnlocked;
+		_newContainer setPosATL _pos;
 	};
 } forEach _weaponHolders;
-if (_lootedAll) then {
+
+if ((_allUnlockedArray findIf {!_x} isEqualTo -1)) then {
 	["Loot crate", "Nearby loot transfered to crate"] call A3A_fnc_customHint;
 } else {
-	["Loot crate", "some loot transfered to crate"] call A3A_fnc_customHint;
+	["Loot crate", "Unable to transfer all nearby loot"] call A3A_fnc_customHint;
 };
+_container setVariable ["Looting", nil, true];

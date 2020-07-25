@@ -1,9 +1,26 @@
-params ["_target", "_overideTo"];
-_vehicle = (_target nearEntities [["Car", "Motorcycle", "Tank"], 10])#0;
-if (!isNil "_overideTo") then {_vehicle = _overideTo};
-if (isNil "_vehicle") exitWith {["Loot crate", "No vehicles close enough"] call A3A_fnc_customHint};
+params ["_target", "_override"];
+scopeName "Main";
 
-_MainContainer = _target;
+private "_container";
+if (isNil "_override") then {
+	//spam prevention
+	if (_target getVariable ["Looting", false]) exitWith {
+		["Loot crate", "Cooldown still active"] call A3A_fnc_customHint;
+		breakOut "Main";
+	};
+	_target setVariable ["Looting", true, true];
+	_target spawn {sleep 3; _this setVariable ["Looting", nil, true]};
+
+	private _containers = _target nearEntities [["Car", "Motorcycle", "Tank", "Air"], 10];
+	_container = _containers#0;
+} else {
+	_container = _override;
+};
+
+if (isNil "_container") exitWith {
+	["Loot crate", "No vehicles nearby"] call A3A_fnc_customHint;
+};
+
 private "_unlocked";
 if (LTCLootUnlocked) then {
 	_unlocked = [];
@@ -11,122 +28,175 @@ if (LTCLootUnlocked) then {
 	_unlocked = (unlockedHeadgear + unlockedVests + unlockedNVGs + unlockedOptics + unlockedItems + unlockedWeapons + unlockedBackpacks + unlockedMagazines);
 };
 
-_LootContainer = {
-	params ["_target"];
-	//get cargo
-	_cargo = [];
-	//weapons
-	_cargo pushBack weaponsItemsCargo _target;
-	clearWeaponCargoGlobal _target;
-
-	//mags
-	_cargo pushBack magazinesAmmoCargo _target;
-	clearMagazineCargoGlobal _target;
-
-	//items
-	_cargo pushBack itemCargo _target;
-	clearItemCargoGlobal _target;
-
-	//backpacks
-	_backpacks = [];
-	{_backpacks pushBack (_x call BIS_fnc_basicBackpack)} forEach (backpackCargo _target);
-	_cargo pushBack _backpacks;
-	clearBackpackCargoGlobal _target;
-
-	//add to vehicle
-	_remaining = [];
-	_weapons = [];
+private _mainContainer = _target;
+_transferCargo = {
+	params ["_target", "_container"];
+	private _gear = [[[],[]],[],[[],[]],[]];
+	//----------------------------//
+	// get Cargo
+	//----------------------------//
 	{
 		_baseWeapon = (_x#0) call BIS_fnc_baseWeapon;
-		_weapons pushBack _baseWeapon;
+		(_gear#0#0) pushBack _baseWeapon;
+		(_gear#0#1) pushBack 1;
+
 		_attachments = _x select {(_x isEqualType "") and !(_x isEqualTo "")};
-		_attachments deleteAt (_attachments find (_x#0));//remove weapon from list
-		(_cargo#2) append _attachments;
+		_attachments deleteAt (_attachments find (_x#0));
+		
+		{
+			(_gear#2#0) pushBack _x;
+			(_gear#2#1) pushBack 1;
+		} forEach _attachments;
+
 		_mags = _x select {(_x isEqualType []) and !(_x isEqualTo [])};
-		(_cargo#1) append _mags;
+		(_gear#1) append _mags;
+	}forEach (weaponsItemsCargo _target);
+	clearWeaponCargoGlobal _target;
 
-		if ((_vehicle canAdd _baseWeapon) and !(_baseWeapon in _unlocked)) then {
-			_vehicle addWeaponCargoGlobal [_baseWeapon, 1];
-			_weapons deleteAt (_weapons find _baseWeapon);
-		};		
-	} forEach (_cargo#0);
-	_remaining pushBack _weapons;
+	(_gear#1) append (magazinesAmmoCargo _target);
+	clearMagazineCargoGlobal _target;
 
-	_mags = _cargo#1;
-	{
-		_magType = _x#0;
-		_ammoCount = _x#1;
-		if ((_vehicle canAdd _magType) and !(_magType in _unlocked)) then {
-			_vehicle addMagazineAmmoCargo [_magType, 1, _ammoCount];
-			_mags = _mags - [_x];
-		};		
-	} forEach (_cargo#1);
-	_remaining pushBack _mags;
-
-	_items = _cargo#2;
-	{
-		if ((_vehicle canAdd _x) and !(_x in _unlocked)) then {
-			_vehicle addItemCargoGlobal [_x, 1];
-			_items = _items - [_x];
-		};		
-	} forEach (_cargo#2);
-	_remaining pushBack _items;
-
-	_backpacks = _cargo#3;
-	{
-		if ((_vehicle canAdd _x) and !(_x in _unlocked)) then {
-			_vehicle addBackpackCargoGlobal [_x, 1];
-			_backpacks = _backpacks - [_x];
-		};		
-	} forEach (_cargo#3);
-	_remaining pushBack _backpacks;
-
-	//put remainder back
-	if ((_remaining isEqualTo [[],[],[],[]]) and (isNil "_overideTo")) exitWith {_remaining};
-
-	{
-		_MainContainer addWeaponCargoGlobal [_x, 1];	
-	} forEach (_remaining#0);
-
-	{
-		_MainContainer addMagazineAmmoCargo [(_x#0), 1, (_x#1)];
-	} forEach (_remaining#1);
-
-	{
-		_MainContainer addItemCargoGlobal [_x, 1];
-	} forEach (_remaining#2);
-
-	{
-		_MainContainer addBackpackCargoGlobal [_x, 1];
-	} forEach (_remaining#3);
-	_remaining;
-};
-
-_subContainers = everyContainer _target;
-if !(_subContainers isEqualTo []) then {
-	{
-		_subContainer = _x#1;
-		_remaining = [_subContainer] call _LootContainer;
-	} forEach _subContainers;
-};
-_remaining = [_target] call _LootContainer;
-if (isNil "_overideTo") then {
-	_lootedAll = true;
-	{
-		_array = _x;
-		if ((_array#0) isEqualType "") then {
-			if (_array findIf {!(_x in _unlocked)} != -1) then {_lootedAll = false};
-		} else {
-			if (_array findIf {!((_x#0) in _unlocked)} != -1) then {_lootedAll = false};
-		};
-	} forEach _remaining;
-	if (
-			!(_remaining isEqualTo [[],[],[],[]])
-			and !_lootedAll
-		) then {
-		["Loot crate", format ["some loot transfered to %1, remainder still in crate", [configFile >> "CfgVehicles" >> typeOf _vehicle] call BIS_fnc_displayName]] call A3A_fnc_customHint;
-	} else {
-		["Loot crate", format ["Loot transfered to %1", [configFile >> "CfgVehicles" >> typeOf _vehicle] call BIS_fnc_displayName]] call A3A_fnc_customHint;
+	private _items = getItemCargo _target;
+	if !(_items isEqualTo []) then {
+		(_gear#2#0) append (_items#0);
+		(_gear#2#1) append (_items#1);
 	};
+	clearItemCargoGlobal _target;
+
+	(_gear#3) append (getBackpackCargo _target);
+	clearBackpackCargoGlobal _target;
+
+	_gear params ["_weaponsArray", "_magsArray", "_itemsArray", "_backpacksArray"];
+
+	//----------------------------//
+	// cleanup arrays
+	//----------------------------//
+	private _newArray = [];
+	{
+		_x params ["_magType", "_ammoCount"];
+		_index = _newArray findif {(_x#0) isEqualTo _magType};
+		if (_index isEqualTo -1) then {
+			_newArray pushBack [_magType, _ammoCount];
+		} else {
+			_count = _newArray#_index#1;
+			_newArray set [_index, [_magType, _count+_ammoCount]];
+		};
+	} forEach _magsArray;
+	_magsArray = _newArray;
+
+	//----------------------------//
+	// try to add to container
+	//----------------------------//
+	_leftover = [[],[],[],[]];
+
+
+
+	_weaponsArray params ["_weaponTypes", "_weaponCounts"];
+	for "_i" from 0 to (count _weaponTypes)-1 do {
+		private _type = _weaponTypes#_i;
+		private _count = _weaponCounts#_i;
+
+		if ((_container canAdd [_type, _count]) and !(_type in _unlocked)) then {
+			_container addWeaponCargoGlobal [_type, _count];
+		} else {
+			(_leftover#0) pushBack [_type, _count];
+		};
+	};
+
+	for "_i" from 0 to (count _magsArray)-1 do {
+		(_magsArray#_i) params ["_type", "_ammo"];
+		private _max = getNumber (configFile >> "CfgMagazines" >> _type >> "count");
+		private _count = floor (_ammo/_max);
+		private _remainder = _ammo%_max;
+
+		if (_container canAdd [_type, _count] and !(_type in _unlocked)) then {
+			_container addMagazineAmmoCargo [_type, _count, _max];
+			_container addMagazineAmmoCargo [_type, 1, _remainder];
+		} else {
+			(_leftover#1) pushBack [_type, _count, _max, _remainder];
+		};
+	};
+
+	_itemsArray params ["_itemsTypes", "_itemsCounts"];
+	for "_i" from 0 to (count _itemsTypes)-1 do {
+		private _type = _itemsTypes#_i;
+		private _count = _itemsCounts#_i;
+
+		if ((_container canAdd [_type, _count]) and !(_type in _unlocked)) then {
+			_container addItemCargoGlobal [_type, _count];
+		} else {
+			(_leftover#2) pushBack [_type, _count];
+		};
+	};
+
+	_backpacksArray params ["_backpackTypes", "_backpackCounts"];
+	for "_i" from 0 to (count _backpackTypes)-1 do {
+		private _type = (_backpackTypes#_i) call BIS_fnc_basicBackpack;
+		private _count = _backpackCounts#_i;
+
+		if ((_container canAdd [_type, _count]) and !(_type in _unlocked)) then {
+			_container addBackpackCargoGlobal [_type, _count];
+		} else {
+			(_leftover#3) pushBack [_type, _count];
+		};
+	};
+
+	//----------------------------//
+	// deal with leftovers
+	//----------------------------//
+
+	private _allUnlocked = true;
+	if (!(_leftover isEqualTo [[],[],[],[]]) and (isNil "_override")) then {
+		_leftover params ["_weaponsArray", "_magsArray", "_itemsArray", "_backpacksArray"];
+
+		{
+			_x params ["_type", "_count"];
+			if !(_type in _unlocked) then {_allUnlocked = false};
+			_mainContainer addWeaponCargoGlobal [_type, _count];		
+		} forEach _weaponsArray;
+
+		{
+			_x params ["_type", "_count", "_max", "_remainder"];
+			if !(_type in _unlocked) then {_allUnlocked = false};
+			_mainContainer addMagazineAmmoCargo [_type, _count, _max];
+			_mainContainer addMagazineAmmoCargo [_type, 1, _remainder];
+		} forEach _magsArray;
+
+		{
+			_x params ["_type", "_count"];
+			if !(_type in _unlocked) then {_allUnlocked = false};
+			_mainContainer addItemCargoGlobal [_type, _count];		
+		} forEach _itemsArray;
+
+		{
+			_x params ["_type", "_count"];
+			if !(_type in _unlocked) then {_allUnlocked = false};
+			_mainContainer addBackpackCargoGlobal [_type, _count];		
+		} forEach _backpacksArray;
+
+	};
+	[_leftover, _allUnlocked];
 };
-_remaining;
+
+private _subContainers = everyContainer _target;
+for "_i" from 0 to (count _subContainers)-1 do {
+	private _subContainer = _subContainers#_i;
+	[(_subContainer#1), _container] call _transferCargo;
+};
+private _return = [_target, _container] call _transferCargo;
+_return params ["_leftover", "_allUnlocked"];
+
+//----------------------------//
+// Feedback
+//----------------------------//
+
+if (isNil "_override") then {
+	if ((_leftover isEqualTo [[],[],[],[]]) or _allUnlocked) then {
+		["Loot crate", "All loot transfered from container"] call A3A_fnc_customHint;
+	} else {
+		["Loot crate", "Unable to transfer all loot from container"] call A3A_fnc_customHint;
+	};
+	_target setVariable ["Looting", nil, true];
+};
+
+_return;

@@ -195,7 +195,7 @@ class Params
      };
      class LTCLootUnlocked
      {
-          title = "loot unlocked items, Warning if disabled it deletes unlocked equipment";
+          title = "loot unlocked items";
           values[] = {0, 1};
           texts[] = {"Disabled", "Enabled"};
           default = 0;
