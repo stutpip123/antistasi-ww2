@@ -11,6 +11,7 @@ hasIFA = false;
 has3CB = false;
 hasIvory = false;
 hasUNSUNG = false;
+hasTCGM = false;
 
 //Actual Detection
 //IFA Detection
@@ -40,3 +41,6 @@ if (isClass (configfile >> "CfgPatches" >> "ffaa_armas")) then {hasFFAA = true; 
 
 //Ivory Car Pack Detection
 if (isClass (configfile >> "CfgPatches" >> "Ivory_Data")) then {hasIvory = true; diag_log format ["%1: [Antistasi] | INFO | initVar | Ivory Cars Detected.",servertime];};
+
+//TCGM_BikeBackpack Detection
+if (isClass (configfile >> "CfgPatches" >> "TCGM_BikeBackpack")) then {hasTCGM = true; diag_log format ["%1: [Antistasi] | INFO | initVar | TCGM_BikeBackpack Detected.",servertime];};
