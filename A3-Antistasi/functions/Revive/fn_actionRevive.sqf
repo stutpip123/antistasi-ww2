@@ -167,6 +167,7 @@ if (_medicX getVariable ["success",true]) then
 		};
 	_cured setVariable ["incapacitated",false,true];
 	_healed = true;
+	remoteExec ["A3A_fnc_initLootToCrate", _cured]; //re-add loot to crate actions
 	}
 else
 	{
