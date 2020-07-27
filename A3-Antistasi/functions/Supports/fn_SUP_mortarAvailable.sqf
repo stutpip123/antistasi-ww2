@@ -9,10 +9,6 @@ private _playerAdjustment = floor (sqrt (count allPlayers));
 //Search for a timer which allows the support to be fired
 if(_side == Occupants) then
 {
-    if(isNil "occupantsMortarTimer") then
-    {
-        occupantsMortarTimer = [];
-    };
     if(count occupantsMortarTimer < _playerAdjustment) then
     {
         _timerIndex = count occupantsMortarTimer;
@@ -32,10 +28,6 @@ if(_side == Occupants) then
 };
 if(_side == Invaders) then
 {
-    if(isNil "invadersMortarTimer") then
-    {
-        invadersMortarTimer = [];
-    };
     if(count invadersMortarTimer < _playerAdjustment) then
     {
         _timerIndex = count invadersMortarTimer;

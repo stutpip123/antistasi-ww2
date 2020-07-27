@@ -527,6 +527,7 @@ class A3A
         class clearTargetArea {};
         class createSupport {};
         class endSupport {};
+        class initSupportCooldowns {};
         class sendSupport {};
         class showInterceptedSetupCall {};
         class showInterceptedSupportCall {};
