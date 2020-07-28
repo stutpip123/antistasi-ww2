@@ -211,17 +211,6 @@ while {true} do
 					_groupX setVariable ["taskX","Assault"];
 					_taskX = "Assault";
 					}
-				else
-					{
-					if (_numObjectives > 1) then
-						{
-						_mortarX = _groupX getVariable ["mortarsX",objNull];
-						if (!(isNull _mortarX) and ([_mortarX] call A3A_fnc_canFight)) then
-							{
-							if ({if (_x distance _nearX < 100) exitWith {1}} count _allNearFriends == 0) then {[_mortarX,getPosASL _nearX,1] spawn A3A_fnc_mortarSupport};
-							};
-						};
-					};
 				};
 
 			if (_taskX == "Assault") then
@@ -259,11 +248,6 @@ while {true} do
 										} forEach _baseOfFire select {(_x getVariable ["typeOfSoldier",""] == "Normal") and (count (getArray (configfile >> "CfgWeapons" >> primaryWeapon _x >> "muzzles")) == 2)};
 										};
 									};
-								};
-							_mortarX = _groupX getVariable ["mortarsX",objNull];
-							if (!(isNull _mortarX) and ([_mortarX] call A3A_fnc_canFight)) then
-								{
-								if ({if (_x distance _nearX < 100) exitWith {1}} count _allNearFriends == 0) then {[_mortarX,getPosASL _nearX,1] spawn A3A_fnc_mortarSupport};
 								};
 							};
 						};
