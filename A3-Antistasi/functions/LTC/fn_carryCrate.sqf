@@ -9,13 +9,14 @@ if (_pickUp) then {
 	player forceWalk true;
 	[player ,_crate] spawn { 
 		params ["_player", "_crate"];
-		waitUntil {(!alive _crate) or !(_player getVariable ["carryingCrate", false]) or !((vehicle _player) isEqualTo _player)};
+		waitUntil {(!alive _crate) or !(_player getVariable ["carryingCrate", false]) or !((vehicle _player) isEqualTo _player) or !([_player] call A3A_fnc_canFight)};
 		[objNull, false] call A3A_fnc_carryCrate;
 	};
 } else {
 	_attached = (attachedObjects player)select {(typeOf _x) isEqualTo "Box_IND_Wps_F"};
 	_crate = _attached#0;
 	if !(isNil "_crate") then {
+		player setVelocity [0,0,0];
 		detach _crate;
 		_crate setVariable ["pickedUp", nil, true];
 		_crate setVelocity [0,0,0.3];
