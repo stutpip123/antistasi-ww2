@@ -166,15 +166,6 @@ while {true} do
                     {
                         [_groupX, _supportTypes, _nearX] spawn A3A_fnc_callForSupport;
                     };
-                    //Do we really need this mortar groups? If so we should improve them
-					_mortarX = _groupX getVariable ["mortarsX",objNull];
-					if (!(isNull _mortarX) and ([_mortarX] call A3A_fnc_canFight)) then
-					{
-						if ({if (_x distance _nearX < 100) exitWith {1}} count _allNearFriends == 0) then
-                        {
-                            [_mortarX, getPosASL _nearX, 1] spawn A3A_fnc_mortarSupport
-                        };
-					};
 				};
 				_groupX setVariable ["taskX","Hide"];
 				_taskX = "Hide";
