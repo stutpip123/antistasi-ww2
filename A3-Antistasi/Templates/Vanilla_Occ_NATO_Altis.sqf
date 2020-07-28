@@ -85,7 +85,7 @@ NATOSpecOp = ["B_CTRG_Soldier_TL_tna_F","B_CTRG_Soldier_M_tna_F",NATOBodyG,"B_CT
 groupsNATOSquad =
 	[
 	NATOSquad,
-	["B_Soldier_SL_F",NATOGrunt,"B_Soldier_TL_F","B_soldier_AR_F","B_Soldier_A_F","B_support_Mort_F","B_support_AMort_F","B_medic_F"],
+	//["B_Soldier_SL_F",NATOGrunt,"B_Soldier_TL_F","B_soldier_AR_F","B_Soldier_A_F","B_support_Mort_F","B_support_AMort_F","B_medic_F"],
 	["B_Soldier_SL_F",NATOGrunt,"B_Soldier_TL_F","B_soldier_AR_F","B_Soldier_A_F","B_support_MG_F","B_support_AMG_F","B_medic_F"],
 	["B_Soldier_SL_F",NATOGrunt,"B_Soldier_TL_F","B_soldier_AR_F","B_Soldier_A_F","B_soldier_AA_F","B_soldier_AAA_F","B_medic_F"],
 	["B_Soldier_SL_F",NATOGrunt,"B_Soldier_TL_F","B_soldier_AR_F","B_Soldier_A_F","B_soldier_AT_F","B_soldier_AAT_F","B_medic_F"],

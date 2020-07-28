@@ -78,7 +78,7 @@ groupsCSATSquad =
 	[
 	CSATSquad,
 	["O_Soldier_SL_F","O_Soldier_AR_F","O_Soldier_GL_F","O_soldier_M_F","O_Soldier_AT_F","O_Soldier_AAT_F","O_Soldier_A_F","O_medic_F"],
-	["O_Soldier_SL_F","O_Soldier_LAT_F","O_Soldier_TL_F","O_Soldier_AR_F","O_Soldier_A_F","O_support_Mort_F","O_support_AMort_F","O_medic_F"],
+	//["O_Soldier_SL_F","O_Soldier_LAT_F","O_Soldier_TL_F","O_Soldier_AR_F","O_Soldier_A_F","O_support_Mort_F","O_support_AMort_F","O_medic_F"],
 	["O_Soldier_SL_F","O_Soldier_LAT_F","O_Soldier_TL_F","O_Soldier_AR_F","O_Soldier_A_F","O_support_MG_F","O_support_AMG_F","O_medic_F"],
 	["O_Soldier_SL_F","O_Soldier_LAT_F","O_Soldier_TL_F","O_Soldier_AR_F","O_Soldier_A_F","O_Soldier_AA_F","O_Soldier_AAA_F","O_medic_F"],
 	["O_Soldier_SL_F","O_Soldier_LAT_F","O_Soldier_TL_F","O_Soldier_AR_F","O_Soldier_A_F","O_engineer_F","O_engineer_F","O_medic_F"]
