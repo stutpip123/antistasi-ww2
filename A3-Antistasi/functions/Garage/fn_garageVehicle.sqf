@@ -27,7 +27,7 @@ if (_veh isKindOf "Man") exitWith {["Garage", "Are you kidding?"] call A3A_fnc_c
 if ((typeOf _veh) isEqualTo "Box_IND_Wps_F") exitWith {
 	_veh spawn {
 		_transferLoot = [_this] spawn A3A_fnc_empty;
-		waitUntil {scriptDone _transferLoot};
+		sleep 1;
 		if !(_this isEqualTo objNull) then {detach _this; deleteVehicle _this};//if empty fnc_empty will not delete crate
 		[10] call A3A_fnc_resourcesPlayer;
 		call A3A_fnc_Statistics;
