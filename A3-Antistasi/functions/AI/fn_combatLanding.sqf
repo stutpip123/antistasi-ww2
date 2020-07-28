@@ -17,7 +17,7 @@ private _endPos = getPosASL _landingPad;
 private _startPos = getPosASL _helicopter;
 
 private _midPos = +_endPos;
-_midPos set [2, _startPos select 2];
+_midPos set [2, (_endPos select 2) + 100];
 
 private _initialVelocity = (velocity _helicopter);
 _initialVelocity set [2, 0];
