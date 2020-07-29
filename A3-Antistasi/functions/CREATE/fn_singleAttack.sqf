@@ -59,7 +59,7 @@ private _vehicles = [];
 private _groups = [];
 private _landPosBlacklist = [];
 private _aggression = if (_side == Occupants) then {aggressionOccupants} else {aggressionInvaders};
-if (sidesX getVariable [_mrkDestination, sideUnknown] != teamPlayer) then {_aggression = 100 - _aggression};
+if (sidesX getVariable [_markerDestination, sideUnknown] != teamPlayer) then {_aggression = 100 - _aggression};
 private _vehicleCount = if(_side == Occupants) then
 {
     1
