@@ -2,8 +2,9 @@ params ["_container"];
 scopeName "Main";
 
 if (_container getVariable ["Looting", false]) exitWith {["Loot crate", "Cooldown still active"] call A3A_fnc_customHint};
+_nearbyLootContainers = nearestObjects [getposATL _container,["Box_IND_Wps_F"], 20];
+if (_nearbyLootContainers findIf {_x getVariable ["Looting", false]} != -1) exitWith {["Loot crate", "Nearby crate already looting"] call A3A_fnc_customHint};
 _container setVariable ["Looting", true, true];
-_container spawn {sleep 3; _this setVariable ["Looting", nil, true]};
 ["Loot crate", "Looting..."] call A3A_fnc_customHint;
 
 private "_unlocked";
@@ -21,8 +22,10 @@ _weaponHolders = nearestObjects [getposATL _container, ["WeaponHolder","WeaponHo
 //----------------------------//
 _lootBodies = {
 	params ["_unit", "_container"];
+	if (_unit getVariable ["LootingNow",false]) exitWith {};
+	_unit setVariable ["LootingNow", true, true];
+
 	private _gear = [[],[],[],[]];//weapons, mags, items, backpacks
-	
 	//build list of all gear
 	_weapons = [handgunWeapon _unit];
 	_attachments = handgunItems _unit;
@@ -71,38 +74,34 @@ _lootBodies = {
 	removeAllItems _unit;
 
 	//try to add items to container
-	_remaining = _gear;
+	_remaining = [[],[],[],[]];
 	{
 		if ((_container canAdd _x) and !(_x in _unlocked)) then {
 			_container addWeaponCargoGlobal [_x,1];
-			_remaining set [0,(_remaining#0) - [_x]];
-		};
+		} else {(_remaining#0) pushBack _x};
 	} forEach (_gear#0);
 
 	{
 		_x params ["_magType", "_ammoCount"];
 		if ((_container canAdd _magType) and !(_magType in _unlocked)) then {
 			_container addMagazineAmmoCargo [_magType, 1, _ammoCount];
-			_remaining set [1,(_remaining#1) - [_x]];
-		};
+		} else {(_remaining#1) pushBack _x};
 	} forEach (_gear#1);
 
 	{
 		if ((_container canAdd _x) and !(_x in _unlocked)) then {
 			_container addItemCargoGlobal [_x,1];
-			_remaining set [2,(_remaining#2) - [_x]];
-		};
+		} else {(_remaining#2) pushBack _x};
 	} forEach (_gear#2);
 
 	{
 		if ((_container canAdd _x) and !(_x in _unlocked)) then {
 			_container addBackpackCargoGlobal [_x,1];
-			_remaining set [3,(_remaining#3) - [_x]];
-		};
+		} else {(_remaining#3) pushBack _x};
 	} forEach (_gear#3);
 
 	//Deal with leftovers
-	if (_remaining isEqualTo [[],[],[],[]]) exitWith {};
+	if (_remaining isEqualTo [[],[],[],[]]) exitWith {_unit setVariable ["LootingNow", nil, true]};
 	_pos = getPos _unit;
 	_container = "GroundWeaponHolder" createVehicle _pos;
 	{
@@ -121,6 +120,7 @@ _lootBodies = {
 		_container addBackpackCargoGlobal [_x, 1];
 	} forEach (_remaining#3);
 	_container setPos _pos;
+	_unit setVariable ["LootingNow", nil, true];
 };
 
 _targets = _targets select {!alive _x};
