@@ -287,7 +287,7 @@ if(count _easyTargets >= 4) then
     {
         [[_x select 2, _x select 0, "", false],"A3A_fnc_patrolCA"] remoteExec ["A3A_fnc_scheduler",2];
         //[sidesX getVariable (_x select 0), (_x select 2)] call A3A_fnc_markerChange;
-        sleep 30;
+        sleep 180;
     } forEach _attackList;
 }
 else
