@@ -1,4 +1,6 @@
 params ["_unit"];
+if (player getVariable ["BuyCrateCooldown",false]) exitWith {["Loot crate", "You already bought one, wait a few seconds"] call A3A_fnc_customHint};
+player setVariable ["BuyCrateCooldown",true,true];
 _money = player getVariable "moneyX";
 if (_money < 10) exitWith {["Loot crate", "You cant afford a loot crate"] call A3A_fnc_customHint};
 player setVariable ["moneyX", _money -10, true];
@@ -15,3 +17,4 @@ clearWeaponCargoGlobal _crate;
 clearItemCargoGlobal _crate;
 clearBackpackCargoGlobal _crate;
 [_crate] call jn_fnc_logistics_addAction;
+player spawn {sleep 5; _this setVariable ["BuyCrateCooldown",nil,true]}; 
