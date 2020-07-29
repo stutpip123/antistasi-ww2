@@ -14,66 +14,79 @@ params [["_side", sideEnemy]];
 */
 
 private _fileName = "rebelAttack";
-[
-    2,
-    format ["Starting large attack script for side %1", _side],
-    _fileName,
-    true
-] call A3A_fnc_log;
+[2, format ["Starting large attack script for side %1", _side], _fileName, true] call A3A_fnc_log;
 
 if (hasIFA and (sunOrMoon < 1)) exitWith
 {
-    [
-        2,
-        "Aborting attack as IFA has no nightvision (at least thats what I assume)",
-        _fileName,
-        true
-    ] call A3A_fnc_log;
+    [2, "Aborting attack as IFA has no nightvision (at least thats what I assume)", _fileName, true] call A3A_fnc_log;
 };
 
 private _possibleTargets = markersX - controlsX - outpostsFIA - ["Synd_HQ","NATO_carrier","CSAT_carrier"] - destroyedSites;;
-private _possibleStartBases = airportsX select {([_x,false] call A3A_fnc_airportCanAttack) && (sidesX getVariable [_x,sideUnknown] != teamPlayer)};
+private _possibleStartBases = airportsX select {([_x,false] call A3A_fnc_airportCanAttack) && (sidesX getVariable [_x,sideUnknown] == _side)};
 
-if(_side != sideEnemy) then
+if((_side == Occupants) && (gameMode != 4)) then
 {
-    //A specific side should carry out the attack, use only them
-    _possibleStartBases = _possibleStartBases select {(sidesX getVariable [_x,sideUnknown] == _side)};
-    if((_side == Occupants) && (gameMode != 4)) then
-    {
-        _possibleStartBases pushBack "NATO_carrier";
-    };
-    if((_side == Invaders) && (gameMode != 3)) then
-    {
-        _possibleStartBases pushBack "CSAT_carrier";
-    };
-}
-else
+    _possibleStartBases pushBack "NATO_carrier";
+};
+if((_side == Invaders) && (gameMode != 3)) then
 {
-    //No specific side given, use whatever possible
-    if(gameMode != 4) then
-    {
-        _possibleStartBases pushBack "NATO_carrier";
-    };
-    if(gameMode != 3) then
-    {
-        _possibleStartBases pushBack "CSAT_carrier";
-    };
+    _possibleStartBases pushBack "CSAT_carrier";
 };
 
+private _targetSide = sideEnemy;
 //No AI vs AI, possible targets are only bases held by rebels
 if (gameMode != 1) then
 {
-    _possibleTargets = _possibleTargets select
-    {
-        sidesX getVariable [_x,sideUnknown] == teamPlayer
-    };
-};
-
-//For low level attacks only occupants are able to attack only rebels
-if ((tierWar < 2) and (gameMode <= 2)) then
+    _possibleTargets = _possibleTargets select {sidesX getVariable [_x,sideUnknown] == teamPlayer};
+    _targetSide = teamPlayer;
+}
+else
 {
-	_possibleStartBases = _possibleStartBases select {(sidesX getVariable [_x,sideUnknown] == Occupants)};
-	_possibleTargets = _possibleTargets select {sidesX getVariable [_x,sideUnknown] == teamPlayer};
+    //Select the target side and reduce possible targets based on it
+    private _playersHold = 0;
+    private _ownHold = 0;
+    private _enemyAIHold = 0;
+
+    {
+        switch (sidesX getVariable [_x, sideUnknown]) do
+        {
+            case (teamPlayer):
+            {
+                _playersHold = _playersHold + 1;
+            };
+            case (_side):
+            {
+                _ownHold = _ownHold + 1;
+            };
+            default
+            {
+                _enemyAIHold = _enemyAIHold + 1;
+            };
+        };
+    } forEach _possibleTargets;
+
+    private _allTargetsCount = _playersHold + _ownHold + _enemyAIHold;
+
+    _playersHold = _playersHold / _allTargetsCount;
+    _enemyAIHold = _enemyAIHold / _allTargetsCount;
+
+    private _aggression = 0;
+    private _enemySide = sideUnknown;
+
+    if(_side == Occupants) then
+    {
+        _aggression = aggressionOccupants;
+        _enemySide = Invaders;
+    }
+    else
+    {
+        _aggression = aggressionInvaders;
+        _enemySide = Occupants;
+    };
+
+    //Select the side to attack and the remaining targets
+    _targetSide = selectRandomWeighted [teamPlayer, (0.5 * _playersHold) + (0.5 * (_aggression/100)), _enemySide, _enemyAIHold];
+    _possibleTargets = _possibleTargets select {sidesX getVariable [_x,sideUnknown] == _targetSide};
 };
 
 //On low level remove cities from target list
@@ -91,38 +104,16 @@ _possibleTargets = _possibleTargets select {(sidesX getVariable [_x, sideUnknown
 
 if((count _possibleTargets == 0) || (count _possibleStartBases == 0)) exitWith
 {
-    [
-        2,
-        "Attack found no suitable targets or no suitable start bases, aborting!",
-        _fileName
-    ] call A3A_fnc_log;
+    [2, "Attack found no suitable targets or no suitable start bases, aborting!", _fileName, true] call A3A_fnc_log;
 };
 
-[
-    3,
-    format ["%1 possible targets for attack found, possible start points are %2",count _possibleTargets, _possibleStartBases],
-    _fileName,
-    true
-] call A3A_fnc_log;
-
+[3, format ["%1 possible targets for attack found, possible start points are %2", count _possibleTargets, _possibleStartBases], _fileName, true] call A3A_fnc_log;
 
 private _easyTargets = [];
 private _availableTargets = [];
-
 {
     private _startAirport = _x;
     private _airportSide = sidesX getVariable [_startAirport, sideUnknown];
-    private _airportTargets = [];
-
-    //Find suitable targets for this airport
-    if(_side == sideEnemy) then
-    {
-        _airportTargets = _possibleTargets select {sidesX getVariable [_x, sideUnknown] != _airportSide};
-    }
-    else
-    {
-        _airportTargets = _possibleTargets select {sidesX getVariable [_x, sideUnknown] != _side};
-    };
 
     //Gather position and killzones of airport
     private _killZones = killZones getVariable [_startAirport, []];
@@ -173,16 +164,12 @@ private _availableTargets = [];
                 (_targetArray select 1) pushBack [_startAirport, _distance];
             };
         };
-    } forEach _airportTargets;
+    } forEach _possibleTargets;
 } forEach _possibleStartBases;
 
 if (count _availableTargets == 0) exitWith
 {
-    [
-        2,
-        "Attack could not find available targets, aborting!",
-        _fileName
-    ] call A3A_fnc_log;
+    [2, "Attack could not find available targets, aborting!", _fileName, true] call A3A_fnc_log;
 };
 
 [3, "Logging available targets for attack", _fileName] call A3A_fnc_log;
@@ -196,7 +183,6 @@ if (count _availableTargets == 0) exitWith
     private _targetMultiplier = 1;
     //Additional points based on marker specific traits
     private _targetPoints = 0;
-    private _targetSide = sidesX getVariable [_target, sideUnknown];
 
     //Selecting a multiplier based on target type (lowest is best)
     switch (true) do
@@ -232,7 +218,7 @@ if (count _availableTargets == 0) exitWith
     private _nearbyStatics = staticsToSave select {(_x distance2D (getMarkerPos _target)) < distanceSPWN};
     _targetPoints = _targetPoints + (50 * (count _garrison) + (200 * (count _nearbyStatics)));
 
-    if((_targetSide == teamPlayer) && {(count _garrison <= 8) && {(count _nearbyStatics <= 2) && {!(_target in citiesX)}}}) then
+    if((count _garrison <= 8) && {(count _nearbyStatics <= 2) && {!(_target in citiesX)}}) then
     {
         //Only minimal garrison, consider it an easy target
         [3, format ["%1 has only minimal garrison, considering easy target", _target], _fileName] call A3A_fnc_log;
@@ -240,9 +226,7 @@ if (count _availableTargets == 0) exitWith
     };
 
     //Apply the new points to the base array
-    {
-        _baseArray = _baseArray apply {[_x select 0, ((_x select 1) + _targetPoints) * _targetMultiplier]};
-    } forEach _baseArray;
+    _baseArray = _baseArray apply {[_x select 0, ((_x select 1) + _targetPoints) * _targetMultiplier]};
 } forEach _availableTargets;
 
 [3, "Logging final target values for attack", _fileName] call A3A_fnc_log;
@@ -303,7 +287,7 @@ if(count _easyTargets >= 4) then
     {
         [[_x select 2, _x select 0, false],"A3A_fnc_singleAttack"] remoteExec ["A3A_fnc_scheduler",2];
         //[sidesX getVariable (_x select 0), (_x select 2)] call A3A_fnc_markerChange;
-        sleep 40;
+        sleep 180;
     } forEach _attackList;
 }
 else
@@ -376,7 +360,7 @@ else
     _finalTarget params ["_attackOrigin", "_attackPoints", "_attackTarget"];
 
     //Maybe have aggro play a role here?
-    //Select the number of ways based on the points as higher points mean higher difficulty
+    //Select the number of waves based on the points as higher points mean higher difficulty
     private _waves =
 		_attackPoints / 2500
 		+ ([0, 1] select (_attackTarget in airportsX))

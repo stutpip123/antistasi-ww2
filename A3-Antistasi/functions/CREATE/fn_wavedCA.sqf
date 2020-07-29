@@ -65,7 +65,7 @@ _nameDest = [_mrkDestination] call A3A_fnc_localizar;
 
 // Use fixed aggro value for non-rebel targets for the moment
 private _aggro = if (_sideX == Occupants) then {aggressionOccupants} else {aggressionInvaders};
-if !(_isSDK) then { _aggro = 60 };
+if !(_isSDK) then {_aggro = 100 - _aggro;};
 
 _timeX = time + 3600;
 
