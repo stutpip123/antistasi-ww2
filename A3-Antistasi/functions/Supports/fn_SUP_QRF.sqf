@@ -58,12 +58,12 @@ private _groups = [];
 private _landPosBlacklist = [];
 private _vehicleCount = if(_side == Occupants) then
 {
-    (aggressionOccupants/16)
+    (aggressionOccupants/25)
     + ([-0.5, 0, 0.5] select (skillMult - 1))
 }
 else
 {
-    (aggressionInvaders/16)
+    (aggressionInvaders/25)
     + ([0, 0.5, 1.5] select (skillMult - 1))
 };
 _vehicleCount = (round (_vehicleCount)) max 1;
