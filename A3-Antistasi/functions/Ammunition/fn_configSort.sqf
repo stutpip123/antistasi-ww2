@@ -111,11 +111,20 @@ private _nameX = "";
     };
 } forEach _allConfigs;
 
-
+if(_sideSortingActive) then
 {
-    private _arrayNames = _x;
     {
-        [_x, weaponCategories select _forEachIndex] call A3A_fnc_sortWeaponArrays;
-        [3, format ["Sorted %1 to %2", _x, (missionNamespace getVariable _x) apply {getText (configFile >> "CfgWeapons" >> _x >> "displayName")}], _fileName] call A3A_fnc_log;
-    } forEach _arrayNames;
-} forEach [rebelWeaponsArrayNames, occupantWeaponsArrayNames, invaderWeaponsArrayNames];
+        private _arrayNames = _x;
+        {
+            [_x, weaponCategories select _forEachIndex] call A3A_fnc_sortWeaponArrays;
+            [3, format ["Sorted %1 to %2", _x, (missionNamespace getVariable _x) apply {getText (configFile >> "CfgWeapons" >> _x >> "displayName")}], _fileName] call A3A_fnc_log;
+        } forEach _arrayNames;
+    } forEach [rebelWeaponsArrayNames, occupantWeaponsArrayNames, invaderWeaponsArrayNames];
+    weaponsSortedBySide = true;
+    publicVariable "weaponsSortedBySide";
+}
+else
+{
+    weaponsSortedBySide = false;
+    publicVariable "weaponsSortedBySide";
+};
