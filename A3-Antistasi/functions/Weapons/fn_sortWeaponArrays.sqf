@@ -21,8 +21,6 @@ params
 private _fileName = "sortWeaponArrays";
 private _weaponsData = [];
 
-
-
 {
     private _weaponName = _x;
 
