@@ -17,7 +17,7 @@ specialVarLoads = [
 	"garrison","tasks","smallCAmrk","membersX","vehInGarage","destroyedBuildings","idlebases",
 	"idleassets","chopForest","weather","killZones","jna_dataList","controlsSDK","mrkCSAT","nextTick",
 	"bombRuns","difficultyX","gameMode","wurzelGarrison","aggressionOccupants", "aggressionInvaders",
-    "countCA", "attackCountdownInvaders"
+    "countCA", "attackCountdownInvaders", "testingTimerIsActive"
 ];
 
 _varName = _this select 0;
@@ -306,6 +306,14 @@ if (_varName in specialVarLoads) then {
 			};
 		} forEach _varvalue;
 	};
+    if(_varname == 'testingTimerIsActive') then
+    {
+        if(_varValue) then
+        {
+            [] spawn A3A_fnc_startTestingTimer;
+        };
+        testingTimerIsActive = _varValue;
+    };
 } else {
 	call compile format ["%1 = %2",_varName,_varValue];
 };

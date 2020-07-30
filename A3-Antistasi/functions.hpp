@@ -106,6 +106,7 @@ class A3A
 		class sizeMarker {};
 		class splitVehicleCrewIntoOwnGroups {};
 		class startBreachVehicle {};
+        class startTestingTimer {};
 		class statistics {};
 		class stripGearFromLoadout {};
 		class teleportVehicleToBase {};
