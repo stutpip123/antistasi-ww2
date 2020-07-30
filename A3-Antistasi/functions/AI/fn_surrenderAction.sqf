@@ -52,6 +52,7 @@ clearMagazineCargoGlobal _boxX;
 clearWeaponCargoGlobal _boxX;
 clearItemCargoGlobal _boxX;
 clearBackpackCargoGlobal _boxX;
+[_boxX] call jn_fnc_logistics_addAction;
 
 // move all unit's equipment except uniform into the surrender crate
 private _loadout = getUnitLoadout _unit;
