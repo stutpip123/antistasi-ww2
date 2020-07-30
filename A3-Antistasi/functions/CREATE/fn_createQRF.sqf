@@ -149,8 +149,6 @@ if (_landAttack) then
 				_groupVeh spawn A3A_fnc_attackDrillAI;
 				//_groups pushBack _groupX;
 				[_source,_landPos,_groupVeh] call A3A_fnc_WPCreate;
-				_Vwp0 = (wayPoints _groupVeh) select 0;
-				_Vwp0 setWaypointBehaviour "SAFE";
 				_Vwp0 = _groupVeh addWaypoint [_landPos,count (wayPoints _groupVeh)];
 				_Vwp0 setWaypointType "TR UNLOAD";
 				//_Vwp0 setWaypointStatements ["true", "(group this) spawn A3A_fnc_attackDrillAI"];
@@ -169,8 +167,6 @@ if (_landAttack) then
 				_groupVeh spawn A3A_fnc_attackDrillAI;
 				if (count units _groupVeh > 1) then {_groupVeh selectLeader (units _groupVeh select 1)};
 				[_source,_landPos,_groupVeh] call A3A_fnc_WPCreate;
-				_Vwp0 = (wayPoints _groupVeh) select 0;
-				_Vwp0 setWaypointBehaviour "SAFE";
 				/*
 				_Vwp0 = (wayPoints _groupVeh) select ((count wayPoints _groupVeh) - 1);
 				_Vwp0 setWaypointType "GETOUT";
@@ -205,8 +201,6 @@ if (_landAttack) then
 		{
 			{_x disableAI "MINEDETECTION"} forEach (units _groupVeh);
 			[_source,_posDest,_groupVeh] call A3A_fnc_WPCreate;
-			_Vwp0 = (wayPoints _groupVeh) select 0;
-			_Vwp0 setWaypointBehaviour "SAFE";
 			_Vwp0 = _groupVeh addWaypoint [_posDest, count (waypoints _groupVeh)];
 			[_veh,"Tank"] spawn A3A_fnc_inmuneConvoy;
 			_Vwp0 setWaypointType "SAD";
@@ -462,6 +456,6 @@ else
 
 
 // After a delay, remove the fencing mark
-sleep (60 * (20 - (tierWar + difficultyCoef))) max 0;		// 10-20 min delay. Maybe uisleep?
+sleep (60 * (30 - (tierWar + difficultyCoef))) max 0;		// 20-30 min delay. Maybe uisleep?
 [_target, "remove"] remoteExecCall ["A3A_fnc_updateCAMark", 2];
 

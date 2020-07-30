@@ -4,10 +4,10 @@
 */
 
 //Map checker
-aridmaps = ["Altis","Kunduz","Malden","tem_anizay","Tembelan"];
+aridmaps = ["Altis","Kunduz","Malden","tem_anizay"];
 tropicalmaps = ["Tanoa"];
-temperatemaps = ["Enoch","chernarus_summer","vt7"];
-arcticmaps = ["chernarus_winter"];
+temperatemaps = ["Enoch","chernarus_summer","vt7","Tembelan"];
+arcticmaps = ["Chernarus_Winter"];
 //Mod selector
 
 if(teamplayer != independent) then {//This section is for Altis Blufor ONLY!
@@ -37,22 +37,22 @@ if(teamplayer != independent) then {//This section is for Altis Blufor ONLY!
       switch(true) do {
         case (worldName in arcticmaps): {
           call compile preProcessFileLineNumbers "Templates\3CB_Reb_CNM_Temp.sqf";
-          call compile preProcessFileLineNumbers "Templates\BAF_Occ_BAF_Temp.sqf";
-          call compile preProcessFileLineNumbers "Templates\3CB_Inv_UKN_Temp.sqf";
+          call compile preProcessFileLineNumbers "Templates\3CB_Occ_BAF_Temp.sqf";
+          call compile preProcessFileLineNumbers "Templates\3CB_Inv_SOV_Temp.sqf";
         };
         case (worldName in temperatemaps): {
           call compile preProcessFileLineNumbers "Templates\3CB_Reb_CNM_Temp.sqf";
-          call compile preProcessFileLineNumbers "Templates\BAF_Occ_BAF_Temp.sqf";
-          call compile preProcessFileLineNumbers "Templates\3CB_Inv_UKN_Temp.sqf";
+          call compile preProcessFileLineNumbers "Templates\3CB_Occ_BAF_Temp.sqf";
+          call compile preProcessFileLineNumbers "Templates\3CB_Inv_SOV_Temp.sqf";
         };
         case (worldName in tropicalmaps): {
           call compile preProcessFileLineNumbers "Templates\3CB_Reb_CNM_Trop.sqf";
-          call compile preProcessFileLineNumbers "Templates\BAF_Occ_BAF_Trop.sqf";
-          call compile preProcessFileLineNumbers "Templates\3CB_Inv_UKN_Trop.sqf";
+          call compile preProcessFileLineNumbers "Templates\3CB_Occ_BAF_Trop.sqf";
+          call compile preProcessFileLineNumbers "Templates\3CB_Inv_SOV_Temp.sqf";
         };
         default {
           call compile preProcessFileLineNumbers "Templates\3CB_Reb_TTF_Arid.sqf";
-          call compile preProcessFileLineNumbers "Templates\BAF_Occ_BAF_Arid.sqf";
+          call compile preProcessFileLineNumbers "Templates\3CB_Occ_BAF_Arid.sqf";
           call compile preProcessFileLineNumbers "Templates\3CB_Inv_TKM_Arid.sqf";
         };
       };

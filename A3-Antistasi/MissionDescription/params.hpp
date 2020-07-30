@@ -91,8 +91,8 @@ class Params
      class civTraffic
      {
           title = "Rate of Civ Traffic";
-          values[] = {0,1,2,3,4,6,8};
-          texts[] = {"None","Very low","Low","Medium","High","Very high","JAM"};
+          values[] = {0,1,2,4,};
+          texts[] = {"None","Low","Medium","High"};
           default = 2;
      };
      class memberSlots
@@ -115,6 +115,13 @@ class Params
           texts[] = {"Yes", "No"};
           values[] = {1,0};
           default = 1;
+     };
+     class personalGarageMax
+     {
+          title = "Max personal garage slots";
+          texts[] = {"Unlimited", "2", "5", "10"};
+          values[] = {0,2,5,10};
+          default = 2;
      };
      class allowFT
      {
