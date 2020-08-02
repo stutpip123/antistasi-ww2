@@ -1,4 +1,4 @@
-params ["_supportName", "_side"];
+params ["_supportName", "_side", ["_timeTillExecution", 0]];
 
 /*  Removes the data of the support from the arrays
 
@@ -13,6 +13,11 @@ params ["_supportName", "_side"];
     Returns:
         Nothing
 */
+
+if(_timeTillExecution != 0) then
+{
+    sleep (_timeTillExecution * 60);
+};
 
 server setVariable [format ["%1_targets", _supportName], nil, true];
 
