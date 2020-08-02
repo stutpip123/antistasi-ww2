@@ -52,7 +52,7 @@ private _dir = markerDir (format ["%1_coverage", _supportName]);
 //Have a preBomb position to ensure nearly perfect flight path
 private _preBombPosition = _targetPos getPos [750, _dir + 180];
 _preBombPosition set [2, 150];
-private _startBombPosition = _targetPos getPos [300, _dir + 180];
+private _startBombPosition = _targetPos getPos [100, _dir + 180];
 _startBombPosition set [2, 150];
 private _endBombPosition = _targetPos getPos [100, _dir];
 _endBombPosition set [2, 150];
@@ -86,12 +86,17 @@ _wp1 setWaypointStatements ["true", "group this setCurrentWaypoint [(group this)
 private _wp2 = _strikeGroup addWaypoint [_startBombPosition, 1];
 _wp2 setWaypointType "MOVE";
 _wp2 setWaypointSpeed _flightSpeed;
-_wp2 setWaypointCompletionRadius 10;
-_wp2 setWaypointStatements ["true", "(this getVariable 'bombParams') spawn A3A_fnc_airbomb"];
+
+[_startBombPosition, driver _strikePlane] spawn
+{
+    params ["_pos", "_pilot"];
+    waitUntil {sleep 0.1; ((_pos distance2D _pilot) < 250) || {isNull (objectParent _pilot)}};
+    if(isNull (objectParent _pilot)) exitWith {};
+    (_pilot getVariable 'bombParams') spawn A3A_fnc_airbomb;
+};
 
 private _wp3 = _strikeGroup addWaypoint [_endBombPosition, 2];
 _wp3 setWaypointType "MOVE";
-_wp3 setWaypointCompletionRadius 50;
 _wp3 setWaypointSpeed _flightSpeed;
 
 private _wp4 = _strikeGroup addWaypoint [_airportPos, 3];

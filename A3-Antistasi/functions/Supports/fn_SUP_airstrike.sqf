@@ -120,7 +120,7 @@ else
     _strikePlane setDir _dir;
 
     //Put it in the sky
-    _strikePlane setPosATL (_spawnPos vectorAdd [0, 0, 1000]);
+    _strikePlane setPosATL (_spawnPos vectorAdd [0, 0, 500]);
 
     //Hide the hovering airplane from players view
     _strikePlane hideObjectGlobal true;
