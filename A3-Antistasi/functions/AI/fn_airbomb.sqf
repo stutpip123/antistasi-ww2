@@ -1,3 +1,5 @@
+#define OFFSET      250
+
 if (not isServer and hasInterface) exitWith {};
 
 /*  Creates the bombs for airstrikes, should be started 150 meters before the actual bomb run
@@ -8,20 +10,27 @@ params ["_pilot", "_bombType", "_bombCount", "_bombRunLength"];
 private _filename = "fn_airbomb";
 [3, format ["Executing on: %1", clientOwner], _filename] call A3A_fnc_log;
 
+//Ensure reasonable bomb run lenght
+if(_bombRunLength < 100) then {_bombRunLength = 100};
+
 private _ammo = "";
+private _bombOffset = 0;
 switch (_bombType) do
 {
     case ("HE"):
     {
         _ammo = "Bo_Mk82";
+        _bombOffset = 180;
     };
 	case ("CLUSTER"):
     {
         _ammo = "BombCluster_03_Ammo_F";
+        _bombOffset = 10;
 	};
 	case ("NAPALM"):
     {
 		_ammo = "ammo_Bomb_SDB";
+        _bombOffset = 170;
 	};
 	default
     {
@@ -33,8 +42,24 @@ if(_ammo == "") exitWith {};
 
 private _speedInMeters = (speed _pilot) / 3.6;
 private _metersPerBomb = _bombRunLength / _bombCount;
-private _timeBetweenBombs = _metersPerBomb / _speedInMeters;
+//Decrease it a bit, to avoid scheduling erros
+private _timeBetweenBombs = (_metersPerBomb / _speedInMeters) - 0.05;
 
+[3, format ["Speed is %1, Meters between bomb %2, Time %3", _speedInMeters, _metersPerBomb, _timeBetweenBombs], _fileName] call A3A_fnc_log;
+[3, format ["Bomb run length is %1", _bombRunLength], _fileName] call A3A_fnc_log;
+
+private _pilotPos = getPos _pilot;
+private _pilotDir = getDir _pilot;
+"Sign_Arrow_Blue_F" createVehicle (_pilotPos getPos [OFFSET, _pilotDir]);
+"Sign_Arrow_Blue_F" createVehicle (_pilotPos getPos [_bombRunLength + OFFSET, _pilotDir]);
+for "_i" from 0 to 3 do
+{
+    private _landPos = _pilotPos getPos [((_i + 0.5) * _metersPerBomb) + OFFSET, _pilotDir];
+    [3, format ["Distance is %1", ((_i + 0.5) * _metersPerBomb) + OFFSET], _fileName] call A3A_fnc_log;
+    "Sign_Arrow_F" createVehicle _landPos;
+};
+
+sleep ((_timeBetweenBombs/2) + _bombOffset/_speedInMeters);
 for "_i" from 1 to _bombCount do
 {
 	sleep _timeBetweenBombs;
