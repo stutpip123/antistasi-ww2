@@ -45,21 +45,7 @@ private _metersPerBomb = _bombRunLength / _bombCount;
 //Decrease it a bit, to avoid scheduling erros
 private _timeBetweenBombs = (_metersPerBomb / _speedInMeters) - 0.05;
 
-[3, format ["Speed is %1, Meters between bomb %2, Time %3", _speedInMeters, _metersPerBomb, _timeBetweenBombs], _fileName] call A3A_fnc_log;
-[3, format ["Bomb run length is %1", _bombRunLength], _fileName] call A3A_fnc_log;
-
-private _pilotPos = getPos _pilot;
-private _pilotDir = getDir _pilot;
-"Sign_Arrow_Blue_F" createVehicle (_pilotPos getPos [OFFSET, _pilotDir]);
-"Sign_Arrow_Blue_F" createVehicle (_pilotPos getPos [_bombRunLength + OFFSET, _pilotDir]);
-for "_i" from 0 to 3 do
-{
-    private _landPos = _pilotPos getPos [((_i + 0.5) * _metersPerBomb) + OFFSET, _pilotDir];
-    [3, format ["Distance is %1", ((_i + 0.5) * _metersPerBomb) + OFFSET], _fileName] call A3A_fnc_log;
-    "Sign_Arrow_F" createVehicle _landPos;
-};
-
-sleep ((_timeBetweenBombs/2) + _bombOffset/_speedInMeters);
+sleep ((_timeBetweenBombs/2) + (_bombOffset/_speedInMeters));
 for "_i" from 1 to _bombCount do
 {
 	sleep _timeBetweenBombs;
