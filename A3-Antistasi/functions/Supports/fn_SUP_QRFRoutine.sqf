@@ -94,4 +94,4 @@ while {true} do
     [_x] spawn A3A_fnc_groupDespawner;
 } forEach _groups;
 
-[_supportName, _side] call A3A_fnc_endSupport;
+[_supportName, _side, 5] spawn A3A_fnc_endSupport;

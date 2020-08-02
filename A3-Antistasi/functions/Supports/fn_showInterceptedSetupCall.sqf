@@ -1,4 +1,10 @@
-params ["_reveal", "_side", "_supportType", "_position"];
+params
+[
+    ["_reveal", 0, [0]],
+    ["_side", sideEnemy, [sideEnemy]],
+    ["_supportType", "", [""]],
+    ["_position", [], [[]]
+];
 
 /*  Shows the intercepted radio setup message to the players
 

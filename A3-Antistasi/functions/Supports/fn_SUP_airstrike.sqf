@@ -120,7 +120,7 @@ else
     _strikePlane setDir _dir;
 
     //Put it in the sky
-    _strikePlane setPosATL (_spawnPos vectorAdd [0, 0, 1000]);
+    _strikePlane setPosATL (_spawnPos vectorAdd [0, 0, 500]);
 
     //Hide the hovering airplane from players view
     _strikePlane hideObjectGlobal true;
@@ -154,6 +154,7 @@ _timerArray set [_timerIndex, time + 1200];
 _strikePlane setVariable ["TimerArray", _timerArray, true];
 _strikePlane setVariable ["TimerIndex", _timerIndex, true];
 _strikePlane setVariable ["supportName", _supportName, true];
+_strikePlane setVariable ["side", _side, true];
 
 //Setting up the EH for support destruction
 _strikePlane addEventHandler
@@ -166,6 +167,7 @@ _strikePlane addEventHandler
         private _timerArray = _strikePlane getVariable "TimerArray";
         private _timerIndex = _strikePlane getVariable "TimerIndex";
         _timerArray set [_timerIndex, (_timerArray select _timerIndex) + 2400];
+        [_strikePlane getVariable "supportName", _strikePlane getVariable "side"] spawn A3A_fnc_endSupport;
         [_strikePlane] spawn A3A_fnc_postMortem;
     }
 ];
@@ -185,6 +187,7 @@ _strikePlane addEventHandler
             private _timerArray = _vehicle getVariable "TimerArray";
             private _timerIndex = _vehicle getVariable "TimerIndex";
             _timerArray set [_timerIndex, (_timerArray select _timerIndex) + 2400];
+            [_vehicle getVariable "supportName", _vehicle getVariable "side"] spawn A3A_fnc_endSupport;
         };
     }
 ];

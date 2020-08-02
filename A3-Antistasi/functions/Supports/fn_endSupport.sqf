@@ -1,4 +1,9 @@
-params ["_supportName", "_side"];
+params
+[
+    ["_supportName", "", [""]],
+    ["_side", sideEnemy, [sideEnemy]],
+    ["_timeTillExecution", 0, [0]]
+];
 
 /*  Removes the data of the support from the arrays
 
@@ -13,6 +18,16 @@ params ["_supportName", "_side"];
     Returns:
         Nothing
 */
+
+if(_supportName == "" || _side == sideEnemy) exitWith
+{
+    [1, format ["Bad input, was %1", _this], "endSupport"] call A3A_fnc_log;
+};
+
+if(_timeTillExecution != 0) then
+{
+    sleep (_timeTillExecution * 60);
+};
 
 server setVariable [format ["%1_targets", _supportName], nil, true];
 
