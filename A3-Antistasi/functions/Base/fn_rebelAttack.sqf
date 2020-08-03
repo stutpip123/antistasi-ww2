@@ -301,8 +301,36 @@ if(count _easyTargets >= 4) then
 
     //Execute the attacks from the given bases to the targets
     {
-        [[_x select 2, _x select 0, "", false],"A3A_fnc_patrolCA"] remoteExec ["A3A_fnc_scheduler",2];
-        //[sidesX getVariable (_x select 0), (_x select 2)] call A3A_fnc_markerChange;
+        private _target = _x select 2;
+        private _nearPlayers = allPlayers findIf {(getMarkerPos (_target) distance2D _x) < 1500};
+        if((_nearPlayers != -1) || ((spawner getVariable _target) != 2) || (sidesX getVariable _target == teamPlayer)) then
+        {
+            [[_target, _x select 0, "", false],"A3A_fnc_patrolCA"] remoteExec ["A3A_fnc_scheduler",2];
+        }
+        else
+        {
+            private _side = sidesX getVariable (_x select 0);
+            [_side, _target] spawn A3A_fnc_markerChange;
+            [_side, _target] spawn
+            {
+                params ["_side", "_target"];
+                sleep 10;
+                private _squads = round (random 5);
+                private _soldiers = [];
+                for "_i" from 0 to _squads do
+                {
+                    if (_side == Occupants) then
+                    {
+                        _soldiers append (selectRandom (groupsNATOSquad + groupsNATOmid));
+                    }
+                    else
+                    {
+                        _soldiers append (selectRandom (groupsCSATSquad + groupsCSATmid));
+                    };
+                };
+                [_soldiers,_side,_target,0] remoteExec ["A3A_fnc_garrisonUpdate",2];
+            };
+        };
         sleep 30;
     } forEach _attackList;
 }
