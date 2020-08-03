@@ -28,6 +28,8 @@ private _targetList = server getVariable [format ["%1_targets", _supportObject],
 if((_targetParams select 0) isEqualType []) then
 {
     private _targetPos = _targetParams select 0;
+    [3, format ["Target pos is %1", _targetPos], _fileName] call A3A_fnc_log;
+    [_targetList, "Target list"] call A3A_fnc_logArray;
     private _index = _targetList findIf {((_x select 0) distance2D _targetPos) < 25};
     if(_index == -1) then
     {
