@@ -94,4 +94,6 @@ while {true} do
     [_x] spawn A3A_fnc_groupDespawner;
 } forEach _groups;
 
-[_supportName, _side, 5] spawn A3A_fnc_endSupport;
+private _waitTime = 3 - (tierWar - 1);
+if(_waitTime < 0) then {_waitTime = 0};
+[_supportName, _side, _waitTime] spawn A3A_fnc_endSupport;
