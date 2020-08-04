@@ -18,7 +18,7 @@ _nameDestination = [_attackDestination] call A3A_fnc_localizar;
 [[teamPlayer,civilian,Occupants],"invaderPunish",[format ["%2 is attacking innocent civilians in %1! Defend the city at all costs",_nameDestination,nameInvaders],format ["%1 Punishment",nameInvaders],_attackDestination],getMarkerPos _attackDestination,false,0,true,"Defend",true] call BIS_fnc_taskCreate;
 
 private _reveal = [_posDestination, Invaders] call A3A_fnc_calculateSupportCallReveal;
-[_posDestination, 4, ["MORTAR"], Invaders, _reveal] spawn A3A_fnc_sendSupport;
+[_posDestination, 4, ["MORTAR"], Invaders, _reveal] remoteExec ["A3A_fnc_sendSupport", 2];
 private _sideTarget = if (sidesX getVariable [_attackDestination,sideUnknown] == Occupants) then {Occupants} else {teamPlayer};
 _missionExpireTime = time + 3600;
 
@@ -106,7 +106,7 @@ _numCiv = round (_numCiv /10);
 if (sidesX getVariable [_attackDestination,sideUnknown] == Occupants) then
 {
     private _reveal = [_posDestination, Invaders] call A3A_fnc_calculateSupportCallReveal;
-    [_posDestination, 4, ["QRF"], Invaders, _reveal] spawn A3A_fnc_sendSupport;
+    [_posDestination, 4, ["QRF"], Invaders, _reveal] remoteExec ["A3A_fnc_sendSupport", 2];
 };
 if (_numCiv < 8) then {_numCiv = 8};
 
@@ -143,7 +143,7 @@ if (tierWar >= 5) then {
 	for "_i" from 0 to round random 1 do {
 		if ([vehCSATPlane] call A3A_fnc_vehAvailable) then {
             private _reveal = [_posDestination, Invaders] call A3A_fnc_calculateSupportCallReveal;
-            [_posDestination, 4, ["AIRSTRIKE"], Invaders, _reveal] spawn A3A_fnc_sendSupport;
+            [_posDestination, 4, ["AIRSTRIKE"], Invaders, _reveal] remoteExec ["A3A_fnc_sendSupport", 2];
 			sleep 30;
 		};
 	};

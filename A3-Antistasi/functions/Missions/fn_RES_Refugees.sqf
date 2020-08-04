@@ -78,7 +78,7 @@ if (_sideX == Invaders) then
 		if (["RES"] call BIS_fnc_taskExists) then
 		{
             private _reveal = [_positionX , Invaders] call A3A_fnc_calculateSupportCallReveal;
-            [getPos _house, 4, ["QRF"], Invaders, _reveal] spawn A3A_fnc_sendSupport;
+            [getPos _house, 4, ["QRF"], Invaders, _reveal] remoteExec ["A3A_fnc_sendSupport", 2];
 		};
 	};
 }
