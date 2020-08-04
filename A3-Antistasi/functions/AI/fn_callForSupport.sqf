@@ -57,7 +57,7 @@ if([_groupLeader] call A3A_fnc_canFight) then
     private _revealed = [getPos _groupLeader, side _group] call A3A_fnc_calculateSupportCallReveal;
     //Starting the support
     [3, format ["%1 managed to call help against %2, reveal value is %3", _group, _target, _revealed], _fileName] call A3A_fnc_log;
-    [_target, _group knowsAbout _target, _supportTypes, side _group, _revealed] spawn A3A_fnc_sendSupport;
+    [_target, _group knowsAbout _target, _supportTypes, side _group, _revealed] remoteExec ["A3A_fnc_sendSupport", 2];
 }
 else
 {

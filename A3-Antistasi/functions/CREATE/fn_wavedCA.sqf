@@ -640,7 +640,7 @@ while {(_waves > 0)} do
 		if (((not(_mrkDestination in outposts)) and (not(_mrkDestination in seaports)) and (_mrkOrigin != "NATO_carrier")) or hasIFA) then
 			{
             private _reveal = [getMarkerPos _mrkDestination, _sideX] call A3A_fnc_calculateSupportCallReveal;
-            [getMarkerPos _mrkDestination, 4, ["MORTAR"], _sideX, _reveal] spawn A3A_fnc_sendSupport;
+            [getMarkerPos _mrkDestination, 4, ["MORTAR"], _sideX, _reveal] remoteExec ["A3A_fnc_sendSupport", 2];
 			if (([_plane] call A3A_fnc_vehAvailable) and (not(_mrkDestination in citiesX)) and _firstWave) then
 				{
 				sleep 60;
@@ -648,7 +648,7 @@ while {(_waves > 0)} do
 				for "_i" from 0 to _rnd do
 					{
                         private _reveal = [getMarkerPos _mrkDestination, _sideX] call A3A_fnc_calculateSupportCallReveal;
-                        [getMarkerPos _mrkDestination, 4, ["AIRSTRIKE"], _sideX, _reveal] spawn A3A_fnc_sendSupport;
+                        [getMarkerPos _mrkDestination, 4, ["AIRSTRIKE"], _sideX, _reveal] remoteExec ["A3A_fnc_sendSupport", 2];
                         sleep 30;
 					};
 				};
@@ -659,7 +659,7 @@ while {(_waves > 0)} do
 		if (((not(_mrkDestination in resourcesX)) and (not(_mrkDestination in seaports)) and (_mrkOrigin != "CSAT_carrier")) or hasIFA) then
 			{
                 private _reveal = [getMarkerPos _mrkDestination, _sideX] call A3A_fnc_calculateSupportCallReveal;
-                    [getMarkerPos _mrkDestination, 4, ["MORTAR"], _sideX, _reveal] spawn A3A_fnc_sendSupport;
+                    [getMarkerPos _mrkDestination, 4, ["MORTAR"], _sideX, _reveal] remoteExec ["A3A_fnc_sendSupport", 2];
 			if (([_plane] call A3A_fnc_vehAvailable) and (_firstWave)) then
 				{
 				sleep 60;
@@ -669,7 +669,7 @@ while {(_waves > 0)} do
 					if ([_plane] call A3A_fnc_vehAvailable) then
 						{
                             private _reveal = [getMarkerPos _mrkDestination, _sideX] call A3A_fnc_calculateSupportCallReveal;
-                            [getMarkerPos _mrkDestination, 4, ["AIRSTRIKE"], _sideX, _reveal] spawn A3A_fnc_sendSupport;
+                            [getMarkerPos _mrkDestination, 4, ["AIRSTRIKE"], _sideX, _reveal] remoteExec ["A3A_fnc_sendSupport", 2];
 						};
 					};
 				};
