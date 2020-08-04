@@ -4,7 +4,7 @@ if(tierWar < 3) exitWith {-1};
 
 //Select a timer index and the max number of timers available
 private _timerIndex = -1;
-private _playerAdjustment = ceil (sqrt (count allPlayers));
+private _playerAdjustment = (ceil (sqrt (count allPlayers))) + 1;
 
 //Search for a timer which allows the support to be fired
 if(_side == Occupants) then
