@@ -145,7 +145,7 @@ switch (true) do
             };
         };
     };
-    case (_vehicle isKindOf "Helicopter" && {!(typeof _vehicle) in vehTransportAir}):
+    case (_vehicle isKindOf "Helicopter" && {!((typeof _vehicle) in vehTransportAir)}):
     {
         //Attack helicopter
         private _vehWP0 = _crewGroup addWaypoint [_posDestination, 0];
