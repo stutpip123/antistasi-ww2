@@ -727,7 +727,8 @@ while {(_waves > 0)} do
                         };
                         if(_distance < 2500) then
                         {
-                            (_supportChange pushBack _x) remoteExec ["A3A_fnc_citySupportChange",2];
+                            _supportChange pushBack _x;
+                            _supportChange remoteExec ["A3A_fnc_citySupportChange",2];
                         };
                     };
                 } forEach citiesX;
