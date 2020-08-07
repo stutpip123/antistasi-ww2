@@ -100,7 +100,7 @@ else
 };
 
 //Attacks on rebels or cities should be closer than mission range
-_possibleTargets = _possibleTargets select {(sidesX getVariable [_x, sideUnknown] != teamPlayer && (!(_x in citiesX))) || {(getMarkerPos _x) distance2D (getMarkerPos "Synd_HQ") < distanceMission}};
+//_possibleTargets = _possibleTargets select {(sidesX getVariable [_x, sideUnknown] != teamPlayer && (!(_x in citiesX))) || {(getMarkerPos _x) distance2D (getMarkerPos "Synd_HQ") < distanceMission}};
 
 if((count _possibleTargets == 0) || (count _possibleStartBases == 0)) exitWith
 {
