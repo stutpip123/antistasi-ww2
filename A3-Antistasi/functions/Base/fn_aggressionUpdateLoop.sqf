@@ -43,31 +43,43 @@ while {true} do
         "aggressionUpdateLoop"
     ] call A3A_fnc_log;
 
-    //Update attack countdown for occupants and execute attack if needed
-    attackCountdownOccupants = attackCountdownOccupants - (60 * (0.5 + (aggressionOccupants/100)));
-	if (attackCountdownOccupants < 0) then
+    if(gameMode != 4) then
     {
-        [3600, Occupants] call A3A_fnc_timingCA;
-        if (!bigAttackInProgress) then
+        //Update attack countdown for occupants and execute attack if needed
+        attackCountdownOccupants = attackCountdownOccupants - (60 * (0.5 + (aggressionOccupants/100)));
+        private _airportsOccupants = {(sidesX getVariable _x) == Occupants} count airportsX;
+    	if ((attackCountdownOccupants < 0) || (_airportsOccupants == 0)) then
         {
-            [Occupants] spawn A3A_fnc_rebelAttack;
+            //Check for berserk mode
+            if(_airportsOccupants > 0) then
+            {
+                attackCountdownOccupants = 0;
+                [3600, Occupants] call A3A_fnc_timingCA;
+            };
+            if (!bigAttackInProgress) then
+            {
+                [Occupants] spawn A3A_fnc_rebelAttack;
+            };
+        }
+        else
+        {
+            //timingCA broadcasts the value in the if case
+            publicVariable "attackCountdownOccupants";
         };
-    }
-    else
-    {
-        //timingCA broadcasts the value in the if case
-        publicVariable "attackCountdownOccupants";
     };
 
-
-    if ((tierWar > 1) || (gameMode == 4)) then
+    if(gameMode != 3) then
     {
         //Update attack countdown for invaders and execute attack if needed
         attackCountdownInvaders = attackCountdownInvaders - (60 * (0.5 + (aggressionInvaders/100)));
-    	if (attackCountdownInvaders < 0) then
+        private _airportsInvaders = {(sidesX getVariable _x) == Occupants} count airportsX;
+        if ((attackCountdownInvaders < 0) || (_airportsInvaders == 0)) then
         {
-            attackCountdownInvaders = 0;
-            [3600, Invaders] call A3A_fnc_timingCA;
+            if(_airportsInvaders > 0) then
+            {
+                attackCountdownInvaders = 0;
+                [3600, Invaders] call A3A_fnc_timingCA;
+            };
             if (!bigAttackInProgress) then
             {
                 [Invaders] spawn A3A_fnc_rebelAttack;
