@@ -727,7 +727,8 @@ while {(_waves > 0)} do
                         };
                         if(_distance < 2500) then
                         {
-                            (_supportChange pushBack _x) remoteExec ["A3A_fnc_citySupportChange",2];
+                            _supportChange pushBack _x;
+                            _supportChange remoteExec ["A3A_fnc_citySupportChange",2];
                         };
                     };
                 } forEach citiesX;
@@ -821,8 +822,6 @@ _nul = [0,"rebelAttackPVP"] spawn A3A_fnc_deleteTask;
 bigAttackInProgress = false; publicVariable "bigAttackInProgress";
 //forcedSpawn = forcedSpawn - _forced; publicVariable "forcedSpawn";
 forcedSpawn = forcedSpawn - [_mrkDestination]; publicVariable "forcedSpawn";
-[3600, _sideX] remoteExec ["A3A_fnc_timingCA",2];
-
 
 // Hand remaining aggressor units to the group despawner
 {
