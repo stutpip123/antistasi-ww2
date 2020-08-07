@@ -821,8 +821,6 @@ _nul = [0,"rebelAttackPVP"] spawn A3A_fnc_deleteTask;
 bigAttackInProgress = false; publicVariable "bigAttackInProgress";
 //forcedSpawn = forcedSpawn - _forced; publicVariable "forcedSpawn";
 forcedSpawn = forcedSpawn - [_mrkDestination]; publicVariable "forcedSpawn";
-[3600, _sideX] remoteExec ["A3A_fnc_timingCA",2];
-
 
 // Hand remaining aggressor units to the group despawner
 {
