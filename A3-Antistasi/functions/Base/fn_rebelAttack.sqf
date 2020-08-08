@@ -72,8 +72,8 @@ if (gameMode != 1) then
 //For low level attacks only occupants are able to attack only rebels
 if ((tierWar < 2) and (gameMode <= 2)) then
 {
-	_possibleStartBases = _possibleStartBases select {(sidesX getVariable [_x,sideUnknown] == Occupants)};
-	_possibleTargets = _possibleTargets select {sidesX getVariable [_x,sideUnknown] == teamPlayer};
+	//_possibleStartBases = _possibleStartBases select {(sidesX getVariable [_x,sideUnknown] == Occupants)};
+	//_possibleTargets = _possibleTargets select {sidesX getVariable [_x,sideUnknown] == teamPlayer};
 };
 
 //On low level remove cities from target list
@@ -305,17 +305,19 @@ if(count _easyTargets >= 4) then
         private _nearPlayers = allPlayers findIf {(getMarkerPos (_target) distance2D _x) < 1500};
         if((_nearPlayers != -1) || ((spawner getVariable _target) != 2) || (sidesX getVariable _target == teamPlayer)) then
         {
+            [2, format ["Starting single attack against %1 from %2", _target, _x select 0], _fileName] call A3A_fnc_log;
             [[_target, _x select 0, "", false],"A3A_fnc_patrolCA"] remoteExec ["A3A_fnc_scheduler",2];
         }
         else
         {
             private _side = sidesX getVariable (_x select 0);
+            [2, format ["Autowin %1 for side %2 to avoid unnecessary calculations", _target, _side], _fileName] call A3A_fnc_log;
             [_side, _target] spawn A3A_fnc_markerChange;
             [_side, _target] spawn
             {
                 params ["_side", "_target"];
                 sleep 10;
-                private _squads = round (random 5);
+                private _squads = 3 + round (random 2);
                 private _soldiers = [];
                 for "_i" from 0 to _squads do
                 {
@@ -417,24 +419,44 @@ else
     //Send the actual attacks
     if (sidesX getVariable [_attackOrigin, sideUnknown] == Occupants || {!(_attackTarget in citiesX)}) then
     {
-        [
-            2,
-            format ["Starting waved attack with %1 waves from %2 to %3", _waves, _attackOrigin, _attackTarget],
-            _fileName
-        ] call A3A_fnc_log;
-        //For debug reasons
-        //[sidesX getVariable _attackOrigin, _attackTarget] call A3A_fnc_markerChange;
-        //Why not using the scheduler here?
-		[_attackTarget, _attackOrigin, _waves] spawn A3A_fnc_wavedCA;
+        private _nearPlayers = allPlayers findIf {(getMarkerPos (_attackTarget) distance2D _x) < 1500};
+        if((_nearPlayers != -1) || ((spawner getVariable _attackTarget) != 2) || (sidesX getVariable _attackTarget == teamPlayer) || (_attackTarget in citiesX)) then
+        {
+            //Sending real attack, execute the fight
+            [2, format ["Starting waved attack with %1 waves from %2 to %3", _waves, _attackOrigin, _attackTarget], _fileName] call A3A_fnc_log;
+            [[_attackTarget, _attackOrigin, _waves],"A3A_fnc_wavedCA"] remoteExec ["A3A_fnc_scheduler",2];
+        }
+        else
+        {
+            //Auto win for the attacker, no units or calculation needed
+            private _side = sidesX getVariable _attackOrigin;
+            [2, format ["Autowin %1 for side %2 to avoid unnecessary calculations", _attackTarget, _side], _fileName] call A3A_fnc_log;
+            [_side, _attackTarget] spawn A3A_fnc_markerChange;
+            //Add units to the marker to avoid fast recapture
+            [_side, _attackTarget] spawn
+            {
+                params ["_side", "_target"];
+                sleep 10;
+                private _squads = 5 + round (random 3);
+                private _soldiers = [];
+                for "_i" from 0 to _squads do
+                {
+                    if (_side == Occupants) then
+                    {
+                        _soldiers append (selectRandom (groupsNATOSquad + groupsNATOmid));
+                    }
+                    else
+                    {
+                        _soldiers append (selectRandom (groupsCSATSquad + groupsCSATmid));
+                    };
+                };
+                [_soldiers,_side,_target,0] remoteExec ["A3A_fnc_garrisonUpdate",2];
+            };
+        };
     }
     else
     {
-        [
-            2,
-            format ["Starting punishment mission from %1 to %2", _attackOrigin, _attackTarget],
-            _fileName
-        ] call A3A_fnc_log;
-        //Why not using the scheduler here?
-        [_attackTarget, _attackOrigin] spawn A3A_fnc_invaderPunish;
+        [2, format ["Starting punishment mission from %1 to %2", _attackOrigin, _attackTarget], _fileName] call A3A_fnc_log;
+        [[_attackTarget, _attackOrigin], "A3A_fnc_invaderPunish"] remoteExec ["A3A_fnc_scheduler", 2];
     };
 };
