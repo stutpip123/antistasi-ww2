@@ -43,24 +43,29 @@ while {true} do
         "aggressionUpdateLoop"
     ] call A3A_fnc_log;
 
-    //Update attack countdown for occupants and execute attack if needed
-    attackCountdownOccupants = attackCountdownOccupants - (60 * (0.5 + (aggressionOccupants/100)));
-	if (attackCountdownOccupants < 0) then
+    if(gameMode != 4) then
     {
-        [3600, Occupants] call A3A_fnc_timingCA;
-        if (!bigAttackInProgress) then
+        //Update attack countdown for occupants and execute attack if needed
+        attackCountdownOccupants = attackCountdownOccupants - (60 * (0.5 + (aggressionOccupants/100)));
+    	if (attackCountdownOccupants < 0) then
         {
-            [Occupants] spawn A3A_fnc_rebelAttack;
+            attackCountdownOccupants = 0;
+            [3600, Occupants] call A3A_fnc_timingCA;
+            if (!bigAttackInProgress) then
+            {
+                [Occupants] spawn A3A_fnc_rebelAttack;
+            };
+        }
+        else
+        {
+            //timingCA broadcasts the value in the if case
+            publicVariable "attackCountdownOccupants";
         };
-    }
-    else
-    {
-        //timingCA broadcasts the value in the if case
-        publicVariable "attackCountdownOccupants";
     };
 
 
-    if ((tierWar > 1) || (gameMode == 4)) then
+
+    if (gameMode == 4) then
     {
         //Update attack countdown for invaders and execute attack if needed
         attackCountdownInvaders = attackCountdownInvaders - (60 * (0.5 + (aggressionInvaders/100)));
