@@ -63,9 +63,7 @@ while {true} do
         };
     };
 
-
-
-    if (gameMode == 4) then
+    if (gameMode != 3) then
     {
         //Update attack countdown for invaders and execute attack if needed
         attackCountdownInvaders = attackCountdownInvaders - (60 * (0.5 + (aggressionInvaders/100)));
