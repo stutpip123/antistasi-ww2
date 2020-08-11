@@ -283,6 +283,9 @@ if(count _easyTargets >= 4) then
     [3, "Found four targets to attack, these are:", _fileName] call A3A_fnc_log;
     [_attackList, "Target params"] call A3A_fnc_logArray;
 
+    //In case of four small attacks have 90 minutes break
+    [5400, _side] call A3A_fnc_timingCA;
+
     //Execute the attacks from the given bases to the targets
     {
         private _target = _x select 2;
@@ -417,6 +420,7 @@ else
             private _side = sidesX getVariable _attackOrigin;
             [2, format ["Autowin %1 for side %2 to avoid unnecessary calculations", _attackTarget, _side], _fileName] call A3A_fnc_log;
             [_side, _attackTarget] spawn A3A_fnc_markerChange;
+            [3600, _side] call A3A_fnc_timingCA;
             //Add units to the marker to avoid fast recapture
             [_side, _attackTarget] spawn
             {
