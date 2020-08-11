@@ -1,67 +1,54 @@
 //Original Author: Barbolani
 //Edited and updated by the Antstasi Community Development Team
 
-_fnc_economics = {
-    params ["_coefficient", "_random", "_typeX", "_maxItems", "_accelerator"];
-    private ["_currentItems"];
+_fnc_economics =
+{
+    params ["_coefficient", "_typeArray", "_accelerator", ["_isOccupants", false]];
 
-    if (_typeX isEqualType "") then {
-        _typeX  = [_typeX];
+    if (_typeArray isEqualType "") then
+    {
+        _typeArray  = [_typeArray];
     };
-	
-	if (_typeX isEqualTo []) exitWith {};
 
-    if (_random == "random") then {
-        private _selectedType = selectRandom _typeX;
-        _currentItems = timer getVariable [_selectedType, 0];
-        if (_currentItems < _maxItems) then {
-            timer setVariable [_selectedType, _currentItems + _coefficient * _accelerator, true];
-        };
-    } else {
-        _currentItems = 0;
+	if (_typeArray isEqualTo []) exitWith {};
+
+    {
+        private _currentItems = 0;
+        _currentItems = (timer getVariable [_x, 0]) + (_coefficient * _accelerator);
+        if(_isOccupants) then
         {
-            _currentItems = _currentItems + (timer getVariable [_x, 0]);
-        } forEach _typeX;
-        if (_currentItems < _maxItems) then {
-            timer setVariable [selectRandom _typeX, _currentItems + _coefficient * _accelerator, true];
+            _currentItems = _currentItems + (2 ^ (tierWar/5));
         };
-    };
+        timer setVariable [_x, _currentItems, true];
+    } forEach _typeArray;
 };
 
 //--------------------------------------Occupants--------------------------------------------------
-private _airbases = { sidesX getVariable [_x, sideUnknown] == Occupants } count airportsX;
-private _outposts = { sidesX getVariable [_x, sideUnknown] == Occupants } count outposts;
-private _seaports = { sidesX getVariable [_x, sideUnknown] == Occupants } count seaports;
-private _accelerator = [1 + (tierWar + difficultyCoef) / 20, 0] select (tierWar == 1);
+private _accelerator = 1.2 + (tierWar + difficultyCoef) / 20;
 
-[0.2, "", staticATOccupants, _outposts * 0.2 + _airbases * 0.5, _accelerator] spawn _fnc_economics;
-[0.1, "", staticAAOccupants, _airbases * 2, _accelerator] spawn _fnc_economics;
-[0.2, "random", vehNATOAPC, _outposts * 0.3 + _airbases * 2, _accelerator] spawn _fnc_economics;
-[0.1, "", vehNATOTank, _outposts * 0.5 + _airbases * 2, _accelerator] spawn _fnc_economics;
-[0.1, "", vehNATOAA, _airbases, _accelerator] spawn _fnc_economics;
-[0.3, "", vehNATOBoat, _seaports, _accelerator] spawn _fnc_economics;
-[0.2, "", vehNATOPlane, _airbases * 4, _accelerator] spawn _fnc_economics;
-[0.2, "", vehNATOPlaneAA, _airbases * 4, _accelerator] spawn _fnc_economics;
-[0.2, "random", vehNATOTransportPlanes, _airbases * 4, _accelerator] spawn _fnc_economics;
-[0.2, "random", vehNATOTransportHelis - [vehNATOPatrolHeli], _airbases * 4, _accelerator] spawn _fnc_economics;
-[0.2, "random", vehNATOAttackHelis, _airbases * 4, _accelerator] spawn _fnc_economics;
-[0.2, "", vehNATOMRLS, _airbases + _outposts * 0.2, _accelerator] spawn _fnc_economics;
+[0.2, staticATOccupants, _accelerator, true] spawn _fnc_economics;
+[0.1, staticAAOccupants, _accelerator, true] spawn _fnc_economics;
+[0.2, vehNATOAPC, _accelerator, true] spawn _fnc_economics;
+[0.1, vehNATOTank, _accelerator, true] spawn _fnc_economics;
+[0.1, vehNATOAA, _accelerator, true] spawn _fnc_economics;
+[0.3, vehNATOBoat, _accelerator, true] spawn _fnc_economics;
+[0.2, vehNATOPlane, _accelerator, true] spawn _fnc_economics;
+[0.2, vehNATOPlaneAA, _accelerator, true] spawn _fnc_economics;
+[0.2, vehNATOTransportPlanes, _accelerator, true] spawn _fnc_economics;
+[0.2, vehNATOTransportHelis - [vehNATOPatrolHeli], _accelerator, true] spawn _fnc_economics;
+[0.2, vehNATOAttackHelis, _accelerator, true] spawn _fnc_economics;
+[0.2, vehNATOMRLS, _accelerator, true] spawn _fnc_economics;
 
 //--------------------------------------Invaders---------------------------------------------------
-_airbases = { sidesX getVariable [_x, sideUnknown] == Invaders } count airportsX;
-_outposts = { sidesX getVariable [_x, sideUnknown] == Invaders } count outposts;
-_seaports = { sidesX getVariable [_x, sideUnknown] == Invaders } count seaports;
-_accelerator = 1.2 + (tierWar + difficultyCoef) / 20;
-
-[0.2, "", staticATInvaders, _outposts * 0.2 + _airbases * 0.5, _accelerator] spawn _fnc_economics;
-[0.1, "", staticAAInvaders, _airbases * 2, _accelerator] spawn _fnc_economics;
-[0.2, "random", vehCSATAPC, _outposts * 0.3 + _airbases * 2, _accelerator] spawn _fnc_economics;
-[0.1, "", vehCSATTank, _outposts * 0.5 + _airbases * 2, _accelerator] spawn _fnc_economics;
-[0.1, "", vehCSATAA, _airbases, _accelerator] spawn _fnc_economics;
-[0.3, "", vehCSATBoat, _seaports, _accelerator] spawn _fnc_economics;
-[0.2, "", vehCSATPlane, _airbases * 4, _accelerator] spawn _fnc_economics;
-[0.2, "", vehCSATPlaneAA, _airbases * 4, _accelerator] spawn _fnc_economics;
-[0.2, "random", vehCSATTransportPlanes, _airbases * 4, _accelerator] spawn _fnc_economics;
-[0.2, "random", vehCSATTransportHelis - [vehCSATPatrolHeli], _airbases * 4, _accelerator] spawn _fnc_economics;
-[0.2, "random", vehCSATAttackHelis, _airbases * 4, _accelerator] spawn _fnc_economics;
-[0.2, "", vehCSATMRLS, _airbases + _outposts * 0.2, _accelerator] spawn _fnc_economics;
+[0.2, staticATInvaders, _accelerator] spawn _fnc_economics;
+[0.1, staticAAInvaders, _accelerator] spawn _fnc_economics;
+[0.2, vehCSATAPC, _accelerator] spawn _fnc_economics;
+[0.1, vehCSATTank, _accelerator] spawn _fnc_economics;
+[0.1, vehCSATAA, _accelerator] spawn _fnc_economics;
+[0.3, vehCSATBoat, _accelerator] spawn _fnc_economics;
+[0.2, vehCSATPlane, _accelerator] spawn _fnc_economics;
+[0.2, vehCSATPlaneAA, _accelerator] spawn _fnc_economics;
+[0.2, vehCSATTransportPlanes, _accelerator] spawn _fnc_economics;
+[0.2, vehCSATTransportHelis - [vehCSATPatrolHeli], _accelerator] spawn _fnc_economics;
+[0.2, vehCSATAttackHelis, _accelerator] spawn _fnc_economics;
+[0.2, vehCSATMRLS, _accelerator] spawn _fnc_economics;
