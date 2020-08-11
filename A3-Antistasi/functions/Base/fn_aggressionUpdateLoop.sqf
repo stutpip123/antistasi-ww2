@@ -37,11 +37,7 @@ while {true} do
     prestigeIsChanging = false;
     [] call A3A_fnc_calculateAggression;
 
-    [
-        3,
-        format ["Occupants:%1 Invaders:%2 Warlevel:%3", aggressionOccupants, aggressionInvaders, tierWar],
-        "aggressionUpdateLoop"
-    ] call A3A_fnc_log;
+    [3, format ["Occupants:%1 Invaders:%2 Warlevel:%3", aggressionOccupants, aggressionInvaders, tierWar], "aggressionUpdateLoop"] call A3A_fnc_log;
 
     if(gameMode != 4) then
     {
@@ -50,10 +46,13 @@ while {true} do
     	if (attackCountdownOccupants < 0) then
         {
             attackCountdownOccupants = 0;
-            [3600, Occupants] call A3A_fnc_timingCA;
             if (!bigAttackInProgress) then
             {
                 [Occupants] spawn A3A_fnc_rebelAttack;
+            }
+            else
+            {
+                [600, Occupants] call A3A_fnc_timingCA;
             };
         }
         else
@@ -70,10 +69,13 @@ while {true} do
     	if (attackCountdownInvaders < 0) then
         {
             attackCountdownInvaders = 0;
-            [3600, Invaders] call A3A_fnc_timingCA;
             if (!bigAttackInProgress) then
             {
                 [Invaders] spawn A3A_fnc_rebelAttack;
+            }
+            else
+            {
+                [600, Invaders] call A3A_fnc_timingCA;
             };
         }
         else
