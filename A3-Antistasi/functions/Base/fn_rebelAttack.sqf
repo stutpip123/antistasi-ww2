@@ -63,12 +63,12 @@ else
                 _enemyAIHold = _enemyAIHold + 1;
             };
         };
-    } forEach _possibleTargets;
+    } forEach (airportsX + outposts + seaports + factories + resourcesX);
 
     private _allTargetsCount = _playersHold + _ownHold + _enemyAIHold;
 
-    _playersHold = _playersHold / _allTargetsCount;
-    _enemyAIHold = _enemyAIHold / _allTargetsCount;
+    private _playersHoldRatio = _playersHold / _allTargetsCount;
+    private _enemyAIHoldRatio = _enemyAIHold / _allTargetsCount;
 
     private _aggression = 0;
     private _enemySide = sideUnknown;
@@ -85,7 +85,7 @@ else
     };
 
     //Select the side to attack and the remaining targets
-    _targetSide = selectRandomWeighted [teamPlayer, (0.5 * _playersHold) + (0.5 * (_aggression/100)), _enemySide, _enemyAIHold];
+    _targetSide = selectRandomWeighted [teamPlayer, (0.5 * _playersHoldRatio) + (0.5 * (_aggression/100)), _enemySide, _enemyAIHoldRatio];
     _possibleTargets = _possibleTargets select {sidesX getVariable [_x,sideUnknown] == _targetSide};
 };
 
