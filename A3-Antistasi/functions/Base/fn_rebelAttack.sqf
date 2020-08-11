@@ -187,12 +187,12 @@ if (count _availableTargets == 0) exitWith
     //Selecting a multiplier based on target type (lowest is best)
     switch (true) do
     {
-        case (_target in airportsX): {_targetMultiplier = 0.1};
-        case (_target in outposts): {_targetMultiplier = 0.35};
-        case (_target in resourcesX): {_targetMultiplier = 0.5};
-        case (_target in factories): {_targetMultiplier = 0.6};
+        case (_target in airportsX): {_targetMultiplier = 0.05};
+        case (_target in outposts): {_targetMultiplier = 0.25};
+        case (_target in resourcesX): {_targetMultiplier = 0.35};
+        case (_target in factories): {_targetMultiplier = 0.5};
         case (_target in seaports): {_targetMultiplier = 0.7};
-        case (_target in citiesX): {_targetMultiplier = 0.9};
+        case (_target in citiesX): {_targetMultiplier = 2};
         //If I have missed something, multiplier stays the same
         default {_targetMultiplier = 1};
     };
