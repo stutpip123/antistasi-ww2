@@ -91,7 +91,7 @@ _wp2 setWaypointSpeed _flightSpeed;
     waitUntil {sleep 0.1; ((_pos distance2D _pilot) < 500) || {isNull (objectParent _pilot)}};
     if(isNull (objectParent _pilot)) exitWith {};
     group _pilot setCurrentWaypoint [(group _pilot), 2];
-}
+};
 
 [_startBombPosition, driver _strikePlane] spawn
 {
