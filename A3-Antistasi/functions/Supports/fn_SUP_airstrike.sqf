@@ -30,11 +30,9 @@ private _crewUnits = if(_side == Occupants) then {NATOCrew} else {CSATCrew};
 private _bombType = "";
 
 private _targetMarker = createMarker [format ["%1_coverage", _supportName], _supportPos];
-
 _targetMarker setMarkerShape "ELLIPSE";
 _targetMarker setMarkerBrush "Grid";
 _targetMarker setMarkerSize [25, 100];
-
 if(_side == Occupants) then
 {
     _targetMarker setMarkerColor colorOccupants;
@@ -148,12 +146,12 @@ _pilot spawn
     if(isNull _pilot || !(alive _pilot)) exitWith {};
 
     //Pilot ejected, spawn despawner
-    [group _pilot] spawn A3A_fnc_groupDespawner; 
+    [group _pilot] spawn A3A_fnc_groupDespawner;
 };
 
 _strikeGroup deleteGroupWhenEmpty true;
 
-private _markerDir = _startPos getDir _spawnPos;
+private _markerDir = _spawnPos getDir _supportPos;
 _targetMarker setMarkerDir _markerDir;
 [_side, _strikePlane, _strikeGroup , _airport, _supportPos, _supportName] spawn A3A_fnc_SUP_airstrikeRoutine;
 

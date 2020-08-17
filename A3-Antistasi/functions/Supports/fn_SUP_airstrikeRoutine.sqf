@@ -36,9 +36,6 @@ _strikePlane flyInHeightASL [(_minAltASL select 2) +150, (_minAltASL select 2) +
 private _airportPos = getMarkerPos _airport;
 private _dir = markerDir (format ["%1_coverage", _supportName]);
 
-//Have a preBomb position to ensure nearly perfect flight path
-private _preBombPosition = _targetPos getPos [750, _dir + 180];
-_preBombPosition set [2, 150];
 private _startBombPosition = _targetPos getPos [100, _dir + 180];
 _startBombPosition set [2, 150];
 private _endBombPosition = _targetPos getPos [100, _dir];
@@ -64,25 +61,10 @@ if(_aggroValue > 30 && _aggroValue < 70) then
 private _bombParams = [_strikePlane, _strikePlane getVariable "bombType", _bombCount, 200];
 (driver _strikePlane) setVariable ["bombParams", _bombParams, true];
 
-private _wp1 = _strikeGroup addWaypoint [_preBombPosition, 0];
-_wp1 setWaypointType "MOVE";
-_wp1 setWaypointSpeed "FULL";
-_wp1 setWaypointBehaviour "CARELESS";
-
-private _wp2 = _strikeGroup addWaypoint [_startBombPosition, 1];
+private _wp2 = _strikeGroup addWaypoint [_startBombPosition, 0];
 _wp2 setWaypointType "MOVE";
 _wp2 setWaypointSpeed _flightSpeed;
 _wp2 setWaypointBehaviour "CARELESS";
-
-[_startBombPosition, driver _strikePlane] spawn
-{
-    params ["_pos", "_pilot"];
-    waitUntil {sleep 1; ((_pos distance2D _pilot) < 750) || {isNull (objectParent _pilot)}};
-    if(isNull (objectParent _pilot)) exitWith {};
-    waitUntil {sleep 0.1; ((_pos distance2D _pilot) < 500) || {isNull (objectParent _pilot)}};
-    if(isNull (objectParent _pilot)) exitWith {};
-    group _pilot setCurrentWaypoint [(group _pilot), 1];
-};
 
 [_startBombPosition, driver _strikePlane] spawn
 {
@@ -94,12 +76,12 @@ _wp2 setWaypointBehaviour "CARELESS";
     (_pilot getVariable 'bombParams') spawn A3A_fnc_airbomb;
 };
 
-private _wp3 = _strikeGroup addWaypoint [_endBombPosition, 2];
+private _wp3 = _strikeGroup addWaypoint [_endBombPosition, 1];
 _wp3 setWaypointType "MOVE";
 _wp3 setWaypointSpeed _flightSpeed;
 _wp3 setWaypointBehaviour "CARELESS";
 
-private _wp4 = _strikeGroup addWaypoint [_airportPos, 3];
+private _wp4 = _strikeGroup addWaypoint [_airportPos, 2];
 _wp4 setWaypointType "MOVE";
 _wp4 setWaypointSpeed "FULL";
 _wp4 setWaypointStatements ["true", "[(objectParent this) getVariable 'supportName', side (group this)] spawn A3A_fnc_endSupport; deleteVehicle (objectParent this); deleteVehicle this"];
