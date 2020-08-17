@@ -45,6 +45,10 @@ if (isMultiplayer) then {
 	playerMarkersEnabled = ("pMarkers" call BIS_fnc_getParamValue == 1); publicVariable "playerMarkersEnabled";
 	minPlayersRequiredforPVP = "minPlayersRequiredforPVP" call BIS_fnc_getParamValue; publicVariable "minPlayersRequiredforPVP";
 	helmetLossChance = "helmetLossChance" call BIS_fnc_getParamValue; publicVariable "helmetLossChance";
+
+    //Support settings
+    allowUnfairSupports = [false, true] select ("allowUnfairSupports" call BIS_fnc_getParamValue);
+    allowFuturisticSupports = allowUnfairSupports && ([false, true] select ("allowFuturisticSupports" call BIS_fnc_getParamValue));
 } else {
 	[2, "Setting Singleplayer Params", _fileName] call A3A_fnc_log;
 	//These should be set in the set parameters dialog.
@@ -73,6 +77,9 @@ if (isMultiplayer) then {
 	minPlayersRequiredforPVP = 2;
 	helmetLossChance = 33;
     startWithLongRangeRadio = true;
+
+    allowUnfairSupports = false;
+    allowFuturisticSupports = false;
 };
 
 [] call A3A_fnc_crateLootParams;
