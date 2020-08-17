@@ -125,26 +125,6 @@ _strikePlane addEventHandler
     }
 ];
 
-_strikePlane addEventHandler
-[
-    "GetIn",
-    {
-        params ["_vehicle", "_role", "_unit", "_turret"];
-        if(side (group _unit) == teamPlayer) then
-        {
-            [2, format ["Plane for %1 stolen, airstrike aborted", _vehicle getVariable "supportName"], "SUP_airstrike"] call A3A_fnc_log;
-            ["TaskSucceeded", ["", "Airstrike Vessel Stolen"]] remoteExec ["BIS_fnc_showNotification", teamPlayer];
-            _vehicle setVariable ["Stolen", true, true];
-            _vehicle setFuel 1;
-            _vehicle removeAllEventHandlers "GetIn";
-            private _timerArray = _vehicle getVariable "TimerArray";
-            private _timerIndex = _vehicle getVariable "TimerIndex";
-            _timerArray set [_timerIndex, (_timerArray select _timerIndex) + 2400];
-            [_vehicle getVariable "supportName", _vehicle getVariable "side"] spawn A3A_fnc_endSupport;
-        };
-    }
-];
-
 _pilot setVariable ["Plane", _strikePlane, true];
 _pilot addEventHandler
 [
@@ -160,6 +140,17 @@ _pilot addEventHandler
         [_unit] spawn A3A_fnc_postMortem;
     }
 ];
+
+_pilot spawn
+{
+    private _pilot = _this;
+    waitUntil {sleep 10; (isNull _pilot) || {!(alive _pilot) || (isNull objectParent _pilot)}};
+    if(isNull _pilot || !(alive _pilot)) exitWith {};
+
+    //Pilot ejected, spawn despawner
+    [group _pilot] spawn A3A_fnc_groupDespawner; 
+};
+
 _strikeGroup deleteGroupWhenEmpty true;
 
 private _markerDir = _startPos getDir _spawnPos;
