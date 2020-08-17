@@ -100,7 +100,7 @@ switch (true) do
         ) then
         {
             //Use something that can attack targets directly, if not available use strong AoE attacks
-            _supportTypes = ["CAS", "GUNSHIP", "CANNON", "AIRDROP", "EMP", "ORBSTRIKE"];
+            _supportTypes = ["CAS", "GUNSHIP", "CANNON", "AIRDROP", "EMP", "ORBSTRIKE", "MORTAR", "AIRSTRIKE"];
         };
     };
     case (_enemyVehicle isKindOf "LandVehicle"):
