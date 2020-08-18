@@ -26,3 +26,6 @@ for "_i" from 0 to 0 do
     occupantsMortarTimer pushBack (random 1800);
     invadersMortarTimer pushBack (random 1800);
 };
+
+occupantsOrbitalStrikeTimer = [random (3600 * 12)];
+invadersOrbitalStrikeTimer = [random (3600 * 12)];

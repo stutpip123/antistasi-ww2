@@ -29,6 +29,10 @@ switch (_supportType) do
     {
         _timerIndex = [_side] call A3A_fnc_SUP_mortarAvailable;
     };
+    case ("ORBSTRIKE"):
+    {
+        _timerIndex = [_side, _position] call A3A_fnc_SUP_orbitalStrikeAvailable;
+    };
     default
     {
         //If unknown, set not available
