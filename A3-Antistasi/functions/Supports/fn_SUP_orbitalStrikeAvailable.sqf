@@ -2,18 +2,20 @@ params ["_side", "_posDestination"];
 
 if(tierWar < 9) exitWith {-1};
 
+if !(allowFuturisticSupports) exitWith {-1};
+
 //Check if support is available at all
 private _timer = -1;
-if(_side == Occupants)
+if(_side == Occupants) then
 {
-    if((occupantsOrbitalStrikeTimer select 0) < time)
+    if((occupantsOrbitalStrikeTimer select 0) < time) then
     {
         _timer = 0;
     };
 }
 else
 {
-    if((invadersOrbitalStrikeTimer select 0) < time)
+    if((invadersOrbitalStrikeTimer select 0) < time) then
     {
         _timer = 0;
     };

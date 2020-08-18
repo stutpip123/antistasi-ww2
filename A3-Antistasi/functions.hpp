@@ -536,7 +536,11 @@ class A3A
         class SUP_mortar {};
         class SUP_mortarAvailable {};
         class SUP_mortarRoutine {};
+        class SUP_orbitalStrike {};
         class SUP_orbitalStrikeAvailable {};
+        class SUP_orbitalStrikeImpactEffects {};
+        class SUP_orbitalStrikeBeamEffects {};
+        class SUP_orbitalStrikeRoutine {};
         class SUP_QRF {};
         class SUP_QRFAvailable {};
         class SUP_QRFRoutine {};
