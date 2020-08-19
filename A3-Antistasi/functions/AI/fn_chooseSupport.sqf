@@ -83,7 +83,7 @@ switch (true) do
     case (_enemyVehicle isKindOf "StaticWeapon"):
     {
         //AI against statics? No way, send in support instantly
-        _supportTypes = ["AIRSTRIKE", "CANNON", "CARPET", "MORTAR", "GUNSHIP"];
+        _supportTypes = ["AIRSTRIKE", "MISSILE", "CANNON", "CARPET", "MORTAR", "GUNSHIP"];
     };
     case (_enemyVehicle isKindOf "Tank"):
     {
@@ -100,7 +100,7 @@ switch (true) do
         ) then
         {
             //Use something that can attack targets directly, if not available use strong AoE attacks
-            _supportTypes = ["CAS", "GUNSHIP", "CANNON", "AIRDROP", "EMP", "ORBSTRIKE", "MORTAR", "AIRSTRIKE"];
+            _supportTypes = ["CAS", "GUNSHIP", "MISSILE", "CANNON", "AIRDROP", "EMP", "ORBSTRIKE", "MORTAR", "AIRSTRIKE"];
         };
     };
     case (_enemyVehicle isKindOf "LandVehicle"):
@@ -116,7 +116,7 @@ switch (true) do
         ) then
         {
             //Use something that can target directly, otherwise use something against vehicle groups
-            _supportTypes = ["CAS", "CANNON", "EMP", "AIRSTRIKE", "CARPET", "MORTAR", "GUNSHIP", "AIRDROP"];
+            _supportTypes = ["CAS", "CANNON", "EMP", "AIRSTRIKE", "CARPET", "MISSILE", "MORTAR", "GUNSHIP", "AIRDROP"];
         };
     };
     case (_enemyVehicle isKindOf "Plane"):
@@ -171,7 +171,7 @@ switch (true) do
     };
     case (_enemyVehicle isKindOf "Ship"):
     {
-        _supportTypes = ["MORTAR", "CAS", "GUNSHIP"];
+        _supportTypes = ["MORTAR", "CAS", "GUNSHIP", "MISSILE"];
     };
     default
     {

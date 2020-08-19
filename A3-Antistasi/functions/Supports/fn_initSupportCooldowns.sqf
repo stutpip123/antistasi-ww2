@@ -27,5 +27,13 @@ for "_i" from 0 to 0 do
     invadersMortarTimer pushBack (random 1800);
 };
 
+occupantsCruiseMissileTimer = [];
+invadersCruiseMissileTimer = [];
+for "_i" from 0 to 0 do
+{
+    occupantsCruiseMissileTimer pushBack (random (3600 * 4));
+    invadersCruiseMissileTimer pushBack (random (3600 * 4));
+};
+
 occupantsOrbitalStrikeTimer = [random (3600 * 12)];
 invadersOrbitalStrikeTimer = [random (3600 * 12)];
