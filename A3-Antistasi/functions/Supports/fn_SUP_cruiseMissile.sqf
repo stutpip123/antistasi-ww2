@@ -64,5 +64,10 @@ private _launcher = createVehicle ["B_Ship_MRLS_01_F", _spawnPos, [], 0, "CAN_CO
 _launcher attachTo [_holdObject, [0, 0, 0]];
 _launcher hideObject true;
 
+//Create the crew and sets its AI
+createVehicleCrew _launcher;
+_launcher disableAI "Target";
+_launcher disableAI "Autotarget";
+
 [] spawn A3A_fnc_SUP_cruiseMissileRoutine;
 _coverageMarker;
