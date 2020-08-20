@@ -69,5 +69,5 @@ createVehicleCrew _launcher;
 _launcher disableAI "Target";
 _launcher disableAI "Autotarget";
 
-[] spawn A3A_fnc_SUP_cruiseMissileRoutine;
+[_launcher, _side, _supportName] spawn A3A_fnc_SUP_cruiseMissileRoutine;
 _coverageMarker;

@@ -53,6 +53,10 @@ switch (_supportType) do
     {
         _supportMarker = [_side, _timerIndex, _supportTarget, _supportName] call A3A_fnc_SUP_orbitalStrike;
     };
+    case ("MISSILE"):
+    {
+        _supportMarker = [_side, _timerIndex, _supportName] call A3A_fnc_SUP_cruiseMissile;
+    };
 };
 
 if(_supportMarker != "") then

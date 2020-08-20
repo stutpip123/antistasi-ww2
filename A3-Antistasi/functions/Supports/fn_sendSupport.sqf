@@ -66,7 +66,7 @@ if (_supportObject != "") exitWith
             //Areal support methods, transmit position info
             [_supportObject, [_supportPos, _precision], _revealCall] call A3A_fnc_addSupportTarget;
         };
-        if(_supportType in ["CAS", "AAPLANE", "SAM", "GUNSHIP"]) then
+        if(_supportType in ["CAS", "AAPLANE", "SAM", "GUNSHIP", "MISSILE"]) then
         {
             //Target support methods, transmit target info
             [_supportObject, [_target, _precision], _revealCall] call A3A_fnc_addSupportTarget;
@@ -142,7 +142,7 @@ if(_selectedSupport in ["MORTAR", "QRF", "AIRSTRIKE", "ORBSTRIKE"]) then
     //Areal support methods, transmit position info
     [_side, _timerIndex, _selectedSupport, _supportPos, _precision, _revealCall] spawn A3A_fnc_createSupport;
 };
-if(_selectedSupport in ["CAS", "AAPLANE", "SAM", "GUNSHIP"]) then
+if(_selectedSupport in ["CAS", "AAPLANE", "SAM", "GUNSHIP", "MISSILE"]) then
 {
     //Target support methods, transmit target info
     [_side, _timerIndex, _selectedSupport, _target, _precision, _revealCall] spawn A3A_fnc_createSupport;
