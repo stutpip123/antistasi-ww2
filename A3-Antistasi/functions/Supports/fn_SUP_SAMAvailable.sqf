@@ -2,6 +2,8 @@ params ["_side"];
 
 if(tierWar < 7) exitWith {-1};
 
+if({sidesX getVariable [_x, sideUnknown] == _side} count airportsX) exitWith {-1};
+
 private _timerIndex = -1;
 private _playerAdjustment = (floor ((count allPlayers)/5)) + 1;
 private _supportTimer = if(_side == Occupants) then {occupantsSAMTimer} else {invadersSAMTimer};

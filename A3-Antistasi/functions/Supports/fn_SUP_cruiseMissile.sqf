@@ -15,7 +15,7 @@ params ["_side", "_timerIndex", "_supportName"];
         The name of the marker, covering the whole support area
 */
 
-private _fileName = "SUP_orbitalStrike";
+private _fileName = "SUP_cruiseMissile";
 
 private _spawnPos = [];
 if(_side == Occupants) then
