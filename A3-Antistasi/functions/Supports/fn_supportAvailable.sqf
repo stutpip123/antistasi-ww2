@@ -37,6 +37,10 @@ switch (_supportType) do
     {
         _timerIndex = [_side, _position] call A3A_fnc_SUP_cruiseMissileAvailable;
     };
+    case ("SAM"):
+    {
+        _timerIndex = [_side] call A3A_fnc_SUP_SAMAvailable;
+    };
     default
     {
         //If unknown, set not available
