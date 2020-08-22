@@ -78,7 +78,7 @@ while {true} do
             if(_airportsInvaders > 0) then
             {
                 attackCountdownInvaders = 0;
-                [3600, Invaders] call A3A_fnc_timingCA;
+                [1800, Invaders] call A3A_fnc_timingCA;
             };
             if (!bigAttackInProgress) then
             {
