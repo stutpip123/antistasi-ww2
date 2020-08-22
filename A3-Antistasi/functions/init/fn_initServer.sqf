@@ -10,15 +10,15 @@ flagX allowDamage false;
 vehicleBox allowDamage false;
 fireX allowDamage false;
 mapX allowDamage false;
+teamPlayer = side group petros; 				// moved here because it must be initialized before accessing any saved vars
 
 //Load server id
 serverID = profileNameSpace getVariable ["ss_ServerID",nil];
 if(isNil "serverID") then {
-	serverID = str(round((random(100000)) + random 10000));
+	serverID = str(floor(random(90000) + 10000));
 	profileNameSpace setVariable ["ss_ServerID",serverID];
 };
 publicVariable "serverID";
-waitUntil {!isNil "serverID"};
 
 if (isMultiplayer) then {
 	//Load server parameters
@@ -35,6 +35,7 @@ if (isMultiplayer) then {
 	minWeaps = "unlockItem" call BIS_fnc_getParamValue; publicVariable "minWeaps";
 	memberOnlyMagLimit = "MemberOnlyMagLimit" call BIS_fnc_getParamValue; publicVariable "memberOnlyMagLimit";
 	allowMembersFactionGarageAccess = "allowMembersFactionGarageAccess" call BIS_fnc_getParamValue == 1; publicVariable "allowMembersFactionGarageAccess";
+	personalGarageMax = "personalGarageMax" call BIS_fnc_getParamValue; publicVariable "personalGarageMax";
 	civTraffic = "civTraffic" call BIS_fnc_getParamValue; publicVariable "civTraffic";
 	memberDistance = "memberDistance" call BIS_fnc_getParamValue; publicVariable "memberDistance";
 	limitedFT = if ("allowFT" call BIS_fnc_getParamValue == 1) then {true} else {false}; publicVariable "limitedFT";
@@ -62,6 +63,7 @@ if (isMultiplayer) then {
 	minWeaps = if (isNil "minWeaps") then {25} else {minWeaps};
 	memberOnlyMagLimit = 0;
 	allowMembersFactionGarageAccess = true;
+	personalGarageMax = 2;
 	civTraffic = 1;
 	memberDistance = 10;
 	limitedFT = false;
@@ -75,15 +77,47 @@ if (isMultiplayer) then {
 
 [] call A3A_fnc_crateLootParams;
 
-//Load Campaign ID if resuming game
-if(loadLastSave) then {
-	campaignID = profileNameSpace getVariable ["ss_CampaignID",""];
-}
-else {
-	campaignID = str(round((random(100000)) + random 10000));
-	profileNameSpace setVariable ["ss_CampaignID", campaignID];
+
+// Maintain a profilenamespace array called antistasiSavedGames
+// Each entry is an array: [campaignID, mapname, "Blufor"|"Greenfor"]
+
+campaignID = profileNameSpace getVariable ["ss_CampaignID",""];
+call
+{
+	// If the legacy campaign ID is valid for this map/mode, just use that
+	if (loadLastSave && !isNil {["membersX"] call A3A_fnc_returnSavedStat}) exitWith {
+		[2, "Loading last campaign, ID " + campaignID, _filename] call A3A_fnc_log;
+	};
+
+	// Otherwise, check through the saved game list for matches and build existing ID list
+	private _saveList = [profileNamespace getVariable "antistasiSavedGames"] param [0, [], [[]]];
+	private _gametype = if (side petros == independent) then {"Greenfor"} else {"Blufor"};
+	private _existingIDs = [campaignID];
+	{
+		if (_x isEqualType [] && {count _x >= 2}) then
+		{
+			if ((worldName == _x select 1) && (_gametype == _x select 2)) then {
+				campaignID = _x select 0;			// found a match
+			};
+			_existingIDs pushBack (_x select 0);
+		};
+	} forEach _saveList;
+
+	// If valid save found, exit with that
+	if (loadLastSave && !isNil {["membersX"] call A3A_fnc_returnSavedStat}) exitWith {
+		[2, "Loading campaign from saved list, ID " + campaignID, _filename] call A3A_fnc_log;
+	};
+
+	// Otherwise start a new campaign
+	loadLastSave = false;
+	while {campaignID in _existingIDs} do {
+		campaignID = str(floor(random(90000) + 10000));		// guaranteed five digits
+	};
+	[2, "Creating new campaign with ID " + campaignID, _fileName] call A3A_fnc_log;
 };
+publicVariable "loadLastSave";
 publicVariable "campaignID";
+
 
 //Initialise variables needed by the mission.
 _nul = call A3A_fnc_initVar;
@@ -91,9 +125,10 @@ _nul = call A3A_fnc_initVar;
 savingServer = true;
 [2,format ["%1 server version: %2", ["SP","MP"] select isMultiplayer, localize "STR_antistasi_credits_generic_version_text"],_fileName] call A3A_fnc_log;
 bookedSlots = floor ((("memberSlots" call BIS_fnc_getParamValue)/100) * (playableSlotsNumber teamPlayer)); publicVariable "bookedSlots";
-_nul = call A3A_fnc_initFuncs;
+call A3A_fnc_initFuncs;
 if (hasACEMedical) then { call A3A_fnc_initACEUnconsciousHandler };
-_nul = call A3A_fnc_initZones;
+call A3A_fnc_loadNavGrid;
+call A3A_fnc_initZones;
 if (gameMode != 1) then {
 	Occupants setFriend [Invaders,1];
 	Invaders setFriend [Occupants,1];
@@ -107,22 +142,12 @@ waitUntil {count (call A3A_fnc_playableUnits) > 0};
 waitUntil {({(isPlayer _x) and (!isNull _x) and (_x == _x)} count allUnits) == (count (call A3A_fnc_playableUnits))};
 [] spawn A3A_fnc_modBlacklist;
 
-if (loadLastSave) then {
-	[2,"Loading saved data",_fileName] call A3A_fnc_log;
-	["membersX"] call A3A_fnc_getStatVariable;
-	if (isNil "membersX") then {
-		loadLastSave = false;
-		[2,"No member data found, skipping load",_fileName] call A3A_fnc_log;
-	};
-};
-publicVariable "loadLastSave";
-
 call A3A_fnc_initGarrisons;
 call A3A_fnc_initAmbientAnimations;
 
 if (loadLastSave) then {
-	[] spawn A3A_fnc_loadServer;
-	waitUntil {!isNil"statsLoaded"};
+	[] call A3A_fnc_loadServer;
+//	waitUntil {!isNil"statsLoaded"};
 	if (!isNil "as_fnc_getExternalMemberListUIDs") then {
 		membersX = [];
 		{membersX pushBackUnique _x} forEach (call as_fnc_getExternalMemberListUIDs);
@@ -193,7 +218,7 @@ addMissionEventHandler ["BuildingChanged", {
 
 		// Antenna dead/alive status is handled separately
 		if !(_oldBuilding in antennas || _oldBuilding in antennasDead) then {
-			destroyedBuildings pushBack (getPosATL _oldBuilding);
+			destroyedBuildings pushBack _oldBuilding;
 		};
 	};
 }];
@@ -207,8 +232,23 @@ waitUntil {sleep 1;!(isNil "placementDone")};
 [2, "HQ Placed, continuing init", _fileName] call A3A_fnc_log;
 [] spawn A3A_fnc_markerActiveUpdateLoop;
 [] spawn A3A_fnc_resourcecheck;
+[] spawn A3A_fnc_aggressionUpdateLoop;
 [] execVM "Scripts\fn_advancedTowingInit.sqf";
 savingServer = false;
+
+// Autosave loop. Save if there were any players on the server since the last save.
+[] spawn {
+	private _lastPlayerCount = count (call A3A_fnc_playableUnits);
+	while {true} do
+	{
+		uiSleep autoSaveInterval;
+		private _playerCount = count (call A3A_fnc_playableUnits);
+		if (autoSave && (_playerCount > 0 || _lastPlayerCount > 0)) then {
+			[] remoteExecCall ["A3A_fnc_saveLoop", 2];
+		};
+		_lastPlayerCount = _playerCount;
+	};
+};
 
 [] spawn A3A_fnc_spawnDebuggingLoop;
 

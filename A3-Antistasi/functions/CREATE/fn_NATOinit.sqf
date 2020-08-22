@@ -1,9 +1,10 @@
-params ["_unit", ["_marker", ""]];
+params ["_unit", ["_marker", ""], "_isSpawner"];
 
 /*  Inits the given unit with all needed data, flags and weapons
 *   Params:
 *       _unit : OBJECT : The unit that needs to be initialized
 *       _marker : STRING : The name of the marker (default "")
+*       _isSpawner : BOOL : (Optional) Whether the unit should be made a spawner, otherwise automatic
 *
 *   Returns:
 *       Nothing
@@ -26,16 +27,6 @@ if (_type == "Fin_random_F") exitWith {};
 _unit addEventHandler ["HandleDamage", A3A_fnc_handleDamageAAF];
 _unit addEventHandler ["killed", A3A_fnc_occupantInvaderUnitKilledEH];
 
-//Sets the most important variables to the unit
-if (_marker != "") then
-{
-    _unit setVariable ["markerX",_marker,true];
-    if ((spawner getVariable _marker != 0) && {!(isNull objectParent _unit)}) then
-    {
-        [_unit,false] remoteExec ["enableSimulationGlobal",2];
-    };
-};
-
 //Calculates the skill of the given unit
 private _skill = (0.15 + (0.02 * difficultyCoef) + (0.01 * tierWar)) * skillMult;
 if (faction _unit isEqualTo factionFIA) then
@@ -50,7 +41,7 @@ if (faction _unit isEqualTo factionGEN) then
         private _rifleFinal = primaryWeapon _unit;
         private _magazines = getArray (configFile / "CfgWeapons" / _rifleFinal / "magazines");
         {
-            _unit removeMagazines _x;
+            _unit removeMagazines _x;			// Broken, doesn't remove mags globally. Pain to fix.
         } forEach _magazines;
         _unit removeWeaponGlobal (_rifleFinal);
         if (tierWar < 5) then

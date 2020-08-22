@@ -92,12 +92,9 @@ private _maxVehiclesNeeded = _maxRequested select 0;
 private _maxCargoSpaceNeeded = _maxRequested select 2;
 private _currentUnitCount = 0;
 
-[
-    3,
-    format ["Gathered data for unit selection, available are %1, %3 vehicles needed, %2 cargo units needed", _pointsAvailable, _maxCargoSpaceNeeded, _maxVehiclesNeeded],
-    _fileName,
-    true
-] call A3A_fnc_log;
+[4, format ["Gathered data for unit selection, available are %1, %3 cargo units needed", _maxUnitSend, _maxCargoSpaceNeeded], _fileName] call A3A_fnc_log;
+[4, format ["Reinforcments requested from %1 for: %2", _target, _reinf], _fileName] call A3A_fnc_log;
+
 
 private _finishedSelection = false;
 

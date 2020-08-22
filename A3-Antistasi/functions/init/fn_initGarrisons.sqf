@@ -8,11 +8,10 @@ private _fileName = "initGarrisons";
 _fnc_initMarker =
 {
 	params ["_mrkCSAT", "_target", "_mrkType", "_mrkText", ["_useSideName", false]];
-	private ["_pos", "_mrk", "_garrNum", "_garrison", "_groupsRandom"];
 
 	{
-		_pos = getMarkerPos _x;
-		_mrk = createMarker [format ["Dum%1", _x], _pos];
+		private _pos = getMarkerPos _x;
+		private _mrk = createMarker [format ["Dum%1", _x], _pos];
 		//TODO Multilanguage variable insted text
 		_mrk setMarkerShape "ICON";
 
@@ -21,22 +20,22 @@ _fnc_initMarker =
 			killZones setVariable [_x, [], true];
 			server setVariable [_x, 0, true];
 
-			if (_x in _mrkCSAT) then
-			{
-				_mrkText = format [_mrkText, nameInvaders];
-				if(_x in airportsX) then
-				{
-					_mrkType = flagCSATmrk;
-				};
-			}
-			else
-			{
-				_mrkText = format [_mrkText, nameOccupants];
-				if(_x in airportsX) then
-				{
-					_mrkType = flagNATOmrk;
-				};
-			};
+			private _sideName = if (_x in _mrkCSAT) then {nameInvaders} else {nameOccupants};
+			_mrk setMarkerText format [_mrkText, _sideName];
+		}
+		else
+		{
+			_mrk setMarkerText _mrkText;
+		};
+
+		if (_x in airportsX) then
+		{
+			private _flagType = if (_x in _mrkCSAT) then {flagCSATmrk} else {flagNATOmrk};
+			_mrk setMarkerType _flagType;
+		}
+		else
+		{
+			_mrk setMarkerType _mrkType;
 		};
 
 		if (_x in _mrkCSAT) then
@@ -49,9 +48,6 @@ _fnc_initMarker =
 			if !(_x in airportsX) then {_mrk setMarkerColor colorOccupants;} else {_mrk setMarkerColor "Default"};
 			sidesX setVariable [_x, Occupants, true];
 		};
-
-		_mrk setMarkerType _mrkType;
-		_mrk setMarkerText _mrkText;
 
 		[_x] call A3A_fnc_createControls;
 	} forEach _target;
@@ -149,6 +145,9 @@ if (!(isNil "loadLastSave") && {loadLastSave}) exitWith {};
 
 [3, "Setting up airbase garrisons", _fileName] call A3A_fnc_log;
 [airportsX, "Airport", [0,0,0]] call A3A_fnc_createGarrison;
+//Set carrier markers to the same as airbases below.
+if (isServer) then {"NATO_carrier" setMarkertype flagNATOmrk};
+if (isServer) then {"CSAT_carrier" setMarkertype flagCSATmrk};
 
 [3, "Setting up resource garrisons", _fileName] call A3A_fnc_log;
 [resourcesX, "Other", [0,0,0]] call A3A_fnc_createGarrison;

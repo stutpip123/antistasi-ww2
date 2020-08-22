@@ -66,7 +66,7 @@ while {true} do
 		{
 		["TaskSucceeded", ["", format ["%1 joined %2",[_city, false] call A3A_fnc_location,nameTeamPlayer]]] remoteExec ["BIS_fnc_showNotification",teamPlayer];
 		sidesX setVariable [_city,teamPlayer,true];
-		_nul = [5,0] remoteExec ["A3A_fnc_prestige",2];
+		[[10, 60], [0, 0]] remoteExec ["A3A_fnc_prestige",2];
 		_mrkD = format ["Dum%1",_city];
 		_mrkD setMarkerColor colorTeamPlayer;
         [_mrkD, teamPlayer] call A3A_fnc_clearGarrison;
@@ -86,7 +86,7 @@ while {true} do
 		{
 		["TaskFailed", ["", format ["%1 joined %2",[_city, false] call A3A_fnc_location,nameOccupants]]] remoteExec ["BIS_fnc_showNotification",teamPlayer];
 		sidesX setVariable [_city,Occupants,true];
-		_nul = [-5,0] remoteExec ["A3A_fnc_prestige",2];
+		[[-10, 45], [0, 0]] remoteExec ["A3A_fnc_prestige",2];
 		_mrkD = format ["Dum%1",_city];
 		_mrkD setMarkerColor colorOccupants;
         [_city, Occupants] call A3A_fnc_clearGarrison;
@@ -150,18 +150,6 @@ while {true} do
 		[_veh,1] remoteExec ["setVehicleAmmo",_veh];
 		};
 	} forEach vehicles;
-	countCA = countCA - 600;
-	if (countCA < 0) then {countCA = 0};
-	publicVariable "countCA";
-	if ((countCA == 0)/* and (diag_fps > minimoFPS)*/) then
-		{
-		[1200] remoteExec ["A3A_fnc_timingCA",2];
-		if (!bigAttackInProgress) then
-			{
-			_script = [] spawn A3A_fnc_rebelAttack;
-			waitUntil {sleep 5; scriptDone _script};
-			};
-		};
 	sleep 3;
     _numWreckedAntennas = count antennasDead;
 	//Probability of spawning a mission in.
@@ -226,15 +214,6 @@ while {true} do
 			};
 		} forEach allUnits;
 		};
-	if (autoSave) then
-	{
-		_countSave = _countSave - 600;
-		if (_countSave <= 0) then
-		{
-			_countSave = autoSaveInterval;
-			[] remoteExecCall ["A3A_fnc_saveLoop", 0, false];
-		};
-	};
 
 	sleep 4;
 	};

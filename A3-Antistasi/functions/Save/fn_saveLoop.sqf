@@ -1,15 +1,37 @@
-if (hasInterface) then {
-	if (!isNil "savingClient" && {savingClient}) exitWith {["Save", "Your personal stats are being saved"] call A3A_fnc_customHint;};
-	[] call A3A_fnc_savePlayer;
+private _filename = "fn_saveLoop";
+if (!isServer) exitWith {
+	[1, "Miscalled server-only function", _filename] call A3A_fnc_log;
 };
-
-//Server only from here on out.
-if (!isServer) exitWith {};
 
 if (savingServer) exitWith {["Save Game", "Server data save is still in progress"] remoteExecCall ["A3A_fnc_customHint",theBoss]};
 savingServer = true;
+[2, "Starting persistent save", _filename] call A3A_fnc_log;
+
+// Save each player with global flag
+{
+	[getPlayerUID _x, _x, true] call A3A_fnc_savePlayer;
+} forEach (call A3A_fnc_playableUnits);
+
+// Check if this campaign is already in the save list
+private _saveList = [profileNamespace getVariable "antistasiSavedGames"] param [0, [], [[]]];
+private _saveIndex = -1;
+{
+	if (_x select 0 == campaignID) exitWith { _saveIndex = forEachIndex };
+} forEach _saveList;
+
+// If not, append a new entry
+if (_saveIndex == -1) then {
+	private _gametype = if (teamPlayer isEqualTo independent) then {"Greenfor"} else {"Blufor"};
+	_saveList pushBack [campaignID, worldName, _gametype];
+	profileNamespace setVariable ["antistasiSavedGames", _saveList];
+};
+
+// Update the legacy campaign ID store
+profileNamespace setVariable ["ss_campaignID", campaignID];
+
 private ["_garrison"];
-["countCA", countCA] call A3A_fnc_setStatVariable;
+["attackCountdownOccupants", attackCountdownOccupants] call A3A_fnc_setStatVariable;
+["attackCountdownInvaders", attackCountdownInvaders] call A3A_fnc_setStatVariable;
 ["gameMode", gameMode] call A3A_fnc_setStatVariable;
 ["difficultyX", skillMult] call A3A_fnc_setStatVariable;
 ["bombRuns", bombRuns] call A3A_fnc_setStatVariable;
@@ -22,8 +44,6 @@ private _antennasDeadPositions = [];
 ["mrkSDK", (markersX - controlsX - outpostsFIA) select {sidesX getVariable [_x,sideUnknown] == teamPlayer}] call A3A_fnc_setStatVariable;
 ["mrkCSAT", (markersX - controlsX) select {sidesX getVariable [_x,sideUnknown] == Invaders}] call A3A_fnc_setStatVariable;
 ["posHQ", [getMarkerPos respawnTeamPlayer,getPos fireX,[getDir boxX,getPos boxX],[getDir mapX,getPos mapX],getPos flagX,[getDir vehicleBox,getPos vehicleBox]]] call A3A_fnc_setStatVariable;
-["prestigeNATO", prestigeNATO] call A3A_fnc_setStatVariable;
-["prestigeCSAT", prestigeCSAT] call A3A_fnc_setStatVariable;
 ["dateX", date] call A3A_fnc_setStatVariable;
 ["skillFIA", skillFIA] call A3A_fnc_setStatVariable;
 ["destroyedSites", destroyedSites] call A3A_fnc_setStatVariable;
@@ -33,7 +53,12 @@ private _antennasDeadPositions = [];
 ["maxUnits", maxUnits] call A3A_fnc_setStatVariable;
 ["nextTick", nextTick - time] call A3A_fnc_setStatVariable;
 ["weather",[fogParams,rain]] call A3A_fnc_setStatVariable;
-["destroyedBuildings",destroyedBuildings] call A3A_fnc_setStatVariable;
+private _destroyedPositions = destroyedBuildings apply { getPosATL _x };
+["destroyedBuildings",_destroyedPositions] call A3A_fnc_setStatVariable;
+
+//Save aggression values
+["aggressionOccupants", [aggressionLevelOccupants, aggressionStackOccupants]] call A3A_fnc_setStatVariable;
+["aggressionInvaders", [aggressionLevelInvaders, aggressionStackInvaders]] call A3A_fnc_setStatVariable;
 
 private ["_hrBackground","_resourcesBackground","_veh","_typeVehX","_weaponsX","_ammunition","_items","_backpcks","_containers","_arrayEst","_posVeh","_dierVeh","_prestigeOPFOR","_prestigeBLUFOR","_city","_dataX","_markersX","_garrison","_arrayMrkMF","_arrayOutpostsFIA","_positionOutpost","_typeMine","_posMine","_detected","_typesX","_exists","_friendX"];
 
@@ -204,7 +229,8 @@ _dataX = [];
 _controlsX = controlsX select {(sidesX getVariable [_x,sideUnknown] == teamPlayer) and (controlsX find _x < defaultControlIndex)};
 ["controlsSDK",_controlsX] call A3A_fnc_setStatVariable;
 
+saveProfileNamespace;
 savingServer = false;
 _saveHintText = format ["Savegame Done.<br/><br/>You won't lose your stats in the event of a game update.<br/><br/>Remember: if you want to preserve any vehicle, it must be near the HQ Flag with no AI inside.<br/>If AI are inside, you will save the funds you spent on it.<br/><br/>AI will be refunded<br/><br/>Stolen and purchased Static Weapons need to be ASSEMBLED in order to be saved. You can save disassembled Static Weapons in the ammo box.<br/><br/>Mounted Statics (Mortar/AA/AT squads) won't get saved, but you will be able to recover the cost.<br/><br/>Same for assigned vehicles more than 50m away from HQ.<br/><br/>%1 fund count:<br/>HR: %2<br/>Money: %3 €",nameTeamPlayer,_hrBackground,_resourcesBackground];
 [petros,"hint",_saveHintText, "Save"] remoteExec ["A3A_fnc_commsMP", 0];
-diag_log format ["%1: [Antistasi] | INFO | Persistent Save Completed.",servertime];
+[2, "Persistent Save Completed", _filename] call A3A_fnc_log;

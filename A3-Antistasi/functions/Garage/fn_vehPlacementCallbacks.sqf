@@ -55,7 +55,7 @@ switch (_callbackTarget) do {
 
 			case CALLBACK_VEH_PLACED_SUCCESSFULLY: {
 				private _garageVeh = _callbackParams param [0];
-				[_garageVeh] call A3A_fnc_AIVEHinit;
+				[_garageVeh, teamPlayer] call A3A_fnc_AIVEHinit;
                 [[_garageVeh], "A3A_fnc_vehicleDespawner"] spawn A3A_fnc_scheduler;
 
 				if (_garageVeh isKindOf "Car") then {_garageVeh setPlateNumber format ["%1",name player]};
@@ -136,7 +136,7 @@ switch (_callbackTarget) do {
 				private _purchasedVeh = _callbackParams param [0];
 				private _typeVehX = typeOf _purchasedVeh;
 
-				[_purchasedVeh] call A3A_fnc_AIVEHinit;
+				[_purchasedVeh, teamPlayer] call A3A_fnc_AIVEHinit;
                 [[_purchasedVeh], "A3A_fnc_vehicleDespawner"] spawn A3A_fnc_scheduler;
 				if (_purchasedVeh isKindOf "Car") then {_purchasedVeh setPlateNumber format ["%1",name player]};
 
@@ -154,7 +154,6 @@ switch (_callbackTarget) do {
 					else
 						{
 						[-1 * vehiclePurchase_cost] call A3A_fnc_resourcesPlayer;
-						["moneyX",player getVariable ["moneyX",0]] call A3A_fnc_setStatVariable;
 						_purchasedVeh setVariable ["ownerX",getPlayerUID player,true];
 						};
 					};
