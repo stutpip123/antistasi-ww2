@@ -10,10 +10,6 @@ while {_sleepTime > 0} do
     if((spawner getVariable _airport) != 2) exitWith {};
 };
 
-_strikePlane setFuel 1;
-_strikePlane hideObjectGlobal false;
-_strikePlane enableSimulation true;
-
 private _targetList = server getVariable [format ["%1_targets", _supportName], []];
 private _reveal = _targetList select 0 select 1;
 
@@ -40,9 +36,6 @@ _strikePlane flyInHeightASL [(_minAltASL select 2) +150, (_minAltASL select 2) +
 private _airportPos = getMarkerPos _airport;
 private _dir = markerDir (format ["%1_coverage", _supportName]);
 
-//Have a preBomb position to ensure nearly perfect flight path
-private _preBombPosition = _targetPos getPos [750, _dir + 180];
-_preBombPosition set [2, 150];
 private _startBombPosition = _targetPos getPos [100, _dir + 180];
 _startBombPosition set [2, 150];
 private _endBombPosition = _targetPos getPos [100, _dir];
@@ -62,36 +55,16 @@ if(_aggroValue > 30 && _aggroValue < 70) then
     _flightSpeed = "NORMAL";
     _bombCount = 6;
 };
+[2, format["Airstrike %1 will be carried out with %2 bombs at %3 speed", _supportName, _bombCount, toLower _flightSpeed], _fileName] call A3A_fnc_log;
 
 //Creating bombing parameters
 private _bombParams = [_strikePlane, _strikePlane getVariable "bombType", _bombCount, 200];
 (driver _strikePlane) setVariable ["bombParams", _bombParams, true];
 
-private _startingPoint = (getPos _strikePlane) getPos [750, getDir _strikePlane];
-_startingPoint set [2, 100];
-private _wp0 = _strikeGroup addWaypoint [_startingPoint, 0];
-_wp1 setWaypointType "MOVE";
-_wp1 setWaypointSpeed "FULL";
-_wp1 setWaypointBehaviour "CARELESS";
-
-private _wp1 = _strikeGroup addWaypoint [_preBombPosition, 1];
-_wp1 setWaypointType "MOVE";
-_wp1 setWaypointSpeed "FULL";
-_wp1 setWaypointBehaviour "CARELESS";
-
-private _wp2 = _strikeGroup addWaypoint [_startBombPosition, 2];
+private _wp2 = _strikeGroup addWaypoint [_startBombPosition, 0];
 _wp2 setWaypointType "MOVE";
 _wp2 setWaypointSpeed _flightSpeed;
-
-[_startBombPosition, driver _strikePlane] spawn
-{
-    params ["_pos", "_pilot"];
-    waitUntil {sleep 1; ((_pos distance2D _pilot) < 750) || {isNull (objectParent _pilot)}};
-    if(isNull (objectParent _pilot)) exitWith {};
-    waitUntil {sleep 0.1; ((_pos distance2D _pilot) < 500) || {isNull (objectParent _pilot)}};
-    if(isNull (objectParent _pilot)) exitWith {};
-    group _pilot setCurrentWaypoint [(group _pilot), 2];
-}
+_wp2 setWaypointBehaviour "CARELESS";
 
 [_startBombPosition, driver _strikePlane] spawn
 {
@@ -103,20 +76,15 @@ _wp2 setWaypointSpeed _flightSpeed;
     (_pilot getVariable 'bombParams') spawn A3A_fnc_airbomb;
 };
 
-private _wp3 = _strikeGroup addWaypoint [_endBombPosition, 3];
+private _wp3 = _strikeGroup addWaypoint [_endBombPosition, 1];
 _wp3 setWaypointType "MOVE";
 _wp3 setWaypointSpeed _flightSpeed;
+_wp3 setWaypointBehaviour "CARELESS";
 
-private _wp4 = _strikeGroup addWaypoint [_airportPos, 4];
+private _wp4 = _strikeGroup addWaypoint [_airportPos, 2];
 _wp4 setWaypointType "MOVE";
 _wp4 setWaypointSpeed "FULL";
 _wp4 setWaypointStatements ["true", "[(objectParent this) getVariable 'supportName', side (group this)] spawn A3A_fnc_endSupport; deleteVehicle (objectParent this); deleteVehicle this"];
 
-//Give the plane some starting assist
-while {((velocity _strikePlane) select 2) < 5} do
-{
-    private _velocity = velocityModelSpace _strikePlane;
-    _velocity set [1, (_velocity select 1) * 1.025];
-    _strikePlane setVelocityModelSpace _velocity;
-    sleep 0.1;
-};
+_strikePlane hideObjectGlobal false;
+_strikePlane enableSimulation true;
