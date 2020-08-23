@@ -124,7 +124,7 @@ prestigeOPFOR = [75, 50] select cadetMode;												//Initial % support for NA
 prestigeBLUFOR = 0;																	//Initial % FIA support on each city
 // Indicates time in seconds before next counter attack.
 attackCountdownOccupants = 600;
-attackCountdownInvaders = 600;
+attackCountdownInvaders = 300;
 
 cityIsSupportChanging = false;
 resourcesIsChanging = false;
