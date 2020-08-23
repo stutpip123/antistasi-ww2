@@ -46,12 +46,6 @@ while {true} do
         private _airportsOccupants = {(sidesX getVariable _x) == Occupants} count airportsX;
     	if ((attackCountdownOccupants < 0) || (_airportsOccupants == 0)) then
         {
-            //Check for berserk mode
-            if(_airportsOccupants > 0) then
-            {
-                attackCountdownOccupants = 0;
-                [3600, Occupants] call A3A_fnc_timingCA;
-            };
             if (!bigAttackInProgress) then
             {
                 [Occupants] spawn A3A_fnc_rebelAttack;
@@ -60,7 +54,7 @@ while {true} do
             {
                 if(_airportsOccupants > 0) then
                 {
-                    [600, Occupants] call A3A_fnc_timingCA;
+                    [300, Occupants] call A3A_fnc_timingCA;
                 };
             };
         }
@@ -78,11 +72,6 @@ while {true} do
         private _airportsInvaders = {(sidesX getVariable _x) == Occupants} count airportsX;
         if ((attackCountdownInvaders < 0) || (_airportsInvaders == 0)) then
         {
-            if(_airportsInvaders > 0) then
-            {
-                attackCountdownInvaders = 0;
-                [1800, Invaders] call A3A_fnc_timingCA;
-            };
             if (!bigAttackInProgress) then
             {
                 [Invaders] spawn A3A_fnc_rebelAttack;
@@ -91,7 +80,7 @@ while {true} do
             {
                 if(_airportsInvaders > 0) then
                 {
-                    [600, Invaders] call A3A_fnc_timingCA;
+                    [300, Invaders] call A3A_fnc_timingCA;
                 };
             };
         }

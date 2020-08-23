@@ -52,6 +52,6 @@ if(_side == Occupants) then
 
 if(_side == Invaders) then
 {
-    attackCountdownInvaders = attackCountdownInvaders + _timeToAdd;
+    attackCountdownInvaders = attackCountdownInvaders + (_timeToAdd/2);
     publicVariable "attackCountdownInvaders";
 };
