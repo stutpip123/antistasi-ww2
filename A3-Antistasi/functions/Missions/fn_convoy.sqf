@@ -32,12 +32,18 @@ else
 {
 	if (_mrkDest in citiesX) then
 	{
-		if (sidesX getVariable [_mrkDest,sideUnknown] == Occupants) then {_convoyTypes = ["Supplies"]} else {_convoyTypes = ["Supplies"]}
+		_convoyTypes = ["Supplies"];
 	}
 	else
-		{
-		if ((_destinationX in resourcesX) or (_destinationX in factories)) then {_typeConvoy = ["Money"]} else {_typeConvoy = ["Prisoners"]};
-		};
+	{
+		if ((_destinationX in resourcesX) or (_destinationX in factories)) then
+        {
+            _typeConvoy = ["Money"]
+        }
+        else
+        {
+            _typeConvoy = ["Prisoners"]
+        };
 	};
 };
 

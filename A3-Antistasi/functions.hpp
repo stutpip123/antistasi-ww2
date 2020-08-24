@@ -209,9 +209,7 @@ class A3A
 		class cleanserVeh {};
 		class createAIcontrols {};
 		class createCIV {};
-		class createFIAOutposts2 {};
 		class createQRF {};
-		class createSDKGarrisons {};
 		class createSDKgarrisonsTemp {};
 		class createUnit {};
 		class FIAinitBases {};

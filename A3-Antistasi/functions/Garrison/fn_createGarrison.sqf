@@ -43,8 +43,8 @@ private _preferred = garrison getVariable (format ["%1_preference", _type]);
     };
 
     //Logs the data if the server is on debug level
-    //[3, format ["Garrison on %1 is now set", _marker], _fileName] call A3A_fnc_log;
-    //[_garrison, format ["%1_garrison", _marker]] call A3A_fnc_logArray;
+    [3, format ["Garrison on %1 is now set", _marker], _fileName] call A3A_fnc_log;
+    [_garrison, format ["%1_garrison", _marker]] call A3A_fnc_logArray;
 
     [_type, _marker] call A3A_fnc_updateStatics;
     [_type, _marker] call A3A_fnc_updatePatrols;

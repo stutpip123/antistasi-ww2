@@ -127,7 +127,7 @@ else
     	};
     };
 
-    if (random 100 < ((prestigeNATO) + (prestigeCSAT))) then
+    if (random 100 < ((aggressionOccupants) + (aggressionInvaders))) then
     {
     	private _pos = [];
         private _journalistGroup = createGroup civilian;

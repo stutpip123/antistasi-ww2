@@ -23,7 +23,7 @@ else
         private _spawnPos = _spawnParameter select 0;
         private _nearestBuilding = nearestObject [_spawnPos, "HouseBase"];
 
-        [4, format ["nearestBuilding is %1", (typeOf _nearestBuilding)], _fileName] call A3A_fnc_log;
+        [3, format ["nearestBuilding is %1", (typeOf _nearestBuilding)], _fileName] call A3A_fnc_log;
 
         if(!(_nearestBuilding isKindOf "Ruins")) then
         {
