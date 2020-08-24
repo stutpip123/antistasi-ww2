@@ -81,7 +81,7 @@ if (visiblemap) then {
 	if (_newGame) then {
 		{
 			if (getMarkerPos _x distance _positionClicked < distanceSPWN) then {
-				sidesX setVariable [_x,teamPlayer,true];
+				sidesX setVariable [_x,nil,true];
 			};
 		} forEach controlsX;
 		petros setPos _positionClicked;
@@ -89,7 +89,7 @@ if (visiblemap) then {
 		_controlsX = controlsX select {!(isOnRoad (getMarkerPos _x))};
 		{
 			if (getMarkerPos _x distance _positionClicked < distanceSPWN) then {
-				sidesX setVariable [_x,teamPlayer,true];
+				sidesX setVariable [_x,nil,true];
 			};
 		} forEach _controlsX;
 		[_positionClicked] remoteExec ["A3A_fnc_createPetros", 2];

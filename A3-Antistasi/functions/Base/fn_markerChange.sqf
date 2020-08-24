@@ -7,6 +7,8 @@ private ["_winner","_markerX","_looser","_positionX","_other","_flagX","_flagsX"
 _winner = _this select 0;
 _markerX = _this select 1;
 
+if(_markerX == "Synd_HQ") exitWith {};
+
 if(sidesX getVariable [_markerX, sideUnknown] == sideUnknown) exitWith {};
 [3, format ["Changing side of %1 to %2", _markerX, _winner], _fileName] call A3A_fnc_log;
 if ((_winner == teamPlayer) and (_markerX in airportsX) and (tierWar < 3)) exitWith {};
