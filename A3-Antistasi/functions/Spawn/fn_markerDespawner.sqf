@@ -69,7 +69,7 @@ if(sidesX getVariable [_marker, sideUnknown] == sideUnknown) exitWith
     } forEach _allVehicles;
 };
 
-[_marker, sidesX getVariable [_marker, sideUnknown]] call A3A_fnc_zoneCheck;
+[_marker, sidesX getVariable [_marker, sideUnknown]] spawn A3A_fnc_zoneCheck;
 [_marker] call A3A_fnc_freeSpawnPositions;
 
 deleteMarker _patrolMarker;

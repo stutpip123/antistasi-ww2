@@ -1,5 +1,7 @@
 params ["_marker", "_vehicle"];
 
+[3, format ["Blocking space for %1 on %2", _vehicle, _marker], "blockVehicleSpace"] call A3A_fnc_log;
+
 private _index = -1;
 if(_vehicle isKindOf "LandVehicle") then
 {

@@ -316,7 +316,7 @@ if (_markerX in resourcesX) then
 
 //Destroy roadblocks around it
 {
-    [_markerX, _x] spawn A3A_deleteControls;
+    [_markerX, _x] spawn A3A_fnc_deleteControls;
 } forEach controlsX;
 if (_winner == teamPlayer) then
 {

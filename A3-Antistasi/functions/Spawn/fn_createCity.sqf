@@ -190,10 +190,10 @@ else
                 _wp setWaypointType "MOVE";
                 _wp setWaypointSpeed "LIMITED";
                 _wp setWaypointTimeout [30, 45, 60];
-                _wp = _groupP addWaypoint [_positionX,1];
+                _wp = _groupP addWaypoint [_markerPos,1];
                 _wp setWaypointType "MOVE";
                 _wp setWaypointTimeout [30, 45, 60];
-                _wp1 = _groupP addWaypoint [_positionX,2];
+                _wp1 = _groupP addWaypoint [_markerPos,2];
                 _wp1 setWaypointType "CYCLE";
                 _wp1 synchronizeWaypoint [_wp];
                 [_veh] spawn A3A_fnc_vehicleDespawner;
