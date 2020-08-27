@@ -13,17 +13,9 @@ while {_sleepTime > 0} do
     if((spawner getVariable _airport) != 2) exitWith {};
 };
 
-if(!alive _strikePlane) exitWith
-{
-    [_strikeGroup] spawn A3A_fnc_groupDespawner;
-    [_supportName, _side] call A3A_fnc_endSupport;
-};
-
-_strikePlane setFuel 1;
 _strikePlane hideObjectGlobal false;
 _strikePlane enableSimulation true;
-
-_strikePlane flyInHeightASL [1000, 1000, 1000];
+_strikePlane flyInHeight 1000;
 
 //Decrease time if aggro is low
 private _sideAggression = if(_side == Occupants) then {aggressionOccupants} else {aggressionInvaders};
@@ -65,10 +57,11 @@ _strikePlane addEventHandler
 _strikePlane setVariable ["InArea", false, true];
 _strikePlane setVariable ["CurrentlyAttacking", false, true];
 
-private _areaWP = _strikeGroup addWaypoint [_setupPos, 0];
+private _dir = (getPos _plane) getDir _setupPos;
+
+private _areaWP = _strikeGroup addWaypoint [_setupPos getPos [3000, -_dir], 0];
 _areaWP setWaypointSpeed "FULL";
 _areaWP setWaypointType "Move";
-_areaWP setWaypointCompletionRadius 3000;
 _areaWP setWaypointStatements ["true", "(vehicle this) setVariable ['InArea', true, true];"];
 
 private _loiterWP = _strikeGroup addWaypoint [_setupPos, 1];
@@ -111,9 +104,7 @@ while {_timeAlive > 0} do
             private _targetPos = getPos _targetObj;
 
             _strikeGroup reveal [_targetObj, _precision];
-
-            private _height = (AGLToASL _targetPos) select 2;
-            _strikePlane flyInHeightASL [250 + _height, 250 + _height, 250 + _height];
+            _strikePlane flyInHeightASL 250;
 
             //Show target to players if change is high enough
             private _textMarker = createMarker [format ["%1_text", _supportName], getPos _targetObj];
@@ -150,7 +141,7 @@ while {_timeAlive > 0} do
 
             private _attackWP = _strikeGroup addWaypoint [_targetPos, 2];
             _attackWP setWaypointType "DESTROY";
-            _attackWP waypointAttachVehicle _targetObj;
+            //_attackWP waypointAttachVehicle _targetObj;
             _attackWP setWaypointSpeed "FULL";
             _strikeGroup setCurrentWaypoint _attackWP;
         };
@@ -163,7 +154,7 @@ while {_timeAlive > 0} do
             _strikePlane setVariable ["CurrentlyAttacking", false, true];
             _strikeGroup setCurrentWaypoint [_strikeGroup, 1];
 
-            _strikePlane flyInHeightASL [1000, 1000, 1000];
+            _strikePlane flyInHeightASL 1000;
         };
     };
 
