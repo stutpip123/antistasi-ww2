@@ -33,6 +33,13 @@ if(isNull _enemyVehicle && {!(_enemy isKindOf "Man")}) then
 
 //Check groups combat abilities
 private _unitsInGroup = {[_x] call A3A_fnc_canFight} count (units _group);
+
+if(_unitsInGroup == 0) exitWith
+{
+    //All units uncon, group not able to fight any more
+    _supportTypes;
+};
+
 private _ATLauncherInGroup = {((_x call A3A_fnc_typeOfSoldier) == "ATMan") && {[_x] call A3A_fnc_canFight}} count (units _group);
 private _AALauncherInGroup = {((_x call A3A_fnc_typeOfSoldier) == "AAMan") && {[_x] call A3A_fnc_canFight}} count (units _group);
 
@@ -55,7 +62,7 @@ switch (true) do
             ) then
             {
                 //Use spread out attacks first, if not available use more precise attacks
-                _supportTypes = ["QRF", "MORTAR", "CANNON", "AIRSTRIKE", "AIRDROP", "GUNSHIP", "ORBSTRIKE"];
+                _supportTypes = ["MORTAR", "CANNON", "AIRSTRIKE", "AIRDROP", "GUNSHIP", "ORBSTRIKE", "QRF"];
             };
         }
         else
@@ -69,7 +76,7 @@ switch (true) do
             ) then
             {
                 //Use more precise attacks first, if not available use spread out ones
-                _supportTypes = ["QRF", "AIRSTRIKE", "MORTAR", "CANNON"];
+                _supportTypes = ["AIRSTRIKE", "MORTAR", "CANNON", "QRF"];
             };
         };
     };
@@ -93,7 +100,7 @@ switch (true) do
         ) then
         {
             //Use something that can attack targets directly, if not available use strong AoE attacks
-            _supportTypes = ["CAS", "GUNSHIP", "CANNON", "AIRDROP", "EMP", "ORBSTRIKE"];
+            _supportTypes = ["CAS", "GUNSHIP", "CANNON", "AIRDROP", "EMP", "ORBSTRIKE", "MORTAR", "AIRSTRIKE"];
         };
     };
     case (_enemyVehicle isKindOf "LandVehicle"):

@@ -4,15 +4,11 @@ if(tierWar < 3) exitWith {-1};
 
 //Select a timer index and the max number of timers available
 private _timerIndex = -1;
-private _playerAdjustment = ceil (sqrt (count allPlayers)) + 1;
+private _playerAdjustment = (ceil (sqrt (count allPlayers))) + 1;
 
 //Search for a timer which allows the support to be fired
 if(_side == Occupants) then
 {
-    if(isNil "occupantsAirstrikeTimer") then
-    {
-        occupantsAirstrikeTimer = [];
-    };
     if(count occupantsAirstrikeTimer < _playerAdjustment) then
     {
         _timerIndex = count occupantsAirstrikeTimer;
@@ -32,10 +28,6 @@ if(_side == Occupants) then
 };
 if(_side == Invaders) then
 {
-    if(isNil "invadersAirstrikeTimer") then
-    {
-        invadersAirstrikeTimer = [];
-    };
     if(count invadersAirstrikeTimer < _playerAdjustment) then
     {
         _timerIndex = count invadersAirstrikeTimer;

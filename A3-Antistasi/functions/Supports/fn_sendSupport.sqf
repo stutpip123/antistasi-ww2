@@ -93,14 +93,6 @@ if (_supportObject != "") exitWith
             //Target support methods, transmit target info
             [_supportObject, [_target, _precision], _revealCall] call A3A_fnc_addSupportTarget;
         };
-    }
-    else
-    {
-        [
-            2,
-            format ["QRf to %1 cancelled as another QRF is already in the area", _supportPos],
-            _fileName
-        ] call A3A_fnc_log;
     };
 };
 //Delete blocked supports
@@ -133,7 +125,23 @@ if(_selectedSupport == "") then
                 if(_index == -1) then
                 {
                     _selectedSupport = "QRF";
+                }
+                else
+                {
+                    [
+                        2,
+                        format ["QRf to %1 cancelled as another QRF is already in the area", _supportPos],
+                        _fileName
+                    ] call A3A_fnc_log;
                 };
+            }
+            else
+            {
+                [
+                    2,
+                    format ["QRf to %1 cancelled as another QRF is already in the area", _supportPos],
+                    _fileName
+                ] call A3A_fnc_log;
             };
         };
     };

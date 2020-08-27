@@ -35,7 +35,7 @@ if (_side == teamPlayer) then
 };
 
 private _typeX = typeOf _veh;
-if ((_typeX in vehNormal) or (_typeX in vehAttack) or (_typeX in vehBoats)) then
+if ((_typeX in vehNormal) or (_typeX in vehAttack) or (_typeX in vehBoats) or (_typeX in vehAA)) then
 {
 	_veh call A3A_fnc_addActionBreachVehicle;
 
@@ -67,7 +67,7 @@ if ((_typeX in vehNormal) or (_typeX in vehAttack) or (_typeX in vehBoats)) then
 			{
 				_veh addEventHandler ["HandleDamage",{private ["_veh"]; _veh = _this select 0; if (!canFire _veh) then {[_veh] call A3A_fnc_smokeCoverAuto;  _veh removeEventHandler ["HandleDamage",_thisEventHandler]}}];
 			}
-			else
+			else		// never called? vehAttack is APCs+tank
 			{
 				_veh addEventHandler ["HandleDamage",{if (((_this select 1) find "wheel" != -1) and ((_this select 4=="") or (side (_this select 3) != teamPlayer)) and (!isPlayer driver (_this select 0))) then {0} else {(_this select 2)}}];
 			};
@@ -206,6 +206,20 @@ if(_veh isKindOf "Air") then
             };
         }
     ];
+
+
+    _veh addEventHandler
+    [
+        "IncomingMissile",
+        {
+            params ["_target", "_ammo", "_vehicle", "_instigator"];
+            private _group = group driver _target;
+            private _supportTypes = [_group, _vehicle] call A3A_fnc_chooseSupport;
+            _supportTypes = _supportTypes - ["QRF"];
+            private _reveal = [getPos _vehicle, side _group] call A3A_fnc_calculateSupportCallReveal;
+            [_vehicle, 4, _supportTypes, side _group, _reveal] spawn A3A_fnc_sendSupport;
+        }
+    ]
 };
 
 // Handler to prevent vehDespawner deleting vehicles for an hour after rebels exit them

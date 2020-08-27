@@ -1,4 +1,4 @@
-params ["_vehicleType", "_pos", "_dir", "_typeOfAttack", "_landPosBlacklist", "_side", "_markerOrigin"];
+params ["_vehicleType", "_typeOfAttack", "_landPosBlacklist", "_side", "_markerOrigin"];
 
 /*  Creates a vehicle for a QRF or small attack, including crew and cargo
 
@@ -8,20 +8,23 @@ params ["_vehicleType", "_pos", "_dir", "_typeOfAttack", "_landPosBlacklist", "_
 
     Parameters:
         _vehicleType: STRING : The name of the vehicle to spawn
-        _pos: POSITION : The position around which the vehicle should be spawned in
-        _dir: NUMBER : Direction of the vehicle (NOT YET USED AS THE SAFE SPAWN DOES NOT HANDLES IT YET)
         _typeOfAttack: STRING : The type of the attack
         _landPosBlacklist: ARRAY : List of blacklisted position
         _side: SIDE : The side of the attacker
         _markerOrigin: STRING : The name of the marker marking the origin
 
     Returns:
-        _vehicleData: ARRAY : [_vehicle, _crewGroup, _cargoGroup, _landPosBlacklist]
+        ARRAY : [_vehicle, _crewGroup, _cargoGroup, _landPosBlacklist]
+        or
+        OBJECT : objNull if the spawning did not worked
 */
 
 private _fileName = "createAttackVehicle";
 
-private _vehicle = [_vehicleType, _pos, 100, 5, true] call A3A_fnc_safeVehicleSpawn;
+private _vehicle = [_markerOrigin, _vehicleType] call A3A_fnc_spawnVehicleAtMarker;
+
+if(isNull _vehicle) exitWith {objNull};
+
 private _crewGroup = createVehicleCrew _vehicle;
 
 {
@@ -65,7 +68,7 @@ if ((([_vehicleType, true] call BIS_fnc_crewCount) - ([_vehicleType, false] call
 };
 
 _landPosBlacklist = [_vehicle, _crewGroup, _cargoGroup, _posDestination, _markerOrigin, _landPosBlacklist] call A3A_fnc_createVehicleQRFBehaviour;
-[3, format ["Created vehicle %1 with %2 soldiers", typeof _vehicle, count crew _vehicle], _filename] call A3A_fnc_log;
+[3, format ["Spawn Preformed: Created vehicle %1 with %2 soldiers", typeof _vehicle, count crew _vehicle], _filename] call A3A_fnc_log;
 
 private _vehicleData = [_vehicle, _crewGroup, _cargoGroup, _landPosBlacklist];
 _vehicleData;

@@ -18,6 +18,11 @@ params ["_group", "_supportTypes", "_target"];
 private _fileName = "callForSupport";
 private _groupLeader = leader _group;
 
+if(side _group == teamPlayer) exitWith
+{
+    [1, format ["Rebel group %1 managed to call callForSupport, not allowed for rebel groups", _group], _fileName] call A3A_fnc_log;
+};
+
 if((_group getVariable ["canCallSupportAt", -1]) > (dateToNumber date)) exitWith {};
 
 //Block the group from calling support again
@@ -52,7 +57,7 @@ if([_groupLeader] call A3A_fnc_canFight) then
     private _revealed = [getPos _groupLeader, side _group] call A3A_fnc_calculateSupportCallReveal;
     //Starting the support
     [3, format ["%1 managed to call help against %2, reveal value is %3", _group, _target, _revealed], _fileName] call A3A_fnc_log;
-    [_target, _group knowsAbout _target, _supportTypes, side _group, _revealed] spawn A3A_fnc_sendSupport;
+    [_target, _group knowsAbout _target, _supportTypes, side _group, _revealed] remoteExec ["A3A_fnc_sendSupport", 2];
 }
 else
 {

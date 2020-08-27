@@ -52,6 +52,20 @@ _availableAirports = _availableAirports select
     ({_x == _nearestMarker} count (killZones getVariable [_x,[]])) < 3
 };
 
+private _finalOriginMarkers = [];
+{
+    private _vehicleSpawnPossible = ([_x, "Vehicle"] call A3A_fnc_findSpawnPosition) isEqualType [];
+    if(_vehicleSpawnPossible) then
+    {
+        _finalOriginMarkers pushBack _x;
+    };
+    //If marker not spawned, released locked places
+    if(spawner getVariable [_x, -1] == 2) then
+    {
+        [_x] call A3A_fnc_freeSpawnPositions;
+    };
+} forEach _availableAirports;
+
 if !(_availableAirports isEqualTo []) then
 {
     _markerOrigin = [_availableAirports, _posDestination] call BIS_fnc_nearestPosition;

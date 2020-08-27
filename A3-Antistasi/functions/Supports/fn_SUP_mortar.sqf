@@ -17,101 +17,61 @@ params ["_side", "_timerIndex", "_supportPos", "_supportName"];
 */
 
 private _fileName = "SUP_mortar";
-private _mortarType = "";
-private _shellType = "";
-private _isMortar = false;
+private _mortarType = if(_side == Occupants) then {NATOMortar} else {CSATMortar};
+private _shellType = SDKMortarHEMag;
+private _isMortar = true;
 
-if (tierWar < 6) then
+//If war level between 6 and 8 there is a chance (25%/50%/75%) that it switches to a howitzer instead, above it howitzer is guaranteed
+if((25 * (tierWar - 5)) > random 100) then
 {
-    _mortarType = if(_side == Occupants) then {NATOMortar} else {CSATMortar};
-    _shellType = SDKMortarHEMag;
-    _isMortar = true;
-}
-else
-{
-    if(tierWar > 8) then
-    {
-        _mortarType = if(_side == Occupants) then {vehNATOMRLS} else {vehCSATMRLS};
-        _shellType = if(_side == Occupants) then {vehNATOMRLSMags} else {vehCSATMRLSMags};
-    }
-    else
-    {
-        private _mortarChange = 70 - (20 * (tierWar - 6));
-        _isMortar = selectRandomWeighted [true, _mortarChange, false, (100 - _mortarChange)];
-        if(_isMortar) then
-        {
-            _mortarType = if(_side == Occupants) then {NATOMortar} else {CSATMortar};
-            _shellType = SDKMortarHEMag;
-        }
-        else
-        {
-            _mortarType = if(_side == Occupants) then {vehNATOMRLS} else {vehCSATMRLS};
-            _shellType = if(_side == Occupants) then {vehNATOMRLSMags} else {vehCSATMRLSMags};
-        };
-    };
+    _mortarType = if(_side == Occupants) then {vehNATOMRLS} else {vehCSATMRLS};
+    _shellType = if(_side == Occupants) then {vehNATOMRLSMags} else {vehCSATMRLSMags};
+    _isMortar = false;
 };
 
-[
-    2,
-    format ["Mortar support to %1 will be carried out by a %2 with %3 mags", _supportPos, _mortarType, _shellType],
-    _fileName
-] call A3A_fnc_log;
+[2, format ["Mortar support %1 will be carried out by a %2 with %3 mags", _supportName, _mortarType, _shellType], _fileName] call A3A_fnc_log;
 
 private _mortar = objNull;
-private _crew = [];
-private _mortarGroup = grpNull;
-private _crewType = if (_side == Occupants) then {staticCrewOccupants} else {staticCrewInvaders};
+private _spawnRadius = 5;
+private _spawnPos = [];
+private _spawnDir = 0;
 
-//Spawning in the units
+
 if(_isMortar) then
 {
     //Search for a outpost, that isnt more than 2 kilometers away, which isnt spawned
     private _possibleBases = (outposts + airportsX) select
     {
         (sidesX getVariable [_x, sideUnknown] == _side) &&
-        {((getMarkerPos _x) distance2D _supportPos <= 2000) &&
+        {((getMarkerPos _x) distance2D _supportPos <= 3000) &&
         {spawner getVariable [_x, -1] == 2}}
     };
 
     if(count _possibleBases == 0) exitWith {};
 
     //Search for an outpost with a designated mortar position if possible
+    private _index = -1;
     private _spawnParams = -1;
-    private _index = _possibleBases findIf
     {
         _spawnParams = [_x, "Mortar"] call A3A_fnc_findSpawnPosition;
-        _spawnParams != -1
-    };
+        if (_spawnParams isEqualType []) exitWith
+        {
+            //Will occupy a mortar spawn position until the outpost spawnes in and despawns again (Currently we dont spawn mortars at outposts anyways)
+            _spawnRadius = 0;
+            _index = _forEachIndex;
+        };
+        [_x] spawn A3A_fnc_freeSpawnPositions;
+    } forEach _possibleBases;
 
-    _mortarGroup = createGroup _side;
     if(_index != -1) then
     {
-        //Spawn in mortar
-        _mortar = _mortarType createVehicle (_spawnParams select 0);
-    	_mortar setDir (_spawnParams select 1);
-        [_possibleBases select _index] spawn A3A_fnc_freeSpawnPositions;
-
-        //Spawn in crew
-    	private _unit = [_mortarGroup, _crewType, (_spawnParams select 0), [], 5, "NONE"] call A3A_fnc_createUnit;
-
-        //Moving crew in
-    	_unit moveInGunner _mortar;
-    	_crew pushBack _unit;
+        _spawnPos = _spawnParams select 0;
+        _spawnDir = _spawnParams select 1;
     }
     else
     {
         private _base = selectRandom _possibleBases;
-        private _basePos = getMarkerPos _base;
-
-        //Spawn in mortar
-        _mortar = [_mortarType, _basePos, 5, 5, true] call A3A_fnc_safeVehicleSpawn;
-
-        //Spawn in crew
-        private _unit = [_mortarGroup, _crewType, _basePos, [], 5, "NONE"] call A3A_fnc_createUnit;
-
-        //Moving crew in
-        _unit moveInGunner _mortar;
-    	_crew pushBack _unit;
+        _spawnPos = getMarkerPos _base;
     };
 }
 else
@@ -119,7 +79,7 @@ else
     private _possibleBases = airportsX select
     {
         (sidesX getVariable [_x, sideUnknown] == _side) &&
-        {((getMarkerPos _x) distance2D _supportPos <= 8000) &&
+        {((getMarkerPos _x) distance2D _supportPos <= 10000) &&
         {((getMarkerPos _X) distance2D _supportPos > 2000) &&
         {spawner getVariable [_x, -1] == 2}}}
     };
@@ -127,26 +87,22 @@ else
     if(count _possibleBases == 0) exitWith {};
 
     private _base = selectRandom _possibleBases;
-    private _basePos = getMarkerPos _base;
-
-    //Spawn in mortar
-    _mortar = [_basePos, random 360, _mortarType, _side] call bis_fnc_spawnvehicle;
-
-    _crew = _mortar select 1;
-    _mortarGroup = _mortar select 2;
-
-    _mortar = _mortar select 0;
+    _spawnPos = getMarkerPos _base;
+    _spawnDir = random 360;
+    _spawnRadius = 50;
 };
 
-if(isNull _mortar) exitWith
+if(_spawnPos isEqualTo []) exitWith
 {
-    [
-        2,
-        format ["Couldn't spawn in mortar %1, no suitable position found!", _supportName],
-        _fileName
-    ] call A3A_fnc_log;
+    [2, format ["Couldn't spawn in mortar %1, no suitable position found!", _supportName], _fileName] call A3A_fnc_log;
     "";
 };
+
+//Spawn in mortar
+_mortar = [_mortarType, _spawnPos, _spawnRadius, 5, true] call A3A_fnc_safeVehicleSpawn;
+
+//Spawn in crew
+private _mortarGroup = createVehicleCrew _mortar;
 
 _mortar setVariable ["shellType", _shellType, true];
 
@@ -157,35 +113,25 @@ _coverageMarker setMarkerBrush "Grid";
 if(_side == Occupants) then
 {
     _coverageMarker setMarkerColor colorOccupants;
-    if(_isMortar) then
-    {
-        _coverageMarker setMarkerSize [2000, 2000];
-        occupantsMortarTimer set [_timerIndex, time + 1800];
-    }
-    else
-    {
-        _coverageMarker setMarkerSize [8000, 8000];
-        occupantsMortarTimer set [_timerIndex, time + 3600];
-    };
 }
 else
 {
     _coverageMarker setMarkerColor colorInvaders;
-    if(_isMortar) then
-    {
-        _coverageMarker setMarkerSize [2000, 2000];
-        invadersMortarTimer set [_timerIndex, time + 1800];
-    }
-    else
-    {
-        _coverageMarker setMarkerSize [8000, 8000];
-        invadersMortarTimer set [_timerIndex, time + 3600];
-    };
+};
+
+private _timerArray = if(_side == Occupants) then {occupantsMortarTimer} else {invadersMortarTimer};
+if(_isMortar) then
+{
+    _coverageMarker setMarkerSize [3000, 3000];
+    _timerArray set [_timerIndex, time + 1800];
+}
+else
+{
+    _coverageMarker setMarkerSize [10000, 10000];
+    _timerArray set [_timerIndex, time + 3600];
 };
 
 _coverageMarker setMarkerAlpha 0;
-
-private _timerArray = if(_side == Occupants) then {occupantsMortarTimer} else {invadersMortarTimer};
 
 _mortar setVariable ["TimerArray", _timerArray, true];
 _mortar setVariable ["TimerIndex", _timerIndex, true];
@@ -238,7 +184,7 @@ _mortarGroup setVariable ["Mortar", _mortar, true];
             };
         }
     ];
-} forEach _crew;
+} forEach (units _mortarGroup);
 
 _mortarGroup deleteGroupWhenEmpty true;
 [_mortar, _mortarGroup, _supportName, _side] spawn A3A_fnc_SUP_mortarRoutine;

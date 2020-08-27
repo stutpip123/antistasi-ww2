@@ -11,7 +11,7 @@ params ["_mortar", "_crewGroup", "_supportName", "_side"];
         _crewGroup: GROUP : The crewgroup of the mortar
         _supportName: STRING : The callsign of the support
         _side: SIDE : The side of the support
-        
+
     Returns:
         Nothing
 */
@@ -26,26 +26,17 @@ private _sideAggression = if(_side == Occupants) then {aggressionOccupants} else
 private _numberOfRounds = 32;
 private _timeAlive = 900;
 
-if(_sideAggression < 70) then
+//If the aggro is low, the mortar will shoot less and stay longer in one spot
+if((30 + (random 40)) >_sideAggression) then
 {
-    if(_sideAggression < 30) then
-    {
-        _numberOfRounds = 16;
-        _timeAlive = 1800;
-    }
-    else
-    {
-        if((30 + (random 40)) < _sideAggression) then
-        {
-            _numberOfRounds = 16;
-            _timeAlive = 1800;
-        };
-    };
+    _numberOfRounds = 16;
+    _timeAlive = 1800;
 };
 private _shotsPerVoley = _numberOfRounds / 4;
 
 _mortar setVariable ["Callsign", _supportName, true];
 
+//A function to repeatedly fire onto a target without loops by using an EH
 _fn_executeMortarFire =
 {
     params ["_mortar"];
@@ -64,7 +55,7 @@ _fn_executeMortarFire =
 
             if(count _targets == 0) exitWith
             {
-                _mortar removeAllEventHandlers "Fired";
+                _mortar removeEventHandler ["Fired", _thisEventHandler];
                 _mortar setVariable ["CurrentlyFiring", false, true];
                 _mortar setVariable ["FireOrder", nil, true];
 
@@ -170,20 +161,12 @@ while {_timeAlive > 0} do
         {_mortar getVariable ["Stolen", false]}}
     ) exitWith
     {
-        [
-            2,
-            format ["%1 has been destroyed or crew killed, aborting routine", _supportName],
-            _fileName
-        ] call A3A_fnc_log;
+        [2, format ["%1 has been destroyed or crew killed, aborting routine", _supportName], _fileName] call A3A_fnc_log;
     };
 
     if (!(_mortar getVariable "CurrentlyFiring") && (_numberOfRounds <= 0)) exitWith
     {
-        [
-            2,
-            format ["%1 has no more rounds left to fire, aborting routine", _supportName],
-            _fileName
-        ] call A3A_fnc_log;
+        [2, format ["%1 has no more rounds left to fire, aborting routine", _supportName], _fileName] call A3A_fnc_log;
     };
 
     sleep 5;

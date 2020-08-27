@@ -18,7 +18,7 @@ _nameDestination = [_attackDestination] call A3A_fnc_localizar;
 [[teamPlayer,civilian,Occupants],"invaderPunish",[format ["%2 is attacking innocent civilians in %1! Defend the city at all costs",_nameDestination,nameInvaders],format ["%1 Punishment",nameInvaders],_attackDestination],getMarkerPos _attackDestination,false,0,true,"Defend",true] call BIS_fnc_taskCreate;
 
 private _reveal = [_posDestination, Invaders] call A3A_fnc_calculateSupportCallReveal;
-[_posDestination, 4, ["MORTAR"], Invaders, _reveal] spawn A3A_fnc_sendSupport;
+[_posDestination, 4, ["MORTAR"], Invaders, _reveal] remoteExec ["A3A_fnc_sendSupport", 2];
 private _sideTarget = if (sidesX getVariable [_attackDestination,sideUnknown] == Occupants) then {Occupants} else {teamPlayer};
 _missionExpireTime = time + 3600;
 
@@ -103,7 +103,11 @@ _dataX = server getVariable _attackDestination;
 _numCiv = _dataX select 0;
 _numCiv = round (_numCiv /10);
 //Is this intended to be another attack or should that be a small attack instead?
-if (sidesX getVariable [_attackDestination,sideUnknown] == Occupants) then {[[_posDestination,Occupants,false],"A3A_fnc_singleAttack"] remoteExec ["A3A_fnc_scheduler",2]};
+if (sidesX getVariable [_attackDestination,sideUnknown] == Occupants) then
+{
+    private _reveal = [_posDestination, Invaders] call A3A_fnc_calculateSupportCallReveal;
+    [_posDestination, 4, ["QRF"], Invaders, _reveal] remoteExec ["A3A_fnc_sendSupport", 2];
+};
 if (_numCiv < 8) then {_numCiv = 8};
 
 _size = [_attackDestination] call A3A_fnc_sizeMarker;
@@ -139,7 +143,7 @@ if (tierWar >= 5) then {
 	for "_i" from 0 to round random 1 do {
 		if ([vehCSATPlane] call A3A_fnc_vehAvailable) then {
             private _reveal = [_posDestination, Invaders] call A3A_fnc_calculateSupportCallReveal;
-            [_posDestination, 4, ["AIRSTRIKE"], Invaders, _reveal] spawn A3A_fnc_sendSupport;
+            [_posDestination, 4, ["AIRSTRIKE"], Invaders, _reveal] remoteExec ["A3A_fnc_sendSupport", 2];
 			sleep 30;
 		};
 	};
@@ -181,7 +185,6 @@ if ((({not (captive _x)} count _soldiers) < ({captive _x} count _soldiers)) or (
 
 sleep 15;
 _nul = [0,"invaderPunish"] spawn A3A_fnc_deleteTask;
-[7200, Invaders] remoteExec ["A3A_fnc_timingCA",2];
 
 bigAttackInProgress = false;
 publicVariable "bigAttackInProgress";

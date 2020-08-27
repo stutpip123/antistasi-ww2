@@ -138,47 +138,38 @@ while {true} do
 			_soldiers = ((units _groupX) select {[_x] call A3A_fnc_canFight}) - [_groupX getVariable ["mortarX",objNull]];
 			_numSoldiers = count _soldiers;
 			if !(isNull _air) then
-				{
-				if (_allNearFriends findIf {(_x call A3A_fnc_typeOfSoldier == "AAMan") or (_x call A3A_fnc_typeOfSoldier == "StaticGunner")} == -1) then
-					{
-					if (_sideX != teamPlayer) then {[_groupX, ["SAM", "AAPLANE", "GUNSHIP"], _air] spawn A3A_fnc_callForSupport;};
-					};
-				//_nuevataskX = ["Hide",_soldiers - (_soldiers select {(_x call A3A_fnc_typeOfSoldier == "AAMan") or (_x getVariable ["typeOfSoldier",""] == "StaticGunner")})];
+			{
+                private _supportTypes = [_groupX, _air] call A3A_fnc_chooseSupport;
+                if ((count _supportTypes) > 0) then
+                {
+                    [_groupX, _supportTypes, _air] spawn A3A_fnc_callForSupport;
+                };
 				_groupX setVariable ["taskX","Hide"];
 				_taskX = "Hide";
-				};
+			};
 			if !(isNull _tanksX) then
-				{
-				if (_allNearFriends findIf {_x call A3A_fnc_typeOfSoldier == "ATMan"} == -1) then
-					{
-					_mortarX = _groupX getVariable ["mortarsX",objNull];
-					if (!(isNull _mortarX) and ([_mortarX] call A3A_fnc_canFight)) then
-						{
-						if ({if (_x distance _tanksX < 100) exitWith {1}} count _allNearFriends == 0) then {[_mortarX,getPosASL _tanksX,4] spawn A3A_fnc_mortarSupport};
-						}
-					else
-						{
-						if (_sideX != teamPlayer) then {[_groupX, ["CAS", "GUNSHIP"], _tanksX] spawn A3A_fnc_callForSupport;};
-						};
-					};
-				//_nuevataskX = ["Hide",_soldiers - (_soldiers select {(_x getVariable ["typeOfSoldier",""] == "ATMan")})];
+			{
+                private _supportTypes = [_groupX, _tanksX] call A3A_fnc_chooseSupport;
+                if ((count _supportTypes) > 0) then
+                {
+                    [_groupX, _supportTypes, _tanksX] spawn A3A_fnc_callForSupport;
+                };
 				_groupX setVariable ["taskX","Hide"];
 				_taskX = "Hide";
-				};
-			if (_numObjectives > 2*_numNearFriends) then
-				{
+			};
+			if (_numObjectives > 2 * _numNearFriends) then
+			{
 				if !(isNull _nearX) then
-					{
-					if (_sideX != teamPlayer) then {[_groupX, ["QRF", "MORTAR", "AIRSTRIKE"], _nearX] spawn A3A_fnc_callForSupport;};
-					_mortarX = _groupX getVariable ["mortarsX",objNull];
-					if (!(isNull _mortarX) and ([_mortarX] call A3A_fnc_canFight)) then
-						{
-						if ({if (_x distance _nearX < 100) exitWith {1}} count _allNearFriends == 0) then {[_mortarX,getPosASL _nearX,1] spawn A3A_fnc_mortarSupport};
-						};
-					};
+				{
+                    private _supportTypes = [_groupX, _nearX] call A3A_fnc_chooseSupport;
+                    if ((count _supportTypes) > 0) then
+                    {
+                        [_groupX, _supportTypes, _nearX] spawn A3A_fnc_callForSupport;
+                    };
+				};
 				_groupX setVariable ["taskX","Hide"];
 				_taskX = "Hide";
-				};
+			};
 			_transporte = _groupX getVariable ["transporte",objNull];
 			if (isNull(_groupX getVariable ["transporte",objNull])) then
 				{
@@ -220,17 +211,6 @@ while {true} do
 					_groupX setVariable ["taskX","Assault"];
 					_taskX = "Assault";
 					}
-				else
-					{
-					if (_numObjectives > 1) then
-						{
-						_mortarX = _groupX getVariable ["mortarsX",objNull];
-						if (!(isNull _mortarX) and ([_mortarX] call A3A_fnc_canFight)) then
-							{
-							if ({if (_x distance _nearX < 100) exitWith {1}} count _allNearFriends == 0) then {[_mortarX,getPosASL _nearX,1] spawn A3A_fnc_mortarSupport};
-							};
-						};
-					};
 				};
 
 			if (_taskX == "Assault") then
@@ -268,11 +248,6 @@ while {true} do
 										} forEach _baseOfFire select {(_x getVariable ["typeOfSoldier",""] == "Normal") and (count (getArray (configfile >> "CfgWeapons" >> primaryWeapon _x >> "muzzles")) == 2)};
 										};
 									};
-								};
-							_mortarX = _groupX getVariable ["mortarsX",objNull];
-							if (!(isNull _mortarX) and ([_mortarX] call A3A_fnc_canFight)) then
-								{
-								if ({if (_x distance _nearX < 100) exitWith {1}} count _allNearFriends == 0) then {[_mortarX,getPosASL _nearX,1] spawn A3A_fnc_mortarSupport};
 								};
 							};
 						};
