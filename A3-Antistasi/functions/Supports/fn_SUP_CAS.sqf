@@ -22,11 +22,7 @@ private _airport = [_supportObj, _side] call A3A_fnc_findAirportForAirstrike;
 
 if(_airport == "") exitWith
 {
-    [
-        2,
-        format ["No airport found for %1 support", _supportName],
-        _fileName
-    ] call A3A_fnc_log;
+    [2, format ["No airport found for %1 support", _supportName], _fileName] call A3A_fnc_log;
     ""
 };
 
@@ -34,7 +30,6 @@ private _plane = if (_side == Occupants) then {vehNATOPlane} else {vehCSATPlane}
 private _crewUnits = if(_side == Occupants) then {NATOCrew} else {CSATCrew};
 
 private _targetMarker = createMarker [format ["%1_coverage", _supportName], getPos _supportObj];
-
 _targetMarker setMarkerShape "ELLIPSE";
 _targetMarker setMarkerBrush "Grid";
 _targetMarker setMarkerSize [3000, 3000];
@@ -53,39 +48,24 @@ _targetMarker setMarkerAlpha 0;
 //to avoid spawning planes in each other and sudden explosions
 [_airport, 10] call A3A_fnc_addTimeForIdle;
 
-private _spawnParams = [_airport] call A3A_fnc_getRunwayTakeoffForAirportMarker;
-private _strikePlane = objNull;
+//No runway on this airport, use airport position
+//Not sure if I should go with 150 or 1000 here, players might be only 1001 meters away
+//While technically 1000 meter height is technically visible from a greater distance
+//150 is more likely to be in the actual viewcone of a player
+private _spawnPos = (getMarkerPos _airport);
+private _strikePlane = createVehicle [_plane, _spawnPos, [], 0, "FLY"];
+_strikePlane setDir (_spawnPos getDir _supportObj);
+
+//Put it in the sky
+_strikePlane setPosATL (_spawnPos vectorAdd [0, 0, 1000]);
+
+//Hide the hovering airplane from players view
+_strikePlane hideObjectGlobal true;
+_strikePlane enableSimulation false;
+_strikePlane setVelocityModelSpace (velocityModelSpace _strikePlane vectorAdd [0, 150, 0]);
+
 private _strikeGroup = createGroup _side;
-private _pilot = objNull;
-
-if !(_spawnParams isEqualTo []) then
-{
-    _spawnParams params ["_spawnPos", "_spawnDir"];
-
-    _strikePlane = _plane createVehicle _spawnPos;
-    _strikePlane setDir _spawnDir;
-    _strikePlane setFuel 0;
-}
-else
-{
-    //No runway on this airport, use airport position
-    //Not sure if I should go with 150 or 1000 here, players might be only 1001 meters away
-    //While technically 1000 meter height is technically visible from a greater distance
-    //150 is more likely to be in the actual viewcone of a player
-    private _spawnPos = (getMarkerPos _airport);
-    _strikePlane = createVehicle [_plane, _spawnPos, [], 0, "FLY"];
-    _strikePlane setDir (_spawnPos getDir _supportObj);
-
-    //Put it in the sky
-    _strikePlane setPosATL (_spawnPos vectorAdd [0, 0, 1000]);
-
-    //Hide the hovering airplane from players view
-    _strikePlane hideObjectGlobal true;
-    _strikePlane enableSimulation false;
-    _strikePlane setVelocityModelSpace (velocityModelSpace _strikePlane vectorAdd [0, 150, 0]);
-};
-
-_pilot = [_strikeGroup, _crewUnits, getPos _strikePlane] call A3A_fnc_createUnit;
+private _pilot = [_strikeGroup, _crewUnits, getPos _strikePlane] call A3A_fnc_createUnit;
 _pilot moveInDriver _strikePlane;
 
 _strikePlane disableAI "TARGET";
@@ -114,34 +94,11 @@ _strikePlane addEventHandler
 
 _strikePlane addEventHandler
 [
-    "GetIn",
-    {
-        params ["_vehicle", "_role", "_unit", "_turret"];
-        if(side (group _unit) == teamPlayer) then
-        {
-            ["TaskSucceeded", ["", "CAS Plane Stolen"]] remoteExec ["BIS_fnc_showNotification", teamPlayer];
-            _vehicle setVariable ["Stolen", true, true];
-            _vehicle setFuel 1;
-            _vehicle removeEventHandler ["GetIn", _thisEventHandler];
-            private _timerArray = _vehicle getVariable "TimerArray";
-            private _timerIndex = _vehicle getVariable "TimerIndex";
-            _timerArray set [_timerIndex, (_timerArray select _timerIndex) + 3600];
-        };
-    }
-];
-
-_strikePlane addEventHandler
-[
     "IncomingMissile",
     {
         //Missile launch against this plane detected, attack if vehicle, send other support if manpads
         params ["_plane", "_ammo", "_vehicle"];
-        if(_vehicle isKindOf "Man") then
-        {
-            //Manpads fired a missile against the plane, counter with long range support
-            [group driver _plane, ["MORTAR", "CANNON", "AIRSTRIKE", "GUNSHIP"], _vehicle] spawn A3A_fnc_callForSupport;
-        }
-        else
+        if !(_vehicle isKindOf "Man") then
         {
             //Vehicle fired a missile against the plane, add to target list if ground, no warning for players as this is an internal decision of the pilot
             if(_vehicle isKindOf "Air") then
