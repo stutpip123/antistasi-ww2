@@ -137,11 +137,9 @@ if (isServer) then {
 		diag_log "WurzelGarrison found, loading it!";
 		["wurzelGarrison"] call A3A_fnc_getStatVariable;
 	};
-
-    tierPreference = 1;
-	publicVariable "tierPreference";
-	//Updating the preferences based on war level
-	[true] call A3A_fnc_updatePreference;
+    
+    //Load state of testing timer
+    ["testingTimerIsActive"] call A3A_fnc_getStatVariable;
 
 	clearMagazineCargoGlobal boxX;
 	clearWeaponCargoGlobal boxX;

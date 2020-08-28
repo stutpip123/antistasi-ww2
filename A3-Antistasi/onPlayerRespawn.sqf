@@ -179,6 +179,7 @@ if (side group player == teamPlayer) then
 		*/
 	if (hasInterface) then {
 		[player] call A3A_fnc_punishment_FF_addEH;
+		[] spawn A3A_fnc_outOfBounds;
 	};
 	player addEventHandler ["HandleHeal",
 		{

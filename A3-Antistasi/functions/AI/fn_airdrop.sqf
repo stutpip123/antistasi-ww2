@@ -63,7 +63,7 @@ _wp2 setWaypointType "MOVE";
 _wp3 = _groupPilot addWaypoint [_orig, 3];
 _wp3 setWaypointType "MOVE";
 _wp3 setWaypointSpeed "NORMAL";
-_wp3 setWaypointStatements ["true", "deleteVehicle (vehicle this); {deleteVehicle _x} forEach thisList"];
+_wp3 setWaypointStatements ["true", "if !(local this) exitWith {}; deleteVehicle (vehicle this); {deleteVehicle _x} forEach thisList"];
 
 {removebackpack _x; _x addBackpack "B_Parachute"} forEach units _groupX;
 waitUntil {sleep 1; (currentWaypoint _groupPilot == 3) or (not alive _veh) or (!canMove _veh)};
@@ -92,10 +92,10 @@ if !(_reinf) then
    _posLeader set [2,0];
    _wp5 = _groupX addWaypoint [_posLeader,0];
    _wp5 setWaypointType "MOVE";
-   _wp5 setWaypointStatements ["true", "(group this) spawn A3A_fnc_attackDrillAI"];
+   _wp5 setWaypointStatements ["true", "if !(local this) exitWith {}; (group this) spawn A3A_fnc_attackDrillAI"];
    _wp4 = _groupX addWaypoint [_positionX, 1];
    _wp4 setWaypointType "MOVE";
-   _wp4 setWaypointStatements ["true","{if (side _x != side this) then {this reveal [_x,4]}} forEach allUnits"];
+   _wp4 setWaypointStatements ["true","if !(local this) exitWith {}; {if (side _x != side this) then {this reveal [_x,4]}} forEach allUnits"];
    _wp4 = _groupX addWaypoint [_positionX, 2];
    _wp4 setWaypointType "SAD";
    }
