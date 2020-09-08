@@ -28,8 +28,8 @@ Examples:
         // missionNamespace > "A3A_UIDPlayers" <LocationNull>
 
     // Recursive
-    _parent = [missionNamespace, "A3A_parent", "loop back", locationNull] call A3A_fnc_setNestedObject
-    [missionNamespace, "A3A_parent", "recursion", _parent] call A3A_fnc_setNestedObject
+    _parent = [missionNamespace, "A3A_parent", "loop back", locationNull] call A3A_fnc_setNestedObject;
+    [missionNamespace, "A3A_parent", "recursion", _parent] call A3A_fnc_setNestedObject;
         // missionNamespace > "A3A_parent" > "recursion" > "recursion" > "recursion" > "recursion" > "recursion" > "recursion" > "recursion"...
     [_parent] call A3A_fnc_remNestedObject;
         // missionNamespace > "A3A_parent" <LocationNull>

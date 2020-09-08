@@ -24,7 +24,7 @@ Returns:
     <ANY> Queried value or default;
 
 Examples:
-    _lootNo = [player, "lootBoxesOpened", 0] call A3A_fnc_setNestedObject;
+    _lootNo = [player, "lootBoxesOpened", 0] call A3A_fnc_getNestedObject;
         // is equal to _lootNo = player getVariable ["lootBoxesOpened", 0, false];
 
     _gun = [missionNamespace, "A3A_UIDPlayers", "1234567890123456", "equipment", "weapon", "hgun_Pistol_heavy_01_F"] call A3A_fnc_getNestedObject;
