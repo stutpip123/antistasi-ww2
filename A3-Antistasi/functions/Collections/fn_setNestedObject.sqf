@@ -7,7 +7,6 @@ Description:
     Allows something similar in effect to a dynamic config.
     missionNamespace > "A3A_UIDPlayers" > "1234567890123456" > "equipment" > "weapon".
     Will create tree as it works towards final value.
-    DO NOT CREATE SELF REFERENCING OBJECTS.
 
 Scope:
     <LOCAL> Interacts with many objects. Should not be networked.
@@ -17,13 +16,13 @@ Environment:
 
 Parameters:
     <VARSPACE/OBJECT> Parent variable space
-    <STRING> Names of nested objects {0 ≤ repeat this param < ∞}
+    <STRING> Names of nested locations {0 ≤ repeat this param < ∞}
     ...
     <STRING> Name of variable.
     <ANY> Default value.
 
 Returns:
-    <BOOLEAN> true if success; false is failure; nil if crashed;
+    <LOCATION> last varSpace; locationNull if issue.
 
 Examples:
     [player, "lootBoxesOpened", 5] call A3A_fnc_setNestedObject;
@@ -43,6 +42,7 @@ private _args = _this;
 private _filename = "Collections\fn_setNestedObject.sqf";
 
 private _count = count _args;
+private _lastVarSpace = _args#0;  // Default expects that this is the last recurse.
 if (_count isEqualTo 3) then {
     _args#0 setVariable [_args#1, _args#2];
 } else {
@@ -51,6 +51,6 @@ if (_count isEqualTo 3) then {
         _varSpace = [false] call A3A_fnc_createNamespace;
         _args#0 setVariable [_args#1,_varSpace];
     };
-    ([_varSpace] + (_args select [2,_count-2])) call A3A_fnc_setNestedObject;
+    _lastVarSpace = ([_varSpace] + (_args select [2,_count-2])) call A3A_fnc_setNestedObject;
 };
-true;
+_lastVarSpace;

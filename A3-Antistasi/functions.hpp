@@ -172,9 +172,9 @@ class A3A
 
 	class Collections
 	{
-        class getNestedObject {};
-        class remNestedObject {};
-        class setNestedObject {};
+		class getNestedObject {};
+		class remNestedObject {};
+		class setNestedObject {};
 	};
 
 	class Convoy
