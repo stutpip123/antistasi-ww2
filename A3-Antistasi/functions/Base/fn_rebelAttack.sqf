@@ -305,7 +305,7 @@ if(count _easyTargets >= 4) then
             {
                 params ["_side", "_target"];
                 sleep 10;
-                private _squads = 3 + round (random 2);
+                private _squads = 2 + round (random 2);
                 private _soldiers = [];
                 for "_i" from 0 to _squads do
                 {
@@ -412,7 +412,7 @@ else
         {
             //Sending real attack, execute the fight
             [2, format ["Starting waved attack with %1 waves from %2 to %3", _waves, _attackOrigin, _attackTarget], _fileName] call A3A_fnc_log;
-            [[_attackTarget, _attackOrigin, _waves],"A3A_fnc_wavedCA"] remoteExec ["A3A_fnc_scheduler",2];
+            [_attackTarget, _attackOrigin, _waves] spawn A3A_fnc_wavedCA;
         }
         else
         {
@@ -426,7 +426,7 @@ else
             {
                 params ["_side", "_target"];
                 sleep 10;
-                private _squads = 5 + round (random 3);
+                private _squads = 4 + round (random 3);
                 private _soldiers = [];
                 for "_i" from 0 to _squads do
                 {
@@ -446,6 +446,6 @@ else
     else
     {
         [2, format ["Starting punishment mission from %1 to %2", _attackOrigin, _attackTarget], _fileName] call A3A_fnc_log;
-        [[_attackTarget, _attackOrigin], "A3A_fnc_invaderPunish"] remoteExec ["A3A_fnc_scheduler", 2];
+        [_attackTarget, _attackOrigin] spawn A3A_fnc_invaderPunish;
     };
 };
