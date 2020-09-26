@@ -7,10 +7,10 @@ Description:
 	Doesn't do the checking itself, refer to A3A_fnc_punishment_FF.
 
 Scope:
-	<ANY>
+	<SERVER>
 
 Environment:
-	<UNSCHEDULED>
+	<UNSCHEDULED> Suspension may cause simultaneous read then write of the players FF stats, leading to the last call taking preference.
 
 Parameters:
 	<OBJECT> Player that is being verified for FF.
@@ -35,11 +35,6 @@ License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Comm
 */
 params ["_instigator","_timeAdded","_offenceAdded",["_victim",objNull],["_customMessage",""]];
 private _filename = "fn_punishment.sqf";
-
-if (!isServer) exitWith {
-	[1, "NOT SERVER", _filename] call A3A_fnc_log;
-	"NOT SERVER";
-};
 
 //////////////////Settings//////////////////
 private _depreciationCoef = 0.75;	// Modifies the drop-off curve of the punishment score; a higher number drops off quicker, a lower number lingers longer.

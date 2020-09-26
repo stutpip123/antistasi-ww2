@@ -8,10 +8,10 @@ Description:
     NOTE: When called from an Hit type of EH, use Example 2 in order to detect collisions.
 
 Scope:
-    <LOCAL> Execute on player you wish to verify for FF. (For 'BIS_fnc_admin' and 'isServer').
+    <SERVER> Execute on server only.
 
 Environment:
-    <UNSCHEDULED> Suspension may cause undefined behaviour.
+    <UNSCHEDULED> This function is thread safe. However, quick execution is optimal.
 
 Parameters:
     <OBJECT> Player that is being verified for FF. | <ARRAY<OBJECT,OBJECT>> Suspected instigator and source/killer returned from EH. The unit that caused the damage is collisions is the source/killer.
@@ -24,14 +24,15 @@ Returns:
     <STRING> Either a exemption type or "PROSECUTED".
 
 Examples <OBJECT>:
-    [_instigator, 60, 0.4, _unit] remoteExec ["A3A_fnc_punishment_FF",_instigator,false]; // How it should be called from another object.
+    [_instigator, 60, 0.4, _unit] remoteExec ["A3A_fnc_punishment_FF",2,false];   // How it should be called from another object.
     // Unit Tests:
-    [player, 0, 0, objNull] call A3A_fnc_punishment_FF;             // Test self with no victim
-    [player, 0, 0, cursorObject] call A3A_fnc_punishment_FF;        // Test self with victim
-    [getPlayerUID player,"forgive"] remoteExec ["A3A_fnc_punishment_release",2]; // Self forgive all sins
+    [player, 0, 0, objNull] remoteExec ["A3A_fnc_punishment_release",2];          // Test self with no victim
+    [player, 0, 0, cursorObject] remoteExec ["A3A_fnc_punishment_release",2];     // Test self with victim
+    [getPlayerUID player,"forgive"] remoteExec ["A3A_fnc_punishment_release",2];  // Self forgive all sins
 
 Examples <ARRAY<OBJECT,OBJECT>>:
     [[_instigator,_source], 60, 0.4, _unit] remoteExec ["A3A_fnc_punishment_FF",[_source,_instigator] select (isPlayer _instigator),false]; // How it should be called from an EH.
+
 Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
 */
@@ -49,6 +50,7 @@ if (_instigator isEqualType []) then {
     _isCollision = !(((_instigator#0) isEqualType objNull) && {isPlayer (_instigator#0)});
     _instigator = _instigator select _isCollision;  // First one in EH will be unit by default, if its a collision the eh returns the instigator in "source" or "killer"
 };
+if (!(_instigator isEqualType objNull)) exitWith {"NOT OBJECT"};
 private _vehicle = vehicle _instigator;
 private _vehicleType = typeOf _vehicle;
 
@@ -85,19 +87,17 @@ private _logPvPAttack = {
 };
 
 ///////////////Checks if is FF//////////////
-private _exemption = switch (true) do {
+private _exemption = switch (true) do {  // ~0.012 ms for all false cases
     case (!tkPunish):                                  {"FF PUNISH IS DISABLED"};
     case (!isMultiplayer):                             {"IS NOT MULTIPLAYER"};
-    case (!hasInterface):                              {"FF BY SERVER/HC"};
-    case (!(player isEqualTo _instigator)):            {"NOT EXEC ON INSTIGATOR"};  // Must be local for 'BIS_fnc_admin'
+    case ("HC" in (getPlayerUID _instigator)):         {"FF BY HC"};  // Quick & reliable check
+    case (!(isPlayer _instigator)):                    {"FF BY AI"};
     case (_vehicle isEqualTo (vehicle _victim)):       {"IN SAME VEHICLE"};  // Also fulfils role of checking whether the instigator and victim is same person.
     case (_victim getVariable ["pvp",false]):          {call _logPvPHurt; "VICTIM NOT REBEL"};
     case (_instigator getVariable ["pvp",false]):      {call _logPvPAttack; "INSTIGATOR NOT REBEL"};
     default                                            {""};
 };
-
-////////////////Logs if is FF///////////////
-if (_exemption !=  "") exitWith {
+if (!(_exemption isEqualTo "")) exitWith {
     format["NOT FF, %1", _exemption];
 };
 
@@ -111,9 +111,9 @@ if (_isCollision) then {
 
 /////////Checks for important roles/////////
 _exemption = switch (true) do {
-    case (call BIS_fnc_admin != 0 || isServer): {
+    case (!(admin owner _instigator isEqualTo 0) || player isEqualTo _instigator): {  // Local host included.
         ["You damaged a friendly as admin."] call _notifyInstigator; // Admin not reported to victim in case of Zeus remote control.
-        format ["ADMIN, %1", ["Local Host","Voted","Logged"] select (call BIS_fnc_admin)];
+        format ["ADMIN, %1", ["Server","Voted","Logged"] select (admin owner _instigator)];
     };
     case (_vehicle isKindOf "Air"): {
         call _notifyVictim;
@@ -139,7 +139,5 @@ if (_exemption != "") exitWith {
 };
 
 ///////////////Drop The Hammer//////////////
-[_instigator,_timeAdded,_offenceAdded,_victim,_customMessage] remoteExecCall ["A3A_fnc_punishment",2,false];
+[_instigator,_timeAdded,_offenceAdded,_victim,_customMessage] call A3A_fnc_punishment;
 "PROSECUTED";
-
-

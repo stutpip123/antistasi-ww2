@@ -44,13 +44,11 @@ if (_isAI && !_addToAI) exitWith {true};
 
 _unit addEventHandler ["Killed", {
 	params ["_unit", "_killer", "_instigator", "_useEffects"];
-	if ([_instigator] call A3A_fnc_punishment_notPlayer && {[_killer] call A3A_fnc_punishment_notPlayer}) exitWith {}; // A certain company that develops a specific game called ArmaIII hasn't mastered the EH yet. So it's full objNull if a hippo crosses a stream when the day is divisible by the second fortnight of the month during a full moon on a warm summers day while the mosquitoes bit down on Richard Parker as he struggles during the October revolution.
-	[[_instigator,_killer], 60, 0.4, _unit] remoteExecCall ["A3A_fnc_punishment_FF",[_killer,_instigator] select (isPlayer _instigator),false];
+	[[_instigator,_killer], 60, 0.4, _unit] remoteExecCall ["A3A_fnc_punishment_FF",2,false];
 }];
 _unit addEventHandler ["Hit", {
 	params ["_unit", "_source", "_damage", "_instigator"];
-	if ([_instigator] call A3A_fnc_punishment_notPlayer && {[_source] call A3A_fnc_punishment_notPlayer}) exitWith {};
-	[[_instigator,_source], 60, 0.4, _unit] remoteExecCall ["A3A_fnc_punishment_FF",[_source,_instigator] select (isPlayer _instigator),false];
+	[[_instigator,_source], 60, 0.4, _unit] remoteExecCall ["A3A_fnc_punishment_FF",2,false];
 }];
 
 if (_isAI) exitWith {true};
@@ -58,18 +56,15 @@ if (_isAI) exitWith {true};
 if (hasACE) then {
 	["ace_firedPlayer", {
 		params ["_unit", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile"];
-		if ([_unit] call A3A_fnc_punishment_notPlayer || {!(_unit isEqualTo player)}) exitWith {};
 		[_unit,_weapon,_projectile] call A3A_fnc_punishment_FF_checkNearHQ;
 	}] call CBA_fnc_addEventHandler;
 	["ace_explosives_place", {
 		params ["_explosive","_dir","_pitch","_unit"];
-		if ([_unit] call A3A_fnc_punishment_notPlayer || {!(_unit isEqualTo player)}) exitWith {};
 		[_unit,"Put",_explosive] call A3A_fnc_punishment_FF_checkNearHQ;
 	}] call CBA_fnc_addEventHandler;
 } else {
 	_unit addEventHandler ["FiredMan", {
 		params ["_unit", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile", "_vehicle"];
-		if ([_unit] call A3A_fnc_punishment_notPlayer || {!(_unit isEqualTo player)}) exitWith {};
 		[_unit,_weapon,_projectile] call A3A_fnc_punishment_FF_checkNearHQ;
 	}];
 };
