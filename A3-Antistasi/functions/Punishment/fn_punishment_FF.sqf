@@ -59,31 +59,25 @@ if (_instigator getVariable ["A3A_FFPunish_CD ", 0] > servertime) exitWith {"PUN
 _instigator setVariable ["A3A_FFPunish_CD ", servertime + 1, false];  // Will only ever be evaluated from one machine.
 
 /////////////////Definitions////////////////
-private _victimStats = ["",format [" damaged %1 ", name _victim]] select (_victim isKindOf "Man");
-_victimStats = _victimStats + (["[AI]",format ["[%1]", getPlayerUID _victim]] select (isPlayer _victim));
+private _victimStats = ["",format ["damaged %1 ", name _victim]] select (_victim isKindOf "Man");
+_victimStats = ["[",["AI",getPlayerUID _victim] select (isPlayer _victim),"]"] joinString "";
 private _notifyVictim = {
     if (isPlayer _victim) then {["FF Notification", format["%1 hurt you!",name _instigator]] remoteExec ["A3A_fnc_customHint", _victim, false];};
 };
 private _notifyInstigator = {
     params ["_exempMessage"];
-    private _comradeStats = ["<br/>",format ["<br/>Injured comrade: %1<br/>",name _victim]] select (_victim isKindOf "Man");
-    ["FF Notification", _exempMessage+ _comradeStats + _customMessage] remoteExec ["A3A_fnc_customHint", _instigator, false];
-};
-private _gotoExemption = {
-    params [ ["_exemptionDetails", "" ,[""]] ];
-    private _playerStats = format["%1 [%2]%3, Avoided-time: %4, Avoided-offence: %5", name _instigator, getPlayerUID _instigator, _victimStats,str _timeAdded, str _offenceAdded];
-    [2, format ["%1 | %2", _exemptionDetails, _playerStats], _filename,true] remoteExecCall ["A3A_fnc_log",2,false];
-    _exemptionDetails;
+    private _comradeStats = ["",["Injured comrade: ",name _victim,""] joinString ""] select (_victim isKindOf "Man");
+    ["FF Warning", [_exempMessage,_comradeStats,_customMessage] joinString "<br/>"] remoteExec ["A3A_fnc_customHint", _instigator, false];
 };
 private _logPvPHurt = {
     if (!(_victim isKindOf "Man")) exitWith {};
     private _killStats = format ["PVPHURT | Rebel %1 [%2]%3", name _instigator, getPlayerUID _instigator, _victimStats];
-    [2,_killStats,_filename,true] remoteExecCall ["A3A_fnc_log",2,false];
+    [2,_killStats,_filename,true] call A3A_fnc_log;
 };
 private _logPvPAttack = {
     if (!(_victim isKindOf "Man")) exitWith {};
     private _killStats = format ["PVPATTACK | PvP %1 [%2]%3", name _instigator, getPlayerUID _instigator, _victimStats];
-    [2,_killStats,_filename,true] remoteExecCall ["A3A_fnc_log",2,false];
+    [2,_killStats,_filename,true] call A3A_fnc_log;
 };
 
 ///////////////Checks if is FF//////////////
@@ -106,7 +100,7 @@ if (_isCollision) then {
     _customMessage = [_customMessage,"You damaged a friendly as a driver."] joinString "<br/>";
     _timeAdded = 27;
     _offenceAdded = 0.15;
-    [2, format ["COLLISION | %1 [%2]'s %3%4", name _instigator, getPlayerUID _instigator, _vehicleType, _victimStats], _filename,true] remoteExecCall ["A3A_fnc_log",2,false];
+    [2, format ["COLLISION | %1 [%2]'s %3 %4", name _instigator, getPlayerUID _instigator, _vehicleType, _victimStats], _filename] call A3A_fnc_log;
 };
 
 /////////Checks for important roles/////////
@@ -122,7 +116,7 @@ _exemption = switch (true) do {
     };
     case (
         isNumber (configFile >> "CfgVehicles" >> _vehicleType >> "artilleryScanner") &&
-        getNumber (configFile >> "CfgVehicles" >> _vehicleType >> "artilleryScanner") != 0
+        {!(getNumber (configFile >> "CfgVehicles" >> _vehicleType >> "artilleryScanner") isEqualTo 0)}
     ): {
         call _notifyVictim;
         ["You damaged a friendly as arty support."] call _notifyInstigator;
@@ -133,9 +127,10 @@ _exemption = switch (true) do {
         // Without above: Your AI will be prosecuted for FF. Upon leaving UAV you will be punished. If you have debug console you can self forgive.
     default {""};
 };
-
-if (_exemption != "") exitWith {
-    [_exemption] call _gotoExemption;
+if (!(_exemption isEqualTo "")) exitWith {
+    private _playerStats = format["%1 [%2] %3, Avoided-time: %4, Avoided-offence: %5", name _instigator, getPlayerUID _instigator, _victimStats,str _timeAdded, str _offenceAdded];
+    [2, format ["%1 | %2", _exemption, _playerStats], _filename,true] call A3A_fnc_log;
+    _exemption;
 };
 
 ///////////////Drop The Hammer//////////////

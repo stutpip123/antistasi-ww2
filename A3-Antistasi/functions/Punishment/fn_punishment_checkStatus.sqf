@@ -33,15 +33,7 @@ License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Comm
 params [["_UID","",[""]]];
 private _fileName = "fn_punishment_checkStatus.sqf";
 
-if (!tkPunish) exitWith {false;};
-
-if (!isServer) exitWith {
-	[1, "NOT SERVER", _filename] call A3A_fnc_log;
-	false;
-};
-if (_UID isEqualTo "") exitWith {
-	false;
-};
+if ((!tkPunish) || {_UID isEqualTo ""}) exitWith {false;};
 
 private _keyPairs = [["offenceTotal",0]];
 ([_UID,_keyPairs] call A3A_fnc_punishment_dataGet) params ["_offenceTotal"];
@@ -49,7 +41,7 @@ private _keyPairs = [["offenceTotal",0]];
 if (_offenceTotal >= 1) then {
 	_instigator = [_UID] call BIS_fnc_getUnitByUid;
 	if (!isPlayer _instigator) exitWith {};
-	private _keys = ["lastOffenceTime"];
+	private _keys = ["lastOffenceTime"];  // Axes any sort of depreciation that would gather over time away from server.
 	[_UID,_keys] call A3A_fnc_punishment_dataRem;
 	[_instigator, 0, 0] remoteExecCall ["A3A_fnc_punishment",2,false];
 };

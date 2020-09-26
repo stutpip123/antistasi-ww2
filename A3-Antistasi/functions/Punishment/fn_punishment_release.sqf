@@ -34,11 +34,10 @@ if (!isServer) exitWith {
 };
 
 
-private _keyPairs = [ ["_punishmentPlatform",objNull],["name","NO NAME"] ];
+private _keyPairs = [ ["_punishmentPlatform",objNull],["name","NO NAME"],["player",objNull] ];
 private _data_instigator = [_UID,_keyPairs] call A3A_fnc_punishment_dataGet;
-_data_instigator params ["_punishmentPlatform","_name"];
+_data_instigator params ["_punishmentPlatform","_name","_detainee"];
 
-private _detainee = [_UID] call BIS_fnc_getUnitByUid;
 private _playerStats = format["Player: %1 [%2]", _name, _UID];
 
 private _releaseFromSentence = {
@@ -56,7 +55,7 @@ switch (_source) do {
 		call _releaseFromSentence;
 		[2, format ["RELEASE | %1", _playerStats], _filename] call A3A_fnc_log;
 		if (isPlayer _detainee) then {
-			["FF Notification", "Enough then."] remoteExec ["A3A_fnc_customHint", _detainee, false];
+			["FF Punishment", "Enough then."] remoteExec ["A3A_fnc_customHint", _detainee, false];
 		};
 		true;
 	};
@@ -65,7 +64,7 @@ switch (_source) do {
 		call _releaseFromSentence;
 		[2, format ["FORGIVE | %1", _playerStats], _filename] call A3A_fnc_log;
 		if (isPlayer _detainee) then {
-			["FF Notification", "An admin looks with pity upon your soul.<br/>You have been forgiven."] remoteExec ["A3A_fnc_customHint", _detainee, false];
+			["FF Punishment", "An admin looks with pity upon your soul.<br/>You have been forgiven."] remoteExec ["A3A_fnc_customHint", _detainee, false];
 		};
 		true;
 	};

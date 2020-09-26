@@ -433,10 +433,8 @@ class A3A
 		class punishment_notifyAdmin {};
 		class punishment_oceanGulag {};
 		class punishment_release {};
-		class punishment_removeActionForgive {};
 		class punishment_sentence_client {};
 		class punishment_sentence_server {};
-		class punishment_notPlayer {};
 	};
 
 	class pvp

@@ -21,7 +21,6 @@ Examples:
 	[_UID] remoteExec ["A3A_fnc_punishment_notifyAdmin",0,false];
 
 Author: Caleb Serafin
-Date Updated: 10 June 2020
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
 */
 params ["_UID"];

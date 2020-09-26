@@ -33,9 +33,8 @@ if (!isServer) exitWith {
 	false;
 };
 
-private _keyPairs = [ ["punishment_platform",objNull], ["initialPosASL",[0,0,0]]];
-([_UID,_keyPairs] call A3A_fnc_punishment_dataGet) params ["_punishment_platform","_initialPosASL"];
-private _detainee = _UID call BIS_fnc_getUnitByUid;
+private _keyPairs = [ ["punishment_platform",objNull], ["initialPosASL",[0,0,0]], ["player",objNull]];
+([_UID,_keyPairs] call A3A_fnc_punishment_dataGet) params ["_punishment_platform","_initialPosASL","_detainee"];
 private _playerPos = [0,0,0];
 
 if (!isPlayer _detainee) then { // Prevents punishing AI
