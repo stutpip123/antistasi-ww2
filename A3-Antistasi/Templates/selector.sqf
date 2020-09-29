@@ -20,7 +20,7 @@ if(teamplayer != independent) then {//This section is for Altis Blufor ONLY!
       [2, "Using arid_b TGPM, TKA, TKM, 3CB Civ Templates", _filename] call A3A_fnc_log;
     };
     case (hasRHS): {
-      call compile preProcessFileLineNumbers "Templates\RHS\RHS_Reb_CDF_Arid.sqf";
+      call compile preProcessFileLineNumbers "Templates\RHS\RHS_Reb_HIDF_Arid.sqf";
       call compile preProcessFileLineNumbers "Templates\RHS\RHS_Occ_CDF_Arid.sqf";
       call compile preProcessFileLineNumbers "Templates\RHS\RHS_Inv_AFRF_Arid.sqf";
       call compile preProcessFileLineNumbers "Templates\RHS\RHS_Civ.sqf";
