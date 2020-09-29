@@ -126,7 +126,7 @@ groupsNATOGen = [policeOfficer,policeGrunt];
 ////////////////////////////////////
 //Military Vehicles
 //Lite
-vehNATOBike = "uns_m274";
+vehNATOBike = "uns_willys_2";
 vehNATOLightArmed = ["uns_willysmg","uns_willysmg50","uns_willys_2_m1919","uns_willysm40","uns_m37b1_m1919"];
 vehNATOLightUnarmed = ["uns_willys_2"];
 vehNATOTrucks = ["uns_m37b1","uns_M35A2_Open","uns_M35A2"];
@@ -135,14 +135,14 @@ vehNATOAmmoTruck = "uns_M35A2_ammo";
 vehNATORepairTruck = "uns_M35A2_repair";
 vehNATOLight = vehNATOLightArmed + vehNATOLightUnarmed;
 //Armored
-vehNATOAPC = ["uns_M113_transport","uns_M113_M60","uns_M113_30cal","uns_M113_M2","uns_M113_M134","uns_M113_XM182","uns_M113A1_M60","uns_M113A1_M2","uns_M113A1_M134","uns_M113A1_XM182","uns_M113A1_M40","uns_M132"];
+vehNATOAPC = ["uns_M113_transport","uns_M113_M60","uns_M113_30cal","uns_M113_M2","uns_M113_M134","uns_M113_XM182","uns_M113A1_M60","uns_M113A1_M2","uns_M113A1_M134","uns_M113A1_XM182","uns_M113A1_M40"];
 vehNATOTank = "uns_m48a3";
 vehNATOAA = "uns_m163";
 vehNATOAttack = vehNATOAPC + [vehNATOTank];
 //Boats
-vehNATOBoat = "uns_PBR_M10";
+vehNATOBoat = "uns_pbr_mk18";
 vehNATORBoat = "UNS_Zodiac_W";
-vehNATOBoats = [vehNATOBoat,vehNATORBoat,"uns_pbr","uns_pbr_mk18"];
+vehNATOBoats = [vehNATOBoat,vehNATORBoat,"uns_pbr"];
 //Planes
 vehNATOPlane = "uns_A6_Intruder_CAS";
 vehNATOPlaneAA = "uns_F4J_CAP";
