@@ -7,7 +7,7 @@ Description:
 	Adds action to the detainee to refresh the Admin's action.
 
 Scope:
-	<GLOBAL> Execute on all players.
+	<LOCAL> Execute on the admin.
 
 Environment:
 	<SCHEDULED>
@@ -19,7 +19,7 @@ Returns:
 	<BOOLEAN> true if it hasn't crashed; false if the detainee is free; nil if it has crashed.
 
 Examples:
-	[_UID] remoteExec ["A3A_fnc_punishment_addActionForgive",0,false];
+	[_UID] remoteExec ["A3A_fnc_punishment_addActionForgive",_admin,false];
 
 Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
@@ -33,17 +33,18 @@ if (_offenceTotal < 1) exitWith {false}; // If offence is less than 1, the UID i
 
 private _actionsSelf = actionIDs player;
 private _alreadyHasAction = false; // Avoids having the action added again.
-if !(isNil "_actionsSelf" || {count _actionsSelf == 0}) then {
+private _actionName = ["[Forgive FF] ",_name,""] joinString """";
+if ((!isNil "_actionsSelf") && {!(_actionsSelf isEqualTo [])}) then {  // All players will be scanned, in-case they were previously an admin.
 	{
-		if (((player actionParams _x) select 0) isEqualTo format["[Forgive FF] ""%1""",_name]) then {
+		if (((player actionParams _x)#0) isEqualTo _actionName) exitWith {
 			_alreadyHasAction = true;
 		};
 	} forEach _actionsSelf;
 };
 
-if ((!_alreadyHasAction) && ([] call BIS_fnc_admin > 0 || isServer && hasInterface)) then {
+if (!_alreadyHasAction) then {
 	private _addAction_parameters = [
-		format["[Forgive FF] ""%1""",_name],
+		_actionName,
 		{
 			params ["_target", "_caller", "_actionId", "_arguments"];
 			if ([] call BIS_fnc_admin > 0 || isServer && hasInterface) then {

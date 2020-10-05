@@ -34,16 +34,16 @@ private _sentenceEndTime = (floor serverTime) + _timeTotal;
 private _keyPairs = [["sentenceEndTime",_sentenceEndTime],["timeTotal",_timeTotal],["offenceTotal",1]];
 [_UID,_keyPairs] call A3A_fnc_punishment_dataSet;
 
-
 _keyPairs = [["name","NO NAME"],["player",objNull]];
 ([_UID,_keyPairs] call A3A_fnc_punishment_dataGet) params ["_name","_detainee"];
-
-[_UID] remoteExec ["A3A_fnc_punishment_notifyAdmin",0,false];
 
 [_detainee,_UID,_name,_sentenceEndTime] spawn {
     params ["_detainee","_UID","_name","_sentenceEndTime"];
     private _filename = "fn_punishment_sentence_server.sqf/Loop";
     scriptName "fn_punishment_sentence_server.sqf/Loop";
+
+    private _admin = [] call A3A_fnc_getAdmin;
+    if !(isNull _admin) then {[_UID] remoteExec ["A3A_fnc_punishment_notifyAdmin",_admin,false];};
 
     private _sentenceEndTime_old = _sentenceEndTime;
     private _disconnected = false;
@@ -51,10 +51,9 @@ _keyPairs = [["name","NO NAME"],["player",objNull]];
     _keyPairs = [ ["sentenceEndTime",floor serverTime] ];
     while {(ceil serverTime) < _sentenceEndTime-1} do { // ceil and -1 if something doesn't sync up
         if (!isPlayer _detainee) exitWith {_disconnected=true};
-        if ((admin owner _detainee > 0) || player isEqualTo _detainee) exitWith { // If local host, the server is the admin.
-            [_UID,"forgive"] call A3A_fnc_punishment_release;
-        };
-        [_UID] remoteExec ["A3A_fnc_punishment_addActionForgive",0,false]; // Refreshes in case the admin logged in.
+        _admin = [] call A3A_fnc_getAdmin;  // Refreshes in case the admin logged in.
+        if (_admin isEqualTo _detainee) exitWith { [_UID,"forgive"] call A3A_fnc_punishment_release; };
+        if !(isNull _admin) then {[_UID] remoteExec ["A3A_fnc_punishment_addActionForgive",_admin,false]};
         [_detainee,_sentenceEndTime - (floor serverTime)] remoteExec ["A3A_fnc_punishment_sentence_client",_detainee,false];
         [_UID,"add"] call A3A_fnc_punishment_oceanGulag;
         uiSleep 5;

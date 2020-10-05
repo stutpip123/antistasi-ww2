@@ -40,7 +40,7 @@ private _keyPairs = [ ["_punishmentPlatform",objNull],["name","NO NAME"],["playe
 private _playerStats = format["Player: %1 [%2]", _name, _UID];
 
 private _releaseFromSentence = {
-	[_UID] remoteExec ["A3A_fnc_punishment_removeActionForgive",0,false];
+	[_name] remoteExec ["A3A_fnc_punishment_removeActionForgive",0,false];
 	[_UID,"remove"] call A3A_fnc_punishment_oceanGulag;
 };
 private _forgiveStats = {
