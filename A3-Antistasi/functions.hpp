@@ -543,6 +543,7 @@ class A3A
 		class createNamespace {};
 		class dateToTimeString {};
 		class generateRoadsDB {};
+		class getAdmin {};
 		class log {};
 		class vehicleWillCollideAtPosition {};
 		class getRoadDirection {};
