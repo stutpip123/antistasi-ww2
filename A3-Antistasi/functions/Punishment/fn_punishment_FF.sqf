@@ -59,7 +59,7 @@ if (_instigator getVariable ["A3A_FFPunish_CD ", 0] > servertime) exitWith {"PUN
 _instigator setVariable ["A3A_FFPunish_CD ", servertime + 1, false];  // Will only ever be evaluated from one machine.
 
 /////////////////Definitions////////////////
-private _victimStats = ["",format ["damaged %1 ", name _victim]] select (_victim isKindOf "Man");
+private _victimStats = ["damaged systemPunished ",format ["damaged %1 ", name _victim]] select (_victim isKindOf "Man");
 _victimStats = ["[",["AI",getPlayerUID _victim] select (isPlayer _victim),"]"] joinString "";
 private _notifyVictim = {
     if (isPlayer _victim) then {["FF Notification", format["%1 hurt you!",name _instigator]] remoteExec ["A3A_fnc_customHint", _victim, false];};

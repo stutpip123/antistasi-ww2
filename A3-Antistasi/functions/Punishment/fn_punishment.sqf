@@ -75,7 +75,7 @@ private _keyPairs = [["timeTotal",_timeTotal],["offenceTotal",_offenceTotal],["l
 
 ///////////////Victim Notifier//////////////
 private _injuredComrade = "";
-private _victimStats = " system punished";
+private _victimStats = "damaged systemPunished [AI]";
 if (_victim isKindOf "Man") then {
 	_injuredComrade = ["Injured comrade: ",name _victim] joinString "";
 	["FF Notification", [_name," hurt you!"] joinString ""] remoteExec ["A3A_fnc_customHint", _victim, false];
@@ -85,7 +85,7 @@ if (_victim isKindOf "Man") then {
 
 /////////////Instigator Notifier////////////
 private _playerStats = ["Total-time: ",str _timeTotal," (incl. +",str _timeAdded,"), Offence+Overhead: ",str _offenceTotal," [",str (_offenceTotal-_overhead),"+",str _overhead,"] (incl. +",str _offenceAdded,")"] joinString "";
-[2, [["WARNING","GUILTY"] select (_offenceTotal >= 1)," | ",_name," [",_UID,"] ",_victimStats,", ",_playerStats] joinString " | ", _filename] call A3A_fnc_log;
+[2, [["WARNING","GUILTY"] select (_offenceTotal >= 1)," | ",_name," [",_UID,"] ",_victimStats,", ",_playerStats] joinString "", _filename] call A3A_fnc_log;
 
 ["FF Warning", ["Watch your fire!",_injuredComrade,_customMessage] joinString "<br/>"] remoteExec ["A3A_fnc_customHint", _originalBody, false];
 
