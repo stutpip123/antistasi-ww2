@@ -36,8 +36,7 @@ private _keyPairs = [["sentenceEndTime",_sentenceEndTime],["timeTotal",_timeTota
 
 
 _keyPairs = [["name","NO NAME"],["player",objNull]];
-private _data_instigator = [_UID,_keyPairs] call A3A_fnc_punishment_dataGet;
-_data_instigator params ["_name","_detainee"];
+([_UID,_keyPairs] call A3A_fnc_punishment_dataGet) params ["_name","_detainee"];
 
 [_UID] remoteExec ["A3A_fnc_punishment_notifyAdmin",0,false];
 

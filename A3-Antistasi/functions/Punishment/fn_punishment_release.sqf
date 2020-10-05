@@ -35,8 +35,7 @@ if (!isServer) exitWith {
 
 
 private _keyPairs = [ ["_punishmentPlatform",objNull],["name","NO NAME"],["player",objNull] ];
-private _data_instigator = [_UID,_keyPairs] call A3A_fnc_punishment_dataGet;
-_data_instigator params ["_punishmentPlatform","_name","_detainee"];
+([_UID,_keyPairs] call A3A_fnc_punishment_dataGet) params ["_punishmentPlatform","_name","_detainee"];
 
 private _playerStats = format["Player: %1 [%2]", _name, _UID];
 

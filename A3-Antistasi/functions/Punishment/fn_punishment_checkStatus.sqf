@@ -23,7 +23,7 @@ Examples:
 	// Unit Test
 	private _UID = getPlayerUID player;
 	private _keyPairs = [["timeTotal",10],["offenceTotal",1]];
-	private _data_instigator = [_UID,_keyPairs] call A3A_fnc_punishment_dataSet;
+	([_UID,_keyPairs] call A3A_fnc_punishment_dataSet) params ["_timeTotal","_offenceTotal"];
 	[_UID] remoteExec ["A3A_fnc_punishment_checkStatus",2,false];
 	[_UID] call A3A_fnc_punishment_dataGet;
 

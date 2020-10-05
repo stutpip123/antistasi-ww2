@@ -46,8 +46,7 @@ private _UID = getPlayerUID _instigator;
 private _name = name _instigator;
 private _currentTime = (floor serverTime);
 private _keyPairs = [["timeTotal",0],["offenceTotal",0],["lastOffenceTime",_currentTime],["overhead",0]];
-private _data_instigator = [_UID,_keyPairs] call A3A_fnc_punishment_dataGet;
-_data_instigator params ["_timeTotal","_offenceTotal","_lastTime","_overhead"];
+([_UID,_keyPairs] call A3A_fnc_punishment_dataGet) params ["_timeTotal","_offenceTotal","_lastTime","_overhead"];
 
 ///////////////Data validation//////////////
 _lastTime = (0 max _lastTime) min _currentTime;
