@@ -430,7 +430,6 @@ class A3A
 		class punishment_FF {};
 		class punishment_FF_checkNearHQ {};
 		class punishment_FF_addEH {};
-		class punishment_notifyAdmin {};
 		class punishment_oceanGulag {};
 		class punishment_release {};
 		class punishment_removeActionForgive {};

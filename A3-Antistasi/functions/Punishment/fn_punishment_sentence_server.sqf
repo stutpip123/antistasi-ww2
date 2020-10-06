@@ -42,9 +42,8 @@ _keyPairs = [["name","NO NAME"],["player",objNull]];
     private _filename = "fn_punishment_sentence_server.sqf/Loop";
     scriptName "fn_punishment_sentence_server.sqf/Loop";
 
-    private _admin = [] call A3A_fnc_getAdmin;
-    if !(isNull _admin) then {[_UID] remoteExec ["A3A_fnc_punishment_notifyAdmin",_admin,false];};
-
+    private _lastAdmin = objNull;
+    private _admin = objNull;
     private _sentenceEndTime_old = _sentenceEndTime;
     private _disconnected = false;
 
@@ -52,8 +51,17 @@ _keyPairs = [["name","NO NAME"],["player",objNull]];
     while {(ceil serverTime) < _sentenceEndTime-1} do { // ceil and -1 if something doesn't sync up
         if (!isPlayer _detainee) exitWith {_disconnected=true};
         _admin = [] call A3A_fnc_getAdmin;  // Refreshes in case the admin logged in.
-        if (_admin isEqualTo _detainee) exitWith { [_UID,"forgive"] call A3A_fnc_punishment_release; };
-        if !(isNull _admin) then {[_UID] remoteExec ["A3A_fnc_punishment_addActionForgive",_admin,false]};
+        if !(_admin isEqualTo _lastAdmin) then {  // Admin Change
+            if (!isNull _lastAdmin) then {
+                [_name] remoteExec ["A3A_fnc_punishment_removeActionForgive",_lastAdmin,false];
+            };
+            if (!isNull _admin) then {
+                if (_admin isEqualTo _detainee) exitWith { [_UID,"forgive"] call A3A_fnc_punishment_release; };  // The admin cannot use the self forgive scroll-action when attached to the surf-board.
+                ["FF Notification", [_name," has been found guilty of FF.<br/><br/>If you believe this is a mistake, you can forgive him with a scroll-menu action on his body.<br/><br/>He is at the bottom left corner of the map."] joinString ""] remoteExec ["A3A_fnc_customHint",_admin,false];
+                [_UID] remoteExec ["A3A_fnc_punishment_addActionForgive",_admin,false];
+            };
+            _lastAdmin = _admin;
+        };
         [_detainee,_sentenceEndTime - (floor serverTime)] remoteExec ["A3A_fnc_punishment_sentence_client",_detainee,false];
         [_UID,"add"] call A3A_fnc_punishment_oceanGulag;
         uiSleep 5;
