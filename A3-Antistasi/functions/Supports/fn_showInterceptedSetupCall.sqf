@@ -45,7 +45,7 @@ if(_position distance2D (getMarkerPos "Synd_HQ") < distanceMission) then
 };
 
 //Nothing will be revealed
-if(_reveal <= 0.1) exitWith {};
+if(_reveal <= 0.2) exitWith {};
 
 private _text = "";
 private _sideName = if(_side == Occupants) then {nameOccupants} else {nameInvaders};
