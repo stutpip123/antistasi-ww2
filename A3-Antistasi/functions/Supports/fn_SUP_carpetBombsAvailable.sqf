@@ -1,16 +1,10 @@
-params ["_side", "_position"];
+params ["_side"];
 
-if(tierWar < 7) exitWith {-1};
-
-if !(allowUnfairSupports) exitWith {-1};
-
-if({sidesX getVariable [_x, sideUnknown] == _side} count airportsX == 0) exitWith {-1};
-
-if(airportsX findIf {(getMarkerPos _x) distance2D _position < 8000} == -1) exitWith {-1};
+//if(tierWar < 8) exitWith {-1};
 
 private _timerIndex = -1;
 private _playerAdjustment = (floor ((count allPlayers)/5)) + 1;
-private _supportTimer = if(_side == Occupants) then {occupantsSAMTimer} else {invadersSAMTimer};
+private _supportTimer = if(_side == Occupants) then {occupantsCarpetBombTimer} else {invadersCarpetBombTimer};
 
 if(count _supportTimer < _playerAdjustment) then
 {

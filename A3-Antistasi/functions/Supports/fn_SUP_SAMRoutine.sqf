@@ -1,8 +1,7 @@
 params ["_launcher", "_side", "_supportName"];
 
 private _fileName = "SUP_SAMRoutine";
-//sleep (random 90);
-sleep 10;
+sleep (random 90);
 
 private _rounds = 4;
 private _onlineTime = 900;

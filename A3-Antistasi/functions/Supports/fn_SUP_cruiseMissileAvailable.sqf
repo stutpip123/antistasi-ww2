@@ -1,8 +1,8 @@
 params ["_side", "_position"];
 
-//if(tierWar < 8) exitWith {-1};
+if(tierWar < 8) exitWith {-1};
 
-//if !(allowUnfairSupports) exitWith {-1};
+if !(allowUnfairSupports) exitWith {-1};
 
 private _shipMarker = "";
 if(_side == Occupants) then
