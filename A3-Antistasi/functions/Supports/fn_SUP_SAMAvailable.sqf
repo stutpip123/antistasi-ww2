@@ -1,8 +1,10 @@
-params ["_side"];
+params ["_side", "_position"];
 
-if(tierWar < 7) exitWith {-1};
+//if(tierWar < 7) exitWith {-1};
 
-if({sidesX getVariable [_x, sideUnknown] == _side} count airportsX) exitWith {-1};
+if({sidesX getVariable [_x, sideUnknown] == _side} count airportsX == 0) exitWith {-1};
+
+if(airportsX findIf {(getMarkerPos _x) distance2D _position < 8000} == -1) exitWith {-1};
 
 private _timerIndex = -1;
 private _playerAdjustment = (floor ((count allPlayers)/5)) + 1;

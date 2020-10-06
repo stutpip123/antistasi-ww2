@@ -547,6 +547,9 @@ class A3A
         class SUP_QRF {};
         class SUP_QRFAvailable {};
         class SUP_QRFRoutine {};
+        class SUP_SAM {};
+        class SUP_SAMAvailable {};
+        class SUP_SAMRoutine {};
         class supportAvailable {};
     };
 

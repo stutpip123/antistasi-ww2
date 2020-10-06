@@ -39,7 +39,7 @@ switch (_supportType) do
     };
     case ("SAM"):
     {
-        _timerIndex = [_side] call A3A_fnc_SUP_SAMAvailable;
+        _timerIndex = [_side, _position] call A3A_fnc_SUP_SAMAvailable;
     };
     default
     {

@@ -39,8 +39,8 @@ occupantsSAMTimer = [];
 invadersSAMTimer = [];
 for "_i" from 0 to 0 do
 {
-    occupantsSAMTimer pushBack (random (3600 * 2));
-    invadersSAMTimer pushBack (random (3600 * 2));
+    //occupantsSAMTimer pushBack (random (3600 * 2));
+    //invadersSAMTimer pushBack (random (3600 * 2));
 };
 
 occupantsOrbitalStrikeTimer = [random (3600 * 12)];
