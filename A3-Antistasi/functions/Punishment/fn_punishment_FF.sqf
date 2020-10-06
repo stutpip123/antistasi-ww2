@@ -31,7 +31,7 @@ Examples <OBJECT>:
     [getPlayerUID player,"forgive"] remoteExec ["A3A_fnc_punishment_release",2];  // Self forgive all sins
 
 Examples <ARRAY<OBJECT,OBJECT>>:
-    [[_instigator,_source], 60, 0.4, _unit] remoteExec ["A3A_fnc_punishment_FF",[_source,_instigator] select (isPlayer _instigator),false]; // How it should be called from an EH.
+    [[_instigator,_source], 60, 0.4, _unit] remoteExec ["A3A_fnc_punishment_FF",2,false]; // How it should be called from an EH.
 
 Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
