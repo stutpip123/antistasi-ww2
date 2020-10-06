@@ -82,14 +82,14 @@ private _logPvPAttack = {
 
 ///////////////Checks if is FF//////////////
 private _exemption = switch (true) do {  // ~0.012 ms for all false cases
-    case (!tkPunish):                                  {"FF PUNISH IS DISABLED"};
-    case (!isMultiplayer):                             {"IS NOT MULTIPLAYER"};
-    case ("HC" in (getPlayerUID _instigator)):         {"FF BY HC"};  // Quick & reliable check
-    case (!(isPlayer _instigator)):                    {"FF BY AI"};
-    case (_vehicle isEqualTo (vehicle _victim)):       {"IN SAME VEHICLE"};  // Also fulfils role of checking whether the instigator and victim is same person.
-    case (_victim getVariable ["pvp",false]):          {call _logPvPHurt; "VICTIM NOT REBEL"};
-    case (_instigator getVariable ["pvp",false]):      {call _logPvPAttack; "INSTIGATOR NOT REBEL"};
-    default                                            {""};
+    case (!tkPunish):                                       {"FF PUNISH IS DISABLED"};
+    case (!isMultiplayer):                                  {"IS NOT MULTIPLAYER"};
+    case ("HC" in (getPlayerUID _instigator)):              {"FF BY HC"};  // Quick & reliable check
+    case (!(isPlayer _instigator)):                         {"FF BY AI"};
+    case (_vehicle isEqualTo (vehicle _victim)):            {"IN SAME VEHICLE"};  // Also fulfils role of checking whether the instigator and victim is same person.
+    case (!(side group _victim isEqualTo teamPlayer)):      {call _logPvPHurt; "VICTIM NOT REBEL"};
+    case (!(side group _instigator isEqualTo teamPlayer)):  {call _logPvPAttack; "INSTIGATOR NOT REBEL"};
+    default                                                 {""};
 };
 if (!(_exemption isEqualTo "")) exitWith {
     format["NOT FF, %1", _exemption];
