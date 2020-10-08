@@ -151,6 +151,10 @@ if (loadLastSave) then {
 		membersX = [];
 		{membersX pushBackUnique _x} forEach (call as_fnc_getExternalMemberListUIDs);
 		publicVariable "membersX";
+		//custom plates
+		platesX = [];
+		{platesX pushBackUnique _x} forEach (call as_fnc_getExternalMemberListPlates);
+		publicVariable "platesX";
 	};
 	if (membershipEnabled and (membersX isEqualTo [])) then {
 		[petros,"hint","Membership is enabled but members list is empty. Current players will be added to the member list", "Membership"] remoteExec ["A3A_fnc_commsMP"];
@@ -178,6 +182,10 @@ else {
 			{
 				if (([_x] call A3A_fnc_isMember) and (side _x == teamPlayer)) exitWith {theBoss = _x};
 			} forEach playableUnits;
+			//custom plates
+			platesX = [];
+			{platesX pushBackUnique _x} forEach (call as_fnc_getExternalMemberListPlates);
+			publicVariable "platesX";
 	}
 	else {
 		[2,"New session selected",_fileName] call A3A_fnc_log;
