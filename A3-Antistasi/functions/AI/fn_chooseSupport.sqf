@@ -62,7 +62,7 @@ switch (true) do
             ) then
             {
                 //Use spread out attacks first, if not available use more precise attacks
-                _supportTypes = ["MORTAR", "CANNON", "AIRSTRIKE", "AIRDROP", "GUNSHIP", "ORBSTRIKE", "QRF"];
+                _supportTypes = ["MORTAR", "CANNON", "AIRSTRIKE", "CARPETBOMB", "AIRDROP", "GUNSHIP", "ORBSTRIKE", "QRF"];
             };
         }
         else
@@ -83,7 +83,7 @@ switch (true) do
     case (_enemyVehicle isKindOf "StaticWeapon"):
     {
         //AI against statics? No way, send in support instantly
-        _supportTypes = ["AIRSTRIKE", "MISSILE", "CANNON", "CARPET", "MORTAR", "GUNSHIP"];
+        _supportTypes = ["AIRSTRIKE", "MISSILE", "CANNON", "CARPETBOMB", "MORTAR", "GUNSHIP"];
     };
     case (_enemyVehicle isKindOf "Tank"):
     {
@@ -116,7 +116,7 @@ switch (true) do
         ) then
         {
             //Use something that can target directly, otherwise use something against vehicle groups
-            _supportTypes = ["CAS", "CANNON", "EMP", "AIRSTRIKE", "CARPET", "MISSILE", "MORTAR", "GUNSHIP", "AIRDROP"];
+            _supportTypes = ["CAS", "CANNON", "EMP", "AIRSTRIKE", "MISSILE", "CARPETBOMB", "MORTAR", "GUNSHIP", "AIRDROP"];
         };
     };
     case (_enemyVehicle isKindOf "Plane"):

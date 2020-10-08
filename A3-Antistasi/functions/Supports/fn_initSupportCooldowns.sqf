@@ -43,5 +43,13 @@ for "_i" from 0 to 0 do
     invadersSAMTimer pushBack (random (3600 * 2));
 };
 
+occupantsCarpetBombTimer = [];
+invadersCarpetBombTimer = [];
+for "_i" from 0 to 0 do
+{
+    occupantsCarpetBombTimer pushBack (random (3600 * 3));
+    invadersCarpetBombTimer pushBack (random (3600 * 3));
+};
+
 occupantsOrbitalStrikeTimer = [random (3600 * 12)];
 invadersOrbitalStrikeTimer = [random (3600 * 12)];

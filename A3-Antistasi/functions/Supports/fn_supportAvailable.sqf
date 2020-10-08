@@ -41,10 +41,15 @@ switch (_supportType) do
     {
         _timerIndex = [_side, _position] call A3A_fnc_SUP_SAMAvailable;
     };
+    case ("CARPETBOMB"):
+    {
+        _timerIndex = [_side] call A3A_fnc_SUP_carpetBombsAvailable;
+    };
     default
     {
         //If unknown, set not available
         _timerIndex = -1;
+        [3, format ["Unknown support: %1", _supportType], "supportAvailable"] call A3A_fnc_log;
     };
 };
 

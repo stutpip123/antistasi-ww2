@@ -137,7 +137,7 @@ if(_selectedSupport == "") exitWith
     _fileName
 ] call A3A_fnc_log;
 
-if(_selectedSupport in ["MORTAR", "QRF", "AIRSTRIKE", "ORBSTRIKE"]) then
+if(_selectedSupport in ["MORTAR", "QRF", "AIRSTRIKE", "ORBSTRIKE", "CARPETBOMB"]) then
 {
     //Areal support methods, transmit position info
     [_side, _timerIndex, _selectedSupport, _supportPos, _precision, _revealCall] spawn A3A_fnc_createSupport;

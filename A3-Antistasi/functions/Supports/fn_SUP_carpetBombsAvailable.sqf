@@ -1,9 +1,13 @@
 params ["_side"];
 
-//if(tierWar < 8) exitWith {-1};
+if(true) exitWith {0};
+
+if(tierWar < 8) exitWith {-1};
+
+if !(unfairSupports) exitWith {-1};
 
 private _timerIndex = -1;
-private _playerAdjustment = (floor ((count allPlayers)/5)) + 1;
+private _playerAdjustment = (floor ((count allPlayers)/8)) + 1;
 private _supportTimer = if(_side == Occupants) then {occupantsCarpetBombTimer} else {invadersCarpetBombTimer};
 
 if(count _supportTimer < _playerAdjustment) then
