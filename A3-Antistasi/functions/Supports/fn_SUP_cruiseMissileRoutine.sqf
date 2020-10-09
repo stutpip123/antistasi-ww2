@@ -52,7 +52,7 @@ while {_onlineTime > 0} do
             deleteMarker _textMarker;
         };
 
-        [_reveal, getPos _targetObj, _side, "Cruise Missile", _textMarker, ""] spawn A3A_fnc_showInterceptedSupportCall;
+        [_reveal, getPos _targetObj, _side, "MISSILE", _textMarker, ""] spawn A3A_fnc_showInterceptedSupportCall;
 
         //Creates the laser target to mark the target
         private _laser = createVehicle ["LaserTargetE", (getPos _targetObj), [], 0, "CAN_COLLIDE"];

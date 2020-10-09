@@ -143,7 +143,7 @@ while {_timeAlive > 0} do
             _targetMarker setMarkerAlpha 0;
             _textMarker setMarkerAlpha 0;
 
-            [_reveal, _targetPos, _side, "Artillery", _targetMarker, _textMarker] spawn A3A_fnc_showInterceptedSupportCall;
+            [_reveal, _targetPos, _side, "MORTAR", _targetMarker, _textMarker] spawn A3A_fnc_showInterceptedSupportCall;
 
             _mortar setVariable ["CurrentlyFiring", true, true];
             _mortar setVariable ["FireOrder", _subTargets, true];

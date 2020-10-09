@@ -32,7 +32,7 @@ while {_onlineTime > 0} do
             _launcher fireAtTarget [_targetObj];
             _launcher doWatch objNull;
             sleep 1;
-            [_reveal, getPos _targetObj, _side, "SAM Missile", _launcher getVariable ["currentTextmarker", ""], ""] spawn A3A_fnc_showInterceptedSupportCall;
+            [_reveal, getPos _targetObj, _side, "SAM", _launcher getVariable ["currentTextmarker", ""], ""] spawn A3A_fnc_showInterceptedSupportCall;
             _rounds = _rounds - 1;
             _onlineTime = _onlineTime - 11;
         };

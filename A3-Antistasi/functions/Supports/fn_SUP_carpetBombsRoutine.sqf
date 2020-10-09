@@ -19,7 +19,7 @@ else
 };
 _textMarker setMarkerAlpha 0;
 
-[_reveal, _position, _side, "Carpet bombing", format ["%1_coverage", _supportName], _textMarker] spawn A3A_fnc_showInterceptedSupportCall;
+[_reveal, _position, _side, "CARPETBOMB", format ["%1_coverage", _supportName], _textMarker] spawn A3A_fnc_showInterceptedSupportCall;
 [_side, format ["%1_coverage", _supportName]] spawn A3A_fnc_clearTargetArea;
 
 private _carrierMarker = if (_side == Occupants) then {"NATOCarrier"} else {"CSATCarrier"};

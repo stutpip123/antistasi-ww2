@@ -56,8 +56,41 @@ if (_reveal <= 0.7) then
 }
 else
 {
-    //Side, type and setup is revealed
-    _text = format ["%1 is setting up %2 support", _sideName, _supportType];
+    switch (_supportType) do
+    {
+        case ("QRF"):
+        {
+            _text = format ["%1 just send a QRF", _sideName];
+        };
+        case ("AIRSTRIKE"):
+        {
+            _text = format ["%1 is preparing an airstrike", _sideName];
+        };
+        case ("MORTAR"):
+        {
+            _text = format ["%1 is setting up a mortar position", _sideName];
+        };
+        case ("ORBSTRIKE"):
+        {
+            _text = format ["A %1 satellite is preparing an orbital strike", _sideName];
+        };
+        case ("MISSILE"):
+        {
+            _text = format ["A %1 cruiser is readying a cruise missile", _sideName];
+        };
+        case ("SAM"):
+        {
+            _text = format ["%1 is setting up a SAM launcher", _sideName];
+        };
+        case ("CARPETBOMB"):
+        {
+            _text = format ["A heavy %1 bomber is on the way", _sideName];
+        };
+        default
+        {
+            _text = format ["%1 is setting up %2 support", _sideName, _supportType];
+        };
+    };
 };
 
 //Broadcast message to nearby players
