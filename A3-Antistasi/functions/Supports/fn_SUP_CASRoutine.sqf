@@ -15,7 +15,7 @@ while {_sleepTime > 0} do
 
 _strikePlane hideObjectGlobal false;
 _strikePlane enableSimulation true;
-_strikePlane flyInHeight 1000;
+_strikePlane flyInHeight 400;
 
 //Decrease time if aggro is low
 private _sideAggression = if(_side == Occupants) then {aggressionOccupants} else {aggressionInvaders};
@@ -48,7 +48,7 @@ _strikePlane addEventHandler
             else
             {
                 //Guided weapon, fire a second
-                _unit fireAtTarget [_target, _muzzle];
+                //_unit fireAtTarget [_target, _muzzle];
             };
         };
     }
@@ -57,14 +57,14 @@ _strikePlane addEventHandler
 _strikePlane setVariable ["InArea", false, true];
 _strikePlane setVariable ["CurrentlyAttacking", false, true];
 
-private _dir = (getPos _plane) getDir _setupPos;
+private _dir = (getPos _strikePlane) getDir _setupPos;
 
-private _areaWP = _strikeGroup addWaypoint [_setupPos getPos [3000, -_dir], 0];
+private _areaWP = _strikeGroup addWaypoint [_setupPos getPos [-2000, _dir], 1];
 _areaWP setWaypointSpeed "FULL";
 _areaWP setWaypointType "Move";
-_areaWP setWaypointStatements ["true", "(vehicle this) setVariable ['InArea', true, true];"];
+_areaWP setWaypointStatements ["true", "(vehicle this) setVariable ['InArea', true, true]; [3, 'CAS plane has arrived', 'CASRoutine'] call A3A_fnc_log"];
 
-private _loiterWP = _strikeGroup addWaypoint [_setupPos, 1];
+private _loiterWP = _strikeGroup addWaypoint [_setupPos, 2];
 _loiterWP setWaypointSpeed "NORMAL";
 _loiterWP setWaypointType "Loiter";
 _loiterWP setWaypointLoiterRadius 2000;
@@ -85,6 +85,7 @@ while {_timeAlive > 0} do
 {
     if !(_strikePlane getVariable "CurrentlyAttacking") then
     {
+        [3, format ["Searching new target for %1", _supportName], _fileName] call A3A_fnc_log;
         //Plane is currently not attacking a target, search for new order
         private _targetList = server getVariable [format ["%1_targets", _supportName], []];
         if (count _targetList > 0) then
@@ -104,7 +105,7 @@ while {_timeAlive > 0} do
             private _targetPos = getPos _targetObj;
 
             _strikeGroup reveal [_targetObj, _precision];
-            _strikePlane flyInHeightASL 250;
+            _strikePlane flyInHeight 250;
 
             //Show target to players if change is high enough
             private _textMarker = createMarker [format ["%1_text", _supportName], getPos _targetObj];
@@ -139,22 +140,32 @@ while {_timeAlive > 0} do
             [_reveal, getPos _targetObj, _side, "close air support", "", _textMarker] spawn A3A_fnc_showInterceptedSupportCall;
             _strikePlane setVariable ["CurrentlyAttacking", true, true];
 
-            private _attackWP = _strikeGroup addWaypoint [_targetPos, 2];
+            private _attackWP = _strikeGroup addWaypoint [_targetPos, 3];
             _attackWP setWaypointType "DESTROY";
-            //_attackWP waypointAttachVehicle _targetObj;
+            _attackWP waypointAttachObject _targetObj;
             _attackWP setWaypointSpeed "FULL";
             _strikeGroup setCurrentWaypoint _attackWP;
+
+            _strikeGroup setBehaviour "COMBAT";
+            _strikeGroup setCombatMode "RED";
+
+            {
+                _mode = (getArray (configFile >> "cfgweapons" >> _x >> "modes")) select 0;
+                if (_mode == "this") then {_mode = _x;};
+                (driver _strikePlane) fireAtTarget [_targetObj, _mode];
+            } forEach (weapons _strikePlane);
         };
     }
     else
     {
         if(isNull _targetObj || {!(alive _targetObj)}) then
         {
+            [3, format ["Target destroyed, %1 returns to cycle mode", _supportName], _fileName] call A3A_fnc_log;
             //Target destroyed
             _strikePlane setVariable ["CurrentlyAttacking", false, true];
-            _strikeGroup setCurrentWaypoint [_strikeGroup, 1];
+            _strikeGroup setCurrentWaypoint [_strikeGroup, 2];
 
-            _strikePlane flyInHeightASL 1000;
+            _strikePlane flyInHeight 400;
         };
     };
 
