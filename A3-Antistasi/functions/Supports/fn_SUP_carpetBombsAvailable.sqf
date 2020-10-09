@@ -1,7 +1,5 @@
 params ["_side"];
 
-if(true) exitWith {0};
-
 if(tierWar < 8) exitWith {-1};
 
 if !(unfairSupports) exitWith {-1};
