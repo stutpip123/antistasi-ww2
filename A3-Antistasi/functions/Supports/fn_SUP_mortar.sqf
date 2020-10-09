@@ -123,12 +123,12 @@ private _timerArray = if(_side == Occupants) then {occupantsMortarTimer} else {i
 if(_isMortar) then
 {
     _coverageMarker setMarkerSize [3000, 3000];
-    _timerArray set [_timerIndex, time + 1800];
+    _timerArray set [_timerIndex, time + 3600];
 }
 else
 {
     _coverageMarker setMarkerSize [10000, 10000];
-    _timerArray set [_timerIndex, time + 3600];
+    _timerArray set [_timerIndex, time + 7200];
 };
 
 _coverageMarker setMarkerAlpha 0;
@@ -145,7 +145,7 @@ _mortar addEventHandler
         ["TaskSucceeded", ["", "Mortar Support Destroyed"]] remoteExec ["BIS_fnc_showNotification", teamPlayer];
         private _timerArray = _mortar getVariable "TimerArray";
         private _timerIndex = _mortar getVariable "TimerIndex";
-        _timerArray set [_timerIndex, (_timerArray select _timerIndex) + 3600];
+        _timerArray set [_timerIndex, (_timerArray select _timerIndex) + 7200];
     }
 ];
 
@@ -161,7 +161,7 @@ _mortar addEventHandler
             _vehicle removeAllEventHandlers "GetIn";
             private _timerArray = _vehicle getVariable "TimerArray";
             private _timerIndex = _vehicle getVariable "TimerIndex";
-            _timerArray set [_timerIndex, (_timerArray select _timerIndex) + 3600];
+            _timerArray set [_timerIndex, (_timerArray select _timerIndex) + 7200];
         };
     }
 ];
@@ -180,7 +180,7 @@ _mortarGroup setVariable ["Mortar", _mortar, true];
                 private _mortar = _group getVariable "Mortar";
                 private _timerArray = _mortar getVariable "TimerArray";
                 private _timerIndex = _mortar getVariable "TimerIndex";
-                _timerArray set [_timerIndex, (_timerArray select _timerIndex) + 1800];
+                _timerArray set [_timerIndex, (_timerArray select _timerIndex) + 3600];
             };
         }
     ];
