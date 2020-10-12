@@ -49,41 +49,41 @@ private _sideName = if(_side == Occupants) then {nameOccupants} else {nameInvade
 if (_reveal <= 0.5) then
 {
     //Side and call is reveal
-    _text = format ["%1 is executing an unknown support now", _sideName];
+    _text = format ["%1 is executing an unknown support now", _side];
 }
 else
 {
     case ("QRF"):
     {
-        _text = format ["A %1 QRF just arrived", _sideName];
+        _text = format ["A %1 QRF just arrived", _side];
     };
     case ("AIRSTRIKE"):
     {
-        _text = format ["%1 is about to execute an airstrike", _sideName];
+        _text = format ["%1 is about to execute an airstrike", _side];
     };
     case ("MORTAR"):
     {
-        _text = format ["A %1 mortar has opened fire", _sideName];
+        _text = format ["A %1 mortar has opened fire", _side];
     };
     case ("ORBSTRIKE"):
     {
-        _text = format ["A %1 satellite has fired the orbital strike", _sideName];
+        _text = format ["A %1 satellite has fired the orbital strike", _side];
     };
     case ("MISSILE"):
     {
-        _text = format ["%1 cruise missile launched", _sideName];
+        _text = format ["%1 cruise missile launched", _side];
     };
     case ("SAM"):
     {
-        _text = format ["%1 SAM missile launched", _sideName];
+        _text = format ["%1 SAM missile launched", _side];
     };
     case ("CARPETBOMB"):
     {
-        _text = format ["%1 bomber started to lay down a carpet bombing", _sideName];
+        _text = format ["%1 bomber started to lay down a carpet bombing", _side];
     };
     default
     {
-        _text = format ["%1 is executing %2 support now", _sideName, _supportType];
+        _text = format ["%1 is executing %2 support now", _side, _supportType];
     };
     if(_reveal > 0.8) then
     {
