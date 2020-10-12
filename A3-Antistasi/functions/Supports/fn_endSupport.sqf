@@ -19,9 +19,10 @@ params
         Nothing
 */
 
+private _fileName = "endSupport";
 if(_supportName == "" || _side == sideEnemy) exitWith
 {
-    [1, format ["Bad input, was %1", _this], "endSupport"] call A3A_fnc_log;
+    [1, format ["Bad input, was %1", _this], _fileName] call A3A_fnc_log;
 };
 
 if(_timeTillExecution != 0) then
@@ -45,3 +46,5 @@ if(_side == Invaders) then
 
 deleteMarker (format ["%1_coverage", _supportName]);
 deleteMarker (format ["%1_text", _supportName]);
+
+[2, format ["Ended support and deleted data for %1", _supportName], _fileName] call A3A_fnc_log;

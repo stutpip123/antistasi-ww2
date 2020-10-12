@@ -64,6 +64,9 @@ switch (_supportType) do
     case ("CARPETBOMB"):
     {
         _supportMarker = [_side, _timerIndex, _supportTarget, _supportName] call A3A_fnc_SUP_carpetBombs;
+    case ("CAS"):
+    {
+        _supportMarker = [_side, _timerIndex, _supportTarget, _supportName] call A3A_fnc_SUP_CAS;
     };
 };
 
