@@ -61,7 +61,7 @@ for "_counter" from 0 to 20 do
     _bomb setVectorDirAndUp [[0,0,-1], [1,0,0]];
     _bomb setVelocity [0, 0, -75];
 
-    sleep 0.2;
+    sleep 0.35;
 };
 
 sleep 15;

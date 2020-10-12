@@ -103,7 +103,7 @@ _strikePlane addEventHandler
             //Vehicle fired a missile against the plane, add to target list if ground, no warning for players as this is an internal decision of the pilot
             if(_vehicle isKindOf "Air") then
             {
-                [group driver _plane, ["AAPLANE", "SAM"], _vehicle] spawn A3A_fnc_callForSupport;
+                [group driver _plane, ["ASF", "SAM"], _vehicle] spawn A3A_fnc_callForSupport;
                 _plane setVariable ["Retreat", true, true];
             }
             else
@@ -132,7 +132,7 @@ _strikePlane addEventHandler
                 if(_vehicle isKindOf "Air") then
                 {
                     //Vehicle is a plane or attack heli (or a lucky chopper), retreat, as no AA weapons on board
-                    [group driver _plane, ["AAPLANE", "SAM"], _vehicle] spawn A3A_fnc_callForSupport;
+                    [group driver _plane, ["ASF", "SAM"], _vehicle] spawn A3A_fnc_callForSupport;
                     _plane setVariable ["Retreat", true, true];
                 }
                 else

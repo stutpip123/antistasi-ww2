@@ -49,7 +49,7 @@ switch (true) do
     case (_enemy isKindOf "Man"):
     {
         private _enemiesNearEnemy = count (allUnits select {(side (group _x)) == (side (group _enemy)) && {_x distance2D _enemy < 100}});
-        if(_enemiesNearEnemy > 2) then
+        if(_enemiesNearEnemy > 4) then
         {
             //They are fighting some larger group of enemies
             if
@@ -134,7 +134,7 @@ switch (true) do
         ) then
         {
             //Strike back with a dogfighter, if not available fall back to AA or AoE remote weapons
-            _supportTypes = ["AAPLANE", "SAM", "EMP", "AIRDROP"];
+            _supportTypes = ["ASF", "SAM", "EMP", "AIRDROP"];
         };
     };
     case (_enemyVehicle isKindOf "Helicopter"):
@@ -152,7 +152,7 @@ switch (true) do
             ) then
             {
                 //Use the typical AA supports available
-                _supportTypes = ["SAM", "AAPLANE", "QRF", "EMP", "AIRDROP", "GUNSHIP"];
+                _supportTypes = ["SAM", "ASF", "QRF", "EMP", "AIRDROP", "GUNSHIP"];
             };
         }
         else
@@ -165,7 +165,7 @@ switch (true) do
             ) then
             {
                 //Easy enemy, mostly used for transports, send only light support
-                _supportTypes = ["SAM", "GUNSHIP", "QRF", "AAPLANE"];
+                _supportTypes = ["SAM", "GUNSHIP", "QRF", "ASF"];
             };
         };
     };

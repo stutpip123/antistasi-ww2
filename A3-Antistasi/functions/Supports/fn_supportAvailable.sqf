@@ -50,7 +50,7 @@ switch (_supportType) do
     {
         _timerIndex = [_side] call A3A_fnc_SUP_CASAvailable;
     };
-    case ("AAPLANE"):       //Air superiority fighters
+    case ("ASF"):       //Air superiority fighters
     {
         _timerIndex = [_side] call A3A_fnc_ASFAvailable;
     };

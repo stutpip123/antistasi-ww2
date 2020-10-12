@@ -137,7 +137,7 @@ while {_timeAlive > 0} do
                 deleteMarker _textMarker;
             };
 
-            [_reveal, getPos _targetObj, _side, "AAPLANE", "", _textMarker] spawn A3A_fnc_showInterceptedSupportCall;
+            [_reveal, getPos _targetObj, _side, "ASF", "", _textMarker] spawn A3A_fnc_showInterceptedSupportCall;
             _strikePlane setVariable ["CurrentlyAttacking", true, true];
 
             private _attackWP = _strikeGroup addWaypoint [_targetPos, 3];

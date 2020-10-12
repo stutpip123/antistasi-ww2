@@ -534,6 +534,9 @@ class A3A
         class SUP_airstrike {};
         class SUP_airstrikeAvailable {};
         class SUP_airstrikeRoutine {};
+        class SUP_ASF {};
+        class SUP_ASFAvailable {};
+        class SUP_ASFRoutine {};
         class SUP_carpetBombs {};
         class SUP_carpetBombsAvailable {};
         class SUP_carpetBombsRoutine {};
