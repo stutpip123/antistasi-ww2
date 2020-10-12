@@ -53,37 +53,44 @@ if (_reveal <= 0.5) then
 }
 else
 {
-    case ("QRF"):
+    switch (_supportType) do
     {
-        _text = format ["A %1 QRF just arrived", _side];
-    };
-    case ("AIRSTRIKE"):
-    {
-        _text = format ["%1 is about to execute an airstrike", _side];
-    };
-    case ("MORTAR"):
-    {
-        _text = format ["A %1 mortar has opened fire", _side];
-    };
-    case ("ORBSTRIKE"):
-    {
-        _text = format ["A %1 satellite has fired the orbital strike", _side];
-    };
-    case ("MISSILE"):
-    {
-        _text = format ["%1 cruise missile launched", _side];
-    };
-    case ("SAM"):
-    {
-        _text = format ["%1 SAM missile launched", _side];
-    };
-    case ("CARPETBOMB"):
-    {
-        _text = format ["%1 bomber started to lay down a carpet bombing", _side];
-    };
-    default
-    {
-        _text = format ["%1 is executing %2 support now", _side, _supportType];
+        case ("QRF"):
+        {
+            _text = format ["A %1 QRF just arrived", _side];
+        };
+        case ("AIRSTRIKE"):
+        {
+            _text = format ["%1 is about to execute an airstrike", _side];
+        };
+        case ("MORTAR"):
+        {
+            _text = format ["A %1 mortar has opened fire", _side];
+        };
+        case ("ORBSTRIKE"):
+        {
+            _text = format ["A %1 satellite has fired the orbital strike", _side];
+        };
+        case ("MISSILE"):
+        {
+            _text = format ["%1 cruise missile launched", _side];
+        };
+        case ("SAM"):
+        {
+            _text = format ["%1 SAM missile launched", _side];
+        };
+        case ("CARPETBOMB"):
+        {
+            _text = format ["%1 bomber started to lay down a carpet bombing", _side];
+        };
+        case ("ASF"):
+        {
+            _text = format ["%1 fighter started chasing a target", _side];
+        };
+        default
+        {
+            _text = format ["%1 is executing %2 support now", _side, _supportType];
+        };
     };
     if(_reveal > 0.8) then
     {

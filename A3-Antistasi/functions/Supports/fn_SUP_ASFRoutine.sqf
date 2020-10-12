@@ -20,13 +20,13 @@ _strikePlane flyInHeight 1000;
 //Decrease time if aggro is low
 private _sideAggression = if(_side == Occupants) then {aggressionOccupants} else {aggressionInvaders};
 private _timeAlive = 600;
-private _missilesLeft = 12;//[_strikePlane, 0] call A3A_fnc_countMissiles;
+private _possibleKills = 3;//[_strikePlane, 0] call A3A_fnc_countMissiles;
 
 if(_sideAggression < (30 + (random 40))) then
 {
     _timeAlive = 300;
     //Plane needs to have at least 6 missiles in all cases
-    _missilesLeft = 6;
+    _possibleKills = 2;
 };
 
 [_strikePlane, "AA"] call A3A_fnc_setPlaneLoadout;
@@ -60,6 +60,7 @@ _strikePlane setVariable ["CurrentlyAttacking", false, true];
 private _dir = (getPos _strikePlane) getDir _setupPos;
 
 private _areaWP = _strikeGroup addWaypoint [_setupPos getPos [-2000, _dir], 1];
+_areaWP setWaypointCombatMode "GREEN";
 _areaWP setWaypointSpeed "FULL";
 _areaWP setWaypointType "Move";
 _areaWP setWaypointStatements ["true", "(vehicle this) setVariable ['InArea', true, true]; [3, 'ASF plane has arrived', 'ASFRoutine'] call A3A_fnc_log"];
@@ -85,7 +86,7 @@ while {_timeAlive > 0} do
 {
     if !(_strikePlane getVariable "CurrentlyAttacking") then
     {
-        [3, format ["Searching new target for %1", _supportName], _fileName] call A3A_fnc_log;
+        //[3, format ["Searching new target for %1", _supportName], _fileName] call A3A_fnc_log;
         //Plane is currently not attacking a target, search for new order
         private _targetList = server getVariable [format ["%1_targets", _supportName], []];
         if (count _targetList > 0) then
@@ -154,10 +155,22 @@ while {_timeAlive > 0} do
     {
         if(isNull _targetObj || {!(alive _targetObj)}) then
         {
+            _possibleKills = _possibleKills - 1;
+
             [3, format ["Target destroyed, %1 returns to cycle mode", _supportName], _fileName] call A3A_fnc_log;
             //Target destroyed
             _strikePlane setVariable ["CurrentlyAttacking", false, true];
-            _strikeGroup setCurrentWaypoint [_strikeGroup, 2];
+
+            for "_i" from count waypoints _strikeGroup - 1 to 0 step -1 do
+            {
+                deleteWaypoint [_strikeGroup, _i];
+            };
+
+            private _loiterWP = _strikeGroup addWaypoint [_setupPos, 2];
+            _loiterWP setWaypointSpeed "NORMAL";
+            _loiterWP setWaypointType "Loiter";
+            _loiterWP setWaypointLoiterRadius 2000;
+            _strikeGroup setCurrentWaypoint _loiterWP;
 
             _strikeGroup setBehaviour "AWARE";
             _strikeGroup setCombatMode "GREEN";
@@ -174,7 +187,7 @@ while {_timeAlive > 0} do
     ) exitWith {[2,format ["%1 has been destroyed or crew killed, aborting routine", _supportName],_fileName] call A3A_fnc_log;};
 
     //No missiles left
-    if (!(_strikePlane getVariable "CurrentlyAttacking") && (_missilesLeft <= 0)) exitWith
+    if (!(_strikePlane getVariable "CurrentlyAttacking") && (_possibleKills <= 0)) exitWith
     {
         [2,format ["%1 has no more missiles left to fire, aborting routine", _supportName],_fileName] call A3A_fnc_log;
     };

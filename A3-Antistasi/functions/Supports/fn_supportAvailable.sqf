@@ -52,7 +52,7 @@ switch (_supportType) do
     };
     case ("ASF"):       //Air superiority fighters
     {
-        _timerIndex = [_side] call A3A_fnc_ASFAvailable;
+        _timerIndex = [_side] call A3A_fnc_SUP_ASFAvailable;
     };
     /*  NOT YET IMPLEMENTED
     case ("GUNSHIP"):       //Heavily armed plane

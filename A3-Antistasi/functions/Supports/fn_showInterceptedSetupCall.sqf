@@ -86,6 +86,10 @@ else
         {
             _text = format ["A heavy %1 bomber is on the way", _sideName];
         };
+        case ("ASF"):
+        {
+            _text = format ["%1 is readying an air superiority fighter", _sideName];
+        };
         default
         {
             _text = format ["%1 is setting up %2 support", _sideName, _supportType];
