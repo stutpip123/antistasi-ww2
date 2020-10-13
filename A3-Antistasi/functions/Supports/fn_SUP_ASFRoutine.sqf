@@ -31,29 +31,6 @@ if(_sideAggression < (30 + (random 40))) then
 
 [_strikePlane, "AA"] call A3A_fnc_setPlaneLoadout;
 
-_strikePlane addEventHandler
-[
-    "Fired",
-    {
-        params ["_unit", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile", "_gunner"];
-        if (_ammo isKindOf "MissileBase") then
-        {
-            //Fired weapon was a missile, further investigation needed
-            private _lockStates = [configFile >> "CfgAmmo" >> _ammo, "weaponLockSystem"] call BIS_fnc_returnConfigEntry;
-            if(_lockStates isEqualType -1 && {_lockStates == 0}) then
-            {
-                //Unguided weapon, fire six more :)
-
-            }
-            else
-            {
-                //Guided weapon, fire a second
-                //_unit fireAtTarget [_target, _muzzle];
-            };
-        };
-    }
-];
-
 _strikePlane setVariable ["InArea", false, true];
 _strikePlane setVariable ["CurrentlyAttacking", false, true];
 
@@ -184,7 +161,18 @@ while {_timeAlive > 0} do
     (
         !(alive _strikePlane) ||
         {({alive _x} count (units _strikeGroup)) == 0}
-    ) exitWith {[2,format ["%1 has been destroyed or crew killed, aborting routine", _supportName],_fileName] call A3A_fnc_log;};
+    ) exitWith
+    {
+        [2,format ["%1 has been destroyed or crew killed, aborting routine", _supportName],_fileName] call A3A_fnc_log;
+        if(_side == Occupants) then
+        {
+            [[20, 45], [0, 0]] remoteExec ["A3A_fnc_prestige", 2];
+        }
+        else
+        {
+            [[0, 0], [20, 45]] remoteExec ["A3A_fnc_prestige", 2];
+        };
+    };
 
     //No missiles left
     if (!(_strikePlane getVariable "CurrentlyAttacking") && (_possibleKills <= 0)) exitWith
