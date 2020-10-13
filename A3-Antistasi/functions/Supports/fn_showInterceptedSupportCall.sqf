@@ -57,39 +57,43 @@ else
     {
         case ("QRF"):
         {
-            _text = format ["A %1 QRF just arrived", _side];
+            _text = format ["A %1 QRF just arrived", _sideName];
         };
         case ("AIRSTRIKE"):
         {
-            _text = format ["%1 is about to execute an airstrike", _side];
+            _text = format ["%1 is about to execute an airstrike", _sideName];
         };
         case ("MORTAR"):
         {
-            _text = format ["A %1 mortar has opened fire", _side];
+            _text = format ["A %1 mortar has opened fire", _sideName];
         };
         case ("ORBSTRIKE"):
         {
-            _text = format ["A %1 satellite has fired the orbital strike", _side];
+            _text = format ["A %1 satellite has fired the orbital strike", _sideName];
         };
         case ("MISSILE"):
         {
-            _text = format ["%1 cruise missile launched", _side];
+            _text = format ["%1 cruise missile launched", _sideName];
         };
         case ("SAM"):
         {
-            _text = format ["%1 SAM missile launched", _side];
+            _text = format ["%1 SAM missile launched", _sideName];
         };
         case ("CARPETBOMB"):
         {
-            _text = format ["%1 bomber started to lay down a carpet bombing", _side];
+            _text = format ["%1 bomber started to lay down a carpet bombing", _sideName];
         };
         case ("ASF"):
         {
-            _text = format ["%1 fighter started chasing a target", _side];
+            _text = format ["%1 fighter started chasing a target", _sideName];
+        };
+        case ("CAS"):
+        {
+            _text = format ["A %1 CAS bomber has locked onto a target", _sideName];
         };
         default
         {
-            _text = format ["%1 is executing %2 support now", _side, _supportType];
+            _text = format ["%1 is executing %2 support now", _sideName, _supportType];
         };
     };
     if(_reveal > 0.8) then

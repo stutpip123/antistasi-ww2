@@ -62,6 +62,7 @@ private _dir = (getPos _strikePlane) getDir _setupPos;
 private _areaWP = _strikeGroup addWaypoint [_setupPos getPos [-2000, _dir], 1];
 _areaWP setWaypointSpeed "FULL";
 _areaWP setWaypointType "Move";
+_areaWP setCombatMode "GREEN";
 _areaWP setWaypointStatements ["true", "(vehicle this) setVariable ['InArea', true, true]; [3, 'CAS plane has arrived', 'CASRoutine'] call A3A_fnc_log"];
 
 private _loiterWP = _strikeGroup addWaypoint [_setupPos, 2];

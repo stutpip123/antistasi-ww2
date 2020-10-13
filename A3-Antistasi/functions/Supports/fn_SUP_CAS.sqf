@@ -68,7 +68,6 @@ private _strikeGroup = createGroup _side;
 private _pilot = [_strikeGroup, _crewUnits, getPos _strikePlane] call A3A_fnc_createUnit;
 _pilot moveInDriver _strikePlane;
 
-_strikePlane disableAI "TARGET";
 _strikePlane disableAI "AUTOTARGET";
 
 private _timerArray = if(_side == Occupants) then {occupantsCASTimer} else {invadersCASTimer};

@@ -90,6 +90,10 @@ else
         {
             _text = format ["%1 is readying an air superiority fighter", _sideName];
         };
+        case ("CAS"):
+        {
+            _text = format ["%1 is readying a CAS bomber", _sideName];
+        };
         default
         {
             _text = format ["%1 is setting up %2 support", _sideName, _supportType];
