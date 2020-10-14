@@ -4,6 +4,16 @@ private _plane = plane;
 _plane flyInHeight 250;
 private _group = group driver _plane;
 
+_plane setVariable ["mainGun", "Gatling_30mm_Plane_CAS_01_F"];
+_plane setVariable ["rocketLauncher", ["Rocket_04_HE_Plane_CAS_01_F"]];
+
+hint "Started CAS approach";
+
+_plane setCombatMode "GREEN";
+_plane disableAI "TARGET";
+_plane disableAI "AUTOTARGET";
+
+_plane setVariable ["currentTarget", _target, true];
 
 //Create waypoint
 private _targetPos = (getPos _target) vectorAdd [0, 0, 2];
@@ -58,55 +68,159 @@ private _exitRunPos = _targetPos vectorAdd _targetVector;
 private _forward = _exitRunPos vectorDiff _enterRunPos;
 private _upVector = (_forward vectorCrossProduct _sideVector) vectorMultiply -1;
 private _forwardSpeed = (velocityModelSpace _plane) select 1;
-//_plane setVelocityModelSpace [0, _forwardSpeed, 0];
-(driver _plane) disableAI "ALL";
 private _timeForRun = 1620 / _forwardSpeed;
 private _speedVector = (vectorNormalized _forward) vectorMultiply _forwardSpeed;
-
-hint format ["Speed plane: %1\nTime for run: %2\nResulting speed: %3\nForward speed: %4", speed _plane/3.6, _timeForRun, (1620/_timeForRun), _forwardSpeed];
 
 private _interval = 0;
 private _realTime = 0;
 
-private _testMarkerOut = createMarker ["testMarkerOut", _exitRunPos];
-_testMarkerOut setMarkerShape "ICON";
-_testMarkerOut setMarkerType "mil_dot";
-_testMarkerOut setMarkerText "Exit point";
-_testMarkerOut setMarkerAlpha 1;
+_plane addEventHandler
+[
+    "Fired",
+    {
+        params ["_plane", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile", "_gunner"];
+        private _target = _plane getVariable ["currentTarget", objNull];
+        if(isNull _target) exitWith {};
 
-private _testMarkerIn = createMarker ["testMarkerIn", _enterRunPos];
-_testMarkerIn setMarkerShape "ICON";
-_testMarkerIn setMarkerType "mil_dot";
-_testMarkerIn setMarkerText "Enter point";
-_testMarkerIn setMarkerAlpha 1;
+        //diag_log str _this;
 
+        if(_weapon == (_plane getVariable "mainGun")) then
+        {
+            //Bullet, improve course and accuracy
+            private _speed = speed _projectile/3.6;
+            private _targetPos = ((getPosASL _target) vectorAdd [0, 0, 3.5]) vectorAdd (vectorDir _target vectorMultiply ((speed _target)/9));
+            _targetPos = _targetPos apply {_x + (random 15) - 7.5};
+            _projectile setVelocity (vectorNormalized (_targetPos vectorDiff (getPosASL _projectile)) vectorMultiply (_speed));
+
+            //Check if next shot needs to be fired
+            private _remainingShots = _plane getVariable ["mainGunShots", 0];
+            //diag_log str _remainingShots;
+            //hint format ["Remaining shots: %1", _remainingShots];
+            if(_remainingShots > 0) then
+            {
+                //Fire next shot
+                [_plane, _weapon, _mode] spawn
+                {
+                    params ["_plane", "_weapon", "_mode"];
+                    sleep 0.02;
+                    (driver _plane) forceWeaponFire [_weapon, _mode];
+                };
+                _plane setVariable ["mainGunShots", _remainingShots - 1];
+            };
+        };
+        if(_weapon in (_plane getVariable ["rocketLauncher", []])) then
+        {
+            //Unguided rocket, improve course and accuracy
+            private _speed = speed _projectile/3.6;
+            private _targetPos = ((getPosASL _target) vectorAdd [0, 0, 15]) vectorAdd (vectorDir _target vectorMultiply ((speed _target)/9));
+            _targetPos = _targetPos apply {_x + (random 20) - 10};
+            _projectile setVelocity (vectorNormalized (_targetPos vectorDiff (getPosASL _projectile)) vectorMultiply (_speed));
+
+            //Check if next shot needs to be fired
+            private _remainingShots = _plane getVariable ["rocketShots", 0];
+            if(_remainingShots > 0) then
+            {
+                //Fire next shot
+                [_plane, _weapon, _mode] spawn
+                {
+                    params ["_plane", "_weapon", "_mode"];
+                    sleep 0.1;
+                    (driver _plane) forceWeaponFire [_weapon, _mode];
+                };
+                _plane setVariable ["rocketShots", _remainingShots - 1];
+            };
+        };
+        if(_weapon in (_plane getVariable ["missileLauncher", []])) then
+        {
+            //Guided missile, dont do anything
+            //Check if next shot needs to be fired (Unlikely, but possible)
+            private _remainingShots = _plane getVariable ["missileShots", 0];
+            if(_remainingShots > 0) then
+            {
+                //Fire next shot
+                [_plane, _weapon, _mode] spawn
+                {
+                    params ["_plane", "_weapon", "_mode"];
+                    sleep 0.25;
+                    (driver _plane) forceWeaponFire [_weapon, _mode];
+                };
+                _plane setVariable ["missileShots", _remainingShots - 1];
+            };
+        };
+    }
+];
+
+private _fnc_executeWeaponFire =
+{
+    params ["_plane", "_fireParams"];
+    _fireParams params ["_armed", "_mainGunShots", "_rocketShots", "_missileShots"];
+
+    if(_mainGunShots > 0) then
+    {
+        //Fire main gun
+        //(driver _plane) forceWeaponFire ["Gatling_30mm_Plane_CAS_01_F", "close"];
+        private _weapon = _plane getVariable ["mainGun", ""];
+        private _modes = getArray (configFile >> "cfgweapons" >> _weapon >> "modes");
+        private _mode =  _modes select 0;
+        if (_mode == "this") then
+        {
+            _mode = _weapon;
+        }
+        else
+        {
+            if ("close" in _modes) then
+            {
+                _mode = "close";
+            };
+        };
+        (driver _plane) forceWeaponFire [_weapon, _mode];
+        _plane setVariable ["mainGunShots", (_mainGunShots - 1)];
+    };
+    if(_rocketShots > 0) then
+    {
+        //Select rocket weapon
+        private _weapon = selectRandom (_plane getVariable ["rocketLauncher", []]);
+        private _mode = (getArray (configFile >> "cfgweapons" >> _weapon >> "modes")) select 0;
+        if (_mode == "this") then
+        {
+            _mode = _weapon;
+        };
+        (driver _plane) forceWeaponFire [_weapon, _mode];
+        _plane setVariable ["rocketShots", (_rocketShots - 1)];
+    };
+    if(_missileShots > 0) then
+    {
+        //Select missile weapon
+    };
+};
+
+private _fireParams =
+[
+    //[armed, main gun shots, rocket shots, missile shots]
+    [true, 45, 5, 0],
+    [true, 45, 5, 0],
+    [true, 45, 5, 0]
+];
 
 while {_interval < 0.95 && alive _plane && {!(isNull (driver _plane))}} do
 {
     if(_realTime > 0.5) then
     {
+        //Update course of plane
         _realTime = 0;
-
         _targetPos = (getPosASL _target) vectorAdd [0, 0, 2];
         _targetVector = [400, 0];
         _dir = (_plane getDir _target) + 90;
-
         _sideVector = [_targetVector, -_dir + 90] call BIS_fnc_rotateVector2D;
         _targetVector = [_targetVector, -_dir] call BIS_fnc_rotateVector2D;
-
         _targetVector pushBack 50;
         _sideVector pushBack 0;
-
         _exitRunPos = _targetPos vectorAdd _targetVector;
-        _testMarkerOut setMarkerPos _exitRunPos;
 
         private _planePos = getPosASL _plane;
         private _way = _planePos vectorDiff _exitRunPos;
 
         _enterRunPos = _exitRunPos vectorAdd (_way vectorMultiply (1/(1-_interval)));
-        _testMarkerIn setMarkerPos _enterRunPos;
-        //_enterRunPos set [2, 250];
-
         _forward = _exitRunPos vectorDiff _enterRunPos;
         _speedVector = (vectorNormalized _forward) vectorMultiply _forwardSpeed;
         _upVector = (_forward vectorCrossProduct _sideVector) vectorMultiply -1;
@@ -125,19 +239,37 @@ while {_interval < 0.95 && alive _plane && {!(isNull (driver _plane))}} do
 		_interval
 	];
 
-    hint format ["Enterpos z: %1\nExitpos z: %2", _enterRunPos select 2, _exitRunPos select 2];
     sleep 0.05;
     _interval = _interval + (0.05 / _timeForRun);
     _realTime = _realTime + 0.05;
 
-    //Fire main gun
-    (driver _plane) forceWeaponFire ["Gatling_30mm_Plane_CAS_01_F", "close"];
+    //FIRE MECHANISM
+
+    //First burst
+    if(_interval > 0.25 && (_fireParams#0#0)) then
+    {
+        //Execute fire params
+        hint "First Burst";
+        [_plane, _fireParams#0] spawn _fnc_executeWeaponFire;
+        (_fireParams#0) set [0, false];
+    };
+    //Second burst
+    if(_interval > 0.5 && (_fireParams#1#0)) then
+    {
+        //Execute fire params
+        hint "Second Burst";
+        [_plane, _fireParams#1] spawn _fnc_executeWeaponFire;
+        (_fireParams#1) set [0, false];
+    };
+    //Third burst
+    if(_interval > 0.75 && (_fireParams#2#0)) then
+    {
+        //Execute fire params
+        hint "Third Burst";
+        [_plane, _fireParams#2] spawn _fnc_executeWeaponFire;
+        (_fireParams#2) set [0, false];
+    };
 };
-
-(driver _plane) enableAI "ALL";
-(driver _plane) disableAI "AUTOTARGET";
-
-_plane flyInHeight 250;
 
 //while {getPos _plane select 2 < 100} do
 //{
