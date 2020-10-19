@@ -1,17 +1,19 @@
 [] spawn {
 private _target = target;
 private _plane = plane;
-_plane flyInHeight 250;
+_plane flyInHeight 500;
 private _group = group driver _plane;
 
 _plane setVariable ["mainGun", "Gatling_30mm_Plane_CAS_01_F"];
 _plane setVariable ["rocketLauncher", ["Rocket_04_HE_Plane_CAS_01_F"]];
+_plane setVariable ["missileLauncher", ["Missile_AGM_02_Plane_CAS_01_F"]];
 
 hint "Started CAS approach";
 
 _plane setCombatMode "GREEN";
 _plane disableAI "TARGET";
 _plane disableAI "AUTOTARGET";
+_plane reveal [_target, 4];
 
 _plane setVariable ["currentTarget", _target, true];
 
@@ -20,7 +22,7 @@ private _targetPos = (getPos _target) vectorAdd [0, 0, 2];
 private _targetVector = [400, 0];
 private _dir = (_plane getDir _target) + 90;
 _targetVector = [_targetVector, -_dir] call BIS_fnc_rotateVector2D;
-_targetVector pushBack 50;
+_targetVector pushBack 100;
 private _enterRunPos = _targetPos vectorAdd (_targetVector vectorMultiply 5);
 _plane setVariable ["enterPos", _enterRunPos];
 
@@ -43,7 +45,7 @@ waitUntil
     _targetVector = [400, 0];
     _dir = (_plane getDir _target) + 90;
     _targetVector = [_targetVector, -_dir] call BIS_fnc_rotateVector2D;
-    _targetVector pushBack 50;
+    _targetVector pushBack 100;
     _enterRunPos = _targetPos vectorAdd (_targetVector vectorMultiply 5);
     _wp1 setWaypointPosition [_enterRunPos, 0];
     _plane setVariable ["enterPos", _enterRunPos];
@@ -88,7 +90,7 @@ _plane addEventHandler
         {
             //Bullet, improve course and accuracy
             private _speed = speed _projectile/3.6;
-            private _targetPos = ((getPosASL _target) vectorAdd [0, 0, 3.5]) vectorAdd (vectorDir _target vectorMultiply ((speed _target)/9));
+            private _targetPos = ((getPosASL _target) vectorAdd [0, 0, 3.5]) vectorAdd (vectorDir _target vectorMultiply ((speed _target)/4.5));
             _targetPos = _targetPos apply {_x + (random 15) - 7.5};
             _projectile setVelocity (vectorNormalized (_targetPos vectorDiff (getPosASL _projectile)) vectorMultiply (_speed));
 
@@ -112,9 +114,9 @@ _plane addEventHandler
         {
             //Unguided rocket, improve course and accuracy
             private _speed = speed _projectile/3.6;
-            private _targetPos = ((getPosASL _target) vectorAdd [0, 0, 15]) vectorAdd (vectorDir _target vectorMultiply ((speed _target)/9));
-            _targetPos = _targetPos apply {_x + (random 20) - 10};
-            _projectile setVelocity (vectorNormalized (_targetPos vectorDiff (getPosASL _projectile)) vectorMultiply (_speed));
+            private _targetPos = ((getPosASL _target) vectorAdd [0, 0, 50]) vectorAdd (vectorDir _target vectorMultiply ((speed _target)));
+            _targetPos = _targetPos apply {_x + (random 200) - 100};
+            _projectile setVelocity (vectorNormalized (_targetPos vectorDiff (getPosASL _projectile)) vectorMultiply (_speed/1.5));
 
             //Check if next shot needs to be fired
             private _remainingShots = _plane getVariable ["rocketShots", 0];
@@ -124,7 +126,7 @@ _plane addEventHandler
                 [_plane, _weapon, _mode] spawn
                 {
                     params ["_plane", "_weapon", "_mode"];
-                    sleep 0.1;
+                    sleep 0.2;
                     (driver _plane) forceWeaponFire [_weapon, _mode];
                 };
                 _plane setVariable ["rocketShots", _remainingShots - 1];
@@ -142,7 +144,7 @@ _plane addEventHandler
                 {
                     params ["_plane", "_weapon", "_mode"];
                     sleep 0.25;
-                    (driver _plane) forceWeaponFire [_weapon, _mode];
+                    _plane fireAtTarget [_target, _muzzle];
                 };
                 _plane setVariable ["missileShots", _remainingShots - 1];
             };
@@ -180,26 +182,38 @@ private _fnc_executeWeaponFire =
     {
         //Select rocket weapon
         private _weapon = selectRandom (_plane getVariable ["rocketLauncher", []]);
-        private _mode = (getArray (configFile >> "cfgweapons" >> _weapon >> "modes")) select 0;
+        private _modes = (getArray (configFile >> "cfgweapons" >> _weapon >> "modes"));
+        private _mode = _modes select 0;
         if (_mode == "this") then
         {
             _mode = _weapon;
+        }
+        else
+        {
+            if ("Close_AI" in _modes) then
+            {
+                _mode = "Close_AI";
+            };
         };
+        player sideChat format ["Rockets fired in mode: %1", _mode];
         (driver _plane) forceWeaponFire [_weapon, _mode];
         _plane setVariable ["rocketShots", (_rocketShots - 1)];
     };
     if(_missileShots > 0) then
     {
         //Select missile weapon
+        private _weapon = selectRandom (_plane getVariable ["missileLauncher", []]);
+        _plane fireAtTarget [_plane getVariable "currentTarget", _weapon];
+        _plane setVariable ["missileShots", (_missileShots - 1)];
     };
 };
 
 private _fireParams =
 [
     //[armed, main gun shots, rocket shots, missile shots]
-    [true, 45, 5, 0],
-    [true, 45, 5, 0],
-    [true, 45, 5, 0]
+    [true, 20, 3, 1],
+    [true, 30, 5, 1],
+    [true, 40, 7, 0]
 ];
 
 while {_interval < 0.95 && alive _plane && {!(isNull (driver _plane))}} do
@@ -213,7 +227,7 @@ while {_interval < 0.95 && alive _plane && {!(isNull (driver _plane))}} do
         _dir = (_plane getDir _target) + 90;
         _sideVector = [_targetVector, -_dir + 90] call BIS_fnc_rotateVector2D;
         _targetVector = [_targetVector, -_dir] call BIS_fnc_rotateVector2D;
-        _targetVector pushBack 50;
+        _targetVector pushBack 100;
         _sideVector pushBack 0;
         _exitRunPos = _targetPos vectorAdd _targetVector;
 
