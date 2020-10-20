@@ -40,9 +40,6 @@ License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Comm
 params [["_parent",locationNull],["_purge",true]];
 private _filename = "Collections\fn_remNestedObject.sqf";
 
-[3, ["_parent: ",_parent] joinString "",_filename] call A3A_fnc_log;
-[3, ["_purge: ",_purge] joinString "",_filename] call A3A_fnc_log;
-
 if (_parent isEqualType missionNamespace || {isNull _parent}) exitWith {false}; // Deleting all Namespace contents will cause great trouble.
 private _childrenNames = allVariables _parent;
 private _childrenLocations = [];
