@@ -23,12 +23,18 @@ if (_type == "CAS") then
         //Vanilla NATO CAS (A-10)
         case ("B_Plane_CAS_01_dynamicLoadout_F"):
         {
-            _loadout = ["PylonRack_3Rnd_LG_scalpel","PylonRack_1Rnd_Missile_AGM_02_F","PylonRack_3Rnd_LG_scalpel","PylonRack_3Rnd_Missile_AGM_02_F","PylonRack_3Rnd_LG_scalpel","PylonRack_3Rnd_LG_scalpel","PylonRack_3Rnd_Missile_AGM_02_F","PylonRack_3Rnd_LG_scalpel","PylonRack_1Rnd_Missile_AGM_02_F","PylonRack_3Rnd_LG_scalpel"];
+            _loadout = ["PylonRack_7Rnd_Rocket_04_HE_F","PylonRack_7Rnd_Rocket_04_HE_F","PylonRack_7Rnd_Rocket_04_HE_F","PylonRack_3Rnd_LG_scalpel","PylonRack_3Rnd_LG_scalpel","PylonRack_3Rnd_LG_scalpel","PylonRack_3Rnd_LG_scalpel","PylonRack_7Rnd_Rocket_04_HE_F","PylonRack_7Rnd_Rocket_04_HE_F","PylonRack_7Rnd_Rocket_04_HE_F"];
+            _plane setVariable ["mainGun", "Gatling_30mm_Plane_CAS_01_F"];
+            _plane setVariable ["rocketLauncher", ["Rocket_04_HE_Plane_CAS_01_F"]];
+            _plane setVariable ["missileLauncher", ["Missile_AGM_02_Plane_CAS_01_F", "missiles_SCALPEL"]];
         };
         //Vanilla CSAT CAS
         case ("O_Plane_CAS_02_dynamicLoadout_F"):
         {
-            _loadout = ["PylonMissile_1Rnd_LG_scalpel","PylonRack_4Rnd_LG_scalpel","PylonRack_4Rnd_LG_scalpel","PylonRack_4Rnd_LG_scalpel","PylonRack_4Rnd_LG_scalpel","PylonRack_4Rnd_LG_scalpel","PylonRack_4Rnd_LG_scalpel","PylonRack_4Rnd_LG_scalpel","PylonRack_4Rnd_LG_scalpel","PylonMissile_1Rnd_LG_scalpel"];
+            _loadout = ["PylonMissile_1Rnd_LG_scalpel","PylonRack_19Rnd_Rocket_Skyfire","PylonRack_20Rnd_Rocket_03_AP_F","PylonRack_4Rnd_LG_scalpel","PylonRack_4Rnd_LG_scalpel","PylonRack_4Rnd_LG_scalpel","PylonRack_4Rnd_LG_scalpel","PylonRack_20Rnd_Rocket_03_AP_F","PylonRack_19Rnd_Rocket_Skyfire","PylonMissile_1Rnd_LG_scalpel"];
+            _plane setVariable ["mainGun", "Cannon_30mm_Plane_CAS_02_F"];
+            _plane setVariable ["rocketLauncher", ["Rocket_03_AP_Plane_CAS_02_F", "rockets_Skyfire"]];
+            _plane setVariable ["missileLauncher", ["missiles_SCALPEL"]];
         };
         //Vanilla IND CAS
         case ("I_Plane_Fighter_03_dynamicLoadout_F"):
@@ -97,5 +103,6 @@ if !(_loadout isEqualTo []) then
     [3, "Selected new loadout for plane, now equiping plane with it", _fileName] call A3A_fnc_log;
     {
         _plane setPylonLoadout [_forEachIndex + 1, _x, true];
+        _plane setVariable ["loadout", _loadout];
     } forEach _loadout;
 };

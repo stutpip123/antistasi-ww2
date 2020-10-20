@@ -15,44 +15,239 @@ while {_sleepTime > 0} do
 
 _strikePlane hideObjectGlobal false;
 _strikePlane enableSimulation true;
-_strikePlane flyInHeight 400;
+_strikePlane flyInHeight 500;
 
 //Decrease time if aggro is low
 private _sideAggression = if(_side == Occupants) then {aggressionOccupants} else {aggressionInvaders};
-private _timeAlive = 600;
-private _missilesLeft = 2;//[_strikePlane, 0] call A3A_fnc_countMissiles;
+private _timeAlive = 1200;
+private _confirmedKills = 4;//[_strikePlane, 0] call A3A_fnc_countMissiles;
 
 if(_sideAggression < (30 + (random 40))) then
 {
-    _timeAlive = 300;
+    _timeAlive = 600;
     //Plane needs to have at least 6 missiles in all cases
-    _missilesLeft = 6;
+    _confirmedKills = 2;
 };
 
 [_strikePlane, "CAS"] call A3A_fnc_setPlaneLoadout;
 
+//Get available ammo count of all allowed propelled weapons
+private _ammoCount = [];
+private _loadout = _plane getVariable "loadout";
+private _weapons = (_plane getVariable "rocketLauncher") + (_plane getVariable "missileLauncher");
+{
+    private _weapon = _x;
+    private _magazines = getArray (configFile >> "CfgWeapons" >> _weapon >> "magazines");
+    private _ammo = 0;
+    {
+        if(_x in _magazines) then
+        {
+            _ammo = _ammo + getNumber (configFile >> "CfgMagazines" >> _x >> "count");
+        };
+    } forEach _loadout;
+    _ammoCount pushBack [_weapon, _ammo];
+} forEach _weapons;
+
+//REPEATING FIRE LOGIC
+//Forcing the plane to fire is handled in this EH to avoid loops
 _strikePlane addEventHandler
 [
     "Fired",
     {
-        params ["_unit", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile", "_gunner"];
-        if (_ammo isKindOf "MissileBase") then
-        {
-            //Fired weapon was a missile, further investigation needed
-            private _lockStates = [configFile >> "CfgAmmo" >> _ammo, "weaponLockSystem"] call BIS_fnc_returnConfigEntry;
-            if(_lockStates isEqualType -1 && {_lockStates == 0}) then
-            {
-                //Unguided weapon, fire six more :)
+        params ["_plane", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile", "_gunner"];
+        private _target = _plane getVariable ["currentTarget", objNull];
+        if(isNull _target) exitWith {};
 
-            }
-            else
+        if(_weapon == (_plane getVariable "mainGun")) then
+        {
+            //Bullet, improve course and accuracy
+            private _speed = speed _projectile/3.6;
+            private _targetPos = ((getPosASL _target) vectorAdd [0, 0, 3.5]) vectorAdd (vectorDir _target vectorMultiply ((speed _target)/4.5));
+            _targetPos = _targetPos apply {_x + (random 15) - 7.5};
+            _projectile setVelocity (vectorNormalized (_targetPos vectorDiff (getPosASL _projectile)) vectorMultiply (_speed));
+
+            //Check if next shot needs to be fired
+            private _remainingShots = _plane getVariable ["mainGunShots", 0];
+            if(_remainingShots > 0) then
             {
-                //Guided weapon, fire a second
-                //_unit fireAtTarget [_target, _muzzle];
+                //Fire next shot
+                [_plane, _weapon, _mode] spawn
+                {
+                    params ["_plane", "_weapon", "_mode"];
+                    sleep 0.02;
+                    (driver _plane) forceWeaponFire [_weapon, _mode];
+                };
+                _plane setVariable ["mainGunShots", _remainingShots - 1];
+            };
+        };
+        if(_weapon in (_plane getVariable ["rocketLauncher", []])) then
+        {
+            //Unguided rocket, improve course and accuracy
+            private _speed = speed _projectile/3.6;
+            private _targetPos = ((getPosASL _target) vectorAdd [0, 0, 50]) vectorAdd (vectorDir _target vectorMultiply ((speed _target)));
+            _targetPos = _targetPos apply {_x + (random 200) - 100};
+            _projectile setVelocity (vectorNormalized (_targetPos vectorDiff (getPosASL _projectile)) vectorMultiply (_speed/1.5));
+
+            //Reduce available ammo
+            private _index = _ammoCount findIf {_weapon == _x select 0};
+            _ammoCount select _index set [1, (_ammoCount#_index#1) - 1];
+
+            //Check if next shot needs to be fired
+            private _remainingShots = _plane getVariable ["rocketShots", 0];
+            if(_remainingShots > 0) then
+            {
+                //Fire next shot
+                [_plane, _weapon, _mode] spawn
+                {
+                    params ["_plane", "_weapon", "_mode"];
+                    sleep 0.2;
+                    (driver _plane) forceWeaponFire [_weapon, _mode];
+                };
+                _plane setVariable ["rocketShots", _remainingShots - 1];
+            };
+        };
+        if(_weapon in (_plane getVariable ["missileLauncher", []])) then
+        {
+            //Guided missile, dont do anything
+
+            //Reduce the available ammo for internal logic
+            private _index = _ammoCount findIf {_weapon == _x select 0};
+            _ammoCount select _index set [1, (_ammoCount#_index#1) - 1];
+
+            //Check if next shot needs to be fired (Unlikely, but possible)
+            private _remainingShots = _plane getVariable ["missileShots", 0];
+            if(_remainingShots > 0) then
+            {
+                //Fire next shot
+                [_plane, _weapon, _mode] spawn
+                {
+                    params ["_plane", "_weapon", "_mode"];
+                    sleep 0.25;
+                    _plane fireAtTarget [_target, _muzzle];
+                };
+                _plane setVariable ["missileShots", _remainingShots - 1];
             };
         };
     }
 ];
+
+//Creating the startpoint for the fire EH loop
+private _fnc_executeWeaponFire =
+{
+    params ["_plane", "_fireParams"];
+    _fireParams params ["_armed", "_mainGunShots", "_rocketShots", "_missileShots"];
+
+    if(_mainGunShots > 0) then
+    {
+        //Fire main gun with selected mode
+        private _weapon = _plane getVariable ["mainGun", ""];
+        private _modes = getArray (configFile >> "cfgweapons" >> _weapon >> "modes");
+        private _mode =  _modes select 0;
+        if (_mode == "this") then
+        {
+            _mode = _weapon;
+        }
+        else
+        {
+            if ("close" in _modes) then
+            {
+                _mode = "close";
+            };
+        };
+
+        //Force weapon fire
+        _plane setVariable ["mainGunShots", (_mainGunShots - 1)];
+        (driver _plane) forceWeaponFire [_weapon, _mode];
+    };
+    if(_rocketShots > 0) then
+    {
+        //Select rocket weapon for use
+        private _weapons = _plane getVariable ["rocketLauncher", []];
+        private _selectedWeapon = objNull;
+        if(count _weapons > 1) then
+        {
+
+            private _currentHighest = 0;
+            {
+                private _weapon = _x;
+                private _index = _ammoCount findIf {_x select 0 == _weapon};
+                if ((isNull _weapon) || {_ammoCount#_index#1 > _currentHighest}) then
+                {
+                    _selectedWeapon = _weapon;
+                    _currentHighest = _ammoCount#_index#1;
+                };
+                //Weapon with more shots then needed found, using it
+                if(_currentHighest >= _rocketShots) exitWith {};
+            } forEach _weapons;
+        }
+        else
+        {
+            if(count _weapons == 1) then
+            {
+                _selectedWeapon = _weapons#0;
+            };
+        };
+
+        //If weapon available fire it
+        if(_selectedWeapon isEqualType "") then
+        {
+            //Select fire mode for weapon
+            private _modes = (getArray (configFile >> "cfgweapons" >> _selectedWeapon >> "modes"));
+            private _mode = _modes select 0;
+            if (_mode == "this") then
+            {
+                _mode = _selectedWeapon;
+            }
+            else
+            {
+                if ("Close_AI" in _modes) then
+                {
+                    _mode = "Close_AI";
+                };
+            };
+
+            //Force weapon fire
+            _plane setVariable ["rocketShots", (_rocketShots - 1)];
+            (driver _plane) forceWeaponFire [_selectedWeapon, _mode];
+        };
+    };
+    if(_missileShots > 0) then
+    {
+        //Select missile weapon
+        private _weapons = _plane getVariable ["missileLauncher", []];
+        private _selectedWeapon = objNull;
+        if(count _weapons > 1) then
+        {
+            private _currentHighest = 0;
+            {
+                private _weapon = _x;
+                private _index = _ammoCount findIf {_x select 0 == _weapon};
+                if ((isNull _weapon) || {_ammoCount#_index#1 > _currentHighest}) then
+                {
+                    _selectedWeapon = _weapon;
+                    _currentHighest = _ammoCount#_index#1;
+                };
+                //Weapon with more shots then needed found, using it
+                if(_currentHighest >= _missileShots) exitWith {};
+            } forEach _weapons;
+        }
+        else
+        {
+            if(count _weapons == 1) then
+            {
+                _selectedWeapon = _weapons#0;
+            };
+        };
+
+        //Fire weapon if one is selected (guided weapons only gets fired when they have a lockon possibility on the target)
+        if(_selectedWeapon isEqualType "") then
+        {
+            _plane fireAtTarget [_plane getVariable "currentTarget", _selectedWeapon];
+            _plane setVariable ["missileShots", (_missileShots - 1)];
+        };
+    };
+};
+//FIRE LOGIC END
 
 _strikePlane setVariable ["InArea", false, true];
 _strikePlane setVariable ["CurrentlyAttacking", false, true];
@@ -190,7 +385,7 @@ while {_timeAlive > 0} do
     };
 
     //No missiles left
-    if (!(_strikePlane getVariable "CurrentlyAttacking") && (_missilesLeft <= 0)) exitWith{[2,format ["%1 has no more missiles left to fire, aborting routine", _supportName],_fileName] call A3A_fnc_log;};
+    if (!(_strikePlane getVariable "CurrentlyAttacking") && (_confirmedKills <= 0)) exitWith{[2,format ["%1 has no more missiles left to fire, aborting routine", _supportName],_fileName] call A3A_fnc_log;};
 
     //Retreating
     if(_strikePlane getVariable ["Retreat", false]) exitWith {[2,format ["%1 met heavy resistance, retreating", _supportName], _fileName] call A3A_fnc_log;};
