@@ -543,6 +543,7 @@ class A3A
         class SUP_CAS {};
         class SUP_CASAvailable {};
         class SUP_CASRoutine {};
+        class SUP_CASRun {};
         class SUP_cruiseMissile {};
         class SUP_cruiseMissileAvailable {};
         class SUP_cruiseMissileRoutine {};

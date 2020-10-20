@@ -13,8 +13,6 @@ _plane setVariable ["rocketLauncher", ["Rocket_04_HE_Plane_CAS_01_F"]];
 _plane setVariable ["missileLauncher", ["Missile_AGM_02_Plane_CAS_01_F", "missiles_SCALPEL"]];
 
 
-
-
 //Get available ammo count of all allowed propelled weapons
 private _ammoCount = [];
 private _loadout = _plane getVariable "loadout";

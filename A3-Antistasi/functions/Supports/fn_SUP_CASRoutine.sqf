@@ -33,8 +33,8 @@ if(_sideAggression < (30 + (random 40))) then
 
 //Get available ammo count of all allowed propelled weapons
 private _ammoCount = [];
-private _loadout = _plane getVariable "loadout";
-private _weapons = (_plane getVariable "rocketLauncher") + (_plane getVariable "missileLauncher");
+private _loadout = _strikePlane getVariable "loadout";
+private _weapons = (_strikePlane getVariable "rocketLauncher") + (_strikePlane getVariable "missileLauncher");
 {
     private _weapon = _x;
     private _magazines = getArray (configFile >> "CfgWeapons" >> _weapon >> "magazines");
@@ -54,11 +54,11 @@ _strikePlane addEventHandler
 [
     "Fired",
     {
-        params ["_plane", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile", "_gunner"];
-        private _target = _plane getVariable ["currentTarget", objNull];
+        params ["_strikePlane", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile", "_gunner"];
+        private _target = _strikePlane getVariable ["currentTarget", objNull];
         if(isNull _target) exitWith {};
 
-        if(_weapon == (_plane getVariable "mainGun")) then
+        if(_weapon == (_strikePlane getVariable "mainGun")) then
         {
             //Bullet, improve course and accuracy
             private _speed = speed _projectile/3.6;
@@ -67,20 +67,20 @@ _strikePlane addEventHandler
             _projectile setVelocity (vectorNormalized (_targetPos vectorDiff (getPosASL _projectile)) vectorMultiply (_speed));
 
             //Check if next shot needs to be fired
-            private _remainingShots = _plane getVariable ["mainGunShots", 0];
+            private _remainingShots = _strikePlane getVariable ["mainGunShots", 0];
             if(_remainingShots > 0) then
             {
                 //Fire next shot
-                [_plane, _weapon, _mode] spawn
+                [_strikePlane, _weapon, _mode] spawn
                 {
-                    params ["_plane", "_weapon", "_mode"];
+                    params ["_strikePlane", "_weapon", "_mode"];
                     sleep 0.02;
-                    (driver _plane) forceWeaponFire [_weapon, _mode];
+                    (driver _strikePlane) forceWeaponFire [_weapon, _mode];
                 };
-                _plane setVariable ["mainGunShots", _remainingShots - 1];
+                _strikePlane setVariable ["mainGunShots", _remainingShots - 1];
             };
         };
-        if(_weapon in (_plane getVariable ["rocketLauncher", []])) then
+        if(_weapon in (_strikePlane getVariable ["rocketLauncher", []])) then
         {
             //Unguided rocket, improve course and accuracy
             private _speed = speed _projectile/3.6;
@@ -93,20 +93,20 @@ _strikePlane addEventHandler
             _ammoCount select _index set [1, (_ammoCount#_index#1) - 1];
 
             //Check if next shot needs to be fired
-            private _remainingShots = _plane getVariable ["rocketShots", 0];
+            private _remainingShots = _strikePlane getVariable ["rocketShots", 0];
             if(_remainingShots > 0) then
             {
                 //Fire next shot
-                [_plane, _weapon, _mode] spawn
+                [_strikePlane, _weapon, _mode] spawn
                 {
-                    params ["_plane", "_weapon", "_mode"];
+                    params ["_strikePlane", "_weapon", "_mode"];
                     sleep 0.2;
-                    (driver _plane) forceWeaponFire [_weapon, _mode];
+                    (driver _strikePlane) forceWeaponFire [_weapon, _mode];
                 };
-                _plane setVariable ["rocketShots", _remainingShots - 1];
+                _strikePlane setVariable ["rocketShots", _remainingShots - 1];
             };
         };
-        if(_weapon in (_plane getVariable ["missileLauncher", []])) then
+        if(_weapon in (_strikePlane getVariable ["missileLauncher", []])) then
         {
             //Guided missile, dont do anything
 
@@ -115,142 +115,27 @@ _strikePlane addEventHandler
             _ammoCount select _index set [1, (_ammoCount#_index#1) - 1];
 
             //Check if next shot needs to be fired (Unlikely, but possible)
-            private _remainingShots = _plane getVariable ["missileShots", 0];
+            private _remainingShots = _strikePlane getVariable ["missileShots", 0];
             if(_remainingShots > 0) then
             {
                 //Fire next shot
-                [_plane, _weapon, _mode] spawn
+                [_strikePlane, _weapon, _mode] spawn
                 {
-                    params ["_plane", "_weapon", "_mode"];
+                    params ["_strikePlane", "_weapon", "_mode"];
                     sleep 0.25;
-                    _plane fireAtTarget [_target, _muzzle];
+                    _strikePlane fireAtTarget [_target, _muzzle];
                 };
-                _plane setVariable ["missileShots", _remainingShots - 1];
+                _strikePlane setVariable ["missileShots", _remainingShots - 1];
             };
         };
     }
 ];
-
-//Creating the startpoint for the fire EH loop
-private _fnc_executeWeaponFire =
-{
-    params ["_plane", "_fireParams"];
-    _fireParams params ["_armed", "_mainGunShots", "_rocketShots", "_missileShots"];
-
-    if(_mainGunShots > 0) then
-    {
-        //Fire main gun with selected mode
-        private _weapon = _plane getVariable ["mainGun", ""];
-        private _modes = getArray (configFile >> "cfgweapons" >> _weapon >> "modes");
-        private _mode =  _modes select 0;
-        if (_mode == "this") then
-        {
-            _mode = _weapon;
-        }
-        else
-        {
-            if ("close" in _modes) then
-            {
-                _mode = "close";
-            };
-        };
-
-        //Force weapon fire
-        _plane setVariable ["mainGunShots", (_mainGunShots - 1)];
-        (driver _plane) forceWeaponFire [_weapon, _mode];
-    };
-    if(_rocketShots > 0) then
-    {
-        //Select rocket weapon for use
-        private _weapons = _plane getVariable ["rocketLauncher", []];
-        private _selectedWeapon = objNull;
-        if(count _weapons > 1) then
-        {
-
-            private _currentHighest = 0;
-            {
-                private _weapon = _x;
-                private _index = _ammoCount findIf {_x select 0 == _weapon};
-                if ((isNull _weapon) || {_ammoCount#_index#1 > _currentHighest}) then
-                {
-                    _selectedWeapon = _weapon;
-                    _currentHighest = _ammoCount#_index#1;
-                };
-                //Weapon with more shots then needed found, using it
-                if(_currentHighest >= _rocketShots) exitWith {};
-            } forEach _weapons;
-        }
-        else
-        {
-            if(count _weapons == 1) then
-            {
-                _selectedWeapon = _weapons#0;
-            };
-        };
-
-        //If weapon available fire it
-        if(_selectedWeapon isEqualType "") then
-        {
-            //Select fire mode for weapon
-            private _modes = (getArray (configFile >> "cfgweapons" >> _selectedWeapon >> "modes"));
-            private _mode = _modes select 0;
-            if (_mode == "this") then
-            {
-                _mode = _selectedWeapon;
-            }
-            else
-            {
-                if ("Close_AI" in _modes) then
-                {
-                    _mode = "Close_AI";
-                };
-            };
-
-            //Force weapon fire
-            _plane setVariable ["rocketShots", (_rocketShots - 1)];
-            (driver _plane) forceWeaponFire [_selectedWeapon, _mode];
-        };
-    };
-    if(_missileShots > 0) then
-    {
-        //Select missile weapon
-        private _weapons = _plane getVariable ["missileLauncher", []];
-        private _selectedWeapon = objNull;
-        if(count _weapons > 1) then
-        {
-            private _currentHighest = 0;
-            {
-                private _weapon = _x;
-                private _index = _ammoCount findIf {_x select 0 == _weapon};
-                if ((isNull _weapon) || {_ammoCount#_index#1 > _currentHighest}) then
-                {
-                    _selectedWeapon = _weapon;
-                    _currentHighest = _ammoCount#_index#1;
-                };
-                //Weapon with more shots then needed found, using it
-                if(_currentHighest >= _missileShots) exitWith {};
-            } forEach _weapons;
-        }
-        else
-        {
-            if(count _weapons == 1) then
-            {
-                _selectedWeapon = _weapons#0;
-            };
-        };
-
-        //Fire weapon if one is selected (guided weapons only gets fired when they have a lockon possibility on the target)
-        if(_selectedWeapon isEqualType "") then
-        {
-            _plane fireAtTarget [_plane getVariable "currentTarget", _selectedWeapon];
-            _plane setVariable ["missileShots", (_missileShots - 1)];
-        };
-    };
-};
 //FIRE LOGIC END
 
+//Prepare plane for usage
+_plane disableAI "TARGET";
+_plane disableAI "AUTOTARGET";
 _strikePlane setVariable ["InArea", false, true];
-_strikePlane setVariable ["CurrentlyAttacking", false, true];
 
 private _dir = (getPos _strikePlane) getDir _setupPos;
 
@@ -264,9 +149,9 @@ private _loiterWP = _strikeGroup addWaypoint [_setupPos, 2];
 _loiterWP setWaypointSpeed "NORMAL";
 _loiterWP setWaypointType "Loiter";
 _loiterWP setWaypointLoiterRadius 2000;
+_strikePlane setVariable ["loiterWP", _loiterWP];
 
-private _time = time;
-
+//Await arrival at AO
 waitUntil {sleep 1; !(alive _strikePlane) || (_strikePlane getVariable ["InArea", false])};
 
 if !(alive _strikePlane) exitWith
@@ -274,14 +159,16 @@ if !(alive _strikePlane) exitWith
     [_supportName, _side] call A3A_fnc_endSupport;
 };
 
-_timeAlive = _timeAlive - (time - _time);
-
+_sleepTime = 5;
 private _targetObj = objNull;
+private _isApproaching = false;
+private _isRepathing = false;
+private _currentWaypoint = _loiterWP;
+
 while {_timeAlive > 0} do
 {
-    if !(_strikePlane getVariable "CurrentlyAttacking") then
+    if (isNull (_strikePlane getVariable ["currentTarget", objNull])) then
     {
-        [3, format ["Searching new target for %1", _supportName], _fileName] call A3A_fnc_log;
         //Plane is currently not attacking a target, search for new order
         private _targetList = server getVariable [format ["%1_targets", _supportName], []];
         if (count _targetList > 0) then
@@ -289,79 +176,151 @@ while {_timeAlive > 0} do
             //New target active, read in
             private _target = _targetList deleteAt 0;
             server setVariable [format ["%1_targets", _supportName], _targetList, true];
-
             [3, format ["Next target for %2 is %1", _target, _supportName], _fileName] call A3A_fnc_log;
 
             //Parse targets
             private _targetParams = _target select 0;
             private _reveal = _target select 1;
-
             _targetObj = _targetParams select 0;
-            private _precision = _targetParams select 1;
-            private _targetPos = getPos _targetObj;
+            _strikeGroup reveal [_targetObj, _targetParams select 1];
 
-            _strikeGroup reveal [_targetObj, _precision];
-            _strikePlane flyInHeight 250;
-
+            //MARKER CREATING, UPDATING AND DISPLAYING
             //Show target to players if change is high enough
             private _textMarker = createMarker [format ["%1_text", _supportName], getPos _targetObj];
             _textMarker setMarkerShape "ICON";
             _textMarker setMarkerType "mil_objective";
             _textMarker setMarkerText "CAS Target";
 
-            if(_side == Occupants) then
-            {
-                _textMarker setMarkerColor colorOccupants;
-            }
-            else
-            {
-                _textMarker setMarkerColor colorInvaders;
-            };
+            if(_side == Occupants) then {_textMarker setMarkerColor colorOccupants;}
+            else {_textMarker setMarkerColor colorInvaders;};
             _textMarker setMarkerAlpha 0;
 
             [_textMarker, _targetObj, _strikePlane] spawn
             {
                 params ["_textMarker", "_targetObj", "_strikePlane"];
-                while {!(isNull _targetObj) && (alive _targetObj)} do
+                while
+                {
+                    !(isNull _strikePlane) &&
+                    {alive _strikePlane) &&
+                    _strikePlane getVariable "currentTarget" == _targetObj}
+                } do
                 {
                     _textMarker setMarkerPos (getPos _targetObj);
-
-                    if((isNull _strikePlane) || !(alive _strikePlane)) exitWith {};
-
                     sleep 0.5;
                 };
                 deleteMarker _textMarker;
             };
 
-            [_reveal, getPos _targetObj, _side, "close air support", "", _textMarker] spawn A3A_fnc_showInterceptedSupportCall;
-            _strikePlane setVariable ["CurrentlyAttacking", true, true];
+            [_reveal, getPos _targetObj, _side, "CAS", "", _textMarker] spawn A3A_fnc_showInterceptedSupportCall;
+            //MARKER SECTION END
 
-            private _attackWP = _strikeGroup addWaypoint [_targetPos, 3];
-            _attackWP setWaypointType "DESTROY";
-            _attackWP waypointAttachObject _targetObj;
-            _attackWP setWaypointSpeed "FULL";
-            _strikeGroup setCurrentWaypoint _attackWP;
+            _strikePlane setVariable ["currentTarget", _targetObj];
+            _strikePlane setVariable ["StartBombRun", false];
 
-            _strikeGroup setBehaviour "COMBAT";
-            _strikeGroup setCombatMode "RED";
-
-            {
-                _mode = (getArray (configFile >> "cfgweapons" >> _x >> "modes")) select 0;
-                if (_mode == "this") then {_mode = _x;};
-                (driver _strikePlane) fireAtTarget [_targetObj, _mode];
-            } forEach (weapons _strikePlane);
+            //Find better path if the plane is too close
+            _strikePlane setVariable ["needsRecalculation", _targetObj distance2D _strikePlane < 3000];
+            _isRepathing = false;
         };
     }
     else
     {
-        if(isNull _targetObj || {!(alive _targetObj)}) then
+        //Check if run script has control over the plane
+        if !(_strikePlane getVariable ["OnRun", false]) then
         {
-            [3, format ["Target destroyed, %1 returns to cycle mode", _supportName], _fileName] call A3A_fnc_log;
-            //Target destroyed
-            _strikePlane setVariable ["CurrentlyAttacking", false, true];
-            _strikeGroup setCurrentWaypoint [_strikeGroup, 2];
+            if(_strikePlane getVariable ["needsRecalculation", false]) then
+            {
+                if !(_isRepathing) then
+                {
+                    //Plane needs a new approach vector, calculate new
+                    private _planeVector = (getPos _targetObj) vectorDiff (getPos _strikePlane);
+                    _planeVector set [2, 0];
+                    private _repathVector = _planeVector vectorAdd (vectorDir _strikePlane);
+                    _repathVector vectorNormalized _repathVector;
+                    _repathVector = _repathVector vectorMultiply 3000;
 
-            _strikePlane flyInHeight 400;
+                    private _repathPos = (getPos _strikePlane) vectorAdd _repathVector;
+                    _repathPos set [2, 500];
+                    private _repathWP = _strikeGroup addWaypoint [_repathPos, 0];
+                    _repathWP setWaypointType "MOVE";
+                    _repathWP setWaypointSpeed "FULL";
+                    _strikeGroup setCurrentWaypoint _repathWP;
+                    _currentWaypoint = _repathWP;
+
+                    _isRepathing = true;
+                }
+                else
+                {
+                    if(waypointPosition _currentWaypoint distanceSqr _strikePlane < 7500) then
+                    {
+                        _isRepathing = false;
+                        _strikePlane setVariable ["needsRecalculation", false];
+                    };
+                };
+            }
+            else
+            {
+                if(_isApproaching) then
+                {
+                    //Is on course to enter pos
+                    //Recheck course
+                    _targetPos = (getPos _target) vectorAdd [0, 0, 2];
+                    _targetVector = [400, 0];
+                    _dir = (_strikePlane getDir _target) + 90;
+                    _targetVector = [_targetVector, -_dir] call BIS_fnc_rotateVector2D;
+                    _targetVector pushBack 100;
+                    _enterRunPos = _targetPos vectorAdd (_targetVector vectorMultiply 5);
+                    _wp1 setWaypointPosition [_enterRunPos, 0];
+                    _strikePlane setVariable ["enterPos", _enterRunPos];
+
+                    if (terrainIntersect [getPos _target, getPos _strikePlane]) then
+                    {
+                        //Something is in the way, repathing
+                        _strikePlane setVariable ["needsRecalculation", true];
+                        _isRepathing = false;
+                        _sleepTime = 5;
+                    }
+                    else
+                    {
+                        if(_plane getVariable ["StartBombRun", false]) then
+                        {
+                            [_strikePlane, _targetObj, _supportName, _ammoCount] spawn A3A_fnc_SUP_CASRun;
+                            _sleepTime = 5;
+                        };
+                    };
+                }
+                else
+                {
+                    //Sets the approach vector
+                    private _targetPos = (getPos _target) vectorAdd [0, 0, 2];
+                    private _targetVector = [400, 0];
+                    private _dir = (_strikePlane getDir _target) + 90;
+                    _targetVector = [_targetVector, -_dir] call BIS_fnc_rotateVector2D;
+                    _targetVector pushBack 100;
+                    private _enterRunPos = _targetPos vectorAdd (_targetVector vectorMultiply 5);
+                    _strikePlane setVariable ["enterPos", _enterRunPos];
+
+                    private _wp1 = _strikeGroup addWaypoint [_enterRunPos, 0];
+                    _wp1 setWaypointType "MOVE";
+                    _wp1 setWaypointSpeed "FULL";
+                    _strikeGroup setCurrentWaypoint _wp1;
+
+                    //Wait until run enter pos is reached
+                    [_strikePlane] spawn
+                    {
+                        private _strikePlane = _this select 0;
+                        waitUntil
+                        {
+                            sleep 0.1;
+                            private _enterPos = _strikePlane getVariable ["enterPos", objNull];
+                            (isNull _enterPos) ||
+                            {_strikePlane distance2D (_strikePlane getVariable "enterPos")) < 25}
+                        };
+                        _strikePlane setVariable ["StartBombRun", true];
+                    };
+
+                    _sleepTime = 0.25;
+                };
+            };
         };
     };
 
@@ -369,8 +328,7 @@ while {_timeAlive > 0} do
     if
     (
         !(alive _strikePlane) ||
-        {({alive _x} count (units _strikeGroup)) == 0 ||
-        {_strikePlane getVariable ["Stolen", false]}}
+        {({alive _x} count (units _strikeGroup)) == 0}
     ) exitWith
     {
         [2,format ["%1 has been destroyed or crew killed, aborting routine", _supportName],_fileName] call A3A_fnc_log;
@@ -385,14 +343,29 @@ while {_timeAlive > 0} do
     };
 
     //No missiles left
-    if (!(_strikePlane getVariable "CurrentlyAttacking") && (_confirmedKills <= 0)) exitWith{[2,format ["%1 has no more missiles left to fire, aborting routine", _supportName],_fileName] call A3A_fnc_log;};
+    if (_confirmedKills <= 0) exitWith
+    {
+        [2,format ["%1 has reached its kill limit, aborting routine", _supportName],_fileName] call A3A_fnc_log;
+    };
 
     //Retreating
-    if(_strikePlane getVariable ["Retreat", false]) exitWith {[2,format ["%1 met heavy resistance, retreating", _supportName], _fileName] call A3A_fnc_log;};
+    if(_strikePlane getVariable ["Retreat", false]) exitWith
+    {
+        [2,format ["%1 met heavy resistance, retreating", _supportName], _fileName] call A3A_fnc_log;
+    };
 
-    sleep 5;
-    _timeAlive = _timeAlive - 5;
+    //No ammo left
+    if(_strikePlane getVariable ["OutOfAmmo", false]) exitWith
+    {
+        [2, format ["%1 run out of ammo, returning to base", _supportName], _fileName] call A3A_fnc_log;
+    };
+
+    sleep _sleepTime;
+    _timeAlive = _timeAlive - _sleepTime;
 };
+
+_strikePlane setVariable ["currentTarget", nil];
+_strikePlane setVariable ["enterPos", nil];
 
 //Have the plane fly back home
 if (alive _strikePlane && [driver _strikePlane] call A3A_fnc_canFight) then
