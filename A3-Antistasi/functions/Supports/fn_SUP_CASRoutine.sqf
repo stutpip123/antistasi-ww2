@@ -5,7 +5,7 @@ private _fileName = "SUP_CASRoutine";
 private _side = side _strikeGroup;
 
 //Sleep to simulate preparetion time
-private _sleepTime = 15;//random (200 - ((tierWar - 1) * 20));
+private _sleepTime = random (200 - ((tierWar - 1) * 20));
 while {_sleepTime > 0} do
 {
     sleep 1;
