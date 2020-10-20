@@ -59,5 +59,13 @@ for "_i" from 0 to 0 do
     invadersASFTimer pushBack (random (3600 * 2));
 };
 
+occupantsCASTimer = [];
+invadersCASTimer = [];
+for "_i" from 0 to 0 do
+{
+    occupantsCASTimer pushBack (random (3600 * 2));
+    invadersCASTimer pushBack (random (3600 * 2));
+};
+
 occupantsOrbitalStrikeTimer = [random (3600 * 12)];
 invadersOrbitalStrikeTimer = [random (3600 * 12)];

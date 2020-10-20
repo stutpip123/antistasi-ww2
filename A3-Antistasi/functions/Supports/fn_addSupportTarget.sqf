@@ -59,9 +59,8 @@ else
     }
     else
     {
-        [2, format ["Couldnt add target %1 as target is already in the list", _targetPos], _fileName] call A3A_fnc_log;
+        [2, format ["Couldnt add target %1 as target is already in the list", _targetParams select 0], _fileName] call A3A_fnc_log;
     };
 };
 
 supportTargetsChanging = false;
-[3, format ["Added fire order %1 to %2s target list", _targetParams, _supportObject], _fileName] call A3A_fnc_log;

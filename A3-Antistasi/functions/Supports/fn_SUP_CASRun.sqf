@@ -1,7 +1,8 @@
-params ["_strikePlane", "_target", "_supportName", "_ammoCount"];
+params ["_strikePlane", "_target", "_supportName"];
 
 private _fileName = "SUP_CASRun";
 //Take over control
+[3, format ["%1 has started gun run", _supportName], _fileName] call A3A_fnc_log;
 _strikePlane setVariable ["OnRun", true];
 private _supportMarker = format ["%1_coverage", _supportName];
 
@@ -13,7 +14,7 @@ _targetVector = [_targetVector, -_dir] call BIS_fnc_rotateVector2D;
 private _sideVector = [_targetVector, -_dir + 90] call BIS_fnc_rotateVector2D;
 _sideVector set [2, 0];
 
-_enterRunPos = getPos _strikePlane;
+_enterRunPos = getPosASL _strikePlane;
 private _exitRunPos = _targetPos vectorAdd _targetVector;
 private _forward = _exitRunPos vectorDiff _enterRunPos;
 private _upVector = (_forward vectorCrossProduct _sideVector) vectorMultiply -1;
@@ -29,6 +30,7 @@ private _fnc_executeWeaponFire =
 {
     params ["_strikePlane", "_fireParams"];
     _fireParams params ["_armed", "_mainGunShots", "_rocketShots", "_missileShots"];
+    private _ammoCount = _strikePlane getVariable "ammoCount";
 
     if(_mainGunShots > 0) then
     {
@@ -64,7 +66,7 @@ private _fnc_executeWeaponFire =
             {
                 private _weapon = _x;
                 private _index = _ammoCount findIf {_x select 0 == _weapon};
-                if ((isNull _weapon) || {_ammoCount#_index#1 > _currentHighest}) then
+                if ((_selectedWeapon == "") || {_ammoCount#_index#1 > _currentHighest}) then
                 {
                     _selectedWeapon = _weapon;
                     _currentHighest = _ammoCount#_index#1;
@@ -117,14 +119,14 @@ private _fnc_executeWeaponFire =
     {
         //Select missile weapon
         private _weapons = _strikePlane getVariable ["missileLauncher", []];
-        private _selectedWeapon = objNull;
+        private _selectedWeapon = "";
         if(count _weapons > 1) then
         {
             private _currentHighest = 0;
             {
                 private _weapon = _x;
                 private _index = _ammoCount findIf {_x select 0 == _weapon};
-                if ((isNull _weapon) || {_ammoCount#_index#1 > _currentHighest}) then
+                if ((_selectedWeapon == "") || {_ammoCount#_index#1 > _currentHighest}) then
                 {
                     _selectedWeapon = _weapon;
                     _currentHighest = _ammoCount#_index#1;
@@ -169,9 +171,10 @@ private _fireParams =
 
 while {_interval < 0.95 && alive _strikePlane && {!(isNull (driver _strikePlane))}} do
 {
-    if(!(alive _target) || {getPos _target inArea _supportMarker}) exitWith
+    if(!(alive _target) || {!(getPos _target inArea _supportMarker)}) exitWith
     {
         [3, format ["%1 target eliminated or escaped, returning to loitering", _supportName], _fileName] call A3A_fnc_log;
+        _strikePlane setVariable ["currentTarget", objNull];
     };
 
     if(_realTime > 0.5) then
@@ -195,8 +198,9 @@ while {_interval < 0.95 && alive _strikePlane && {!(isNull (driver _strikePlane)
         _speedVector = (vectorNormalized _forward) vectorMultiply _forwardSpeed;
         _upVector = (_forward vectorCrossProduct _sideVector) vectorMultiply -1;
 
-        if(terrainIntersect [getPos _plane, getPos _target]) exitWith
+        if(terrainIntersect [getPosASL _strikePlane, _targetPos]) exitWith
         {
+            [3, format ["%1 gun way is blocked, recalculating", _supportName], _fileName] call A3A_fnc_log;
             _strikePlane setVariable ["needsRecalculation", true];
         };
     };
@@ -245,9 +249,18 @@ while {_interval < 0.95 && alive _strikePlane && {!(isNull (driver _strikePlane)
 if(!(alive _strikePlane) || (isNull driver _strikePlane)) exitWith {};
 
 //Plane is alive, set new circle waypoint
-group driver _strikePlane setCurrentWaypoint (_strikePlane getVariable "loiterWP");
+private _group = group driver _strikePlane;
+for "_i" from (count waypoints _group - 1) to 0 step -1 do
+{
+	deleteWaypoint [_group, _i];
+};
+
+private _loiterWP = (group driver _strikePlane) addWaypoint [(getMarkerPos _supportMarker), 0];
+_loiterWP setWaypointSpeed "NORMAL";
+_loiterWP setWaypointType "Loiter";
+_loiterWP setWaypointLoiterRadius 2000;
 
 //Await until the plane arrived at a specific height until breaking control
-waitUntil {sleep 1; ((getPos _plane) select 2) > 450};
-
+waitUntil {sleep 1; ((getPos _strikePlane) select 2) > 450};
+[3, format ["Gun run for %1 finished, returning control", _supportName], _fileName] call A3A_fnc_log;
 _strikePlane setVariable ["OnRun", false];

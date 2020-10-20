@@ -47,6 +47,7 @@ private _weapons = (_strikePlane getVariable "rocketLauncher") + (_strikePlane g
     } forEach _loadout;
     _ammoCount pushBack [_weapon, _ammo];
 } forEach _weapons;
+_strikePlane setVariable ["ammoCount", _ammoCount];
 
 //REPEATING FIRE LOGIC
 //Forcing the plane to fire is handled in this EH to avoid loops
@@ -55,14 +56,16 @@ _strikePlane addEventHandler
     "Fired",
     {
         params ["_strikePlane", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile", "_gunner"];
-        private _target = _strikePlane getVariable ["currentTarget", objNull];
-        if(isNull _target) exitWith {};
+        private _targetObj = _strikePlane getVariable ["currentTarget", objNull];
+        if(isNull _targetObj) exitWith {};
+
+        private _ammoCount = _strikePlane getVariable "ammoCount";
 
         if(_weapon == (_strikePlane getVariable "mainGun")) then
         {
             //Bullet, improve course and accuracy
             private _speed = speed _projectile/3.6;
-            private _targetPos = ((getPosASL _target) vectorAdd [0, 0, 3.5]) vectorAdd (vectorDir _target vectorMultiply ((speed _target)/4.5));
+            private _targetPos = ((getPosASL _targetObj) vectorAdd [0, 0, 3.5]) vectorAdd (vectorDir _targetObj vectorMultiply ((speed _targetObj)/4.5));
             _targetPos = _targetPos apply {_x + (random 15) - 7.5};
             _projectile setVelocity (vectorNormalized (_targetPos vectorDiff (getPosASL _projectile)) vectorMultiply (_speed));
 
@@ -84,7 +87,7 @@ _strikePlane addEventHandler
         {
             //Unguided rocket, improve course and accuracy
             private _speed = speed _projectile/3.6;
-            private _targetPos = ((getPosASL _target) vectorAdd [0, 0, 50]) vectorAdd (vectorDir _target vectorMultiply ((speed _target)));
+            private _targetPos = ((getPosASL _targetObj) vectorAdd [0, 0, 100]) vectorAdd (vectorDir _targetObj vectorMultiply ((speed _targetObj)));
             _targetPos = _targetPos apply {_x + (random 200) - 100};
             _projectile setVelocity (vectorNormalized (_targetPos vectorDiff (getPosASL _projectile)) vectorMultiply (_speed/1.5));
 
@@ -123,7 +126,7 @@ _strikePlane addEventHandler
                 {
                     params ["_strikePlane", "_weapon", "_mode"];
                     sleep 0.25;
-                    _strikePlane fireAtTarget [_target, _muzzle];
+                    _strikePlane fireAtTarget [_targetObj, _muzzle];
                 };
                 _strikePlane setVariable ["missileShots", _remainingShots - 1];
             };
@@ -133,23 +136,22 @@ _strikePlane addEventHandler
 //FIRE LOGIC END
 
 //Prepare plane for usage
-_plane disableAI "TARGET";
-_plane disableAI "AUTOTARGET";
+_strikePlane disableAI "TARGET";
+_strikePlane disableAI "AUTOTARGET";
+_strikeGroup setCombatMode "GREEN";
 _strikePlane setVariable ["InArea", false, true];
 
 private _dir = (getPos _strikePlane) getDir _setupPos;
 
-private _areaWP = _strikeGroup addWaypoint [_setupPos getPos [-2000, _dir], 1];
+private _areaWP = _strikeGroup addWaypoint [_setupPos getPos [-2000, _dir + 90], 0];
 _areaWP setWaypointSpeed "FULL";
 _areaWP setWaypointType "Move";
-_areaWP setCombatMode "GREEN";
 _areaWP setWaypointStatements ["true", "(vehicle this) setVariable ['InArea', true, true]; [3, 'CAS plane has arrived', 'CASRoutine'] call A3A_fnc_log"];
 
-private _loiterWP = _strikeGroup addWaypoint [_setupPos, 2];
+private _loiterWP = _strikeGroup addWaypoint [_setupPos, 0];
 _loiterWP setWaypointSpeed "NORMAL";
 _loiterWP setWaypointType "Loiter";
 _loiterWP setWaypointLoiterRadius 2000;
-_strikePlane setVariable ["loiterWP", _loiterWP];
 
 //Await arrival at AO
 waitUntil {sleep 1; !(alive _strikePlane) || (_strikePlane getVariable ["InArea", false])};
@@ -167,93 +169,105 @@ private _currentWaypoint = _loiterWP;
 
 while {_timeAlive > 0} do
 {
-    if (isNull (_strikePlane getVariable ["currentTarget", objNull])) then
+    //Check if run script has control over the plane
+    if !(_strikePlane getVariable ["OnRun", false]) then
     {
-        //Plane is currently not attacking a target, search for new order
-        private _targetList = server getVariable [format ["%1_targets", _supportName], []];
-        if (count _targetList > 0) then
+        if (isNull (_strikePlane getVariable ["currentTarget", objNull])) then
         {
-            //New target active, read in
-            private _target = _targetList deleteAt 0;
-            server setVariable [format ["%1_targets", _supportName], _targetList, true];
-            [3, format ["Next target for %2 is %1", _target, _supportName], _fileName] call A3A_fnc_log;
-
-            //Parse targets
-            private _targetParams = _target select 0;
-            private _reveal = _target select 1;
-            _targetObj = _targetParams select 0;
-            _strikeGroup reveal [_targetObj, _targetParams select 1];
-
-            //MARKER CREATING, UPDATING AND DISPLAYING
-            //Show target to players if change is high enough
-            private _textMarker = createMarker [format ["%1_text", _supportName], getPos _targetObj];
-            _textMarker setMarkerShape "ICON";
-            _textMarker setMarkerType "mil_objective";
-            _textMarker setMarkerText "CAS Target";
-
-            if(_side == Occupants) then {_textMarker setMarkerColor colorOccupants;}
-            else {_textMarker setMarkerColor colorInvaders;};
-            _textMarker setMarkerAlpha 0;
-
-            [_textMarker, _targetObj, _strikePlane] spawn
+            //Plane is currently not attacking a target, search for new order
+            private _targetList = server getVariable [format ["%1_targets", _supportName], []];
+            if (count _targetList > 0) then
             {
-                params ["_textMarker", "_targetObj", "_strikePlane"];
-                while
+                //New target active, read in
+                private _targetEntry = _targetList deleteAt 0;
+                server setVariable [format ["%1_targets", _supportName], _targetList, true];
+                [3, format ["Next target for %2 is %1", _targetEntry, _supportName], _fileName] call A3A_fnc_log;
+
+                //Parse targets
+                private _targetParams = _targetEntry select 0;
+                private _reveal = _targetEntry select 1;
+                _targetObj = _targetParams select 0;
+                _strikeGroup reveal [_targetObj, _targetParams select 1];
+
+                if (alive _targetObj) then
                 {
-                    !(isNull _strikePlane) &&
-                    {alive _strikePlane) &&
-                    _strikePlane getVariable "currentTarget" == _targetObj}
-                } do
+                    //MARKER CREATING, UPDATING AND DISPLAYING
+                    //Show target to players if change is high enough
+                    private _textMarker = createMarker [format ["%1_text", _supportName], getPos _targetObj];
+                    _textMarker setMarkerShape "ICON";
+                    _textMarker setMarkerType "mil_objective";
+                    _textMarker setMarkerText "CAS Target";
+
+                    if(_side == Occupants) then {_textMarker setMarkerColor colorOccupants;}
+                    else {_textMarker setMarkerColor colorInvaders;};
+                    _textMarker setMarkerAlpha 0;
+
+                    [_textMarker, _targetObj, _strikePlane] spawn
+                    {
+                        params ["_textMarker", "_targetObj", "_strikePlane"];
+                        while
+                        {
+                            !(isNull _strikePlane) &&
+                            {(alive _strikePlane) &&
+                            (_strikePlane getVariable "currentTarget") == _targetObj}
+                        } do
+                        {
+                            _textMarker setMarkerPos (getPos _targetObj);
+                            sleep 0.5;
+                        };
+                        deleteMarker _textMarker;
+                    };
+
+                    [_reveal, getPos _targetObj, _side, "CAS", "", _textMarker] spawn A3A_fnc_showInterceptedSupportCall;
+                    //MARKER SECTION END
+
+                    _strikePlane setVariable ["currentTarget", _targetObj];
+                    _strikePlane setVariable ["StartBombRun", false];
+
+                    //Find better path if the plane is too close
+                    _strikePlane setVariable ["needsRecalculation", _targetObj distance2D _strikePlane < 3000];
+                    _isRepathing = false;
+                }
+                else
                 {
-                    _textMarker setMarkerPos (getPos _targetObj);
-                    sleep 0.5;
+                    [3, format ["%1 skips target, as it is already dead", _supportName], _fileName] call A3A_fnc_log;
                 };
-                deleteMarker _textMarker;
             };
-
-            [_reveal, getPos _targetObj, _side, "CAS", "", _textMarker] spawn A3A_fnc_showInterceptedSupportCall;
-            //MARKER SECTION END
-
-            _strikePlane setVariable ["currentTarget", _targetObj];
-            _strikePlane setVariable ["StartBombRun", false];
-
-            //Find better path if the plane is too close
-            _strikePlane setVariable ["needsRecalculation", _targetObj distance2D _strikePlane < 3000];
-            _isRepathing = false;
-        };
-    }
-    else
-    {
-        //Check if run script has control over the plane
-        if !(_strikePlane getVariable ["OnRun", false]) then
+        }
+        else
         {
             if(_strikePlane getVariable ["needsRecalculation", false]) then
             {
                 if !(_isRepathing) then
                 {
+                    [3, format ["%1 needs to repath, calculating attack path", _supportName], _fileName] call A3A_fnc_log;
                     //Plane needs a new approach vector, calculate new
-                    private _planeVector = (getPos _targetObj) vectorDiff (getPos _strikePlane);
-                    _planeVector set [2, 0];
-                    private _repathVector = _planeVector vectorAdd (vectorDir _strikePlane);
-                    _repathVector vectorNormalized _repathVector;
-                    _repathVector = _repathVector vectorMultiply 3000;
+                    private _strikePlaneVector = (getPos _targetObj) vectorDiff (getPos _strikePlane);
+                    _strikePlaneVector set [2, 0];
+                    private _sidePath = _strikePlaneVector vectorCrossProduct [0,0,-1];
+                    _repathVector = vectorNormalized _sidePath;
+                    _repathVector = _repathVector vectorMultiply 2500;
+                    [3, format ["Repath vector is %1", str _repathVector], _fileName] call A3A_fnc_log;
 
-                    private _repathPos = (getPos _strikePlane) vectorAdd _repathVector;
+                    private _repathPos = (getPos _targetObj) vectorAdd _repathVector;
                     _repathPos set [2, 500];
+                    [3, format ["Repath pos %1, object pos %2", str _repathPos, str (getPos _targetObj)], _fileName] call A3A_fnc_log;
                     private _repathWP = _strikeGroup addWaypoint [_repathPos, 0];
                     _repathWP setWaypointType "MOVE";
                     _repathWP setWaypointSpeed "FULL";
                     _strikeGroup setCurrentWaypoint _repathWP;
                     _currentWaypoint = _repathWP;
+                    _sleepTime = 1;
 
                     _isRepathing = true;
                 }
                 else
                 {
-                    if(waypointPosition _currentWaypoint distanceSqr _strikePlane < 7500) then
+                    if((waypointPosition _currentWaypoint) distance2D _strikePlane < 250) then
                     {
                         _isRepathing = false;
                         _strikePlane setVariable ["needsRecalculation", false];
+                        [3, format ["%1 repathing waypoint reached, attacking", _supportName], _fileName] call A3A_fnc_log;
                     };
                 };
             }
@@ -263,27 +277,30 @@ while {_timeAlive > 0} do
                 {
                     //Is on course to enter pos
                     //Recheck course
-                    _targetPos = (getPos _target) vectorAdd [0, 0, 2];
+                    _targetPos = (getPos _targetObj) vectorAdd [0, 0, 2];
                     _targetVector = [400, 0];
-                    _dir = (_strikePlane getDir _target) + 90;
+                    _dir = (_strikePlane getDir _targetObj) + 90;
                     _targetVector = [_targetVector, -_dir] call BIS_fnc_rotateVector2D;
                     _targetVector pushBack 100;
                     _enterRunPos = _targetPos vectorAdd (_targetVector vectorMultiply 5);
-                    _wp1 setWaypointPosition [_enterRunPos, 0];
+                    _currentWaypoint setWaypointPosition [_enterRunPos, 0];
                     _strikePlane setVariable ["enterPos", _enterRunPos];
 
-                    if (terrainIntersect [getPos _target, getPos _strikePlane]) then
+                    if (terrainIntersect [_targetPos, _enterRunPos]) then
                     {
                         //Something is in the way, repathing
+                        [3, format ["After recalculation %1 way is no longer clear, repath", _supportName], _fileName] call A3A_fnc_log;
                         _strikePlane setVariable ["needsRecalculation", true];
                         _isRepathing = false;
                         _sleepTime = 5;
+                        _isApproaching = false;
                     }
                     else
                     {
-                        if(_plane getVariable ["StartBombRun", false]) then
+                        if(_strikePlane getVariable ["StartBombRun", false]) then
                         {
-                            [_strikePlane, _targetObj, _supportName, _ammoCount] spawn A3A_fnc_SUP_CASRun;
+                            [_strikePlane, _targetObj, _supportName] spawn A3A_fnc_SUP_CASRun;
+                            _isApproaching = false;
                             _sleepTime = 5;
                         };
                     };
@@ -291,9 +308,9 @@ while {_timeAlive > 0} do
                 else
                 {
                     //Sets the approach vector
-                    private _targetPos = (getPos _target) vectorAdd [0, 0, 2];
+                    private _targetPos = (getPos _targetObj) vectorAdd [0, 0, 2];
                     private _targetVector = [400, 0];
-                    private _dir = (_strikePlane getDir _target) + 90;
+                    private _dir = (_strikePlane getDir _targetObj) + 90;
                     _targetVector = [_targetVector, -_dir] call BIS_fnc_rotateVector2D;
                     _targetVector pushBack 100;
                     private _enterRunPos = _targetPos vectorAdd (_targetVector vectorMultiply 5);
@@ -303,6 +320,7 @@ while {_timeAlive > 0} do
                     _wp1 setWaypointType "MOVE";
                     _wp1 setWaypointSpeed "FULL";
                     _strikeGroup setCurrentWaypoint _wp1;
+                    _currentWaypoint = _wp1;
 
                     //Wait until run enter pos is reached
                     [_strikePlane] spawn
@@ -312,17 +330,19 @@ while {_timeAlive > 0} do
                         {
                             sleep 0.1;
                             private _enterPos = _strikePlane getVariable ["enterPos", objNull];
-                            (isNull _enterPos) ||
-                            {_strikePlane distance2D (_strikePlane getVariable "enterPos")) < 25}
+                            (_enterPos isEqualType objNull) ||
+                            {(_strikePlane distance2D (_strikePlane getVariable "enterPos")) < 25}
                         };
                         _strikePlane setVariable ["StartBombRun", true];
                     };
 
+                    _isApproaching = true;
                     _sleepTime = 0.25;
                 };
             };
         };
     };
+
 
     //Plane somehow destroyed
     if
