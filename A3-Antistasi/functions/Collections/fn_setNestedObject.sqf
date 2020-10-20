@@ -38,19 +38,16 @@ Examples:
 Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
 */
-private _args = _this;
-private _filename = "Collections\fn_setNestedObject.sqf";
-
-private _count = count _args;
-private _lastVarSpace = _args#0;  // Default expects that this is the last recurse.
-if (_count isEqualTo 3) then {
-    _args#0 setVariable [_args#1, _args#2];
-} else {
-    private _varSpace = _args#0 getVariable [_args#1, false];
+private _count = count _this;
+private _varSpace = _this#0;
+private _lastVarSpace;
+for "_i" from 1 to _count - 3 do {
+    _lastVarSpace = _varSpace;
+    _varSpace = _lastVarSpace getVariable [_this#_i, false];
     if (!(_varSpace isEqualType locationNull) || {isNull _varSpace}) then {
         _varSpace = [false] call A3A_fnc_createNamespace;
-        _args#0 setVariable [_args#1,_varSpace];
+        _lastVarSpace setVariable [_this#_i,_varSpace];
     };
-    _lastVarSpace = ([_varSpace] + (_args select [2,_count-2])) call A3A_fnc_setNestedObject;
 };
-_lastVarSpace;
+_varSpace setVariable [_this#(_count-2), _this#(_count-1)];
+_varSpace;

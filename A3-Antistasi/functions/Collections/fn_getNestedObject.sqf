@@ -37,13 +37,12 @@ Examples:
 Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
 */
-// filename: "Collections\fn_getNestedObject.sqf"
-
-private _last = count _this -1; // -1 is the last item in the list.
-private _value = _this#0 getVariable [_this#1, _this#_last];
-if (_last isEqualTo 2) exitWith {_value;}; // Final key-value is expected, return value or default.
-if (_value isEqualType locationNull && {!isNull _value}) then {
-        ([_value] + (_this select [2,_last-1])) call A3A_fnc_getNestedObject; // Exclude current varspace, Exclude string name of new varspace, Include everything after that.
-} else {
-    _this#_last; // If no further recursion, return default.
+private _count = count _this;
+private _varSpace = _this#0;
+for "_i" from 1 to _count - 3 do {
+    _varSpace = _varSpace getVariable [_this#_i, false];
+    if (!(_varSpace isEqualType locationNull) || {isNull _varSpace}) exitWith {
+        _this#(_count-1);
+    };
 };
+_varSpace getVariable [_this#(_count-2), _this#(_count-1)];
