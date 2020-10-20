@@ -45,11 +45,24 @@ if (_type == "CAS") then
         case ("RHS_A10"):
         {
             _loadout = ["rhs_mag_ANALQ131","rhs_mag_M151_7_USAF_LAU131","rhs_mag_agm65d_3","rhs_mag_M151_21_USAF_LAU131_3","rhs_mag_M151_7_USAF_LAU131","","rhs_mag_M151_7_USAF_LAU131","rhs_mag_M151_21_USAF_LAU131_3","rhs_mag_agm65d_3","rhs_mag_M151_7_USAF_LAU131","","rhsusf_ANALE40_CMFlare_Chaff_Magazine_x16"];
+            _plane setVariable ["mainGun", "RHS_weap_gau8"];
+            _plane setVariable ["rocketLauncher", ["rhs_weap_FFARLauncher"]];
+            _plane setVariable ["missileLauncher", ["rhs_weap_agm65d"]];
         };
         //RHS CDF
         case ("rhs_l159_CDF"):
         {
             _loadout = ["rhs_mag_agm65d","rhs_mag_agm65d","rhs_mag_agm65d","rhs_mag_zpl20_apit","rhs_mag_agm65d","rhs_mag_agm65d","rhs_mag_agm65d","rhsusf_ANALE40_CMFlare_Chaff_Magazine_x2"];
+            _plane setVariable ["mainGun", "RHS_weap_zpl20"];
+            _plane setVariable ["rocketLauncher", ["rhs_weap_FFARLauncher"]];
+            _plane setVariable ["missileLauncher", ["rhs_weap_agm65d"]];
+        };
+        case ("RHS_Su25SM_CAS_vvs"):
+        {
+            _loadout = ["rhs_mag_kh29D","rhs_mag_kh29D","rhs_mag_kh25MTP","rhs_mag_kh25MTP","rhs_mag_kh25MTP","rhs_mag_kh25MTP","rhs_mag_b8m1_s8kom","rhs_mag_b8m1_s8kom","","","rhs_ASO2_CMFlare_Chaff_Magazine_x4"];
+            _plane setVariable ["mainGun", "rhs_weap_gsh302"];
+            _plane setVariable ["rocketLauncher", ["rhs_weap_s8"]];
+            _plane setVariable ["missileLauncher", ["rhs_weap_kh29d_Launcher", "rhs_weap_kh25mtp_Launcher"]];
         };
         default
         {
