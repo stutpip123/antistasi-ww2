@@ -161,6 +161,7 @@ private _fnc_executeWeaponFire =
     };
 };
 
+/*
 private _fireParams =
 [
     //[armed, main gun shots, rocket shots, missile shots]
@@ -168,6 +169,8 @@ private _fireParams =
     [true, 30, 5, 1],
     [true, 40, 7, 0]
 ];
+*/
+private _fireParams = _strikePlane getVariable "fireParams";
 
 while {_interval < 0.95 && alive _strikePlane && {!(isNull (driver _strikePlane))}} do
 {

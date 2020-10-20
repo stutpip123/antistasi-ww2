@@ -1,7 +1,5 @@
 params ["_side"];
 
-if(true) exitWith {0};
-
 if(tierWar < 5) exitWith {-1};
 
 //Select a timer index and the max number of timers available

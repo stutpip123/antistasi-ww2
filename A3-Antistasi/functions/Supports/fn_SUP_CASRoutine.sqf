@@ -21,12 +21,14 @@ _strikePlane flyInHeight 500;
 private _sideAggression = if(_side == Occupants) then {aggressionOccupants} else {aggressionInvaders};
 private _timeAlive = 1200;
 private _confirmedKills = 4;//[_strikePlane, 0] call A3A_fnc_countMissiles;
+private _allowHeavyWeapon = true;
 
 if(_sideAggression < (30 + (random 40))) then
 {
     _timeAlive = 600;
     //Plane needs to have at least 6 missiles in all cases
     _confirmedKills = 2;
+    _allowHeavyWeapon = false;
 };
 
 [_strikePlane, "CAS"] call A3A_fnc_setPlaneLoadout;
@@ -223,6 +225,75 @@ while {_timeAlive > 0} do
 
                     _strikePlane setVariable ["currentTarget", _targetObj];
                     _strikePlane setVariable ["StartBombRun", false];
+
+                    _fireMatrix = [];
+                    if (_targetObj isKindOf "Tank") then
+                    {
+                        if(_allowHeavyWeapon) then
+                        {
+                            _fireMatrix =
+                            [
+                                [true, 25, 3, 1],
+                                [true, 25, 3, 1],
+                                [true, 35, 5, 1]
+                            ];
+                        }
+                        else
+                        {
+                            _fireMatrix =
+                            [
+                                [true, 20, 0, 1],
+                                [true, 20, 0, 0],
+                                [true, 30, 3, 1]
+                            ];
+                        };
+                    }
+                    else
+                    {
+                        if((typeOf _targetObj) in (vehCSATAPC + vehNATOAPC)) then
+                        {
+                            if(_allowHeavyWeapon) then
+                            {
+                                _fireMatrix =
+                                [
+                                    [true, 30, 5, 0],
+                                    [true, 30, 5, 1],
+                                    [true, 30, 5, 1]
+                                ];
+                            }
+                            else
+                            {
+                                _fireMatrix =
+                                [
+                                    [true, 25, 5, 1],
+                                    [true, 25, 5, 0],
+                                    [true, 25, 5, 0]
+                                ];
+                            };
+                        }
+                        else
+                        {
+                            if(_allowHeavyWeapon) then
+                            {
+                                _fireMatrix =
+                                [
+                                    [true, 35, 5, 0],
+                                    [true, 35, 5, 0],
+                                    [true, 35, 5, 0]
+                                ];
+                            }
+                            else
+                            {
+                                _fireMatrix =
+                                [
+                                    [true, 25, 3, 0],
+                                    [false, 25, 5, 0],
+                                    [true, 25, 3, 0]
+                                ];
+                            };
+                        };
+                    };
+                    _strikePlane setVariable ["fireParams", _fireMatrix];
 
                     //Find better path if the plane is too close
                     _strikePlane setVariable ["needsRecalculation", _targetObj distance2D _strikePlane < 3000];
