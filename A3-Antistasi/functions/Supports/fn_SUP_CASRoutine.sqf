@@ -89,7 +89,7 @@ _strikePlane addEventHandler
         {
             //Unguided rocket, improve course and accuracy
             private _speed = speed _projectile/3.6;
-            private _targetPos = ((getPosASL _targetObj) vectorAdd [0, 0, 100]) vectorAdd (vectorDir _targetObj vectorMultiply ((speed _targetObj)));
+            private _targetPos = ((getPosASL _targetObj) vectorAdd [0, 0, 250]) vectorAdd (vectorDir _targetObj vectorMultiply ((speed _targetObj)));
             _targetPos = _targetPos apply {_x + (random 200) - 100};
             _projectile setVelocity (vectorNormalized (_targetPos vectorDiff (getPosASL _projectile)) vectorMultiply (_speed/1.5));
 
@@ -370,6 +370,7 @@ while {_timeAlive > 0} do
                     {
                         if(_strikePlane getVariable ["StartBombRun", false]) then
                         {
+                            _strikePlane setVariable ["StartBombRun", false];
                             [_strikePlane, _targetObj, _supportName] spawn A3A_fnc_SUP_CASRun;
                             _isApproaching = false;
                             _sleepTime = 5;
@@ -404,7 +405,11 @@ while {_timeAlive > 0} do
                             (_enterPos isEqualType objNull) ||
                             {(_strikePlane distance2D (_strikePlane getVariable "enterPos")) < 25}
                         };
-                        _strikePlane setVariable ["StartBombRun", true];
+                        private _enterPos = _strikePlane getVariable ["enterPos", objNull];
+                        if !(_enterPos isEqualType objNull) then
+                        {
+                            _strikePlane setVariable ["StartBombRun", true];
+                        };
                     };
 
                     _isApproaching = true;

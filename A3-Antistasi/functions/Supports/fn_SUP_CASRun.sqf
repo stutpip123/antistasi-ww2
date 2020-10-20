@@ -170,7 +170,7 @@ private _fireParams =
     [true, 40, 7, 0]
 ];
 */
-private _fireParams = _strikePlane getVariable "fireParams";
+private _fireParams = +(_strikePlane getVariable "fireParams");
 
 while {_interval < 0.95 && alive _strikePlane && {!(isNull (driver _strikePlane))}} do
 {
@@ -267,3 +267,4 @@ _loiterWP setWaypointLoiterRadius 2000;
 waitUntil {sleep 1; ((getPos _strikePlane) select 2) > 450};
 [3, format ["Gun run for %1 finished, returning control", _supportName], _fileName] call A3A_fnc_log;
 _strikePlane setVariable ["OnRun", false];
+_strikePlane setVariable ["needsRecalculation", true];
