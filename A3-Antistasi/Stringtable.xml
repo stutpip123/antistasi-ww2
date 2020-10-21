@@ -2246,5 +2246,31 @@
         <Korean>LanCommi : 이미지 지원&lt;br/&gt;Goon and jw custom: 네이팜 코드 일부 제공&lt;br/&gt;rebel12340:라디오 먹통 스크립트 제공&lt;br/&gt;Manko: 이어플러그 제공&lt;br/&gt;bobchaos: 커뮤니티 관리&lt;br/&gt;그리고 그 외 모든 Github와 스팀 커뮤니티에서 관심을 가져주신 분들.</Korean>
       </Key>
     </Container>
+    <Container name="mission_end">
+      <Key ID="STR_antistasi_mission_end_noJip">
+        <Original>Player kicked as they are not Jipping</Original>
+        <English>Player kicked as they are not Jipping</English>
+      </Key>
+	<Key ID="STR_antistasi_mission_end_noPvP">
+        <Original>Player kicked as PvP slots are disabled</Original>
+        <English>Player kicked as PvP slots are disabled</English>
+      </Key>
+      <Key ID="STR_antistasi_mission_end_pvpMem">
+        <Original>PvP player kicked because they are not a member.</Original>
+        <English>PvP player kicked because they are not a member.</English>
+      </Key>
+      <Key ID="STR_antistasi_mission_end_pvpCount">
+        <Original>PVP Player kicked due to player imbalance. Please join the Resistance.</Original>
+        <English>PVP Player kicked due to player imbalance. Please join the Resistance.</English>
+      </Key>
+      <Key ID="STR_antistasi_mission_end_theBoss">
+        <Original>PvP player kicked as there is no Rebel Commander.</Original>
+        <English>PvP player kicked as there is no Rebel Commander.</English>
+      </Key>
+      <Key ID="STR_antistasi_mission_end_Default">
+        <Original>PvP player logged in, doing server side checks if the player has been rebel recently.</Original>
+        <English>PvP player logged in, doing server side checks if the player has been rebel recently.</English>
+      </Key>
+    </Container>
   </Package>
 </Project>
