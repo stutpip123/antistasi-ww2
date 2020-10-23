@@ -1,8 +1,4 @@
-[] spawn {
-private _plane = plane;
-private _target = target;
-_plane setVariable ["currentTarget", getPosASL _target];
-
+params ["_plane"];
 
 _plane addEventHandler
 [
@@ -13,12 +9,13 @@ _plane addEventHandler
         private _target = _gunship getVariable ["currentTarget", objNull];
         if(_target isEqualTo objNull) exitWith {};
 
+        if(_target isEqualType objNull) then
+        {
+            _target = getPosASL _target;
+        };
+        //CSAT rocket launcher
         if(_weapon == "rockets_Skyfire") then
         {
-            if(_target isEqualType objNull) then
-            {
-                _target = getPosASL _target;
-            };
             _target = _target apply {_x + (random 50) - 25};
             [_projectile, _target] spawn
             {
@@ -79,17 +76,40 @@ _plane addEventHandler
                 };
             };
         };
+        //CSAT gatling
+        if(_weapon == "gatling_30mm_VTOL_02") then
+        {
+            _target = _target apply {_x + (random 15) - 7.5};
+            private _speed = speed _projectile;
+            private _dir = vectorNormalized (_target vectorDiff (getPosASL _projectile));
+            _projectile setVelocity (_dir vectorMultiply _speed);
+            _projectile setVectorDir _dir;
+        };
     }
 ];
 
-hint "Prepare to fire rockets in 10 seconds";
-sleep 10;
+private _targetPos = getMarkerPos "supMarker";
 
-for "_i" from 0 to 75 do
+private _targets = _targetPos nearEntities [["Man", "LandVehicle", "Helicopter"], 250];
+hint format ["Found %1 targets in the area", count _targets];
+
 {
-    (gunner _plane) forceWeaponFire ["rockets_Skyfire", "Burst"];
-    sleep 0.1;
-};
+    _plane setVariable ["currentTarget", _x];
+    (gunner _plane) reveal [_x, 3];
+    (gunner _plane) doTarget _x;
+    sleep 1;
+    for "_i" from 1 to 2 do
+    {
+        _plane fireAtTarget [_x, "HE"];
+        sleep 0.03;
+    };
+} forEach _targets;
 
 
+
+
+for "_i" from 1 to 10 do
+{
+    //(gunner _plane) forceWeaponFire ["rockets_Skyfire", "Burst"];
+    //sleep 0.1;
 };
