@@ -39,9 +39,9 @@ if(teamplayer != independent) then {//This section is for Altis Blufor ONLY!
     case (has3CB): {
       switch(true) do {
         case (worldName in arcticmaps): {
-          call compile preProcessFileLineNumbers "Templates\3CB\3CB_Reb_CNM_Temp.sqf";
-          call compile preProcessFileLineNumbers "Templates\3CB\3CB_Occ_BAF_Temp.sqf";
+          call compile preProcessFileLineNumbers "Templates\3CB\3CB_Occ_BAF_Arctic.sqf";
           call compile preProcessFileLineNumbers "Templates\3CB\3CB_Inv_SOV_Temp.sqf";
+          call compile preProcessFileLineNumbers "Templates\3CB\3CB_Reb_CNM_Temp.sqf";
           [2, "Using arctic CNM, BAF, SOV, 3CB Civ Templates", _filename] call A3A_fnc_log;
         };
         case (worldName in temperatemaps): {
