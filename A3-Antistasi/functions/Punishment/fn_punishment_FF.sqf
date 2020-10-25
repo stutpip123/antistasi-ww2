@@ -59,8 +59,8 @@ if (_instigator getVariable ["A3A_FFPunish_CD ", 0] > servertime) exitWith {"PUN
 _instigator setVariable ["A3A_FFPunish_CD ", servertime + 1, false];  // Will only ever be evaluated from one machine.
 
 /////////////////Definitions////////////////
-private _victimStats = ["damaged systemPunished ",format ["damaged %1 ", name _victim]] select (_victim isKindOf "Man");
-_victimStats = ["[",["AI",getPlayerUID _victim] select (isPlayer _victim),"]"] joinString "";
+private _victimStats = ["damaged ",["systemPunished",name _victim] select (_victim isKindOf "Man")," "] joinString "";
+_victimStats = [_victimStats,"[",["AI",getPlayerUID _victim] select (isPlayer _victim),"]"] joinString "";
 private _notifyVictim = {
     if (isPlayer _victim) then {["FF Notification", format["%1 hurt you!",name _instigator]] remoteExec ["A3A_fnc_customHint", _victim, false];};
 };
@@ -81,15 +81,21 @@ private _logPvPAttack = {
 };
 
 ///////////////Checks if is FF//////////////
-private _exemption = switch (true) do {  // ~0.012 ms for all false cases
+private _exemption = "";
+if (_victim isKindOf "Man") then {
+        _exemption = switch (true) do {
+        case (_vehicle isEqualTo (vehicle _victim)):            {"IN SAME VEHICLE"};  // Also fulfils role of checking whether the instigator and victim is same person.
+        case (!(side group _victim isEqualTo teamPlayer)):      {call _logPvPHurt; "VICTIM NOT REBEL"};
+        default                                                 {_exemption};
+    };
+};
+_exemption = switch (true) do {  // ~0.012 ms for all false cases
     case (!tkPunish):                                       {"FF PUNISH IS DISABLED"};
     case (!isMultiplayer):                                  {"IS NOT MULTIPLAYER"};
     case ("HC" in (getPlayerUID _instigator)):              {"FF BY HC"};  // Quick & reliable check
     case (!(isPlayer _instigator)):                         {"FF BY AI"};
-    case (_vehicle isEqualTo (vehicle _victim)):            {"IN SAME VEHICLE"};  // Also fulfils role of checking whether the instigator and victim is same person.
-    case (!(side group _victim isEqualTo teamPlayer)):      {call _logPvPHurt; "VICTIM NOT REBEL"};
     case (!(side group _instigator isEqualTo teamPlayer)):  {call _logPvPAttack; "INSTIGATOR NOT REBEL"};
-    default                                                 {""};
+    default                                                 {_exemption};
 };
 if (!(_exemption isEqualTo "")) exitWith {
     format["NOT FF, %1", _exemption];
