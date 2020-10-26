@@ -24,7 +24,7 @@ Examples:
 	if (hasInterface) then {
 		[player] call A3A_fnc_punishment_FF_addEH; // Recommended to add to "onPlayerRespawn.sqf"
 	};
-	[cursorObject,true] remoteExec ["A3A_fnc_punishment_FF_addEH",cursorObject,false];
+	[cursorObject,true] remoteExecCall ["A3A_fnc_punishment_FF_addEH",cursorObject,false];
 
 Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community

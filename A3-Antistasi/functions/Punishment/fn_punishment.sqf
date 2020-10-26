@@ -22,13 +22,13 @@ Returns:
 	<STRING> Either an exemption type or a return from fn_punishment.sqf.
 
 Examples:
-	[_instigator,_timeAdded,_offenceAdded,_victim] remoteExec ["A3A_fnc_punishment",2,false]; // How it should be called from another A3A_fnc_punishment_FF.
+	[_instigator,_timeAdded,_offenceAdded,_victim] remoteExecCall ["A3A_fnc_punishment",2,false]; // How it should be called from another A3A_fnc_punishment_FF.
 	// Unit Tests:
-	[cursorObject, 0, 0] remoteExec ["A3A_fnc_punishment",2];                                 // Ping with FF Warning
-	[cursorObject,120, 1] remoteExec ["A3A_fnc_punishment",2];                                // Punish, 120 additional seconds
-	[player,10, 1] remoteExec ["A3A_fnc_punishment",2];                                       // Test Self Punish, 10 additional seconds
+	[cursorObject, 0, 0] remoteExecCall ["A3A_fnc_punishment",2];                                 // Ping with FF Warning
+	[cursorObject,120, 1] remoteExecCall ["A3A_fnc_punishment",2];                                // Punish, 120 additional seconds
+	[player,10, 1] remoteExecCall ["A3A_fnc_punishment",2];                                       // Test Self Punish, 10 additional seconds
 	// Function that goes hand-in-hand
-	[cursorObject,"forgive"] remoteExec [A3A_fnc_punishment_release,2]; // Forgive all sins
+	[cursorObject,"forgive"] remoteExecCall [A3A_fnc_punishment_release,2]; // Forgive all sins
 
 Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
@@ -86,7 +86,7 @@ private _injuredComrade = "";
 private _victimStats = "damaged systemPunished [AI]";
 if (_victim isKindOf "Man") then {
 	_injuredComrade = ["Injured comrade: ",name _victim] joinString "";
-	["FF Notification", [_name," hurt you!"] joinString ""] remoteExec ["A3A_fnc_customHint", _victim, false];
+	["FF Notification", [_name," hurt you!"] joinString ""] remoteExecCall ["A3A_fnc_customHint", _victim, false];
 	private _UIDVictim = ["AI", getPlayerUID _victim] select (isPlayer _victim);
 	_victimStats = ["damaged ",name _victim," [",_UIDVictim,"]"] joinString "";
 };
@@ -95,7 +95,7 @@ if (_victim isKindOf "Man") then {
 private _playerStats = ["Total-time: ",str _timeTotal," (incl. +",str _timeAdded,"), Offence+Overhead: ",str _offenceTotal," [",str (_offenceTotal-_overhead),"+",str _overhead,"] (incl. +",str _offenceAdded,")"] joinString "";
 [2, [["WARNING","GUILTY"] select (_offenceTotal >= 1)," | ",_name," [",_UID,"] ",_victimStats,", ",_playerStats] joinString "", _filename] call A3A_fnc_log;
 
-["FF Warning", ["Watch your fire!",_injuredComrade,_customMessage] joinString "<br/>"] remoteExec ["A3A_fnc_customHint", _originalBody, false];
+["FF Warning", ["Watch your fire!",_injuredComrade,_customMessage] joinString "<br/>"] remoteExecCall ["A3A_fnc_customHint", _originalBody, false];
 
 if (_offenceTotal < 1) exitWith {"WARNING";};
 
@@ -105,7 +105,7 @@ if (_instigator isEqualTo _originalBody) then {
 } else {
 	(units group _originalBody) joinSilent group _originalBody;  // Refer to controlunit.sqf for source of this *function*
 	group _instigator selectLeader _originalBody;
-	["Control Unit", "Returned to original Unit due to FF."] remoteExec ["A3A_fnc_customHint",_instigator,false];
+	["Control Unit", "Returned to original Unit due to FF."] remoteExecCall ["A3A_fnc_customHint",_instigator,false];
 	[_originalBody] remoteExec ["selectPlayer",_instigator,false];
 
 	[_instigator,_originalBody,_UID,_timeTotal,_name] spawn {  // Waits for player to control original body. This will be relocated to sentence_client in the future allowing for snappy execution server-side.

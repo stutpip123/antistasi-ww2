@@ -18,7 +18,7 @@ Returns:
     <BOOLEAN> true if it hasn't crashed; nil if it has crashed.
 
 Examples:
-    ["Vadim"] remoteExec ["A3A_fnc_punishment_removeActionForgive",0,false];
+    ["Vadim"] remoteExecCall ["A3A_fnc_punishment_removeActionForgive",0,false];
 
 Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community

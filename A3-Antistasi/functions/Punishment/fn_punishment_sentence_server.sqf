@@ -11,7 +11,7 @@ Scope:
     <SERVER> Execute on server.
 
 Environment:
-    <SCHEDULED> For suspensions.
+    <UNSCHEDULED>.
 
 Parameters:
     <STRING> The UID of the detainee being sent to Ocean Gulag.
@@ -21,7 +21,7 @@ Returns:
     <BOOLEAN> true if it hasn't crashed; false if invalid params; nil if it has crashed.
 
 Examples:
-    [_UID,_timeTotal] remoteExec ["A3A_fnc_punishment_sentence_server",2,false];
+    [_UID,_timeTotal] remoteExecCall ["A3A_fnc_punishment_sentence_server",2,false];
 
 Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
@@ -54,11 +54,11 @@ private _detainee = _varspace getVariable ["player",objNull];
         _admin = [] call A3A_fnc_getAdmin;  // Refreshes in case the admin logged in.
         if !(_admin isEqualTo _lastAdmin) then {  // Admin Change
             if (!isNull _lastAdmin) then {
-                [_name] remoteExec ["A3A_fnc_punishment_removeActionForgive",_lastAdmin,false];
+                [_name] remoteExecCall ["A3A_fnc_punishment_removeActionForgive",_lastAdmin,false];
             };
             if (!isNull _admin) then {
                 if (_admin isEqualTo _detainee) exitWith { [_UID,"forgive"] call A3A_fnc_punishment_release; };  // The admin cannot use the self forgive scroll-action when attached to the surf-board.
-                ["FF Notification", [_name," has been found guilty of FF.<br/><br/>If you believe this is a mistake, you can forgive him with a scroll-menu action on his body.<br/><br/>He is at the bottom left corner of the map."] joinString ""] remoteExec ["A3A_fnc_customHint",_admin,false];
+                ["FF Notification", [_name," has been found guilty of FF.<br/><br/>If you believe this is a mistake, you can forgive him with a scroll-menu action on his body.<br/><br/>He is at the bottom left corner of the map."] joinString ""] remoteExecCall ["A3A_fnc_customHint",_admin,false];
                 [_UID,[missionNamespace,"A3A_FFPun",_UID,"_offenceTotal",0] call A3A_fnc_getNestedObject,_name] remoteExec ["A3A_fnc_punishment_addActionForgive",_admin,false];
             };
             _lastAdmin = _admin;

@@ -41,6 +41,6 @@ if (_offenceTotal >= 1) then {
 	_instigator = [_UID] call BIS_fnc_getUnitByUid;
 	if (!isPlayer _instigator) exitWith {};
 	[missionNamespace,"A3A_FFPun",_UID,"lastOffenceTime",nil] call A3A_fnc_setNestedObject;  // CLears any sort of depreciation that would gather over time away from server.
-	[_instigator, 0, 0] remoteExecCall ["A3A_fnc_punishment",2,false];
+	[_instigator, 0, 0] call A3A_fnc_punishment;
 };
 true;

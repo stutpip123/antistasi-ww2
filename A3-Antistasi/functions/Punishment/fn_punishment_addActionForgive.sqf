@@ -46,7 +46,7 @@ if (!_alreadyHasAction) then {
 		{
 			params ["_target", "_caller", "_actionId", "_arguments"];
 			if ([] call BIS_fnc_admin > 0 || isServer && hasInterface) then {
-				[_arguments,"forgive"] remoteExec ["A3A_fnc_punishment_release",2,false];
+				[_arguments,"forgive"] remoteExecCall ["A3A_fnc_punishment_release",2,false];
 			};
 			player removeAction _actionId;
 		},
