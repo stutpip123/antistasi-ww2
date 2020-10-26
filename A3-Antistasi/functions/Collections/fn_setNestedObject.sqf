@@ -40,7 +40,7 @@ License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Comm
 */
 private _count = count _this;
 private _varSpace = _this#0;
-private _lastVarSpace;
+private _lastVarSpace = _varSpace;
 for "_i" from 1 to _count - 3 do {
     _lastVarSpace = _varSpace;
     _varSpace = _lastVarSpace getVariable [_this#_i, false];
