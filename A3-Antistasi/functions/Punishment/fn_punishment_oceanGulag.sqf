@@ -26,7 +26,7 @@ Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
 */
 params ["_UID",["_operation","add",[""]]];
-private _filename = "fn_punishment_oceanGulag.sqf";
+private _filename = "fn_punishment_oceanGulag";
 
 if (!isServer) exitWith {
 	[1, "NOT SERVER", _filename] call A3A_fnc_log;

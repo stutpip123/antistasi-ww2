@@ -30,7 +30,7 @@ Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
 */
 params [ ["_unit",objNull,[objNull]], ["_addToAI",false,[false]] ];
-private _fileName = "fn_punishment_FF_addEH.sqf";
+private _fileName = "fn_punishment_FF_addEH";
 
 if (!tkPunish) exitWith {false};
 if (!(_unit isKindOf "Man")) exitWith {

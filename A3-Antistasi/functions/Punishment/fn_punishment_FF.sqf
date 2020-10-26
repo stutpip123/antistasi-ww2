@@ -43,7 +43,7 @@ params [
     ["_victim",objNull, [objNull]],
     ["_customMessage","", [""], [] ]
 ];
-private _filename = "fn_punishment_FF.sqf";
+private _filename = "fn_punishment_FF";
 ///////////Checks if is Collision///////////
 private _isCollision = false;
 if (_instigator isEqualType []) then {

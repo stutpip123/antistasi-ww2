@@ -25,7 +25,7 @@ Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
 */
 params ["_UID","_offenceTotal","_name"];
-private _filename = "fn_punishment_addActionForgive.sqf";
+private _filename = "fn_punishment_addActionForgive";
 
 if (_offenceTotal < 1) exitWith {false}; // If offence is less than 1, the UID is not a detained player.
 

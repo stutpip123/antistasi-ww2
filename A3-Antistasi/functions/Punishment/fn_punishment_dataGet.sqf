@@ -52,7 +52,7 @@ params [
 	["_UID",objNull,["UID string",objNull]],
 	["_keyPairs",[],[ [] ]]
 ];
-private _filename = "fn_punishment_dataAdd.sqf";
+private _filename = "fn_punishment_dataAdd";
 
 if (typeName _UID == "OBJECT" && {isPlayer _UID}) then {
 	_UID = getPlayerUID _UID;

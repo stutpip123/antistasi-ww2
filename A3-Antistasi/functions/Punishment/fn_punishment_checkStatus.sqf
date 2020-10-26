@@ -31,7 +31,7 @@ Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
 */
 params [["_UID","",[""]]];
-private _fileName = "fn_punishment_checkStatus.sqf";
+private _fileName = "fn_punishment_checkStatus";
 
 if ((!tkPunish) || {_UID isEqualTo ""}) exitWith {false;};
 

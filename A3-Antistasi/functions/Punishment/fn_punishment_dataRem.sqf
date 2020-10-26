@@ -37,7 +37,7 @@ params [
 	["_UID",objNull,["UID string",objNull]],
 	["_keys",[],[ [] ]]
 ];
-private _filename = "fn_punishment_dataRem.sqf";
+private _filename = "fn_punishment_dataRem";
 
 if (typeName _UID == "OBJECT" && {isPlayer _UID}) then {
 	_UID = getPlayerUID _UID;

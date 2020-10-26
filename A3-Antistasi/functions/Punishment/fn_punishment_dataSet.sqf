@@ -31,7 +31,7 @@ params [
 	["_UID",objNull,["UID string",objNull]],
 	["_keyPairs",[],[ [] ]]
 ];
-private _filename = "fn_punishment_dataSet.sqf";
+private _filename = "fn_punishment_dataSet";
 
 if (_keyPairs isEqualTo []) exitWith {
 	[1, "INVALID PARAMS | No keys pairs", _filename] remoteExecCall ["A3A_fnc_log",2,false];

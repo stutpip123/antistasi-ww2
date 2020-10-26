@@ -27,7 +27,7 @@ Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
 */
 params ["_UID","_timeTotal"];
-private _filename = "fn_punishment_sentence_server.sqf";
+private _filename = "fn_punishment_sentence_server";
 
 _timeTotal = 5*(floor (_timeTotal/5)); // Rounds up so the loop lines up.
 private _sentenceEndTime = (floor serverTime) + _timeTotal;

@@ -37,7 +37,7 @@ Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
 */
 params ["_unit","_weapon","_projectile"];
-private _fileName = "fn_punishment_FF_checkNearHQ.sqf";
+private _fileName = "fn_punishment_FF_checkNearHQ";
 
 if !(_weapon in ["Put","Throw"]) exitWith {false};
 private _distancePetros = _unit distance petros;
