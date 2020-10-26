@@ -33,9 +33,9 @@ if (!isServer) exitWith {
 	false;
 };
 
-
-private _keyPairs = [ ["_punishmentPlatform",objNull],["name","NO NAME"],["player",objNull] ];
-([_UID,_keyPairs] call A3A_fnc_punishment_dataGet) params ["_punishmentPlatform","_name","_detainee"];
+private _varspace = [missionNamespace,"A3A_FFPun",_UID,locationNull] call A3A_fnc_getNestedObject;
+private _name = _varspace getVariable ["name","NO NAME"];
+private _detainee = _varspace getVariable ["player",objNull];
 
 private _playerStats = format["Player: %1 [%2]", _name, _UID];
 
@@ -44,8 +44,10 @@ private _releaseFromSentence = {
 	[_UID,"remove"] call A3A_fnc_punishment_oceanGulag;
 };
 private _forgiveStats = {
-	private _keys = ["timeTotal","offenceTotal","overhead","sentenceEndTime"];
-	[_UID,_keys] call A3A_fnc_punishment_dataRem;
+	private _varspace = [missionNamespace,"A3A_FFPun",_UID,"timeTotal",nil] call A3A_fnc_setNestedObject;
+	_varspace setVariable ["offenceTotal",nil];
+	_varspace setVariable ["overhead",nil];
+	_varspace setVariable ["_sentenceEndTime",nil];
 };
 
 switch (_source) do {
@@ -68,8 +70,7 @@ switch (_source) do {
 		true;
 	};
 	case "forgive": {
-		private _keyPairs = [ ["sentenceEndTime",0] ];
-		[_UID,_keyPairs] call A3A_fnc_punishment_dataSet;
+		[missionNamespace,"A3A_FFPun",_UID,"sentenceEndTime",0] call A3A_fnc_setNestedObject;
 		true;
 	};
 	default {

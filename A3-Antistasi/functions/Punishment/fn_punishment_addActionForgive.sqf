@@ -24,11 +24,9 @@ Examples:
 Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
 */
-params ["_UID"];
+params ["_UID","_offenceTotal","_name"];
 private _filename = "fn_punishment_addActionForgive.sqf";
 
-private _keyPairs = [["offenceTotal",0],["name","NO NAME"]];
-([_UID,_keyPairs] call A3A_fnc_punishment_dataGet) params ["_offenceTotal","_name"];
 if (_offenceTotal < 1) exitWith {false}; // If offence is less than 1, the UID is not a detained player.
 
 private _actionsSelf = actionIDs player;

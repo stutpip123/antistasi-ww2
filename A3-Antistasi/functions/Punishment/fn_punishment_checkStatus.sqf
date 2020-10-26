@@ -25,7 +25,7 @@ Examples:
 	private _keyPairs = [["timeTotal",10],["offenceTotal",1]];
 	([_UID,_keyPairs] call A3A_fnc_punishment_dataSet) params ["_timeTotal","_offenceTotal"];
 	[_UID] remoteExec ["A3A_fnc_punishment_checkStatus",2,false];
-	[_UID] call A3A_fnc_punishment_dataGet;
+	allVariables [missionNamespace,"A3A_FFPun",_UID,locationNull] call A3A_fnc_getNestedObject;
 
 Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
@@ -35,14 +35,12 @@ private _fileName = "fn_punishment_checkStatus.sqf";
 
 if ((!tkPunish) || {_UID isEqualTo ""}) exitWith {false;};
 
-private _keyPairs = [["offenceTotal",0]];
-([_UID,_keyPairs] call A3A_fnc_punishment_dataGet) params ["_offenceTotal"];
+private _offenceTotal = [missionNamespace,"A3A_FFPun",_UID,"_offenceTotal",0] call A3A_fnc_getNestedObject;
 
 if (_offenceTotal >= 1) then {
 	_instigator = [_UID] call BIS_fnc_getUnitByUid;
 	if (!isPlayer _instigator) exitWith {};
-	private _keys = ["lastOffenceTime"];  // Axes any sort of depreciation that would gather over time away from server.
-	[_UID,_keys] call A3A_fnc_punishment_dataRem;
+	[missionNamespace,"A3A_FFPun",_UID,"lastOffenceTime",nil] call A3A_fnc_setNestedObject;  // CLears any sort of depreciation that would gather over time away from server.
 	[_instigator, 0, 0] remoteExecCall ["A3A_fnc_punishment",2,false];
 };
 true;

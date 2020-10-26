@@ -33,8 +33,11 @@ if (!isServer) exitWith {
 	false;
 };
 
-private _keyPairs = [ ["punishment_platform",objNull], ["initialPosASL",[0,0,0]], ["player",objNull]];
-([_UID,_keyPairs] call A3A_fnc_punishment_dataGet) params ["_punishment_platform","_initialPosASL","_detainee"];
+private _varspace = [missionNamespace,"A3A_FFPun",_UID,locationNull] call A3A_fnc_getNestedObject;
+private _punishment_platform = _varspace getVariable ["punishment_platform",objNull];
+private _initialPosASL = _varspace getVariable ["initialPosASL",[0,0,0]];
+private _detainee = _varspace getVariable ["player",objNull];
+
 private _playerPos = [0,0,0];
 
 if (!isPlayer _detainee) then { // Prevents punishing AI
@@ -43,13 +46,16 @@ if (!isPlayer _detainee) then { // Prevents punishing AI
 } else {
 	_playerPos = getPosASL _detainee;
 };
+if (isNil "A3A_FFPun_Jailed") then {A3A_FFPun_Jailed = [];};
 
 switch (toLower _operation) do {
 	case ("add"): {
 		if (_playerPos inArea [ [50,50], 50, 50 ,0, true, -1]) exitWith {};
+		if !(A3A_FFPun_Jailed pushBackUnique _UID isEqualTo -1) then {
+			publicVariable "A3A_FFPun_Jailed";  // This is only modified on the server within an UNSCHEDULED function, so there should not be a race condition.
+		};
 		if (_initialPosASL isEqualTo [0,0,0]) then {
-			_keyPairs = [ ["initialPosASL",_playerPos] ];
-			[_UID,_keyPairs] call A3A_fnc_punishment_dataSet;
+			[missionNamespace,"A3A_FFPun",_UID,"initialPosASL",_playerPos] call A3A_fnc_setNestedObject;
 		};
 		if (!isNull _punishment_platform) then {
 			deleteVehicle _punishment_platform;
@@ -61,8 +67,7 @@ switch (toLower _operation) do {
 		_punishment_platform enableSimulation false;
 		_punishment_platform allowDamage false;
 
-		_keyPairs = [ ["punishment_platform",_punishment_platform] ];
-		[_UID,_keyPairs] call A3A_fnc_punishment_dataSet;
+		[missionNamespace,"A3A_FFPun",_UID,"punishment_platform",_punishment_platform] call A3A_fnc_setNestedObject;
 
 		_punishment_platform setPos [_pos2D #0, _pos2D #1, -0.25];
 
@@ -75,8 +80,7 @@ switch (toLower _operation) do {
 	};
 	case ("remove"): {
 		if (isPlayer _detainee && {_playerPos inArea [ [50,50], 100, 100 ,0, true, -1]}) then { // Slightly bigger, player can't swim 50m in 5 sec.
-			private _keyPairs = [ ["initialPosASL",[0,0,0]] ];
-			([_UID,_keyPairs] call A3A_fnc_punishment_dataGet) params ["_initialPosASL"];
+			private _initialPosASL = [missionNamespace,"A3A_FFPun",_UID,"initialPosASL",[0,0,0]] call A3A_fnc_getNestedObject;
 			if !(isNull objectParent _detainee) then { moveOut _detainee };
 			detach _detainee;
 			_detainee switchMove "";
@@ -87,8 +91,12 @@ switch (toLower _operation) do {
 		if (!isNull _punishment_platform) then {
 			deleteVehicle _punishment_platform;
 		};
-		[_UID,["punishment_platform","initialPosASL"]] call A3A_fnc_punishment_dataRem;
-		true
+		if !(isNil {A3A_FFPun_Jailed deleteAt (A3A_FFPun_Jailed find _UID)}) then {
+			publicVariable "A3A_FFPun_Jailed";  // This is only modified on the server within an UNSCHEDULED function, so there should not be a race condition.
+		};
+		private _varspace = [missionNamespace,"A3A_FFPun",_UID,"punishment_platform",nil] call A3A_fnc_setNestedObject;
+		_varspace setVariable ["initialPosASL",nil];
+		true;
 	};
 	default {
 		[1, format ["INVALID PARAMS | _operation=""%1""", _operation], _filename] call A3A_fnc_log;

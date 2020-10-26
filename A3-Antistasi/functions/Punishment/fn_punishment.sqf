@@ -45,8 +45,12 @@ private _originalBody = _instigator getVariable ["owner",_instigator];
 private _UID = getPlayerUID _instigator;
 private _name = name _instigator;
 private _currentTime = (floor serverTime);
-private _keyPairs = [["timeTotal",0],["offenceTotal",0],["lastOffenceTime",_currentTime],["overhead",0]];
-([_UID,_keyPairs] call A3A_fnc_punishment_dataGet) params ["_timeTotal","_offenceTotal","_lastTime","_overhead"];
+
+private _varspace = [missionNamespace,"A3A_FFPun",_UID,locationNull] call A3A_fnc_getNestedObject;
+private _timeTotal = _varspace getVariable ["timeTotal",0];
+private _offenceTotal = _varspace getVariable ["offenceTotal",0];
+private _lastTime = _varspace getVariable ["lastOffenceTime",_currentTime];
+private _overhead = _varspace getVariable ["overhead",0];
 
 ///////////////Data validation//////////////
 _lastTime = (0 max _lastTime) min _currentTime;
@@ -70,8 +74,12 @@ _timeTotal = _timeTotal * (1-_depreciationCoef) ^(_periodDelta/3000);           
 _timeTotal = _timeTotal + _timeAdded;
 
 //////////Saves data to instigator//////////
-private _keyPairs = [["timeTotal",_timeTotal],["offenceTotal",_offenceTotal],["lastOffenceTime",_currentTime],["overhead",_overhead],["name",_name],["player",_originalBody]];
-[_UID,_keyPairs] call A3A_fnc_punishment_dataSet;
+private _varspace = [missionNamespace,"A3A_FFPun",_UID,"timeTotal",_timeTotal] call A3A_fnc_setNestedObject;
+_varspace setVariable ["offenceTotal",_offenceTotal];
+_varspace setVariable ["lastOffenceTime",_currentTime];
+_varspace setVariable ["overhead",_overhead];
+_varspace setVariable ["name",_name];
+_varspace setVariable ["player",_originalBody];
 
 ///////////////Victim Notifier//////////////
 private _injuredComrade = "";

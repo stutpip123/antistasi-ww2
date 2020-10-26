@@ -31,11 +31,13 @@ private _filename = "fn_punishment_sentence_server.sqf";
 
 _timeTotal = 5*(floor (_timeTotal/5)); // Rounds up so the loop lines up.
 private _sentenceEndTime = (floor serverTime) + _timeTotal;
-private _keyPairs = [["sentenceEndTime",_sentenceEndTime],["timeTotal",_timeTotal],["offenceTotal",1]];
-[_UID,_keyPairs] call A3A_fnc_punishment_dataSet;
+private _varspace = [missionNamespace,"A3A_FFPun",_UID,"sentenceEndTime",_sentenceEndTime] call A3A_fnc_setNestedObject;
+_varspace setVariable ["timeTotal",_timeTotal];
+_varspace setVariable ["offenceTotal",2];
 
-_keyPairs = [["name","NO NAME"],["player",objNull]];
-([_UID,_keyPairs] call A3A_fnc_punishment_dataGet) params ["_name","_detainee"];
+private _varspace = [missionNamespace,"A3A_FFPun",_UID,locationNull] call A3A_fnc_getNestedObject;
+private _name = _varspace getVariable ["name","NO NAME"];
+private _detainee = _varspace getVariable ["player",objNull];
 
 [_detainee,_UID,_name,_sentenceEndTime] spawn {
     params ["_detainee","_UID","_name","_sentenceEndTime"];
@@ -47,7 +49,6 @@ _keyPairs = [["name","NO NAME"],["player",objNull]];
     private _sentenceEndTime_old = _sentenceEndTime;
     private _disconnected = false;
 
-    _keyPairs = [ ["sentenceEndTime",floor serverTime] ];
     while {(ceil serverTime) < _sentenceEndTime-1} do { // ceil and -1 if something doesn't sync up
         if (!isPlayer _detainee) exitWith {_disconnected=true};
         _admin = [] call A3A_fnc_getAdmin;  // Refreshes in case the admin logged in.
@@ -58,14 +59,15 @@ _keyPairs = [["name","NO NAME"],["player",objNull]];
             if (!isNull _admin) then {
                 if (_admin isEqualTo _detainee) exitWith { [_UID,"forgive"] call A3A_fnc_punishment_release; };  // The admin cannot use the self forgive scroll-action when attached to the surf-board.
                 ["FF Notification", [_name," has been found guilty of FF.<br/><br/>If you believe this is a mistake, you can forgive him with a scroll-menu action on his body.<br/><br/>He is at the bottom left corner of the map."] joinString ""] remoteExec ["A3A_fnc_customHint",_admin,false];
-                [_UID] remoteExec ["A3A_fnc_punishment_addActionForgive",_admin,false];
+                [_UID,[missionNamespace,"A3A_FFPun",_UID,"_offenceTotal",0] call A3A_fnc_getNestedObject,_name] remoteExec ["A3A_fnc_punishment_addActionForgive",_admin,false];
             };
             _lastAdmin = _admin;
         };
         [_detainee,_sentenceEndTime - (floor serverTime)] remoteExec ["A3A_fnc_punishment_sentence_client",_detainee,false];
         [_UID,"add"] call A3A_fnc_punishment_oceanGulag;
         uiSleep 5;
-        _sentenceEndTime = ([_UID,_keyPairs] call A3A_fnc_punishment_dataGet)#0; // Polls for updates from admin forgive
+        _sentenceEndTime = [missionNamespace,"A3A_FFPun",_UID,"sentenceEndTime",floor serverTime] call A3A_fnc_getNestedObject; // Polls for updates from admin forgive
+
     };
     if (_disconnected) then {
         _playerStats = format["Player: %1 [%2], _timeTotal: %3", _name, _UID, str _timeTotal];
