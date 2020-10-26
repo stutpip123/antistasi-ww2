@@ -111,8 +111,8 @@ if (_instigator isEqualTo _originalBody) then {
 	[_instigator,_originalBody,_UID,_timeTotal,_name] spawn {  // Waits for player to control original body. This will be relocated to sentence_client in the future allowing for snappy execution server-side.
 		params ["_instigator","_originalBody","_UID","_timeTotal","_name"];
 		private _timeOut = serverTime + 20;
-		waitUntil {_instigator isEqualTo _originalBody || _timeOut < serverTime};
-		if (!(_instigator isEqualTo _originalBody)) exitWith {
+		waitUntil {isPlayer _originalBody || _timeOut < serverTime};
+		if !(isPlayer _originalBody) exitWith {
 			[1, ["TIMED-OUT | Gave up waiting for ",_name," [",_UID,"] to exit remote control."] joinString "", "fn_punishment.sqf/RemoteControlSpawn"] call A3A_fnc_log;
 		};
 		[_UID,_timeTotal] call A3A_fnc_punishment_sentence_server; // Scope is within scheduled space.
