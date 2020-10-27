@@ -59,7 +59,7 @@ private _detainee = _varspace getVariable ["player",objNull];
             if (!isNull _admin) then {
                 if (_admin isEqualTo _detainee) exitWith { [_UID,"forgive"] call A3A_fnc_punishment_release; };  // The admin cannot use the self forgive scroll-action when attached to the surf-board.
                 ["FF Notification", [_name," has been found guilty of FF.<br/><br/>If you believe this is a mistake, you can forgive him with a scroll-menu action on his body.<br/><br/>He is at the bottom left corner of the map."] joinString ""] remoteExecCall ["A3A_fnc_customHint",_admin,false];
-                [_UID,[missionNamespace,"A3A_FFPun",_UID,"_offenceTotal",0] call A3A_fnc_getNestedObject,_name] remoteExec ["A3A_fnc_punishment_addActionForgive",_admin,false];
+                [_UID,[missionNamespace,"A3A_FFPun",_UID,"offenceTotal",0] call A3A_fnc_getNestedObject,_name] remoteExecCall ["A3A_fnc_punishment_addActionForgive",_admin,false];
             };
             _lastAdmin = _admin;
         };
