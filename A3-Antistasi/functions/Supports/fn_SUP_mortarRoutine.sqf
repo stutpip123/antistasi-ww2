@@ -183,6 +183,12 @@ while {_timeAlive > 0} do
 
 //Mortar already destroyed
 _mortar removeAllEventHandlers "Fired";
+
+//Do not allow further shots and get the unit out
+_crewGroup setCombatMode "GREEN";
+doGetOut (units _crewGroup);
+_crewGroup setBehaviour "SAFE";
+
 if({alive _x} count (units _crewGroup) != 0) then
 {
     //Crew left, activating despawner
