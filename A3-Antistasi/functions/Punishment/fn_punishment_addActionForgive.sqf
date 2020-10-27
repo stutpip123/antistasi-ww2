@@ -10,7 +10,7 @@ Scope:
 	<LOCAL> Execute on the admin.
 
 Environment:
-	<SCHEDULED>
+	<UNSCHEDULED>
 
 Parameters:
 	<STRING> The UID of the detainee that the actions pertains to.
