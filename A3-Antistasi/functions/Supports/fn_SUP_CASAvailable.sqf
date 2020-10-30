@@ -9,10 +9,6 @@ private _playerAdjustment = (floor ((count allPlayers)/4)) + 1;
 //Search for a timer which allows the support to be fired
 if(_side == Occupants) then
 {
-    if(isNil "occupantsCASTimer") then
-    {
-        occupantsCASTimer = [];
-    };
     if(count occupantsCASTimer < _playerAdjustment) then
     {
         _timerIndex = count occupantsCASTimer;
@@ -32,10 +28,6 @@ if(_side == Occupants) then
 };
 if(_side == Invaders) then
 {
-    if(isNil "invadersCASTimer") then
-    {
-        invadersCASTimer = [];
-    };
     if(count invadersCASTimer < _playerAdjustment) then
     {
         _timerIndex = count invadersCASTimer;

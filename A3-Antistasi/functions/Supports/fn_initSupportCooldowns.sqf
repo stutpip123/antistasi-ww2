@@ -51,6 +51,14 @@ for "_i" from 0 to 0 do
     invadersCarpetBombTimer pushBack (random (3600 * 3));
 };
 
+occupantsGunshipTimer = [];
+invadersGunshipTimer = [];
+for "_i" from 0 to 0 do
+{
+    occupantsGunshipTimer pushBack (random (3600 * 2.5));
+    invadersGunshipTimer pushBack (random (3600 * 2.5));
+};
+
 occupantsASFTimer = [];
 invadersASFTimer = [];
 for "_i" from 0 to 0 do
