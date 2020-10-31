@@ -2,7 +2,7 @@
 
 if (not isServer and hasInterface) exitWith {};
 
-/*  Creates the bombs for airstrikes, should be started 150 meters before the actual bomb run
+/*  Creates the bombs for airstrikes, should be started 250 meters before the actual bomb run
 
 */
 

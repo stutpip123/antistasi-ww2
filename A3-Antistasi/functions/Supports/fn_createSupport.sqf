@@ -57,6 +57,22 @@ switch (_supportType) do
     {
         _supportMarker = [_side, _timerIndex, _supportName] call A3A_fnc_SUP_cruiseMissile;
     };
+    case ("SAM"):
+    {
+        _supportMarker = [_side, _timerIndex, _supportTarget, _supportName] call A3A_fnc_SUP_SAM;
+    };
+    case ("CARPETBOMB"):
+    {
+        _supportMarker = [_side, _timerIndex, _supportTarget, _supportName] call A3A_fnc_SUP_carpetBombs;
+    };
+    case ("CAS"):
+    {
+        _supportMarker = [_side, _timerIndex, _supportTarget, _supportName] call A3A_fnc_SUP_CAS;
+    };
+    case ("ASF"):
+    {
+        _supportMarker = [_side, _timerIndex, _supportTarget, _supportName] call A3A_fnc_SUP_ASF;
+    };
 };
 
 if(_supportMarker != "") then
@@ -71,5 +87,5 @@ if(_supportMarker != "") then
         invadersSupports pushBack [_supportType, _supportMarker, _supportName];
     };
     private _supportPos = if (_supportTarget isEqualType objNull) then {getPos _supportTarget} else {_supportTarget};
-    [_revealCall + (random 0.4) - 0.2, _side, toLower _supportType, _supportPos] spawn A3A_fnc_showInterceptedSetupCall;
+    [_revealCall + (random 0.4) - 0.2, _side, _supportType, _supportPos] spawn A3A_fnc_showInterceptedSetupCall;
 };

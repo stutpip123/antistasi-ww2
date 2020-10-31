@@ -2,9 +2,12 @@ params ["_side"];
 
 if(tierWar < 2) exitWith {-1};
 
+//Mortars not available, block support
+if(NATOMortar == "" || CSATMortar == "" || vehNATOMRLS == "" || vehCSATMRLS == "") exitWith {-1};
+
 //Select a timer index and the max number of timers available
 private _timerIndex = -1;
-private _playerAdjustment = ceil (sqrt (count allPlayers));
+private _playerAdjustment = (floor ((count allPlayers)/5)) + 1;
 
 //Search for a timer which allows the support to be fired
 if(_side == Occupants) then

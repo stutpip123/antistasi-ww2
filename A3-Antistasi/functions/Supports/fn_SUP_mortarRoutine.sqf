@@ -143,7 +143,7 @@ while {_timeAlive > 0} do
             _targetMarker setMarkerAlpha 0;
             _textMarker setMarkerAlpha 0;
 
-            [_reveal, _targetPos, _side, "Artillery", _targetMarker, _textMarker] spawn A3A_fnc_showInterceptedSupportCall;
+            [_reveal, _targetPos, _side, "MORTAR", _targetMarker, _textMarker] spawn A3A_fnc_showInterceptedSupportCall;
 
             _mortar setVariable ["CurrentlyFiring", true, true];
             _mortar setVariable ["FireOrder", _subTargets, true];
@@ -162,6 +162,14 @@ while {_timeAlive > 0} do
     ) exitWith
     {
         [2, format ["%1 has been destroyed or crew killed, aborting routine", _supportName], _fileName] call A3A_fnc_log;
+        if(_side == Occupants) then
+        {
+            [[20, 45], [0, 0]] remoteExec ["A3A_fnc_prestige", 2];
+        }
+        else
+        {
+            [[0, 0], [20, 45]] remoteExec ["A3A_fnc_prestige", 2];
+        };
     };
 
     if (!(_mortar getVariable "CurrentlyFiring") && (_numberOfRounds <= 0)) exitWith
@@ -175,6 +183,12 @@ while {_timeAlive > 0} do
 
 //Mortar already destroyed
 _mortar removeAllEventHandlers "Fired";
+
+//Do not allow further shots and get the unit out
+_crewGroup setCombatMode "GREEN";
+doGetOut (units _crewGroup);
+_crewGroup setBehaviour "SAFE";
+
 if({alive _x} count (units _crewGroup) != 0) then
 {
     //Crew left, activating despawner

@@ -102,6 +102,7 @@ class A3A
 		class scheduler {};
 		class sellVehicle {};
 		class setMarkerAlphaForSide {};
+        class setPlaneLoadout {};
         class singlePlayerBlackScreenWarning {};
 		class sizeMarker {};
 		class splitVehicleCrewIntoOwnGroups {};
@@ -533,6 +534,16 @@ class A3A
         class SUP_airstrike {};
         class SUP_airstrikeAvailable {};
         class SUP_airstrikeRoutine {};
+        class SUP_ASF {};
+        class SUP_ASFAvailable {};
+        class SUP_ASFRoutine {};
+        class SUP_carpetBombs {};
+        class SUP_carpetBombsAvailable {};
+        class SUP_carpetBombsRoutine {};
+        class SUP_CAS {};
+        class SUP_CASAvailable {};
+        class SUP_CASRoutine {};
+        class SUP_CASRun {};
         class SUP_cruiseMissile {};
         class SUP_cruiseMissileAvailable {};
         class SUP_cruiseMissileRoutine {};
@@ -547,6 +558,9 @@ class A3A
         class SUP_QRF {};
         class SUP_QRFAvailable {};
         class SUP_QRFRoutine {};
+        class SUP_SAM {};
+        class SUP_SAMAvailable {};
+        class SUP_SAMRoutine {};
         class supportAvailable {};
     };
 

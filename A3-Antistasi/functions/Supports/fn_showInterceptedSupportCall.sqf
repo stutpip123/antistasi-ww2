@@ -42,26 +42,64 @@ if(_position distance2D (getMarkerPos "Synd_HQ") < distanceMission) then
 };
 
 //Nothing will be revealed
-if(_reveal <= 0.1) exitWith {};
+if(_reveal <= 0.2) exitWith {};
 
 private _text = "";
 private _sideName = if(_side == Occupants) then {nameOccupants} else {nameInvaders};
 if (_reveal <= 0.5) then
 {
     //Side and call is reveal
-    _text = format ["%1 is executing an unknown support now", _sideName];
+    _text = format ["%1 is executing an unknown support now", _side];
 }
 else
 {
-    if(_reveal <= 0.8) then
+    switch (_supportType) do
     {
-        //Side, type and call is revealed
-        _text = format ["%1 is executing %2 support now", _sideName, _supportType];
-    }
-    else
+        case ("QRF"):
+        {
+            _text = format ["A %1 QRF just arrived", _sideName];
+        };
+        case ("AIRSTRIKE"):
+        {
+            _text = format ["%1 is about to execute an airstrike", _sideName];
+        };
+        case ("MORTAR"):
+        {
+            _text = format ["A %1 mortar has opened fire", _sideName];
+        };
+        case ("ORBSTRIKE"):
+        {
+            _text = format ["A %1 satellite has fired the orbital strike", _sideName];
+        };
+        case ("MISSILE"):
+        {
+            _text = format ["%1 cruise missile launched", _sideName];
+        };
+        case ("SAM"):
+        {
+            _text = format ["%1 SAM missile launched", _sideName];
+        };
+        case ("CARPETBOMB"):
+        {
+            _text = format ["%1 bomber started to lay down a carpet bombing", _sideName];
+        };
+        case ("ASF"):
+        {
+            _text = format ["%1 fighter started chasing a target", _sideName];
+        };
+        case ("CAS"):
+        {
+            _text = format ["A %1 CAS bomber has locked onto a target", _sideName];
+        };
+        default
+        {
+            _text = format ["%1 is executing %2 support now", _sideName, _supportType];
+        };
+    };
+    if(_reveal > 0.8) then
     {
         //Side, type, call and marker revealed
-        _text = format ["%1 is executing %2 support to the marked position now", _sideName, _supportType];
+        _text = format ["%1. Target marked on map!", _text];
         _marker setMarkerAlpha 0.75;
         _textMarker setMarkerAlpha 1;
     };

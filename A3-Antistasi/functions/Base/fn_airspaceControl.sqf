@@ -90,7 +90,7 @@ private _fn_sendSupport =
                 format ["Rebel military helicopter %1 detected by %2 (side %3), sending support now!", _vehicle, _marker, _markerSide],
                 _fileName
             ] call A3A_fnc_log;
-            [_vehicle, 4, ["SAM", "AAPLANE", "GUNSHIP"], _markerSide, _revealValue] remoteExec ["A3A_fnc_sendSupport", 2];
+            [_vehicle, 4, ["SAM", "ASF", "GUNSHIP"], _markerSide, _revealValue] remoteExec ["A3A_fnc_sendSupport", 2];
         };
         case (JET):
         {
@@ -99,7 +99,7 @@ private _fn_sendSupport =
                 format ["Rebel jet %1 detected by %2 (side %3), sending support now!", _vehicle, _marker, _markerSide],
                 _fileName
             ] call A3A_fnc_log;
-            [_vehicle, 4, ["AAPLANE", "SAM"], _markerSide, _revealValue] remoteExec ["A3A_fnc_sendSupport", 2];
+            [_vehicle, 4, ["ASF", "SAM"], _markerSide, _revealValue] remoteExec ["A3A_fnc_sendSupport", 2];
         };
         default
         {

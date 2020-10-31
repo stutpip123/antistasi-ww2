@@ -1,4 +1,4 @@
-params ["_side", "_timerIndex", "_supportPos", "_supportName"];
+params ["_side", "_timerIndex", "_supportObj", "_supportName"];
 
 /*  Prepares the SAM launcher and marker
 
@@ -18,6 +18,7 @@ params ["_side", "_timerIndex", "_supportPos", "_supportName"];
 
 private _fileName = "SUP_SAM";
 
+private _supportPos = getPos _supportObj;
 private _spawnPos = [];
 private _availableAirports = airportsX select
 {
@@ -31,6 +32,7 @@ if(count _availableAirports == 0) exitWith
     [2, "No airport suitable to place SAM on it", _fileName] call A3A_fnc_log;
     "";
 };
+
 //Check which airports are able to fire at the given position
 private _finalAirports = [];
 {
@@ -38,7 +40,7 @@ private _finalAirports = [];
     private _dir = _airportPos getDir _supportPos;
     private _intercectPoint = _airportPos getPos [250, _dir];
     _intercectPoint = _intercectPoint vectorAdd [0, 0, 300];
-    if !(terrainIntersect [_checkPoint, _supportPos]) then
+    if !(terrainIntersect [_intercectPoint, _supportPos]) then
     {
         _finalAirports pushBack _x;
     };
@@ -87,7 +89,51 @@ else
 
 private _spawnPos = getMarkerPos _spawnMarker;
 
-//TODO spawn launcher here
+private _launcher = objNull;
+if(_side == Occupants) then
+{
+    _launcher = ["B_SAM_System_03_F", _spawnPos, 50, 5, true] call A3A_fnc_safeVehicleSpawn;
+}
+else
+{
+    _launcher = ["O_SAM_System_04_F", _spawnPos, 50, 5, true] call A3A_fnc_safeVehicleSpawn;
+};
+createVehicleCrew _launcher;
+_launcher setVariable ["side", _side];
 
-[_launcher, _side, _supportName] spawn A3A_fnc_SUP_cruiseMissileRoutine;
+_launcher addEventHandler ["Fired",
+{
+    params ["_unit", "_weapon", "_muzzle", "_mode", "_ammo", "_magazine", "_projectile", "_gunner"];
+    [_unit, _projectile] spawn
+    {
+        params ["_unit", "_projectile"];
+        private _target = _unit getVariable ["currentTarget", objNull];
+        if (isNull _target) exitWith {};
+
+        private _textMarker = createMarker [format ["%1_text_%2", _supportName, _rounds], getPos _target];
+        _textMarker setMarkerShape "ICON";
+        _textMarker setMarkerType "mil_objective";
+        _textMarker setMarkerText "SAM Target";
+
+        if(_unit getVariable "side" == Occupants) then
+        {
+            _textMarker setMarkerColor colorOccupants;
+        }
+        else
+        {
+            _textMarker setMarkerColor colorInvaders;
+        };
+        _textMarker setMarkerAlpha 0;
+
+        _unit setVariable ["currentTextmarker", _textMarker];
+        [_projectile, _textMarker] spawn
+        {
+            params ["_projectile", "_textMarker"];
+            waitUntil {sleep 1; (isNull _projectile) || !{alive _projectile}};
+            deleteMarker _textMarker;
+        };
+    };
+}];
+
+[_launcher, _side, _supportName] spawn A3A_fnc_SUP_SAMRoutine;
 _coverageMarker;
