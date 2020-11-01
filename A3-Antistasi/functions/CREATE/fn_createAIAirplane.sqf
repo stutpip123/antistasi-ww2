@@ -318,19 +318,25 @@ _flagX allowDamage false;
 [_flagX,"take"] remoteExec ["A3A_fnc_flagaction",[teamPlayer,civilian],_flagX];
 _vehiclesX pushBack _flagX;
 
-private _ammoBoxType = if (_sideX == Occupants) then {NATOAmmoBox} else {CSATAmmoBox};
-private _ammoBox = _ammoBoxType createVehicle _positionX;
-[_ammoBox] spawn A3A_fnc_fillLootCrate;
-_ammoBox call jn_fnc_logistics_addAction;
-_vehiclesX pushBack _ammoBox;
+// Only create ammoBox if it's been recharged (see reinforcementsAI)
+private _ammoBox = if (garrison getVariable [_markerX + "_lootCD", 0] == 0) then
+{
+	private _ammoBoxType = if (_sideX == Occupants) then {NATOAmmoBox} else {CSATAmmoBox};
+	private _ammoBox = _ammoBoxType createVehicle _positionX;
+	// Otherwise when destroyed, ammoboxes sink 100m underground and are never cleared up
+	_ammoBox addEventHandler ["Killed", { [_this#0] spawn { sleep 10; deleteVehicle (_this#0) } }];
+	[_ammoBox] spawn A3A_fnc_fillLootCrate;
+	_ammoBox call jn_fnc_logistics_addAction;
 
-[_ammoBox] spawn {
-  sleep 1;
-  _ammoBox = _this select 0;
-  {
-    _ammoBox addItemCargoGlobal [_x, round random [5,15,15]];
-  }forEach flyGear;
+	[_ammoBox] spawn {
+		sleep 1;    //make sure fillLootCrate finished clearing the crate
+		{
+			_this#0 addItemCargoGlobal [_x, round random [5,15,15]];
+		} forEach flyGear;
+	};
+	_ammoBox;
 };
+
 
 if (!_busy) then
 {
@@ -408,5 +414,10 @@ deleteMarker _mrk;
 	};
 } forEach _vehiclesX;
 
-// Delete ammobox if it's within 200m. Magic number bad.
-if (_ammoBox distance2d _positionX < 200) then { deleteVehicle _ammoBox };
+// If loot crate was stolen, set the cooldown
+if (!isNil "_ammoBox") then {
+	if ((alive _ammoBox) and (_ammoBox distance2d _positionX < 100)) exitWith { deleteVehicle _ammoBox };
+	if (alive _ammoBox) then { [_ammoBox] spawn A3A_fnc_VEHdespawner };
+	private _lootCD = 120*16 / ([_markerX] call A3A_fnc_garrisonSize);
+	garrison setVariable [_markerX + "_lootCD", _lootCD, true];
+};
