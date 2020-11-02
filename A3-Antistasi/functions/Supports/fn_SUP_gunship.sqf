@@ -17,7 +17,7 @@ params ["_side", "_timerIndex", "_supportObj", "_supportName"];
 */
 
 
-private _fileName = "SUP_CAS";
+private _fileName = "SUP_gunship";
 
 private _supportPos = if(_supportObj isEqualType []) then {_supportObj} else {getPos _supportObj};
 private _airport = [_supportPos, _side] call A3A_fnc_findAirportForAirstrike;
@@ -56,14 +56,15 @@ _targetMarker setMarkerAlpha 0;
 //150 is more likely to be in the actual viewcone of a player
 private _spawnPos = (getMarkerPos _airport);
 private _strikePlane = createVehicle [_plane, _spawnPos, [], 0, "FLY"];
-_strikePlane setDir (_spawnPos getDir _supportObj);
+private _startDir = _spawnPos getDir _supportObj;
+_strikePlane setDir _startDir;
 
 //Put it in the sky
 _strikePlane setPosATL (_spawnPos vectorAdd [0, 0, 1000]);
 
 //Hide the hovering airplane from players view
-_strikePlane hideObjectGlobal true;
-_strikePlane enableSimulation false;
+//_strikePlane hideObjectGlobal true;
+//_strikePlane enableSimulation false;
 _strikePlane setVelocityModelSpace (velocityModelSpace _strikePlane vectorAdd [0, 150, 0]);
 
 private _strikeGroup = createGroup _side;
@@ -71,6 +72,7 @@ private _pilot = [_strikeGroup, _crewUnits, getPos _strikePlane] call A3A_fnc_cr
 _pilot moveInDriver _strikePlane;
 
 _strikePlane disableAI "AUTOTARGET";
+_strikeGroup setCombatMode "GREEN";
 
 private _timerArray = if(_side == Occupants) then {occupantsGunshipTimer} else {invadersGunshipTimer};
 
@@ -160,6 +162,39 @@ _strikePlane addEventHandler
 
 _strikeGroup deleteGroupWhenEmpty true;
 
-[_strikePlane, _strikeGroup , _airport, _supportName, getPos _supportObj] spawn A3A_fnc_SUP_CASRoutine;
+//Calculate loiter entry point
+private _distance = _strikePlane distance2D _supportPos;
+private _angle = asin (1500/_distance);
+private _lenght = cos (_angle) * _distance;
+[3, format ["Distance %1 Length %2 Angle %3", _distance, _lenght, _angle], _fileName] call A3A_fnc_log;
+
+private _height = (ATLToASL _supportPos) select 2;
+_height = _height + 500;
+
+//Sets minimal height in relation to ground
+_strikePlane flyInHeight 500;
+
+private _entryPos = _spawnPos getPos [_lenght, _startDir + _angle];
+[3, format ["Entry Pos: %1", _entryPos], _fileName] call A3A_fnc_log;
+_entryPos set [2, _height];
+
+private _entryPoint = _strikeGroup addWaypoint [_entryPos, 0, 1];
+_entryPoint setWaypointType "MOVE";
+_entryPoint setWaypointSpeed "FULL";
+
+private _loiterWP = _strikeGroup addWaypoint [_supportPos, 0, 2];
+_loiterWP setWaypointType "LOITER";
+_loiterWP setWaypointLoiterType "CIRCLE_L";
+_loiterWP setWaypointSpeed "NORMAL";
+_loiterWP setWaypointLoiterRadius 1500;
+
+if(_side == Occupants) then
+{
+
+}
+else
+{
+
+};
 
 _targetMarker;

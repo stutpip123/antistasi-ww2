@@ -1,5 +1,7 @@
 params ["_side"];
 
+if(true) exitWith {0};
+
 if(tierWar < 6) exitWith {-1};
 
 //Vehicles not available, block support
