@@ -64,7 +64,7 @@ _strikePlane setPosATL (_spawnPos vectorAdd [0, 0, 1000]);
 
 //Hide the hovering airplane from players view
 //_strikePlane hideObjectGlobal true;
-//_strikePlane enableSimulation false;
+_strikePlane enableSimulation false;
 _strikePlane setVelocityModelSpace (velocityModelSpace _strikePlane vectorAdd [0, 150, 0]);
 
 private _strikeGroup = createGroup _side;
@@ -190,7 +190,7 @@ _loiterWP setWaypointLoiterRadius 1500;
 
 if(_side == Occupants) then
 {
-
+    [_strikePlane, _strikeGroup, _supportName] spawn A3A_fnc_SUP_gunshipRoutineNATO;
 }
 else
 {

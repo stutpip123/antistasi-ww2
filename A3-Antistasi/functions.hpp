@@ -549,6 +549,8 @@ class A3A
         class SUP_cruiseMissileRoutine {};
         class SUP_gunship {};
         class SUP_gunshipAvailable {};
+        class SUP_gunshipRoutineCSAT {};
+        class SUP_gunshipRoutineNATO {};
         class SUP_mortar {};
         class SUP_mortarAvailable {};
         class SUP_mortarRoutine {};
