@@ -49,7 +49,7 @@ private _sideName = if(_side == Occupants) then {nameOccupants} else {nameInvade
 if (_reveal <= 0.5) then
 {
     //Side and call is reveal
-    _text = format ["%1 is executing an unknown support now", _side];
+    _text = format ["%1 is executing an unknown support now", _sideName];
 }
 else
 {

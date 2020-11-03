@@ -64,7 +64,7 @@ _strikePlane setPosATL (_spawnPos vectorAdd [0, 0, 1000]);
 
 //Hide the hovering airplane from players view
 //_strikePlane hideObjectGlobal true;
-_strikePlane enableSimulation false;
+//_strikePlane enableSimulation false;
 _strikePlane setVelocityModelSpace (velocityModelSpace _strikePlane vectorAdd [0, 150, 0]);
 
 private _strikeGroup = createGroup _side;
@@ -181,6 +181,7 @@ _entryPos set [2, _height];
 private _entryPoint = _strikeGroup addWaypoint [_entryPos, 0, 1];
 _entryPoint setWaypointType "MOVE";
 _entryPoint setWaypointSpeed "FULL";
+_entryPoint setWaypointStatements ["true", "(vehicle this) setVariable ['InArea', true];"];
 
 private _loiterWP = _strikeGroup addWaypoint [_supportPos, 0, 2];
 _loiterWP setWaypointType "LOITER";
@@ -194,7 +195,7 @@ if(_side == Occupants) then
 }
 else
 {
-
+    [_strikePlane, _strikeGroup, _airport, _supportName] spawn A3A_fnc_SUP_gunshipRoutineCSAT;
 };
 
 _targetMarker;

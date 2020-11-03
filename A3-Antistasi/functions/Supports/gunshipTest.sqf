@@ -51,10 +51,10 @@ sleep 3;
 (gunner _plane) doWatch objNull;
 
 //Define the belts used against targets, true means HE round, false means AP round
-private _antiInfBelt = [true, true, true, true, true];
-private _antiLightVehicleBelt = [true, false, true, false, true];
-private _antiAPCBelt = [false, true, false, true, false];
-private _antiTankBelt = [false, false, false, false, false];
+private _antiInfBelt = [true, true, true];
+private _antiLightVehicleBelt = [true, false, true];
+private _antiAPCBelt = [false, true, false];
+private _antiTankBelt = [false, false, false];
 
 private _targets = _targetPos nearEntities [["Man", "LandVehicle", "Helicopter"], 250];
 hint format ["Found %1 targets in the area", count _targets];
