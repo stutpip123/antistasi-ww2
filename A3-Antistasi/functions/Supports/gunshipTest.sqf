@@ -14,71 +14,46 @@ _plane addEventHandler
         {
             _target = getPosASL _target;
         };
-        //CSAT rocket launcher
-        if(_weapon == "rockets_Skyfire") then
+
+        if(_weapon == "autocannon_40mm_VTOL_01") then
         {
-            _target = _target apply {_x + (random 20) - 10};
-            [_projectile, _target] spawn
-            {
-                params ["_projectile", "_target"];
-                sleep 0.25;
-                private _speed = speed _projectile;
-                while {!(isNull _projectile) && {alive _projectile}} do
-                {
-                    sleep 0.25;
-                    private _dir = vectorNormalized (_target vectorDiff (getPosASL _projectile));
-                    _projectile setVelocity (_dir vectorMultiply _speed);
-                    _projectile setVectorDir _dir;
-                };
-            };
+            _target = _target apply {_x + (random 15) - 7.5};
         };
-        //CSAT gatling
-        if(_weapon == "gatling_30mm_VTOL_02") then
+        if(_weapon == "gatling_20mm_VTOL_01") then
         {
-            _target = _target apply {_x + (random 10) - 5};
-            private _speed = speed _projectile;
-            private _dir = vectorNormalized (_target vectorDiff (getPosASL _projectile));
-            _projectile setVelocity (_dir vectorMultiply _speed);
-            _projectile setVectorDir _dir;
+            _target = _target apply {_x + (random 30) - 15};
         };
+        if(_weapon == "cannon_105mm_VTOL_01") then
+        {
+            _target = (_target vectorAdd [0,0,2]) apply {_x + (random 2) - 1};
+            _gunship setWeaponReloadingTime [_gunner, _weapon, 0.3];
+        };
+
+        private _speed = speed _projectile;
+        private _dir = vectorNormalized (_target vectorDiff (getPosASL _projectile));
+        _projectile setVelocity (_dir vectorMultiply _speed);
+        _projectile setVectorDir _dir;
     }
 ];
 
 private _targetPos = getMarkerPos "supMarker";
 
-(gunner _plane) doWatch _targetPos;
-sleep 3;
-(gunner _plane) doWatch objNull;
 
-//Define the belts used against targets, true means HE round, false means AP round
-private _antiInfBelt = [true, true, true, true, true];
-private _antiLightVehicleBelt = [true, false, true, false, true];
-private _antiAPCBelt = [false, true, false, true, false];
-private _antiTankBelt = [false, false, false, false, false];
 
 private _targets = _targetPos nearEntities [["Man", "LandVehicle", "Helicopter"], 250];
 hint format ["Found %1 targets in the area", count _targets];
 
 {
+    hint "Engaging new target!";
     _plane setVariable ["currentTarget", _x];
     (gunner _plane) reveal [_x, 3];
     (gunner _plane) doTarget _x;
     sleep 1.5;
-    if !(_x isKindOf "LandVehicle") then
+    for "_i" from 1 to 3 do
     {
-        for "_i" from 1 to 5 do
-        {
-            (gunner _plane) forceWeaponFire ["HE", "close"];
-            sleep 0.1;
-        };
-    }
-    else
-    {
-        for "_i" from 1 to 10 do
-        {
-            (gunner _plane) forceWeaponFire ["rockets_Skyfire", "Burst"];
-            sleep 0.1;
-        };
+        hint format ["Shot %1/3", _i];
+        heavy forceWeaponFire ["cannon_105mm_VTOL_01", "player"];
+        sleep 3;
     };
 } forEach _targets;
 

@@ -54,11 +54,12 @@ switch (_supportType) do
     {
         _timerIndex = [_side] call A3A_fnc_SUP_ASFAvailable;
     };
-    /*  NOT YET IMPLEMENTED
     case ("GUNSHIP"):       //Heavily armed plane
     {
+        _timerIndex = [_side] call A3A_fnc_SUP_gunshipAvailable;
+    };
+    /*  NOT YET IMPLEMENTED
 
-    }
     case ("CANNON"):        //Long range artillery
     {
 
