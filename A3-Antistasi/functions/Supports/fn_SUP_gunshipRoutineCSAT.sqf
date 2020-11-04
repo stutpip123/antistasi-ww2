@@ -2,6 +2,17 @@ params ["_gunship", "_strikeGroup", "_airport", "_supportName"];
 
 private _fileName = "SUP_gunshipRoutineCSAT";
 
+private _sleepTime = random (800 - ((tierWar - 1) * 80));
+while {_sleepTime > 0} do
+{
+    sleep 1;
+    _sleepTime = _sleepTime - 1;
+    if((spawner getVariable _airport) != 2) exitWith {};
+};
+
+_strikePlane hideObjectGlobal false;
+_strikePlane enableSimulation true;
+
 //Prepare crew units and spawn them in
 private _crewUnit = typeOf (driver _gunship);
 private _mainGunner = [_strikeGroup, _crewUnit, getPos _gunship] call A3A_fnc_createUnit;
@@ -91,6 +102,20 @@ _gunship addEventHandler
         };
     }
 ];
+
+private _targetList = server getVariable [format ["%1_targets", _supportName], []];
+private _reveal = _targetList select 0 select 1;
+
+private _supportMarker = format ["%1_coverage", _supportName];
+private _supportPos = getMarkerPos _supportMarker;
+
+private _textMarker = createMarker [format ["%1_text", _supportName], _supportPos];
+_textMarker setMarkerShape "ICON";
+_textMarker setMarkerType "mil_dot";
+_textMarker setMarkerText "Gunship";
+_textMarker setMarkerColor colorInvaders;
+_textMarker setMarkerAlpha 0;
+[_reveal, _supportPos, Invaders, "GUNSHIP", format ["%1_coverage", _supportName], _textMarker] spawn A3A_fnc_showInterceptedSupportCall;
 
 waitUntil
 {
@@ -352,12 +377,22 @@ _gunship setVariable ["IsActive", false];
 //Have the plane fly back home
 if (alive _gunship) then
 {
-    private _wpBase = _strikeGroup addWaypoint [getMarkerPos _airport, 0];
+    private _wpBase = _strikeGroup addWaypoint [(getMarkerPos _airport) vectorAdd [0, 0, 1000], 0];
     _wpBase setWaypointType "MOVE";
     _wpBase setWaypointBehaviour "CARELESS";
     _wpBase setWaypointSpeed "FULL";
     _wpBase setWaypointStatements ["", "deleteVehicle (vehicle this); {deleteVehicle _x} forEach thisList"];
     _strikeGroup setCurrentWaypoint _wpBase;
+    _gunship flyInHeight 1000;
+
+    waitUntil {!(alive _gunship) || ((getMarkerPos _airport) distance2D _gunship) < 100};
+    if(alive _gunship) then
+    {
+        {
+            deleteVehicle _x;
+        } forEach (crew _gunship);
+        deleteVehicle _gunship;
+    };
 };
 
 //Deleting all the support data here

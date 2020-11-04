@@ -91,6 +91,10 @@ else
         {
             _text = format ["A %1 CAS bomber has locked onto a target", _sideName];
         };
+        case ("GUNSHIP"):
+        {
+            _text = format ["A %1 heavy gunship started cycling the area", _sideName];
+        };
         default
         {
             _text = format ["%1 is executing %2 support now", _sideName, _supportType];
