@@ -189,9 +189,22 @@ _loiterWP setWaypointLoiterType "CIRCLE_L";
 _loiterWP setWaypointSpeed "NORMAL";
 _loiterWP setWaypointLoiterRadius 1500;
 
+_strikePlane setDir (_startDir + _angle);
+
+private _sleepTime = random (800 - ((tierWar - 1) * 80));
+while {_sleepTime > 0} do
+{
+    sleep 1;
+    _sleepTime = _sleepTime - 1;
+    if((spawner getVariable _airport) != 2) exitWith {};
+};
+
+_strikePlane hideObjectGlobal false;
+_strikePlane enableSimulation true;
+
 if(_side == Occupants) then
 {
-    [_strikePlane, _strikeGroup, _supportName] spawn A3A_fnc_SUP_gunshipRoutineNATO;
+    [_strikePlane, _strikeGroup, _airport, _supportName] spawn A3A_fnc_SUP_gunshipRoutineNATO;
 }
 else
 {

@@ -136,11 +136,11 @@ private _mainGunnerList = [];
         private _APUsed = 3 - _HEUsed;
 
         private _APLeft = _gunship getVariable ["AP_Ammo", 0];
-        _APLeft = _APLeft - _APUsed;
+        _APLeft = _APLeft - ((_APUsed/3) * _gunshots);
         _gunship setVariable ["AP_Ammo", _APLeft];
 
         private _HELeft = _gunship getVariable ["HE_Ammo", 0];
-        _HELeft = _HELeft - _HEUsed;
+        _HELeft = _HELeft - ((_HEUsed/3) * _gunshots);
         _gunship setVariable ["HE_Ammo", _HELeft];
 
         if(_HELeft <= 0 || _APLeft <= 0) then
