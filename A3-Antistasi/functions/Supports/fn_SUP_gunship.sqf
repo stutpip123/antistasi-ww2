@@ -63,8 +63,8 @@ _strikePlane setDir _startDir;
 _strikePlane setPosATL (_spawnPos vectorAdd [0, 0, 1000]);
 
 //Hide the hovering airplane from players view
-//_strikePlane hideObjectGlobal true;
-//_strikePlane enableSimulation false;
+_strikePlane hideObjectGlobal true;
+_strikePlane enableSimulation false;
 _strikePlane setVelocityModelSpace (velocityModelSpace _strikePlane vectorAdd [0, 150, 0]);
 
 private _strikeGroup = createGroup _side;

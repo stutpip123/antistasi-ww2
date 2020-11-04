@@ -10,8 +10,8 @@ while {_sleepTime > 0} do
     if((spawner getVariable _airport) != 2) exitWith {};
 };
 
-_strikePlane hideObjectGlobal false;
-_strikePlane enableSimulation true;
+_gunship hideObjectGlobal false;
+_gunship enableSimulation true;
 
 //Prepare crew units and spawn them in
 private _crewUnit = typeOf (driver _gunship);
