@@ -43,7 +43,7 @@ _gunship addEventHandler
             {
                 params ["_projectile", "_target"];
                 sleep 0.25;
-                private _speed = speed _projectile;
+                private _speed = (speed _projectile)/3.6;
                 while {!(isNull _projectile) && {alive _projectile}} do
                 {
                     /*
@@ -99,7 +99,7 @@ _gunship addEventHandler
         if(_weapon == "gatling_30mm_VTOL_02") then
         {
             _target = _target apply {_x + (random 10) - 5};
-            private _speed = speed _projectile;
+            private _speed = (speed _projectile)/3.6;
             private _dir = vectorNormalized (_target vectorDiff (getPosASL _projectile));
             _projectile setVelocity (_dir vectorMultiply _speed);
             _projectile setVectorDir _dir;
