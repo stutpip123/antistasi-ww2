@@ -93,3 +93,5 @@ if(_supportMarker != "") then
     private _supportPos = if (_supportTarget isEqualType objNull) then {getPos _supportTarget} else {_supportTarget};
     [_revealCall + (random 0.4) - 0.2, _side, _supportType, _supportPos] spawn A3A_fnc_showInterceptedSetupCall;
 };
+
+supportCallInProgress = false;
