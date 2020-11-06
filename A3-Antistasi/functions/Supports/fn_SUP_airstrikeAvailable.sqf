@@ -7,7 +7,7 @@ if(vehNATOPlane == "" || vehCSATPlane == "") exitWith {-1};
 
 //Select a timer index and the max number of timers available
 private _timerIndex = -1;
-private _playerAdjustment = (ceil (sqrt (count allPlayers))) + 1;
+private _playerAdjustment = (floor ((count allPlayers)/4)) + 1;
 
 //Search for a timer which allows the support to be fired
 if(_side == Occupants) then

@@ -65,7 +65,7 @@ _gunship addEventHandler
             _gunship setWeaponReloadingTime [_gunner, _weapon, 0.3];
         };
 
-        private _speed = speed _projectile;
+        private _speed = (speed _projectile)/3.6;
         private _dir = vectorNormalized (_target vectorDiff (getPosASL _projectile));
         _projectile setVelocity (_dir vectorMultiply _speed);
         _projectile setVectorDir _dir;
