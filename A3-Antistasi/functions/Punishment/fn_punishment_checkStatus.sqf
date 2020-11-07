@@ -22,8 +22,7 @@ Examples:
 
 	// Unit Test
 	private _UID = getPlayerUID player;
-	private _keyPairs = [["timeTotal",10],["offenceTotal",1]];
-	([_UID,_keyPairs] call A3A_fnc_punishment_dataSet) params ["_timeTotal","_offenceTotal"];
+	([missionNamespace,"A3A_FFPun",_UID,"timeTotal",10] call A3A_fnc_setNestedObject) setVariable ["offenceTotal",1];
 	[_UID] remoteExec ["A3A_fnc_punishment_checkStatus",2,false];
 	allVariables [missionNamespace,"A3A_FFPun",_UID,locationNull] call A3A_fnc_getNestedObject;
 

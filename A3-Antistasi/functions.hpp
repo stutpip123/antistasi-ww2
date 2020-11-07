@@ -430,10 +430,6 @@ class A3A
 		class punishment {};
 		class punishment_addActionForgive {};
 		class punishment_checkStatus {};
-		class punishment_dataGet {};
-		class punishment_dataRem {};
-		class punishment_dataSet {};
-		class punishment_dataNamespace {};
 		class punishment_FF {};
 		class punishment_FF_checkNearHQ {};
 		class punishment_FF_addEH {};
