@@ -34,7 +34,7 @@ private _fileName = "fn_punishment_checkStatus";
 
 if ((!tkPunish) || {_UID isEqualTo ""}) exitWith {false;};
 
-private _offenceTotal = [missionNamespace,"A3A_FFPun",_UID,"_offenceTotal",0] call A3A_fnc_getNestedObject;
+private _offenceTotal = [missionNamespace,"A3A_FFPun",_UID,"offenceTotal",0] call A3A_fnc_getNestedObject;
 
 if (_offenceTotal >= 1) then {
 	_instigator = [_UID] call BIS_fnc_getUnitByUid;

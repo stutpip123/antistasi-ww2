@@ -47,7 +47,7 @@ private _forgiveStats = {
 	private _varspace = [missionNamespace,"A3A_FFPun",_UID,"timeTotal",nil] call A3A_fnc_setNestedObject;
 	_varspace setVariable ["offenceTotal",nil];
 	_varspace setVariable ["overhead",nil];
-	_varspace setVariable ["_sentenceEndTime",nil];
+	_varspace setVariable ["sentenceEndTime",nil];
 };
 
 switch (_source) do {
