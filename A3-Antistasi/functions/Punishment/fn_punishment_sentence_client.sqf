@@ -26,6 +26,7 @@ License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Comm
 */
 params ["_detainee","_timeLeft"];
 private _filename = "fn_punishment_sentence_client";
+scriptName "fn_punishment_sentence_client";
 
 if (_timeLeft < 5) then {_timeLeft = 5;}; // Sometimes something somewhere might go out of sync, so we just troll the player if that happens.
 

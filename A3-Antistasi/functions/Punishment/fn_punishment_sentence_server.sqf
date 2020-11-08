@@ -41,8 +41,8 @@ private _detainee = _varspace getVariable ["player",objNull];
 
 [_detainee,_UID,_name,_sentenceEndTime] spawn {
     params ["_detainee","_UID","_name","_sentenceEndTime"];
-    private _filename = "fn_punishment_sentence_server.sqf/Loop";
-    scriptName "fn_punishment_sentence_server.sqf/Loop";
+    private _filename = "fn_punishment_sentence_server";
+    scriptName "fn_punishment_sentence_server";
 
     private _lastAdmin = objNull;
     private _admin = objNull;
