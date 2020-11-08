@@ -108,3 +108,6 @@ if(_selectedSupport in ["CAS", "ASF", "SAM", "GUNSHIP", "MISSILE"]) then
     //Target support methods, transmit target info
     [_side, _timerIndex, _selectedSupport, _target, _precision, _revealCall] spawn A3A_fnc_createSupport;
 };
+
+//Blocks the same support for ten minutes or until a new support happens
+server setVariable ["lastSupport", [_selectedSupport, time + 600], true];
