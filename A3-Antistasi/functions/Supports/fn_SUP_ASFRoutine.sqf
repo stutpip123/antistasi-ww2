@@ -142,11 +142,18 @@ while {_timeAlive > 0} do
     }
     else
     {
-        if(isNull _targetObj || {!(alive _targetObj)}) then
+        if(isNull _targetObj || {!(alive _targetObj) || {(_targetObj distance2D _setupPos) > 8000}}) then
         {
-            _possibleKills = _possibleKills - 1;
+            if(isNull _targetObj || {!(alive _targetObj)}) then
+            {
+                _possibleKills = _possibleKills - 1;
+                [3, format ["Target destroyed, %1 returns to cycle mode", _supportName], _fileName] call A3A_fnc_log;
+            }
+            else
+            {
+                [3, format ["Target evaded, %1 returns to cycle mode", _supportName], _fileName] call A3A_fnc_log;
+            };
 
-            [3, format ["Target destroyed, %1 returns to cycle mode", _supportName], _fileName] call A3A_fnc_log;
             //Target destroyed
             _strikePlane setVariable ["CurrentlyAttacking", false, true];
 
