@@ -176,6 +176,12 @@ class A3A
 		class remNestedObject {};
 		class setNestedObject {};
 	};
+	class Collections_Serialisation
+	{
+		file="functions\Collections\Serialisation";
+		class deserialiseCode {};
+		class serialiseCode {};
+	};
 
 	class Convoy
 	{
