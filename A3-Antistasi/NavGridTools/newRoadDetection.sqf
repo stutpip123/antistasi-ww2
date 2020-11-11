@@ -1,12 +1,14 @@
 [] spawn
 {
+private _time = time;
 private _mainRoadSegments = nearestTerrainObjects [[worldSize/2, worldSize/2], ["MAIN ROAD", "ROAD", "TRACK"], worldSize, false, true];
 hint format ["Found %1 road segments", count _mainRoadSegments];
 private _correctedCount = 0;
 
 {
     private _road = _x;
-    private _connections = (roadsConnectedTo _road);
+    private _connections = roadsConnectedTo [_road, true];
+    _connections = _connections select {(getRoadInfo _x) select 0 != "TRAIL"};
     private _corrected = false;
     if(count _connections == 1) then
     {
@@ -58,5 +60,6 @@ private _correctedCount = 0;
     }
 } forEach _mainRoadSegments;
 
-hint format ["Marker set, Corrected marker: %1", _correctedCount];
+_time = time - _time;
+hint format ["Marker set\nCorrected marker: %1\nTime used: %2", _correctedCount, _time];
 };

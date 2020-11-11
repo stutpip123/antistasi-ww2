@@ -21,7 +21,7 @@ why you are here. These three reasons are:
   You can just skip the next segment and jump direct to the instructions.
 
 - You want to do a pathfinding system for your own mission.Thats great but may
-  not be the think you really need. Nearly every moving object in Arma has a own
+  not be the thing you really need. Nearly every moving object in Arma has a own
   pathfinding algorithm and does not need help from the outside. Are you sure
   you need a real pathfinding algorithm? If so, you can go to the instructions
   and follow them. But for the pathfinding to work, you will have to send me a
