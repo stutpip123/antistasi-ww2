@@ -37,11 +37,11 @@ try {
     private _last = count _serialisation - 3;  // extra -2 as it includes the two trimmed braces.
     _serialisation = _serialisation select [1,_last + 2];  // Trims outer curly braces
     private _i = 0;
-	for "_i" from 0 to _last-_maxStringLength+1 step _maxStringLength do {
+    for "_i" from 0 to _last-_maxStringLength+1 step _maxStringLength do {
         _chunks pushBack (_serialisation select [_i, _maxStringLength]);
-	};
+    };
     private _remainingLength = (_last+1) % _maxStringLength;
-	if !(_remainingLength isEqualTo 0) then {
+    if !(_remainingLength isEqualTo 0) then {
         _chunks pushBack (_serialisation select [_last - _remainingLength + 1, _remainingLength]);
     };
     if (count _chunks > _maxChunks) then {

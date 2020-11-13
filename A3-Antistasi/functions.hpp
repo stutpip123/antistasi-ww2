@@ -172,6 +172,8 @@ class A3A
 
 	class Collections
 	{
+		class remElement {};
+		class remKeyPair {};
 		class getNestedObject {};
 		class remNestedObject {};
 		class setNestedObject {};
@@ -179,8 +181,21 @@ class A3A
 	class Collections_Serialisation
 	{
 		file="functions\Collections\Serialisation";
+		class defaultSerialisers {};
 		class deserialiseCode {};
+		class deserialiseNestedObject {};
+		class deserialiseSide {};
 		class serialiseCode {};
+		class serialiseNestedObject {};
+		class serialiseSide {};
+	};
+	class Collections_Serialisation_Objects
+	{
+		file="functions\Collections\Serialisation\Objects";
+		class deserialiseAll {};
+		class deserialiseAllVehicles {};
+		class serialiseAll {};
+		class serialiseAllVehicles {};
 	};
 
 	class Convoy
@@ -553,6 +568,7 @@ class A3A
 		class dateToTimeString {};
 		class generateRoadsDB {};
 		class log {};
+		class stringChunks {};
 		class vehicleWillCollideAtPosition {};
 		class getRoadDirection {};
 	};
