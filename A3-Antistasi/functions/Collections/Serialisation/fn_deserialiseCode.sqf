@@ -9,7 +9,7 @@ Environment:
     <SCHEDULED> Recommended, not required. Recurses over entire sub-tree. Deserialisation process is resource heavy.
 
 Parameters:
-    <ARRAY<STRING>> Serialisation of Code.
+    <STRING> Serialisation of Code.
 
 Returns:
     <CODE> Compiled code or function;
@@ -21,15 +21,15 @@ Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
 */
 params [
-    ["_chunks",[],[ [] ]]
+    ["_serialisation",[],[ [] ]]
 ];
 private _filename = "fn_deserialiseCode";
 
 private _code = {};
 try {
-    _code = compile (_chunks joinString "");
+    _code = compile _serialisation;
 } catch {
-    [1, str _exception, _filename] remoteExecCall ["A3A_fnc_log",2,false];
+    [1, _exception joinString " | ", _filename] remoteExecCall ["A3A_fnc_log",2,false];
     _code = {};
 };
 _code;

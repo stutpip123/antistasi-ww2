@@ -3,13 +3,13 @@ Function:
     A3A_fnc_deserialiseAllVehicles
 
 Description:
-    Converts string into Object of type AllVehicles.
+    Converts serialisation into Object of type AllVehicles.
 
 Environment:
-    <SCHEDULED> Recommended, not required. Recurses over entire sub-tree. Deserialisation process is resource heavy.
+    <SCHEDULED> Recommended, not required. Deserialisation process is resource heavy.
 
 Parameters:
-    <ARRAY<STRING>> Serialisation of Object of type AllVehicles.
+    <ARRAY> Serialisation of Object of type AllVehicles.
 
 Returns:
     <Object> Object from CreateVehicle.
@@ -21,15 +21,15 @@ Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
 */
 params [
-    ["_chunks",[],[ [] ]]
+    ["_serialisation",[],[ [] ]]
 ];
 private _filename = "fn_deserialiseAllVehicles";
 
 private _object = objNull;
 try {
-    private _attributes = parseSimpleArray (_chunks joinString "");
+    private _attributes = +_serialisation;
 
-    private _type               = [_attributes,"type","Land_VR_Shape_01_cube_1m_F"] call A3A_fnc_remKeyPair;
+    private _type               = [_attributes,"type","C_Offroad_01_F"] call A3A_fnc_remKeyPair;
     private _mass               = [_attributes,"mass",nil] call A3A_fnc_remKeyPair;
     private _positionAGL        = [_attributes,"positionAGL",[0,0,0]] call A3A_fnc_remKeyPair;
     private _vectorDirAndUp     = [_attributes,"vectorDirAndUp",[[0,0,0],[0,0,0]]] call A3A_fnc_remKeyPair;
@@ -42,6 +42,7 @@ try {
     private _turretsWeapons = [_attributes,"turretsWeapons",[]] call A3A_fnc_remKeyPair;
 
     _object = createVehicle [_type, _positionAGL, [], 0, "CAN_COLLIDE"];
+    if (isNull _object) then {throw ["InvalidObjectClassName",["""",_type,""" does not exit or failed creation."] joinString ""]};
     _object setVariable ["BIS_enableRandomization", false];
     // PhysX
     _object setMass _mass;
@@ -80,7 +81,7 @@ try {
     } forEach _turretsWeapons;  //<ARRAY<turretPath,ARRAY<weapons>,<ARRAY<magazineName, ammoCount>>>>
 
 } catch {
-    [1, str _exception, _filename] remoteExecCall ["A3A_fnc_log",2,false];
+    [1, _exception joinString " | ", _filename] remoteExecCall ["A3A_fnc_log",2,false];
     if !(isNull _object) then {
         deleteVehicle _object;
     };

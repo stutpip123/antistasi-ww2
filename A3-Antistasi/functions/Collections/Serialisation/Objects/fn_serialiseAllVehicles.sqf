@@ -3,11 +3,10 @@ Function:
     A3A_fnc_serialiseAllVehicles
 
 Description:
-    Converts Object of type AllVehicles into string.
-    Multiple strings are produced if the set string limit is exceeded.
+    Converts Object of type AllVehicles into primitive array.
 
 Environment:
-    <SCHEDULED> Recommended, not required. Recurses over entire sub-tree. Serialisation process is resource heavy.
+    <SCHEDULED> Recommended, not required. Serialisation process is resource heavy.
 
 Parameters:
     <OBJECT> Object of type AllVehicles.
@@ -15,7 +14,7 @@ Parameters:
     <INTEGER> Max chunks, will throw exception if this is exceeded. [DEFAULT=1 000 000]
 
 Returns:
-    <ARRAY<STRING>> Serialisation of Object of type AllVehicles;
+    <ARRAY> Serialisation of Object of type AllVehicles;
 
 Examples:
 
@@ -30,7 +29,7 @@ params [
 ];
 private _filename = "fn_serialiseAllVehicles";
 
-private _chunks = [];
+private _serialisation = [];
 try {
     private _type = typeOf _object;
     // PhysX
@@ -58,10 +57,10 @@ try {
         private _turretPath = _x;
         private _weapons =  _object weaponsTurret _turretPath;  // <ARRAY<weapons>>
         private _magazines = ((magazinesAllTurrets _object) select {_x#1 isEqualTo _turretPath && {!(_x#0 in _pylonMagazines)}}) apply {[_x#0,_x#2]};  // <ARRAY<magazineName, ammoCount>>
-        _turretsWeapons pushBack [_turretPath,_weapons,_magazines];  //<ARRAY<turretPath,ARRAY<weapons>,selectedWeapon,<ARRAY<magazineName, ammoCount>>>>
+        _turretsWeapons pushBack [_turretPath,_weapons,_magazines];  //<ARRAY<turretPath,ARRAY<weapons>,<ARRAY<magazineName, ammoCount>>>>
     } forEach [[-1]] + (allTurrets _object);
 
-    private _attributes = [
+    _serialisation = [
         ["type",_type],
         ["mass",_mass],
         ["positionAGL",_positionAGL],
@@ -74,10 +73,8 @@ try {
         ["allPylonMagazines",_allPylonMagazines],
         ["turretsWeapons",_turretsWeapons]
     ];
-    _chunks = [str _attributes,_maxStringLength,_maxChunks] call A3A_fnc_stringChunks;
 } catch {
-    hint (str _exception);
-    //[1, str _exception, _filename] remoteExecCall ["A3A_fnc_log",2,false];
-    _chunks = [];
+    [1, _exception joinString " | ", _filename] remoteExecCall ["A3A_fnc_log",2,false];
+    _serialisation = [];
 };
-_chunks;
+_serialisation;

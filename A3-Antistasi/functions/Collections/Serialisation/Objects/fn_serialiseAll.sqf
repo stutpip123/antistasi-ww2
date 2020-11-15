@@ -3,19 +3,16 @@ Function:
     A3A_fnc_serialiseAll
 
 Description:
-    Converts Object of type All into string.
-    Multiple strings are produced if the set string limit is exceeded.
+    Converts Object of type All into primitive array.
 
 Environment:
-    <SCHEDULED> Recommended, not required. Recurses over entire sub-tree. Serialisation process is resource heavy.
+    <SCHEDULED> Recommended, not required. Serialisation process is resource heavy.
 
 Parameters:
     <OBJECT> Object of type All.
-    <INTEGER> Max string chunk length. [DEFAULT=1 000 000]
-    <INTEGER> Max chunks, will throw exception if this is exceeded. [DEFAULT=1 000 000]
 
 Returns:
-    <ARRAY<STRING>> Serialisation of Object of type All;
+    <ARRAY> Serialisation of Object of type All;
 
 Examples:
 
@@ -30,15 +27,14 @@ params [
 ];
 private _filename = "fn_serialiseAll";
 
-private _chunks = [];
+private _serialisation = [];
 try {
-    private _attributes = [
+    _serialisation = [
         ["simpleObjectData", [_object] call BIS_fnc_simpleObjectData],
         ["positionASL", getPosASL _object]
     ];
-    _chunks = [str _attributes,_maxStringLength,_maxChunks] call A3A_fnc_stringChunks;
 } catch {
-    [1, str _exception, _filename] remoteExecCall ["A3A_fnc_log",2,false];
-    _chunks = [];
+    [1, _exception joinString " | ", _filename] remoteExecCall ["A3A_fnc_log",2,false];
+    _serialisation = [];
 };
-_chunks;
+_serialisation;

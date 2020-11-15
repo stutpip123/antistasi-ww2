@@ -8,12 +8,12 @@ Description:
     This is not a macro so that it can be fetched dynamically at runtime to re-order/modify the output.
 
 Serialiser:
-    CODE<STRING,ANY,INTEGER,INTEGER>> First value will be the type, if the type has no example use the string returned from typeOf, if the type is a string use "". _serialisation = [_var,_maxStringLength,_maxChunks] call _code.
+    CODE<ARRAY,ANY>> First value will be the type, if the type has no example use the string returned from typeOf, if the type is a string use "". _simpleArray = [_var,_maxStringLength,_maxChunks] call _code.
 
 Returns:
     <
-        ARRAY<STRING,CODE,CODE>, TypeNames; serialiser and deserialiser delegates.
-        ARRAY<STRING,CODE,CODE> class names used in config; serialiser and deserialiser delegates.
+        ARRAY<ARRAY,CODE,CODE>, TypeNames; serialiser and deserialiser delegates.
+        ARRAY<ARRAY,CODE,CODE> class names used in config; serialiser and deserialiser delegates.
     >
 
 
