@@ -172,9 +172,12 @@ class A3A
 
 	class Collections
 	{
+		class getKeyPair {};
+		class getKeyPairs {};
+		class getNestedObject {};
 		class remElement {};
 		class remKeyPair {};
-		class getNestedObject {};
+		class remKeyPairs {};
 		class remNestedObject {};
 		class setNestedObject {};
 	};
