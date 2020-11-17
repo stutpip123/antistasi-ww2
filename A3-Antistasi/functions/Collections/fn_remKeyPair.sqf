@@ -11,7 +11,7 @@ Description:
 
 Parameters:
     <ARRAY<ANY,ANY>> Map with any type of key and values.
-    <ANY> Key. Limitation: cannot be used to find nils in map.
+    <ANY> Key. Limitation: cannot be used to find nil keys in map.
     <ANY> Default.
 
 Returns:
