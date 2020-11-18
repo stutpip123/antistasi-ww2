@@ -1,6 +1,6 @@
 /*
 Function:
-    A3A_fnc_deserialiseAll
+    Col_fnc_deserialiseAll
 
 Description:
     Converts serialisation into Object of type All.
@@ -29,8 +29,8 @@ private _object = objNull;
 try {
     private _attributes = +_serialisation;
 
-    private _simpleObjectData = [_attributes,"simpleObjectData",[]] call A3A_fnc_remKeyPair;
-    private _positionASL = [_attributes,"positionASL",[0,0,0]] call A3A_fnc_remKeyPair;
+    private _simpleObjectData = [_attributes,"simpleObjectData",[]] call Col_fnc_remKeyPair;
+    private _positionASL = [_attributes,"positionASL",[0,0,0]] call Col_fnc_remKeyPair;
     _object = [_simpleObjectData, _attributes] call BIS_fnc_createSimpleObject;
 } catch {
     [1, _exception joinString " | ", _filename] remoteExecCall ["A3A_fnc_log",2,false];

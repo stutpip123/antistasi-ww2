@@ -170,37 +170,6 @@ class A3A
 		class vehicleMarkers {};
 	};
 
-	class Collections
-	{
-		class getKeyPair {};
-		class getKeyPairs {};
-		class getNestedObject {};
-		class remElement {};
-		class remKeyPair {};
-		class remKeyPairs {};
-		class remNestedObject {};
-		class setNestedObject {};
-	};
-	class Collections_Serialisation
-	{
-		file="functions\Collections\Serialisation";
-		class defaultSerialisers {};
-		class deserialiseCode {};
-		class deserialiseNestedObject {};
-		class deserialiseSide {};
-		class serialiseCode {};
-		class serialiseNestedObject {};
-		class serialiseSide {};
-	};
-	class Collections_Serialisation_Objects
-	{
-		file="functions\Collections\Serialisation\Objects";
-		class deserialiseAll {};
-		class deserialiseAllVehicles {};
-		class serialiseAll {};
-		class serialiseAllVehicles {};
-	};
-
 	class Convoy
 	{
         class cleanConvoyMarker {};
@@ -574,5 +543,44 @@ class A3A
 		class stringChunks {};
 		class vehicleWillCollideAtPosition {};
 		class getRoadDirection {};
+	};
+};
+
+class Col
+{
+	class Collections
+	{
+		file="Collections";
+		class getKeyPair {};
+		class getKeyPairs {};
+		class getNestedObject {};
+		class remElement {};
+		class remKeyPair {};
+		class remKeyPairs {};
+		class remNestedObject {};
+		class setNestedObject {};
+	};
+	class Collections_Serialisation
+	{
+		file="functions\Collections\Serialisation";
+		class defaultSerialisers {};
+		class deserialiseCode {};
+		class deserialiseSide {};
+		class serialiseCode {};
+		class serialiseSide {};
+	};
+	class Collections_Serialisation_Objects
+	{
+		file="functions\Collections\Serialisation\Objects";
+		class deserialiseAll {};
+		class deserialiseAllVehicles {};
+		class serialiseAll {};
+		class serialiseAllVehicles {};
+	};
+	class Collections_Serialisation_Objects_Common
+	{
+		file="functions\Collections\Serialisation\Objects\Common";
+		class getObjectPhysX {};
+		class setObjectPhysX {};
 	};
 };

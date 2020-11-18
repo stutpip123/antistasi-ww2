@@ -1,6 +1,6 @@
 /*
 Function:
-    A3A_fnc_getNestedObject
+    Col_fnc_getNestedObject
 
 Description:
     Exactly the same as nesting getVariables.
@@ -24,10 +24,10 @@ Returns:
     <ANY> Queried value or default;
 
 Examples:
-    _lootNo = [player, "lootBoxesOpened", 0] call A3A_fnc_getNestedObject;
+    _lootNo = [player, "lootBoxesOpened", 0] call Col_fnc_getNestedObject;
         // is equal to _lootNo = player getVariable ["lootBoxesOpened", 0, false];
 
-    _gun = [missionNamespace, "A3A_UIDPlayers", "1234567890123456", "equipment", "weapon", "hgun_Pistol_heavy_01_F"] call A3A_fnc_getNestedObject;
+    _gun = [missionNamespace, "A3A_UIDPlayers", "1234567890123456", "equipment", "weapon", "hgun_Pistol_heavy_01_F"] call Col_fnc_getNestedObject;
         // Is almost Equal to:    (* returns default if any namespaces is not defined)
         // _1 = missionNamespace getVariable ["A3A_UIDPlayers", *];
         // _2 = _1 getVariable ["1234567890123456", *];

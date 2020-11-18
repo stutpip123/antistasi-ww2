@@ -1,6 +1,6 @@
 /*
 Function:
-    A3A_fnc_remKeyPairs
+    Col_fnc_remKeyPairs
 
 Description:
     Recommend when loading data from a save, settings array, deserialisation ect.
@@ -28,7 +28,7 @@ Examples:
             ["name","missing"],
             [player,sideUnknown]
         ]
-    ] call A3A_fnc_remKeyPairs params ["two","name","whyTho"];  // [true,"missing",west]
+    ] call Col_fnc_remKeyPairs params ["two","name","whyTho"];  // [true,"missing",west]
     _map;  // [["Whoops",0]]
 
 Author: Caleb Serafin

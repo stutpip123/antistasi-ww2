@@ -1,6 +1,6 @@
 /*
 Function:
-    A3A_fnc_remElement
+    Col_fnc_remElement
 
 Description:
     Recommend when loading ordered data, such as options array, pylon magazines ect..
@@ -17,7 +17,7 @@ Returns:
 
 Examples:
     private _allPylonMagazines = ["PylonRack_19Rnd_Rocket_Skyfire","PylonMissile_1Rnd_Bomb_03_F","PylonMissile_1Rnd_Bomb_03_F","PylonRack_19Rnd_Rocket_Skyfire"];
-    [_allPylonMagazines,"PylonMissile_1Rnd_Bomb_03_F"] call A3A_fnc_remElement;  // 1
+    [_allPylonMagazines,"PylonMissile_1Rnd_Bomb_03_F"] call Col_fnc_remElement;  // 1
     _allPylonMagazines;  // ["PylonRack_19Rnd_Rocket_Skyfire","PylonMissile_1Rnd_Bomb_03_F","PylonRack_19Rnd_Rocket_Skyfire"]
 
 Author: Caleb Serafin

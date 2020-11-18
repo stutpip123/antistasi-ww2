@@ -1,6 +1,6 @@
 /*
 Function:
-    A3A_fnc_serialiseAll
+    Col_fnc_serialiseAll
 
 Description:
     Converts Object of type All into primitive array.

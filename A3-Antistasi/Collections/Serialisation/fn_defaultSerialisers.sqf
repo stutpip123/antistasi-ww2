@@ -1,6 +1,6 @@
 /*
 Function:
-    A3A_fnc_defaultSerialisers
+    Col_fnc_defaultSerialisers
 
 Description:
     Returns default type and object serialisers and deserialisers.

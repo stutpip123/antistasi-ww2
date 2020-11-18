@@ -1,6 +1,6 @@
 /*
 Function:
-    A3A_fnc_serialiseCode
+    Col_fnc_serialiseCode
 
 Description:
     Converts Code into string.

@@ -1,6 +1,6 @@
 /*
 Function:
-    A3A_fnc_remNestedObject
+    Col_fnc_remNestedObject
 
 Description:
     Recursively deletes nested child objects.
@@ -21,17 +21,17 @@ Returns:
     <BOOLEAN> true if success; false if access denied; nil if crashed;
 
 Examples:
-    [[missionNamespace, "A3A_UIDPlayers", "1234567890123456", "equipment", "weapon", "SMG_02_F"] call A3A_fnc_setNestedObject, "helmet", "H_Hat_grey"] call A3A_fnc_setNestedObject;
+    [[missionNamespace, "A3A_UIDPlayers", "1234567890123456", "equipment", "weapon", "SMG_02_F"] call Col_fnc_setNestedObject, "helmet", "H_Hat_grey"] call Col_fnc_setNestedObject;
         // missionNamespace > "A3A_UIDPlayers" > "1234567890123456" > "equipment" > [multiple end values]
-    _parent = [missionNamespace, "A3A_UIDPlayers", locationNull] call A3A_fnc_getNestedObject; // returns a <location> that's referenced by "1234567890123456";
-    [_parent] call A3A_fnc_remNestedObject;
+    _parent = [missionNamespace, "A3A_UIDPlayers", locationNull] call Col_fnc_getNestedObject; // returns a <location> that's referenced by "1234567890123456";
+    [_parent] call Col_fnc_remNestedObject;
         // missionNamespace > "A3A_UIDPlayers" <LocationNull>
 
     // Recursive
-    _parent = [missionNamespace, "A3A_parent", "loop back", locationNull] call A3A_fnc_setNestedObject;
-    [missionNamespace, "A3A_parent", "recursion", _parent] call A3A_fnc_setNestedObject;
+    _parent = [missionNamespace, "A3A_parent", "loop back", locationNull] call Col_fnc_setNestedObject;
+    [missionNamespace, "A3A_parent", "recursion", _parent] call Col_fnc_setNestedObject;
         // missionNamespace > "A3A_parent" > "recursion" > "recursion" > "recursion" > "recursion" > "recursion" > "recursion" > "recursion"...
-    [_parent] call A3A_fnc_remNestedObject;
+    [_parent] call Col_fnc_remNestedObject;
         // missionNamespace > "A3A_parent" <LocationNull>
 
 Author: Caleb Serafin
@@ -59,6 +59,6 @@ deleteLocation _parent;  // Deleting the parent before recursing prevents infini
     deleteVehicle _x;
 } forEach _childrenObjects;
 {
-    [_x,_purge] call A3A_fnc_remNestedObject;
+    [_x,_purge] call Col_fnc_remNestedObject;
 } forEach _childrenLocations;
 true;

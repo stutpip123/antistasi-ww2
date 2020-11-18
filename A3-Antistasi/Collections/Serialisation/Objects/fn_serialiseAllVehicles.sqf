@@ -1,6 +1,6 @@
 /*
 Function:
-    A3A_fnc_serialiseAllVehicles
+    Col_fnc_serialiseAllVehicles
 
 Description:
     Converts Object of type AllVehicles into primitive array.
@@ -30,8 +30,8 @@ private _filename = "fn_serialiseAllVehicles";
 private _serialisation = [];
 try {
     private _metaSearch = +_meta;
-    private _positionWorldRef   = [_metaSearch,"positionWorldRef",  [0,0,0]             ] call A3A_fnc_remKeyPair;  // Meta idea is WIP
-    private _vectorDirAndUpRef  = [_metaSearch,"vectorDirAndUpRef", [[0,0,0],[0,0,0]]   ] call A3A_fnc_remKeyPair;  // Currently only azimuth is factored in.
+    private _positionWorldRef   = [_metaSearch,"positionWorldRef",  [0,0,0]             ] call Col_fnc_remKeyPair;  // Meta idea is WIP
+    private _vectorDirAndUpRef  = [_metaSearch,"vectorDirAndUpRef", [[0,0,0],[0,0,0]]   ] call Col_fnc_remKeyPair;  // Currently only azimuth is factored in.
 
     private _type = typeOf _object;
     // PhysX
@@ -73,7 +73,7 @@ try {
     {
         if (_x#0 in _pylonMagazines) then {
             private _turretPath = [_x#1,[]] select (_x#1 isEqualTo [-1]);
-            _allPylonMagazines pushBack [([_pylonMagazines, _x#0] call A3A_fnc_remElement) +1,_x#0,_turretPath,_x#2];   // index needed, ID and creator not. Pylon index 1-based. <ARRAY<pylon, magazine, turret, ammo count>>. Luckily, magazinesAllTurrets returns pylons in the correct order.
+            _allPylonMagazines pushBack [([_pylonMagazines, _x#0] call Col_fnc_remElement) +1,_x#0,_turretPath,_x#2];   // index needed, ID and creator not. Pylon index 1-based. <ARRAY<pylon, magazine, turret, ammo count>>. Luckily, magazinesAllTurrets returns pylons in the correct order.
         };
     } forEach magazinesAllTurrets _object;
 

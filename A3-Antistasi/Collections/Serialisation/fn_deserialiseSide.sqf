@@ -1,6 +1,6 @@
 /*
 Function:
-    A3A_fnc_deserialiseSide
+    Col_fnc_deserialiseSide
 
 Description:
     Converts enum string into Side.

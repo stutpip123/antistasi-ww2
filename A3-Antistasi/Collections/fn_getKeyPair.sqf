@@ -1,13 +1,10 @@
 /*
 Function:
-    A3A_fnc_remKeyPair
+    Col_fnc_getKeyPair
 
 Description:
-    Recommend when loading data from a save, settings array, deserialisation ect.
-    Recommend to have saving and loading be in the same order to optimise speed.
-    Searches for specified key in a KeyPair map. NB: IT IS PASSED AS A REFERENCE, ELEMENTS WILL BE DELETED!
-    If found, the element is deleted and the value returned. Otherwise default is returned. Performs strict value comparison.
-    Tn = 0.0011*n + 1.7566 (Tn is milliseconds; n is elements irritated; First element is quick, last is slow).
+    Searches for specified key in a KeyPair map.
+    If found, the value returned. Otherwise default is returned. Performs strict value comparison.
 
 Parameters:
     <ARRAY<ANY,ANY>> Map with any type of key and values.
@@ -20,8 +17,8 @@ Returns:
 Examples:
     private _objectReference = player;
     private _map = [["name","jim"],[2,true],[_objectReference,west]];
-    [player,sideUnknown] call A3A_fnc_remKeyPair;  // west
-    _map;  // [["name","jim"],[2,true]]
+    [player,sideUnknown] call Col_fnc_getKeyPair;  // west
+    _map;  // [["name","jim"],[2,true],[_objectReference,west]]
 
 Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
@@ -31,10 +28,13 @@ params [
     ["_key",nil],
     ["_default",nil]
 ];
-private _filename = "fn_remKeyPair";
-
-[(_map deleteAt (_map findIf {_x#0 isEqualTo _key}))#1] param [0, _default];
-
+private _filename = "fn_getKeyPair";
+private _i = _map findIf {_x#0 isEqualTo _key};
+if (_i isEqualTo -1) then {
+    _default;
+} else {
+    _map#_i#1;
+};
 
 /*
 private _mapMaster = [];

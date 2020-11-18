@@ -1,6 +1,6 @@
 /*
 Function:
-    A3A_fnc_deserialiseCode
+    Col_fnc_deserialiseCode
 
 Description:
     Converts strings into compiled Code.

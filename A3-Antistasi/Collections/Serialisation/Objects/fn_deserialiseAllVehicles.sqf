@@ -1,6 +1,6 @@
 /*
 Function:
-    A3A_fnc_deserialiseAllVehicles
+    Col_fnc_deserialiseAllVehicles
 
 Description:
     Converts serialisation into Object of type AllVehicles.
@@ -31,36 +31,36 @@ try {
     private _metaSearch = +_meta;
     private _metaSerSearch = +(_serialisation#0);
 
-    private _positionWorldRef   = [_metaSearch,"positionWorldRef",  [_metaSerSearch,"positionWorldRef", [0,0,0] ] call A3A_fnc_remKeyPair] call A3A_fnc_remKeyPair;  // Meta idea is WIP
-    private _vectorDirAndUpRef  = [_metaSearch,"vectorDirAndUpRef", [_metaSerSearch,"vectorDirAndUpRef",[[0,0,0],[0,0,0]] ] call A3A_fnc_remKeyPair] call A3A_fnc_remKeyPair;  // Currently only azimuth is factored in.
-    private _usePositionAGL     = [_metaSearch,"usePositionAGL",    [_metaSerSearch,"usePositionAGL",   false   ] call A3A_fnc_remKeyPair] call A3A_fnc_remKeyPair;
-    private _noVelocity         = [_metaSearch,"noVelocity",        [_metaSerSearch,"noVelocity",       false   ] call A3A_fnc_remKeyPair] call A3A_fnc_remKeyPair;
-    private _flatDirection      = [_metaSearch,"flatDirection",     [_metaSerSearch,"flatDirection",    false   ] call A3A_fnc_remKeyPair] call A3A_fnc_remKeyPair;
+    private _positionWorldRef   = [_metaSearch,"positionWorldRef",  [_metaSerSearch,"positionWorldRef", [0,0,0] ] call Col_fnc_remKeyPair] call Col_fnc_remKeyPair;  // Meta idea is WIP
+    private _vectorDirAndUpRef  = [_metaSearch,"vectorDirAndUpRef", [_metaSerSearch,"vectorDirAndUpRef",[[0,0,0],[0,0,0]] ] call Col_fnc_remKeyPair] call Col_fnc_remKeyPair;  // Currently only azimuth is factored in.
+    private _usePositionAGL     = [_metaSearch,"usePositionAGL",    [_metaSerSearch,"usePositionAGL",   false   ] call Col_fnc_remKeyPair] call Col_fnc_remKeyPair;
+    private _noVelocity         = [_metaSearch,"noVelocity",        [_metaSerSearch,"noVelocity",       false   ] call Col_fnc_remKeyPair] call Col_fnc_remKeyPair;
+    private _flatDirection      = [_metaSearch,"flatDirection",     [_metaSerSearch,"flatDirection",    false   ] call Col_fnc_remKeyPair] call Col_fnc_remKeyPair;
 
     private _attributes = +(_serialisation#1);
-    private _type               = [_attributes,"type",""                            ] call A3A_fnc_remKeyPair;
-    private _mass               = [_attributes,"mass",nil                           ] call A3A_fnc_remKeyPair;
-    private _positionWorld      = [_attributes,"positionWorld",[0,0,0]              ] call A3A_fnc_remKeyPair;
-    private _positionAGLZ       = [_attributes,"positionAGLZ",0                     ] call A3A_fnc_remKeyPair;
-    private _modelHeight        = [_attributes,"modelHeight",10                     ] call A3A_fnc_remKeyPair;  // Safe number so that model does not clip into ground if problem with loading value.
-    private _vectorDirAndUp     = [_attributes,"vectorDirAndUp",[[0,0,0],[0,0,0]]   ] call A3A_fnc_remKeyPair;
-    private _velocity           = [_attributes,"velocity",[0,0,0]                   ] call A3A_fnc_remKeyPair;
-    private _vehicleCustomization=[_attributes,"vehicleCustomization",[]            ] call A3A_fnc_remKeyPair;
-    private _damage             = [_attributes,"damage",0                           ] call A3A_fnc_remKeyPair;
-    private _allHitPointsDamage = [_attributes,"allHitPointsDamage",[]              ] call A3A_fnc_remKeyPair;
-    private _fuel               = [_attributes,"fuel",1                             ] call A3A_fnc_remKeyPair;
-    private _fuelCargo          = [_attributes,"fuelCargo",1                        ] call A3A_fnc_remKeyPair;
-    private _ammoCargo          = [_attributes,"ammoCargo",1                        ] call A3A_fnc_remKeyPair;
-    private _repairCargo        = [_attributes,"repairCargo",1                      ] call A3A_fnc_remKeyPair;
-    private _allPylonMagazines  = [_attributes,"allPylonMagazines",[]               ] call A3A_fnc_remKeyPair;
-    private _turretsWeapons     = [_attributes,"turretsWeapons",[]                  ] call A3A_fnc_remKeyPair;
-    private _forcedFlagTexture  = [_attributes,"forcedFlagTexture",""               ] call A3A_fnc_remKeyPair;
-    private _flagTexture        = [_attributes,"flagTexture",""                     ] call A3A_fnc_remKeyPair;
-    private _engineOn           = [_attributes,"engineOn",""                        ] call A3A_fnc_remKeyPair;
-    private _collisionLightOn   = [_attributes,"collisionLightOn",""                ] call A3A_fnc_remKeyPair;
-    private _damageAllowed      = [_attributes,"damageAllowed",""                   ] call A3A_fnc_remKeyPair;
-    private _simulationEnable   = [_attributes,"simulationEnable",""                ] call A3A_fnc_remKeyPair;
-    private _objectHidden       = [_attributes,"objectHidden",""                    ] call A3A_fnc_remKeyPair;
+    private _type               = [_attributes,"type",""                            ] call Col_fnc_remKeyPair;
+    private _mass               = [_attributes,"mass",nil                           ] call Col_fnc_remKeyPair;
+    private _positionWorld      = [_attributes,"positionWorld",[0,0,0]              ] call Col_fnc_remKeyPair;
+    private _positionAGLZ       = [_attributes,"positionAGLZ",0                     ] call Col_fnc_remKeyPair;
+    private _modelHeight        = [_attributes,"modelHeight",10                     ] call Col_fnc_remKeyPair;  // Safe number so that model does not clip into ground if problem with loading value.
+    private _vectorDirAndUp     = [_attributes,"vectorDirAndUp",[[0,0,0],[0,0,0]]   ] call Col_fnc_remKeyPair;
+    private _velocity           = [_attributes,"velocity",[0,0,0]                   ] call Col_fnc_remKeyPair;
+    private _vehicleCustomization=[_attributes,"vehicleCustomization",[]            ] call Col_fnc_remKeyPair;
+    private _damage             = [_attributes,"damage",0                           ] call Col_fnc_remKeyPair;
+    private _allHitPointsDamage = [_attributes,"allHitPointsDamage",[]              ] call Col_fnc_remKeyPair;
+    private _fuel               = [_attributes,"fuel",1                             ] call Col_fnc_remKeyPair;
+    private _fuelCargo          = [_attributes,"fuelCargo",1                        ] call Col_fnc_remKeyPair;
+    private _ammoCargo          = [_attributes,"ammoCargo",1                        ] call Col_fnc_remKeyPair;
+    private _repairCargo        = [_attributes,"repairCargo",1                      ] call Col_fnc_remKeyPair;
+    private _allPylonMagazines  = [_attributes,"allPylonMagazines",[]               ] call Col_fnc_remKeyPair;
+    private _turretsWeapons     = [_attributes,"turretsWeapons",[]                  ] call Col_fnc_remKeyPair;
+    private _forcedFlagTexture  = [_attributes,"forcedFlagTexture",""               ] call Col_fnc_remKeyPair;
+    private _flagTexture        = [_attributes,"flagTexture",""                     ] call Col_fnc_remKeyPair;
+    private _engineOn           = [_attributes,"engineOn",""                        ] call Col_fnc_remKeyPair;
+    private _collisionLightOn   = [_attributes,"collisionLightOn",""                ] call Col_fnc_remKeyPair;
+    private _damageAllowed      = [_attributes,"damageAllowed",""                   ] call Col_fnc_remKeyPair;
+    private _simulationEnable   = [_attributes,"simulationEnable",""                ] call Col_fnc_remKeyPair;
+    private _objectHidden       = [_attributes,"objectHidden",""                    ] call Col_fnc_remKeyPair;
 
     call {  // Limit scope of rotation, might move to a transformation function later.
         // Adjust Position
