@@ -45,7 +45,7 @@ params [
     ["_headerText", "headermissingno", [""]],
     ["_bodyText", "bodymissingno", ["",parseText""]],
     ["_isSilent", false, [false]],
-    ["_iconData", ["functions\UI\images\logo.paa",4], [ [] ], 2]
+    ["_iconData", ["",1], [ [] ], 2]
 ];
 private _filename = "fn_customHint.sqf";
 
@@ -58,7 +58,7 @@ if (_bodyText isEqualType parseText"") then {
 } else {
     _structuredText = parseText ([
         "<t size='1' color='#ffffff' font='RobotoCondensed' align='center' valign='middle' underline='0' shadow='1' shadowColor='#000000' shadowOffset='0.0625' colorLink='#0099ff' >",
-        "<img size='",8/_iconData#1,"' shadowOffset='",0.015625*_iconData#1,"' image='",_iconData#0,"' /><br/><br/>",
+        [["<img size='",8/(_iconData#1),"' shadowOffset='",0.015625*(_iconData#1),"' image='",_iconData#0,"' /><br/>"] joinString "",""] select ((_iconData#0) isEqualTo ""),
         "<t size='1.2' color='#e5b348' >",
         _headerText,
         "</t><br/><img size='0.60' color='#e6b24a' image='functions\UI\images\img_line_ca.paa' /><br/><br/><t >",
@@ -76,7 +76,7 @@ if (A3A_customHintEnable) then {
     };
     private _lastMSGIndex = count A3A_customHint_MSGs - 1;
     if (A3A_customHint_MSGs #(_lastMSGIndex)#0 isEqualTo _headerText) then {
-        A3A_customHint_LastMSG = serverTime;
+        A3A_customHint_UpdateTime = serverTime;
     };
 } else {
     if (_isSilent) then {

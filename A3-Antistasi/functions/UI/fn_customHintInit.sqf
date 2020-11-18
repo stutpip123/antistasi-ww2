@@ -31,7 +31,8 @@ if !(isNil {A3A_customHint_InitComplete}) exitWith {false;};
 // These var names don't need to be limited to 16chars for performance as they are not public.
 A3A_customHint_MSGs = [];  // Operates as a upside-down stack (new messages pushed-Back are displayed.)
 A3A_customHint_DismissKeyDown = false;
-A3A_customHint_LastMSG = 0;
+A3A_customHint_UpdateTime = 0;
+A3A_customHint_UpdateTimePrev = 0;
 A3A_customHint_RenderFrameCount = 1;
 if (isNil {A3A_customHintEnable}) then {A3A_customHintEnable = true}; // isNil check in case value was set before this initialises.
 
