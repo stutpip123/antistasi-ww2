@@ -43,13 +43,14 @@
 ["uavsAttack", []] call _saveToTemplate; 				//this line determines attack UAVs -- Example: ["uavsAttack", ["B_UAV_02_CAS_F"]] -- Array, can contain multiple assets
 ["uavsPortable", []] call _saveToTemplate; 				//this line determines portable UAVs -- Example: ["uavsPortable", ["B_UAV_01_F"]] -- Array, can contain multiple assets
 
-//Config special vehicles - militia vehicles are mostly used in the early game, police cars are being used by troops around cities -- Example: 
+//Config special vehicles - militia vehicles are mostly used in the early game, police cars are being used by troops around cities
 ["vehiclesMilitiaLightArmed", []] call _saveToTemplate; //this line determines lightly armed militia vehicles -- Example: ["vehiclesMilitiaLightArmed", ["B_G_Offroad_01_armed_F"]] -- Array, can contain multiple assets
 ["vehiclesMilitiaTrucks", []] call _saveToTemplate; 	//this line determines militia trucks (unarmed) -- Example: ["vehiclesMilitiaTrucks", ["B_G_Van_01_transport_F"]] -- Array, can contain multiple assets
 ["vehiclesMilitiaCars", []] call _saveToTemplate; 		//this line determines militia cars (unarmed) -- Example: ["vehiclesMilitiaCars", ["	B_G_Offroad_01_F"]] -- Array, can contain multiple assets
 
 ["vehiclesPolice", []] call _saveToTemplate; 			//this line determines police cars -- Example: ["vehiclesPolice", ["B_GEN_Offroad_01_gen_F"]] -- Array, can contain multiple assets
 
+//Static weapon definitions
 ["staticMG", []] call _saveToTemplate; 					//this line determines static MGs -- Example: ["staticMG", ["B_HMG_01_high_F"]] -- Array, can contain multiple assets
 ["staticAT", []] call _saveToTemplate; 					//this line determinesstatic ATs -- Example: ["staticAT", ["B_static_AT_F"]] -- Array, can contain multiple assets
 ["staticAA", []] call _saveToTemplate; 					//this line determines static AAs -- Example: ["staticAA", ["B_static_AA_F"]] -- Array, can contain multiple assets
@@ -88,16 +89,16 @@ _loadoutData setVariable ["missileATLaunchers", []]; //this line determines miss
 _loadoutData setVariable ["AALaunchers", []]; //this line determines AA launchers -- Example: ["launch_B_Titan_F"] -- Array, can contain multiple assets
 _loadoutData setVariable ["sidearms", []]; //this line determines handguns/sidearms -- Example: ["hgun_Pistol_heavy_01_F", "hgun_P07_F"] -- Array, can contain multiple assets
 
-_loadoutData setVariable ["ATMines", []]; //this line determines the AT mines which can be carried by units -- Example: ["ATMine_Range_Mag"] -- Array, can contain multiple assets 
+_loadoutData setVariable ["ATMines", []]; //this line determines the AT mines which can be carried by units -- Example: ["ATMine_Range_Mag"] -- Array, can contain multiple assets
 _loadoutData setVariable ["APMines", []]; //this line determines the APERS mines which can be carried by units -- Example: ["APERSMine_Range_Mag"] -- Array, can contain multiple assets
-_loadoutData setVariable ["lightExplosives", []]; //this line determines light explosives -- Example: ["DemoCharge_Remote_Mag"] -- Array, can contain multiple assets 
-_loadoutData setVariable ["heavyExplosives", []]; //this line determines heavy explosives -- Example: ["SatchelCharge_Remote_Mag"] -- Array, can contain multiple assets 
+_loadoutData setVariable ["lightExplosives", []]; //this line determines light explosives -- Example: ["DemoCharge_Remote_Mag"] -- Array, can contain multiple assets
+_loadoutData setVariable ["heavyExplosives", []]; //this line determines heavy explosives -- Example: ["SatchelCharge_Remote_Mag"] -- Array, can contain multiple assets
 
-_loadoutData setVariable ["antiInfantryGrenades", []]; //this line determines anti infantry grenades (frag and such) -- Example: ["HandGrenade","MiniGrenade"] -- Array, can contain multiple assets 
-_loadoutData setVariable ["antiTankGrenades", []]; //this line determines anti tank grenades. Leave empty when not available. -- Array, can contain multiple assets 
-_loadoutData setVariable ["smokeGrenades", []]; //this line determines smoke grenades -- Example: ["SmokeShell", "SmokeShellRed"] -- Array, can contain multiple assets 
+_loadoutData setVariable ["antiInfantryGrenades", []]; //this line determines anti infantry grenades (frag and such) -- Example: ["HandGrenade","MiniGrenade"] -- Array, can contain multiple assets
+_loadoutData setVariable ["antiTankGrenades", []]; //this line determines anti tank grenades. Leave empty when not available. -- Array, can contain multiple assets
+_loadoutData setVariable ["smokeGrenades", []]; //this line determines smoke grenades -- Example: ["SmokeShell", "SmokeShellRed"] -- Array, can contain multiple assets
 
-_loadoutData setVariable ["NVGs", []]; //this line determines NVGs -- Array, can contain multiple assets 
+_loadoutData setVariable ["NVGs", []]; //this line determines NVGs -- Array, can contain multiple assets
 
 _loadoutData setVariable ["uniforms", []];
 _loadoutData setVariable ["vests", []];
@@ -113,32 +114,20 @@ _sfLoadoutData setVariable ["vests", []];
 _sfLoadoutData setVariable ["backpacks", []];
 _sfLoadoutData setVariable ["helmets", []];
 
-//The following lines are determining the loadout of the Special Forces SquadLeader
+//The following lines are determining the calls for template creation. Don't touch them.
 ["loadouts_SF_SquadLeader", [_sfLoadoutData] call A3A_fnc_createSquadLeaderLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the Special Forces Rifleman
 ["loadouts_SF_Rifleman", [_sfLoadoutData] call A3A_fnc_createRiflemanLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the Special Forces Medic
 ["loadouts_SF_Medic", [_sfLoadoutData] call A3A_fnc_createMedicLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the Special Forces Engineer
 ["loadouts_SF_Engineer", [_sfLoadoutData] call A3A_fnc_createEngineerLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the Special Forces Explosives Expert
 ["loadouts_SF_ExplosivesExpert", [_sfLoadoutData] call A3A_fnc_createExplosivesExpertLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the Special Forces Grenadier
 ["loadouts_SF_Grenadier", [_sfLoadoutData] call A3A_fnc_createGrenadierLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the Special Forces Light AT unit
 ["loadouts_SF_LAT", [_sfLoadoutData] call A3A_fnc_createAntiTankLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the Special Forces AT unit
 ["loadouts_SF_AT", [_sfLoadoutData] call A3A_fnc_createAntiTankLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the Special Forces AA unit
 ["loadouts_SF_AA", [_sfLoadoutData] call A3A_fnc_createAntiAirLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the Special Forces AmmoBearer units
 ["loadouts_SF_ATAmmoBearers", [_sfLoadoutData, ("loadouts_SF_AT" call _getFromTemplate)] call A3A_fnc_createAmmoBearerLoadouts] call _saveToTemplate;//don't touch as it's automation
 ["loadouts_SF_AAAmmoBearers", [_sfLoadoutData, ("loadouts_SF_AA" call _getFromTemplate)] call A3A_fnc_createAmmoBearerLoadouts] call _saveToTemplate;//don't touch as it's automation
-//The following lines are determining the loadout of the Special Forces Machinegunner unit
 ["loadouts_SF_MachineGunner", [_sfLoadoutData] call A3A_fnc_createMachineGunnerLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the Special Forces Marksman unit
 ["loadouts_SF_Marksman", [_sfLoadoutData] call A3A_fnc_createMarksmanLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the Special Forces Sniper unit
 ["loadouts_SF_Sniper", [_sfLoadoutData] call A3A_fnc_createSniperLoadouts] call _saveToTemplate; //don't touch as it's automation
 
 //////////////////////////
@@ -150,32 +139,20 @@ _militaryLoadoutData setVariable ["vests", []];
 _militaryLoadoutData setVariable ["backpacks", []];
 _militaryLoadoutData setVariable ["helmets", []];
 
-//The following lines are determining the loadout of the Military SquadLeader
+//The following lines are determining the calls for template creation. Don't touch them.
 ["loadouts_military_SquadLeader", [_militaryLoadoutData] call A3A_fnc_createSquadLeaderLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the Military Rifleman
 ["loadouts_military_Rifleman", [_militaryLoadoutData] call A3A_fnc_createRiflemanLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the Military Medic
 ["loadouts_military_Medic", [_militaryLoadoutData] call A3A_fnc_createMedicLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the Military Engineer
 ["loadouts_military_Engineer", [_militaryLoadoutData] call A3A_fnc_createEngineerLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the Military Explosives Expert
 ["loadouts_military_ExplosivesExpert", [_militaryLoadoutData] call A3A_fnc_createExplosivesExpertLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the Military Grenadier
 ["loadouts_military_Grenadier", [_militaryLoadoutData] call A3A_fnc_createGrenadierLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the Military Light AT unit
 ["loadouts_military_LAT", [_militaryLoadoutData] call A3A_fnc_createAntiTankLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the Military AT unit
 ["loadouts_military_AT", [_militaryLoadoutData] call A3A_fnc_createAntiTankLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the Military AA unit
 ["loadouts_military_AA", [_militaryLoadoutData] call A3A_fnc_createAntiAirLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the Military AmmoBearer units
 ["loadouts_military_ATAmmoBearers", [_militaryLoadoutData, ("loadouts_military_AT" call _getFromTemplate)] call A3A_fnc_createAmmoBearerLoadouts] call _saveToTemplate;//don't touch as it's automation
 ["loadouts_military_AAAmmoBearers", [_militaryLoadoutData, ("loadouts_military_AA" call _getFromTemplate)] call A3A_fnc_createAmmoBearerLoadouts] call _saveToTemplate;//don't touch as it's automation
-//The following lines are determining the loadout of the Military Machinegunner unit
 ["loadouts_military_MachineGunner", [_militaryLoadoutData] call A3A_fnc_createMachineGunnerLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the Military Marksman unit
 ["loadouts_military_Marksman", [_militaryLoadoutData] call A3A_fnc_createMarksmanLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the Military Sniper unit
 ["loadouts_military_Sniper", [_militaryLoadoutData] call A3A_fnc_createSniperLoadouts] call _saveToTemplate; //don't touch as it's automation
 
 ////////////////////////////
@@ -187,6 +164,7 @@ _policeLoadoutData setVariable ["vests", []];
 _policeLoadoutData setVariable ["backpacks", []];
 _policeLoadoutData setVariable ["helmets", []];
 
+//The following lines are determining the calls for template creation. Don't touch them.
 ["loadouts_police_SquadLeader", [_policeLoadoutData] call A3A_fnc_createSquadLeaderLoadouts] call _saveToTemplate; //don't touch as it's automation
 ["loadouts_police_Standard", [_policeLoadoutData] call A3A_fnc_createPoliceLoadouts] call _saveToTemplate; //don't touch as it's automation
 
@@ -199,21 +177,28 @@ _militiaLoadoutData setVariable ["vests", []];
 _militiaLoadoutData setVariable ["backpacks", []];
 _militiaLoadoutData setVariable ["helmets", []];
 
-//The following lines are determining the loadout of the militia rifleman
+//The following lines are determining the calls for template creation. Don't touch them.
 ["loadouts_militia_Rifleman", [_militiaLoadoutData] call A3A_fnc_createRiflemanLoadouts] call _saveToTemplate; //don't touch as it's automation
-//The following lines are determining the loadout of the militia marksman
 ["loadouts_militia_Marksman", [_militiaLoadoutData] call A3A_fnc_createMarksmanLoadouts] call _saveToTemplate; //don't touch as it's automation
 
 //////////////////////////
 //    Misc Loadouts     //
 //////////////////////////
 private _crewLoadoutData = _militaryLoadoutData call _copyLoadoutData;
-//Customise crew gear here.
+_sfLoadoutData setVariable ["uniforms", []];
+_sfLoadoutData setVariable ["vests", []];
+_sfLoadoutData setVariable ["backpacks", []];
+_sfLoadoutData setVariable ["helmets", []];
+
 //The following lines are determining the loadout of the vehicle crew
 ["loadouts_Crew", [_crewLoadoutData] call A3A_fnc_createMinimalArmedLoadouts] call _saveToTemplate; //don't touch as it's automation
 
 private _pilotLoadoutData = _militaryLoadoutData call _copyLoadoutData;
-//Customise pilot gear here.
+_sfLoadoutData setVariable ["uniforms", []];
+_sfLoadoutData setVariable ["vests", []];
+_sfLoadoutData setVariable ["backpacks", []];
+_sfLoadoutData setVariable ["helmets", []];
+
 //The following lines are determining the loadout of the pilots
 ["loadouts_Pilot", [_pilotLoadoutData] call A3A_fnc_createMinimalArmedLoadouts] call _saveToTemplate; //don't touch as it's automation
 
