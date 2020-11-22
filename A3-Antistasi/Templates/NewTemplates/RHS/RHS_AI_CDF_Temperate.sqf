@@ -59,14 +59,15 @@
 ["mortarMagazineHE", ""] call _saveToTemplate; 			//this line determines available HE-shells for the static mortars - !needs to be comtible with the mortar! -- Example: ["mortarMagazineHE", "8Rnd_82mm_Mo_shells"] - ENTER ONLY ONE OPTION
 ["mortarMagazineSmoke", ""] call _saveToTemplate; 		//this line determines smoke-shells for the static mortar - !needs to be comtible with the mortar! -- Example: ["mortarMagazineSmoke", "8Rnd_82mm_Mo_Smoke_white"] - ENTER ONLY ONE OPTION
 
-//Static weapon definitions
 ["packableMG", []] call _saveToTemplate; 				//this line determines packable static MGs -- Example: ["packableMG", ["B_HMG_01_high_F"]] -- Array, can contain multiple assets
 ["packableAT", []] call _saveToTemplate; 				//this line determines packable static ATs -- Example: ["packableAT", ["B_static_AT_F"]] -- Array, can contain multiple assets
 ["packableMortar", []] call _saveToTemplate; 			//this line determines packable static mortars -- Example: ["packableMortar", ["B_Mortar_01_F"]] -- Array, can contain multiple assets
 
+//Minefield definition
 ["minefieldAT", []] call _saveToTemplate; 				//this line determines AT mines used for spawning in minefields -- Example: ["minefieldAT", ["ATMine_Range_Mag"]] -- Array, can contain multiple assets
 ["minefieldAPERS", []] call _saveToTemplate; 			//this line determines APERS mines used for spawning in minefields -- Example: ["minefieldAPERS", ["APERSMine_Range_Mag"]] -- Array, can contain multiple assets
 
+//PvP definitions
 ["playerDefaultLoadout", $PLAYER_DEFAULT_LOADOUT$] call _saveToTemplate;//this and PvP could be made from below, unarmed for spawn, PvP from role loadouts - don't touch as it's automation
 ["pvpLoadouts", $PVP_LOADOUTS$] call _saveToTemplate; 	//don't touch as it's automation
 ["pvpVehicles", []] call _saveToTemplate; 				//this line determines the vehicles PvP players can spawn in -- Example: ["pvpVehicles", ["B_MRAP_01_F","B_MRAP_01_hmg_F"]] -- Array, can contain multiple assets
@@ -75,30 +76,30 @@
 //////////////////////////
 //       Loadouts       //
 //////////////////////////
-private _loadoutData = call _createLoadoutData;
-_loadoutData setVariable ["rifles", []]; //this line determines rifles -- Example: ["arifle_MX_F","arifle_MX_pointer_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["carbines", []]; //this line determines carbines -- Example: ["arifle_MXC_F","arifle_MXC_Holo_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["grenadeLaunchers", []]; //this line determines grenade launchers -- Example: ["arifle_MX_GL_ACO_F","arifle_MX_GL_ACO_pointer_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["SMGs", []]; //this line determines SMGs -- Example: ["SMG_01_F","SMG_01_Holo_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["machineGuns", []]; //this line determines machine guns -- Example: ["arifle_MX_SW_F","arifle_MX_SW_Hamr_pointer_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["marksmanRifles", []]; //this line determines markman rifles -- Example: ["arifle_MXM_F","arifle_MXM_Hamr_pointer_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["sniperRifles", []]; //this line determines sniper rifles -- Example: ["srifle_LRR_camo_F","srifle_LRR_camo_SOS_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["lightATLaunchers", []]; //this line determines light AT launchers -- Example: ["launch_NLAW_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["ATLaunchers", []]; //this line determines light AT launchers -- Example: ["launch_NLAW_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["missileATLaunchers", []]; //this line determines missile AT launchers -- Example: ["launch_B_Titan_short_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["AALaunchers", []]; //this line determines AA launchers -- Example: ["launch_B_Titan_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["sidearms", []]; //this line determines handguns/sidearms -- Example: ["hgun_Pistol_heavy_01_F", "hgun_P07_F"] -- Array, can contain multiple assets
+private _loadoutData = call _createLoadoutData;			// touch and shit breaks
+_loadoutData setVariable ["rifles", []]; 				//this line determines rifles -- Example: ["arifle_MX_F","arifle_MX_pointer_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["carbines", []]; 				//this line determines carbines -- Example: ["arifle_MXC_F","arifle_MXC_Holo_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["grenadeLaunchers", []]; 		//this line determines grenade launchers -- Example: ["arifle_MX_GL_ACO_F","arifle_MX_GL_ACO_pointer_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["SMGs", []]; 					//this line determines SMGs -- Example: ["SMG_01_F","SMG_01_Holo_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["machineGuns", []]; 			//this line determines machine guns -- Example: ["arifle_MX_SW_F","arifle_MX_SW_Hamr_pointer_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["marksmanRifles", []]; 		//this line determines markman rifles -- Example: ["arifle_MXM_F","arifle_MXM_Hamr_pointer_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["sniperRifles", []]; 			//this line determines sniper rifles -- Example: ["srifle_LRR_camo_F","srifle_LRR_camo_SOS_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["lightATLaunchers", []]; 		//this line determines light AT launchers -- Example: ["launch_NLAW_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["ATLaunchers", []]; 			//this line determines light AT launchers -- Example: ["launch_NLAW_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["missileATLaunchers", []]; 	//this line determines missile AT launchers -- Example: ["launch_B_Titan_short_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["AALaunchers", []]; 			//this line determines AA launchers -- Example: ["launch_B_Titan_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["sidearms", []]; 				//this line determines handguns/sidearms -- Example: ["hgun_Pistol_heavy_01_F", "hgun_P07_F"] -- Array, can contain multiple assets
 
-_loadoutData setVariable ["ATMines", []]; //this line determines the AT mines which can be carried by units -- Example: ["ATMine_Range_Mag"] -- Array, can contain multiple assets
-_loadoutData setVariable ["APMines", []]; //this line determines the APERS mines which can be carried by units -- Example: ["APERSMine_Range_Mag"] -- Array, can contain multiple assets
-_loadoutData setVariable ["lightExplosives", []]; //this line determines light explosives -- Example: ["DemoCharge_Remote_Mag"] -- Array, can contain multiple assets
-_loadoutData setVariable ["heavyExplosives", []]; //this line determines heavy explosives -- Example: ["SatchelCharge_Remote_Mag"] -- Array, can contain multiple assets
+_loadoutData setVariable ["ATMines", []]; 				//this line determines the AT mines which can be carried by units -- Example: ["ATMine_Range_Mag"] -- Array, can contain multiple assets
+_loadoutData setVariable ["APMines", []]; 				//this line determines the APERS mines which can be carried by units -- Example: ["APERSMine_Range_Mag"] -- Array, can contain multiple assets
+_loadoutData setVariable ["lightExplosives", []]; 		//this line determines light explosives -- Example: ["DemoCharge_Remote_Mag"] -- Array, can contain multiple assets
+_loadoutData setVariable ["heavyExplosives", []]; 		//this line determines heavy explosives -- Example: ["SatchelCharge_Remote_Mag"] -- Array, can contain multiple assets
 
-_loadoutData setVariable ["antiInfantryGrenades", []]; //this line determines anti infantry grenades (frag and such) -- Example: ["HandGrenade","MiniGrenade"] -- Array, can contain multiple assets
-_loadoutData setVariable ["antiTankGrenades", []]; //this line determines anti tank grenades. Leave empty when not available. -- Array, can contain multiple assets
-_loadoutData setVariable ["smokeGrenades", []]; //this line determines smoke grenades -- Example: ["SmokeShell", "SmokeShellRed"] -- Array, can contain multiple assets
+_loadoutData setVariable ["antiInfantryGrenades", []]; 	//this line determines anti infantry grenades (frag and such) -- Example: ["HandGrenade","MiniGrenade"] -- Array, can contain multiple assets
+_loadoutData setVariable ["antiTankGrenades", []]; 		//this line determines anti tank grenades. Leave empty when not available. -- Array, can contain multiple assets
+_loadoutData setVariable ["smokeGrenades", []]; 		//this line determines smoke grenades -- Example: ["SmokeShell", "SmokeShellRed"] -- Array, can contain multiple assets
 
-_loadoutData setVariable ["NVGs", []]; //this line determines NVGs -- Array, can contain multiple assets
+_loadoutData setVariable ["NVGs", []]; 					//this line determines NVGs -- Array, can contain multiple assets
 
 _loadoutData setVariable ["uniforms", []];
 _loadoutData setVariable ["vests", []];
@@ -108,11 +109,11 @@ _loadoutData setVariable ["helmets", []];
 ////////////////////////////////
 //  Special Forces Loadouts   //
 ////////////////////////////////
-private _sfLoadoutData = _loadoutData call _copyLoadoutData;
-_sfLoadoutData setVariable ["uniforms", []];
-_sfLoadoutData setVariable ["vests", []];
-_sfLoadoutData setVariable ["backpacks", []];
-_sfLoadoutData setVariable ["helmets", []];
+private _sfLoadoutData = _loadoutData call _copyLoadoutData; // touch and shit breaks
+_sfLoadoutData setVariable ["uniforms", []];			//this line determines uniforms for special forces -- Example: ["U_B_CombatUniform_mcam","U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
+_sfLoadoutData setVariable ["vests", []];				//this line determines vests for special forces -- Example: ["V_PlateCarrierSpec_mtp","V_PlateCarrierGL_mtp"] -- Array, can contain multiple assets
+_sfLoadoutData setVariable ["backpacks", []];			//this line determines backpacks for special forces -- Example: ["B_AssaultPack_mcamo","B_Kitbag_mcamo"] -- Array, can contain multiple assets
+_sfLoadoutData setVariable ["helmets", []];				//this line determines helmets for special forces -- Example: ["H_HelmetB_camo","H_HelmetB_desert"] -- Array, can contain multiple assets
 
 //The following lines are determining the calls for template creation. Don't touch them.
 ["loadouts_SF_SquadLeader", [_sfLoadoutData] call A3A_fnc_createSquadLeaderLoadouts] call _saveToTemplate; //don't touch as it's automation
@@ -133,11 +134,11 @@ _sfLoadoutData setVariable ["helmets", []];
 //////////////////////////
 //  Military Loadouts   //
 //////////////////////////
-private _militaryLoadoutData = _loadoutData call _copyLoadoutData;
-_militaryLoadoutData setVariable ["uniforms", []];
-_militaryLoadoutData setVariable ["vests", []];
-_militaryLoadoutData setVariable ["backpacks", []];
-_militaryLoadoutData setVariable ["helmets", []];
+private _militaryLoadoutData = _loadoutData call _copyLoadoutData; // touch and shit breaks
+_militaryLoadoutData setVariable ["uniforms", []];		//this line determines uniforms for military loadouts -- Example: ["U_B_CombatUniform_mcam","U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
+_militaryLoadoutData setVariable ["vests", []];			//this line determines vests for military loadouts -- Example: ["V_PlateCarrierSpec_mtp","V_PlateCarrierGL_mtp"] -- Array, can contain multiple assets
+_militaryLoadoutData setVariable ["backpacks", []];		//this line determines backpacks for military loadouts -- Example: ["B_AssaultPack_mcamo","B_Kitbag_mcamo"] -- Array, can contain multiple assets
+_militaryLoadoutData setVariable ["helmets", []];		//this line determines helmets for military loadouts -- Example: ["H_HelmetB_camo","H_HelmetB_desert"] -- Array, can contain multiple assets
 
 //The following lines are determining the calls for template creation. Don't touch them.
 ["loadouts_military_SquadLeader", [_militaryLoadoutData] call A3A_fnc_createSquadLeaderLoadouts] call _saveToTemplate; //don't touch as it's automation
@@ -158,11 +159,11 @@ _militaryLoadoutData setVariable ["helmets", []];
 ////////////////////////////
 //    Police Loadouts     //
 ////////////////////////////
-private _policeLoadoutData = _loadoutData call _copyLoadoutData;
-_policeLoadoutData setVariable ["uniforms", []];
-_policeLoadoutData setVariable ["vests", []];
-_policeLoadoutData setVariable ["backpacks", []];
-_policeLoadoutData setVariable ["helmets", []];
+private _policeLoadoutData = _loadoutData call _copyLoadoutData; // touch and shit breaks
+_policeLoadoutData setVariable ["uniforms", []];		//this line determines uniforms for police loadouts -- Example: ["U_B_GEN_Commander_F"] -- Array, can contain multiple assets
+_policeLoadoutData setVariable ["vests", []];			//this line determines vests for police loadouts -- Example: ["V_TacVest_gen_F"] -- Array, can contain multiple assets
+_policeLoadoutData setVariable ["backpacks", []];		//this line determines backpacks for police loadouts -- Example: ["B_Kitbag_mcamo"] -- Array, can contain multiple assets
+_policeLoadoutData setVariable ["helmets", []];			//this line determines helmets for police loadouts -- Example: ["H_Beret_gen_F"] -- Array, can contain multiple assets
 
 //The following lines are determining the calls for template creation. Don't touch them.
 ["loadouts_police_SquadLeader", [_policeLoadoutData] call A3A_fnc_createSquadLeaderLoadouts] call _saveToTemplate; //don't touch as it's automation
@@ -171,11 +172,11 @@ _policeLoadoutData setVariable ["helmets", []];
 ////////////////////////////
 //    Militia Loadouts    //
 ////////////////////////////
-private _militiaLoadoutData = _loadoutData call _copyLoadoutData;
-_militiaLoadoutData setVariable ["uniforms", []];
-_militiaLoadoutData setVariable ["vests", []];
-_militiaLoadoutData setVariable ["backpacks", []];
-_militiaLoadoutData setVariable ["helmets", []];
+private _militiaLoadoutData = _loadoutData call _copyLoadoutData; // touch and shit breaks
+_militiaLoadoutData setVariable ["uniforms", []];		//this line determines uniforms for militia loadouts -- Example: ["U_B_CombatUniform_mcam","U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
+_militiaLoadoutData setVariable ["vests", []];			//this line determines vests for militia loadouts -- Example: ["V_PlateCarrierSpec_mtp","V_PlateCarrierGL_mtp"] -- Array, can contain multiple assets
+_militiaLoadoutData setVariable ["backpacks", []];		//this line determines backpacks for militia loadouts -- Example: ["B_AssaultPack_mcamo","B_Kitbag_mcamo"] -- Array, can contain multiple assets
+_militiaLoadoutData setVariable ["helmets", []];		//this line determines helmets for police loadouts -- Example: ["H_HelmetB_camo","H_HelmetB_desert"] -- Array, can contain multiple assets
 
 //The following lines are determining the calls for template creation. Don't touch them.
 ["loadouts_militia_Rifleman", [_militiaLoadoutData] call A3A_fnc_createRiflemanLoadouts] call _saveToTemplate; //don't touch as it's automation
@@ -184,22 +185,16 @@ _militiaLoadoutData setVariable ["helmets", []];
 //////////////////////////
 //    Misc Loadouts     //
 //////////////////////////
-private _crewLoadoutData = _militaryLoadoutData call _copyLoadoutData;
-_sfLoadoutData setVariable ["uniforms", []];
-_sfLoadoutData setVariable ["vests", []];
-_sfLoadoutData setVariable ["backpacks", []];
-_sfLoadoutData setVariable ["helmets", []];
-
 //The following lines are determining the loadout of the vehicle crew
+private _crewLoadoutData = _militaryLoadoutData call _copyLoadoutData; // touch and shit breaks
+_sfLoadoutData setVariable ["uniforms", []];
+_sfLoadoutData setVariable ["helmets", []];
 ["loadouts_Crew", [_crewLoadoutData] call A3A_fnc_createMinimalArmedLoadouts] call _saveToTemplate; //don't touch as it's automation
 
-private _pilotLoadoutData = _militaryLoadoutData call _copyLoadoutData;
-_sfLoadoutData setVariable ["uniforms", []];
-_sfLoadoutData setVariable ["vests", []];
-_sfLoadoutData setVariable ["backpacks", []];
-_sfLoadoutData setVariable ["helmets", []];
-
 //The following lines are determining the loadout of the pilots
+private _pilotLoadoutData = _militaryLoadoutData call _copyLoadoutData; // touch and shit breaks
+_sfLoadoutData setVariable ["uniforms", []];
+_sfLoadoutData setVariable ["helmets", []];
 ["loadouts_Pilot", [_pilotLoadoutData] call A3A_fnc_createMinimalArmedLoadouts] call _saveToTemplate; //don't touch as it's automation
 
 //The following lines are determining the loadout for the unit used in the "kill the official" mission
