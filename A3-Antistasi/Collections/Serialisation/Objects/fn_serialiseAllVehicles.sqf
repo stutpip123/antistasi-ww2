@@ -30,35 +30,10 @@ private _filename = "fn_serialiseAllVehicles";
 private _serialisation = [];
 try {
     private _metaSearch = +_meta;
-    private _positionWorldRef   = [_metaSearch,"positionWorldRef",  [0,0,0]             ] call Col_fnc_remKeyPair;  // Meta idea is WIP
-    private _vectorDirAndUpRef  = [_metaSearch,"vectorDirAndUpRef", [[0,0,0],[0,0,0]]   ] call Col_fnc_remKeyPair;  // Currently only azimuth is factored in.
+    private _physXDataRef       = [_metaSearch,"physXDataRef",      [[0,0,0],[0,0,0]]   ] call Col_fnc_remKeyPair;  // Currently only azimuth is factored in.
 
     private _type = typeOf _object;
-    // PhysX
-    private _mass = getMass _object;
-    private _positionWorld = (getPosWorld _object) vectorDiff _positionWorldRef;  // Because other position systems XY rely on an incorrect boundingBox/Model centre calculations.
-    Private _positionAGLZ = ASLToAGL (getPosASL _object)#2;  // Not transformed by new XY pos of flat rotation because it represents the object on a flat plane, therefore a flat rotation makes no height difference.
-    private _modelHeight = (getPosWorld _object)#2 - (getPosASL _object)#2;
-    private _vectorDirAndUp = [vectorDir _object, vectorUp _object];
-    call {  // Limit scope of rotation variables, might move to a transformation function later.
-        // Adjust Position
-        private _rotDeg = (_vectorDirAndUpRef#0#0) atan2 (_vectorDirAndUpRef#0#1);  // This will be converted to absolute deg in deserialisation.
-        private _rotationMatrix = [
-            [cos _rotDeg, -sin _rotDeg],
-            [sin _rotDeg, cos _rotDeg]
-        ];
-        private _pos2D = [
-            [_positionWorld#0],  // _positionWorld reference was already subtracted.
-            [_positionWorld#1]
-        ];
-        _pos2D = _rotationMatrix matrixMultiply _pos2D;     // Floating point errors are introduced here, of ~size 8e-008.
-        _positionWorld = [_pos2D#0#0,_pos2D#1#0,_positionWorld#2];
-        // Adjust Rotation
-        private _dir = -(_vectorDirAndUp#0#0) atan2 (_vectorDirAndUp#0#1);
-        _dir = _dir + _rotDeg;    // rotDeg is already negated
-        _vectorDirAndUp set [0, [-sin _dir, cos _dir, _vectorDirAndUp#0#2]];
-    };
-    private _velocity = velocity _object; _object setPosWorld
+    private _physXData = [_object,_physXDataRef] call Col_fnc_getPhysX;
     // Details
     private _vehicleCustomization = [_object] call BIS_fnc_getVehicleCustomization;
     private _damage = damage _object;
@@ -99,12 +74,7 @@ try {
 
     _attributes = [
         ["type",_type],
-        ["mass",_mass],
-        ["positionWorld",_positionWorld],
-        ["positionAGLZ",_positionAGLZ],
-        ["modelHeight",_modelHeight],
-        ["vectorDirAndUp",_vectorDirAndUp],
-        ["velocity",_velocity],
+        ["physXData",_physXData],
         ["vehicleCustomization",_vehicleCustomization],
         ["damage",_damage],
         ["allHitPointsDamage",_allHitPointsDamage],

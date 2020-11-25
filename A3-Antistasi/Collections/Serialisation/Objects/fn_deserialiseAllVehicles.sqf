@@ -31,20 +31,14 @@ try {
     private _metaSearch = +_meta;
     private _metaSerSearch = +(_serialisation#0);
 
-    private _positionWorldRef   = [_metaSearch,"positionWorldRef",  [_metaSerSearch,"positionWorldRef", [0,0,0] ] call Col_fnc_remKeyPair] call Col_fnc_remKeyPair;  // Meta idea is WIP
-    private _vectorDirAndUpRef  = [_metaSearch,"vectorDirAndUpRef", [_metaSerSearch,"vectorDirAndUpRef",[[0,0,0],[0,0,0]] ] call Col_fnc_remKeyPair] call Col_fnc_remKeyPair;  // Currently only azimuth is factored in.
+    private _physXDataRef       = [_metaSearch,"physXDataRef",      [_metaSerSearch,"physXDataRef", [0,0,0] ] call Col_fnc_remKeyPair] call Col_fnc_remKeyPair;  // Meta idea is WIP
     private _usePositionAGL     = [_metaSearch,"usePositionAGL",    [_metaSerSearch,"usePositionAGL",   false   ] call Col_fnc_remKeyPair] call Col_fnc_remKeyPair;
     private _noVelocity         = [_metaSearch,"noVelocity",        [_metaSerSearch,"noVelocity",       false   ] call Col_fnc_remKeyPair] call Col_fnc_remKeyPair;
-    private _flatDirection      = [_metaSearch,"flatDirection",     [_metaSerSearch,"flatDirection",    false   ] call Col_fnc_remKeyPair] call Col_fnc_remKeyPair;
+    private _flattenDirection   = [_metaSearch,"flattenDirection",  [_metaSerSearch,"flattenDirection",    false   ] call Col_fnc_remKeyPair] call Col_fnc_remKeyPair;
 
     private _attributes = +(_serialisation#1);
     private _type               = [_attributes,"type",""                            ] call Col_fnc_remKeyPair;
-    private _mass               = [_attributes,"mass",nil                           ] call Col_fnc_remKeyPair;
-    private _positionWorld      = [_attributes,"positionWorld",[0,0,0]              ] call Col_fnc_remKeyPair;
-    private _positionAGLZ       = [_attributes,"positionAGLZ",0                     ] call Col_fnc_remKeyPair;
-    private _modelHeight        = [_attributes,"modelHeight",10                     ] call Col_fnc_remKeyPair;  // Safe number so that model does not clip into ground if problem with loading value.
-    private _vectorDirAndUp     = [_attributes,"vectorDirAndUp",[[0,0,0],[0,0,0]]   ] call Col_fnc_remKeyPair;
-    private _velocity           = [_attributes,"velocity",[0,0,0]                   ] call Col_fnc_remKeyPair;
+    private _physXData          = [_attributes,"physXData",[]                       ] call Col_fnc_remKeyPair;
     private _vehicleCustomization=[_attributes,"vehicleCustomization",[]            ] call Col_fnc_remKeyPair;
     private _damage             = [_attributes,"damage",0                           ] call Col_fnc_remKeyPair;
     private _allHitPointsDamage = [_attributes,"allHitPointsDamage",[]              ] call Col_fnc_remKeyPair;
@@ -62,42 +56,19 @@ try {
     private _simulationEnable   = [_attributes,"simulationEnable",""                ] call Col_fnc_remKeyPair;
     private _objectHidden       = [_attributes,"objectHidden",""                    ] call Col_fnc_remKeyPair;
 
-    call {  // Limit scope of rotation, might move to a transformation function later.
-        // Adjust Position
-        private _rotDeg = -(_vectorDirAndUpRef#0#0) atan2 (_vectorDirAndUpRef#0#1);  // This was be converted to relative deg in deserialisation.
-        private _rotationMatrix = [
-            [cos _rotDeg, -sin _rotDeg],
-            [sin _rotDeg, cos _rotDeg]
-        ];
-        private _pos2D = [
-            [_positionWorld#0],  // _positionWorld reference was already subtracted.
-            [_positionWorld#1]
-        ];
-        _pos2D = _rotationMatrix matrixMultiply _pos2D;     // Floating point errors are introduced here, of ~size 8e-008.
-        _positionWorld = [_pos2D#0#0,_pos2D#1#0,_positionWorld#2];
-        // Adjust Rotation
-        private _dir = -(_vectorDirAndUp#0#0) atan2 (_vectorDirAndUp#0#1);
-        _dir = _dir + _rotDeg;    // rotDeg is already negated
-        _vectorDirAndUp set [0, [-sin _dir, cos _dir, _vectorDirAndUp#0#2]];
-    };
-    _positionWorld = _positionWorld vectorAdd _positionWorldRef;
-    private _position = [];
-    if (_usePositionAGL) then {
-        _position = [_positionWorld#0,_positionWorld#1,_positionAGLZ]
-    } else {
-        _position = ASLToAGL [_positionWorld#0,_positionWorld#1,_positionWorld#2 - _modelHeight]
-    };
-    _object = createVehicle [_type, _position, [], 0, "CAN_COLLIDE"];
+
+    _object = createVehicle [_type, [0,0,1000], [], 0, "CAN_COLLIDE"];
     if (isNull _object) then {throw ["InvalidObjectClassName",["""",_type,""" does not exit or failed creation."] joinString ""]};
     _object setVariable ["BIS_enableRandomization", false];
     // PhysX
-    _object setMass _mass;
-    if (_flatDirection) then {
+    [_object,_physXData,_physXDataRef] call Col_fnc_setPhysX
+    if (_flattenDirection) then {
+        private _vectorDirAndUp = [vectorDir _object, vectorUp _object];
         _vectorDirAndUp = [[_vectorDirAndUp#0,_vectorDirAndUp#1,0],[0,0,0]];
+        _object setVectorDirAndUp _vectorDirAndUp;
     };
-    _object setVectorDirAndUp _vectorDirAndUp;
-    if (!_noVelocity) then {
-        _object setVelocity [_velocity];
+    if (_noVelocity) then {
+        _object setVelocity [0,0,0];
     };
     // Details
     [_object, _vehicleCustomization#0, _vehicleCustomization#1, false] call BIS_fnc_initVehicle;

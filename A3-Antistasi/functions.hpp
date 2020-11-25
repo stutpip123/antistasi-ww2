@@ -598,6 +598,7 @@ class Col
 	{
 		file="functions\Collections\Serialisation\Objects\Common";
 		class getObjectPhysX {};
+		class rotatePosRotVel {};
 		class setObjectPhysX {};
 	};
 };
