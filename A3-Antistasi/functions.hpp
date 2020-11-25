@@ -173,13 +173,6 @@ class A3A
 		class vehicleMarkers {};
 	};
 
-	class Collections
-	{
-		class getNestedObject {};
-		class remNestedObject {};
-		class setNestedObject {};
-	};
-
 	class Convoy
 	{
         class cleanConvoyMarker {};
