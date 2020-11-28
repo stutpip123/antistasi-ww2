@@ -71,8 +71,8 @@
 ["minefieldAPERS", []] call _fnc_saveToTemplate; 			//this line determines APERS mines used for spawning in minefields -- Example: ["minefieldAPERS", ["APERSMine_Range_Mag"]] -- Array, can contain multiple assets
 
 //PvP definitions
-["playerDefaultLoadout", $PLAYER_DEFAULT_LOADOUT$] call _fnc_saveToTemplate;//this and PvP could be made from below, unarmed for spawn, PvP from role loadouts - don't touch as it's automation
-["pvpLoadouts", $PVP_LOADOUTS$] call _fnc_saveToTemplate; 	//don't touch as it's automation
+["playerDefaultLoadout", []] call _fnc_saveToTemplate;//this and PvP could be made from below, unarmed for spawn, PvP from role loadouts - don't touch as it's automation
+["pvpLoadouts", []] call _fnc_saveToTemplate; 	//don't touch as it's automation
 ["pvpVehicles", []] call _fnc_saveToTemplate; 				//this line determines the vehicles PvP players can spawn in -- Example: ["pvpVehicles", ["B_MRAP_01_F","B_MRAP_01_hmg_F"]] -- Array, can contain multiple assets
 
 
