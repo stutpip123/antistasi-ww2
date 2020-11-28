@@ -52,7 +52,7 @@ params ["_loadout", "_equipment"];
 			(_loadout select 9) set [5, _nvg];
 		};
 		case "BINOCULARS": {
-			private _binoculars = ["Binocular", _specificClass] select (specificClass != "");
+			private _binoculars = ["Binocular", _specificClass] select (_specificClass != "");
 			_loadout set [8, [_binoculars, "", "", "", [], [], ""]]
 		};
 	};

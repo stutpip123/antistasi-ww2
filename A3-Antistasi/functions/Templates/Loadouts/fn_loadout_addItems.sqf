@@ -7,7 +7,7 @@
  *    This way, if the last batch doesn't fit, it's not the end of the world.
  * Params:
  *    _loadout - Loadout to add items to
- *    _rawItemBatches - Batches of items, in format [[["class1", 1], ["class2", 1]], [["class 3", 1]]
+ *    _rawItemBatches - Batches of items, in format [[["class1", 1], ["class2", 1]], [["class 3", 1]]]
  * Returns:
  *    Loadout
  * Example Usage:
@@ -31,7 +31,15 @@ private _itemBatches = [];
 	private _batchLoadTotal = 0;
 	{
 		//Create a new array for the item info, we don't accidentally use the same array that was passed into this function.
-		private _item = if (_x isEqualType "") then {[[_x, 1]]} else {[+_x]};
+		private _item = if (_x isEqualType "") then {
+			if (isClass (configFile >> "CfgMagazines" >> _x)) then {
+				[[_x, 1, 1]]
+			} else {
+				[[_x, 1]]
+			}
+		} else {
+			[+_x]
+		};
 		//Add load of a single item to the item array
 		_item pushBack ([_item select 0 select 0] call A3A_fnc_loadout_itemLoad);
 		//Add total load to the item array
@@ -44,6 +52,7 @@ private _itemBatches = [];
 
 	 _itemBatches pushBack [_batchLoadTotal, _items];
 } forEach _rawItemBatches;
+
 
 /*
  Calculate how much free load we have in each uniform/vest/backpack
