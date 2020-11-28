@@ -93,6 +93,9 @@ if (count _backpack > 0) then {
 /*
  Attempt to add the items where possible
 */
+private _uniformItems = if (_uniform isEqualTo []) then {[]} else {_uniform select 1};
+private _vestItems = if (_vest isEqualTo []) then {[]} else {_vest select 1};
+private _backpackItems = if (_backpack isEqualTo []) then {[]} else {_backpack select 1};
 
 {
 	private _spareLoad = (_uniformMaxLoad + _vestMaxLoad + _backpackMaxLoad) - (_uniformCurrentLoad + _vestCurrentLoad + _backpackCurrentLoad);
@@ -136,15 +139,15 @@ if (count _backpack > 0) then {
 		if (_count > 0) then {
 			switch (true) do {
 				case (_totalLoad < (_uniformMaxLoad - _uniformCurrentLoad)): {
-					(_uniform select 1) pushBack _itemInfo;
+					_uniformItems pushBack _itemInfo;
 					_uniformCurrentLoad = _uniformCurrentLoad +	_totalLoad;
 				};
 				case (_totalLoad < (_vestMaxLoad - _vestCurrentLoad)): {
-					(_vest select 1) pushBack _itemInfo;
+					_vestItems pushBack _itemInfo;
 					_vestCurrentLoad = _vestCurrentLoad + _totalLoad;
 				};
 				default {
-					(_backpack select 1) pushBack _itemInfo;
+					_backpackItems pushBack _itemInfo;
 					_backpackCurrentLoad = _backpackCurrentLoad + _totalLoad;
 				};
 			};
