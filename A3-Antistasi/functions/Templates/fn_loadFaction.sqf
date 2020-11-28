@@ -27,6 +27,28 @@ private _fnc_getFromTemplate = {
 	_dataStore getVariable _name;
 };
 
-call preprocessFileLineNumbers _file;
+//Keep track of loadout namespaces so we can delete them when we're done.
+private _loadoutNamespaces = [];
+private _fnc_createLoadoutData = {
+	private _namespace = false call A3A_fnc_createNamespace;
+	_loadoutNamespaces pushBack _namespace;
+	_namespace
+};
+
+private _fnc_copyLoadoutData = {
+	params ["_sourceNamespace"];
+	private _newNamespace = call _fnc_createLoadoutData;
+	{
+		_newNamespace setVariable [_x, _sourceNamespace getVariable _x];
+	} forEach allVariables _sourceNamespace;
+	_newNamespace
+};
+
+call compile preprocessFileLineNumbers _file;
+
+//Clear up used loadout namespaces.
+{
+	[_x] call A3A_fnc_deleteNamespace;
+} forEach _loadoutNamespaces;
 
 _dataStore

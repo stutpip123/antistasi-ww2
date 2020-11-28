@@ -322,20 +322,13 @@ class A3A
 		class loadout_addHelmet {};
 		class loadout_addItems {};
 		class loadout_additionalMuzzleMags {};
+		class loadout_addUniform {};
 		class loadout_addVest {};
 		class loadout_addWeapon {};
+		class loadout_builder {};
 		class loadout_createBase {};
 		class loadout_defaultWeaponMag {};
-		class loadout_itemList_medicalSupplies {};
-		class loadout_itemList_miscEssentials {};
 		class loadout_itemLoad {};
-
-		class loadout_createEngineerLoadouts {};
-		class loadout_createExplosivesExpertLoadouts {};
-		class loadout_createGrenadierLoadouts {};
-		class loadout_createMedicLoadouts {};
-		class loadout_createRiflemanLoadouts {};
-		class loadout_createSquadLeaderLoadouts {};
 	};
 
 	class Missions
@@ -517,6 +510,7 @@ class A3A
 	{
 		class aceModCompat {};
 		class getLoadout {};
+		class loadFaction {};
 		class ifaModCompat {};
 		class rhsModCompat {};
 	};
@@ -538,6 +532,7 @@ class A3A
 		class createDataObject {};
 		class createNamespace {};
 		class dateToTimeString {};
+		class deleteNamespace {};
 		class generateRoadsDB {};
 		class log {};
 		class vehicleWillCollideAtPosition {};
