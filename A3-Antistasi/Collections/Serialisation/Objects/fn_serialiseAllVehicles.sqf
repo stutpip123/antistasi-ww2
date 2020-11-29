@@ -48,7 +48,7 @@ try {
     {
         if (_x#0 in _pylonMagazines) then {
             private _turretPath = [_x#1,[]] select (_x#1 isEqualTo [-1]);
-            _allPylonMagazines pushBack [([_pylonMagazines, _x#0] call Col_fnc_remElement) +1,_x#0,_turretPath,_x#2];   // index needed, ID and creator not. Pylon index 1-based. <ARRAY<pylon, magazine, turret, ammo count>>. Luckily, magazinesAllTurrets returns pylons in the correct order.
+            _allPylonMagazines pushBack [(_pylonMagazines find _x#0) +1,_x#0,_turretPath,_x#2];   // index needed, ID and creator not. Pylon index 1-based. <ARRAY<pylon, magazine, turret, ammo count>>. Luckily, magazinesAllTurrets returns pylons in the correct order.
         };
     } forEach magazinesAllTurrets _object;
 

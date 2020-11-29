@@ -563,17 +563,21 @@ class A3A
 	};
 };
 
-class Col
+class Collections
 {
-	class Collections
+	tag = "Col"
+	class Collections_Map
 	{
-		file="Collections";
+		file="Collections\Map";
 		class getKeyPair {};
 		class getKeyPairs {};
-		class getNestedObject {};
-		class remElement {};
 		class remKeyPair {};
 		class remKeyPairs {};
+	};
+	class Collections_NestObj
+	{
+		file="Collections\NestObj";
+		class getNestedObject {};
 		class remNestedObject {};
 		class setNestedObject {};
 	};
