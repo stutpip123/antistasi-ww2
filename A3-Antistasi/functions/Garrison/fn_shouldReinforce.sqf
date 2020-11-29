@@ -1,11 +1,7 @@
 params ["_base", "_target"];
 
 private _fileName = "shouldReinforce";
-[
-    3,
-    format ["Checking if %1 should reinforce %2", _base, _target],
-    _fileName
-] call A3A_fnc_log;
+[4, format ["Checking if %1 should reinforce %2", _base, _target], _fileName] call A3A_fnc_log;
 
 //Bases cannot reinforce themselves
 if(_base isEqualTo _target) exitWith {false};
@@ -23,6 +19,9 @@ if(!_isAirport && {(getMarkerPos _base) distance2D (getMarkerPos _target) > dist
 
 //To far away for air convoy
 if(_isAirport && {(getMarkerPos _base) distance2D (getMarkerPos _target) > distanceForAirAttack}) exitWith {false};
+
+//Base/target combination is in killzones (other reinforcements or attacks failed recently)
+if (_target in (killZones getVariable [_base, []])) exitWith {false};
 
 _targetIsBase = _target in outposts;
 _reinfMarker = if(_side == Occupants) then {reinforceMarkerOccupants} else {reinforceMarkerInvader};

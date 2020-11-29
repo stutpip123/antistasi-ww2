@@ -34,10 +34,12 @@ class A3A
 		class addActionBreachVehicle {};
 		class addHC {};
 		class addTimeForIdle {};
+        class aggressionUpdateLoop {};
 		class AILoadInfo {};
 		class rebelAttack {};
 		class blackout {};
 		class buildHQ {};
+        class calculateAggression {};
 		class citiesToCivPatrol {};
 		class citySupportChange {};
 		class commsMP {};
@@ -58,6 +60,9 @@ class A3A
 		class fogCheck {};
 		class garbageCleaner {};
 		class garrisonInfo {};
+        class getAggroLevelString {};
+        class getVehiclePoolForAttacks {};
+        class getVehiclePoolForQRFs {};
 		class healAndRepair {};
 		class initPetros {};
 		class isFrontline {};
@@ -86,6 +91,7 @@ class A3A
 		class rebuildAssets {};
 		class rebuildRadioTower {};
 		class relocateHQObjects {};
+		class remUnitCount {};
 		class repairRuinedBuilding {};
 		class resourceCheckSkipTime {};
 		class resourcesFIA {};
@@ -94,9 +100,11 @@ class A3A
 		class scheduler {};
 		class sellVehicle {};
 		class setMarkerAlphaForSide {};
+        class singlePlayerBlackScreenWarning {};
 		class sizeMarker {};
 		class splitVehicleCrewIntoOwnGroups {};
 		class startBreachVehicle {};
+		class startTestingTimer {};
 		class statistics {};
 		class stripGearFromLoadout {};
 		class teleportVehicleToBase {};
@@ -132,6 +140,7 @@ class A3A
 		class entriesLand {};
 		class fastrope {};
 		class findSafeRoadToUnload {};
+		class fleeToSide {};
 		class guardDog {};
 		class hasRadio {};
 		class help {};
@@ -164,6 +173,13 @@ class A3A
 		class vehicleMarkers {};
 	};
 
+	class Collections
+	{
+		class getNestedObject {};
+		class remNestedObject {};
+		class setNestedObject {};
+	};
+
 	class Convoy
 	{
         class cleanConvoyMarker {};
@@ -175,7 +191,6 @@ class A3A
 		class findAirportForAirstrike {};
 		class followVehicle {};
 		class onConvoyArrival {};
-		class onSpawnedArrival {};
 		class roadblockFight {};
 		class selectAndCreateVehicle {};
 		class spawnConvoy {};
@@ -201,6 +216,7 @@ class A3A
 		class createAISite {};
 		class createCIV {};
 		class createFIAOutposts2 {};
+		class createQRF {};
 		class createSDKGarrisons {};
 		class createSDKgarrisonsTemp {};
 		class createUnit {};
@@ -224,8 +240,10 @@ class A3A
 		class removeVehFromPool {};
 		class safeVehicleSpawn {};
 		class spawnGroup {};
+		class updateCAMark {};
 		class vehAvailable {};
 		class VEHdespawner {};
+		class vehKilledOrCaptured {};
 		class wavedCA {};
 		class WPCreate {};
 	};
@@ -239,7 +257,6 @@ class A3A
 
 	class Dialogs
 	{
-
 		class buyVehicle {};
 		class buyVehicleCiv {};
 		class clearForest {};
@@ -247,8 +264,10 @@ class A3A
 		class createDialog_shouldLoadPersonalSave {};
 		class dialogHQ {};
 		class fastTravelRadio {};
+		class loadPreviousSession {};
 		class mineDialog {};
 		class moveHQObject {};
+		class persistentSave {};
 		class skiptime {};
 		class squadOptions {};
 		class squadRecruit {};
@@ -313,8 +332,8 @@ class A3A
         class selectIntel {};
         class showIntel {};
     };
-
-	class Loadouts 
+    
+    class Loadouts 
 	{
 		file = "functions\Templates\Loadouts";
 		class loadout_addBackpack {};
@@ -329,6 +348,17 @@ class A3A
 		class loadout_createBase {};
 		class loadout_defaultWeaponMag {};
 		class loadout_itemLoad {};
+	};
+
+	class LTC
+	{
+		class canLoot {};
+		class canTransfer {};
+		class carryCrate {};
+		class initLootToCrate {};
+		class lootFromContainer {};
+		class lootToCrate {};
+		class spawnCrate {};
 	};
 
 	class Missions
@@ -346,8 +376,8 @@ class A3A
 		class LOG_Ammo {};
 		class LOG_Bank {};
 		class LOG_Supplies {};
+		class LOG_Salvage {};
 		class missionRequest {};
-		class missionRequestAUTO {};
 		class REP_Antenna {};
 		class RES_Prisoners {};
 		class RES_Refugees {};
@@ -370,12 +400,12 @@ class A3A
 		class checkRadiosUnlocked {};
 		class configSort {};
 		class crateLootParams {};
-		class CSATCrate {};
 		class dress {};
 		class empty {};
 		class equipmentClassToCategories {};
 		class equipmentIsValidForCurrentModset {};
 		class equipmentSort {};
+		class fillLootCrate {};
 		class getRadio {};
 		class itemConfig {};
 		class itemConfigMass {};
@@ -383,7 +413,6 @@ class A3A
 		class itemType {};
 		class launcherInfo {};
 		class loot {};
-		class NATOCrate {};
 		class randomRifle {};
 		class transfer {};
 		class unlockEquipment {};
@@ -401,8 +430,8 @@ class A3A
 		class promotePlayer {};
 		class ranksMP {};
 		class resourcesPlayer {};
-		class theBossInit {};
 		class theBossToggleEligibility {};
+		class theBossTransfer {};
 		class theBossSteal {};
 		class assignBossIfNone {};
 		class tierCheck {};
@@ -427,13 +456,24 @@ class A3A
 
 	class Punishment
 	{
+		class outOfBounds {};
 		class punishment {};
 		class punishment_addActionForgive {};
+		class punishment_checkStatus {};
+		class punishment_dataGet {};
+		class punishment_dataRem {};
+		class punishment_dataSet {};
+		class punishment_dataNamespace {};
+		class punishment_FF {};
+		class punishment_FF_checkNearHQ {};
+		class punishment_FF_addEH {};
 		class punishment_notifyAdmin {};
-		class punishment_notifyAllAdmins {};
+		class punishment_oceanGulag {};
 		class punishment_release {};
-		class punishment_sentence {};
-		class punishment_warden {};
+		class punishment_removeActionForgive {};
+		class punishment_sentence_client {};
+		class punishment_sentence_server {};
+		class punishment_notPlayer {};
 	};
 
 	class pvp
@@ -489,15 +529,21 @@ class A3A
 		class runwayInfo {};
 	};
 
+	class SalvageRope
+	{
+		class SalvageRope {};
+	};
+
 	class Save
 	{
+		class deleteSave {};
 		class loadPlayer {};
-		class loadPreviousSession {};
 		class loadServer {};
 		class playerHasSave {};
 		class savePlayer {};
 		class getStatVariable {};
 		class loadStat {};
+		class resetPlayer {};
 		class retrievePlayerStat {};
 		class returnSavedStat {};
 		class savePlayerStat {};
@@ -518,6 +564,10 @@ class A3A
 	class UI
 	{
 		class customHint {};
+		class customHintDismiss {};
+		class customHintInit {};
+		class customHintRender {};
+		class shader_ratioToHex {};
 	};
 
 	class Undercover

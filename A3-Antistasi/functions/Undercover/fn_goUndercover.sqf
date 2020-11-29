@@ -7,21 +7,19 @@ if (captive _player) exitWith {
 	["Undercover", "You are Undercover already"] call A3A_fnc_customHint;
 };
 
-private["_compromised", "_changeX", "_airportsX", "_roadblocks", "_arrayCivVeh", "_player", "_size", "_base", "_onDetectionMarker", "_onBaseMarker", "_airportSide"];
+private["_compromised", "_changeX", "_secureBases", "_roadblocks", "_player", "_size", "_base", "_onDetectionMarker", "_onBaseMarker", "_baseSide"];
 
 _changeX = "";
 _roadblocks = (controlsX select {
 	isOnRoad(getMarkerPos _x)
 });
-_airportsX = airportsX + outposts + _roadblocks;
-_airportsX1 = airportsX;
-_arrayCivVeh = arrayCivVeh + [civHeli] + civBoats;
+_secureBases = airportsX + outposts + seaports + _roadblocks;
 _compromised = _player getVariable "compromised";
 
 
 
 if (vehicle _player != _player) then {
-	if (not(typeOf(vehicle _player) in _arrayCivVeh)) then {
+	if (not(typeOf(vehicle _player) in undercoverVehicles)) then {
 		["Undercover", "You are not in a civilian vehicle"] call A3A_fnc_customHint;
 		_changeX = "Init"
 	};
@@ -61,10 +59,10 @@ if ({
 	};
 };
 
-_base = [_airportsX, _player] call BIS_fnc_nearestPosition;
+_base = [_secureBases, _player] call BIS_fnc_nearestPosition;
 _size = [_base] call A3A_fnc_sizeMarker;
 if ((_player distance getMarkerPos _base < _size * 2) and(not(sidesX getVariable[_base, sideUnknown] == teamPlayer))) exitWith {
-	["Undercover", "You cannot go Undercover near Airports, Outposts or Roadblocks"] call A3A_fnc_customHint;
+	["Undercover", "You cannot go Undercover near Airports, Outposts, Seaports or Roadblocks"] call A3A_fnc_customHint;
 };
 
 ["Undercover ON", 0, 0, 4, 0, 0, 4] spawn bis_fnc_dynamicText;
@@ -98,7 +96,7 @@ do {
 		_veh = vehicle _player;
 		_typeX = typeOf _veh;
 		if (_veh != _player) then {
-			if (not(_typeX in _arrayCivVeh)) then {
+			if (not(_typeX in undercoverVehicles)) then {
 				_changeX = "VNoCivil"
 			}
 			else {
@@ -113,7 +111,7 @@ do {
 										((side _x == Invaders) or(side _x == Occupants)) and((_x knowsAbout _player > 1.4) or(_x distance _player < 350))
 									}
 									count allUnits > 0) then {
-									_changeX = "Carretera"
+									_changeX = "Highway"
 								};
 							};
 						};
@@ -152,17 +150,17 @@ do {
 		};
 		if (_changeX == "") then {
 			if ((_typeX != civHeli) and(!(_typeX in civBoats))) then {
-				_base = [_airportsX, _player] call BIS_fnc_nearestPosition;
+				_base = [_secureBases, _player] call BIS_fnc_nearestPosition;
 				//_size = [_base] call A3A_fnc_sizeMarker;
 				//Following lines are for the detection of players in the detectionAreas
 				_onDetectionMarker = (detectionAreas findIf {
 					_player inArea _x
 				} != -1);
 				_onBaseMarker = (_player inArea _base);
-				_airportSide = (sidesX getVariable[_base, sideUnknown]);
-				_airport = [_airportsX1, _player] call BIS_fnc_nearestPosition;
+				_baseSide = (sidesX getVariable[_base, sideUnknown]);
+				_airport = [airportsX, _player] call BIS_fnc_nearestPosition;
 				if (_onBaseMarker && {
-						_airportSide != teamPlayer
+						_baseSide != teamPlayer
 					} || {
 						_onDetectionMarker && {
 							sidesX getVariable _airport != teamPlayer
@@ -170,13 +168,13 @@ do {
 					}) then {
 					if !(_isInControl) then {
 						_aggro =
-							if (sidesX getVariable[_base, sideUnknown] == Occupants) then {
-								prestigeNATO + (tierWar * 10)
+							if (_baseSide == Occupants) then {
+								aggressionOccupants + (tierWar * 10)
 							} else {
-								prestigeCSAT + (tierWar * 10)
+								aggressionInvaders + (tierWar * 10)
 							};
 							//Probability	of being spotted. Unless we're in an airfield - then we're always spotted.
-						if (_base in _airportsX1 || _onDetectionMarker || random 100 < _aggro) then {
+						if (_base in airportsX || _onDetectionMarker || random 100 < _aggro) then {
 							if (_base in _roadblocks) then {
 								_changeX = "distanceX";
 							}
@@ -195,17 +193,20 @@ do {
 			}
 			else {
 				if (_typeX == civHeli) then {
-					_base = [_airportsX1, _player] call BIS_fnc_nearestPosition;
+					_base = [airportsX, _player] call BIS_fnc_nearestPosition;
 					_size = [_base] call A3A_fnc_sizeMarker;
-					if ((_player distance2d getMarkerPos _base < _size * 3) and((sidesX getVariable[_base, sideUnknown] == Occupants) or(sidesX getVariable[_base, sideUnknown] == Invaders))) then {
+					if ((_player distance2d getMarkerPos _base < _size * 3) and((sidesX getVariable[_base, sideUnknown] == Occupants) or(sidesX getVariable[_base, sideUnknown] == Invaders))) exitWith {
 						_changeX = "NoFly";
+					};
+					_base = [outposts + seaports, _player] call BIS_fnc_nearestPosition;
+					if ((_player distance getMarkerPos _base < 100) and((sidesX getVariable[_base, sideUnknown] == Occupants) or(sidesX getVariable[_base, sideUnknown] == Invaders))) exitWith {
+						_changeX = "distanceX";
 					};
 				};
 			};
 		};
 	};
 };
-diag_log format["[Antistasi] Player detected in %1 (undercover.sqf)", _onDetectionMarker];
 
 if (captive _player) then {
 	[_player, false] remoteExec["setCaptive"];
@@ -248,7 +249,7 @@ switch _changeX do {
 			reportedVehs pushBackUnique(vehicle _player);
 			publicVariable "reportedVehs";
 		};
-	case "Carretera":{
+	case "Highway":{
 			["Undercover", "You went too far away from any roads and have been spotted"] call A3A_fnc_customHint;
 			reportedVehs pushBackUnique(vehicle _player);
 			publicVariable "reportedVehs";

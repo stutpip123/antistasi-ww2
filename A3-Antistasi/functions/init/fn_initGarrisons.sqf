@@ -7,11 +7,10 @@ private _fileName = "fn_initGarrisons";
 _fnc_initMarker =
 {
 	params ["_mrkCSAT", "_target", "_mrkType", "_mrkText", ["_useSideName", false]];
-	private ["_pos", "_mrk", "_garrNum", "_garrison", "_groupsRandom"];
 
 	{
-		_pos = getMarkerPos _x;
-		_mrk = createMarker [format ["Dum%1", _x], _pos];
+		private _pos = getMarkerPos _x;
+		private _mrk = createMarker [format ["Dum%1", _x], _pos];
 		//TODO Multilanguage variable insted text
 		_mrk setMarkerShape "ICON";
 
@@ -20,37 +19,34 @@ _fnc_initMarker =
 			killZones setVariable [_x, [], true];
 			server setVariable [_x, 0, true];
 
-			if (_x in _mrkCSAT) then
-			{
-				_mrkText = format [_mrkText, nameInvaders];
-				if(_x in airportsX) then
-				{
-					_mrkType = flagCSATmrk;
-				};
-			}
-			else
-			{
-				_mrkText = format [_mrkText, nameOccupants];
-				if(_x in airportsX) then
-				{
-					_mrkType = flagNATOmrk;
-				};
-			};
+			private _sideName = if (_x in _mrkCSAT) then {nameInvaders} else {nameOccupants};
+			_mrk setMarkerText format [_mrkText, _sideName];
+		}
+		else
+		{
+			_mrk setMarkerText _mrkText;
+		};
+
+		if (_x in airportsX) then
+		{
+			private _flagType = if (_x in _mrkCSAT) then {flagCSATmrk} else {flagNATOmrk};
+			_mrk setMarkerType _flagType;
+		}
+		else
+		{
+			_mrk setMarkerType _mrkType;
 		};
 
 		if (_x in _mrkCSAT) then
 		{
-			_mrk setMarkerColor colorInvaders;
+			if !(_x in airportsX) then {_mrk setMarkerColor colorInvaders;} else {_mrk setMarkerColor "Default"};
 			sidesX setVariable [_x, Invaders, true];
 		}
 		else
 		{
-			_mrk setMarkerColor colorOccupants;
+			if !(_x in airportsX) then {_mrk setMarkerColor colorOccupants;} else {_mrk setMarkerColor "Default"};
 			sidesX setVariable [_x, Occupants, true];
 		};
-
-		_mrk setMarkerType _mrkType;
-		_mrk setMarkerText _mrkText;
 
 		[_x] call A3A_fnc_createControls;
 	} forEach _target;
@@ -150,6 +146,10 @@ if (gameMode == 1) then
 		case "stratis": {
 			_mrkCSAT = ["outpost_3"];
 		};
+		case "takistan": {
+			_mrkCSAT = ["airport_1", "outpost_5", "outpost_6", "outpost_7", "outpost_8", "resource", "resource_5", "resource_6"];
+			_controlsCSAT = ["control", "control_1", "control_2", "control_5", "control_13", "control_20", "control_21", "control_22", "control_24", "control_25", "control_31"];
+		};
 	};
     _controlsNATO = _controlsNATO - _controlsCSAT;
 	_mrkNATO = markersX - _mrkCSAT - ["Synd_HQ"];
@@ -184,6 +184,9 @@ else
 
 if (!(isNil "loadLastSave") && {loadLastSave}) exitWith {};
 
+//Set carrier markers to the same as airbases below.
+if (isServer) then {"NATO_carrier" setMarkertype flagNATOmrk};
+if (isServer) then {"CSAT_carrier" setMarkertype flagCSATmrk};
 
 if (debug) then {
 	diag_log format ["%1: [Antistasi] | DEBUG | initGarrisons.sqf | Setting up Airbase stuff.", servertime];

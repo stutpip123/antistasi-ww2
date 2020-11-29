@@ -14,18 +14,6 @@ if (_damage >= 1 && {_hitPoint == "hithead"}) then
 
 if (_part == "" && _damage > 0.1) then
 {
-	// Player vs rebel TK check
-	if (isPlayer _instigator && _unit != _instigator && {side group _instigator == teamPlayer && side group _unit == teamPlayer}) then
-	{
-// Removed uniform check because neither allRebelUniforms or uniform side is currently sufficient
-//		_uniform = uniform _unit;
-//		if (_uniform in allRebelUniforms || {_uniform in allCivilianUniforms}) then
-//		{
-			[_instigator, 20, (_damage min 0.34), _unit] remoteExec ["A3A_fnc_punishment",_instigator];
-			[format ["%1 was injured by %2 (UID: %3), %4m from HQ",name _unit,name _instigator,getPlayerUID _instigator,_unit distance2D posHQ]] remoteExec ["diag_log",2];
-//		};
-	};
-
 	// this will not work the same with ACE, as damage isn't accumulated
 	if (!isPlayer (leader group _unit) && dam < 1.0) then
 	{
@@ -51,7 +39,7 @@ if (_part == "" && _damage > 0.1) then
 };
 
 
-// Let ACE medical handle the rest (inc return value) if it's running 
+// Let ACE medical handle the rest (inc return value) if it's running
 if (hasACEMedical) exitWith {};
 
 
