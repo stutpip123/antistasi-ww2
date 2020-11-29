@@ -615,7 +615,7 @@ private _unarmedTemplate = {
 /////////////////////////////
 //  Special Forces Units   //
 /////////////////////////////
-private _prefix = "loadouts_SF_";
+private _prefix = "SF";
 private _unitTypes = [
 	["SquadLeader", _squadLeaderTemplate],
 	["Rifleman", _riflemanTemplate],
@@ -644,7 +644,7 @@ private _unitTypes = [
 ///////////////////////
 //  Military Units   //
 ///////////////////////
-private _prefix = "loadouts_military_";
+private _prefix = "military";
 private _unitTypes = [
 	["SquadLeader", _squadLeaderTemplate],
 	["Rifleman", _riflemanTemplate],
@@ -665,7 +665,7 @@ private _unitTypes = [
 ////////////////////////
 //    Police Units    //
 ////////////////////////
-private _prefix = "loadouts_police_";
+private _prefix = "police";
 private _unitTypes = [
 	["SquadLeader", _squadLeaderTemplate],
 	["Standard", _policeTemplate]
@@ -676,7 +676,7 @@ private _unitTypes = [
 ////////////////////////
 //    Militia Units    //
 ////////////////////////
-private _prefix = "loadouts_militia_";
+private _prefix = "militia";
 private _unitTypes = [
 	["Rifleman", _riflemanTemplate],
 	["Marksman", _marksmanTemplate]
