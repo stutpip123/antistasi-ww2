@@ -30,10 +30,10 @@ private _filename = "fn_serialiseAllVehicles";
 private _serialisation = [];
 try {
     private _metaSearch = +_meta;
-    private _physXDataRef       = [_metaSearch,"physXDataRef",      [[0,0,0],[0,0,0]]   ] call Col_fnc_remKeyPair;  // Currently only azimuth is factored in.
+    private _physXDataRef       = [_metaSearch,"physXDataRef",      [[0,0,0],[0,0,0]]   ] call Col_fnc_map_rem;  // Currently only azimuth is factored in.
 
     private _type = typeOf _object;
-    private _physXData = [_object,_physXDataRef] call Col_fnc_getPhysX;
+    private _physXData = [_object,_physXDataRef] call Col_fnc_getObjPhysX;
     // Details
     private _vehicleCustomization = [_object] call BIS_fnc_getVehicleCustomization;
     private _damage = damage _object;

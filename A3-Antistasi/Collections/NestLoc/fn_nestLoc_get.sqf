@@ -19,10 +19,10 @@ Environment: Unscheduled, Recommended as it queries possibly changing data. | Sc
 Public: Yes
 
 Example:
-    _lootNo = [player, "lootBoxesOpened", 0] call A3A_fnc_getNestedObject;
+    _lootNo = [player, "lootBoxesOpened", 0] call Col_fnc_nestLoc_get;
         // is equal to _lootNo = player getVariable ["lootBoxesOpened", 0, false];
 
-    _gun = [missionNamespace, "A3A_UIDPlayers", "1234567890123456", "equipment", "weapon", "hgun_Pistol_heavy_01_F"] call A3A_fnc_getNestedObject;
+    _gun = [missionNamespace, "A3A_UIDPlayers", "1234567890123456", "equipment", "weapon", "hgun_Pistol_heavy_01_F"] call Col_fnc_nestLoc_get;
         // Is almost Equal to:    (* returns default if any namespaces is not defined)
         // _1 = missionNamespace getVariable ["A3A_UIDPlayers", *];
         // _2 = _1 getVariable ["1234567890123456", *];

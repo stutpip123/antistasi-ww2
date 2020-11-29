@@ -17,18 +17,18 @@ Environment: Scheduled, Recommended as it recurses over entire sub-tree. Could b
 Public: Yes
 
 Example:
-    [[missionNamespace, "A3A_UIDPlayers", "1234567890123456", "equipment", "weapon", "SMG_02_F"] call A3A_fnc_setNestedObject, "helmet", "H_Hat_grey"] call A3A_fnc_setNestedObject;
+    [[missionNamespace, "A3A_UIDPlayers", "1234567890123456", "equipment", "weapon", "SMG_02_F"] call Col_fnc_nestLoc_set, "helmet", "H_Hat_grey"] call Col_fnc_nestLoc_set;
         // missionNamespace > "A3A_UIDPlayers" > "1234567890123456" > "equipment" > [multiple end values]
-    _parent = [missionNamespace, "A3A_UIDPlayers", locationNull] call A3A_fnc_getNestedObject; // returns a <location> that's referenced by "A3A_UIDPlayers" in missionNamespace;
-    [_parent] call A3A_fnc_remNestedObject;
+    _parent = [missionNamespace, "A3A_UIDPlayers", locationNull] call Col_fnc_nestLoc_get; // returns a <location> that's referenced by "A3A_UIDPlayers" in missionNamespace;
+    [_parent] call Col_fnc_nestLoc_rem;
         // missionNamespace > "A3A_UIDPlayers" will have value locationNull.
 
     // Recursive (NB: There are not many good reasons to have self-referencing trees. However, if you wanted to delete the entire tree by deleting any sub node, this "practice" will achieve that.)
     _parent = [false] call A3A_fnc_createNamespace;
-    [missionNamespace, "A3A_parent", _parent] call A3A_fnc_setNestedObject;
-    [missionNamespace, "A3A_parent", "recursion", _parent] call A3A_fnc_setNestedObject;
+    [missionNamespace, "A3A_parent", _parent] call Col_fnc_nestLoc_set;
+    [missionNamespace, "A3A_parent", "recursion", _parent] call Col_fnc_nestLoc_set;
         // missionNamespace > "A3A_parent" > "recursion" > "recursion" > "recursion" > "recursion" > "recursion" > "recursion" > "recursion"...
-    [_parent] call A3A_fnc_remNestedObject;
+    [_parent] call Col_fnc_nestLoc_rem;
         // missionNamespace > "A3A_parent" will have value locationNull
 */
 params [["_parent",locationNull],["_purge",true]];
@@ -53,6 +53,6 @@ deleteLocation _parent;  // Deleting the parent before recursing prevents infini
     deleteVehicle _x;
 } forEach _childrenObjects;
 {
-    [_x,_purge] call A3A_fnc_remNestedObject;
+    [_x,_purge] call Col_fnc_nestLoc_rem;
 } forEach _childrenLocations;
 true;

@@ -1,6 +1,6 @@
 /*
 Function:
-    Col_fnc_getKeyPair
+    Col_fnc_map_get
 
 Description:
     Searches for specified key in a KeyPair map.
@@ -17,7 +17,7 @@ Returns:
 Examples:
     private _objectReference = player;
     private _map = [["name","jim"],[2,true],[_objectReference,west]];
-    [player,sideUnknown] call Col_fnc_getKeyPair;  // west
+    [player,sideUnknown] call Col_fnc_map_get;  // west
     _map;  // [["name","jim"],[2,true],[_objectReference,west]]
 
 Author: Caleb Serafin

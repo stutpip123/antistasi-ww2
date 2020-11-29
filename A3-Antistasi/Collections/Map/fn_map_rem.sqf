@@ -1,6 +1,6 @@
 /*
 Function:
-    Col_fnc_remKeyPair
+    Col_fnc_map_rem
 
 Description:
     Recommend when loading data from a save, settings array, deserialisation ect.
@@ -20,7 +20,7 @@ Returns:
 Examples:
     private _objectReference = player;
     private _map = [["name","jim"],[2,true],[_objectReference,west]];
-    [player,sideUnknown] call Col_fnc_remKeyPair;  // west
+    [player,sideUnknown] call Col_fnc_map_rem;  // west
     _map;  // [["name","jim"],[2,true]]
 
 Author: Caleb Serafin

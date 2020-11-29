@@ -25,10 +25,10 @@ Dependencies:
     <CODE<LOCATION,BOOLEAN>> A3A_fnc_createNamespace
 
 Example:
-    [player, "lootBoxesOpened", 5] call A3A_fnc_setNestedObject;
+    [player, "lootBoxesOpened", 5] call Col_fnc_nestLoc_set;
         // is equal to player setVariable ["lootBoxesOpened", 5, false];
 
-    [missionNamespace, "A3A_UIDPlayers", "1234567890123456", "equipment", "weapon", "SMG_02_F"] call A3A_fnc_setNestedObject;
+    [missionNamespace, "A3A_UIDPlayers", "1234567890123456", "equipment", "weapon", "SMG_02_F"] call Col_fnc_nestLoc_set;
         // Is almost Equal to:    (* creates namespaces if not already defined)
         // _1 = missionNamespace getVariable ["A3A_UIDPlayers", *];
         // _2 = _1 getVariable ["1234567890123456", *];

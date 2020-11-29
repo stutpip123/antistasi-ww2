@@ -565,25 +565,25 @@ class A3A
 
 class Collections
 {
-	tag = "Col"
+	tag = "Col";
 	class Collections_Map
 	{
 		file="Collections\Map";
-		class getKeyPair {};
-		class getKeyPairs {};
-		class remKeyPair {};
-		class remKeyPairs {};
+		class map_get {};
+		class map_gets {};
+		class map_rem {};
+		class map_rems {};
 	};
-	class Collections_NestObj
+	class Collections_NestLoc
 	{
-		file="Collections\NestObj";
-		class getNestedObject {};
-		class remNestedObject {};
-		class setNestedObject {};
+		file="Collections\NestLoc";
+		class nestLoc_get {};
+		class nestLoc_rem {};
+		class nestLoc_set {};
 	};
 	class Collections_Serialisation
 	{
-		file="functions\Collections\Serialisation";
+		file="Collections\Serialisation";
 		class defaultSerialisers {};
 		class deserialiseCode {};
 		class deserialiseSide {};
@@ -592,7 +592,7 @@ class Collections
 	};
 	class Collections_Serialisation_Objects
 	{
-		file="functions\Collections\Serialisation\Objects";
+		file="Collections\Serialisation\Objects";
 		class deserialiseAll {};
 		class deserialiseAllVehicles {};
 		class serialiseAll {};
@@ -600,9 +600,9 @@ class Collections
 	};
 	class Collections_Serialisation_Objects_Common
 	{
-		file="functions\Collections\Serialisation\Objects\Common";
-		class getObjectPhysX {};
+		file="Collections\Serialisation\Objects\Common";
+		class getObjPhysX {};
 		class rotatePosRotVel {};
-		class setObjectPhysX {};
+		class setObjPhysX {};
 	};
 };

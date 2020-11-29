@@ -1,12 +1,12 @@
 /*
 Function:
-    Col_fnc_remKeyPairs
+    Col_fnc_map_rems
 
 Description:
     Recommend when loading data from a save, settings array, deserialisation ect.
     Recommend to have saving and loading be in the same order to optimise speed.
-    Searches for specified keys in a KeyPair map. Map is not modified
-    If found, the element's the value returned in order. Otherwise default is returned. Performs strict value comparison.
+    Searches for specified keys in a KeyPair map. NB: IT IS PASSED AS A REFERENCE, ELEMENTS WILL BE DELETED!
+    If found, the element is deleted and the value returned. Otherwise default is returned. Performs strict value comparison.
     Option to sort first.
 
 Parameters:
@@ -28,21 +28,19 @@ Examples:
             ["name","missing"],
             [player,sideUnknown]
         ]
-    ] call Col_fnc_remKeyPairs params ["two","name","whyTho"];  // [true,"missing",west]
-    _map;  // [["name","jim"],[2,true],["Whoops",0],[player,west]]
+    ] call Col_fnc_map_rems params ["two","name","whyTho"];  // [true,"missing",west]
+    _map;  // [["Whoops",0]]
 
 Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
 */
 params [
-    ["_mapIn","",[ [] ]],
-    ["_keyPairsIn", [],[ [] ]],
+    ["_map","",[ [] ]],
+    ["_keyPairs", [],[ [] ]],
     ["_sortBothFirst",false,[false]]
 ];
-private _filename = "fn_getKeyPairs";
+private _filename = "fn_remKeyPairs";
 
-private _map = +_mapIn;
-private _keyPairs = +_keyPairsIn;
 if (_sortBothFirst) then {
     _map sort true;
     _keyPairs sort true;

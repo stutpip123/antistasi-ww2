@@ -57,14 +57,14 @@ for "_i" from 1 to 1000*100 do {
 
 private _startTime = diag_tickTime;
 for "_bucket" from 1 to 1000 do {
-	[missionNamespace getVariable [str _bucket,locationNull]] call Col_fnc_remNestedObject;
+	[missionNamespace getVariable [str _bucket,locationNull]] call Col_fnc_nestLoc_rem;
 };
 [str (1000*(diag_tickTime - _startTime)),"ms"] joinString "";  // 100x1000: 562.988ms; 1000x1000: 5624.02ms;
 
 
 private _startTime = diag_tickTime;
 for "_bucket" from 1 to 1000 do {
-	private _varspace = [missionNamespace, str _bucket, "0", "0"] call Col_fnc_setNestedObject;
+	private _varspace = [missionNamespace, str _bucket, "0", "0"] call Col_fnc_nestLoc_set;
 	for "_i" from 1 to 1000 do {
 		_varspace setVariable [str _i,str _i];
 	};
@@ -92,7 +92,7 @@ for "_i" from 1 to 1000*1000 do {
 	_bucket = floor(random 1000) + 1;
 	_var = floor(random 1000) + 1;
 	_startTime = diag_tickTime;
-	_out pushBack ([missionNamespace, str _bucket, str _var, "0"] call Col_fnc_getNestedObject);
+	_out pushBack ([missionNamespace, str _bucket, str _var, "0"] call Col_fnc_nestLoc_get);
 	_totalTime = _totalTime + diag_tickTime - _startTime;
 };
 [str (1000*_totalTime),"ms"] joinString "";  // 100_000: 1857.91ms; 1_000_000: 17996.6ms;
