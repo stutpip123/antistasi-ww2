@@ -15,6 +15,12 @@
 //TODO: Remove factionFIA from Antistasi
 //TODO: Remove factionGEN
 //TODO: Remove factionMaleOccupants
+//TODO: Investigate rebel groups having weird formats like SDKGL
+//TODO: Fix typeOf and unitClass - meep.
+//TODO: Make sure BIS_spawn_vehicle is *not used*
+//TODO: Make createUnit handle loadout strings/
+//TODO: Civ Loading in the future
+//TODO: Militia FIA variants
 
 params ["_file", "_side"];
 
@@ -35,83 +41,83 @@ if (_side isEqualTo east) then {
 	CSATPlayerLoadouts = _faction getVariable "pvpLoadouts";
 	vehCSATPVP = _faction getVariable "pvpVehicles";
 
-	CSATGrunt = _faction getVariable "loadouts_military_SquadLeader";
-	CSATOfficer = _faction getVariable "loadouts_Official";
-	CSATBodyG = _faction getVariable "loadouts_military_Rifleman";
-	CSATCrew = _faction getVariable "loadouts_Crew";
-	CSATMarksman = _faction getVariable "loadouts_military_Marksman";
-	staticCrewInvaders = _faction getVariable "loadouts_military_Rifleman";
-	CSATPilot = _faction getVariable "loadouts_Pilot";
+	CSATGrunt = "loadouts_military_SquadLeader";
+	CSATOfficer = "loadouts_Official";
+	CSATBodyG = "loadouts_military_Rifleman";
+	CSATCrew = "loadouts_Crew";
+	CSATMarksman = "loadouts_military_Marksman";
+	staticCrewInvaders = "loadouts_military_Rifleman";
+	CSATPilot = "loadouts_Pilot";
 
 	if (gameMode == 4) then {
-		FIARifleman = _faction getVariable "loadouts_militia_Rifleman";
-		FIAMarksman = _faction getVariable "loadouts_militia_Marksman";
+		FIARifleman = "loadouts_militia_Rifleman";
+		FIAMarksman = "loadouts_militia_Marksman";
 	};
 
-	groupsCSATSentry = [_faction getVariable "loadouts_military_Grenadier", _faction getVariable "loadouts_military_Rifleman"];
+	groupsCSATSentry = ["loadouts_military_Grenadier", "loadouts_military_Rifleman"];
 	//TODO Change Rifleman to spotter.
-	groupsCSATSniper = [_faction getVariable "loadouts_military_Sniper", _faction getVariable "loadouts_military_Rifleman"];
+	groupsCSATSniper = ["loadouts_military_Sniper", "loadouts_military_Rifleman"];
 	//TODO Create lighter Recon loadouts, and add a group of them to here.
 	groupsCSATSmall = [groupsCSATSentry, groupsCSATSniper];
 	//TODO Add ammobearers
 	groupsCSATAA = [
-		_faction getVariable "loadouts_military_SquadLeader",
-		_faction getVariable "loadouts_military_AA",
-		_faction getVariable "loadouts_military_AA"
+		"loadouts_military_SquadLeader",
+		"loadouts_military_AA",
+		"loadouts_military_AA"
 	];
 	groupsCSATAT = [
-		_faction getVariable "loadouts_military_SquadLeader",
-		_faction getVariable "loadouts_military_AT",
-		_faction getVariable "loadouts_military_AT"
+		"loadouts_military_SquadLeader",
+		"loadouts_military_AT",
+		"loadouts_military_AT"
 	];
 	private _groupsCSATMediumSquad = [
-		_faction getVariable "loadouts_military_SquadLeader", 
-		_faction getVariable "loadouts_military_MachineGunner",
-		_faction getVariable "loadouts_military_Grenadier",
-		_faction getVariable "loadouts_military_LAT"
+		"loadouts_military_SquadLeader", 
+		"loadouts_military_MachineGunner",
+		"loadouts_military_Grenadier",
+		"loadouts_military_LAT"
 	];
 	groupsCSATmid = [_groupsCSATMediumSquad, groupsCSATAA, groupsCSATAT];
 	
 	groupsCSATSquad = [];
 	for "_i" from 1 to 5 do {
 		groupsCSATSquad pushBack [
-			_faction getVariable "loadouts_military_SquadLeader",
-			selectRandomWeighted [_faction getVariable "loadouts_military_LAT", 2, _faction getVariable "loadouts_military_MachineGunner", 1],
-			selectRandomWeighted [_faction getVariable "loadouts_military_Rifleman", 2, _faction getVariable "loadouts_military_Grenadier", 1],
-			selectRandomWeighted [_faction getVariable "loadouts_military_MachineGunner", 2, _faction getVariable "loadouts_military_Marksman", 1],
-			selectRandomWeighted [_faction getVariable "loadouts_military_Rifleman", 4, _faction getVariable "loadouts_military_AT", 1],
-			selectRandomWeighted [_faction getVariable "loadouts_military_AA", 1, _faction getVariable "loadouts_military_Engineer", 4],
-			_faction getVariable "loadouts_military_Rifleman",
-			_faction getVariable "loadouts_military_Medic"
+			"loadouts_military_SquadLeader",
+			selectRandomWeighted ["loadouts_military_LAT", 2, "loadouts_military_MachineGunner", 1],
+			selectRandomWeighted ["loadouts_military_Rifleman", 2, "loadouts_military_Grenadier", 1],
+			selectRandomWeighted ["loadouts_military_MachineGunner", 2, "loadouts_military_Marksman", 1],
+			selectRandomWeighted ["loadouts_military_Rifleman", 4, "loadouts_military_AT", 1],
+			selectRandomWeighted ["loadouts_military_AA", 1, "loadouts_military_Engineer", 4],
+			"loadouts_military_Rifleman",
+			"loadouts_military_Medic"
 		];
 	};
 
 	CSATSquad = groupsCSATSquad select 0;
 	CSATSpecOp = [
-		_faction getVariable "loadouts_SF_SquadLeader",
-		_faction getVariable "loadouts_SF_Rifleman",
-		_faction getVariable "loadouts_SF_MachineGunner",
-		_faction getVariable "loadouts_SF_ExplosivesExpert",
-		_faction getVariable "loadouts_SF_LAT",
-		_faction getVariable "loadouts_SF_Medic"
+		"loadouts_SF_SquadLeader",
+		"loadouts_SF_Rifleman",
+		"loadouts_SF_MachineGunner",
+		"loadouts_SF_ExplosivesExpert",
+		"loadouts_SF_LAT",
+		"loadouts_SF_Medic"
 	];
 
 	if (gamemode == 4) then {
 		groupsFIASmall = [
-			[_faction getVariable "loadouts_military_Grenadier", _faction getVariable "loadouts_militia_Rifleman"],
-			[_faction getVariable "loadouts_militia_Marksman", _faction getVariable "loadouts_militia_Rifleman"],
-			[_faction getVariable "loadouts_militia_Marksman", _faction getVariable "loadouts_military_Grenadier"]
+			["loadouts_military_Grenadier", "loadouts_militia_Rifleman"],
+			["loadouts_militia_Marksman", "loadouts_militia_Rifleman"],
+			["loadouts_militia_Marksman", "loadouts_military_Grenadier"]
 		];
 		groupsFIAMid = [];
 		for "_i" from 1 to 6 do {
 			groupsFIAMid pushBack [
-				_faction getVariable "loadouts_military_SquadLeader",
-				_faction getVariable "loadouts_military_Grenadier",
-				_faction getVariable "loadouts_military_MachineGunner",
+				"loadouts_military_SquadLeader",
+				"loadouts_military_Grenadier",
+				"loadouts_military_MachineGunner",
 				selectRandomWeighted [
-					_faction getVariable "loadouts_military_LAT", 1, 
-					_faction getVariable "loadouts_militia_Marksman", 1
-					_faction getVariable "loadouts_military_Engineer", 1
+					"loadouts_military_LAT", 1, 
+					"loadouts_militia_Marksman", 1,
+					"loadouts_military_Engineer", 1
 				]
 			];
 		};
@@ -119,15 +125,15 @@ if (_side isEqualTo east) then {
 		groupsFIASquad = [];
 		for "_i" from 1 to 5 do {
 			groupsFIASquad pushBack [
-				_faction getVariable "loadouts_military_SquadLeader",
-				_faction getVariable "loadouts_military_MachineGunner",
-				_faction getVariable "loadouts_military_Grenadier",
-				_faction getVariable "loadouts_militia_Rifleman",
-				selectRandomWeighted [_faction getVariable "loadouts_militia_Rifleman", 1, _faction getVariable "loadouts_militia_Marksman", 1],
-				selectRandomWeighted [_faction getVariable "loadouts_militia_Rifleman", 2, _faction getVariable "loadouts_militia_Marksman", 1],
-				selectRandomWeighted [_faction getVariable "loadouts_militia_Rifleman", 1, _faction getVariable "loadouts_military_ExplosivesExpert", 1],
-				_faction getVariable "loadouts_military_LAT",
-				_faction getVariable "loadouts_military_Medic"
+				"loadouts_military_SquadLeader",
+				"loadouts_military_MachineGunner",
+				"loadouts_military_Grenadier",
+				"loadouts_militia_Rifleman",
+				selectRandomWeighted ["loadouts_militia_Rifleman", 1, "loadouts_militia_Marksman", 1],
+				selectRandomWeighted ["loadouts_militia_Rifleman", 2, "loadouts_militia_Marksman", 1],
+				selectRandomWeighted ["loadouts_militia_Rifleman", 1, "loadouts_military_ExplosivesExpert", 1],
+				"loadouts_military_LAT",
+				"loadouts_military_Medic"
 			];
 		};
 
@@ -146,7 +152,7 @@ if (_side isEqualTo east) then {
 	vehCSATAA = _faction getVariable "vehiclesAA" select 0;
 	vehCSATAttack = vehCSATAPC + [vehCSATTank];
 
-	vehCSATBoat = _faction getVariable "vehiclesGunboatsBoats" select 0;
+	vehCSATBoat = _faction getVariable "vehiclesGunboats" select 0;
 	vehCSATRBoat = _faction getVariable "vehiclesTransportBoats" select 0;
 	vehCSATBoats = [vehCSATBoat, vehCSATRBoat] + (_faction getVariable "vehiclesAmphibious");
 
@@ -187,7 +193,7 @@ if (_side isEqualTo east) then {
 	CSATMG = _faction getVariable "staticMGs" select 0;
 	staticATInvaders = _faction getVariable "staticAT" select 0;
 	staticAAInvaders = _faction getVariable "staticAA" select 0;
-	CSATMortar = _faction getVariable "staticMortar" select 0;
+	CSATMortar = _faction getVariable "staticMortars" select 0;
 
 	MGStaticCSATB = _faction getVariable "baggedMGs" select 0 select 0;
 	//TODO: Add tall/short support support.
@@ -219,89 +225,89 @@ if (_side isEqualTo west) then {
 	NATOPlayerLoadouts = _faction getVariable "pvpLoadouts";
 	vehNATOPVP = _faction getVariable "pvpVehicles";
 
-	NATOGrunt = _faction getVariable "loadouts_military_SquadLeader";
-	NATOOfficer = _faction getVariable "loadouts_Official";
-	NATOOfficer2 = _faction getVariable "loadouts_Traitor";
-	NATOBodyG = _faction getVariable "loadouts_military_Rifleman";
-	NATOCrew = _faction getVariable "loadouts_Crew";
-	NATOUnarmed = _faction getVariable "loadouts_Unarmed";
-	NATOMarksman = _faction getVariable "loadouts_military_Marksman";
-	staticCrewOccupants = _faction getVariable "loadouts_military_Rifleman";
-	NATOPilot = _faction getVariable "loadouts_Pilot";
+	NATOGrunt = "loadouts_military_Rifleman";
+	NATOOfficer = "loadouts_Official";
+	NATOOfficer2 = "loadouts_Traitor";
+	NATOBodyG = "loadouts_military_Rifleman";
+	NATOCrew = "loadouts_Crew";
+	NATOUnarmed = "loadouts_Unarmed";
+	NATOMarksman = "loadouts_military_Marksman";
+	staticCrewOccupants = "loadouts_military_Rifleman";
+	NATOPilot = "loadouts_Pilot";
 
-	if ((gameMode != 4) and (!hasFFAA)) then
-		FIARifleman = _faction getVariable "loadouts_militia_Rifleman";
-		FIAMarksman = _faction getVariable "loadouts_militia_Marksman";
+	if ((gameMode != 4) and (!hasFFAA)) then {
+		FIARifleman = "loadouts_militia_Rifleman";
+		FIAMarksman = "loadouts_militia_Marksman";
 	};
 
-	policeOfficer = _faction getVariable "loadouts_police_SquadLeader";
-	policeGrunt = _faction getVariable "loadouts_police_Standard";
+	policeOfficer = "loadouts_police_SquadLeader";
+	policeGrunt = "loadouts_police_Standard";
 	groupsNATOGen = [policeOfficer, policeGrunt];
 
-	groupsNATOSentry = [_faction getVariable "loadouts_military_Grenadier", _faction getVariable "loadouts_military_Rifleman"];
+	groupsNATOSentry = ["loadouts_military_Grenadier", "loadouts_military_Rifleman"];
 	//TODO Change Rifleman to spotter.
-	groupsNATOSniper = [_faction getVariable "loadouts_military_Sniper", _faction getVariable "loadouts_military_Rifleman"];
+	groupsNATOSniper = ["loadouts_military_Sniper", "loadouts_military_Rifleman"];
 	//TODO Create lighter Recon loadouts, and add a group of them to here.
 	groupsNATOSmall = [groupsNATOSentry, groupsNATOSniper];
 	//TODO Add ammobearers
 	groupsNATOAA = [
-		_faction getVariable "loadouts_military_SquadLeader",
-		_faction getVariable "loadouts_military_AA",
-		_faction getVariable "loadouts_military_AA"
+		"loadouts_military_SquadLeader",
+		"loadouts_military_AA",
+		"loadouts_military_AA"
 	];
 	groupsNATOAT = [
-		_faction getVariable "loadouts_military_SquadLeader",
-		_faction getVariable "loadouts_military_AT",
-		_faction getVariable "loadouts_military_AT"
+		"loadouts_military_SquadLeader",
+		"loadouts_military_AT",
+		"loadouts_military_AT"
 	];
 	private _groupsNATOMediumSquad = [
-		_faction getVariable "loadouts_military_SquadLeader", 
-		_faction getVariable "loadouts_military_MachineGunner",
-		_faction getVariable "loadouts_military_Grenadier",
-		_faction getVariable "loadouts_military_LAT"
+		"loadouts_military_SquadLeader", 
+		"loadouts_military_MachineGunner",
+		"loadouts_military_Grenadier",
+		"loadouts_military_LAT"
 	];
 	groupsNATOmid = [_groupsNATOMediumSquad, groupsNATOAA, groupsNATOAT];
 	
 	groupsNATOSquad = [];
 	for "_i" from 1 to 5 do {
 		groupsNATOSquad pushBack [
-			_faction getVariable "loadouts_military_SquadLeader",
-			selectRandomWeighted [_faction getVariable "loadouts_military_LAT", 2, _faction getVariable "loadouts_military_MachineGunner", 1],
-			selectRandomWeighted [_faction getVariable "loadouts_military_Rifleman", 2, _faction getVariable "loadouts_military_Grenadier", 1],
-			selectRandomWeighted [_faction getVariable "loadouts_military_MachineGunner", 2, _faction getVariable "loadouts_military_Marksman", 1],
-			selectRandomWeighted [_faction getVariable "loadouts_military_Rifleman", 4, _faction getVariable "loadouts_military_AT", 1],
-			selectRandomWeighted [_faction getVariable "loadouts_military_AA", 1, _faction getVariable "loadouts_military_Engineer", 4],
-			_faction getVariable "loadouts_military_Rifleman",
-			_faction getVariable "loadouts_military_Medic"
+			"loadouts_military_SquadLeader",
+			selectRandomWeighted ["loadouts_military_LAT", 2, "loadouts_military_MachineGunner", 1],
+			selectRandomWeighted ["loadouts_military_Rifleman", 2, "loadouts_military_Grenadier", 1],
+			selectRandomWeighted ["loadouts_military_MachineGunner", 2, "loadouts_military_Marksman", 1],
+			selectRandomWeighted ["loadouts_military_Rifleman", 4, "loadouts_military_AT", 1],
+			selectRandomWeighted ["loadouts_military_AA", 1, "loadouts_military_Engineer", 4],
+			"loadouts_military_Rifleman",
+			"loadouts_military_Medic"
 		];
 	};
 
 	NATOSquad = groupsNATOSquad select 0;
 	NATOSpecOp = [
-		_faction getVariable "loadouts_SF_SquadLeader",
-		_faction getVariable "loadouts_SF_Rifleman",
-		_faction getVariable "loadouts_SF_MachineGunner",
-		_faction getVariable "loadouts_SF_ExplosivesExpert",
-		_faction getVariable "loadouts_SF_LAT",
-		_faction getVariable "loadouts_SF_Medic"
+		"loadouts_SF_SquadLeader",
+		"loadouts_SF_Rifleman",
+		"loadouts_SF_MachineGunner",
+		"loadouts_SF_ExplosivesExpert",
+		"loadouts_SF_LAT",
+		"loadouts_SF_Medic"
 	];
 
-	if ((gameMode != 4) and (!hasFFAA)) then
+	if ((gameMode != 4) and (!hasFFAA)) then {
 		groupsFIASmall = [
-			[_faction getVariable "loadouts_military_Grenadier", _faction getVariable "loadouts_militia_Rifleman"],
-			[_faction getVariable "loadouts_militia_Marksman", _faction getVariable "loadouts_militia_Rifleman"],
-			[_faction getVariable "loadouts_militia_Marksman", _faction getVariable "loadouts_military_Grenadier"]
+			["loadouts_military_Grenadier", "loadouts_militia_Rifleman"],
+			["loadouts_militia_Marksman", "loadouts_militia_Rifleman"],
+			["loadouts_militia_Marksman", "loadouts_military_Grenadier"]
 		];
 		groupsFIAMid = [];
 		for "_i" from 1 to 6 do {
 			groupsFIAMid pushBack [
-				_faction getVariable "loadouts_military_SquadLeader",
-				_faction getVariable "loadouts_military_Grenadier",
-				_faction getVariable "loadouts_military_MachineGunner",
+				"loadouts_military_SquadLeader",
+				"loadouts_military_Grenadier",
+				"loadouts_military_MachineGunner",
 				selectRandomWeighted [
-					_faction getVariable "loadouts_military_LAT", 1, 
-					_faction getVariable "loadouts_militia_Marksman", 1
-					_faction getVariable "loadouts_military_Engineer", 1
+					"loadouts_military_LAT", 1, 
+					"loadouts_militia_Marksman", 1,
+					"loadouts_military_Engineer", 1
 				]
 			];
 		};
@@ -309,15 +315,15 @@ if (_side isEqualTo west) then {
 		groupsFIASquad = [];
 		for "_i" from 1 to 5 do {
 			groupsFIASquad pushBack [
-				_faction getVariable "loadouts_military_SquadLeader",
-				_faction getVariable "loadouts_military_MachineGunner",
-				_faction getVariable "loadouts_military_Grenadier",
-				_faction getVariable "loadouts_militia_Rifleman",
-				selectRandomWeighted [_faction getVariable "loadouts_militia_Rifleman", 1, _faction getVariable "loadouts_militia_Marksman", 1],
-				selectRandomWeighted [_faction getVariable "loadouts_militia_Rifleman", 2, _faction getVariable "loadouts_militia_Marksman", 1],
-				selectRandomWeighted [_faction getVariable "loadouts_militia_Rifleman", 1, _faction getVariable "loadouts_military_ExplosivesExpert", 1],
-				_faction getVariable "loadouts_military_LAT",
-				_faction getVariable "loadouts_military_Medic"
+				"loadouts_military_SquadLeader",
+				"loadouts_military_MachineGunner",
+				"loadouts_military_Grenadier",
+				"loadouts_militia_Rifleman",
+				selectRandomWeighted ["loadouts_militia_Rifleman", 1, "loadouts_militia_Marksman", 1],
+				selectRandomWeighted ["loadouts_militia_Rifleman", 2, "loadouts_militia_Marksman", 1],
+				selectRandomWeighted ["loadouts_militia_Rifleman", 1, "loadouts_military_ExplosivesExpert", 1],
+				"loadouts_military_LAT",
+				"loadouts_military_Medic"
 			];
 		};
 
@@ -338,7 +344,7 @@ if (_side isEqualTo west) then {
 	vehNATOAA = _faction getVariable "vehiclesAA" select 0;
 	vehNATOAttack = vehNATOAPC + [vehNATOTank];
 
-	vehNATOBoat = _faction getVariable "vehiclesGunboatsBoats" select 0;
+	vehNATOBoat = _faction getVariable "vehiclesGunboats" select 0;
 	vehNATORBoat = _faction getVariable "vehiclesTransportBoats" select 0;
 	vehNATOBoats = [vehNATOBoat, vehNATORBoat] + (_faction getVariable "vehiclesAmphibious");
 
@@ -370,7 +376,7 @@ if (_side isEqualTo west) then {
 		+ [vehNATOPlane, vehNATOPlaneAA]
 		+ vehNATOTransportPlanes;
 
-	if ((gameMode != 4) and (!hasFFAA)) then
+	if ((gameMode != 4) and (!hasFFAA)) then {
 		vehFIAArmedCar = _faction getVariable "vehiclesMilitiaLightArmed" select 0;
 		vehFIATruck = _faction getVariable "vehiclesMilitiaTrucks" select 0;
 		vehFIACar = _faction getVariable "vehiclesMilitiaCars" select 0;
@@ -381,7 +387,7 @@ if (_side isEqualTo west) then {
 	NATOMG = _faction getVariable "staticMGs" select 0;
 	staticATOccupants = _faction getVariable "staticAT" select 0;
 	staticAAOccupants = _faction getVariable "staticAA" select 0;
-	NATOMortar = _faction getVariable "staticMortar" select 0;
+	NATOMortar = _faction getVariable "staticMortars" select 0;
 
 	MGStaticNATOB = _faction getVariable "baggedMGs" select 0 select 0;
 	//TODO: Add tall/short support support.
@@ -399,7 +405,68 @@ if (_side isEqualTo independent) then {
 	//Flag images
 	SDKFlag = _faction getVariable "flag";
 	SDKFlagTexture = _faction getVariable "flagTexture";
-	typePetros = _faction getVariable "petrosLoadout";
+	typePetros = "loadouts_rebel_Petros";
 
-	//TODO: Continue this
+	staticCrewTeamPlayer = "loadouts_rebel_Rifleman";
+	SDKUnarmed = "loadouts_rebel_Unarmed";
+	SDKSniper = ["loadouts_rebel_Unarmed", "loadouts_rebel_unarmed"];
+	SDKATman = ["loadouts_rebel_lat", "loadouts_rebel_lat"];
+	SDKMedic = ["loadouts_rebel_medic", "loadouts_rebel_medic"];
+	SDKMG = ["loadouts_rebel_MachineGunner", "loadouts_rebel_MachineGunner"];
+	SDKExp = ["loadouts_rebel_ExplosivesExpert", "loadouts_rebel_ExplosivesExpert"];
+	SDKGL = ["loadouts_rebel_Grenadier", "loadouts_rebel_Grenadier"];
+	SDKMil = ["loadouts_rebel_Rifleman", "loadouts_rebel_Rifleman"];
+	SDKSL = ["loadouts_rebel_SquadLeader", "loadouts_rebel_SquadLeader"];
+	SDKEng = ["loadouts_rebel_Engineer", "loadouts_rebel_Engineer"];
+
+	groupsSDKmid = [SDKSL,SDKGL,SDKMG,SDKMil];
+	groupsSDKAT = [SDKSL,SDKMG,SDKATman,SDKATman,SDKATman];
+	groupsSDKSquad = [SDKSL,SDKGL,SDKMil,SDKMG,SDKMil,SDKATman,SDKMil,SDKMedic];
+	groupsSDKSquadEng = [SDKSL,SDKGL,SDKMil,SDKMG,SDKExp,SDKATman,SDKEng,SDKMedic];
+	groupsSDKSquadSupp = [SDKSL,SDKGL,SDKMil,SDKMG,SDKATman,SDKMedic,[staticCrewTeamPlayer,staticCrewTeamPlayer],[staticCrewTeamPlayer,staticCrewTeamPlayer]];
+	groupsSDKSniper = [SDKSniper,SDKSniper];
+	groupsSDKSentry = [SDKGL,SDKMil];
+
+	//Rebel Unit Tiers (for costs)
+	sdkTier1 = SDKMil + [staticCrewTeamPlayer] + SDKMG + SDKGL + SDKATman;
+	sdkTier2 = SDKMedic + SDKExp + SDKEng;
+	sdkTier3 = SDKSL + SDKSniper;
+	soldiersSDK = sdkTier1 + sdkTier2 + sdkTier3;
+
+	vehSDKBike = _faction getVariable "vehicleBasic";
+	vehSDKLightArmed = _faction getVariable "vehicleLightUnarmed";
+	vehSDKAT = _faction getVariable "vehicleAT";
+	vehSDKLightUnarmed = _faction getVariable "vehicleLightUnarmed";
+	vehSDKTruck = _faction getVariable "vehicleTruck";
+	vehSDKPlane = _faction getVariable "vehiclePlane";
+	vehSDKBoat = _faction getVariable "vehicleBoat";
+	vehSDKRepair = _faction getVariable "vehicleRepair";
+
+	SDKMGStatic = _faction getVariable "staticMG";
+	staticATteamPlayer = _faction getVariable "staticAT";
+	staticAAteamPlayer = _faction getVariable "staticAA";
+	SDKMortar = _faction getVariable "staticMortar";
+	SDKMortarHEMag = _faction getVariable "staticMortarMagHE";
+	SDKMortarSmokeMag = _faction getVariable "staticMortarMagSmoke";
+
+	civCar = _faction getVariable "vehicleCivCar";
+	civTruck = _faction getVariable "vehicleCivTruck";
+	civHeli = _faction getVariable "vehicleCivHeli";
+	civBoat = _faction getVariable "vehicleCivBoat";
+
+	MGStaticSDKB = _faction getVariable "baggedMGs" select 0 select 0;
+	ATStaticSDKB = _faction getVariable "baggedAT" select 0 select 0;
+	AAStaticSDKB = _faction getVariable "baggedAA" select 0 select 0;
+	MortStaticSDKB = _faction getVariable "baggedMortars" select 0 select 0;
+	supportStaticSDKB = _faction getVariable "baggedMGs" select 0 select 1;
+	supportStaticsSDKB2 = _faction getVariable "baggedMGs" select 0 select 1;
+	supportStaticsSDKB3 = _faction getVariable "baggedMortars" select 0 select 1;
+
+	ATMineMag = _faction getVariable "mineAT";
+	APERSMineMag = _faction getVariable "mineAPERS";
+
+	breachingExplosivesAPC = _faction getVariable "breachingExplosivesAPC";
+	breachingExplosivesTank = _faction getVariable "breachingExplosivesTank";
+
+	initialRebelEquipment = _faction getVariable "initialRebelEquipment";
 };
