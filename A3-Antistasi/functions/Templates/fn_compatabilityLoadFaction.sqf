@@ -11,17 +11,6 @@
  * Example Usage:
  */
 
-//TODO: Remove factionMaleInvaders from Antistasi
-//TODO: Remove factionFIA from Antistasi
-//TODO: Remove factionGEN
-//TODO: Remove factionMaleOccupants
-//TODO: Investigate rebel groups having weird formats like SDKGL
-//TODO: Fix typeOf and unitClass - meep.
-//TODO: Make sure BIS_spawn_vehicle is *not used*
-//TODO: Make createUnit handle loadout strings/
-//TODO: Civ Loading in the future
-//TODO: Militia FIA variants
-
 params ["_file", "_side"];
 
 private _faction = [_file] call A3A_fnc_loadFaction;
