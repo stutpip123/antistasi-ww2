@@ -258,7 +258,7 @@ while {true} do
 									{
 									if (hasIFA) then
 										{
-										if (([_LeaderX] call A3A_fnc_canFight) and ((typeOf _LeaderX) in squadLeaders)) then {[_LeaderX,_nearX] call A3A_fnc_useFlares}
+										if (([_LeaderX] call A3A_fnc_canFight) and ((_LeaderX getVariable "unitType") in squadLeaders)) then {[_LeaderX,_nearX] call A3A_fnc_useFlares}
 										}
 									else
 										{

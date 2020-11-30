@@ -50,9 +50,6 @@ for "_i" from 0 to (_countX - 1) do
 		sleep 0.5;
 		};
 	};
-//_unitsX = units _groupX;
-//_index = _unitsX findIf {(typeOf _x in squadLeaders)};
-//if (_index == -1) then {_groupX selectLeader (_unitsX select 0)} else {_groupX selectLeader (_unitsX select _index)};
 {_x allowDamage true} forEach units _groupX;
 _groupX
 

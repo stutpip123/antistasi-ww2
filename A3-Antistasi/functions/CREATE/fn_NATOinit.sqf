@@ -18,7 +18,7 @@ if ((isNil "_unit") || (isNull _unit)) exitWith
     [1, format ["Bad init parameter: %1", _this], _fileName] call A3A_fnc_log;
 };
 
-private _type = typeOf _unit;
+private _type = _unit getVariable "unitType";
 private _side = side (group _unit);
 
 if (_type == "Fin_random_F") exitWith {};
