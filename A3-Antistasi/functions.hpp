@@ -236,6 +236,7 @@ class A3A
 		class patrolCA {};
 		class patrolReinf {};
 		class reinforcementsAI {};
+		class registerUnitType {};
 		class remoteBattle {};
 		class removeVehFromPool {};
 		class safeVehicleSpawn {};

@@ -18,22 +18,21 @@
 
 params ["_group", "_type", "_position", ["_markers", []], ["_placement", 0], ["_special", "NONE"]];
 
-private _unitLoadout = [];
+private _loadout = customUnitTypes getVariable [_type, []];
 
-if (_type isEqualType []) then {
-	_unitLoadout = _type;
-	_type = switch (side _group) do {
+if !(_loadout isEqualTo []) exitWith {
+	private _unitClass = switch (side _group) do {
 		case west: { "B_Survivor_F" };
 		case east: { "O_Survivor_F" };
 		case independent: { "I_Survivor_F" };
 		case civilian: { "C_Man_1" };
 	};
+	private _unit = _group createUnit  [_unitClass, _position, _markers, _placement, _special];
+	_unit setUnitLoadout _loadout;
+	_unit setVariable ["unitType", _type, true];
+	_unit
 };
 
 private _unit = _group createUnit  [_type, _position, _markers, _placement, _special];
-
-if !(_unitLoadout isEqualTo []) then {
-	_unit setUnitLoadout _unitLoadout;
-};
-
+_unit setVariable ["unitType", _type, true];
 _unit
