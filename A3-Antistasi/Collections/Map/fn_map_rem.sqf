@@ -31,7 +31,6 @@ params [
     ["_key",nil],
     ["_default",nil]
 ];
-private _filename = "fn_remKeyPair";
 
 [(_map deleteAt (_map findIf {_x#0 isEqualTo _key}))#1] param [0, _default];
 

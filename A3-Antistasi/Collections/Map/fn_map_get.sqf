@@ -28,7 +28,6 @@ params [
     ["_key",nil],
     ["_default",nil]
 ];
-private _filename = "fn_getKeyPair";
 private _i = _map findIf {_x#0 isEqualTo _key};
 if (_i isEqualTo -1) then {
     _default;

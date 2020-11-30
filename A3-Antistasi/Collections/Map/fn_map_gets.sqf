@@ -39,7 +39,6 @@ params [
     ["_keyPairsIn", [],[ [] ]],
     ["_sortBothFirst",false,[false]]
 ];
-private _filename = "fn_getKeyPairs";
 
 private _map = +_mapIn;
 private _keyPairs = +_keyPairsIn;

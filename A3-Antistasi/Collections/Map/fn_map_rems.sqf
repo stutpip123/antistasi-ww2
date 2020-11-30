@@ -39,7 +39,6 @@ params [
     ["_keyPairs", [],[ [] ]],
     ["_sortBothFirst",false,[false]]
 ];
-private _filename = "fn_remKeyPairs";
 
 if (_sortBothFirst) then {
     _map sort true;
