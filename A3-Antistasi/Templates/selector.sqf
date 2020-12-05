@@ -4,7 +4,7 @@
 */
 private _filename = "selector.sqf";
 //Map checker
-aridmaps = ["Altis","Kunduz","Malden","tem_anizay"];
+aridmaps = ["Altis","Kunduz","Malden","tem_anizay","takistan"];
 tropicalmaps = ["Tanoa"];
 temperatemaps = ["Enoch","chernarus_summer","vt7","Tembelan"];
 arcticmaps = ["Chernarus_Winter"];
