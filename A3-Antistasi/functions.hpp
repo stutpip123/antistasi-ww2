@@ -566,6 +566,15 @@ class A3A
 class Collections
 {
 	tag = "Col";
+	class Collections_ID
+	{
+		file="Collections\ID";
+		class ID_init { preInit = 1 };
+		class ID_LUID_LArray_isEqualTo {};
+		class ID_LUID_LArray {};
+		class ID_LUID7 {};
+		class ID_LUID14 {};
+	};
 	class Collections_Map
 	{
 		file="Collections\Map";
