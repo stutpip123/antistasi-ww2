@@ -566,6 +566,13 @@ class A3A
 class Collections
 {
 	tag = "Col";
+	class Collections_Array
+	{
+		file="Collections\Array";
+		class array_deleteAts {};
+		class array_displace {};
+		class array_remIndices {};
+	};
 	class Collections_ID
 	{
 		file="Collections\ID";
