@@ -4,6 +4,7 @@ Function:
 
 Description:
     Converts enum string into Side.
+    There is no error checking if enum is out of range.
 
 Environment:
     <SCHEDULED> Recommended, not required. Recurses over entire sub-tree. Deserialisation process is resource heavy.
@@ -21,25 +22,18 @@ Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
 */
 params [
-    ["_chunks",[],[ [] ]]
+    ["_serialisation",0,[ 0 ]]
 ];
 private _filename = "fn_deserialiseSide";
-private _side = sideUnknown;
-try {
-    _side = [
-        opfor,
-        blufor,
-        independent,
-        civilian,
-        sideUnknown,
-        sideEnemy,
-        sideFriendly,
-        sideLogic,
-        sideEmpty,
-        sideAmbientLife
-    ] # (parseNumber (_chunks#0));
-} catch {
-    [1, str _exception, _filename] remoteExecCall ["A3A_fnc_log",2,false];
-    _side = sideUnknown;
-};
-_side;
+[
+    opfor,
+    blufor,
+    independent,
+    civilian,
+    sideUnknown,
+    sideEnemy,
+    sideFriendly,
+    sideLogic,
+    sideEmpty,
+    sideAmbientLife
+] # _serialisation;

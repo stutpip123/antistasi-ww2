@@ -23,13 +23,4 @@ License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Comm
 params [
     ["_serialisation",[],[ [] ]]
 ];
-private _filename = "fn_deserialiseCode";
-
-private _code = {};
-try {
-    _code = compile _serialisation;
-} catch {
-    [1, _exception joinString " | ", _filename] remoteExecCall ["A3A_fnc_log",2,false];
-    _code = {};
-};
-_code;
+compile _serialisation;

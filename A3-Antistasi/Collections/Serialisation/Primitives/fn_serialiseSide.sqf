@@ -25,10 +25,9 @@ License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Comm
 params [
     ["_side",sideUnknown,[sideUnknown]]
 ];
-private _filename = "fn_serialiseSide";
-
 [
-    str([
+    "SIDE",
+    [
         opfor,
         blufor,
         independent,
@@ -39,5 +38,5 @@ private _filename = "fn_serialiseSide";
         sideLogic,
         sideEmpty,
         sideAmbientLife
-    ] find _side)
-]
+    ] find _side;
+];

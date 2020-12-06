@@ -604,11 +604,8 @@ class Collections
 	class Collections_Serialisation
 	{
 		file="Collections\Serialisation";
-		class defaultSerialisers {};
-		class deserialiseCode {};
-		class deserialiseSide {};
-		class serialiseCode {};
-		class serialiseSide {};
+		class deserialisation_builder {};
+		class serialisation_builder {};
 	};
 	class Collections_Serialisation_Objects
 	{
@@ -624,5 +621,14 @@ class Collections
 		class getObjPhysX {};
 		class rotatePosRotVel {};
 		class setObjPhysX {};
+	};
+	class Collections_Serialisation_Primitives
+	{
+		file="Collections\Serialisation\Primitives";
+		class deserialiseCode {};
+		class deserialiseSide {};
+		class serialiseCode {};
+		class serialisePrimitive_defaults {};
+		class serialiseSide {};
 	};
 };

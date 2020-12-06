@@ -23,19 +23,14 @@ Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
 */
 params [
-    ["_code",{false},[{false}]],
-    ["_maxStringLength",1000000,[0]],
-    ["_maxChunks",1000000,[0]]
+    ["_code",{false},[{false}]]
 ];
-private _filename = "fn_serialiseCode";
 
-private _serialisation = "";
-try {
-    private _serialisation = str _code;
-    private _last = count _serialisation - 3;  // extra -2 as it includes the two trimmed braces.
-    _serialisation = _serialisation select [1,_last + 2];  // Trims outer curly braces
-} catch {
-    [1, str _exception, _filename] remoteExecCall ["A3A_fnc_log",2,false];
-    _serialisation = "";
-};
-_serialisation;
+private _serialisation = str _code;
+private _last = count _serialisation - 3;  // extra -2 as it includes the two trimmed braces.
+_serialisation = _serialisation select [1,_last + 2];  // Trims outer curly braces
+
+[
+    "CODE",
+    _serialisation
+];
