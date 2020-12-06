@@ -1,21 +1,26 @@
 /*
 Function:
-    Col_fnc_map_rem
+    Col_fnc_map_remGet
 
 Description:
-    If found, the map element is deleted and the keyPair is returned. Performs strict value comparison.
+    Recommend when loading data from a save, settings array, deserialisation ect.
+    Recommend to have saving and loading be in the same order to optimise speed.
+    Searches for specified key in a KeyPair map. NB: IT IS PASSED AS A REFERENCE, ELEMENTS WILL BE DELETED!
+    If found, the element is deleted and the value returned. Otherwise default is returned. Performs strict value comparison.
+    Tn = 0.0011*n + 1.7566 (Tn is milliseconds; n is elements irritated; First element is quick, last is slow).
 
 Parameters:
     <ARRAY<ANY,ANY>> Map with any type of key and values.
     <ANY> Key. Limitation: cannot be used to find nil keys in map.
+    <ANY> Default.
 
 Returns:
-    <ARRAY<KEY,VALUE>> Whole keyPair that was removed || <nil> if not found.
+    <ANY> Value or default.
 
 Examples:
     private _objectReference = player;
     private _map = [["name","jim"],[2,true],[_objectReference,west]];
-    [_map,player] call Col_fnc_map_rem;  // [player,west]
+    [player,sideUnknown] call Col_fnc_map_remGet;  // west
     _map;  // [["name","jim"],[2,true]]
 
 Author: Caleb Serafin
@@ -23,10 +28,11 @@ License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Comm
 */
 params [
     ["_map","",[ [] ]],
-    ["_key",nil]
+    ["_key",nil],
+    ["_default",nil]
 ];
 
-_map deleteAt (_map findIf {_x#0 isEqualTo _key});
+[(_map deleteAt (_map findIf {_x#0 isEqualTo _key}))#1] param [0, _default];
 
 
 /*

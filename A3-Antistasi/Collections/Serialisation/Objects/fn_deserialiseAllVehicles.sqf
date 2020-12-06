@@ -31,30 +31,30 @@ try {
     private _metaSearch = +_meta;
     private _metaSerSearch = +(_serialisation#0);
 
-    private _physXDataRef       = [_metaSearch,"physXDataRef",      [_metaSerSearch,"physXDataRef", [0,0,0] ] call Col_fnc_map_rem] call Col_fnc_map_rem;  // Meta idea is WIP
-    private _usePositionAGL     = [_metaSearch,"usePositionAGL",    [_metaSerSearch,"usePositionAGL",   false   ] call Col_fnc_map_rem] call Col_fnc_map_rem;
-    private _noVelocity         = [_metaSearch,"noVelocity",        [_metaSerSearch,"noVelocity",       false   ] call Col_fnc_map_rem] call Col_fnc_map_rem;
-    private _flattenDirection   = [_metaSearch,"flattenDirection",  [_metaSerSearch,"flattenDirection",    false   ] call Col_fnc_map_rem] call Col_fnc_map_rem;
+    private _physXDataRef       = [_metaSearch,"physXDataRef",      [_metaSerSearch,"physXDataRef", [0,0,0] ] call Col_fnc_map_remGet] call Col_fnc_map_remGet;  // Meta idea is WIP
+    private _usePositionAGL     = [_metaSearch,"usePositionAGL",    [_metaSerSearch,"usePositionAGL",   false   ] call Col_fnc_map_remGet] call Col_fnc_map_remGet;
+    private _noVelocity         = [_metaSearch,"noVelocity",        [_metaSerSearch,"noVelocity",       false   ] call Col_fnc_map_remGet] call Col_fnc_map_remGet;
+    private _flattenDirection   = [_metaSearch,"flattenDirection",  [_metaSerSearch,"flattenDirection",    false   ] call Col_fnc_map_remGet] call Col_fnc_map_remGet;
 
     private _attributes = +(_serialisation#1);
-    private _type               = [_attributes,"type",""                            ] call Col_fnc_map_rem;
-    private _physXData          = [_attributes,"physXData",[]                       ] call Col_fnc_map_rem;
-    private _vehicleCustomization=[_attributes,"vehicleCustomization",[]            ] call Col_fnc_map_rem;
-    private _damage             = [_attributes,"damage",0                           ] call Col_fnc_map_rem;
-    private _allHitPointsDamage = [_attributes,"allHitPointsDamage",[]              ] call Col_fnc_map_rem;
-    private _fuel               = [_attributes,"fuel",1                             ] call Col_fnc_map_rem;
-    private _fuelCargo          = [_attributes,"fuelCargo",1                        ] call Col_fnc_map_rem;
-    private _ammoCargo          = [_attributes,"ammoCargo",1                        ] call Col_fnc_map_rem;
-    private _repairCargo        = [_attributes,"repairCargo",1                      ] call Col_fnc_map_rem;
-    private _allPylonMagazines  = [_attributes,"allPylonMagazines",[]               ] call Col_fnc_map_rem;
-    private _turretsWeapons     = [_attributes,"turretsWeapons",[]                  ] call Col_fnc_map_rem;
-    private _forcedFlagTexture  = [_attributes,"forcedFlagTexture",""               ] call Col_fnc_map_rem;
-    private _flagTexture        = [_attributes,"flagTexture",""                     ] call Col_fnc_map_rem;
-    private _engineOn           = [_attributes,"engineOn",""                        ] call Col_fnc_map_rem;
-    private _collisionLightOn   = [_attributes,"collisionLightOn",""                ] call Col_fnc_map_rem;
-    private _damageAllowed      = [_attributes,"damageAllowed",""                   ] call Col_fnc_map_rem;
-    private _simulationEnable   = [_attributes,"simulationEnable",""                ] call Col_fnc_map_rem;
-    private _objectHidden       = [_attributes,"objectHidden",""                    ] call Col_fnc_map_rem;
+    private _type               = [_attributes,"type",""                            ] call Col_fnc_map_remGet;
+    private _physXData          = [_attributes,"physXData",[]                       ] call Col_fnc_map_remGet;
+    private _vehicleCustomization=[_attributes,"vehicleCustomization",[]            ] call Col_fnc_map_remGet;
+    private _damage             = [_attributes,"damage",0                           ] call Col_fnc_map_remGet;
+    private _allHitPointsDamage = [_attributes,"allHitPointsDamage",[]              ] call Col_fnc_map_remGet;
+    private _fuel               = [_attributes,"fuel",1                             ] call Col_fnc_map_remGet;
+    private _fuelCargo          = [_attributes,"fuelCargo",1                        ] call Col_fnc_map_remGet;
+    private _ammoCargo          = [_attributes,"ammoCargo",1                        ] call Col_fnc_map_remGet;
+    private _repairCargo        = [_attributes,"repairCargo",1                      ] call Col_fnc_map_remGet;
+    private _allPylonMagazines  = [_attributes,"allPylonMagazines",[]               ] call Col_fnc_map_remGet;
+    private _turretsWeapons     = [_attributes,"turretsWeapons",[]                  ] call Col_fnc_map_remGet;
+    private _forcedFlagTexture  = [_attributes,"forcedFlagTexture",""               ] call Col_fnc_map_remGet;
+    private _flagTexture        = [_attributes,"flagTexture",""                     ] call Col_fnc_map_remGet;
+    private _engineOn           = [_attributes,"engineOn",""                        ] call Col_fnc_map_remGet;
+    private _collisionLightOn   = [_attributes,"collisionLightOn",""                ] call Col_fnc_map_remGet;
+    private _damageAllowed      = [_attributes,"damageAllowed",""                   ] call Col_fnc_map_remGet;
+    private _simulationEnable   = [_attributes,"simulationEnable",""                ] call Col_fnc_map_remGet;
+    private _objectHidden       = [_attributes,"objectHidden",""                    ] call Col_fnc_map_remGet;
 
 
     _object = createVehicle [_type, [0,0,1000], [], 0, "CAN_COLLIDE"];

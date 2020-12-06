@@ -29,8 +29,8 @@ private _object = objNull;
 try {
     private _attributes = +_serialisation;
 
-    private _simpleObjectData = [_attributes,"simpleObjectData",[]] call Col_fnc_map_rem;
-    private _positionASL = [_attributes,"positionASL",[0,0,0]] call Col_fnc_map_rem;
+    private _simpleObjectData = [_attributes,"simpleObjectData",[]] call Col_fnc_map_remGet;
+    private _positionASL = [_attributes,"positionASL",[0,0,0]] call Col_fnc_map_remGet;
     _object = [_simpleObjectData, _attributes] call BIS_fnc_createSimpleObject;
 } catch {
     [1, _exception joinString " | ", _filename] remoteExecCall ["A3A_fnc_log",2,false];

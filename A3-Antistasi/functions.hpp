@@ -587,8 +587,12 @@ class Collections
 		file="Collections\Map";
 		class map_get {};
 		class map_gets {};
+		class map_in {};
+		class map_inNot {};
 		class map_rem {};
+		class map_remGet {};
 		class map_rems {};
+		class map_remsGet {};
 	};
 	class Collections_NestLoc
 	{
