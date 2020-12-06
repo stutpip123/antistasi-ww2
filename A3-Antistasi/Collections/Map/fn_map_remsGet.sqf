@@ -88,7 +88,7 @@ if (_experimentalTraversal) exitWith {
             };
             if (_keyI isEqualTo _countKeys) exitWith {};    // If all keys have been processed we done.
         };
-    }
+    };
     reverse _indices;   // Needs to be descending order for remIndices to work without butchering the map.
     [_map,_indices,true] call Col_fnc_array_remIndices;
     _values;

@@ -48,7 +48,7 @@ if (_experimentalTraversal) exitWith {
         if (_keyI isEqualTo _countKeys) exitWith {};    // If all keys have been processed we done.
 
         if (!_sorted) then {
-            _findIfI = _map findIf {_x#0 isEqualTo _keys#_keyI}
+            _findIfI = _map findIf {_x#0 isEqualTo _keys#_keyI};
             if (!_findIfI isEqualTo -1) then {
                 _mapSkipI = _findIfI;  // We will be reducing _mapSkipI, in case other elements may have also been skipped due to the previous key being too early.
                 _indices pushBack _findIfI;

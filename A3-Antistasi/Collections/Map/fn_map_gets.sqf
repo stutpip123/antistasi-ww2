@@ -65,7 +65,7 @@ if (_experimentalTraversal) exitWith {
         if (_sorted) then {
             _values pushBack _keyPairs#_keyI#1;  // If the key was not found in the map. Add it's default
         } else {
-            _findIfI = _map findIf {_x#0 isEqualTo _keyPairs#_keyI#0}
+            _findIfI = _map findIf {_x#0 isEqualTo _keyPairs#_keyI#0};
             if (_findIfI isEqualTo -1) then {
                 _values pushBack _keyPairs#_keyI#1; // Will contain default.
             } else {

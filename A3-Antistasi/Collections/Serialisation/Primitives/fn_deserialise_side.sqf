@@ -10,7 +10,8 @@ Environment:
     <SCHEDULED> Recommended, not required. Recurses over entire sub-tree. Deserialisation process is resource heavy.
 
 Parameters:
-    <ARRAY<STRING>> Serialisation of Side enum.
+    <LOCATION> Serialisation builder.
+    <SCALAR> Serialisation of Side enum.
 
 Returns:
     <SIDE> Side.
@@ -22,6 +23,7 @@ Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
 */
 params [
+    ["_serialise_builder",locationNull,[locationNull]],
     ["_serialisation",0,[ 0 ]]
 ];
 private _filename = "fn_deserialiseSide";

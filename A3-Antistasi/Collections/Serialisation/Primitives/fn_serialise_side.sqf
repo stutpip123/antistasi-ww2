@@ -3,15 +3,14 @@ Function:
     Col_fnc_serialiseSide
 
 Description:
-    Converts Side into enum string.
+    Converts Side into enum scalar.
 
 Environment:
     <SCHEDULED> Recommended, not required. Recurses over entire sub-tree. Serialisation process is resource heavy.
 
 Parameters:
-    <SIDE> Compiled code or function.
-    <INTEGER> Ignored
-    <INTEGER> Ignored
+    <LOCATION> Serialisation builder.
+    <SIDE> A side.
 
 Returns:
     <ARRAY<STRING>> Serialisation of Code;
@@ -23,6 +22,7 @@ Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community
 */
 params [
+    ["_serialise_builder",locationNull,[locationNull]],
     ["_side",sideUnknown,[sideUnknown]]
 ];
 [
@@ -38,5 +38,5 @@ params [
         sideLogic,
         sideEmpty,
         sideAmbientLife
-    ] find _side;
+    ] find _side
 ];

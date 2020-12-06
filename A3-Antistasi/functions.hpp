@@ -577,10 +577,10 @@ class Collections
 	{
 		file="Collections\ID";
 		class ID_init { preInit = 1 };
-		class ID_LUID_LArray_isEqualTo {};
-		class ID_LUID_LArray {};
-		class ID_LUID7 {};
-		class ID_LUID14 {};
+		class ID_LArray_isEqualTo {};
+		class ID_LArray {};
+		class ID_LU7 {};
+		class ID_LU14 {};
 	};
 	class Collections_Map
 	{
@@ -605,7 +605,9 @@ class Collections
 	{
 		file="Collections\Serialisation";
 		class deserialisation_builder {};
+		class deserialise {};
 		class serialisation_builder {};
+		class serialise {};
 	};
 	class Collections_Serialisation_Objects
 	{
@@ -625,10 +627,12 @@ class Collections
 	class Collections_Serialisation_Primitives
 	{
 		file="Collections\Serialisation\Primitives";
-		class deserialiseCode {};
-		class deserialiseSide {};
-		class serialiseCode {};
-		class serialisePrimitive_defaults {};
-		class serialiseSide {};
+		class deserialise_array {};
+		class deserialise_code {};
+		class deserialise_side {};
+		class serialisation_primitive_defaults {};
+		class serialise_array {};
+		class serialise_code {};
+		class serialise_side {};
 	};
 };
