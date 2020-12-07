@@ -19,6 +19,13 @@ params ["_target", "_precision", "_supportTypes", "_side", "_revealCall"];
 
 private _fileName = "sendSupport";
 
+//Ensure this is running on the main server, otherwise it will break
+if(!isServer) exitWith
+{
+    [1, format ["SendSupport tried to execute on %1, which is not the hosting server!", clientOwner], _fileName] call A3A_fnc_log;
+    _this remoteExec ["A3A_fnc_sendSupport", 2];
+};
+
 waitUntil {sleep 0.1; !supportCallInProgress};
 supportCallInProgress = true;
 
@@ -108,3 +115,6 @@ if(_selectedSupport in ["CAS", "ASF", "SAM", "GUNSHIP", "MISSILE"]) then
     //Target support methods, transmit target info
     [_side, _timerIndex, _selectedSupport, _target, _precision, _revealCall] spawn A3A_fnc_createSupport;
 };
+
+//Blocks the same support for ten minutes or until a new support happens
+server setVariable ["lastSupport", [_selectedSupport, time + 600], true];
