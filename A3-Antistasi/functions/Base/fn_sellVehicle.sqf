@@ -31,20 +31,22 @@ params [
     ["_player",objNull,[objNull]],
     ["_veh",objNull,[objNull]]
 ];
+private _filename = "fn_sellVehicle";
 
-if (isNull _veh) exitWith {["Sell Vehicle", "You are not looking to any vehicle"] remoteExecCall ["A3A_fnc_customHint",remoteExecutedOwner];};
+if (isNull _player) exitWith {[1,"_player is null.",_filename] call A3A_fnc_log;};
+if (isNull _veh) exitWith {["Sell Vehicle", "You are not looking at a vehicle."] remoteExecCall ["A3A_fnc_customHint",_player];};
 
-if (_veh getVariable ["A3A_sellVehicle_inProgress",false]) exitWith {["Sell Vehicle", "Vehicle sale already in progress."] remoteExecCall ["A3A_fnc_customHint",remoteExecutedOwner];};
+if (_veh getVariable ["A3A_sellVehicle_inProgress",false]) exitWith {["Sell Vehicle", "Vehicle sale already in progress."] remoteExecCall ["A3A_fnc_customHint",_player];};
 _veh setVariable ["A3A_sellVehicle_inProgress",true,false];  // Only processed on the server. It is absolutely pointless trying to network this due to race conditions.
 
-if (_veh distance getMarkerPos respawnTeamPlayer > 50) exitWith {["Sell Vehicle", "Vehicle must be closer than 50 meters to the flag"] remoteExecCall ["A3A_fnc_customHint",remoteExecutedOwner];};
+if (_veh distance getMarkerPos respawnTeamPlayer > 50) exitWith {["Sell Vehicle", "Vehicle must be closer than 50 meters to the flag marker."] remoteExecCall ["A3A_fnc_customHint",_player];};
 
-if ({isPlayer _x} count crew _veh > 0) exitWith {["Sell Vehicle", "In order to sell, vehicle must be empty."] remoteExecCall ["A3A_fnc_customHint",remoteExecutedOwner];};
+if ({isPlayer _x} count crew _veh > 0) exitWith {["Sell Vehicle", "In order to sell the vehicle, it must be empty."] remoteExecCall ["A3A_fnc_customHint",_player];};
 
 _owner = _veh getVariable ["ownerX",""];
 if !(_owner isEqualTo "" || {getPlayerUID _player isEqualTo _owner}) exitWith {  // Vehicle cannot be sold if owned by another player.
     _veh setVariable ["A3A_sellVehicle_inProgress",false,false];
-    ["Sell Vehicle", "You are not the rebel commander or owner of this vehicle. Therefore, you cannot sell it"] remoteExecCall ["A3A_fnc_customHint",remoteExecutedOwner];
+    ["Sell Vehicle", "You are not the owner of this vehicle. Therefore, you cannot sell it."] remoteExecCall ["A3A_fnc_customHint",_player];
 };
 
 private _typeX = typeOf _veh;
@@ -62,7 +64,7 @@ private _costs = call {
 
 if (_costs == 0) exitWith {
     _veh setVariable ["A3A_sellVehicle_inProgress",false,false];
-    ["Sell Vehicle", "The vehicle you are looking is not suitable in our marketplace"] remoteExecCall ["A3A_fnc_customHint",remoteExecutedOwner];
+    ["Sell Vehicle", "The vehicle you are looking is not suitable in our marketplace."] remoteExecCall ["A3A_fnc_customHint",_player];
 };
 
 _costs = round (_costs * (1-damage _veh));
@@ -76,5 +78,5 @@ if (_veh in reportedVehs) then {reportedVehs = reportedVehs - [_veh]; publicVari
 
 if (_veh isKindOf "StaticWeapon") then {deleteVehicle _veh};
 
-["Sell Vehicle", "Vehicle Sold"] remoteExecCall ["A3A_fnc_customHint",remoteExecutedOwner];
+["Sell Vehicle", "Vehicle Sold."] remoteExecCall ["A3A_fnc_customHint",_player];
 nil;
