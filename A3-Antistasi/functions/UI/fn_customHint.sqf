@@ -77,7 +77,7 @@ if (A3A_customHintEnable) then {
         A3A_customHint_UpdateTime = serverTime;
     };
 } else {
-    _structuredText = composeText ["<img size='",2.1,"' color='#ffffffff' shadowOffset='",0.06,"' image='functions\UI\images\logo.paa' /><br/>",_structuredText];
+    _structuredText = composeText [parseText "<img size='2.1' color='#ffffffff' shadowOffset='0.06' image='functions\UI\images\logo.paa' /><br/>",_structuredText];
     if (_isSilent) then {
         hintSilent _structuredText;
     } else {
