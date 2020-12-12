@@ -12,6 +12,7 @@ has3CB = false;
 hasIvory = false;
 hasTCGM = false;
 hasADV = false;
+hasD3S = false;
 
 //Actual Detection
 //IFA Detection
@@ -52,3 +53,7 @@ if (isClass (configfile >> "CfgPatches" >> "Ivory_Data")) then {hasIvory = true;
 if (isClass (configfile >> "CfgPatches" >> "TCGM_BikeBackpack")) then {hasTCGM = true; diag_log format ["%1: [Antistasi] | INFO | initVar | TCGM_BikeBackpack Detected.",servertime];};
 //ADV-CPR Pike Edition detection
 if (hasACEMedical && isClass (configFile >> "CfgPatches" >> "adv_aceCPR")) then {hasADV = true; diag_log format ["%1: [Antistasi] | INFO | initVar | ADV-CPR Detected.",servertime];};
+
+
+//D3S Car Pack Detection !!!--- Currently using vehicle classname check. Needs config viewer to work to find cfgPatches. ---!!!
+if (isClass (configfile >> "CfgVehicles" >> "d3s_baumaschinen")) then {hasD3S = true; diag_log format ["%1: [Antistasi] | INFO | initVar | D3S Cars Detected.",servertime];};
