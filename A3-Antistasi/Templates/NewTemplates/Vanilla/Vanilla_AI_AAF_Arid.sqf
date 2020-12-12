@@ -152,7 +152,7 @@ _loadoutData setVariable ["items_unarmed_extras", []];		//this line defines spec
 private _sfLoadoutData = _loadoutData call _fnc_copyLoadoutData; // touch and shit breaks
 _sfLoadoutData setVariable ["uniforms", ["U_I_CombatUniform_shortsleeve","U_I_CombatUniform"]];			//this line determines uniforms for special forces -- Example: ["U_B_CombatUniform_mcam","U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
 _sfLoadoutData setVariable ["vests", ["V_PlateCarrierIA2_dgtl","V_PlateCarrierIA1_dgtl"]];				//this line determines vests for special forces -- Example: ["V_PlateCarrierSpec_mtp","V_PlateCarrierGL_mtp"] -- Array, can contain multiple assets
-_sfLoadoutData setVariable ["backpacks", ["I_Fieldpack_oli_LAT","B_FieldPack_oli"]];			//this line determines backpacks for special forces -- Example: ["B_AssaultPack_mcamo","B_Kitbag_mcamo"] -- Array, can contain multiple assets
+_sfLoadoutData setVariable ["backpacks", ["B_AssaultPack_dgtl","B_FieldPack_oli"]];			//this line determines backpacks for special forces -- Example: ["B_AssaultPack_mcamo","B_Kitbag_mcamo"] -- Array, can contain multiple assets
 _sfLoadoutData setVariable ["helmets", ["H_HelmetIA"]];				//this line determines helmets for special forces -- Example: ["H_HelmetB_camo","H_HelmetB_desert"] -- Array, can contain multiple assets
 
 /////////////////////////////////
