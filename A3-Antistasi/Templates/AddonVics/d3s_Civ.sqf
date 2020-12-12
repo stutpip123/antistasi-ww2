@@ -553,6 +553,32 @@ civVehCommonData append [
 	,"d3s_Kawasaki_ZX7RR", 0.6
 	,"d3s_Suzuki_GSX_R_1000", 0.6
 	,"d3s_Suzuki_Hayabusa", 0.6
+	/*Russian*/
+	,"d3s_niva_2329", 0.5
+	,"d3s_zaz968m", 0.5
+	,"d3s_luaz969m", 0.5
+	,"d3s_luaz969m_2", 0.5
+	,"d3s_uaz_3162", 0.5
+	,"d3s_uaz_2206", 0.5
+	,"d3s_uaz_2315D", 0.5
+	,"d3s_uaz_2315", 0.5
+	,"d3s_uaz_2746", 0.5
+	,"d3s_uaz_29232", 0.5
+	,"d3s_uaz_3159_AMG", 0.5
+	,"d3s_uaz_3159", 0.5
+	,"d3s_uaz_3170", 0.5
+	,"d3s_uaz_3303", 0.5
+	,"d3s_3303", 0.5
+	,"d3s_uaz_3741", 0.5
+	,"d3s_uaz_3741_ars", 0.5
+	,"d3s_uaz_3907", 0.5
+	,"d3s_uaz_3907_2", 0.5
+	,"d3s_uaz_3909", 0.5
+	,"d3s_uaz_3909_priz", 0.5
+	,"d3s_uaz_452", 0.5
+	,"d3s_452", 0.5
+	,"d3s_uaz_469P_EXP", 0.5
+	,"d3s_uaz_469P", 0.5
 ];
 
 civVehMedicalData append [
@@ -568,6 +594,11 @@ civVehMedicalData append [
 
 civVehRepairData append [
 	"d3s_titan_17_TAR", 0.3
+	/*Russian*/
+	,"d3s_zil_131_5", 0.3
+	,"d3s_kamaz_kung", 0.3
+	,"d3s_kamaz_4350_kung", 0.3
+	,"d3s_next_kung", 0.3
 ];
 
 civVehIndustrialData append [
@@ -585,6 +616,35 @@ civVehIndustrialData append [
 	,"d3s_peterbilt_579_dump", 0.5
 	,"d3s_scania_16_30", 0.5
 	,"d3s_scania_16_30reef", 0.5
+	/*Russian*/
+	,"d3s_zil_130_01", 0.5
+	,"d3s_zil_130_02", 0.5
+	,"d3s_zil_130", 0.5
+	,"d3s_zil_130_03", 0.5
+	,"d3s_zil_130_06", 0.5
+	,"d3s_zil_131", 0.5
+	,"d3s_zil_131_3", 0.5
+	,"d3s_zil_131_2", 0.5
+	,"d3s_zil_4334_bort", 0.5
+	,"d3s_zil_4334_tent", 0.5
+	,"d3s_kamaz_2", 0.5
+	,"d3s_kamaz_tent_2", 0.5
+	,"d3s_kamaz", 0.5
+	,"d3s_kamaz_tent", 0.5
+	,"d3s_kamaz_4350", 0.5
+	,"d3s_kamaz_4350_tent", 0.5
+	,"d3s_kamaz_6350", 0.5
+	,"d3s_kraz_255_bort", 0.5
+	,"d3s_kraz_255_tent", 0.5
+	,"d3s_kraz_6315", 0.5
+	,"d3s_kraz_6316", 0.5
+	,"d3s_maz_6317", 0.5
+	,"d3s_maz_7429", 0.5
+	,"d3s_ural_4320_tent", 0.5
+	,"d3s_ural_4320_bort", 0.5
+	,"d3s_ural", 0.5
+	,"d3s_ural_tent", 0.5
+	,"d3s_next", 0.5
 ];
 
 civVehRefuelData append [
@@ -595,6 +655,19 @@ civVehRefuelData append [
 	,"d3s_scania_16_t22", 0.2
 	,"d3s_scania_16_t50", 0.2
 	,"d3s_scania_16_t75", 0.2
+	/*Russian*/
+	,"d3s_zil_130_05", 0.2
+	,"d3s_zil_130_04", 0.2
+	,"d3s_zil_130_07", 0.2
+	,"d3s_zil_131_4", 0.2
+	,"d3s_zil_4334_bocha", 0.2
+	,"d3s_kamaz_bocha", 0.2
+	,"d3s_kraz_255_cisterna", 0.2
+	,"d3s_maz_6317_cistern", 0.2
+	,"d3s_maz_7429_cistern", 0.2
+	,"d3s_ural_4320_cisterna", 0.2
+	,"d3s_next_bocha", 0.2
+	,"d3s_next_tent", 0.2
 ];
 
 /*This template will include a section for adding police vehicles to templates once they all are set up for arrayed patrol cars.*/
