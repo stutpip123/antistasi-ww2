@@ -3,6 +3,7 @@ if (isServer) then {
 	diag_log format ["%1: [Antistasi] | INFO | Starting Persistent Load.",servertime];
 	petros allowdamage false;
 
+	["savedPlayers"] call A3A_fnc_getStatVariable;
 	["outpostsFIA"] call A3A_fnc_getStatVariable; publicVariable "outpostsFIA";
 	["mrkSDK"] call A3A_fnc_getStatVariable;
 	["mrkCSAT"] call A3A_fnc_getStatVariable;
@@ -136,6 +137,9 @@ if (isServer) then {
 		diag_log "WurzelGarrison found, loading it!";
 		["wurzelGarrison"] call A3A_fnc_getStatVariable;
 	};
+
+    //Load state of testing timer
+    ["testingTimerIsActive"] call A3A_fnc_getStatVariable;
 
 	clearMagazineCargoGlobal boxX;
 	clearWeaponCargoGlobal boxX;

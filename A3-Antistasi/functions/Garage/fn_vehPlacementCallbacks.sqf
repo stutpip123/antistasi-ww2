@@ -55,7 +55,8 @@ switch (_callbackTarget) do {
 		
 			case CALLBACK_VEH_PLACED_SUCCESSFULLY: {
 				private _garageVeh = _callbackParams param [0];
-				[_garageVeh] call A3A_fnc_AIVEHinit;
+				[_garageVeh, teamPlayer] call A3A_fnc_AIVEHinit;
+				if !(_garageVeh isKindOf "StaticWeapon") then { [_garageVeh] spawn A3A_fnc_vehDespawner };
 
 				if (_garageVeh isKindOf "Car") then {_garageVeh setPlateNumber format ["%1",name player]};
 				
@@ -130,7 +131,9 @@ switch (_callbackTarget) do {
 				private _purchasedVeh = _callbackParams param [0];
 				private _typeVehX = typeOf _purchasedVeh;
 				
-				[_purchasedVeh] call A3A_fnc_AIVEHinit;
+				[_purchasedVeh, teamPlayer] call A3A_fnc_AIVEHinit;
+				if !(_purchasedVeh isKindOf "StaticWeapon") then { [_purchasedVeh] spawn A3A_fnc_vehDespawner };
+
 				if (_purchasedVeh isKindOf "Car") then {_purchasedVeh setPlateNumber format ["%1",name player]};
 				
 				//Handle Money
@@ -140,7 +143,7 @@ switch (_callbackTarget) do {
 					}
 				else
 					{
-					if (player ==	theBoss && ((_typeVehX == SDKMortar) or (_typeVehX == staticATteamPlayer) or (_typeVehX == staticAAteamPlayer) or (_typeVehX == SDKMGStatic))) then
+					if (player == theBoss) then		// && ((_typeVehX == SDKMortar) or (_typeVehX == staticATteamPlayer) or (_typeVehX == staticAAteamPlayer) or (_typeVehX == SDKMGStatic))) then
 						{
 						_nul = [0,(-1 * vehiclePurchase_cost)] remoteExec ["A3A_fnc_resourcesFIA",2]
 						}

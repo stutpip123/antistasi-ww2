@@ -42,11 +42,6 @@ if (_itemIsVanilla && {has3CB || hasTIOW || {activeAFRF && activeGREF && activeU
 						_remove = true;
 					};
 				};
-				case "Uniform": {
-					if (has3CB) then {
-						_remove = true;
-					};
-				};
 				case "Vest": {
 					if (getNumber (_configClass >> "ItemInfo" >> "HitpointsProtectionInfo" >> "Chest" >> "armor") > 5) then {
 						_remove = true;

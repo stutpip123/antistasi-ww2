@@ -1,12 +1,13 @@
 if (!isServer and hasInterface) exitWith{};
+private _filename = "fn_createAIcontrols";
 
-private ["_pos","_roadscon","_veh","_roads","_conquered","_dirVeh","_markerX","_positionX","_vehiclesX","_soldiers","_radiusX","_bunker","_groupE","_unit","_typeGroup","_groupX","_timeLimit","_dateLimit","_dateLimitNum","_base","_dog","_sideX","_cfg","_isFIA","_leave","_isControl","_radiusX","_typeVehX","_typeUnit","_markersX","_frontierX","_uav","_groupUAV","_allUnits","_closest","_winner","_timeLimit","_dateLimit","_dateLimitNum","_size","_base","_mineX","_loser","_sideX"];
+private ["_pos","_veh","_roads","_conquered","_dirVeh","_markerX","_positionX","_vehiclesX","_soldiers","_radiusX","_bunker","_groupE","_unit","_typeGroup","_groupX","_timeLimit","_dateLimit","_dateLimitNum","_base","_dog","_sideX","_cfg","_isFIA","_leave","_isControl","_radiusX","_typeVehX","_typeUnit","_markersX","_frontierX","_uav","_groupUAV","_allUnits","_closest","_winner","_timeLimit","_dateLimit","_dateLimitNum","_size","_base","_mineX","_loser","_sideX"];
 
 _markerX = _this select 0;
 _positionX = getMarkerPos _markerX;
 _sideX = sidesX getVariable [_markerX,sideUnknown];
 
-diag_log format ["[Antistasi] Spawning Control Point %1 (createAIControls.sqf)", _markerX];
+[2, format ["Spawning Control Point %1", _markerX], _filename] call A3A_fnc_log;
 
 if ((_sideX == teamPlayer) or (_sideX == sideUnknown)) exitWith {};
 if ({if ((sidesX getVariable [_x,sideUnknown] != _sideX) and (_positionX inArea _x)) exitWith {1}} count markersX >1) exitWith {};
@@ -43,20 +44,25 @@ if (_isControl) then
 			};
 		};
 
+	// Attempt to find nearby road with two connected roads
 	_radiusX = 20;
-	while {true} do
-		{
+	while {_radiusX < 100} do
+	{
 		_roads = _positionX nearRoads _radiusX;
-		if (count _roads > 1) exitWith {};
-		_radiusX = _radiusX + 5;
-		};
+		_roads = _roads select { count (roadsConnectedTo _x) == 2 };
+		if (count _roads > 0) exitWith {};
+		_radiusX = _radiusX + 10;
+	};
 
-	_roadscon = roadsConnectedto (_roads select 0);
-
-	_dirveh = [_roads select 0, _roadscon select 0] call BIS_fnc_DirTo;
-	if ((isNull (_roads select 0)) or (isNull (_roadscon select 0))) then {
-		diag_log format ["%1: [Antistasi] | ERROR | createAIcontrols.sqf | Roadblock error: %2 bad position.",servertime, _markerX];
-		};
+	if (_radiusX >= 100) then {
+		// fallback case, shouldn't happen unless the map is very broken
+		[1, format ["Roadblock error for %1 at %2", _markerX, _positionX], _filename] call A3A_fnc_log;
+		_roads = _positionX nearRoads 20;		// guaranteed due to isOnRoad check
+		_dirveh = random 360;
+	} else {
+		private _roadscon = roadsConnectedto (_roads select 0);
+		_dirveh = [_roads select 0, _roadscon select 0] call BIS_fnc_DirTo;
+	};
 
 	if (!_isFIA) then
 		{
@@ -96,7 +102,7 @@ if (_isControl) then
 			_unit moveInGunner _veh;
 			_soldiers pushBack _unit;
 			sleep 1;
-			{_nul = [_x] call A3A_fnc_AIVEHinit} forEach _vehiclesX;
+			{ [_x, _sideX] call A3A_fnc_AIVEHinit } forEach _vehiclesX;
 			};
 		_typeGroup = if (_sideX == Occupants) then {selectRandom groupsNATOmid} else {selectRandom groupsCSATmid};
 		_groupX = [_positionX,_sideX, _typeGroup, true] call A3A_fnc_spawnGroup;
@@ -113,7 +119,8 @@ if (_isControl) then
 				[_dog,_groupX] spawn A3A_fnc_guardDog;
 				};
 			_nul = [leader _groupX, _markerX, "SAFE","SPAWNED","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";//TODO need delete UPSMON link
-			{[_x,""] call A3A_fnc_NATOinit; _soldiers pushBack _x} forEach units _groupX;
+			// Forced non-spawner as they're very static.
+			{[_x,"",false] call A3A_fnc_NATOinit; _soldiers pushBack _x} forEach units _groupX;
 			};
 		}
 	else
@@ -121,7 +128,7 @@ if (_isControl) then
 		_typeVehX = if !(hasIFA) then {vehFIAArmedCar} else {vehFIACar};
 		_veh = _typeVehX createVehicle getPos (_roads select 0);
 		_veh setDir _dirveh + 90;
-		_nul = [_veh] call A3A_fnc_AIVEHinit;
+		[_veh, _sideX] call A3A_fnc_AIVEHinit;
 		_vehiclesX pushBack _veh;
 		sleep 1;
 		_typeGroup = selectRandom groupsFIAMid;
@@ -130,7 +137,7 @@ if (_isControl) then
 			{
 			_unit = [_groupX, FIARifleman, _positionX, [], 0, "NONE"] call A3A_fnc_createUnit;
 			_unit moveInGunner _veh;
-			{_soldiers pushBack _x; [_x,""] call A3A_fnc_NATOinit} forEach units _groupX;
+			{_soldiers pushBack _x; [_x,"", false] call A3A_fnc_NATOinit} forEach units _groupX;
 			};
 		};
 	}
@@ -178,6 +185,9 @@ else
 		};
 	};
 if (_leave) exitWith {};
+
+{ _x setVariable ["originalPos", getPos _x] } forEach _vehiclesX;
+
 _spawnStatus = 0;
 while {(spawner getVariable _markerX != 2) and ({[_x,_markerX] call A3A_fnc_canConquer} count _soldiers > 0)} do
 	{
@@ -222,7 +232,7 @@ if (spawner getVariable _markerX != 2) then
 	_closest = [_allUnits,_positionX] call BIS_fnc_nearestPosition;
 	_winner = side _closest;
 	_loser = Occupants;
-	diag_log format ["%1: [Antistasi]: Server | Control %1 captured by %2. Is Roadblock: %3",servertime, _markerX, _winner, _isControl];
+	diag_log format ["%1: [Antistasi]: Server | Control %2 captured by %3. Is Roadblock: %4",servertime, _markerX, _winner, _isControl];
 	if (_isControl) then
 		{
 		["TaskSucceeded", ["", "Roadblock Destroyed"]] remoteExec ["BIS_fnc_showNotification",_winner];
@@ -259,20 +269,18 @@ if (spawner getVariable _markerX != 2) then
 
 waitUntil {sleep 1;(spawner getVariable _markerX == 2)};
 
-{_veh = _x;
-if (not(_veh in staticsToSave)) then
-	{
-	if ((!([distanceSPWN,1,_x,teamPlayer] call A3A_fnc_distanceUnits))) then {deleteVehicle _x}
+
+{ if (alive _x) then { deleteVehicle _x } } forEach (_soldiers + _pilots);
+deleteGroup _groupX;
+
+{
+	// delete all vehicles that haven't been captured
+	if (_x getVariable ["ownerSide", _sideX] == _sideX) then {
+		if (_x distance2d (_x getVariable "originalPos") < 100) then { deleteVehicle _x }
+		else { if !(_x isKindOf "StaticWeapon") then { [_x] spawn A3A_fnc_VEHdespawner } };
 	};
 } forEach _vehiclesX;
-{
-if (alive _x) then
-	{
-	if (_x != vehicle _x) then {deleteVehicle (vehicle _x)};
-	deleteVehicle _x
-	}
-} forEach (_soldiers + _pilots);
-deleteGroup _groupX;
+
 
 if (_conquered) then
 	{
