@@ -240,6 +240,8 @@ class A3A
 		class removeVehFromPool {};
 		class safeVehicleSpawn {};
 		class spawnGroup {};
+		class spawnVehicle {};
+		class spawnVehicleCrew {};
 		class updateCAMark {};
 		class vehAvailable {};
 		class VEHdespawner {};
@@ -564,6 +566,7 @@ class A3A
 		class dateToTimeString {};
 		class generateRoadsDB {};
 		class log {};
+		class setPos {};
 		class vehicleWillCollideAtPosition {};
 		class getRoadDirection {};
 	};
