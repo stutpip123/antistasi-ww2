@@ -1,0 +1,10 @@
+- Detailed grid for simulation purposes
+- Intersection grid for waypoint creation
+- Blocking of road segments
+- Direct access to data
+- Drop first segment if distance between 0 -> 2 is smaller than 0 -> 1 -> 2
+- Precalculation of distances
+- Caching of paths
+- Easy determination if two road segments are connected
+- Maximum search distance
+- Function that returns all nodes at X meters distance
