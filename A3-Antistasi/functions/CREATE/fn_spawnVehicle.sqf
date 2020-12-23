@@ -52,7 +52,7 @@ private _vehicle = objNull;
 if (isNil {
     _vehicle = createVehicle [_className, _position select [0,3], [], 0, _createVehicleSpecial];
     if (isNull _vehicle) then {
-        [1, "InvalidObjectClassName | """+_className+""" does not exit or failed creation.", _filename] remoteExecCall ["A3A_fnc_log",2,false];
+        [1, "InvalidObjectClassName | """+_className+""" does not exist or failed creation.", _filename] remoteExecCall ["A3A_fnc_log",2,false];
         _vehicle = createVehicle [_className, _position select [0,3], [], 0, _createVehicleSpecial];     // Retry with a vehicle so that a convoy/mission which doesn't check won't error out.
         _vehicle setVariable ["InvalidObjectClassName",true,true];                  // Allow external code to check for incorrect vehicle.
     };

@@ -23,7 +23,7 @@ params [
 private _filename = "fn_spawnVehicleCrew";
 private _crewPeople = [];
 
-if (isNull _vehicle) exitWith {[1, "ObjectNull | The passed vehicle does not exit.", _filename] remoteExecCall ["A3A_fnc_log",2,false]; _crewPeople;};
+if (isNull _vehicle) exitWith {[1, "ObjectNull | The passed vehicle does not exist.", _filename] remoteExecCall ["A3A_fnc_log",2,false]; _crewPeople;};
 if (isNull _group) exitWith {[1, "GroupNull | The passed crew group for """,typeOf _vehicle,""" is null.", _filename] remoteExecCall ["A3A_fnc_log",2,false]; _crewPeople;};
 
 private _isStaticWeapon = !(["StaticWeapon","StaticMGWeapon"] findIf {_vehicle isKindOf _x} isEqualTo -1);
@@ -57,7 +57,7 @@ isNil {
         private _crewClassName = selectRandom _crewClassSelection;
         private _crewPerson = _group createUnit [_crewClassName, _posAboveVehicle, [], 0, "CAN_COLLIDE"];
         if (isNull _crewPerson) then {
-            [1, "InvalidObjectClassName | """+_crewClassName+""" does not exit or failed creation.", _filename] remoteExecCall ["A3A_fnc_log",2,false];
+            [1, "InvalidObjectClassName | """+_crewClassName+""" does not exist or failed creation.", _filename] remoteExecCall ["A3A_fnc_log",2,false];
             _crewPerson = _group createUnit ["B_Soldier_VR_F", _posAboveVehicle, [], 0, "CAN_COLLIDE"];     // Retry with glowing VR man so that vehicle is crewed at least.
             _crewPerson setVariable ["InvalidObjectClassName",true,true];                  // Allow external code to check for incorrect crew.
         };
