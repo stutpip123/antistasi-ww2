@@ -5,7 +5,7 @@ Author: Caleb Serafin
 
 Arguments:
     <STRING> Desired classname of new vehicle. [Default=""]
-    <POS3D> Leaves placement up to createUnit. | <POS3DTYPE> Places according to the specified coordinate system. [Default=[0,0,0]]
+    <POS3D> Leaves placement up to createUnit. | <POS3DTYPE> Places according to the specified coordinate system. | <<POS3D><TYPE>> Places according to the specified coordinate system. [Default=[0,0,0]]
     <SCALAR> Angles towards heading. | <VECTORDIR> Angles according to VectorDir. | <<VECTORDIR>,<VECTORUP>> Angles according to VectorDir And VectorUp. [Default=0]
     <SIDE> Side of crew | <GROUP> Group and side of crew | <BOOLEAN> No crew. [Default=sideLogic]
     <SCALAR> If above zero, will look for an empty position nearby. [Default=0]
@@ -28,7 +28,7 @@ Example:
 */
 params [
     ["_className","",[ "" ]],
-    ["_position",[0,0,0],[ [] ], [3,4]],
+    ["_positionRef",[0,0,0],[ [] ], [2,3,4]],
     ["_direction",0,[ 0,[] ], [ 3,2 ]],
     ["_groupSide",sideLogic, [ sideLogic,grpNull,false ]],
     ["_emptyPositionRadius",0, [ 0 ]],
@@ -50,6 +50,7 @@ private _fnc_directionAdjuster = switch (true) do {
 
 private _vehicle = objNull;
 if (isNil {
+    private _position = if (count _positionRef isEqualTo 2) then {_positionRef#0 + _positionRef#1} else {+_positionRef};
     _vehicle = createVehicle [_className, _position select [0,3], [], 0, _createVehicleSpecial];
     if (isNull _vehicle) then {
         [1, "InvalidObjectClassName | """+_className+""" does not exist or failed creation.", _filename] remoteExecCall ["A3A_fnc_log",2,false];
@@ -63,7 +64,7 @@ if (isNil {
     _vehicle setVariable ["BIS_enableRandomization", _enableRandomization];
 
     [_vehicle,_position] call A3A_fnc_setPos;
-    if (_isAircraft && getPosVisual _vehicle #2 < 50) then { [_vehicle,[_position#0,_position#1,100],"AGLS"] call A3A_fnc_setPos };
+    if (_isAircraft && getPosVisual _vehicle #2 < 100) then { [_vehicle,[_position#0,_position#1,100],"AGLS"] call A3A_fnc_setPos };
 
     [_vehicle, _direction] call _fnc_directionAdjuster;
     _vehicle setVelocityModelSpace [0, _velocity, 0];
