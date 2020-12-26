@@ -69,7 +69,7 @@
 ["baggedAT", ["RHS_Kornet_Gun_Bag","RHS_Kornet_Tripod_Bag"]] call _fnc_saveToTemplate; 					//this line determines bagged static ATs -- Example: ["baggedAT", [["B_static_AT_F", "B_HMG_01_support_F"]]] -- Array, can contain multiple assets
 ["baggedAA", []] call _fnc_saveToTemplate; 					//this line determines bagged static ATs -- Example: ["baggedAT", [["B_static_AT_F", "B_HMG_01_support_F"]]] -- Array, can contain multiple assets
 ["baggedMortars", ["RHS_Podnos_Gun_Bag","RHS_Podnos_Bipod_Bag"]] call _fnc_saveToTemplate; 			//this line determines bagged static mortars -- Example: ["baggedMortars", [["B_Mortar_01_F", "B_Mortar_01_support_F"]]] -- Array, can contain multiple assets
-pylonWeapon = "rhs_weap_bm21_9m522";
+
 //Minefield definition
 ["minefieldAT", ["rhs_mine_tm62m_mag"]] call _fnc_saveToTemplate; 				//this line determines AT mines used for spawning in minefields -- Example: ["minefieldAT", ["ATMine_Range_Mag"]] -- Array, can contain multiple assets
 ["minefieldAPERS", ["rhs_mine_pmn2_mag"]] call _fnc_saveToTemplate; 			//this line determines APERS mines used for spawning in minefields -- Example: ["minefieldAPERS", ["APERSMine_Range_Mag"]] -- Array, can contain multiple assets
