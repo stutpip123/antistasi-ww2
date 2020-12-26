@@ -22,12 +22,8 @@ private _airport = [_supportPos, _side] call A3A_fnc_findAirportForAirstrike;
 if(_airport == "") exitWith
 {
     [2, format ["No airport found for %1 support", _supportName], _fileName] call A3A_fnc_log;
-    ""
+    ["", 0, 0];
 };
-
-private _plane = if (_side == Occupants) then {vehNATOPlane} else {vehCSATPlane};
-private _crewUnits = if(_side == Occupants) then {NATOPilot} else {CSATPilot};
-private _bombType = "";
 
 private _targetMarker = createMarker [format ["%1_coverage", _supportName], _supportPos];
 _targetMarker setMarkerShape "ELLIPSE";
@@ -74,94 +70,14 @@ private _bombType = if (napalmEnabled) then {"NAPALM"} else {"CLUSTER"};
 
 [2, format ["Airstrike will be carried out with bombType %1", _bombType], _fileName] call A3A_fnc_log;
 
-//Blocks the airport from spawning in other planes while the support is waiting
-//to avoid spawning planes in each other and sudden explosions
-[_airport, 3] call A3A_fnc_addTimeForIdle;
+private _setupTime = 1200 - ((tierWar - 1) * 110);
+private _minSleepTime = (1 - (tierWar - 1) * 0.1) * _setupTime;
+private _sleepTime = _minSleepTime + random (_setupTime - _minSleepTime);
 
-private _spawnPos = (getMarkerPos _airport);
-private _strikePlane = createVehicle [_plane, _spawnPos, [], 0, "FLY"];
-private _dir = _spawnPos getDir _supportPos;
-_strikePlane setDir _dir;
-
-//Put it in the sky
-_strikePlane setPosATL (_spawnPos vectorAdd [0, 0, 500]);
-
-//Hide the hovering airplane from players view
-_strikePlane hideObjectGlobal true;
-_strikePlane enableSimulation false;
-_strikePlane setVelocityModelSpace (velocityModelSpace _strikePlane vectorAdd [0, 150, 0]);
-
-private _strikeGroup = createGroup _side;
-private _pilot = [_strikeGroup, _crewUnits, getPos _strikePlane] call A3A_fnc_createUnit;
-_pilot moveInDriver _strikePlane;
-
-_strikePlane disableAI "TARGET";
-_strikePlane disableAI "AUTOTARGET";
-_strikePlane setVariable ["bombType", _bombType, true];
-
-private _timerArray = if(_side == Occupants) then {occupantsAirstrikeTimer} else {invadersAirstrikeTimer};
-
-_timerArray set [_timerIndex, time + 1800];
-_strikePlane setVariable ["TimerArray", _timerArray, true];
-_strikePlane setVariable ["TimerIndex", _timerIndex, true];
-_strikePlane setVariable ["supportName", _supportName, true];
-_strikePlane setVariable ["side", _side, true];
-
-//Setting up the EH for support destruction
-_strikePlane addEventHandler
-[
-    "Killed",
-    {
-        params ["_strikePlane"];
-        [2, format ["Plane for %1 destroyed, airstrike aborted", _strikePlane getVariable "supportName"], "SUP_airstrike"] call A3A_fnc_log;
-        ["TaskSucceeded", ["", "Airstrike Vessel Destroyed"]] remoteExec ["BIS_fnc_showNotification", teamPlayer];
-        private _timerArray = _strikePlane getVariable "TimerArray";
-        private _timerIndex = _strikePlane getVariable "TimerIndex";
-        _timerArray set [_timerIndex, (_timerArray select _timerIndex) + 3600];
-        [_strikePlane getVariable "supportName", _strikePlane getVariable "side"] spawn A3A_fnc_endSupport;
-        [_strikePlane] spawn A3A_fnc_postMortem;
-
-        if((_strikePlane getVariable "side") == Occupants) then
-        {
-            [[20, 45], [0, 0]] remoteExec ["A3A_fnc_prestige", 2];
-        }
-        else
-        {
-            [[0, 0], [20, 45]] remoteExec ["A3A_fnc_prestige", 2];
-        };
-    }
-];
-
-_pilot setVariable ["Plane", _strikePlane, true];
-_pilot addEventHandler
-[
-    "Killed",
-    {
-        params ["_unit"];
-        ["TaskSucceeded", ["", "Airstrike crew killed"]] remoteExec ["BIS_fnc_showNotification", teamPlayer];
-        private _strikePlane = _unit getVariable "Plane";
-        [2, format ["Crew for %1 killed, airstrike aborted", _strikePlane getVariable "supportName"], "SUP_airstrike"] call A3A_fnc_log;
-        private _timerArray = _strikePlane getVariable "TimerArray";
-        private _timerIndex = _strikePlane getVariable "TimerIndex";
-        _timerArray set [_timerIndex, (_timerArray select _timerIndex) + 1800];
-        [_unit] spawn A3A_fnc_postMortem;
-    }
-];
-
-_pilot spawn
-{
-    private _pilot = _this;
-    waitUntil {sleep 10; (isNull _pilot) || {!(alive _pilot) || (isNull objectParent _pilot)}};
-    if(isNull _pilot || !(alive _pilot)) exitWith {};
-
-    //Pilot ejected, spawn despawner
-    [group _pilot] spawn A3A_fnc_groupDespawner;
-};
-
-_strikeGroup deleteGroupWhenEmpty true;
-
-private _markerDir = _spawnPos getDir _supportPos;
+private _markerDir = (getMarkerPos _airport) getDir _supportPos;
 _targetMarker setMarkerDir _markerDir;
-[_side, _strikePlane, _strikeGroup , _airport, _supportPos, _supportName] spawn A3A_fnc_SUP_airstrikeRoutine;
 
-_targetMarker;
+[_side, _timerIndex, _sleepTime, _bombType, _airport, _supportPos, _supportName] spawn A3A_fnc_SUP_airstrikeRoutine;
+
+private _result = [_targetMarker, _minSleepTime, _setupTime];
+_result;

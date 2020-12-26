@@ -1,15 +1,95 @@
-params ["_side", "_strikePlane", "_strikeGroup", "_airport", "_targetPos", "_supportName"];
+params ["_side", "_timerIndex", "_sleepTime", "_bombType", "_airport", "_targetPos", "_supportName"];
 
 private _fileName = "SUP_airstrikeRoutine";
 //Sleep to simulate preparetion time
-private _setupTime = 1200 - ((tierWar - 1) * 110);
-private _sleepTime = (1 - (tierWar - 1) * 0.1) * _setupTime + random (((tierWar - 1) * 0.1) * _setupTime);
 while {_sleepTime > 0} do
 {
     sleep 1;
     _sleepTime = _sleepTime - 1;
     if((spawner getVariable _airport) != 2) exitWith {};
 };
+
+private _plane = if (_side == Occupants) then {vehNATOPlane} else {vehCSATPlane};
+private _crewUnits = if(_side == Occupants) then {NATOPilot} else {CSATPilot};
+
+private _spawnPos = (getMarkerPos _airport);
+private _strikePlane = createVehicle [_plane, _spawnPos, [], 0, "FLY"];
+private _dir = _spawnPos getDir _targetPos;
+_strikePlane setDir _dir;
+
+//Put it in the sky
+_strikePlane setPosATL (_spawnPos vectorAdd [0, 0, 500]);
+
+_strikePlane setVelocityModelSpace (velocityModelSpace _strikePlane vectorAdd [0, 150, 0]);
+
+private _strikeGroup = createGroup _side;
+private _pilot = [_strikeGroup, _crewUnits, getPos _strikePlane] call A3A_fnc_createUnit;
+_pilot moveInDriver _strikePlane;
+
+_strikePlane disableAI "TARGET";
+_strikePlane disableAI "AUTOTARGET";
+_strikePlane setVariable ["bombType", _bombType, true];
+
+private _timerArray = if(_side == Occupants) then {occupantsAirstrikeTimer} else {invadersAirstrikeTimer};
+
+_timerArray set [_timerIndex, time + 1800];
+_strikePlane setVariable ["TimerArray", _timerArray, true];
+_strikePlane setVariable ["TimerIndex", _timerIndex, true];
+_strikePlane setVariable ["supportName", _supportName, true];
+_strikePlane setVariable ["side", _side, true];
+
+//Setting up the EH for support destruction
+_strikePlane addEventHandler
+[
+    "Killed",
+    {
+        params ["_strikePlane"];
+        [2, format ["Plane for %1 destroyed, airstrike aborted", _strikePlane getVariable "supportName"], "SUP_airstrike"] call A3A_fnc_log;
+        ["TaskSucceeded", ["", "Airstrike Vessel Destroyed"]] remoteExec ["BIS_fnc_showNotification", teamPlayer];
+        private _timerArray = _strikePlane getVariable "TimerArray";
+        private _timerIndex = _strikePlane getVariable "TimerIndex";
+        _timerArray set [_timerIndex, (_timerArray select _timerIndex) + 3600];
+        [_strikePlane getVariable "supportName", _strikePlane getVariable "side"] spawn A3A_fnc_endSupport;
+        [_strikePlane] spawn A3A_fnc_postMortem;
+
+        if((_strikePlane getVariable "side") == Occupants) then
+        {
+            [[20, 45], [0, 0]] remoteExec ["A3A_fnc_prestige", 2];
+        }
+        else
+        {
+            [[0, 0], [20, 45]] remoteExec ["A3A_fnc_prestige", 2];
+        };
+    }
+];
+
+_pilot setVariable ["Plane", _strikePlane, true];
+_pilot addEventHandler
+[
+    "Killed",
+    {
+        params ["_unit"];
+        ["TaskSucceeded", ["", "Airstrike crew killed"]] remoteExec ["BIS_fnc_showNotification", teamPlayer];
+        private _strikePlane = _unit getVariable "Plane";
+        [2, format ["Crew for %1 killed, airstrike aborted", _strikePlane getVariable "supportName"], "SUP_airstrike"] call A3A_fnc_log;
+        private _timerArray = _strikePlane getVariable "TimerArray";
+        private _timerIndex = _strikePlane getVariable "TimerIndex";
+        _timerArray set [_timerIndex, (_timerArray select _timerIndex) + 1800];
+        [_unit] spawn A3A_fnc_postMortem;
+    }
+];
+
+_pilot spawn
+{
+    private _pilot = _this;
+    waitUntil {sleep 10; (isNull _pilot) || {!(alive _pilot) || (isNull objectParent _pilot)}};
+    if(isNull _pilot || !(alive _pilot)) exitWith {};
+
+    //Pilot ejected, spawn despawner
+    [group _pilot] spawn A3A_fnc_groupDespawner;
+};
+
+_strikeGroup deleteGroupWhenEmpty true;
 
 private _targetList = server getVariable [format ["%1_targets", _supportName], []];
 private _reveal = _targetList select 0 select 1;
@@ -27,6 +107,7 @@ else
     _textMarker setMarkerColor colorInvaders;
 };
 _textMarker setMarkerAlpha 0;
+
 [_reveal, _targetPos, _side, "AIRSTRIKE", format ["%1_coverage", _supportName], _textMarker] spawn A3A_fnc_showInterceptedSupportCall;
 [_side, format ["%1_coverage", _supportName]] spawn A3A_fnc_clearTargetArea;
 

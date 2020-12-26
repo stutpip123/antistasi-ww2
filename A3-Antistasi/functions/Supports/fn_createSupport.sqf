@@ -79,19 +79,19 @@ switch (_supportType) do
     };
 };
 
-if(_supportMarker != "") then
+if((_supportMarker select 0) != "") then
 {
     server setVariable [format ["%1_targets", _supportName], [[[_supportTarget, _precision], _revealCall]], true];
     if (_side == Occupants) then
     {
-        occupantsSupports pushBack [_supportType, _supportMarker, _supportName];
+        occupantsSupports pushBack [_supportType, _supportMarker select 0, _supportName];
     };
     if(_side == Invaders) then
     {
-        invadersSupports pushBack [_supportType, _supportMarker, _supportName];
+        invadersSupports pushBack [_supportType, _supportMarker select 0, _supportName];
     };
     private _supportPos = if (_supportTarget isEqualType objNull) then {getPos _supportTarget} else {_supportTarget};
-    [_revealCall + (random 0.4) - 0.2, _side, _supportType, _supportPos] spawn A3A_fnc_showInterceptedSetupCall;
+    [_revealCall + (random 0.4) - 0.2, _side, _supportType, _supportPos, _supportMarker select 1, _supportMarker select 2] spawn A3A_fnc_showInterceptedSetupCall;
 };
 
 supportCallInProgress = false;
