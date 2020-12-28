@@ -85,75 +85,23 @@
 //////////////////////////
 //     "Weapon", "Muzzle", "Rail", "Sight", [], [], "Bipod"
 private _loadoutData = call _fnc_createLoadoutData;
-_loadoutData setVariable ["rifles", [
-									["rhs_weap_akm","rhs_acc_dtk1l","rhs_acc_2dpZenit","",[],[],""],
-									["rhs_weap_akms","rhs_acc_dtk1l","rhs_acc_2dpZenit","",[],[],""],
-									["rhs_weap_aks74","rhs_acc_dtk3","rhs_acc_2dpZenit","",[],[],""],
-									["rhs_weap_aks74n","rhs_acc_dtk3","rhs_acc_2dpZenit","",[],[],""],
-									["rhs_weap_aks74u","rhs_acc_dtk3","","",[],[],""],
-									["rhs_weap_ak103","rhs_acc_dtk3","rhs_acc_2dpZenit","",[],[],""],
-									["rhs_weap_ak104","rhs_acc_dtk3","rhs_acc_2dpZenit","",[],[],""],
-									["rhs_weap_ak105","rhs_acc_dtk1983","rhs_acc_2dpZenit","",[],[],""],
-									["rhs_weap_ak74_2","rhs_acc_dtk3","rhs_acc_2dpZenit","",[],[],""]
-									]]; 					//this line determines rifles -- Example: ["arifle_MX_F","arifle_MX_pointer_F"] -- Array, can contain multiple assets
-//
-_loadoutData setVariable ["carbines", [
-									["rhs_weap_akmn","rhs_acc_dtk1l","","rhs_acc_1p63",[],[],""],
-									["rhs_weap_aks74n","rhs_acc_dtk1983","rhs_acc_2dpZenit","rhs_acc_pkas",[],[],""],
-									["rhs_weap_aks74n_2_npz","rhs_acc_dtk4short","rhs_acc_2dpZenit","rhs_acc_rakursPM",[],[],""],
-									["rhs_weap_aks74un","rhs_acc_dtk4short","","rhs_acc_1p63",[],[],""],
-									["rhs_weap_ak103_1","rhs_acc_dtk4long","rhs_acc_2dpZenit","rhs_acc_pkas",[],[],""],
-									["rhs_weap_ak104_zenitco01","rhs_acc_dtk4long","rhs_acc_perst3_2dp_h","rhs_acc_1p63",[],[],"rhs_acc_grip_ffg2"],
-									["rhs_weap_ak105_zenitco01","rhs_acc_dtk1983","rhs_acc_perst3_2dp_h","rhs_acc_1p63",[],[],"rhs_acc_grip_ffg2"],
-									["rhs_weap_ak74mr","rhs_acc_dtk1983","rhs_acc_perst3_2dp_h","rhs_acc_rakursPM",[],[],"rhs_acc_grip_ffg2"],
-									["rhs_weap_asval","","","rhs_acc_1p78",[],[],""]
-									]]; 					//this line determines carbines -- Example: ["arifle_MXC_F","arifle_MXC_Holo_F"] -- Array, can contain multiple assets
-//
-_loadoutData setVariable ["grenadeLaunchers", [
-									["rhs_weap_akmn_gp25","rhs_acc_dtk1l","","rhs_acc_1p63",[],[],""],
-									["rhs_weap_ak74m_gp25","rhs_acc_dtk1983","","rhs_acc_1p63",[],[],""],
-									["rhs_weap_ak74m_fullplum_gp25","rhs_acc_dtk1983","","rhs_acc_pkas",[],[],""],
-									["rhs_weap_ak103_gp25","rhs_acc_dtk3","","rhs_acc_pkas",[],[],""],
-									["rhs_weap_aks74n_gp25","rhs_acc_dtk3","","rhs_acc_pkas",[],[],""]
-									]]; 			//this line determines grenade launchers -- Example: ["arifle_MX_GL_ACO_F","arifle_MX_GL_ACO_pointer_F"] -- Array, can contain multiple assets
-//
-_loadoutData setVariable ["SMGs", [
-									["rhs_weap_vss","","","rhs_acc_pkas",[],[],""],
-									["rhs_weap_vss_grip","","rhs_acc_2dpZenit_ris","rhs_acc_pkas",[],[],"rhs_acc_grip_rk2"],
-									["rhs_weap_vss_grip_npz","","rhs_acc_2dpZenit_ris","rhs_acc_rakursPM",[],[],"rhs_acc_grip_rk2"],
-									["rhs_weap_pm63","rhs_acc_dtk1l","rhs_acc_2dpZenit","",[],[],""],
-									["rhs_weap_pp2000","","","rhs_acc_1p87",[],[],""]
-									]]; 						//this line determines SMGs -- Example: ["SMG_01_F","SMG_01_Holo_F"] -- Array, can contain multiple assets
-//
-_loadoutData setVariable ["machineGuns", [
-									["rhs_weap_pkm","","","",[],[],""],
-									["rhs_weap_pkp","","","rhs_acc_pkas_pkp",[],[],""]
-									]]; 				//this line determines machine guns -- Example: ["arifle_MX_SW_F","arifle_MX_SW_Hamr_pointer_F"] -- Array, can contain multiple assets
-//
-_loadoutData setVariable ["marksmanRifles", [
-									["rhs_weap_svdp","","","rhs_acc_pso1m2",[],[],""],
-									["rhs_weap_svdp_wd","","","rhs_acc_pso1m2",[],[],""],
-									["rhs_weap_svdp_wd_npz","","","rhs_acc_dh520x56",[],[],""],
-									["rhs_weap_svdp_npz","","","rhs_acc_dh520x56",[],[],""],
-									["rhs_weap_svds","","","rhs_acc_pso1m21",[],[],""]
-									]]; 			//this line determines markman rifles -- Example: ["arifle_MXM_F","arifle_MXM_Hamr_pointer_F"] -- Array, can contain multiple assets
-//
-_loadoutData setVariable ["sniperRifles", [
-									["rhs_weap_svds_npz","rhs_acc_tgpv2","","rhs_acc_dh520x56",[],[],""],
-									["rhs_weap_t5000","","","rhs_acc_dh520x56",[],[],"rhs_acc_harris_swivel"]
-									]]; 				//this line determines sniper rifles -- Example: ["srifle_LRR_camo_F","srifle_LRR_camo_SOS_F"] -- Array, can contain multiple assets
-//
-_loadoutData setVariable ["lightATLaunchers", ["rhs_weap_rpg26","rhs_weap_rshg2"]]; 			//this line determines light AT launchers -- Example: ["launch_NLAW_F"] -- Array, can contain multiple assets
-//
+_loadoutData setVariable ["rifles", []];
+_loadoutData setVariable ["carbines", []];
+_loadoutData setVariable ["grenadeLaunchers", []];
+_loadoutData setVariable ["SMGs", []];
+_loadoutData setVariable ["shotgun", []];
+_loadoutData setVariable ["machineGuns", []];
+_loadoutData setVariable ["marksmanRifles", []];
+_loadoutData setVariable ["sniperRifles", []];
+_loadoutData setVariable ["lightATLaunchers", ["rhs_weap_rpg26","rhs_weap_rshg2"]];
 _loadoutData setVariable ["ATLaunchers", [
-									["rhs_weap_rpg7","","","rhs_acc_pgo7v",["rhs_rpg7_PG7VR_mag"],[],""],
-									["rhs_weap_rpg7","","","rhs_acc_pgo7v2",["rhs_rpg7_PG7VR_mag"],[],""],
-									["rhs_weap_rpg7","","","rhs_acc_pgo7v3",["rhs_rpg7_PG7VR_mag"],[],""],
-									["rhs_weap_rpg7","","","rhs_acc_pgo7v",["rhs_rpg7_TBG7V_mag"],[],""],
-									["rhs_weap_rpg7","","","rhs_acc_pgo7v2",["rhs_rpg7_TBG7V_mag"],[],""],
-									["rhs_weap_rpg7","","","rhs_acc_pgo7v3",["rhs_rpg7_TBG7V_mag"],[],""]
-									]]; 				//this line determines light AT launchers -- Example: ["launch_NLAW_F"] -- Array, can contain multiple assets
-//
+["rhs_weap_rpg7","","","rhs_acc_pgo7v",["rhs_rpg7_PG7VR_mag"],[],""],
+["rhs_weap_rpg7","","","rhs_acc_pgo7v2",["rhs_rpg7_PG7VR_mag"],[],""],
+["rhs_weap_rpg7","","","rhs_acc_pgo7v3",["rhs_rpg7_PG7VR_mag"],[],""],
+["rhs_weap_rpg7","","","rhs_acc_pgo7v",["rhs_rpg7_TBG7V_mag"],[],""],
+["rhs_weap_rpg7","","","rhs_acc_pgo7v2",["rhs_rpg7_TBG7V_mag"],[],""],
+["rhs_weap_rpg7","","","rhs_acc_pgo7v3",["rhs_rpg7_TBG7V_mag"],[],""]
+]];
 _loadoutData setVariable ["heavyATLaunchers", [
 ["rhs_weap_rpg7","","","rhs_acc_pgo7v",["rhs_rpg7_PG7VR_mag"],[],""],
 ["rhs_weap_rpg7","","","rhs_acc_pgo7v2",["rhs_rpg7_PG7VR_mag"],[],""],
@@ -162,18 +110,17 @@ _loadoutData setVariable ["heavyATLaunchers", [
 ["rhs_weap_rpg7","","","rhs_acc_pgo7v2",["rhs_rpg7_TBG7V_mag"],[],""],
 ["rhs_weap_rpg7","","","rhs_acc_pgo7v3",["rhs_rpg7_TBG7V_mag"],[],""]
 ]];
-_loadoutData setVariable ["AALaunchers", ["rhs_weap_igla"]]; 				//this line determines AA launchers -- Example: ["launch_B_Titan_F"] -- Array, can contain multiple assets
-//
-_loadoutData setVariable ["sidearms", ["rhs_weap_6p53","rhs_weap_pb_6p9","rhs_weap_makarov_pm"]]; 					//this line determines handguns/sidearms -- Example: ["hgun_Pistol_heavy_01_F", "hgun_P07_F"] -- Array, can contain multiple assets
-
+_loadoutData setVariable ["AALaunchers", ["rhs_weap_igla"]];
+_loadoutData setVariable ["sidearms", ["rhs_weap_6p53","rhs_weap_makarov_pm"]];
+_loadoutData setVariable ["GLsidearms", []];
 _loadoutData setVariable ["ATMines", ["rhs_mine_M19_mag"]]; 					//this line determines the AT mines which can be carried by units -- Example: ["ATMine_Range_Mag"] -- Array, can contain multiple assets
 _loadoutData setVariable ["APMines", ["rhsusf_mine_m14_mag"]]; 					//this line determines the APERS mines which can be carried by units -- Example: ["APERSMine_Range_Mag"] -- Array, can contain multiple assets
 _loadoutData setVariable ["lightExplosives", ["rhsusf_m112_mag"]]; 			//this line determines light explosives -- Example: ["DemoCharge_Remote_Mag"] -- Array, can contain multiple assets
 _loadoutData setVariable ["heavyExplosives", ["rhsusf_m112x4_mag"]]; 			//this line determines heavy explosives -- Example: ["SatchelCharge_Remote_Mag"] -- Array, can contain multiple assets
 
-_loadoutData setVariable ["antiInfantryGrenades", ["rhs_mag_m67"]]; 		//this line determines anti infantry grenades (frag and such) -- Example: ["HandGrenade","MiniGrenade"] -- Array, can contain multiple assets
+_loadoutData setVariable ["antiInfantryGrenades", ["rhs_mag_rgn","rhs_mag_rgo"]]; 		//this line determines anti infantry grenades (frag and such) -- Example: ["HandGrenade","MiniGrenade"] -- Array, can contain multiple assets
 _loadoutData setVariable ["antiTankGrenades", []]; 			//this line determines anti tank grenades. Leave empty when not available. -- Array, can contain multiple assets
-_loadoutData setVariable ["smokeGrenades", ["SmokeShell"]]; 			//this line determines smoke grenades -- Example: ["SmokeShell", "SmokeShellRed"] -- Array, can contain multiple assets
+_loadoutData setVariable ["smokeGrenades", ["rhs_mag_rdg2_white","rhs_mag_rdg2_black"]]; 			//this line determines smoke grenades -- Example: ["SmokeShell", "SmokeShellRed"] -- Array, can contain multiple assets
 
 
 //Basic equipment. Shouldn't need touching most of the time.
@@ -186,9 +133,12 @@ _loadoutData setVariable ["gpses", ["ItemGPS"]];			//this line determines GPS
 _loadoutData setVariable ["NVGs", ["rhs_1PN138"]];			//this line determines NVGs -- Array, can contain multiple assets
 _loadoutData setVariable ["binoculars", ["Binocular"]];		//this line determines the binoculars
 
-_loadoutData setVariable ["uniforms", []];					//don't fill this line - this is only to set the variable
+_loadoutData setVariable ["uniforms", ["rhsgref_uniform_ttsko_mountain"]];					//don't fill this line - this is only to set the variable
 _loadoutData setVariable ["vests", []];						//don't fill this line - this is only to set the variable
-_loadoutData setVariable ["backpacks", []];					//don't fill this line - this is only to set the variable
+_loadoutData setVariable ["backpacks", ["rhs_sidor","rhs_assault_umbts","rhs_sidor","B_Carryall_oli"]];
+_loadoutData setVariable ["medbackpacks", ["rhs_medic_bag"]];
+_loadoutData setVariable ["atbackpacks", ["rhs_rpg_empty"]];
+_loadoutData setVariable ["engbackpacks", ["rhs_assault_umbts_engineer_empty"]];
 _loadoutData setVariable ["longRangeRadios", []];			//don't fill this line - this is only to set the variable
 _loadoutData setVariable ["helmets", []];					//don't fill this line - this is only to set the variable
 
@@ -225,19 +175,152 @@ _loadoutData setVariable ["items_unarmed_extras", []];		//this line defines spec
 private _sfLoadoutData = _loadoutData call _fnc_copyLoadoutData; // touch and shit breaks
 _sfLoadoutData setVariable ["uniforms", ["rhsgref_uniform_para_ttsko_urban"]];			//this line determines uniforms for special forces -- Example: ["U_B_CombatUniform_mcam","U_B_CombatUniform_mcam_tshirt"]] -- Array, can contain multiple assets
 _sfLoadoutData setVariable ["vests", ["rhs_6b5","rhs_6b5_rifleman","rhs_6b5_medic","rhs_6b5_officer","rhs_6b5_sniper"]];				//this line determines vests for special forces -- Example: ["V_PlateCarrierSpec_mtp","V_PlateCarrierGL_mtp"] -- Array, can contain multiple assets
-_sfLoadoutData setVariable ["backpacks", ["B_Carryall_oli"]];			//this line determines backpacks for special forces -- Example: ["B_AssaultPack_mcamo","B_Kitbag_mcamo"] -- Array, can contain multiple assets
+_sfLoadoutData setVariable ["backpacks", []];			//this line determines backpacks for special forces -- Example: ["B_AssaultPack_mcamo","B_Kitbag_mcamo"] -- Array, can contain multiple assets
 _sfLoadoutData setVariable ["helmets", ["rhsgref_6b27m_ttsko_digi"]];				//this line determines helmets for special forces -- Example: ["H_HelmetB_camo","H_HelmetB_desert"] -- Array, can contain multiple assets
-
+_sfLoadoutData setVariable ["rifles", [
+["rhs_weap_vhsd2", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_eotech_552", [], [], "rhsusf_acc_grip1"],
+["rhs_weap_vhsd2", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_compm4", [], [], "rhsusf_acc_grip1"],
+["rhs_weap_vhsd2", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_su230", [], [], "rhsusf_acc_grip1"],
+["rhs_weap_vhsd2", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_su230_mrds", [], [], "rhsusf_acc_grip1"],
+["rhs_weap_vhsd2", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_t1_high", [], [], "rhsusf_acc_grip1"],
+["rhs_weap_vhsd2", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_acog_rmr", [], [], "rhsusf_acc_grip1"],
+["rhs_weap_mk17_STD", "rhsusf_acc_aac_762sdn6_silencer", "rhsusf_acc_anpeq16a", "rhsusf_acc_eotech_552_d", [], [], "rhsusf_acc_grip2_tan"],
+["rhs_weap_mk17_STD", "rhsusf_acc_aac_762sdn6_silencer", "rhsusf_acc_anpeq16a", "rhsusf_acc_eotech", [], [], "rhsusf_acc_grip2_tan"],
+["rhs_weap_mk17_STD", "rhsusf_acc_aac_762sdn6_silencer", "rhsusf_acc_anpeq16a", "rhsusf_acc_compm4", [], [], "rhsusf_acc_grip2_tan"],
+["rhs_weap_mk17_STD", "rhsusf_acc_aac_762sdn6_silencer", "rhsusf_acc_anpeq16a", "rhsusf_acc_su230_c", [], [], "rhsusf_acc_grip2_tan"],
+["rhs_weap_mk17_STD", "rhsusf_acc_aac_762sdn6_silencer", "rhsusf_acc_anpeq16a", "rhsusf_acc_su230_mrds_c", [], [], "rhsusf_acc_grip2_tan"],
+["rhs_weap_mk17_STD", "rhsusf_acc_aac_762sdn6_silencer", "rhsusf_acc_anpeq16a", "rhsusf_acc_t1_high", [], [], "rhsusf_acc_grip2_tan"],
+["rhs_weap_mk17_STD", "rhsusf_acc_aac_762sdn6_silencer", "rhsusf_acc_anpeq16a", "rhsusf_acc_acog_rmr", [], [], "rhsusf_acc_grip2_tan"],
+["rhs_weap_mk17_STD", "rhsusf_acc_aac_762sdn6_silencer", "rhsusf_acc_anpeq16a", "rhsusf_acc_acog_d", [], [], "rhsusf_acc_grip2_tan"],
+["rhs_weap_savz58v_ris", "rhsgref_acc_zendl", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_eotech_552", [], [], "rhsusf_acc_kac_grip"],
+["rhs_weap_savz58v_ris", "rhsgref_acc_zendl", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_compm4", [], [], "rhsusf_acc_kac_grip"],
+["rhs_weap_savz58v_ris", "rhsgref_acc_zendl", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_su230", [], [], "rhsusf_acc_kac_grip"],
+["rhs_weap_savz58v_ris", "rhsgref_acc_zendl", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_su230_mrds", [], [], "rhsusf_acc_kac_grip"],
+["rhs_weap_savz58v_ris", "rhsgref_acc_zendl", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_t1_high", [], [], "rhsusf_acc_kac_grip"],
+["rhs_weap_savz58v_ris", "rhsgref_acc_zendl", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_acog_rmr", [], [], "rhsusf_acc_kac_grip"]
+]];
+_sfLoadoutData setVariable ["carbines", [
+["rhs_weap_vhsk2", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_eotech_552", [], [], "rhsusf_acc_grip1"],
+["rhs_weap_vhsk2", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_compm4", [], [], "rhsusf_acc_grip1"],
+["rhs_weap_vhsk2", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_t1_high", [], [], "rhsusf_acc_grip1"],
+["rhs_weap_mk17_CQC", "rhsusf_acc_aac_762sdn6_silencer", "rhsusf_acc_anpeq16a", "rhsusf_acc_eotech_552_d", [], [], "rhsusf_acc_grip2_tan"],
+["rhs_weap_mk17_CQC", "rhsusf_acc_aac_762sdn6_silencer", "rhsusf_acc_anpeq16a", "rhsusf_acc_eotech", [], [], "rhsusf_acc_grip2_tan"],
+["rhs_weap_mk17_CQC", "rhsusf_acc_aac_762sdn6_silencer", "rhsusf_acc_anpeq16a", "rhsusf_acc_compm4", [], [], "rhsusf_acc_grip2_tan"],
+["rhs_weap_mk17_CQC", "rhsusf_acc_aac_762sdn6_silencer", "rhsusf_acc_anpeq16a", "rhsusf_acc_t1_high", [], [], "rhsusf_acc_grip2_tan"]
+]];
+_sfLoadoutData setVariable ["grenadeLaunchers", [
+["rhsusf_weap_MP7A2", "rhsusf_acc_rotex_mp7", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_eotech_552", ["rhsusf_mag_40Rnd_46x30_AP"], [], "rhsusf_acc_kac_grip"],
+["rhsusf_weap_MP7A2", "rhsusf_acc_rotex_mp7", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_compm4", ["rhsusf_mag_40Rnd_46x30_AP"], [], "rhsusf_acc_kac_grip"],
+["rhsusf_weap_MP7A2", "rhsusf_acc_rotex_mp7", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_t1_high", ["rhsusf_mag_40Rnd_46x30_AP"], [], "rhsusf_acc_kac_grip"]
+]];
+_sfLoadoutData setVariable ["SMGs", [
+["rhs_weap_vhsd2_bg", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_eotech_552", [], [], ""],
+["rhs_weap_vhsd2_bg", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_compm4", [], [], ""],
+["rhs_weap_vhsd2_bg", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_su230", [], [], ""],
+["rhs_weap_vhsd2_bg", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_su230_mrds", [], [], ""],
+["rhs_weap_vhsd2_bg", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_t1_high", [], [], ""],
+["rhs_weap_vhsd2_bg", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_acog_rmr", [], [], ""]
+]];
+_sfLoadoutData setVariable ["machineGuns", [
+["rhs_weap_m249_light_S", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_eotech_552", [], [], "rhsusf_acc_kac_grip_saw_bipod"],
+["rhs_weap_m249_light_S", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_compm4", [], [], "rhsusf_acc_kac_grip_saw_bipod"],
+["rhs_weap_m249_light_S", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_su230", [], [], "rhsusf_acc_kac_grip_saw_bipod"],
+["rhs_weap_m249_light_S", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_su230_mrds", [], [], "rhsusf_acc_kac_grip_saw_bipod"],
+["rhs_weap_m249_light_S", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_t1_high", [], [], "rhsusf_acc_kac_grip_saw_bipod"],
+["rhs_weap_m249_light_S", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_acog_rmr", [], [], "rhsusf_acc_kac_grip_saw_bipod"],
+["rhs_weap_m249_light_L", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_eotech_552", [], [], "rhsusf_acc_kac_grip_saw_bipod"],
+["rhs_weap_m249_light_L", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_compm4", [], [], "rhsusf_acc_kac_grip_saw_bipod"],
+["rhs_weap_m249_light_L", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_su230", [], [], "rhsusf_acc_kac_grip_saw_bipod"],
+["rhs_weap_m249_light_L", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_su230_mrds", [], [], "rhsusf_acc_kac_grip_saw_bipod"],
+["rhs_weap_m249_light_L", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_t1_high", [], [], "rhsusf_acc_kac_grip_saw_bipod"],
+["rhs_weap_m249_light_L", "rhsusf_acc_nt4_black", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_acog_rmr", [], [], "rhsusf_acc_kac_grip_saw_bipod"]
+]];
+_sfLoadoutData setVariable ["marksmanRifles", [
+["rhs_weap_mk17_CQC", "rhsusf_acc_aac_762sdn6_silencer", "rhsusf_acc_anpeq16a", "rhsusf_acc_m8541_d", [], [], "rhsusf_acc_harris_bipod"],
+["rhs_weap_mk17_CQC", "rhsusf_acc_aac_762sdn6_silencer", "rhsusf_acc_anpeq16a", "rhsusf_acc_leupoldmk4_2_d", [], [], "rhsusf_acc_harris_bipod"],
+["rhs_weap_mk17_CQC", "rhsusf_acc_aac_762sdn6_silencer", "rhsusf_acc_anpeq16a", "rhsusf_acc_premier_mrds", [], [], "rhsusf_acc_harris_bipod"],
+["rhs_weap_mk17_CQC", "rhsusf_acc_aac_762sdn6_silencer", "rhsusf_acc_anpeq16a", "rhsusf_acc_t1_high", [], [], "rhsusf_acc_harris_bipod"]
+]];
+_sfLoadoutData setVariable ["sniperRifles", [
+["rhs_weap_XM2010_wd","rhsusf_acc_m2010s_wd","rhsusf_acc_anpeq15side_bk","rhs_acc_dh520x56",[],[],"rhsusf_acc_harris_bipod"],
+["rhs_weap_XM2010_wd","rhsusf_acc_m2010s_wd","rhsusf_acc_anpeq15side_bk","rhsusf_acc_m8541_wd",[],[],"rhsusf_acc_harris_bipod"],
+["rhs_weap_XM2010_wd","rhsusf_acc_m2010s_wd","rhsusf_acc_anpeq15side_bk","rhsusf_acc_leupoldmk4_2",[],[],"rhsusf_acc_harris_bipod"],
+["rhs_weap_t5000","","","rhs_acc_dh520x56",[],[],"rhs_acc_harris_swivel"]
+]];
+_sfLoadoutData setVariable ["sidearms", [
+["rhs_weap_pb_6p9","rhs_acc_6p9_suppressor","","",[],[],""],
+["rhsusf_weap_glock17g4","rhsusf_acc_omega9k","acc_flashlight_pistol","",[],[],""]
+]];
+_sfLoadoutData setVariable ["GLsidearms", [
+["rhs_weap_M320","","","",["rhs_mag_M397_HET"],[],""],
+["rhs_weap_M320","","","",["rhs_mag_M441_HE"],[],""],
+["rhs_weap_M320","","","",["rhs_mag_m4009"],[],""], //Stun
+["rhs_weap_M320","","","",["rhs_mag_M433_HEDP"],[],""],
+["rhs_weap_M320","","","",["rhs_mag_m714_White"],[],""],
+["rhs_weap_M320","","","",["rhs_mag_M585_white"],[],""]
+]];
 /////////////////////////////////
 //    Military Loadout Data    //
 /////////////////////////////////
 
 private _militaryLoadoutData = _loadoutData call _fnc_copyLoadoutData; // touch and shit breaks
-_militaryLoadoutData setVariable ["uniforms", ["rhsgref_uniform_ttsko_mountain"]];		//this line determines uniforms for military loadouts -- Example: ["U_B_CombatUniform_mcam","U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
+_militaryLoadoutData setVariable ["uniforms", []];		//this line determines uniforms for military loadouts -- Example: ["U_B_CombatUniform_mcam","U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
 _militaryLoadoutData setVariable ["vests", ["rhs_6b5_ttsko","rhs_6b5_rifleman_ttsko","rhs_6b5_medic_ttsko","rhs_6b5_officer_ttsko","rhs_6b5_sniper_ttsko"]];			//this line determines vests for military loadouts -- Example: ["V_PlateCarrierSpec_mtp","V_PlateCarrierGL_mtp"] -- Array, can contain multiple assets
-_militaryLoadoutData setVariable ["backpacks", ["B_Carryall_oli"]];		//this line determines backpacks for military loadouts -- Example: ["B_AssaultPack_mcamo","B_Kitbag_mcamo"] -- Array, can contain multiple assets
+_militaryLoadoutData setVariable ["backpacks", []];		//this line determines backpacks for military loadouts -- Example: ["B_AssaultPack_mcamo","B_Kitbag_mcamo"] -- Array, can contain multiple assets
 _militaryLoadoutData setVariable ["helmets", ["rhsgref_6b27m_ttsko_mountain"]];		//this line determines helmets for military loadouts -- Example: ["H_HelmetB_camo","H_HelmetB_desert"] -- Array, can contain multiple assets
-
+_militaryLoadoutData setVariable ["rifles", [
+["rhs_weap_akm","rhs_acc_dtk1l","rhs_acc_perst1ik","",[],[],""],
+["rhs_weap_akms","rhs_acc_dtk1l","rhs_acc_perst1ik","",[],[],""],
+["rhs_weap_aks74","rhs_acc_dtk3","rhs_acc_perst1ik","",[],[],""],
+["rhs_weap_aks74n","rhs_acc_dtk3","rhs_acc_perst1ik","rhs_acc_pkas",[],[],""],
+["rhs_weap_ak103","rhs_acc_dtk3","rhs_acc_perst1ik","",[],[],""],
+["rhs_weap_ak103", "", "rhs_acc_perst1ik", "rhs_acc_pkas", [], [], ""],
+["rhs_weap_ak103", "", "rhs_acc_perst1ik", "rhs_acc_1p63", [], [], ""],
+["rhs_weap_ak103", "", "rhs_acc_perst1ik", "rhs_acc_ekp1", [], [], ""],
+["rhs_weap_ak103", "", "rhs_acc_perst1ik", "rhs_acc_ekp8_02", [], [], ""],
+["rhs_weap_ak74_2","rhs_acc_dtk3","rhs_acc_perst1ik","",[],[],""],
+["rhs_weap_savz58p_rail_black","","rhs_acc_1p87","",[],[],""],
+"rhs_weap_savz58p"
+]];
+_militaryLoadoutData setVariable ["carbines", [
+["rhs_weap_aks74un", "", "", "rhs_acc_ekp1", [], [], ""],
+["rhs_weap_aks74un", "", "", "rhs_acc_1p63", [], [], ""],
+["rhs_weap_aks74un", "", "", "rhs_acc_ekp8_02", [], [], ""],
+["rhs_weap_aks74un", "", "", "rhs_acc_pkas", [], [], ""],
+["rhs_weap_ak104_zenitco01","rhs_acc_dtk4long","rhs_acc_perst3_2dp_h","rhs_acc_ekp1",[],[],"rhs_acc_grip_ffg2"],
+["rhs_weap_ak104_zenitco01","rhs_acc_dtk4long","rhs_acc_perst3_2dp_h","rhs_acc_1p63",[],[],"rhs_acc_grip_ffg2"],
+["rhs_weap_ak104_zenitco01","rhs_acc_dtk4long","rhs_acc_perst3_2dp_h","rhs_acc_ekp8_02",[],[],"rhs_acc_grip_ffg2"],
+["rhs_weap_ak104_zenitco01","rhs_acc_dtk4long","rhs_acc_perst3_2dp_h","rhs_acc_pkas",[],[],"rhs_acc_grip_ffg2"],
+["rhs_weap_ak104_zenitco01","rhs_acc_dtk4long","rhs_acc_perst3_2dp_h","",[],[],"rhs_acc_grip_ffg2"],
+["rhs_weap_ak105_zenitco01","rhs_acc_dtk1983","rhs_acc_perst3_2dp_h","rhs_acc_ekp1",[],[],"rhs_acc_grip_ffg2"],
+["rhs_weap_ak105_zenitco01","rhs_acc_dtk1983","rhs_acc_perst3_2dp_h","rhs_acc_1p63",[],[],"rhs_acc_grip_ffg2"],
+["rhs_weap_ak105_zenitco01","rhs_acc_dtk1983","rhs_acc_perst3_2dp_h","rhs_acc_ekp8_02",[],[],"rhs_acc_grip_ffg2"],
+["rhs_weap_ak105_zenitco01","rhs_acc_dtk1983","rhs_acc_perst3_2dp_h","rhs_acc_pkas",[],[],"rhs_acc_grip_ffg2"],
+["rhs_weap_ak105_zenitco01","rhs_acc_dtk1983","rhs_acc_perst3_2dp_h","",[],[],"rhs_acc_grip_ffg2"]
+]];
+_militaryLoadoutData setVariable ["SMGs", ["rhs_weap_pp2000","rhs_weap_savz61"]];
+_militaryLoadoutData setVariable ["grenadeLaunchers", [
+["rhs_weap_akmn_gp25","rhs_acc_dtk1l","","rhs_acc_1p63",[],[],""],
+["rhs_weap_ak74m_gp25","rhs_acc_dtk1983","","rhs_acc_1p63",[],[],""],
+["rhs_weap_ak74m_fullplum_gp25","rhs_acc_dtk1983","","rhs_acc_pkas",[],[],""],
+["rhs_weap_ak103_gp25","rhs_acc_dtk3","","rhs_acc_pkas",[],[],""],
+["rhs_weap_aks74n_gp25","rhs_acc_dtk3","","rhs_acc_pkas",[],[],""]
+]];
+_militaryLoadoutData setVariable ["machineGuns", [
+["rhs_weap_pkm","","","",[],[],""],
+["rhs_weap_pkp","","","",[],[],""],
+["rhs_weap_pkp","","","rhs_acc_1p29",[],[],""],
+["rhs_weap_pkp","","","rhs_acc_pkas",[],[],""]
+]];
+_militaryLoadoutData setVariable ["marksmanRifles", [
+["rhs_weap_svdp","","","rhs_acc_pso1m2",[],[],""],
+["rhs_weap_svdp_wd","","","rhs_acc_pso1m2",[],[],""],
+["rhs_weap_svds","","","rhs_acc_pso1m2",[],[],""]
+]];
+_militaryLoadoutData setVariable ["sniperRifles", [
+["rhs_weap_svds_npz","","","rhs_acc_dh520x56",[],[],""],
+["rhs_weap_t5000","","","rhs_acc_dh520x56",[],[],"rhs_acc_harris_swivel"]
+]];
 ///////////////////////////////
 //    Police Loadout Data    //
 ///////////////////////////////
@@ -245,13 +328,14 @@ _militaryLoadoutData setVariable ["helmets", ["rhsgref_6b27m_ttsko_mountain"]];	
 private _policeLoadoutData = _loadoutData call _fnc_copyLoadoutData; // touch and shit breaks
 _policeLoadoutData setVariable ["rifles", ["rhs_weap_ak103_1"]];			//this line determines the rifles for police loadouts -- Example: ["arifle_MX_F","arifle_MX_pointer_F"] -- Array, can contain multiple assets
 _policeLoadoutData setVariable ["grenadelaunchers", [
-["rhs_weap_ak74_gp25","","","",[""],["rhs_VG40SZ"],""]
+["rhs_weap_ak74_gp25","","","",[],["rhs_VG40SZ"],""]
 ]];//this line determines the grenadelaunchers for police loadouts -- Example: ["arifle_MX_GL_ACO_F","arifle_MX_GL_ACO_pointer_F"] -- Array, can contain multiple assets
 _policeLoadoutData setVariable ["smgs", [
-["rhsusf_weap_MP7A2","","","rhsusf_acc_eotech_552",[""],[],""],
-["rhsusf_weap_MP7A2","","","rhsusf_acc_compm4",[""],[],""],
-"rhs_weap_pp2000"]];			//this line determines the smgs for police loadouts -- Example: ["SMG_01_F","SMG_01_Holo_F"] -- Array, can contain multiple assets
-_policeLoadoutData setVariable ["carbines", ["rhs_weap_aks74u"]];		//this line determines the carbines for police loadouts -- Example: ["arifle_MXC_F","arifle_MXC_Holo_F"] -- Array, can contain multiple assets
+["rhsusf_weap_MP7A2","","","rhsusf_acc_eotech_552",[],[],""],
+["rhsusf_weap_MP7A2","","","rhsusf_acc_compm4",[],[],""],
+"rhs_weap_pp2000"]];
+_policeLoadoutData setVariable ["shotgun", ["rhs_weap_M590_5RD","rhs_weap_M590_8RD"]];
+_policeLoadoutData setVariable ["carbines", []];		//this line determines the carbines for police loadouts -- Example: ["arifle_MXC_F","arifle_MXC_Holo_F"] -- Array, can contain multiple assets
 _policeLoadoutData setVariable ["uniforms", ["U_B_GEN_Soldier_F","U_B_GEN_Commander_F"]];		//this line determines uniforms for police loadouts -- Example: ["U_B_GEN_Commander_F"] -- Array, can contain multiple assets
 _policeLoadoutData setVariable ["vests", ["V_TacVest_gen_F"]];			//this line determines vests for police loadouts -- Example: ["V_TacVest_gen_F"] -- Array, can contain multiple assets
 _policeLoadoutData setVariable ["backpacks", []];		//this line determines backpacks for police loadouts -- Example: ["B_Kitbag_mcamo"] -- Array, can contain multiple assets
@@ -264,21 +348,37 @@ _policeLoadoutData setVariable ["helmets", ["H_MilCap_gen_F","H_Beret_gen_F"]];	
 private _militiaLoadoutData = _loadoutData call _fnc_copyLoadoutData; // touch and shit breaks
 _militiaLoadoutData setVariable ["uniforms", ["rhsgref_uniform_ttsko_forest"]];		//this line determines uniforms for militia loadouts -- Example: ["U_B_CombatUniform_mcam","U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
 _militiaLoadoutData setVariable ["vests", ["rhs_6b5_khaki","rhs_6b5_rifleman_khaki","rhs_6b5_medic_khaki","rhs_6b5_officer_khaki","rhs_6b5_sniper_khaki"]];			//this line determines vests for militia loadouts -- Example: ["V_PlateCarrierSpec_mtp","V_PlateCarrierGL_mtp"] -- Array, can contain multiple assets
-_militiaLoadoutData setVariable ["backpacks", ["B_Carryall_oli"]];		//this line determines backpacks for militia loadouts -- Example: ["B_AssaultPack_mcamo","B_Kitbag_mcamo"] -- Array, can contain multiple assets
+_militiaLoadoutData setVariable ["backpacks", []];		//this line determines backpacks for militia loadouts -- Example: ["B_AssaultPack_mcamo","B_Kitbag_mcamo"] -- Array, can contain multiple assets
 _militiaLoadoutData setVariable ["helmets", ["rhsgref_ssh68_ttsko_forest"]];		//this line determines helmets for police loadouts -- Example: ["H_HelmetB_camo","H_HelmetB_desert"] -- Array, can contain multiple assets
 
+_militiaLoadoutData setVariable ["rifles", [
+"rhs_weap_ak74","rhs_weap_ak74n","rhs_weap_akm",
+"rhs_weap_akmn","rhs_weap_akms","rhs_weap_aks74",
+"rhs_weap_aks74n","rhs_weap_ak74_3","rhs_weap_ak74_2",
+"rhs_weap_savz58p"
+]];
+_militiaLoadoutData setVariable ["carbines", ["rhs_weap_aks74u"]];
+_militiaLoadoutData setVariable ["grenadeLaunchers", [
+"rhs_weap_ak74_gp25","rhs_weap_ak74n_gp25","rhs_weap_akm_gp25",
+"rhs_weap_akmn_gp25","rhs_weap_akms_gp25","rhs_weap_aks74_gp25",
+"rhs_weap_aks74n_gp25"
+]];
+_militiaLoadoutData setVariable ["SMGs", ["rhs_weap_pp2000"]];
+_militiaLoadoutData setVariable ["machineGuns", ["rhs_weap_pkm"]];
+_militiaLoadoutData setVariable ["marksmanRifles", ["rhs_weap_svds_pso1"]];
+_militiaLoadoutData setVariable ["sniperRifles", ["rhs_weap_m38"]];
 //////////////////////////
 //    Misc Loadouts     //
 //////////////////////////
 //The following lines are determining the loadout of the vehicle crew
 private _crewLoadoutData = _militaryLoadoutData call _fnc_copyLoadoutData; // touch and shit breaks
-_crewLoadoutData setVariable ["uniforms", ["rhsgref_uniform_ttsko_mountain"]];			//this line determines uniforms for vehicle crew loadouts -- Example: ["U_B_CombatUniform_mcam","U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
+_crewLoadoutData setVariable ["uniforms", []];			//this line determines uniforms for vehicle crew loadouts -- Example: ["U_B_CombatUniform_mcam","U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
 _crewLoadoutData setVariable ["vests", ["rhs_vest_pistol_holster"]];				//this line determines vests for vehicle crew loadouts -- Example: ["V_PlateCarrierSpec_mtp","V_PlateCarrierGL_mtp"] -- Array, can contain multiple assets
 _crewLoadoutData setVariable ["helmets", ["rhs_tsh4_ess"]];			//this line determines backpacks for vehicle crew loadouts -- Example: ["B_AssaultPack_mcamo","B_Kitbag_mcamo"] -- Array, can contain multiple assets
 
 //The following lines are determining the loadout of the pilots
 private _pilotLoadoutData = _militaryLoadoutData call _fnc_copyLoadoutData;
-_pilotLoadoutData setVariable ["uniforms", ["rhsgref_uniform_ttsko_mountain"]];			//this line determines uniforms for pilot loadouts -- Example: ["U_B_CombatUniform_mcam","U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
+_pilotLoadoutData setVariable ["uniforms", []];			//this line determines uniforms for pilot loadouts -- Example: ["U_B_CombatUniform_mcam","U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
 _pilotLoadoutData setVariable ["vests", ["rhs_vest_commander"]];			//this line determines vests for pilot loadouts -- Example: ["V_PlateCarrierSpec_mtp","V_PlateCarrierGL_mtp"] -- Array, can contain multiple assets
 _pilotLoadoutData setVariable ["helmets", ["rhs_zsh7a_mike"]];			//this line determines backpacks for pilot loadouts -- Example: ["B_AssaultPack_mcamo","B_Kitbag_mcamo"] -- Array, can contain multiple assets
 
@@ -356,7 +456,7 @@ private _medicTemplate = {
 	["helmets"] call _fnc_addHelmet;
 	["vests"] call _fnc_addVest;
 	["uniforms"] call _fnc_addUniform;
-	["backpacks"] call _fnc_addBackpack;
+	["medbackpacks"] call _fnc_addBackpack;
 
 	["carbines"] call _fnc_addPrimary;
 	["primary", 5] call _fnc_addMagazines;
@@ -386,8 +486,7 @@ private _grenadierTemplate = {
 	["grenadeLaunchers"] call _fnc_addPrimary;
 	["primary", 5] call _fnc_addMagazines;
 	//TODO: How to add underslung grenade mags.
-
-	["sidearms"] call _fnc_addHandgun;
+  [["GLsidearms","sidearms"] call _fnc_fallback] call _fnc_addHandgun;
 	["handgun", 2] call _fnc_addMagazines;
 
 	["items_medical_standard"] call _fnc_addItemSet;
@@ -408,7 +507,7 @@ private _explosivesExpertTemplate = {
 	["helmets"] call _fnc_addHelmet;
 	["vests"] call _fnc_addVest;
 	["uniforms"] call _fnc_addUniform;
-	["backpacks"] call _fnc_addBackpack;
+	["engbackpacks"] call _fnc_addBackpack;
 
 	["rifles"] call _fnc_addPrimary;
 	["primary", 5] call _fnc_addMagazines;
@@ -440,7 +539,7 @@ private _engineerTemplate = {
 	["helmets"] call _fnc_addHelmet;
 	["vests"] call _fnc_addVest;
 	["uniforms"] call _fnc_addUniform;
-	["backpacks"] call _fnc_addBackpack;
+	["engbackpacks"] call _fnc_addBackpack;
 
 	["carbines"] call _fnc_addPrimary;
 	["primary", 5] call _fnc_addMagazines;
@@ -468,7 +567,7 @@ private _latTemplate = {
 	["helmets"] call _fnc_addHelmet;
 	["vests"] call _fnc_addVest;
 	["uniforms"] call _fnc_addUniform;
-	["backpacks"] call _fnc_addBackpack;
+	["atbackpacks"] call _fnc_addBackpack;
 
 	["rifles"] call _fnc_addPrimary;
 	["primary", 8] call _fnc_addMagazines;
@@ -498,7 +597,7 @@ private _atTemplate = {
 	["helmets"] call _fnc_addHelmet;
 	["vests"] call _fnc_addVest;
 	["uniforms"] call _fnc_addUniform;
-	["backpacks"] call _fnc_addBackpack;
+	["atbackpacks"] call _fnc_addBackpack;
 
 	["rifles"] call _fnc_addPrimary;
 	["primary", 5] call _fnc_addMagazines;
@@ -633,7 +732,7 @@ private _policeTemplate = {
 	["uniforms"] call _fnc_addUniform;
 	["backpacks"] call _fnc_addBackpack;
 
-	[selectRandom ["smgs", "carbines"]] call _fnc_addPrimary;
+	[selectRandom ["smgs", "shotgun"]] call _fnc_addPrimary;
 	["primary", 5] call _fnc_addMagazines;
 
 	["sidearms"] call _fnc_addHandgun;
