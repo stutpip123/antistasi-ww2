@@ -43,7 +43,7 @@ soldiersSDK = sdkTier1 + sdkTier2 + sdkTier3;
 //           VEHICLES            ///
 ////////////////////////////////////
 //Military Vehicles
-vehSDKBike = "uns_m274";
+vehSDKBike = "not_supported";
 vehSDKLightArmed = "uns_willys_2_m60_arvn";
 vehSDKAT = "uns_willysm40";
 vehSDKLightUnarmed = "uns_willys_2_arvn";

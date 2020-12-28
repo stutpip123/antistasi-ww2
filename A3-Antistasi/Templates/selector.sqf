@@ -4,7 +4,7 @@
 */
 private _filename = "selector.sqf";
 //Map checker
-aridmaps = ["Altis","Kunduz","Malden","tem_anizay"];
+aridmaps = ["Altis","Kunduz","Malden","tem_anizay","takistan"];
 tropicalmaps = ["Tanoa"];
 temperatemaps = ["Enoch","chernarus_summer","vt7","Tembelan"];
 arcticmaps = ["Chernarus_Winter"];
@@ -20,7 +20,7 @@ if(teamplayer != independent) then {//This section is for Altis Blufor ONLY!
       [2, "Using arid_b TGPM, TKA, TKM, 3CB Civ Templates", _filename] call A3A_fnc_log;
     };
     case (hasRHS): {
-      call compile preProcessFileLineNumbers "Templates\RHS\RHS_Reb_CDF_Arid.sqf";
+      call compile preProcessFileLineNumbers "Templates\RHS\RHS_Reb_HIDF_Arid.sqf";
       call compile preProcessFileLineNumbers "Templates\RHS\RHS_Occ_CDF_Arid.sqf";
       call compile preProcessFileLineNumbers "Templates\RHS\RHS_Inv_AFRF_Arid.sqf";
       call compile preProcessFileLineNumbers "Templates\RHS\RHS_Civ.sqf";
@@ -339,6 +339,10 @@ if (hasIvory) then {
 if (hasTCGM) then {
   call compile preProcessFileLineNumbers "Templates\AddonVics\tcgm_Civ.sqf";
   [2, "Using Addon TCGM_BikeBackPack Template", _filename] call A3A_fnc_log;
+};
+if (hasD3S) then {
+  call compile preProcessFileLineNumbers "Templates\AddonVics\d3s_Civ.sqf";
+  [2, "Using Addon D3S Cars Template", _filename] call A3A_fnc_log;
 };
 
 //JNL node loading is done here
