@@ -594,8 +594,10 @@ DECLARE_SERVER_VAR(sniperGroups, _sniperGroups);
 [] call A3A_fnc_equipmentSort;
 [2,"Sorting grouped class categories",_fileName] call A3A_fnc_log;
 [] call A3A_fnc_itemSort;
+/* Disabled autogeneration of loot list in favour of template file's loot lists.
 [2,"Building loot lists",_fileName] call A3A_fnc_log;
 [] call A3A_fnc_loot;
+*/
 
 ////////////////////////////////////
 //   CLASSING TEMPLATE VEHICLES  ///
