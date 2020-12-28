@@ -403,8 +403,7 @@ _crewLoadoutData setVariable ["helmets", ["rhs_tsh4","rhs_tsh4_bala","rhs_tsh4_e
 private _pilotLoadoutData = _militaryLoadoutData call _fnc_copyLoadoutData;
 _pilotLoadoutData setVariable ["uniforms", ["rhs_uniform_df15"]];			//this line determines uniforms for pilot loadouts -- Example: ["U_B_CombatUniform_mcam","U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
 _pilotLoadoutData setVariable ["vests", []];			//this line determines vests for pilot loadouts -- Example: ["V_PlateCarrierSpec_mtp","V_PlateCarrierGL_mtp"] -- Array, can contain multiple assets
-_pilotLoadoutData setVariable ["helmets", ["rhs_zsh7a_mike_alt","rhs_zsh7a_mike","rhs_zsh7a_mike_green","rhs_zsh7a_mike_green_alt",]];			//this line determines backpacks for pilot loadouts -- Example: ["B_AssaultPack_mcamo","B_Kitbag_mcamo"] -- Array, can contain multiple assets
-
+_pilotLoadoutData setVariable ["helmets", ["rhs_zsh7a_mike_alt","rhs_zsh7a_mike","rhs_zsh7a_mike_green","rhs_zsh7a_mike_green_alt"]];
 
 // ##################### DO NOT TOUCH ANYTHING BELOW THIS LINE #####################
 
@@ -436,7 +435,7 @@ private _squadLeaderTemplate = {
 	["items_squadLeader_extras"] call _fnc_addItemSet;
 	["items_miscEssentials"] call _fnc_addItemSet;
 	["antiInfantryGrenades", 2] call _fnc_addItem;
-	["antiTankGrenades", 1] call _fnc_addItem;
+	//["antiTankGrenades", 1] call _fnc_addItem;
 	["smokeGrenades", 2] call _fnc_addItem;
 	["smokeGrenades", 2] call _fnc_addItem;
 
@@ -465,7 +464,7 @@ private _riflemanTemplate = {
 	["items_rifleman_extras"] call _fnc_addItemSet;
 	["items_miscEssentials"] call _fnc_addItemSet;
 	["antiInfantryGrenades", 2] call _fnc_addItem;
-	["antiTankGrenades", 1] call _fnc_addItem;
+	//["antiTankGrenades", 1] call _fnc_addItem;
 	["smokeGrenades", 2] call _fnc_addItem;
 
 	["maps"] call _fnc_addMap;
@@ -517,7 +516,7 @@ private _grenadierTemplate = {
 	["items_grenadier_extras"] call _fnc_addItemSet;
 	["items_miscEssentials"] call _fnc_addItemSet;
 	["antiInfantryGrenades", 4] call _fnc_addItem;
-	["antiTankGrenades", 3] call _fnc_addItem;
+	//["antiTankGrenades", 3] call _fnc_addItem;
 	["smokeGrenades", 2] call _fnc_addItem;
 
 	["maps"] call _fnc_addMap;
@@ -607,7 +606,7 @@ private _latTemplate = {
 	["items_lat_extras"] call _fnc_addItemSet;
 	["items_miscEssentials"] call _fnc_addItemSet;
 	["antiInfantryGrenades", 1] call _fnc_addItem;
-	["antiTankGrenades", 2] call _fnc_addItem;
+	//["antiTankGrenades", 2] call _fnc_addItem;
 	["smokeGrenades", 1] call _fnc_addItem;
 
 	["maps"] call _fnc_addMap;
@@ -637,7 +636,7 @@ private _atTemplate = {
 	["items_at_extras"] call _fnc_addItemSet;
 	["items_miscEssentials"] call _fnc_addItemSet;
 	["antiInfantryGrenades", 1] call _fnc_addItem;
-	["antiTankGrenades", 2] call _fnc_addItem;
+	//["antiTankGrenades", 2] call _fnc_addItem;
 	["smokeGrenades", 1] call _fnc_addItem;
 
 	["maps"] call _fnc_addMap;
