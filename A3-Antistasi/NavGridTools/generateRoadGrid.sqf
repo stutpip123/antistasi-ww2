@@ -52,6 +52,8 @@
                 _result = 1;
             };
         };
+
+        _result;
     };
 
     fnc_getRoadConnections =
@@ -85,7 +87,11 @@
     {
         params ["_lastSegment", "_road", "_connections"];
 
-        private _exitPoints = [_lastSegment];
+        private _exitPoints = [];
+        if !(isNull _lastSegment) then
+        {
+            _exitPoints pushBack _lastSegment;
+        };
 
         private _allJunctionNodes = [_road];
         private _nodesToCheck = +_connections;
@@ -112,35 +118,64 @@
             };
         };
 
-        //All nodes gathered, now make sure that this is a complete junction, not two merged into each other
-        private _canMergeNodes = [[]];
+        //Get the segment in the middle of the junction
+        private _midOfJunction = [0,0,0];
+        private _exitCount = 0;
         {
-            private _node = _x;
-            private _inserted = false;
+            _midOfJunction = _midOfJunction vectorAdd (getPos _x);
+            _exitCount = _exitCount + 1;
+        } forEach _exitPoints;
+
+        if(_exitCount == 0) exitWith {[]};
+
+        _midOfJunction = _midOfJunction vectorMultiply (1 / _exitCount);
+
+        private _midSegment = objNull;
+        private _searchRadius = 0;
+        while {isNull _midSegment} do
+        {
+            _searchRadius = _searchRadius + 1;
+            private _nearRoads = _midOfJunction nearRoads _searchRadius;
+            if(count _nearRoads > 0) then
             {
-                private _subArray = _x;
-                if(count _subArray == 0) then
-                {
-                    _subArray pushBack _node;
-                }
-                else
-                {
-                    {
-                        if([_x, _node] call fnc_isNodeMergable) exitWith
-                        {
-                            _subArray pushBack _node;
-                            _inserted = true;
-                        };
-                    } forEach _subArray;
-                };
-            } forEach _canMergeNodes;
-            if !(_inserted) then
-            {
-                _canMergeNodes pushBack [_node];
+                _midSegment = _nearRoads select 0;
             };
-        } forEach _allJunctionNodes;
+        };
+
+        [_allJunctionNodes, _exitPoints, _midSegment];
+
+        //Overly complicated, dont do
+        //All nodes gathered, now make sure that this is a complete junction, not two merged into each other
+        //private _canMergeNodes = [[]];
+        //{
+        //    private _node = _x;
+        //    private _inserted = false;
+        //    {
+        //        private _subArray = _x;
+        //        if(count _subArray == 0) then
+        //        {
+        //            _subArray pushBack _node;
+        //        }
+        //        else
+        //        {
+        //            {
+        //                if([_x, _node] call fnc_isNodeMergable) exitWith
+        //                {
+        //                    _subArray pushBack _node;
+        //                    _inserted = true;
+        //                };
+        //            } forEach _subArray;
+        //        };
+        //    } forEach _canMergeNodes;
+        //    if !(_inserted) then
+        //    {
+        //        _canMergeNodes pushBack [_node];
+        //    };
+        //} forEach _allJunctionNodes;
 
         //Now create the data for all found junctions
+
+
 
     };
 
@@ -189,8 +224,7 @@
                 private _connections = [_x] call fnc_getRoadConnections;
                 if(count _connections != 2) then
                 {
-                    //Junction or dead end, save to both grids
-
+                    //Junction or dead end
                     if(count _connections == 1) then
                     {
                         hint "Start is a dead end!";
@@ -202,6 +236,12 @@
                     else
                     {
                         hint "Start is a junction!";
+                        private _junctionData = [objNull, _x, _connections]call fnc_getJunctionData;
+                        private _exitPoints = _junctionData select 1;
+                        private _currentRoad = _x;
+                        {
+                            _openSegments pushBack [_x, _gridNumber, _currentRoad, _currentRoad, [_x] call fnc_getRoadType];
+                        } forEach _exitPoints;
                     };
                 }
                 else
@@ -242,6 +282,19 @@
                 if(_connectionCount > 1) exitWith
                 {
                     //Search for junction then see what needs to be done
+                    private _junctionData = [_lastSegment, _currentSegment, _connections] call fnc_getJunctionData;
+                    _junctionData params ["_allJunctionNodes", "_exitPoints", "_midSegment"];
+                    [_midSegment, true] call fnc_setJunctionPointData;
+                    {
+                        if !(_x in _checkedSegments) then
+                        {
+                            _checkedSegments pushBack _x;
+                        };
+                    } forEach _allJunctionNodes;
+
+                    {
+                        _openSegments pushBack [_x, _gridNumber, _previousJunctionPoint, _currentSegment, [_x] call fnc_getRoadType];
+                    } forEach _exitPoints;
                 };
 
                 if(_connectionCount == 1) then
