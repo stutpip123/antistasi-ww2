@@ -58,6 +58,20 @@
         _result;
     };
 
+    fnc_setNavMainData =
+    {
+
+    };
+
+    fnc_setNormalConnection =
+    {
+
+    };
+
+    fnc_setJunctionConnection =
+    {
+
+    };
 
     private _time = time;
 
@@ -101,6 +115,9 @@
     hint format ["Preprocessing done after %1 seconds", time - _time];
 
     private _gridNumber = 0;
+    private _junctions = [];
+    private _mainGrid = [];
+    private _index = 0;
 
     //Mainprocessing phase, reduce the raw nav grid to a less detailed one
     while {true} do
@@ -118,6 +135,8 @@
         _startSegment pushBack (_startSegment select 0);
         _startSegment pushBack (_startSegment select 0);
 
+        [_mainGrid, _index, getPos (_startSegment select 0), (_startSegment select 1), _gridNumber] call fnc_setNavMainData;
+
         private _openSegments = [_startSegment];
 
         while {count _openSegments > 0} do
@@ -133,12 +152,26 @@
                 _counter = 0;
                 private _roadmarker = createMarker [format ["Marker%1", _roadName], getPos _roadSegment];
                 _roadmarker setMarkerShape "ICON";
-                _roadmarker setMarkerType "mil_triangle";
                 _roadmarker setMarkerAlpha 1;
-                _roadmarker setMarkerColor "ColorRed";
 
-                //Mark, draw connection to _lastJunction and _lastNormal, then update these
+                //Save junctions for postprocessing
+                if(count _connections > 2) then
+                {
+                    _roadmarker setMarkerType "mil_box";
+                    _roadmarker setMarkerColor "ColorRed";
+                }
+                else
+                {
+                    _roadmarker setMarkerType "mil_triangle";
+                    _roadmarker setMarkerColor "ColorRed";
+                };
 
+                //Mark connection to _lastJunction and _lastNormal
+                [_mainGrid, _index, getPos _roadSegment, _roadType, _gridNumber] call fnc_setNavMainData;
+                [_roadSegment, _lastJunction] call fnc_setJunctionConnection;
+                [_roadSegment, _lastNormal] call fnc_setNormalConnection;
+
+                //Update connection data
                 _lastJunction = _roadSegment;
                 _lastNormal = _roadSegment;
             }
@@ -155,8 +188,11 @@
                     _roadmarker setMarkerAlpha 1;
                     _roadmarker setMarkerColor "ColorGrey";
 
-                    //Mark, draw connection to _lastNormal, then update it
+                    //Mark connection to _lastNormal
+                    [_mainGrid, _index, getPos _roadSegment, _roadType, _gridNumber] call fnc_setNavMainData;
+                    [_roadSegment, _lastNormal] call fnc_setNormalConnection;
 
+                    //Update connection data
                     _lastNormal = _roadSegment;
                 };
             };
