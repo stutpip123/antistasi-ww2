@@ -62,7 +62,7 @@ isNil {
             _crewPerson setVariable ["InvalidObjectClassName",true,true];                  // Allow external code to check for incorrect crew.
         };
         if (isNull _crewPerson) exitWith {
-            [1, "CreateUnitFailure | Could not create unit for group"""+_group+""".", _filename] remoteExecCall ["A3A_fnc_log",2,false];
+            [1, "CreateUnitFailure | Could not create unit for group """+_group+""" at "+str _posAboveVehicle+".", _filename] remoteExecCall ["A3A_fnc_log",2,false];
         };
         if (_x isEqualTo []) then {
             _crewPerson assignAsDriver _vehicle;

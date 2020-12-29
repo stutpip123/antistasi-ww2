@@ -9,7 +9,7 @@ Arguments:
     <SCALAR> Angles towards heading. | <VECTORDIR> Angles according to VectorDir. | <<VECTORDIR>,<VECTORUP>> Angles according to VectorDir And VectorUp. [Default=0]
     <SIDE> Side of crew | <GROUP> Group and side of crew | <BOOLEAN> No crew. [Default=sideLogic]
     <SCALAR> If above zero, will look for an empty position nearby. [Default=0]
-    <BOOLEAN> True to make aircraft spawn at minimum 100m and fly at 110% stall speed. [Default=true]
+    <BOOLEAN> True to make aircraft spawn at minimum 100m and fly at 110% stall speed. | <<SCALAR>height,<SCALAR>Velocity> True and overrides minimum height and velocity (leave value nil for default). [Default=true]
     <BOOLEAN> True to enable vehicle BIS randomisation. [Default=true]
 
 Return Value:
@@ -20,11 +20,18 @@ Environment: Any. Automatically creates Unscheduled scope when needed.
 Public: Yes.
 
 Example:
-    ["B_T_LSV_01_armed_F",getPos player, 0, resistance, 20] call A3A_fnc_spawnVehicle;
+["B_T_LSV_01_armed_F",getPos player, 0, resistance, 20] call A3A_fnc_spawnVehicle;
 
-    private _myPos = getPosWorld player;
-    _myPos = [_myPos#0,_myPos#1,0,"AGLS"];  // Spawn 0m above highest roof above the player.
-    ["B_T_LSV_01_armed_F",_myPos, 0, resistance, 20] call A3A_fnc_spawnVehicle;
+private _myPos = getPosWorld player;
+_myPos = [_myPos#0,_myPos#1,0,"AGLS"];  // Spawn 0m above highest roof above the player.
+["B_T_LSV_01_armed_F",_myPos, 0, resistance, 20] call A3A_fnc_spawnVehicle;
+
+private _myPosW = getPosWorld player;
+private _vectorDirAndUp = [[0.676148,-0.736273,-0.0269321],[-0.571476,-0.547179,0.611565]];
+private _vehicle = ["B_Heli_Transport_01_F",[_myPosW,"WORLD"], _vectorDirAndUp, group player, nil, [10,40]] call A3A_fnc_spawnVehicle;
+_vehicle enableSimulation false; // For admiring the artwork
+// Release.
+cursorObject enableSimulation true;
 */
 params [
     ["_className","",[ "" ]],
@@ -32,14 +39,21 @@ params [
     ["_direction",0,[ 0,[] ], [ 3,2 ]],
     ["_groupSide",sideLogic, [ sideLogic,grpNull,false ]],
     ["_emptyPositionRadius",0, [ 0 ]],
-    ["_addAircraftPhysics",true, [ true ]],
+    ["_aircraftPhysics",[], [ true,[] ]],
     ["_enableRandomization",true, [ true ]]
 ];
 private _filename = "fn_spawnVehicle";
 
-private _isAircraft = _addAircraftPhysics && {(toLower getText(configFile >> "CfgVehicles" >> _className >> "simulation")) in ["airplanex","helicopterrtd","helicopterx"]};
-private _velocity = if (_isAircraft) then {getNumber(configFile >> "CfgVehicles" >> _className >> "stallSpeed") / 3.6 * 1.1} else {0};  // kilometres per hour to metres per second; 110% of stall speed.
-private _createVehicleSpecial = ["CAN_COLLIDE","FLY"] select (_isAircraft);  // kilometres per hour to metres per second; 110% of stall speed.
+private _addAircraftPhysics = true;
+if (_aircraftPhysics isEqualType false && {!_aircraftPhysics}) then {
+    _addAircraftPhysics = false;
+    _aircraftPhysics = [nil,nil];
+};
+_aircraftPhysics params [["_aircraftMinHeight",100,[0]],["_velocity",-1,[0]]];
+private _addAircraftPhysics = _addAircraftPhysics && {(toLower getText(configFile >> "CfgVehicles" >> _className >> "simulation")) in ["airplanex","helicopterrtd","helicopterx"]};
+if (_velocity<0) then {_velocity=getNumber(configFile >> "CfgVehicles" >> _className >> "stallSpeed") / 3.6 * 1.1};  // kilometres per hour to metres per second; 110% of stall speed.
+if (!_addAircraftPhysics) then { _velocity=0;};
+_createVehicleSpecial = ["CAN_COLLIDE","FLY"] select (_addAircraftPhysics);  // kilometres per hour to metres per second; 110% of stall speed.
 
 private _fnc_directionAdjuster = switch (true) do {
     case (_direction isEqualType 0): {{_this#0 setDir _this#1}};
@@ -58,13 +72,13 @@ if (isNil {
         _vehicle setVariable ["InvalidObjectClassName",true,true];                  // Allow external code to check for incorrect vehicle.
     };
     if (isNull _vehicle) exitWith {
-        [1, "CreateVehicleFailure | Could not create vehicle", _filename] remoteExecCall ["A3A_fnc_log",2,false];
+        [1, "CreateVehicleFailure | Could not create vehicle at "+str _positionRef, _filename] remoteExecCall ["A3A_fnc_log",2,false];
         nil;    // Will cause outer scope to exit as well.
     };
     _vehicle setVariable ["BIS_enableRandomization", _enableRandomization];
 
     [_vehicle,_position] call A3A_fnc_setPos;
-    if (_isAircraft && getPosVisual _vehicle #2 < 100) then { [_vehicle,[_position#0,_position#1,100],"AGLS"] call A3A_fnc_setPos };
+    if (_addAircraftPhysics && getPosVisual _vehicle #2 < _aircraftMinHeight) then { [_vehicle,[_position#0,_position#1,_aircraftMinHeight],"AGLS"] call A3A_fnc_setPos };
 
     [_vehicle, _direction] call _fnc_directionAdjuster;
     _vehicle setVelocityModelSpace [0, _velocity, 0];
