@@ -1,10 +1,7 @@
 /*
 Author: Caleb Serafin
     Creates following variables.
-    <SCALAR> Col_ID_LUID_0
-    <SCALAR> Col_ID_LUID_1
-    They are encoded in little-Endian.
-
+        Col_ID_UUID_G1e3
 Return Value:
     <nil>
 
@@ -19,6 +16,4 @@ Example:
         class ID_init { preInit = 1 };
     };
 */
-Col_ID_LUID7 = -1;
-Col_ID_LUID14_0 = -1;
-Col_ID_LUID14_1 = 0;
+Col_ID_UUID_G1e3 = -1;
