@@ -579,8 +579,6 @@ class Collections
 		class ID_init { preInit = 1 };
 		class ID_LArray_isEqualTo {};
 		class ID_LArray {};
-		class ID_LU7 {};
-		class ID_LU14 {};
 	};
 	class Collections_Map
 	{
