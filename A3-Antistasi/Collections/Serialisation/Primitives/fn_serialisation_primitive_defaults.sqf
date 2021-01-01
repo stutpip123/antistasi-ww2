@@ -24,7 +24,7 @@ License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Comm
 [
     ["BOOLEAN", {_this#1}, {_this#1}],
     ["STRING", {_this#1}, {_this#1}],
-    ["SCALAR", {["SCALAR",(_this#1) toFixed 7]}, {parseNumber (_this#1)}],
+    ["SCALAR", {_this#1}, {_this#1}],
     ["ARRAY", Col_fnc_serialise_array, Col_fnc_deserialise_array],
     ["CODE", Col_fnc_serialise_code, Col_fnc_deserialise_code],  // Splits on size and trims extra braces.
     ["SIDE", Col_fnc_serialise_side, Col_fnc_deserialise_side],  // Converts to enum.

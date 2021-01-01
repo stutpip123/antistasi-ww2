@@ -633,6 +633,7 @@ class Collections
 		class serialisation_primitive_defaults {};
 		class serialise_array {};
 		class serialise_code {};
+		class serialise_scalar_max {};
 		class serialise_side {};
 	};
 };
