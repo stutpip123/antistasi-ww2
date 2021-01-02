@@ -186,7 +186,12 @@ _mortarGroup setVariable ["Mortar", _mortar, true];
     ];
 } forEach (units _mortarGroup);
 
-_mortarGroup deleteGroupWhenEmpty true;
-[_mortar, _mortarGroup, _supportName, _side] spawn A3A_fnc_SUP_mortarRoutine;
+private _setupTime = 900 - ((tierWar - 1) * 75);
+private _minSleepTime = (1 - (tierWar - 1) * 0.1) * _setupTime;
+private _sleepTime = _minSleepTime + random (_setupTime - _minSleepTime);
 
-_coverageMarker;
+_mortarGroup deleteGroupWhenEmpty true;
+[_mortar, _mortarGroup, _supportName, _side, _sleepTime] spawn A3A_fnc_SUP_mortarRoutine;
+
+private _result = [_coverageMarker, _minSleepTime, _setupTime];
+_result;

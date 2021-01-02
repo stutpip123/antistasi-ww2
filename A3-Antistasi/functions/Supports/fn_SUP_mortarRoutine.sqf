@@ -1,4 +1,4 @@
-params ["_mortar", "_crewGroup", "_supportName", "_side"];
+params ["_mortar", "_crewGroup", "_supportName", "_side", "_sleepTime"];
 
 /*  The routine which controls the mortar support in all aspects
 
@@ -19,7 +19,7 @@ params ["_mortar", "_crewGroup", "_supportName", "_side"];
 private _fileName = "SUP_mortarRoutine";
 
 //Sleep to simulate the time it would need to set the support up
-sleep (random (300 - (30 * (tierWar - 1))));
+sleep _sleepTime;
 
 //Decrease number of rounds and time alive if aggro is low
 private _sideAggression = if(_side == Occupants) then {aggressionOccupants} else {aggressionInvaders};
