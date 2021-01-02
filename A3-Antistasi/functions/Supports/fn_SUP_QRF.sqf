@@ -126,4 +126,10 @@ for "_i" from 1 to _vehicleCount do
 [2, format ["Spawn Performed: %1 QRF sent with %2 vehicles, callsign %3", _typeOfAttack, count _vehicles, _supportName], _filename] call A3A_fnc_log;
 
 [_side, _vehicles, _groups, _posDestination, _supportName] spawn A3A_fnc_SUP_QRFRoutine;
-_targetMarker;
+
+private _distance = _posOrigin distance2D _posDestination;
+private _minTime = _distance / (300 / 3.6);
+private _maxTime = _distance / (80 / 3.6);
+
+private _result = [_targetMarker, _minTime, _maxTime];
+_result;
