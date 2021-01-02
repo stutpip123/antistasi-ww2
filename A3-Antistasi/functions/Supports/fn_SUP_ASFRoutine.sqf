@@ -1,11 +1,12 @@
-params ["_strikePlane", "_strikeGroup", "_airport", "_supportName", "_setupPos"];
+params ["_side", "_timerIndex", "_sleepTime", "_airport", "_supportName", "_setupPos"];
 
 private _fileName = "SUP_ASFRoutine";
 
-private _side = side _strikeGroup;
+private _plane = if (_side == Occupants) then {vehNATOPlaneAA} else {vehCSATPlaneAA};
+private _crewUnits = if(_side == Occupants) then {NATOPilot} else {CSATPilot};
+private _timerArray = if(_side == Occupants) then {occupantsASFTimer} else {invadersASFTimer};
 
 //Sleep to simulate preparetion time
-private _sleepTime = random (200 - ((tierWar - 1) * 20));
 while {_sleepTime > 0} do
 {
     sleep 1;
@@ -13,8 +14,117 @@ while {_sleepTime > 0} do
     if((spawner getVariable _airport) != 2) exitWith {};
 };
 
-_strikePlane hideObjectGlobal false;
-_strikePlane enableSimulation true;
+//No runway on this airport, use airport position
+//Not sure if I should go with 150 or 1000 here, players might be only 1001 meters away
+//While technically 1000 meter height is technically visible from a greater distance
+//150 is more likely to be in the actual viewcone of a player
+private _spawnPos = (getMarkerPos _airport);
+private _strikePlane = createVehicle [_plane, _spawnPos, [], 0, "FLY"];
+_strikePlane setDir (_spawnPos getDir _setupPos);
+
+//Put it in the sky
+_strikePlane setPosATL (_spawnPos vectorAdd [0, 0, 1000]);
+
+//Hide the hovering airplane from players view
+_strikePlane setVelocityModelSpace [0, 150, 0];
+
+private _strikeGroup = createGroup _side;
+private _pilot = [_strikeGroup, _crewUnits, getPos _strikePlane] call A3A_fnc_createUnit;
+_pilot moveInDriver _strikePlane;
+
+//_strikePlane disableAI "TARGET";
+_strikePlane disableAI "AUTOTARGET";
+
+
+
+_strikePlane setVariable ["TimerArray", _timerArray, true];
+_strikePlane setVariable ["TimerIndex", _timerIndex, true];
+_strikePlane setVariable ["supportName", _supportName, true];
+
+//Setting up the EH for support destruction
+_strikePlane addEventHandler
+[
+    "Killed",
+    {
+        params ["_strikePlane"];
+        ["TaskSucceeded", ["", "Fighter Destroyed"]] remoteExec ["BIS_fnc_showNotification", teamPlayer];
+        private _timerArray = _strikePlane getVariable "TimerArray";
+        private _timerIndex = _strikePlane getVariable "TimerIndex";
+        _timerArray set [_timerIndex, (_timerArray select _timerIndex) + 7200];
+        [_strikePlane] spawn A3A_fnc_postMortem;
+    }
+];
+
+_strikePlane addEventHandler
+[
+    "IncomingMissile",
+    {
+        params ["_plane", "_ammo", "_vehicle"];
+        if !(_vehicle isKindOf "Man") then
+        {
+            //Vehicle fired a missile against the plane, add to target list if ground, no warning for players as this is an internal decision of the pilot
+            if(_vehicle isKindOf "Air") then
+            {
+                private _supportName = _plane getVariable "supportName";
+                [_supportName, [_vehicle, 3], 0] spawn A3A_fnc_addSupportTarget;
+            }
+            else
+            {
+                //Send support against ground based vehicles, retreat
+                [_vehicle, 4, ["SEAD", "CAS", "MISSILE"], side group (driver _plane), random 1] spawn A3A_fnc_sendSupport;
+                _plane setVariable ["Retreat", true, true];
+            };
+        };
+        //Else case handled in client init
+    }
+];
+
+_strikePlane addEventHandler
+[
+    "HandleDamage",
+    {
+        params ["_plane", "_selection", "_damage", "_vehicle", "_projectile"];
+        //Check if bullet, we dont care about missiles, as these are handled above
+        if(_projectile isKindOf "BulletCore") then
+        {
+            //Plane is getting hit by bullets, check if fired by unit or vehicle
+            if(!(isNull (objectParent _vehicle)) || (_vehicle isKindOf "AllVehicles")) then
+            {
+                //Getting hit by a vehicle
+                private _supportName = _plane getVariable "supportName";
+                private _vehicle = if(_vehicle isKindOf "AllVehicles") then {_vehicle} else {objectParent _vehicle};
+                if(_vehicle isKindOf "Air") then
+                {
+                    //Air based dogfight
+                    [_supportName, [_vehicle, 3], 0] spawn A3A_fnc_addSupportTarget;
+                }
+                else
+                {
+                    //Send support against ground based vehicles, retreat
+                    [_vehicle, 4, ["SEAD", "CAS", "MISSILE"], side group (driver _plane), random 1] spawn A3A_fnc_sendSupport;
+                    _plane setVariable ["Retreat", true, true];
+                };
+            };
+        };
+    }
+];
+
+_pilot setVariable ["Plane", _strikePlane, true];
+_pilot addEventHandler
+[
+    "Killed",
+    {
+        params ["_unit"];
+        ["TaskSucceeded", ["", "ASF crew killed"]] remoteExec ["BIS_fnc_showNotification", teamPlayer];
+        private _strikePlane = _unit getVariable "Plane";
+        private _timerArray = _strikePlane getVariable "TimerArray";
+        private _timerIndex = _strikePlane getVariable "TimerIndex";
+        _timerArray set [_timerIndex, (_timerArray select _timerIndex) + 3600];
+        [_unit] spawn A3A_fnc_postMortem;
+    }
+];
+_strikeGroup deleteGroupWhenEmpty true;
+
 _strikePlane flyInHeight 1000;
 
 //Decrease time if aggro is low
