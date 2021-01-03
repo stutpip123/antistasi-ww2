@@ -1,5 +1,8 @@
 params ["_side", "_position"];
 
+//Deactivated due to arma glitching, looking into it later
+if(true) exitWith {-1};
+
 if(tierWar < 8) exitWith {-1};
 
 private _lastSupport = server getVariable ["lastSupport", ["", 0]];

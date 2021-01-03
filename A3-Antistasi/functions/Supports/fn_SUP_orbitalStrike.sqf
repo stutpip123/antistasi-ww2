@@ -42,5 +42,11 @@ else
     invadersOrbitalStrikeTimer set [0, time + (3600 * 12)];
 };
 
-[ATLtoASL _supportPos, _supportName, _side] spawn A3A_fnc_SUP_orbitalStrikeRoutine;
-_coverageMarker;
+private _setupTime = 1200 - ((tierWar - 1) * 100);
+private _minSleepTime = (1 - (tierWar - 1) * 0.1) * _setupTime;
+private _sleepTime = _minSleepTime + random (_setupTime - _minSleepTime);
+
+[ATLtoASL _supportPos, _sleepTime, _supportName, _side] spawn A3A_fnc_SUP_orbitalStrikeRoutine;
+
+private _result = [_coverageMarker, _minSleepTime, _setupTime];
+_result;

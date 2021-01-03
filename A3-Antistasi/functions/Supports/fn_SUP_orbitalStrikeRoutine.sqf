@@ -1,4 +1,4 @@
-params ["_impactPosition", "_supportName", "_side"];
+params ["_impactPosition", "_sleepTime", "_supportName", "_side"];
 
 //Hugely inspired and partly copied from ALIAS https://www.armaholic.com/page.php?id=32556
 
@@ -14,7 +14,7 @@ params ["_impactPosition", "_supportName", "_side"];
 	Returns:
 		Nothing
 */
-sleep (10 + random (20));
+sleep _sleepTime;
 
 private _targetList = server getVariable [format ["%1_targets", _supportName], []];
 private _reveal = _targetList select 0 select 1;

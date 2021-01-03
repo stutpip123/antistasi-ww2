@@ -39,11 +39,12 @@ private _carrierMarker = if (_side == Occupants) then {"NATOCarrier"} else {"CSA
 private _markerDir = getMarkerPos _carrierMarker getDir _supportPos;
 _targetMarker setMarkerDir _markerDir;
 
-private _setupTime = 600 - ((tierWar - 1) * 60);
+private _setupTime = 1000 - ((tierWar - 1) * 90);
 private _minSleepTime = (1 - (tierWar - 1) * 0.1) * _setupTime;
 private _sleepTime = _minSleepTime + random (_setupTime - _minSleepTime);
 
 
 [_side, _sleepTime, _supportPos, _supportName] spawn A3A_fnc_SUP_carpetBombsRoutine;
 
-_targetMarker;
+private _result = [_targetMarker, _minSleepTime, _setupTime];
+_result;
