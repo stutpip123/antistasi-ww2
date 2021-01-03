@@ -135,5 +135,11 @@ _launcher addEventHandler ["Fired",
     };
 }];
 
-[_launcher, _side, _supportName] spawn A3A_fnc_SUP_SAMRoutine;
-_coverageMarker;
+private _setupTime = 1368 - ((tierWar - 1) * 102);
+private _minSleepTime = (1 - (tierWar - 1) * 0.1) * _setupTime;
+private _sleepTime = _minSleepTime + random (_setupTime - _minSleepTime);
+
+[_sleepTime, _launcher, _side, _supportName] spawn A3A_fnc_SUP_SAMRoutine;
+
+private _result = [_coverageMarker, _minSleepTime, _setupTime];
+_result;
