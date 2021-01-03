@@ -1,6 +1,6 @@
-params ["_side", "_position", "_supportName"];
+params ["_side", "_setupTime" "_position", "_supportName"];
 
-sleep (10 + random (20));
+sleep _setupTime;
 
 private _targetList = server getVariable [format ["%1_targets", _supportName], []];
 private _reveal = _targetList select 0 select 1;
