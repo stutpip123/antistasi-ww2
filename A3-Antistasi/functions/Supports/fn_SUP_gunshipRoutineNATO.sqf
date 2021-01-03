@@ -1,8 +1,7 @@
-params ["_gunship", "_strikeGroup", "_airport", "_supportName"];
+params ["_sleepTime", "_timerIndex", "_airport", "_supportPos", "_supportName"];
 
 private _fileName = "SUP_gunshipRoutineNATO";
 
-private _sleepTime = random (800 - ((tierWar - 1) * 80));
 while {_sleepTime > 0} do
 {
     sleep 1;
@@ -10,11 +9,10 @@ while {_sleepTime > 0} do
     if((spawner getVariable _airport) != 2) exitWith {};
 };
 
-_gunship hideObjectGlobal false;
-_gunship enableSimulation true;
+private _gunshipData = [Occupants, _airport, _timerIndex, "B_T_VTOL_01_armed_F", NATOPilot, _supportPos] call A3A_fnc_SUP_gunshipSpawn;
+_gunshipData params ["_gunship", "_strikeGroup"];
 
 //Prepare crew units and spawn them in
-private _crewUnit = typeOf (driver _gunship);
 private _crew = objNull;
 
 private _mainGunner = objNull;
@@ -22,7 +20,7 @@ private _heavyGunner = objNull;
 
 for "_i" from 1 to 2 do
 {
-    _crew = [_strikeGroup, _crewUnit, getPos _gunship] call A3A_fnc_createUnit;
+    _crew = [_strikeGroup, NATOPilot, getPos _gunship] call A3A_fnc_createUnit;
     if(_i == 1) then
     {
         _crew moveInTurret [_gunship, [1]];

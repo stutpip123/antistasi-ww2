@@ -1,8 +1,7 @@
-params ["_gunship", "_strikeGroup", "_airport", "_supportName"];
+params ["_sleepTime", "_timerIndex", "_airport", "_supportPos", "_supportName"];
 
 private _fileName = "SUP_gunshipRoutineCSAT";
 
-private _sleepTime = random (800 - ((tierWar - 1) * 80));
 while {_sleepTime > 0} do
 {
     sleep 1;
@@ -10,16 +9,15 @@ while {_sleepTime > 0} do
     if((spawner getVariable _airport) != 2) exitWith {};
 };
 
-_gunship hideObjectGlobal false;
-_gunship enableSimulation true;
+private _gunshipData = [Invaders, _airport, _timerIndex, "O_T_VTOL_02_vehicle_dynamicLoadout_F", CSATPilot, "_supportPos"] call A3A_fnc_SUP_gunshipSpawn;
+_gunshipData params ["_gunship", "_strikeGroup"];
 
 {
     _gunship setPylonLoadout [_forEachIndex + 1, _x, true];
 } forEach ["PylonRack_19Rnd_Rocket_Skyfire","PylonRack_19Rnd_Rocket_Skyfire","PylonRack_19Rnd_Rocket_Skyfire","PylonRack_19Rnd_Rocket_Skyfire"];
 
 //Prepare crew units and spawn them in
-private _crewUnit = typeOf (driver _gunship);
-private _mainGunner = [_strikeGroup, _crewUnit, getPos _gunship] call A3A_fnc_createUnit;
+private _mainGunner = [_strikeGroup, CSATPilot, getPos _gunship] call A3A_fnc_createUnit;
 _mainGunner moveInAny _gunship;
 
 _gunship addEventHandler
