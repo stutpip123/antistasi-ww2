@@ -4,6 +4,10 @@ Author: Caleb Serafin
     The nil forces isEqualTo to compare memory address not values.
     This technique will not work over network or saving.
 
+Arguments:
+    <ARRAY> ID 1 to compare.
+    <ARRAY> ID 2 to compare.
+
 Return Value:
     <ARRAY> One nil
 
