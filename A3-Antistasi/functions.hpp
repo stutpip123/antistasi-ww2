@@ -580,6 +580,13 @@ class Collections
 		class ID_LArray_isEqualTo {};
 		class ID_LArray {};
 	};
+	class Collections_Location
+	{
+		file="Collections\Location";
+		class location_init { preInit = 1 };
+		class location_new {};
+		class location_serialiseAddress {};
+	};
 	class Collections_Map
 	{
 		file="Collections\Map";
