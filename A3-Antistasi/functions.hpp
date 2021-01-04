@@ -606,6 +606,11 @@ class Collections
 		class nestLoc_rem {};
 		class nestLoc_set {};
 	};
+	class Collections_Concurrent
+	{
+		file="Collections\Concurrent";
+		class Concurrent_init { preInit = 1 };
+	};
 	class Collections_Serialisation
 	{
 		file="Collections\Serialisation";
