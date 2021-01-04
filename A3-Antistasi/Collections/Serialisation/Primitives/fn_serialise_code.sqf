@@ -16,7 +16,7 @@ Returns:
     <STRING> Serialisation of Code;
 
 Examples:
-
+    [] call Col_fnc_serialise_code;
 
 Author: Caleb Serafin
 License: MIT License, Copyright (c) 2019 Barbolani & The Official AntiStasi Community

@@ -21,8 +21,6 @@ Exceptions:
 Scope: Local, Interacts with many objects. Should not be networked.
 Environment: Unscheduled, Recommended as it queries possibly changing data. | Scheduled will work, but may cause race conditions.
 Public: Yes
-Dependencies:
-    <CODE<LOCATION,BOOLEAN>> A3A_fnc_createNamespace
 
 Example:
     [player, "lootBoxesOpened", 5] call Col_fnc_nestLoc_set;
@@ -45,7 +43,7 @@ for "_i" from 1 to _count - 3 do {
         throw ["nameAlreadyInUse",["Variable '",_this#_i,"' in (",(_this select [0,_i]) joinString " > ",") already has <",typeName _varSpace,"> '",str _varSpace,"'."] joinString ""];
     };
     if (isNull _varSpace) then {
-        _varSpace = [false] call A3A_fnc_createNamespace;
+        _varSpace = [[localNamespace,"Col_fnc_nestLoc_set"]] call Col_fnc_location_new;
         _lastVarSpace setVariable [_this#_i,_varSpace];
     };
 };
