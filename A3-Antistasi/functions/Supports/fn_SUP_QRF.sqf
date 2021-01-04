@@ -129,7 +129,7 @@ for "_i" from 1 to _vehicleCount do
 
 private _distance = _posOrigin distance2D _posDestination;
 private _minTime = _distance / (300 / 3.6);
-private _maxTime = _distance / (80 / 3.6);
+private _maxTime = _distance / (25 / 3.6);
 
 private _result = [_targetMarker, _minTime, _maxTime];
 _result;

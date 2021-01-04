@@ -52,7 +52,7 @@ if (_type == "CAS") then
         //RHS CDF
         case ("rhs_l159_CDF"):
         {
-            _loadout = ["rhs_mag_agm65d","rhs_mag_agm65d","rhs_mag_agm65d","rhs_mag_zpl20_apit","rhs_mag_agm65d","rhs_mag_agm65d","rhs_mag_agm65d","rhsusf_ANALE40_CMFlare_Chaff_Magazine_x2"];
+            _loadout = ["rhs_mag_M151_7_USAF_LAU131","rhs_mag_agm65d","rhs_mag_agm65d","rhs_mag_zpl20_apit","rhs_mag_agm65d","rhs_mag_agm65d","rhs_mag_M151_7_USAF_LAU131","rhsusf_ANALE40_CMFlare_Chaff_Magazine_x2"];
             _plane setVariable ["mainGun", "RHS_weap_zpl20"];
             _plane setVariable ["rocketLauncher", ["rhs_weap_FFARLauncher"]];
             _plane setVariable ["missileLauncher", ["rhs_weap_agm65d"]];

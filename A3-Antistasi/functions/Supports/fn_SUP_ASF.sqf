@@ -51,4 +51,4 @@ private _sleepTime = _minSleepTime + random (_setupTime - _minSleepTime);
 [_side, _timerIndex, _sleepTime, _airport, _supportName, getPos _supportObj] spawn A3A_fnc_SUP_ASFRoutine;
 
 private _result = [_targetMarker, _minSleepTime, _setupTime];
-_targetMarker;
+_result;

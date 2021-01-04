@@ -178,7 +178,7 @@ private _fireParams = +(_strikePlane getVariable "fireParams");
 
 while {_interval < 0.95 && alive _strikePlane && {!(isNull (driver _strikePlane))}} do
 {
-    if(!(alive _target) || {!(getPos _target inArea _supportMarker)}) exitWith
+    if(!(alive _target) || {!(_strikePlane getVariable ["InArea", false]) || {!(getPos _target inArea _supportMarker)}}) exitWith
     {
         [3, format ["%1 target eliminated or escaped, returning to loitering", _supportName], _fileName] call A3A_fnc_log;
         _strikePlane setVariable ["currentTarget", objNull];
@@ -255,17 +255,20 @@ while {_interval < 0.95 && alive _strikePlane && {!(isNull (driver _strikePlane)
 //Plane died, exit
 if(!(alive _strikePlane) || (isNull driver _strikePlane)) exitWith {};
 
-//Plane is alive, set new circle waypoint
-private _group = group driver _strikePlane;
-for "_i" from (count waypoints _group - 1) to 0 step -1 do
+if(_strikePlane getVariable ["InArea", false]) then
 {
-	deleteWaypoint [_group, _i];
-};
+    //Plane is alive, set new circle waypoint
+    private _group = group driver _strikePlane;
+    for "_i" from (count waypoints _group - 1) to 0 step -1 do
+    {
+    	deleteWaypoint [_group, _i];
+    };
 
-private _loiterWP = (group driver _strikePlane) addWaypoint [(getMarkerPos _supportMarker), 0];
-_loiterWP setWaypointSpeed "NORMAL";
-_loiterWP setWaypointType "Loiter";
-_loiterWP setWaypointLoiterRadius 2000;
+    private _loiterWP = (group driver _strikePlane) addWaypoint [(getMarkerPos _supportMarker), 0];
+    _loiterWP setWaypointSpeed "NORMAL";
+    _loiterWP setWaypointType "Loiter";
+    _loiterWP setWaypointLoiterRadius 2000;
+};
 
 //Await until the plane arrived at a specific height until breaking control
 waitUntil

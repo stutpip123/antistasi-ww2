@@ -7,6 +7,7 @@ private _crewUnits = if(_side == Occupants) then {NATOPilot} else {CSATPilot};
 private _timerArray = if(_side == Occupants) then {occupantsASFTimer} else {invadersASFTimer};
 
 //Sleep to simulate preparetion time
+_sleepTime = 15;
 while {_sleepTime > 0} do
 {
     sleep 1;
@@ -158,7 +159,7 @@ private _entryPos = _setupPos getPos [_lenght, _dir + _angle];
 [3, format ["Entry Pos: %1", _entryPos], _fileName] call A3A_fnc_log;
 _entryPos set [2, _height];
 
-private _areaWP = _strikeGroup addWaypoint [_entryPos, 0];
+private _areaWP = _strikeGroup addWaypoint [_entryPos, 50];
 _areaWP setWaypointCombatMode "GREEN";
 _areaWP setWaypointSpeed "FULL";
 _areaWP setWaypointType "Move";

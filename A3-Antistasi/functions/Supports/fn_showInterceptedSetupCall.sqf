@@ -36,7 +36,7 @@ _fn_getTimeString =
     private _result = "";
     if(_time < 1) then
     {
-        _result = "<1";
+        _result = "&lt;1";
     }
     else
     {

@@ -1,4 +1,4 @@
-params ["_side", "_setupTime" "_position", "_supportName"];
+params ["_side", "_setupTime", "_position", "_supportName"];
 
 sleep _setupTime;
 

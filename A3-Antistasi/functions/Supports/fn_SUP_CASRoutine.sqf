@@ -261,7 +261,9 @@ _strikeGroup setCombatMode "GREEN";
 _strikePlane setVariable ["InArea", false, true];
 
 private _dir = (getPos _strikePlane) getDir _setupPos;
+_strikePlane setDir _dir;
 
+/*
 //Calculate loiter entry point
 private _distance = _strikePlane distance2D _setupPos;
 private _angle = asin (1500/_distance);
@@ -277,14 +279,18 @@ private _areaWP = _strikeGroup addWaypoint [_entryPos, 0];
 _areaWP setWaypointSpeed "FULL";
 _areaWP setWaypointType "Move";
 _areaWP setWaypointStatements ["true", "(vehicle this) setVariable ['InArea', true, true]; [3, 'CAS plane has arrived', 'CASRoutine'] call A3A_fnc_log"];
+*/
 
 private _loiterWP = _strikeGroup addWaypoint [_setupPos, 0];
 _loiterWP setWaypointSpeed "NORMAL";
 _loiterWP setWaypointType "Loiter";
 _loiterWP setWaypointLoiterRadius 2000;
 
+sleep 15;
+_strikePlane setVariable ["InArea", true, true];
+
 //Await arrival at AO
-waitUntil {sleep 1; !(alive _strikePlane) || (_strikePlane getVariable ["InArea", false])};
+//waitUntil {sleep 1; !(alive _strikePlane) || (_strikePlane getVariable ["InArea", false])};
 
 if !(alive _strikePlane) exitWith
 {
@@ -570,18 +576,21 @@ while {_timeAlive > 0} do
     if (_confirmedKills <= 0) exitWith
     {
         [2,format ["%1 has reached its kill limit, aborting routine", _supportName],_fileName] call A3A_fnc_log;
+        _timeAlive = 0;
     };
 
     //Retreating
     if(_strikePlane getVariable ["Retreat", false]) exitWith
     {
         [2,format ["%1 met heavy resistance, retreating", _supportName], _fileName] call A3A_fnc_log;
+        _timeAlive = 0;
     };
 
     //No ammo left
     if(_strikePlane getVariable ["OutOfAmmo", false]) exitWith
     {
         [2, format ["%1 run out of ammo, returning to base", _supportName], _fileName] call A3A_fnc_log;
+        _timeAlive = 0;
     };
 
     sleep _sleepTime;
@@ -590,16 +599,27 @@ while {_timeAlive > 0} do
 
 _strikePlane setVariable ["currentTarget", nil];
 _strikePlane setVariable ["enterPos", nil];
+_strikePlane setVariable ["InArea", false];
 
 //Have the plane fly back home
 if (alive _strikePlane && [driver _strikePlane] call A3A_fnc_canFight) then
 {
+    for "_i" from (count waypoints _strikeGroup - 1) to 0 step -1 do
+    {
+	       deleteWaypoint [_strikeGroup, _i];
+    };
     private _wpBase = _strikeGroup addWaypoint [getMarkerPos _airport, 0];
     _wpBase setWaypointType "MOVE";
     _wpBase setWaypointBehaviour "CARELESS";
     _wpBase setWaypointSpeed "FULL";
     _wpBase setWaypointStatements ["", "deleteVehicle (vehicle this); {deleteVehicle _x} forEach thisList"];
     _strikeGroup setCurrentWaypoint _wpBase;
+
+    waitUntil {sleep 0.5;_strikePlane distance2D (getMarkerPos _airport) < 100};
+    {
+        deleteVehicle _x;
+    } forEach (units _strikeGroup);
+    deleteVehicle _strikePlane;
 };
 
 //Deleting all the support data here
