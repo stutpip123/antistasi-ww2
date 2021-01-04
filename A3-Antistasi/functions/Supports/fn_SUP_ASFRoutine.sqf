@@ -7,7 +7,6 @@ private _crewUnits = if(_side == Occupants) then {NATOPilot} else {CSATPilot};
 private _timerArray = if(_side == Occupants) then {occupantsASFTimer} else {invadersASFTimer};
 
 //Sleep to simulate preparetion time
-_sleepTime = 15;
 while {_sleepTime > 0} do
 {
     sleep 1;
@@ -146,7 +145,9 @@ _strikePlane setVariable ["InArea", false, true];
 _strikePlane setVariable ["CurrentlyAttacking", false, true];
 
 private _dir = (getPos _strikePlane) getDir _setupPos;
+_strikePlane setDir _dir;
 
+/*
 //Calculate loiter entry point
 private _distance = _strikePlane distance2D _setupPos;
 private _angle = asin (1500/_distance);
@@ -164,6 +165,7 @@ _areaWP setWaypointCombatMode "GREEN";
 _areaWP setWaypointSpeed "FULL";
 _areaWP setWaypointType "Move";
 _areaWP setWaypointStatements ["true", "(vehicle this) setVariable ['InArea', true, true]; [3, 'ASF plane has arrived', 'ASFRoutine'] call A3A_fnc_log"];
+*/
 
 private _loiterWP = _strikeGroup addWaypoint [_setupPos, 2];
 _loiterWP setWaypointSpeed "NORMAL";
@@ -171,8 +173,10 @@ _loiterWP setWaypointType "Loiter";
 _loiterWP setWaypointLoiterRadius 2000;
 
 private _time = time;
+sleep 15;
+_strikePlane setVariable ["InArea", true, true];
 
-waitUntil {sleep 1; !(alive _strikePlane) || (_strikePlane getVariable ["InArea", false])};
+//waitUntil {sleep 1; !(alive _strikePlane) || (_strikePlane getVariable ["InArea", false])};
 
 if !(alive _strikePlane) exitWith
 {
@@ -323,12 +327,22 @@ while {_timeAlive > 0} do
 //Have the plane fly back home
 if (alive _strikePlane && {!(isNull (driver _strikePlane)) && {[driver _strikePlane] call A3A_fnc_canFight}}) then
 {
+    for "_i" from (count waypoints _strikeGroup - 1) to 0 step -1 do
+    {
+	       deleteWaypoint [_strikeGroup, _i];
+    };
     private _wpBase = _strikeGroup addWaypoint [getMarkerPos _airport, 0];
     _wpBase setWaypointType "MOVE";
     _wpBase setWaypointBehaviour "CARELESS";
     _wpBase setWaypointSpeed "FULL";
     _wpBase setWaypointStatements ["", "deleteVehicle (vehicle this); {deleteVehicle _x} forEach thisList"];
     _strikeGroup setCurrentWaypoint _wpBase;
+
+    waitUntil {sleep 0.5;_strikePlane distance2D (getMarkerPos _airport) < 100};
+    {
+        deleteVehicle _x;
+    } forEach (units _strikeGroup);
+    deleteVehicle _strikePlane;
 };
 
 //Deleting all the support data here

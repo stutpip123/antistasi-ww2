@@ -30,7 +30,7 @@ if(_airport == "") exitWith
 private _targetMarker = createMarker [format ["%1_coverage", _supportName], _supportPos];
 _targetMarker setMarkerShape "ELLIPSE";
 _targetMarker setMarkerBrush "Grid";
-_targetMarker setMarkerSize [500, 500];
+_targetMarker setMarkerSize [400, 400];
 
 if(_side == Occupants) then
 {

@@ -1,7 +1,5 @@
 params ["_side"];
 
-if(true) exitWith {0};
-
 if(tierWar < 4) exitWith {-1};
 
 private _lastSupport = server getVariable ["lastSupport", ["", 0]];

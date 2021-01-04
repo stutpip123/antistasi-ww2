@@ -45,21 +45,21 @@ _gunship addEventHandler
 
         if(_weapon == "autocannon_40mm_VTOL_01") then
         {
-            if(_mainTarget isEqualTo objNull) exitWith {};
+            if(isNull _mainTarget) exitWith {};
             _target = getPosASL _mainTarget;
-            _target = _target apply {_x + (random 10) - 5};
+            _target = (_target vectorAdd [0,0,15]) apply {_x + (random 10) - 5};
         };
         if(_weapon == "gatling_20mm_VTOL_01") then
         {
-            if(_heavyTarget isEqualTo objNull) exitWith {};
+            if(isNull _heavyTarget) exitWith {};
             _target = getPosASL _heavyTarget;
-            _target = _target apply {_x + (random 25) - 12.5};
+            _target = (_target vectorAdd [0,0,30]) apply {_x + (random 15) - 7.5};
         };
         if(_weapon == "cannon_105mm_VTOL_01") then
         {
-            if(_heavyTarget isEqualTo objNull) exitWith {};
+            if(isNull _heavyTarget) exitWith {};
             _target = getPosASL _heavyTarget;
-            _target = (_target vectorAdd [0,0,2]) apply {_x + (random 2) - 1};
+            _target = (_target vectorAdd [0,0,10]) apply {_x + (random 2) - 1};
             _gunship setWeaponReloadingTime [_gunner, _weapon, 0.3];
         };
 
@@ -172,7 +172,7 @@ private _heavyGunnerList = [];
                 private _supportMarker = format ["%1_coverage", _supportName];
                 if
                 (
-                    ((_target distance2D (getMarkerPos _supportMarker)) < 350) &&
+                    ((_target distance2D (getMarkerPos _supportMarker)) < 450) &&
                     {(_target isKindOf "Man" && {[_target] call A3A_fnc_canFight}) ||
                     {(_target isKindOf "AllVehicles") && (alive _target)}}
                 ) then
@@ -293,7 +293,7 @@ private _heavyGunnerList = [];
                 private _supportMarker = format ["%1_coverage", _supportName];
                 if
                 (
-                    ((_target distance2D (getMarkerPos _supportMarker)) < 350) &&
+                    ((_target distance2D (getMarkerPos _supportMarker)) < 450) &&
                     {(_target isKindOf "Man" && {[_target] call A3A_fnc_canFight}) ||
                     {(_target isKindOf "AllVehicles") && (alive _target)}}
                 ) then
@@ -350,7 +350,7 @@ _gunship setVariable ["Minigun_Ammo", 4000];
 
 //_strikeGroup setCombatMode "YELLOW";
 
-private _lifeTime = 30;
+private _lifeTime = 300;
 
 while {_lifeTime > 0} do
 {
@@ -360,7 +360,7 @@ while {_lifeTime > 0} do
         isNull (_gunship getVariable ["currentTargetHeavyGunner", objNull])
     ) then
     {
-        private _targets = _supportPos nearEntities [["Man", "LandVehicle", "Helicopter"], 250];
+        private _targets = _supportPos nearEntities [["Man", "LandVehicle", "Helicopter"], 400];
         _targets = _targets select
         {
             if(_x isKindOf "Man") then

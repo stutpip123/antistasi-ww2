@@ -9,7 +9,7 @@ while {_sleepTime > 0} do
     if((spawner getVariable _airport) != 2) exitWith {};
 };
 
-private _gunshipData = [Invaders, _airport, _timerIndex, "O_T_VTOL_02_vehicle_dynamicLoadout_F", CSATPilot, "_supportPos"] call A3A_fnc_SUP_gunshipSpawn;
+private _gunshipData = [Invaders, _airport, _timerIndex, "O_T_VTOL_02_vehicle_dynamicLoadout_F", CSATPilot, _supportPos] call A3A_fnc_SUP_gunshipSpawn;
 _gunshipData params ["_gunship", "_strikeGroup"];
 
 {
@@ -96,7 +96,7 @@ _gunship addEventHandler
         };
         if(_weapon == "gatling_30mm_VTOL_02") then
         {
-            _target = _target apply {_x + (random 10) - 5};
+            _target = (_target vectorAdd [0,0,20]) apply {_x + (random 10) - 5};
             private _speed = (speed _projectile)/3.6;
             private _dir = vectorNormalized (_target vectorDiff (getPosASL _projectile));
             _projectile setVelocity (_dir vectorMultiply _speed);
