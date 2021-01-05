@@ -95,7 +95,7 @@ else
 if(_spawnPos isEqualTo []) exitWith
 {
     [2, format ["Couldn't spawn in mortar %1, no suitable position found!", _supportName], _fileName] call A3A_fnc_log;
-    "";
+    ["", 0, 0];
 };
 
 //Spawn in mortar
