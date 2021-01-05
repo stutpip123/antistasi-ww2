@@ -639,10 +639,12 @@ class Collections
 		file="Collections\Serialisation\Primitives";
 		class deserialise_array {};
 		class deserialise_code {};
+		class deserialise_namespace {};
 		class deserialise_side {};
 		class serialisation_primitive_defaults {};
 		class serialise_array {};
 		class serialise_code {};
+		class serialise_namespace {};
 		class serialise_scalar_max {};
 		class serialise_side {};
 	};
