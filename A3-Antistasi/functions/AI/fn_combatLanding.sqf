@@ -23,7 +23,7 @@ private _initialVelocity = (velocity _helicopter);
 _initialVelocity set [2, 0];
 private _velocityVector = +_initialVelocity;
 _initialVelocity = vectorMagnitude _initialVelocity;
-private _initialSpeed = speed _helicopter;
+private _initialSpeed = speed _helicopter/3.6;
 //We got the initial velocity of the heli
 
 private _distance = _startPos distance2D _midPos;
@@ -100,10 +100,8 @@ if((!(alive _helicopter)) || (!(alive _driver))) exitWith {};
 
 [_helicopter] call A3A_fnc_smokeCoverAuto;
 
-_cargoGroup leaveVehicle _helicopter;
-{
-    moveOut _x;
-} forEach units _cargoGroup;
+(units _cargoGroup) allowGetIn false;
+doGetOut (units _cargoGroup);
 
 sleep 3;
 _helicopter flyInHeight 100;
