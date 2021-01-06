@@ -557,7 +557,6 @@ class A3A
 		class dateToTimeString {};
 		class generateRoadsDB {};
 		class log {};
-		class stringChunks {};
 		class vehicleWillCollideAtPosition {};
 		class getRoadDirection {};
 	};
@@ -647,5 +646,10 @@ class Collections
 		class serialise_namespace {};
 		class serialise_scalar_max {};
 		class serialise_side {};
+	};
+	class Collections_String
+	{
+		file="Collections\String";
+		class string_toChunks {};
 	};
 };
