@@ -1,12 +1,13 @@
 /*
 Author: Caleb Serafin
-    Provides most precision possible of floats serialisation in Arma 3 SQF.
+    Provides more precision of float serialisation in Arma 3 SQF.
+    Always formatted as scientific notation.
 
 Arguments:
     <SCALAR> Valid Number in Arma 3 SQF.
 
 Return Value:
-    <STRING> Scientific format serialisation of number; "1.1754943132400513e-38" <= abs x <= "3.4028236865997314e38"; || <STRING> "1.#INF", "-1.#INF", "1.#IND", "-1.#IND" (all possible outputs of str)
+    <STRING> Scientific format serialisation of number; "1.1754943132400513e-38" <= abs x <= "3.4028236865997314e38"; || <STRING> "1.#INF", "-1.#INF", "-1.#IND", 1.#QNAN (all possible outputs of str)
 
 Scope: Local.
 Environment: Any
@@ -34,7 +35,7 @@ Example:
 */
 params [
     ["_serialisation_builder",locationNull,[locationNull]],
-    ["_number",0,[0]]
+    ["_number",0,[0,1e39]]
 ];
 
 private _serialisedNumber = "";
@@ -42,7 +43,7 @@ private _exponent = floor log abs _number;
 if (finite _exponent) then {
     private _coefficient = 0;
     if (_exponent isEqualTo 38) then {
-        _coefficient = _numberumber / 10^(_exponent); // Cannot be used if N has ~38 fraction decimals (throws zero devisor).
+        _coefficient = _number / 10^(_exponent); // Cannot be used if N has ~38 fraction decimals (throws zero devisor).
     } else {
         _coefficient = _number * 10^(-_exponent); // Cannot be used if N has ~38 leading numbers (rounds to zero).
     };

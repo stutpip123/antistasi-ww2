@@ -23,24 +23,28 @@ Exceptions:
     ["invalidParams",_details] If root of location tree cannot be traced back to a namespace.
 
 Example:
-    [localNamespace,"Collections","TestBucket","NewLocation"] call Col_fnc_location_serialiseAddress;
+    [localNamespace,"Collections","TestBucket","NewLocation"] call Col_fnc_location_serialiseAddress;  // "[""col_locaddress"",4,""collections"",""testbucket"",""newlocation""]"
 */
 if (count _this < 2) exitWith {
-    diag_log "ERROR: fn_location_serialiseAddress: Too little args for array parent."; // TODO: implement overridable method for logging.
+    // diag_log "ERROR: fn_location_serialiseAddress: Too little args for array parent."; // TODO: implement overridable method for logging.
+    // We will let it slide for now.
     "";
 };
 
-private _serialisation = "col_locationaddress:[";
+private _serialisation = ["col_locaddress"];
 private _array = [];
 private _root = _this#0;
 if !(_root isEqualType missionNamespace) then { // All namespaces will work.
-    private _textRoot = toLower text _root;
-    if (_root isEqualType locationNull && { (_textRoot select [0,20]) isEqualTo "col_locationaddress:" }) then {
-        _serialisation = (_textRoot select [20,count _textRoot -21] + ",");  // extra -1 to remove closing square brace
+    if (_root isEqualType locationNull && { (toLower text _root select [0,17]) isEqualTo "[""col_locaddress""" }) then {
+        _serialisation = parseSimpleArray (toLower text _root);
     } else {
         diag_log "ERROR: fn_location_serialiseAddress: invalidLocationAddressRoot: Address root is type of <"+typeName _root+">."; // TODO: implement overridable method for logging.
         throw ["invalidLocationAddressRoot","Address root is type of <"+typeName _root+">."];
     };
 } else {
-    _serialisation = _serialisation + [locationNull,_root] call Col_fnc_serialise_code;
-}
+    _serialisation pushBack ([locationNull,_root] call Col_fnc_serialise_namespace)#1;
+};
+for "_i" from 1 to count _this -1 do {
+    _serialisation pushBack toLower (_this#_i);
+};
+str _serialisation;
