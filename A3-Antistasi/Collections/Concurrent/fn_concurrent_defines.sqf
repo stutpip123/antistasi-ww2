@@ -13,8 +13,7 @@ Example:
 
 */
 #include "concurrent_defines.hpp"
-private _defines = [[localNamespace,"Collections","Concurrent","Defines"]] call Col_fnc_location_new;
-[localNamespace,"Collections","Concurrent","Defines",_defines] call Col_fnc_nestLoc_set;
+private _defines = [localNamespace,"Collections","Concurrent","Defines",nil,nil] call Col_fnc_nestLoc_set;
 
 _macroKeyValues = [
     ["concurrent_type_conDict",Col_mac_concurrent_type_conLoc],

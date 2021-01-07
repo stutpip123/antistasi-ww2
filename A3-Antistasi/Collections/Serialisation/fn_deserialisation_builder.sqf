@@ -34,7 +34,7 @@ if (locationNull isEqualType ([localNamespace,"Collections","deserialisation_bui
     throw ["uniqueIDAlreadyInUse",["UniqueID '",_uniqueID,"' already exists for deserialisation builder."] joinString ""];
 };
 
-private _deserialise_builder = [localNamespace,"Collections","deserialisation_builder", _uniqueID,[[localNamespace,"Collections","deserialisation_builder",_uniqueID]] call Col_fnc_location_new] call Col_fnc_nestLoc_set;
+private _deserialise_builder = [localNamespace,"Collections","deserialisation_builder", _uniqueID,nil,nil] call Col_fnc_nestLoc_set;
 
 {
     _deserialise_builder setVariable [_x#0,_x#2];

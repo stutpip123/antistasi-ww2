@@ -24,10 +24,9 @@ Example:
         // missionNamespace > "A3A_UIDPlayers" will have value locationNull.
 
     // Recursive (NB: There are not many good reasons to have self-referencing trees. However, if you wanted to delete the entire tree by deleting any sub node, this "practice" will achieve that.)
-    _parent = [[missionNamespace, "A3A_parent"]] call Col_fnc_location_new;
-    [missionNamespace, "A3A_parent", _parent] call Col_fnc_nestLoc_set;
+    _parent = [missionNamespace, "A3A_parent",nil,nil] call Col_fnc_nestLoc_set;
     [missionNamespace, "A3A_parent", "recursion", _parent] call Col_fnc_nestLoc_set;
-        // missionNamespace > "A3A_parent" > "recursion" > "recursion" > "recursion" > "recursion" > "recursion" > "recursion" > "recursion"...
+        // missionNamespace > "A3A_parent" > "recursion"(A3A_parent) > "recursion"(A3A_parent) > "recursion"(A3A_parent) > "recursion"(A3A_parent) > ...
     [_parent] call Col_fnc_nestLoc_rem;
         // missionNamespace > "A3A_parent" will have value locationNull
 */

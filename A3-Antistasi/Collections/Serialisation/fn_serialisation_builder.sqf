@@ -34,7 +34,7 @@ if (locationNull isEqualType ([localNamespace,"Collections","serialisation_build
     throw ["uniqueIDAlreadyInUse",["UniqueID '",_uniqueID,"' already exists for serialisation builder."] joinString ""];
 };
 col_anEmptyArray = [];  // required for isEqualType
-private _serialisation_builder = [localNamespace,"Collections","serialisation_builder", _uniqueID,[[localNamespace,"Collections","serialisation_builder", _uniqueID]] call Col_fnc_location_new] call Col_fnc_nestLoc_set;
+private _serialisation_builder = [localNamespace,"Collections","serialisation_builder", _uniqueID,nil,nil] call Col_fnc_nestLoc_set;
 
 {
     _serialisation_builder setVariable [_x#0,_x#1];

@@ -14,10 +14,13 @@ Return Value:
 
 Scope: Local return. Local arguments.
 Environment: Any.
-Public: Yes
+Public: Not recommended. Use Col_nestLoc_set as it will ensure parents are set correctly.
 
 Example:
     [[localNamespace,"Collections","TestBucket","NewLocation"],] call Col_fnc_location_new;
+
+    // Rather use Col_fnc_nestLoc_set. Eg to create namespace called members to store members.
+    _loc = [localNamespace,"MyContainer","Squad1", "Members", nil, nil] call Col_fnc_nestLoc_set;
 */
 #include "..\ID\ID_defines.hpp"
 params [

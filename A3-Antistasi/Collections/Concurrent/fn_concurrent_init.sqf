@@ -28,16 +28,15 @@ if !(assert isMultiplayer) then {
     };
 };
 
-private _namespace = [[localNamespace,"Collections","Concurrent"]] call Col_fnc_location_new;
-[localNamespace,"Collections","Concurrent",_namespace] call Col_fnc_nestLoc_set;
+private _concurrent = [localNamespace,"Collections","Concurrent",nil,nil] call Col_fnc_nestLoc_set;
 
-_namespace setVariable ["Loaded",[[localNamespace,"Collections","Concurrent","Loaded"]] call Col_fnc_location_new];
-_namespace setVariable ["Available",[]];
+[_concurrent,"Loaded",nil,nil] call Col_fnc_nestLoc_set;
+_concurrent setVariable ["Available",[]];
 
-_namespace setVariable ["OutboundQueue",[[localNamespace,"Collections","Concurrent","OutboundQueue"]] call Col_fnc_location_new];
-_namespace setVariable ["LastSent",[]];
-_namespace setVariable ["WaitingForResponse",false];
-_namespace setVariable ["TimeOutExpiry",serverTime];
-_namespace setVariable ["TimeOutRunning",false];
+[_concurrent,"OutboundQueue",nil,nil] call Col_fnc_nestLoc_set;
+_concurrent setVariable ["LastSent",[]];
+_concurrent setVariable ["WaitingForResponse",false];
+_concurrent setVariable ["TimeOutExpiry",serverTime];
+_concurrent setVariable ["TimeOutRunning",false];
 
 [false] call Col_fnc_concurrent_defines;

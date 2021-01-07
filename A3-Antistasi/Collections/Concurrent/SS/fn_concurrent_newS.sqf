@@ -35,19 +35,18 @@ params [
     ["_collisionResolution",1,[ 1 ]]
 ];
 
-private _namespace = locationNull;
+private _loaded = locationNull;
 private _container = locationNull;
 if (isNil {
-    _namespace = [localNamespace,"Collections","Concurrent","Loaded",locationNull] call Col_fnc_nestLoc_get;
-    if (!isNull (_namespace getVariable [_name,locationNull])) exitWith {
+    _loaded = [localNamespace,"Collections","Concurrent","Loaded",locationNull] call Col_fnc_nestLoc_get;
+    if (!isNull (_loaded getVariable [_name,locationNull])) exitWith {
         if (_onMapAlreadyExists isEqualType "") then {
             _onMapAlreadyExists = missionNamespace getVariable [_onMapAlreadyExists,{}];
         };
         _this call _onMapAlreadyExists;
         nil;
     };
-    _container = [[localNamespace,"Collections","Concurrent","Loaded",_name]] call Col_fnc_location_new;
-    _namespace setVariable [_name,_container];
+    _container =  [_loaded,_name,nil,nil] call Col_fnc_nestLoc_set;
     true;
 }) exitWith {false};
 
