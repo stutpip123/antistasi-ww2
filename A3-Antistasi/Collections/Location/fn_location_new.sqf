@@ -7,7 +7,7 @@ Author: Caleb Serafin
 
 Arguments:
     <ARRAY>|<STRING> parents to location (Include own name).
-    <ARRAY> 1e14 ID. If nil will auto gen. Only fill in locations are being loaded from a serialisation and the global location counter has been advanced! (default=nil).
+    <SCALAR> 1e7 ID. If nil will auto gen. Only fill in locations are being loaded from a serialisation and the global location counter has been advanced! (default=nil).
 
 Return Value:
     <LOCATION> *new* location; locationNull if issue.
@@ -21,16 +21,12 @@ Example:
 */
 #include "..\ID\ID_defines.hpp"
 params [
-    ["_parents",[],[ [],"" ]],
-    ["_id",[],[ [] ],[2]]
+    ["_parents",[],[ [] ]],
+    ["_id",-1,[ 0 ]]
 ];
-
-if (_parents isEqualType []) then {
-    _parents = str _parents;
-};
-if (_id isEqualTo []) then {isNil {
-    Col_mac_ID_G1e14_inc(Col_location_ID,_id);
+if (_id isEqualTo -1) then {isNil {
+    Col_mac_ID_G1e7_inc(Col_location_ID,_id);
 }};
-private _location = createLocation ["Invisible", [-(_id#0) / 1e6, -(_id#1) / 1e6, 0], 0, 0];
+private _location = createLocation ["Invisible", ASLtoAGL [-_id / 1e6, -(0) / 1e6, -(0) / 1e6], 0, 0];
 _location setText (_parents call Col_fnc_location_serialiseAddress);
 _location;

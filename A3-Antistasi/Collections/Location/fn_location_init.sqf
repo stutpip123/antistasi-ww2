@@ -18,5 +18,5 @@ Example:
     };
 */
 #include "..\ID\ID_defines.hpp"
-Col_mac_ID_G1e14_new(Col_location_ID)
+Col_mac_ID_G1e7_new(Col_location_ID)
 Col_location_pool = [];
