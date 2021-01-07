@@ -96,3 +96,46 @@ for "_i" from 1 to 1000*1000 do {
 	_totalTime = _totalTime + diag_tickTime - _startTime;
 };
 [str (1000*_totalTime),"ms"] joinString "";  // 100_000: 1857.91ms; 1_000_000: 17996.6ms;
+
+
+
+
+
+
+
+
+// How can the changes be tested? Use
+count (nearestLocations [[0,0,0], ["Invisible"], 100000]);
+// in watch field to count of locations.
+
+// Standard Use
+// (Execute in order)
+[localNamespace, "A3A_UIDPlayers", "1234567890123456", "equipment", "weapon", "hgun_Pistol_heavy_01_F"] call Col_fnc_nestLoc_get;
+// └ Should return hgun_Pistol_heavy_01_F
+
+[localNamespace, "A3A_UIDPlayers", "1234567890123456", "equipment", "weapon", "SMG_02_F"] call Col_fnc_nestLoc_set;
+// └ Should return Location Invisible at -10, -10; Location count increase by 3.
+
+[localNamespace, "A3A_UIDPlayers", "1234567890123456", "equipment", "helmet", "H_Hat_grey"] call Col_fnc_nestLoc_set;
+// └ Should return Location Invisible at -10, -10; Location count should not increase.
+
+[localNamespace, "A3A_UIDPlayers", "1234567890123456", "equipment", "weapon", "hgun_Pistol_heavy_01_F"] call Col_fnc_nestLoc_get;
+// └ Should return SMG_02_F
+
+_parent = [localNamespace, "A3A_UIDPlayers", locationNull] call Col_fnc_nestLoc_get;
+[_parent] call Col_fnc_nestLoc_rem;
+[localNamespace, "A3A_UIDPlayers", "1234567890123456", "equipment", "weapon", "hgun_Pistol_heavy_01_F"] call Col_fnc_nestLoc_get;
+// └ Should return hgun_Pistol_heavy_01_F; Location count decrases by 3;
+
+// Recursion
+// (Execute in order)
+
+_parent = [localNamespace, "A3A_parent", "loop back", locationNull] call Col_fnc_nestLoc_set;
+[localNamespace, "A3A_parent", "recursion", _parent] call Col_fnc_nestLoc_set;
+[localNamespace, "A3A_parent", "recursion", "recursion", "recursion", "recursion", "recursion", "recursion", "recursion", "recursion", "recursion", locationNull] call Col_fnc_nestLoc_get;
+// └ Should return Location Invisible at -10, -10; Location count increases by 1;
+
+_parent  = [localNamespace, "A3A_parent", locationNull] call Col_fnc_nestLoc_get;
+[_parent] call Col_fnc_nestLoc_rem;
+[localNamespace, "A3A_parent", "recursion", "recursion", "recursion", "recursion", "recursion", "recursion", "recursion", "recursion", "recursion", locationNull] call Col_fnc_nestLoc_get;
+// └ Should return No location; Location count decreases by 1;

@@ -18,33 +18,36 @@ Scope: Local return. Local arguments.
 Environment: Any.
 Public: Yes
 
-Exceptions:
-    ["invalidLocationAddressRoot",_details] If root of location tree cannot be traced back to a namespace.
-    ["invalidParams",_details] If root of location tree cannot be traced back to a namespace.
-
 Example:
-    [localNamespace,"Collections","TestBucket","NewLocation"] call Col_fnc_location_serialiseAddress;  // "[""col_locaddress"",4,""collections"",""testbucket"",""newlocation""]"
+    [localNamespace,"Collections","TestBucket","NewLocation"] call Col_fnc_location_serialiseAddress;  // "col_locaddress:[4,""collections"",""testbucket"",""newlocation""]"
 */
-if (count _this < 2) exitWith {
-    // diag_log "ERROR: fn_location_serialiseAddress: Too little args for array parent."; // TODO: implement overridable method for logging.
-    // We will let it slide for now.
+private _parentArray = [_this] param [0, [missionNamespace], [ [] ]];
+if (count _parentArray < 2) exitWith {
+    diag_log "WARNING: Col_fnc_location_serialiseAddress: Less than one parent plus name."; // TODO: implement overridable method for logging.
     "";
 };
 
-private _serialisation = ["col_locaddress"];
-private _array = [];
-private _root = _this#0;
-if !(_root isEqualType missionNamespace) then { // All namespaces will work.
-    if (_root isEqualType locationNull && { (toLower text _root select [0,17]) isEqualTo "[""col_locaddress""" }) then {
-        _serialisation = parseSimpleArray (toLower text _root);
-    } else {
-        diag_log "ERROR: fn_location_serialiseAddress: invalidLocationAddressRoot: Address root is type of <"+typeName _root+">."; // TODO: implement overridable method for logging.
-        throw ["invalidLocationAddressRoot","Address root is type of <"+typeName _root+">."];
+private _root = _parentArray#0;
+switch (true) do {
+    case (_root isEqualType 0): {
+        toLower ("col_locaddress:" + str _parentArray);
     };
-} else {
-    _serialisation pushBack ([locationNull,_root] call Col_fnc_serialise_namespace)#1;
+    case (_root isEqualType missionNamespace): {
+        _parentArray set [0,([locationNull,_root] call Col_fnc_serialise_namespace)#1];
+        toLower ("col_locaddress:" + str _parentArray);
+    };
+    case (_root isEqualType locationNull): {
+        _textRoot = text _root;
+        if ((_textRoot select [0,15]) isEqualTo "col_locaddress:" ) then {
+            _parentArray deleteAt 0;
+            toLower str (parseSimpleArray (_textRoot select [15,1e9]) + _parentArray);
+        } else {
+            diag_log "WARNING: Col_fnc_location_serialiseAddress: Location at address root does not contain col_locaddress meta data."; // TODO: implement overridable method for logging.
+            "";
+        };
+    };
+    default {
+        diag_log "WARNING: Col_fnc_location_serialiseAddress: Address root of type <"+typeName _root+">."; // TODO: implement overridable method for logging.
+        "";
+    };
 };
-for "_i" from 1 to count _this -1 do {
-    _serialisation pushBack toLower (_this#_i);
-};
-str _serialisation;
