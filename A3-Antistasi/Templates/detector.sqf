@@ -32,7 +32,13 @@ if (isClass (configFile >> "CfgFactionClasses" >> "rhs_faction_vdv") && isClass 
 };
 
 //3CB Detection
-if (hasRHS && isClass (configfile >> "CfgPatches" >> "UK3CB_BAF_Weapons")) then {has3CB = true; diag_log format ["%1: [Antistasi] | INFO | initVar | 3CB Detected.",servertime];};
+if (hasRHS && (
+  isClass (configfile >> "CfgPatches" >> "UK3CB_BAF_Weapons") &&
+  isClass (configfile >> "CfgPatches" >> "UK3CB_BAF_Vehicles") &&
+  isClass (configfile >> "CfgPatches" >> "UK3CB_BAF_Units_Common") &&
+  isClass (configfile >> "CfgPatches" >> "UK3CB_BAF_Equipment") &&
+  isClass (configfile >> "CfgPatches" >> "UK3CB_BAF_Factions")
+) ) then {has3CB = true; diag_log format ["%1: [Antistasi] | INFO | initVar | 3CB Detected.",servertime];};
 
 //UNSUNG Detection
 if (isClass (configfile >> "CfgPatches" >> "uns_army")) then {hasUNSUNG = true; diag_log format ["%1: [Antistasi] | INFO | initVar | UNSUNG Detected.",servertime];};
