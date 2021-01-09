@@ -40,9 +40,6 @@ if (hasRHS && (
   isClass (configfile >> "CfgPatches" >> "UK3CB_BAF_Factions")
 ) ) then {has3CB = true; diag_log format ["%1: [Antistasi] | INFO | initVar | 3CB Detected.",servertime];};
 
-//UNSUNG Detection
-if (isClass (configfile >> "CfgPatches" >> "uns_army")) then {hasUNSUNG = true; diag_log format ["%1: [Antistasi] | INFO | initVar | UNSUNG Detected.",servertime];};
-
 //FFAA Detection
 if (isClass (configfile >> "CfgPatches" >> "ffaa_armas")) then {hasFFAA = true; diag_log format ["%1: [Antistasi] | INFO | initVar | FFAA Detected.",servertime];};
 
