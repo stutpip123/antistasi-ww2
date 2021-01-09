@@ -10,7 +10,6 @@ hasFFAA = false;
 hasIFA = false;
 has3CB = false;
 hasIvory = false;
-hasUNSUNG = false;
 hasTCGM = false;
 hasADV = false;
 
