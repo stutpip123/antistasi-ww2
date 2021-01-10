@@ -16,8 +16,7 @@ has3CB = false;
 //Actual Detection
 //IFA Detection
 //Deactivated for now, as IFA is having some IP problems (08.05.2020 european format)
-if isClass (configFile >> "CfgPatches" >> "LIB_Core") then
-{
+if (isClass (configFile >> "CfgPatches" >> "LIB_Core")) then {
     //hasIFA = true;
     //[2, "IFA Detected", _fileName] call A3A_fnc_log;
     [1, "IFA detected, but it is no longer supported, please remove this mod", _fileName] call A3A_fnc_log;
