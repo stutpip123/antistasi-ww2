@@ -1,6 +1,21 @@
 /*
-    This file controls the selection of templates based on the mods loaded and map used.
-    When porting new mods/maps be sure to add them to their respective sections!
+Author: Meerkat
+
+This file controls the selection of templates based on the mods loaded and map used.
+When porting new mods/maps be sure to add them to their respective sections!
+
+Arguments:
+
+
+Return Value:
+
+
+Scope: All
+Environment:
+Public:
+Dependencies:
+
+Example:
 */
 private _filename = "selector.sqf";
 //Map checker
