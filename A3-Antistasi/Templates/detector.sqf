@@ -62,4 +62,4 @@ if (hasRHS && (
 if (isClass (configfile >> "CfgPatches" >> "ffaa_armas")) then {hasFFAA = true; [2,"FFAA Detected.",_fileName] call A3A_fnc_log;};
 
 //Ivory Car Pack Detection
-if (isClass (configfile >> "CfgPatches" >> "Ivory_Data")) then {hasIvory = true; diag_log format ["%1: [Antistasi] | INFO | initVar | Ivory Cars Detected.",servertime];};
+if (isClass (configfile >> "CfgPatches" >> "Ivory_Data")) then {hasIvory = true; [2,"Ivory Cars Detected.",_fileName] call A3A_fnc_log;};
