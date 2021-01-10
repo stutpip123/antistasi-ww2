@@ -1,8 +1,24 @@
 /*
-      This file handles the detection of mods.
-      Best practice is to detect the presence of a CfgPatches entry, but there are alternatives.
-      To add a new mod, give it a hadMod variable with the rest, then add an if (isClass) entry like the FFAA one. (You could even copy/paste the FFAA one and replace its calls with the ones you need.)
+Author: Meerkat
+
+This file handles the detection of mods.
+Best practice is to detect the presence of a CfgPatches entry, but there are alternatives.
+To add a new mod, give it a hadMod variable with the rest, then add an if (isClass) entry like the FFAA one. (You could even copy/paste the FFAA one and replace its calls with the ones you need.)
+
+Arguments:
+
+
+Return Value:
+
+
+Scope: All
+Environment:
+Public:
+Dependencies:
+
+Example:
 */
+
 //Var initialisation
 private _filename = "detector.sqf";
 hasRHS = false;
