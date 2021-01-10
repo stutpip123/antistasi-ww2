@@ -30,7 +30,7 @@ if (isClass (configFile >> "CfgFactionClasses" >> "rhs_faction_vdv") && isClass 
   activeUSAF = true;//Obsolete, please kill
   activeGREF = true;//Obsolete, please kill. WHY IS THIS USED FUCKING EVERYWHERE?
   hasRHS = true;
-  diag_log format ["%1: [Antistasi] | INFO | initVar | RHS Pack Detected.",servertime];
+  [2,"RHS Detected.",_fileName] call A3A_fnc_log;
 };
 
 //3CB Detection
@@ -40,7 +40,7 @@ if (hasRHS && (
   isClass (configfile >> "CfgPatches" >> "UK3CB_BAF_Units_Common") &&
   isClass (configfile >> "CfgPatches" >> "UK3CB_BAF_Equipment") &&
   isClass (configfile >> "CfgPatches" >> "UK3CB_BAF_Factions")
-) ) then {has3CB = true; diag_log format ["%1: [Antistasi] | INFO | initVar | 3CB Detected.",servertime];};
+) ) then {has3CB = true; [2,"3CB Detected.",_fileName] call A3A_fnc_log;
 
 //FFAA Detection
-if (isClass (configfile >> "CfgPatches" >> "ffaa_armas")) then {hasFFAA = true; diag_log format ["%1: [Antistasi] | INFO | initVar | FFAA Detected.",servertime];};
+if (isClass (configfile >> "CfgPatches" >> "ffaa_armas")) then {hasFFAA = true; [2,"FFAA Detected.",_fileName] call A3A_fnc_log;};
