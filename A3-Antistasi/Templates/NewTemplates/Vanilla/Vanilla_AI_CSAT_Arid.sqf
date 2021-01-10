@@ -88,8 +88,8 @@ _loadoutData setVariable ["machineGuns", []]; 				//this line determines machine
 _loadoutData setVariable ["marksmanRifles", []]; 			//this line determines markman rifles -- Example: ["arifle_MXM_F","arifle_MXM_Hamr_pointer_F"] -- Array, can contain multiple assets
 _loadoutData setVariable ["sniperRifles", []]; 				//this line determines sniper rifles -- Example: ["srifle_LRR_camo_F","srifle_LRR_camo_SOS_F"] -- Array, can contain multiple assets
 _loadoutData setVariable ["lightATLaunchers", [
-["launch_RPG32_F", "", "acc_pointer_ir", "", ["RPG32_HE_F"], [], ""],
-["launch_RPG32_F", "", "acc_pointer_ir", "", ["RPG32_F"], [], ""],
+["launch_RPG32_F", "", "", "", ["RPG32_HE_F"], [], ""],
+["launch_RPG32_F", "", "", "", ["RPG32_F"], [], ""],
 ["launch_MRAWS_sand_F", "", "acc_pointer_ir", "", ["MRAWS_HE_F"], [], ""],
 ["launch_MRAWS_sand_F", "", "acc_pointer_ir", "", ["MRAWS_HEAT55_F"], [], ""],
 ["launch_MRAWS_sand_F", "", "acc_pointer_ir", "", ["MRAWS_HEAT_F"], [], ""],
