@@ -23,6 +23,7 @@ private _spawnPos = [];
 private _availableAirports = airportsX select
 {
     (getMarkerPos _x distance2D _supportPos <= 8000) &&
+    (getMarkerPos _x distance2D _supportPos > 1500) &&
     (sidesX getVariable [_x, sideUnknown] == _side) &&
     (spawner getVariable _x == 2)
 };
