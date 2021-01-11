@@ -1,21 +1,14 @@
 /*
 Author: Meerkat
+  This file controls the selection of templates based on the mods loaded and map used.
+  When porting new mods/maps be sure to add them to their respective sections!
 
-This file controls the selection of templates based on the mods loaded and map used.
-When porting new mods/maps be sure to add them to their respective sections!
-
-Arguments:
-
-
-Return Value:
-
-
-Scope: All
-Environment:
-Public:
+Scope: Server
+Environment: Any (Inherits scheduled from initVarServer)
+Public: No
 Dependencies:
-
-Example:
+  <SIDE> teamplayer The side of the rebels, usually only independent or west.
+  <FILES> "Templates\" Assumes the existence of files under "Templates\". Please check here before deleting/renaming one.
 */
 private _filename = "selector.sqf";
 //Map checker
