@@ -47,13 +47,8 @@ aceMedItems = [
 	"ACE_personalAidKit"
 ];
 
-advItems = [
-	"adv_aceCPR_AED"
-];
-
 publicVariable "aceItems";
 publicVariable "aceMedItems";
-publicVariable "advItems";
 
 ////////////////////////////////////
 //   ACE ITEMS MODIFICATIONS     ///
@@ -64,10 +59,6 @@ initialRebelEquipment append aceItems;
 //ACE medical starting items
 if (hasACEMedical) then {
 	initialRebelEquipment append aceMedItems;
-};
-
-if (hasADV) then {
-	initialRebelEquipment append advItems;
 };
 
 lootItem append ["ACE_acc_pointer_green_IR","ACE_Chemlight_Shield","ACE_VMH3","ACE_VMM3"];

@@ -53,7 +53,6 @@ vehSDKTruck = "UK3CB_TKM_B_V3S_Open";
 vehSDKPlane = "UK3CB_TKC_B_Antonov_AN2";
 vehSDKBoat = "UK3CB_TKA_B_RHIB_Gunboat";
 vehSDKRepair = "UK3CB_TKM_B_V3S_Repair";
-vehSDKAA = "UK3CB_TKM_B_Hilux_Zu23";
 
 //Civilian Vehicles
 civCar = "UK3CB_C_Hilux_Open";

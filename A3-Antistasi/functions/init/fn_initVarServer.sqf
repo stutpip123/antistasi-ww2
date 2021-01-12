@@ -264,7 +264,6 @@ private _templateVariables = [
 	"vehSDKPlane",
 	"vehSDKBoat",
 	"vehSDKRepair",
-	"vehSDKAA",
 	"civCar",
 	"civTruck",
 	"civHeli",
