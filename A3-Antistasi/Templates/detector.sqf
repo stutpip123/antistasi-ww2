@@ -28,7 +28,7 @@ has3CB = false;
 hasIvory = false;
 hasTCGM = false;
 hasADV = false;
-hasD3S = false;
+A3A_hasD3S = false;
 
 //Actual Detection
 //IFA Detection
@@ -53,7 +53,7 @@ if (hasRHS && (
   isClass (configfile >> "CfgPatches" >> "UK3CB_BAF_Units_Common") &&
   isClass (configfile >> "CfgPatches" >> "UK3CB_BAF_Equipment") &&
   isClass (configfile >> "CfgPatches" >> "UK3CB_BAF_Factions")
-) ) then {has3CB = true; [2,"3CB Detected.",_fileName] call A3A_fnc_log;
+) ) then {has3CB = true; [2,"3CB Detected.",_fileName] call A3A_fnc_log;};
 
 //FFAA Detection
 if (isClass (configfile >> "CfgPatches" >> "ffaa_armas")) then {hasFFAA = true; [2,"FFAA Detected.",_fileName] call A3A_fnc_log;};
@@ -68,4 +68,4 @@ if (hasACEMedical && isClass (configFile >> "CfgPatches" >> "adv_aceCPR")) then 
 
 
 //D3S Car Pack Detection !!!--- Currently using vehicle classname check. Needs config viewer to work to find cfgPatches. ---!!!
-if (isClass (configfile >> "CfgVehicles" >> "d3s_baumaschinen")) then {hasD3S = true; diag_log format ["%1: [Antistasi] | INFO | initVar | D3S Cars Detected.",servertime];};
+if (isClass (configfile >> "CfgVehicles" >> "d3s_baumaschinen")) then {A3A_hasD3S = true; [2,"D3S Detected.",_fileName] call A3A_fnc_log;};
