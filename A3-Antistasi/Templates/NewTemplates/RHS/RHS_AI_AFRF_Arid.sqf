@@ -2,12 +2,12 @@
 //   Side Information   //
 //////////////////////////
 
-["name", ""] call _fnc_saveToTemplate; 						//this line determines the faction name -- Example: ["name", "NATO"] - ENTER ONLY ONE OPTION
-["spawnMarkerName", ""] call _fnc_saveToTemplate; 			//this line determines the name tag for the "carrier" on the map -- Example: ["spawnMarkerName", "NATO support corridor"] - ENTER ONLY ONE OPTION
+["name", "AFRF"] call _fnc_saveToTemplate; 						//this line determines the faction name -- Example: ["name", "NATO"] - ENTER ONLY ONE OPTION
+["spawnMarkerName", "AFRF Support Corridor"] call _fnc_saveToTemplate; 			//this line determines the name tag for the "carrier" on the map -- Example: ["spawnMarkerName", "NATO support corridor"] - ENTER ONLY ONE OPTION
 
-["flag", ""] call _fnc_saveToTemplate; 						//this line determines the flag -- Example: ["flag", "Flag_NATO_F"] - ENTER ONLY ONE OPTION
-["flagTexture", ""] call _fnc_saveToTemplate; 				//this line determines the flag texture -- Example: ["flagTexture", "\A3\Data_F\Flags\Flag_NATO_CO.paa"] - ENTER ONLY ONE OPTION
-["flagMarkerType", ""] call _fnc_saveToTemplate; 			//this line determines the flag marker type -- Example: ["flagMarkerType", "flag_NATO"] - ENTER ONLY ONE OPTION
+["flag", "rhs_Flag_Russia_F"] call _fnc_saveToTemplate; 						//this line determines the flag -- Example: ["flag", "Flag_NATO_F"] - ENTER ONLY ONE OPTION
+["flagTexture", "rhsafrf\addons\rhs_main\data\flag_rus_co.paa"] call _fnc_saveToTemplate; 				//this line determines the flag texture -- Example: ["flagTexture", "\A3\Data_F\Flags\Flag_NATO_CO.paa"] - ENTER ONLY ONE OPTION
+["flagMarkerType", "flag_Russia"] call _fnc_saveToTemplate; 			//this line determines the flag marker type -- Example: ["flagMarkerType", "flag_NATO"] - ENTER ONLY ONE OPTION
 
 //////////////////////////
 //       Vehicles       //
@@ -15,65 +15,69 @@
 
 ["ammobox", "B_supplyCrate_F"] call _fnc_saveToTemplate; 	//Don't touch or you die a sad and lonely death!
 
-["vehiclesBasic", []] call _fnc_saveToTemplate; 			//this line determines basic vehicles, the lightest kind available. -- Example: ["vehiclesBasic", ["B_Quadbike_01_F"]] -- Array, can contain multiple assets
-["vehiclesLightUnarmed", []] call _fnc_saveToTemplate; 		//this line determines light and unarmed vehicles. -- Example: ["vehiclesLightUnarmed", ["B_MRAP_01_F"]] -- Array, can contain multiple assets
-["vehiclesLightArmed",[]] call _fnc_saveToTemplate; 		//this line determines light and armed vehicles -- Example: ["vehiclesLightArmed",["B_MRAP_01_hmg_F","B_MRAP_01_gmg_F"]] -- Array, can contain multiple assets
-["vehiclesTrucks", []] call _fnc_saveToTemplate; 			//this line determines the trucks -- Example: ["vehiclesTrucks", ["B_Truck_01_transport_F","B_Truck_01_covered_F"]] -- Array, can contain multiple assets
-["vehiclesCargoTrucks", []] call _fnc_saveToTemplate; 		//this line determines cargo trucks -- Example: ["vehiclesCargoTrucks", ["B_Truck_01_transport_F","B_Truck_01_covered_F"]] -- Array, can contain multiple assets
-["vehiclesAmmoTrucks", []] call _fnc_saveToTemplate; 		//this line determines ammo trucks -- Example: ["vehiclesAmmoTrucks", ["B_Truck_01_ammo_F"]] -- Array, can contain multiple assets
-["vehiclesRepairTrucks", []] call _fnc_saveToTemplate; 		//this line determines repair trucks -- Example: ["vehiclesRepairTrucks", ["B_Truck_01_Repair_F"]] -- Array, can contain multiple assets
-["vehiclesFuelTrucks", []] call _fnc_saveToTemplate;		//this line determines fuel trucks -- Array, can contain multiple assets
-["vehiclesMedical", []] call _fnc_saveToTemplate;			//this line determines medical vehicles -- Array, can contain multiple assets
-["vehiclesAPCs", []] call _fnc_saveToTemplate; 				//this line determines APCs -- Example: ["vehiclesAPCs", ["B_APC_Tracked_01_rcws_F","B_APC_Tracked_01_CRV_F"]] -- Array, can contain multiple assets
-["vehiclesTanks", []] call _fnc_saveToTemplate; 			//this line determines tanks -- Example: ["vehiclesTanks", ["B_MBT_01_cannon_F","B_MBT_01_TUSK_F"]] -- Array, can contain multiple assets
-["vehiclesAA", []] call _fnc_saveToTemplate; 				//this line determines AA vehicles -- Example: ["vehiclesAA", ["B_APC_Tracked_01_AA_F"]] -- Array, can contain multiple assets
+["vehiclesBasic", ["B_Quadbike_01_F"]] call _fnc_saveToTemplate; 			//this line determines basic vehicles, the lightest kind available. -- Example: ["vehiclesBasic", ["B_Quadbike_01_F"]] -- Array, can contain multiple assets
+["vehiclesLightUnarmed", ["rhs_tigr_msv","rhs_tigr_3camo_msv","rhs_tigr_m_vdv","rhs_tigr_m_3camo_vdv"]] call _fnc_saveToTemplate; 		//this line determines light and unarmed vehicles. -- Example: ["vehiclesLightUnarmed", ["B_MRAP_01_F"]] -- Array, can contain multiple assets
+["vehiclesLightArmed",["rhs_tigr_sts_vdv","rhs_tigr_sts_3camo_vdv"]] call _fnc_saveToTemplate; 		//this line determines light and armed vehicles -- Example: ["vehiclesLightArmed",["B_MRAP_01_hmg_F","B_MRqAP_01_gmg_F"]] -- Array, can contain multiple assets
+["vehiclesTrucks", ["rhs_kamaz5350_msv","rhs_kamaz5350_open_msv","rhs_gaz66_vdv","rhs_gaz66o_vdv","RHS_Ural_VV_01","RHS_Ural_Open_VV_01"]] call _fnc_saveToTemplate; 			//this line determines the trucks -- Example: ["vehiclesTrucks", ["B_Truck_01_transport_F","B_Truck_01_covered_F"]] -- Array, can contain multiple assets
+["vehiclesCargoTrucks", ["rhs_kamaz5350_flatbed_cover_msv","rhs_kamaz5350_flatbed_msv","rhs_gaz66_flat_vdv","rhs_gaz66o_flat_vdv","RHS_Ural_Flat_VV_01","RHS_Ural_Open_Flat_VV_01"]] call _fnc_saveToTemplate; 		//this line determines cargo trucks -- Example: ["vehiclesCargoTrucks", ["B_Truck_01_transport_F","B_Truck_01_covered_F"]] -- Array, can contain multiple assets
+["vehiclesAmmoTrucks", ["rhs_gaz66_ammo_vdv"]] 	// Array, can contain multiple assets
+["vehiclesRepairTrucks", ["RHS_Ural_Repair_MSV_01"]] call _fnc_saveToTemplate; 		//this line determines repair trucks -- Example: ["vehiclesRepairTrucks", ["B_Truck_01_Repair_F"]] -- Array, can contain multiple assets
+["vehiclesFuelTrucks", ["RHS_Ural_Fuel_VV_01"]] call _fnc_saveToTemplate;		//this line determines fuel trucks -- Array, can contain multiple assets
+["vehiclesMedical", ["rhs_gaz66_ap2_msv"]] call _fnc_saveToTemplate;			//this line determines medical vehicles -- Array, can contain multiple assets
+["vehiclesAPCs", ["rhs_btr70_msv","rhs_btr80_msv","rhs_btr80a_msv","rhs_bmp2e_tv","rhs_bmp2_tv","rhs_bmp3mera_msv","rhs_bmp1p_msv","rhs_bmd2","rhs_bmd4m_vdv"]] call _fnc_saveToTemplate; 				//this line determines APCs -- Example: ["vehiclesAPCs", ["B_APC_Tracked_01_rcws_F","B_APC_Tracked_01_CRV_F"]] -- Array, can contain multiple assets
+["vehiclesTanks", ["rhs_t72bb_tv","rhs_t80b","rhs_t80u45m","rhs_t90a_tv","rhs_t90sab_tv"]] call _fnc_saveToTemplate; 			//this line determines tanks -- Example: ["vehiclesTanks", ["B_MBT_01_cannon_F","B_MBT_01_TUSK_F"]] -- Array, can contain multiple assets
+["vehiclesAA", ["RHS_Ural_Zu23_VMF_01","rhs_zsu234_aa"]] call _fnc_saveToTemplate; 				//this line determines AA vehicles -- Example: ["vehiclesAA", ["B_APC_Tracked_01_AA_F"]] -- Array, can contain multiple assets
 
-["vehiclesTransportBoats", []] call _fnc_saveToTemplate; 	//this line determines transport boats -- Example: ["vehiclesTransportBoats", ["B_Boat_Transport_01_F"]] -- Array, can contain multiple assets
-["vehiclesGunBoats", []] call _fnc_saveToTemplate; 			//this line determines gun boats -- Example: ["vehiclesGunboats", ["B_Boat_Armed_01_minigun_F"]] -- Array, can contain multiple assets
-["vehiclesAmphibious", []] call _fnc_saveToTemplate; 		//this line determines amphibious vehicles  -- Example: ["vehiclesAmphibious", ["B_APC_Wheeled_01_cannon_F"]] -- Array, can contain multiple assets
+["vehiclesTransportBoats", ["O_Boat_Transport_01_F"]] call _fnc_saveToTemplate; 	//this line determines transport boats -- Example: ["vehiclesTransportBoats", ["B_Boat_Transport_01_F"]] -- Array, can contain multiple assets
+["vehiclesGunBoats", ["O_Boat_Armed_01_hmg_F"]] call _fnc_saveToTemplate; 			//this line determines gun boats -- Example: ["vehiclesGunboats", ["B_Boat_Armed_01_minigun_F"]] -- Array, can contain multiple assets
+["vehiclesAmphibious", ["rhs_btr80_vmf","rhs_btr80a_vmf","rhs_bmp2k_vmf"]] call _fnc_saveToTemplate; 		//this line determines amphibious vehicles  -- Example: ["vehiclesAmphibious", ["B_APC_Wheeled_01_cannon_F"]] -- Array, can contain multiple assets
 
-["vehiclesPlanesCAS", []] call _fnc_saveToTemplate; 		//this line determines CAS planes -- Example: ["vehiclesPlanesCAS", ["B_Plane_CAS_01_dynamicLoadout_F"]] -- Array, can contain multiple assets
-["vehiclesPlanesAA", []] call _fnc_saveToTemplate; 			//this line determines air supperiority planes -- Example: ["vehiclesPlanesAA", ["B_Plane_Fighter_01_F"]] -- Array, can contain multiple assets
+["vehiclesPlanesCAS", ["RHS_Su25SM_vvs"]] call _fnc_saveToTemplate; 		//this line determines CAS planes -- Example: ["vehiclesPlanesCAS", ["B_Plane_CAS_01_dynamicLoadout_F"]] -- Array, can contain multiple assets
+["vehiclesPlanesAA", ["rhs_mig29s_vvs","RHS_T50_vvs_generic","RHS_T50_vvs_generic_ext"]] call _fnc_saveToTemplate; 			//this line determines air supperiority planes -- Example: ["vehiclesPlanesAA", ["B_Plane_Fighter_01_F"]] -- Array, can contain multiple assets
 ["vehiclesPlanesTransport", []] call _fnc_saveToTemplate; 	//this line determines transport planes -- Example: ["vehiclesPlanesTransport", ["B_T_VTOL_01_infantry_F"]] -- Array, can contain multiple assets
 
-["vehiclesHelisLight", []] call _fnc_saveToTemplate; 		//this line determines light helis -- Example: ["vehiclesHelisLight", ["B_Heli_Light_01_F"]] -- Array, can contain multiple assets
-["vehiclesHelisTransport", []] call _fnc_saveToTemplate; 	//this line determines transport helis -- Example: ["vehiclesHelisTransport", ["B_Heli_Transport_01_F"]] -- Array, can contain multiple assets
-["vehiclesHelisAttack", []] call _fnc_saveToTemplate; 		//this line determines attack helis -- Example: ["vehiclesHelisAttack", ["B_Heli_Attack_01_F"]] -- Array, can contain multiple assets
+["vehiclesHelisLight", ["rhs_ka60_grey"]] call _fnc_saveToTemplate; 		//this line determines light helis -- Example: ["vehiclesHelisLight", ["B_Heli_Light_01_F"]] -- Array, can contain multiple assets
+["vehiclesHelisTransport", ["RHS_Mi8mt_vdv","RHS_Mi8T_vdv"]] call _fnc_saveToTemplate; 	//this line determines transport helis -- Example: ["vehiclesHelisTransport", ["B_Heli_Transport_01_F"]] -- Array, can contain multiple assets
+["vehiclesHelisAttack", ["RHS_Mi8AMTSh_vvs","RHS_Mi24P_vvs","rhs_mi28n_vvs","RHS_Ka52_vvs"]] call _fnc_saveToTemplate; 		//this line determines attack helis -- Example: ["vehiclesHelisAttack", ["B_Heli_Attack_01_F"]] -- Array, can contain multiple assets
 
-["vehiclesArtillery", []] call _fnc_saveToTemplate; 		//this line determines artillery vehicles -- Example: ["vehiclesArtillery", [["B_MBT_01_arty_F", ["32Rnd_155mm_Mo_shells"]]]] -- Array, can contain multiple assets
+["vehiclesArtillery", [
+["rhs_2s1_tv", ["rhs_mag_3of56_10"]],
+["rhs_2s3_tv",["rhs_mag_HE_2a33","rhs_mag_WP_2a33"]],
+["RHS_BM21_VV_01", ["rhs_mag_m21of_1"]]
+]] call _fnc_saveToTemplate;
 
-["uavsAttack", []] call _fnc_saveToTemplate; 				//this line determines attack UAVs -- Example: ["uavsAttack", ["B_UAV_02_CAS_F"]] -- Array, can contain multiple assets
-["uavsPortable", []] call _fnc_saveToTemplate; 				//this line determines portable UAVs -- Example: ["uavsPortable", ["B_UAV_01_F"]] -- Array, can contain multiple assets
+["uavsAttack", ["O_UAV_02_dynamicLoadout_F"]] call _fnc_saveToTemplate; 				//this line determines attack UAVs -- Example: ["uavsAttack", ["B_UAV_02_CAS_F"]] -- Array, can contain multiple assets
+["uavsPortable", ["O_UAV_01_F","rhs_pchela1t_vvsc"]] call _fnc_saveToTemplate; 				//this line determines portable UAVs -- Example: ["uavsPortable", ["B_UAV_01_F"]] -- Array, can contain multiple assets
 
 //Config special vehicles - militia vehicles are mostly used in the early game, police cars are being used by troops around cities -- Example:
-["vehiclesMilitiaLightArmed", []] call _fnc_saveToTemplate; //this line determines lightly armed militia vehicles -- Example: ["vehiclesMilitiaLightArmed", ["B_G_Offroad_01_armed_F"]] -- Array, can contain multiple assets
-["vehiclesMilitiaTrucks", []] call _fnc_saveToTemplate; 	//this line determines militia trucks (unarmed) -- Example: ["vehiclesMilitiaTrucks", ["B_G_Van_01_transport_F"]] -- Array, can contain multiple assets
-["vehiclesMilitiaCars", []] call _fnc_saveToTemplate; 		//this line determines militia cars (unarmed) -- Example: ["vehiclesMilitiaCars", ["	B_G_Offroad_01_F"]] -- Array, can contain multiple assets
+["vehiclesMilitiaLightArmed", ["rhsgref_ins_g_uaz_dshkm_chdkz"]] call _fnc_saveToTemplate; //this line determines lightly armed militia vehicles -- Example: ["vehiclesMilitiaLightArmed", ["B_G_Offroad_01_armed_F"]] -- Array, can contain multiple assets
+["vehiclesMilitiaTrucks", ["rhsgref_ins_kraz255b1_cargo_open","rhsgref_ins_zil131_open"]] call _fnc_saveToTemplate; 	//this line determines militia trucks (unarmed) -- Example: ["vehiclesMilitiaTrucks", ["B_G_Van_01_transport_F"]] -- Array, can contain multiple assets
+["vehiclesMilitiaCars", ["rhsgref_ins_g_uaz_open","rhsgref_ins_g_uaz"]] call _fnc_saveToTemplate; 		//this line determines militia cars (unarmed) -- Example: ["vehiclesMilitiaCars", ["	B_G_Offroad_01_F"]] -- Array, can contain multiple assets
 
-["vehiclesPolice", []] call _fnc_saveToTemplate; 			//this line determines police cars -- Example: ["vehiclesPolice", ["B_GEN_Offroad_01_gen_F"]] -- Array, can contain multiple assets
+["vehiclesPolice", ["rhsgref_nat_uaz_open"]] call _fnc_saveToTemplate; 			//this line determines police cars -- Example: ["vehiclesPolice", ["B_GEN_Offroad_01_gen_F"]] -- Array, can contain multiple assets
 
-["staticMGs", []] call _fnc_saveToTemplate; 					//this line determines static MGs -- Example: ["staticMG", ["B_HMG_01_high_F"]] -- Array, can contain multiple assets
-["staticAT", []] call _fnc_saveToTemplate; 					//this line determinesstatic ATs -- Example: ["staticAT", ["B_static_AT_F"]] -- Array, can contain multiple assets
-["staticAA", []] call _fnc_saveToTemplate; 					//this line determines static AAs -- Example: ["staticAA", ["B_static_AA_F"]] -- Array, can contain multiple assets
-["staticMortars", []] call _fnc_saveToTemplate; 				//this line determines static mortars -- Example: ["staticMortars", ["B_Mortar_01_F"]] -- Array, can contain multiple assets
+["staticMGs", ["rhs_KORD_high_MSV", "rhsgref_ins_DSHKM"]] call _fnc_saveToTemplate; 					//this line determines static MGs -- Example: ["staticMG", ["B_HMG_01_high_F"]] -- Array, can contain multiple assets
+["staticAT", ["rhs_Metis_9k115_2_msv","rhs_Kornet_9M133_2_msv","rhs_SPG9M_MSV"]] call _fnc_saveToTemplate; 					//this line determinesstatic ATs -- Example: ["staticAT", ["B_static_AT_F"]] -- Array, can contain multiple assets
+["staticAA", ["RHS_ZU23_MSV","rhs_Igla_AA_pod_msv"]] call _fnc_saveToTemplate; 					//this line determines static AAs -- Example: ["staticAA", ["B_static_AA_F"]] -- Array, can contain multiple assets
+["staticMortars", ["rhs_2b14_82mm_msv"]] call _fnc_saveToTemplate; 				//this line determines static mortars -- Example: ["staticMortars", ["B_Mortar_01_F"]] -- Array, can contain multiple assets
 
-["mortarMagazineHE", ""] call _fnc_saveToTemplate; 			//this line determines available HE-shells for the static mortars - !needs to be compatible with the mortar! -- Example: ["mortarMagazineHE", "8Rnd_82mm_Mo_shells"] - ENTER ONLY ONE OPTION
-["mortarMagazineSmoke", ""] call _fnc_saveToTemplate; 		//this line determines smoke-shells for the static mortar - !needs to be compatible with the mortar! -- Example: ["mortarMagazineSmoke", "8Rnd_82mm_Mo_Smoke_white"] - ENTER ONLY ONE OPTION
+["mortarMagazineHE", "rhs_mag_3vo18_10"] call _fnc_saveToTemplate; 			//this line determines available HE-shells for the static mortars - !needs to be compatible with the mortar! -- Example: ["mortarMagazineHE", "8Rnd_82mm_Mo_shells"] - ENTER ONLY ONE OPTION
+["mortarMagazineSmoke", "rhs_mag_d832du_10"] call _fnc_saveToTemplate; 		//this line determines smoke-shells for the static mortar - !needs to be compatible with the mortar! -- Example: ["mortarMagazineSmoke", "8Rnd_82mm_Mo_Smoke_white"] - ENTER ONLY ONE OPTION
 
 //Bagged weapon definitions
-["baggedMGs", []] call _fnc_saveToTemplate; 				//this line determines bagged static MGs -- Example: ["baggedMGs", [["B_HMG_01_high_F", "B_HMG_01_support_high_F"]]] -- Array, can contain multiple assets
-["baggedAT", []] call _fnc_saveToTemplate; 					//this line determines bagged static ATs -- Example: ["baggedAT", [["B_AT_01_weapon_F", "B_HMG_01_support_F"]]] -- Array, can contain multiple assets
+["baggedMGs", [["RHS_DShkM_Gun_Bag","RHS_DShkM_TripodHigh_Bag"], ["RHS_Kord_Gun_Bag","RHS_Kord_Tripod_Bag"]]] call _fnc_saveToTemplate; 				//this line determines bagged static MGs -- Example: ["baggedMGs", [["B_HMG_01_high_F", "B_HMG_01_support_high_F"]]] -- Array, can contain multiple assets
+["baggedAT", [["RHS_Metis_Gun_Bag","RHS_Metis_Tripod_Bag"], ["RHS_Kornet_Gun_Bag","RHS_Kornet_Tripod_Bag"]]] call _fnc_saveToTemplate; 					//this line determines bagged static ATs -- Example: ["baggedAT", [["B_AT_01_weapon_F", "B_HMG_01_support_F"]]] -- Array, can contain multiple assets
 ["baggedAA", []] call _fnc_saveToTemplate; 					//this line determines bagged static AAs -- Example: ["baggedAA", [["B_AA_01_weapon_F", "B_HMG_01_support_F"]]] -- Array, can contain multiple assets
-["baggedMortars", []] call _fnc_saveToTemplate; 			//this line determines bagged static mortars -- Example: ["baggedMortars", [["B_Mortar_01_F", "B_Mortar_01_weapon_F"]]] -- Array, can contain multiple assets
+["baggedMortars", [["RHS_Podnos_Bipod_Bag","RHS_Podnos_Gun_Bag"]]] call _fnc_saveToTemplate; 			//this line determines bagged static mortars -- Example: ["baggedMortars", [["B_Mortar_01_F", "B_Mortar_01_weapon_F"]]] -- Array, can contain multiple assets
 
 //Minefield definition
-["minefieldAT", []] call _fnc_saveToTemplate; 				//this line determines AT mines used for spawning in minefields -- Example: ["minefieldAT", ["ATMine_Range_Mag"]] -- Array, can contain multiple assets
-["minefieldAPERS", []] call _fnc_saveToTemplate; 			//this line determines APERS mines used for spawning in minefields -- Example: ["minefieldAPERS", ["APERSMine_Range_Mag"]] -- Array, can contain multiple assets
+["minefieldAT", ["rhs_mine_tm62m"]] call _fnc_saveToTemplate; 				//this line determines AT mines used for spawning in minefields -- Example: ["minefieldAT", ["ATMine_Range_Mag"]] -- Array, can contain multiple assets
+["minefieldAPERS", ["rhs_mine_pmn2"]] call _fnc_saveToTemplate; 			//this line determines APERS mines used for spawning in minefields -- Example: ["minefieldAPERS", ["APERSMine_Range_Mag"]] -- Array, can contain multiple assets
 
 //PvP definitions
 ["playerDefaultLoadout", []] call _fnc_saveToTemplate;		//this and PvP could be made from below, unarmed for spawn, PvP from role loadouts - don't touch as it's automation
 ["pvpLoadouts", []] call _fnc_saveToTemplate; 				//don't touch as it's automation
-["pvpVehicles", []] call _fnc_saveToTemplate; 				//this line determines the vehicles PvP players can spawn in -- Example: ["pvpVehicles", ["B_MRAP_01_F","B_MRAP_01_hmg_F"]] -- Array, can contain multiple assets
+["pvpVehicles", ["rhs_tigr_msv","rhsgref_ins_g_uaz","rhsgref_ins_g_uaz_open","rhsgref_ins_g_uaz_dshkm_chdkz"]] call _fnc_saveToTemplate; 				//this line determines the vehicles PvP players can spawn in -- Example: ["pvpVehicles", ["B_MRAP_01_F","B_MRAP_01_hmg_F"]] -- Array, can contain multiple assets
 
 
 //////////////////////////
@@ -82,25 +86,41 @@
 private _loadoutData = call _fnc_createLoadoutData;
 _loadoutData setVariable ["rifles", []]; 					//this line determines rifles -- Example: ["arifle_MX_F","arifle_MX_pointer_F"] -- Array, can contain multiple assets
 _loadoutData setVariable ["carbines", []]; 					//this line determines carbines -- Example: ["arifle_MXC_F","arifle_MXC_Holo_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["grenadeLaunchers", []]; 			//this line determines grenade launchers -- Example: ["arifle_MX_GL_ACO_F","arifle_MX_GL_ACO_pointer_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["grenadelaunchers", []]; 			//this line determines grenade launchers -- Example: ["arifle_MX_GL_ACO_F","arifle_MX_GL_ACO_pointer_F"] -- Array, can contain multiple assets
 _loadoutData setVariable ["SMGs", []]; 						//this line determines SMGs -- Example: ["SMG_01_F","SMG_01_Holo_F"] -- Array, can contain multiple assets
 _loadoutData setVariable ["machineGuns", []]; 				//this line determines machine guns -- Example: ["arifle_MX_SW_F","arifle_MX_SW_Hamr_pointer_F"] -- Array, can contain multiple assets
 _loadoutData setVariable ["marksmanRifles", []]; 			//this line determines markman rifles -- Example: ["arifle_MXM_F","arifle_MXM_Hamr_pointer_F"] -- Array, can contain multiple assets
 _loadoutData setVariable ["sniperRifles", []]; 				//this line determines sniper rifles -- Example: ["srifle_LRR_camo_F","srifle_LRR_camo_SOS_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["lightATLaunchers", []]; 			//this line determines light AT launchers -- Example: ["launch_NLAW_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["ATLaunchers", []]; 				//this line determines light AT launchers -- Example: ["launch_NLAW_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["missileATLaunchers", []]; 		//this line determines missile AT launchers -- Example: ["launch_B_Titan_short_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["AALaunchers", []]; 				//this line determines AA launchers -- Example: ["launch_B_Titan_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["sidearms", []]; 					//this line determines handguns/sidearms -- Example: ["hgun_Pistol_heavy_01_F", "hgun_P07_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["lightATLaunchers", [
+["rhs_weap_rpg7","","","rhs_acc_pgo7v",["rhs_rpg7_PG7VL_mag"],[],""],
+["rhs_weap_rpg7","","","rhs_acc_pgo7v2",["rhs_rpg7_PG7VL_mag"],[],""],
+["rhs_weap_rpg7","","","rhs_acc_pgo7v3",["rhs_rpg7_PG7VL_mag"],[],""],
+["rhs_weap_rpg7","","","rhs_acc_pgo7v",["rhs_rpg7_PG7VM_mag"],[],""],
+["rhs_weap_rpg7","","","rhs_acc_pgo7v2",["rhs_rpg7_PG7VM_mag"],[],""],
+["rhs_weap_rpg7","","","rhs_acc_pgo7v3",["rhs_rpg7_PG7VM_mag"],[],""],
+["rhs_weap_rpg7","","","rhs_acc_pgo7v3",["rhs_rpg7_type69_airburst_mag"],[],""],
+["rhs_weap_rpg7","","","rhs_acc_pgo7v3",["rhs_rpg7_OG7V_mag"],[],""]
+]]; 			//this line determines light AT launchers -- Example: ["launch_NLAW_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["ATLaunchers", ["rhs_weap_rpg26","rhs_weap_rshg2"]]; 				//this line determines light AT launchers -- Example: ["launch_NLAW_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["heavyATLaunchers", [
+["rhs_weap_rpg7","","","rhs_acc_pgo7v",["rhs_rpg7_PG7VR_mag"],[],""],
+["rhs_weap_rpg7","","","rhs_acc_pgo7v2",["rhs_rpg7_PG7VR_mag"],[],""],
+["rhs_weap_rpg7","","","rhs_acc_pgo7v3",["rhs_rpg7_PG7VR_mag"],[],""],
+["rhs_weap_rpg7","","","rhs_acc_pgo7v",["rhs_rpg7_TBG7V_mag"],[],""],
+["rhs_weap_rpg7","","","rhs_acc_pgo7v2",["rhs_rpg7_TBG7V_mag"],[],""],
+["rhs_weap_rpg7","","","rhs_acc_pgo7v3",["rhs_rpg7_TBG7V_mag"],[],""]
+]]; 		//this line determines missile AT launchers -- Example: ["launch_B_Titan_short_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["AALaunchers", ["rhs_weap_igla"]]; 				//this line determines AA launchers -- Example: ["launch_B_Titan_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["sidearms", ["rhs_weap_makarov_pm","rhs_weap_pya","rhs_weap_6p53"]]; 					//this line determines handguns/sidearms -- Example: ["hgun_Pistol_heavy_01_F", "hgun_P07_F"] -- Array, can contain multiple assets
 
-_loadoutData setVariable ["ATMines", []]; 					//this line determines the AT mines which can be carried by units -- Example: ["ATMine_Range_Mag"] -- Array, can contain multiple assets
-_loadoutData setVariable ["APMines", []]; 					//this line determines the APERS mines which can be carried by units -- Example: ["APERSMine_Range_Mag"] -- Array, can contain multiple assets
-_loadoutData setVariable ["lightExplosives", []]; 			//this line determines light explosives -- Example: ["DemoCharge_Remote_Mag"] -- Array, can contain multiple assets
-_loadoutData setVariable ["heavyExplosives", []]; 			//this line determines heavy explosives -- Example: ["SatchelCharge_Remote_Mag"] -- Array, can contain multiple assets
+_loadoutData setVariable ["ATMines", ["rhs_mag_mine_ptm1","rhs_mine_tm62m_mag"]]; 					//this line determines the AT mines which can be carried by units -- Example: ["ATMine_Range_Mag"] -- Array, can contain multiple assets
+_loadoutData setVariable ["APMines", ["rhs_mine_ozm72_a_mag","rhs_mine_ozm72_b_mag","rhs_mine_ozm72_c_mag","rhs_mag_mine_pfm1","rhs_mine_pmn2_mag"]]; 					//this line determines the APERS mines which can be carried by units -- Example: ["APERSMine_Range_Mag"] -- Array, can contain multiple assets
+_loadoutData setVariable ["lightExplosives", ["rhs_ec200_mag"]]; 			//this line determines light explosives -- Example: ["DemoCharge_Remote_Mag"] -- Array, can contain multiple assets
+_loadoutData setVariable ["heavyExplosives", ["rhs_ec400_mag"]]; 			//this line determines heavy explosives -- Example: ["SatchelCharge_Remote_Mag"] -- Array, can contain multiple assets
 
-_loadoutData setVariable ["antiInfantryGrenades", []]; 		//this line determines anti infantry grenades (frag and such) -- Example: ["HandGrenade","MiniGrenade"] -- Array, can contain multiple assets
+_loadoutData setVariable ["antiInfantryGrenades", ["rhs_mag_rgn","rhs_mag_rgo"]]; 		//this line determines anti infantry grenades (frag and such) -- Example: ["HandGrenade","MiniGrenade"] -- Array, can contain multiple assets
 _loadoutData setVariable ["antiTankGrenades", []]; 			//this line determines anti tank grenades. Leave empty when not available. -- Array, can contain multiple assets
-_loadoutData setVariable ["smokeGrenades", []]; 			//this line determines smoke grenades -- Example: ["SmokeShell", "SmokeShellRed"] -- Array, can contain multiple assets
+_loadoutData setVariable ["smokeGrenades", ["rhs_mag_rdg2_white","rhs_mag_rdg2_black"]]; 			//this line determines smoke grenades -- Example: ["SmokeShell", "SmokeShellRed"] -- Array, can contain multiple assets
 
 
 //Basic equipment. Shouldn't need touching most of the time.
@@ -110,7 +130,7 @@ _loadoutData setVariable ["watches", ["ItemWatch"]];		//this line determines wat
 _loadoutData setVariable ["compasses", ["ItemCompass"]];	//this line determines compass
 _loadoutData setVariable ["radios", ["ItemRadio"]];			//this line determines radio
 _loadoutData setVariable ["gpses", ["ItemGPS"]];			//this line determines GPS
-_loadoutData setVariable ["NVGs", []];						//this line determines NVGs -- Array, can contain multiple assets
+_loadoutData setVariable ["NVGs", ["rhs_1PN138"]];						//this line determines NVGs -- Array, can contain multiple assets
 _loadoutData setVariable ["binoculars", ["Binocular"]];		//this line determines the binoculars
 
 _loadoutData setVariable ["uniforms", []];					//don't fill this line - this is only to set the variable
@@ -118,6 +138,14 @@ _loadoutData setVariable ["vests", []];						//don't fill this line - this is on
 _loadoutData setVariable ["backpacks", []];					//don't fill this line - this is only to set the variable
 _loadoutData setVariable ["longRangeRadios", []];			//don't fill this line - this is only to set the variable
 _loadoutData setVariable ["helmets", []];					//don't fill this line - this is only to set the variable
+_loadoutData setVariable ["uniformsSni", []];				//don't fill this line - this is only to set the variable
+_loadoutData setVariable ["backpacksTools", []];					//don't fill this line - this is only to set the variable
+_loadoutData setVariable ["backpacksLaunchers", []];					//don't fill this line - this is only to set the variable
+_loadoutData setVariable ["vestsSL", []];						//don't fill this line - this is only to set the variable
+_loadoutData setVariable ["vestsGren", []];					//don't fill this line - this is only to set the variable
+_loadoutData setVariable ["vestsSni", []];			//don't fill this line - this is only to set the variable
+_loadoutData setVariable ["vestsMedic", []];						//don't fill this line - this is only to set the variable
+_loadoutData setVariable ["vestsMG", []];					//don't fill this line - this is only to set the variable
 
 //Item *set* definitions. These are added in their entirety to unit loadouts. No randomisation is applied.
 _loadoutData setVariable ["items_medical_basic", [["FirstAidKit", 2]]];		//this line defines the basic medical loadout for vanilla
@@ -150,59 +178,226 @@ _loadoutData setVariable ["items_unarmed_extras", []];		//this line defines spec
 ///////////////////////////////////////
 
 private _sfLoadoutData = _loadoutData call _fnc_copyLoadoutData; // touch and shit breaks
-_sfLoadoutData setVariable ["uniforms", []];			//this line determines uniforms for special forces -- Example: ["U_B_CombatUniform_mcam","U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
-_sfLoadoutData setVariable ["vests", []];				//this line determines vests for special forces -- Example: ["V_PlateCarrierSpec_mtp","V_PlateCarrierGL_mtp"] -- Array, can contain multiple assets
-_sfLoadoutData setVariable ["backpacks", []];			//this line determines backpacks for special forces -- Example: ["B_AssaultPack_mcamo","B_Kitbag_mcamo"] -- Array, can contain multiple assets
-_sfLoadoutData setVariable ["helmets", []];				//this line determines helmets for special forces -- Example: ["H_HelmetB_camo","H_HelmetB_desert"] -- Array, can contain multiple assets
+_sfLoadoutData setVariable ["uniforms", ["rhs_uniform_gorka_1_a"]];
+_sfLoadoutData setVariable ["uniformsSni", ["rhs_uniform_gorka_r_y"]];
+_sfLoadoutData setVariable ["helmets", ["rhs_altyn_novisor","rhs_altyn_novisor_bala","rhs_altyn_novisor_ess","rhs_altyn_novisor_ess_bala","rhs_altyn_visordown","rhs_altyn","rhs_altyn_bala"]];
+_sfLoadoutData setVariable ["vests", ["rhs_6b23_digi_6sh92_spetsnaz2","rhs_6b23_digi_6sh92_headset_spetsnaz","rhs_6b23_digi_6sh92_Spetsnaz"]];
+_sfLoadoutData setVariable ["vestsSL", ["rhs_6b13_EMR_6sh92_headset_mapcase","rhs_6b13_EMR_6sh92_radio"]];
+_sfLoadoutData setVariable ["vestsGren", ["rhs_6b23_digi_6sh92_Vog_Spetsnaz","rhs_6b23_digi_6sh92_Vog_Radio_Spetsnaz"]];
+_sfLoadoutData setVariable ["vestsSni", ["rhs_6sh92_digi"]];
+_sfLoadoutData setVariable ["backpacks", ["rhs_sidor"]];
+_sfLoadoutData setVariable ["backpacksTools", ["rhs_assault_umbts_engineer_empty"]]; // Both engineer and explosivesExpert
+_sfLoadoutData setVariable ["backpacksLaunchers", ["rhs_rpg_empty"]]; // LAT AT AA
 
+_sfLoadoutData setVariable ["rifles", [
+["rhs_weap_ak74m_zenitco01", "rhs_acc_tgpa", "rhs_acc_perst3_2dp_h", "rhs_acc_ekp8_02", ["rhs_30Rnd_545x39_7N22_AK"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak74m_zenitco01", "rhs_acc_tgpa", "rhs_acc_perst3_2dp_h", "rhs_acc_pkas", ["rhs_30Rnd_545x39_7N22_AK"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak74m_zenitco01", "rhs_acc_tgpa", "rhs_acc_perst3_2dp_h", "rhs_acc_1p63", ["rhs_30Rnd_545x39_7N22_AK"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak74m_zenitco01", "rhs_acc_tgpa", "rhs_acc_perst3_2dp_h", "rhs_acc_1p29", ["rhs_30Rnd_545x39_7N22_AK"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak74m_zenitco01_b33", "rhs_acc_tgpa", "rhs_acc_perst3_2dp_h", "rhs_acc_1p87", ["rhs_30Rnd_545x39_7N22_AK"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak74m_zenitco01_b33", "rhs_acc_tgpa", "rhs_acc_perst3_2dp_h", "rhs_acc_ekp8_18", ["rhs_30Rnd_545x39_7N22_AK"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak74m_zenitco01_b33", "rhs_acc_tgpa", "rhs_acc_perst3_2dp_h", "rhs_acc_rakursPM", ["rhs_30Rnd_545x39_7N22_AK"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak74m_zenitco01_b33", "rhs_acc_tgpa", "rhs_acc_perst3_2dp_h", "rhs_acc_okp7_picatinny", ["rhs_30Rnd_545x39_7N22_AK"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak74mr", "rhs_acc_tgpa", "rhs_acc_perst3_2dp_h", "rhs_acc_1p87", ["rhs_30Rnd_545x39_7N22_AK"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak74mr", "rhs_acc_tgpa", "rhs_acc_perst3_2dp_h", "rhs_acc_ekp8_18", ["rhs_30Rnd_545x39_7N22_AK"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak74mr", "rhs_acc_tgpa", "rhs_acc_perst3_2dp_h", "rhs_acc_rakursPM", ["rhs_30Rnd_545x39_7N22_AK"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak74mr", "rhs_acc_tgpa", "rhs_acc_perst3_2dp_h", "rhs_acc_okp7_picatinny", ["rhs_30Rnd_545x39_7N22_AK"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak103_zenitco01_b33", "rhs_acc_dtk4screws", "rhs_acc_perst3_2dp_h", "rhs_acc_1p87", ["rhs_30Rnd_762x39mm_polymer"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak103_zenitco01_b33", "rhs_acc_dtk4screws", "rhs_acc_perst3_2dp_h", "rhs_acc_ekp8_18", ["rhs_30Rnd_762x39mm_polymer"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak103_zenitco01_b33", "rhs_acc_dtk4screws", "rhs_acc_perst3_2dp_h", "rhs_acc_rakursPM", ["rhs_30Rnd_762x39mm_polymer"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak103_zenitco01_b33", "rhs_acc_dtk4screws", "rhs_acc_perst3_2dp_h", "rhs_acc_okp7_picatinny", ["rhs_30Rnd_762x39mm_polymer"], [], "rhs_acc_grip_ffg2"]
+]];
+_sfLoadoutData setVariable ["grenadelaunchers", [
+["rhs_weap_ak74mr_gp25", "rhs_acc_tgpa", "rhs_acc_perst3", "rhs_acc_1p87", ["rhs_30Rnd_545x39_7N22_AK"], ["rhs_VOG25"], ""],
+["rhs_weap_ak74mr_gp25", "rhs_acc_tgpa", "rhs_acc_perst3", "rhs_acc_ekp8_18", ["rhs_30Rnd_545x39_7N22_AK"], ["rhs_VOG25"], ""],
+["rhs_weap_ak74mr_gp25", "rhs_acc_tgpa", "rhs_acc_perst3", "rhs_acc_rakursPM", ["rhs_30Rnd_545x39_7N22_AK"], ["rhs_VOG25"], ""],
+["rhs_weap_ak74mr_gp25", "rhs_acc_tgpa", "rhs_acc_perst3", "rhs_acc_okp7_picatinny", ["rhs_30Rnd_545x39_7N22_AK"], ["rhs_VOG25"], ""]
+]];
+_sfLoadoutData setVariable ["smgs", [
+["rhs_weap_pp2000", "", "", "rhs_acc_1p87", ["rhs_mag_9x19mm_7n31_44"], [], ""],
+["rhs_weap_pp2000", "", "", "rhs_acc_rakursPM", ["rhs_mag_9x19mm_7n31_44"], [], ""],
+["rhs_weap_pp2000", "", "", "rhs_acc_ekp8_18", ["rhs_mag_9x19mm_7n31_44"], [], ""],
+["rhs_weap_pp2000", "", "", "rhs_acc_okp7_picatinny", ["rhs_mag_9x19mm_7n31_44"], [], ""],
+["rhs_weap_pp2000", "", "", "", ["rhs_mag_9x19mm_7n31_44"], [], ""]
+]];
+_sfLoadoutData setVariable ["carbines", [
+["rhs_weap_asval_grip", "", "rhs_acc_perst1ik_ris", "rhs_acc_okp7_dovetail", ["rhs_20rnd_9x39mm_SP5"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_asval_grip", "", "rhs_acc_perst1ik_ris", "rhs_acc_ekp8_02", ["rhs_20rnd_9x39mm_SP5"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_asval_grip", "", "rhs_acc_perst1ik_ris", "rhs_acc_1p63", ["rhs_20rnd_9x39mm_SP5"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_asval_grip", "", "rhs_acc_perst1ik_ris", "rhs_acc_1p29", ["rhs_20rnd_9x39mm_SP5"], [], "rhs_acc_grip_ffg2"]
+]];
+_sfLoadoutData setVariable ["machineGuns", [
+["rhs_weap_ak105_zenitco01", "rhs_acc_tgpa", "rhs_acc_perst3_2dp_h", "rhs_acc_ekp8_02", ["rhs_30Rnd_545x39_7N22_AK"], [], "rhs_acc_grip_ffg2"],
+["rhs_weap_ak105_zenitco01", "rhs_acc_tgpa", "rhs_acc_perst3_2dp_h", "rhs_acc_pkas", ["rhs_30Rnd_545x39_7N22_AK"], [], "rhs_acc_grip_ffg2"],
+["rhs_weap_ak105_zenitco01", "rhs_acc_tgpa", "rhs_acc_perst3_2dp_h", "rhs_acc_1p63", ["rhs_30Rnd_545x39_7N22_AK"], [], "rhs_acc_grip_ffg2"],
+["rhs_weap_ak105_zenitco01", "rhs_acc_tgpa", "rhs_acc_perst3_2dp_h", "rhs_acc_1p29", ["rhs_30Rnd_545x39_7N22_AK"], [], "rhs_acc_grip_ffg2"],
+["rhs_weap_ak105_zenitco01_b33", "rhs_acc_tgpa", "rhs_acc_perst3_2dp_h", "rhs_acc_1p87", ["rhs_30Rnd_545x39_7N22_AK"], [], "rhs_acc_grip_ffg2"],
+["rhs_weap_ak105_zenitco01_b33", "rhs_acc_tgpa", "rhs_acc_perst3_2dp_h", "rhs_acc_ekp8_18", ["rhs_30Rnd_545x39_7N22_AK"], [], "rhs_acc_grip_ffg2"],
+["rhs_weap_ak105_zenitco01_b33", "rhs_acc_tgpa", "rhs_acc_perst3_2dp_h", "rhs_acc_rakursPM", ["rhs_30Rnd_545x39_7N22_AK"], [], "rhs_acc_grip_ffg2"],
+["rhs_weap_ak105_zenitco01_b33", "rhs_acc_tgpa", "rhs_acc_perst3_2dp_h", "rhs_acc_okp7_picatinny", ["rhs_30Rnd_545x39_7N22_AK"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak104_zenitco01", "rhs_acc_dtk4screws", "rhs_acc_perst3_2dp_h", "rhs_acc_ekp8_02", ["rhs_30Rnd_762x39mm_polymer"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak104_zenitco01", "rhs_acc_dtk4screws", "rhs_acc_perst3_2dp_h", "rhs_acc_pkas", ["rhs_30Rnd_762x39mm_polymer"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak104_zenitco01", "rhs_acc_dtk4screws", "rhs_acc_perst3_2dp_h", "rhs_acc_1p63", ["rhs_30Rnd_762x39mm_polymer"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak104_zenitco01", "rhs_acc_dtk4screws", "rhs_acc_perst3_2dp_h", "rhs_acc_1p29", ["rhs_30Rnd_762x39mm_polymer"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak104_zenitco01_b33", "rhs_acc_dtk4screws", "rhs_acc_perst3_2dp_h", "rhs_acc_1p87", ["rhs_30Rnd_762x39mm_polymer"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak104_zenitco01_b33", "rhs_acc_dtk4screws", "rhs_acc_perst3_2dp_h", "rhs_acc_ekp8_18", ["rhs_30Rnd_762x39mm_polymer"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak104_zenitco01_b33", "rhs_acc_dtk4screws", "rhs_acc_perst3_2dp_h", "rhs_acc_rakursPM", ["rhs_30Rnd_762x39mm_polymer"], [], "rhs_acc_grip_ffg2"]
+["rhs_weap_ak104_zenitco01_b33", "rhs_acc_dtk4screws", "rhs_acc_perst3_2dp_h", "rhs_acc_okp7_picatinny", ["rhs_30Rnd_762x39mm_polymer"], [], "rhs_acc_grip_ffg2"]
+]];
+_sfLoadoutData setVariable ["marksmanRifles", [
+["rhs_weap_vss_grip", "", "rhs_acc_perst1ik_ris", "rhs_acc_pso1m21", ["rhs_20rnd_9x39mm_SP5"], [], "rhs_acc_grip_rk6"]
+]];
+_sfLoadoutData setVariable ["sniperRifles", [
+["rhs_weap_t5000", "", "", "rhs_acc_dh520x56", ["rhs_5Rnd_338lapua_t5000"], [], ""]
+]];
+_sfLoadoutData setVariable ["sidearms", [
+["rhs_weap_pb_6p9", "rhs_acc_6p9_suppressor", "", "", ["rhs_mag_9x18_8_57N181S"], [], ""]
+]];
 /////////////////////////////////
 //    Military Loadout Data    //
 /////////////////////////////////
 
 private _militaryLoadoutData = _loadoutData call _fnc_copyLoadoutData; // touch and shit breaks
-_militaryLoadoutData setVariable ["uniforms", []];		//this line determines uniforms for military loadouts -- Example: ["U_B_CombatUniform_mcam","U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
-_militaryLoadoutData setVariable ["vests", []];			//this line determines vests for military loadouts -- Example: ["V_PlateCarrierSpec_mtp","V_PlateCarrierGL_mtp"] -- Array, can contain multiple assets
-_militaryLoadoutData setVariable ["backpacks", []];		//this line determines backpacks for military loadouts -- Example: ["B_AssaultPack_mcamo","B_Kitbag_mcamo"] -- Array, can contain multiple assets
-_militaryLoadoutData setVariable ["helmets", []];		//this line determines helmets for military loadouts -- Example: ["H_HelmetB_camo","H_HelmetB_desert"] -- Array, can contain multiple assets
+_militaryLoadoutData setVariable ["uniforms", ["rhs_uniform_emr_des_patchless"]];
+_militaryLoadoutData setVariable ["uniformsSni", ["rhs_uniform_gorka_r_y"]];
+_militaryLoadoutData setVariable ["helmets", ["rhs_6b27m_green_ess","rhs_6b27m_digi","rhs_6b27m_digi_ess","rhs_6b28_green","rhs_6b28_green_ess","rhs_6b28","rhs_6b28_ess","rhs_6b7_1m","rhs_6b7_1m_ess"]];
+_militaryLoadoutData setVariable ["vests", ["rhs_6b23_digi_rifleman","rhs_6b23_6sh116","rhs_6b23_digi_6sh92"]];
+_militaryLoadoutData setVariable ["vestsSL", ["rhs_6b23_digi_6sh92_headset","rhs_6b23_digi_6sh92_headset_mapcase","rhs_6b23_digi_6sh92_vog_headset"]];
+_militaryLoadoutData setVariable ["vestsGren", ["rhs_6b23_6sh116_vog","rhs_6b23_digi_6sh92_vog"]];
+_militaryLoadoutData setVariable ["vestsMedic", ["rhs_6b23_digi_medic"]];
+_militaryLoadoutData setVariable ["vestsMG", ["rhs_6b23_digi_vydra_3m"]];
+_militaryLoadoutData setVariable ["backpacks", ["rhs_assault_umbts"]];
+_militaryLoadoutData setVariable ["backpacksTools", ["rhs_assault_umbts_engineer_empty"]]; // Both engineer and explosivesExpert
+_militaryLoadoutData setVariable ["backpacksLaunchers", ["rhs_rpg_empty"]]; // LAT AT AA
+
+_militaryLoadoutData setVariable ["rifles", [
+["rhs_weap_ak74m", "rhs_acc_dtk1983", "", "", ["rhs_30Rnd_545x39_7N10_AK"], [], ""],
+["rhs_weap_ak74m", "rhs_acc_dtk1983", "", "rhs_acc_ekp8_02", ["rhs_30Rnd_545x39_7N10_AK"], [], ""],
+["rhs_weap_ak74m", "rhs_acc_dtk1983", "", "rhs_acc_ekp1", ["rhs_30Rnd_545x39_7N10_AK"], [], ""],
+["rhs_weap_ak74m", "rhs_acc_dtk1983", "", "rhs_acc_1p63", ["rhs_30Rnd_545x39_7N10_AK"], [], ""],
+["rhs_weap_ak74m_desert", "rhs_acc_dtk1983", "", "", ["rhs_30Rnd_545x39_7N10_AK"], [], ""],
+["rhs_weap_ak74m_desert", "rhs_acc_dtk1983", "", "rhs_acc_ekp8_02", ["rhs_30Rnd_545x39_7N10_AK"], [], ""],
+["rhs_weap_ak74m_desert", "rhs_acc_dtk1983", "", "rhs_acc_ekp1", ["rhs_30Rnd_545x39_7N10_AK"], [], ""],
+["rhs_weap_ak74m_desert", "rhs_acc_dtk1983", "", "rhs_acc_1p63", ["rhs_30Rnd_545x39_7N10_AK"], [], ""]
+]];
+_militaryLoadoutData setVariable ["carbines", [
+["rhs_weap_aks74u", "rhs_acc_pgs64_74u", "", "", ["rhs_30Rnd_545x39_7N10_AK"], [], ""],
+["rhs_weap_aks74un", "rhs_acc_pgs64_74un", "", "rhs_acc_ekp8_02", ["rhs_30Rnd_545x39_7N10_AK"], [], ""],
+["rhs_weap_ak105", "rhs_acc_pgs64", "", "", ["rhs_30Rnd_545x39_7N10_AK"], [], ""],
+["rhs_weap_ak105", "rhs_acc_pgs64", "", "rhs_acc_ekp8_02", ["rhs_30Rnd_545x39_7N10_AK"], [], ""]
+]];
+_militaryLoadoutData setVariable ["grenadeLaunchers", [
+["rhs_weap_ak74m_gp25", "rhs_acc_dtk1983", "", "", ["rhs_30Rnd_545x39_7N10_AK"], [], ""],
+["rhs_weap_ak74m_gp25", "rhs_acc_dtk1983", "", "rhs_acc_ekp8_02", ["rhs_30Rnd_545x39_7N10_AK"], [], ""],
+["rhs_weap_ak74m_gp25", "rhs_acc_dtk1983", "", "rhs_acc_ekp1", ["rhs_30Rnd_545x39_7N10_AK"], [], ""],
+["rhs_weap_ak74m_gp25", "rhs_acc_dtk1983", "", "rhs_acc_1p63", ["rhs_30Rnd_545x39_7N10_AK"], [], ""],
+["rhs_weap_ak74m_gp25", "rhs_acc_dtk1983", "", "rhs_acc_1p29", ["rhs_30Rnd_545x39_7N10_AK"], [], ""]
+]];
+_militaryLoadoutData setVariable ["SMGs", [
+["rhs_weap_pp2000", "", "", "rhs_acc_1p87", ["rhs_mag_9x19mm_7n31_44"], [], ""],
+["rhs_weap_pp2000", "", "", "rhs_acc_rakursPM", ["rhs_mag_9x19mm_7n31_44"], [], ""],
+["rhs_weap_pp2000", "", "", "rhs_acc_ekp8_18", ["rhs_mag_9x19mm_7n31_44"], [], ""],
+["rhs_weap_pp2000", "", "", "rhs_acc_okp7_picatinny", ["rhs_mag_9x19mm_7n31_44"], [], ""],
+["rhs_weap_pp2000", "", "", "", ["rhs_mag_9x19mm_7n31_44"], [], ""]
+];
+_militaryLoadoutData setVariable ["machineGuns", [
+["rhs_weap_pkm", "", "", "", ["rhs_100Rnd_762x54mmR"], [], ""],
+["rhs_weap_pkp", "", "", "", ["rhs_100Rnd_762x54mmR"], [], ""],
+["rhs_weap_pkp", "", "", "rhs_acc_1p29", ["rhs_100Rnd_762x54mmR"], [], ""],
+["rhs_weap_pkp", "", "", "rhs_acc_ekp8_02", ["rhs_100Rnd_762x54mmR"], [], ""]
+]];
+_militaryLoadoutData setVariable ["marksmanRifles", [
+["rhs_weap_svds", "", "", "rhs_acc_pso1m2", ["rhs_10Rnd_762x54mmR_7N1"], [], ""],
+["rhs_weap_asval", "", "", "rhs_acc_pso1m21", ["rhs_20rnd_9x39mm_SP5"], [], ""],
+]];
+_militaryLoadoutData setVariable ["sniperRifles", [
+["rhs_weap_t5000","","","rhs_acc_dh520x56",["rhs_5Rnd_338lapua_t5000"],[],""]
+]];
 
 ///////////////////////////////
 //    Police Loadout Data    //
 ///////////////////////////////
 
 private _policeLoadoutData = _loadoutData call _fnc_copyLoadoutData; // touch and shit breaks
-_policeLoadoutData setVariable ["rifles", []];			//this line determines the rifles for police loadouts -- Example: ["arifle_MX_F","arifle_MX_pointer_F"] -- Array, can contain multiple assets
-_policeLoadoutData setVariable ["grenadelaunchers", []];//this line determines the grenadelaunchers for police loadouts -- Example: ["arifle_MX_GL_ACO_F","arifle_MX_GL_ACO_pointer_F"] -- Array, can contain multiple assets
-_policeLoadoutData setVariable ["smgs", []];			//this line determines the smgs for police loadouts -- Example: ["SMG_01_F","SMG_01_Holo_F"] -- Array, can contain multiple assets
-_policeLoadoutData setVariable ["carbines", []];		//this line determines the carbines for police loadouts -- Example: ["arifle_MXC_F","arifle_MXC_Holo_F"] -- Array, can contain multiple assets
-_policeLoadoutData setVariable ["uniforms", []];		//this line determines uniforms for police loadouts -- Example: ["U_B_GEN_Commander_F"] -- Array, can contain multiple assets
-_policeLoadoutData setVariable ["vests", []];			//this line determines vests for police loadouts -- Example: ["V_TacVest_gen_F"] -- Array, can contain multiple assets
+_policeLoadoutData setVariable ["rifles", [
+["rhs_weap_ak103", "rhs_acc_dtk", "", "", ["rhs_30Rnd_762x39mm"], [], ""]
+]];			//this line determines the rifles for police loadouts -- Example: ["arifle_MX_F","arifle_MX_pointer_F"] -- Array, can contain multiple assets
+_policeLoadoutData setVariable ["grenadelaunchers", [
+["rhs_weap_ak103_gp25", "rhs_acc_dtk", "", "", ["rhs_30Rnd_762x39mm"], ["rhs_VG40SZ"], ""]
+]];//this line determines the grenadelaunchers for police loadouts -- Example: ["arifle_MX_GL_ACO_F","arifle_MX_GL_ACO_pointer_F"] -- Array, can contain multiple assets
+_policeLoadoutData setVariable ["smgs", [
+["rhs_weap_savz61", "", "", "", ["rhsgref_20rnd_765x17_vz61"], ""]
+]];			//this line determines the smgs for police loadouts -- Example: ["SMG_01_F","SMG_01_Holo_F"] -- Array, can contain multiple assets
+_policeLoadoutData setVariable ["carbines",
+["rhs_weap_ak104", "rhs_acc_dtk", "", "", ["rhs_30Rnd_762x39mm"], [], ""]
+]];		//this line determines the carbines for police loadouts -- Example: ["arifle_MXC_F","arifle_MXC_Holo_F"] -- Array, can contain multiple assets
+_policeLoadoutData setVariable ["uniforms", ["rhs_uniform_m88_patchless"]];		//this line determines uniforms for police loadouts -- Example: ["U_B_GEN_Commander_F"] -- Array, can contain multiple assets
+_policeLoadoutData setVariable ["vests", ["rhs_vest_pistol_holster","rhs_vest_commander"]];			//this line determines vests for police loadouts -- Example: ["V_TacVest_gen_F"] -- Array, can contain multiple assets
 _policeLoadoutData setVariable ["backpacks", []];		//this line determines backpacks for police loadouts -- Example: ["B_Kitbag_mcamo"] -- Array, can contain multiple assets
-_policeLoadoutData setVariable ["helmets", []];			//this line determines helmets for police loadouts -- Example: ["H_Beret_gen_F"] -- Array, can contain multiple assets
+_policeLoadoutData setVariable ["helmets", ["rhs_fieldcap_khk","rhs_beret_milp"]];			//this line determines helmets for police loadouts -- Example: ["H_Beret_gen_F"] -- Array, can contain multiple assets
 
 ////////////////////////////////
 //    Militia Loadout Data    //
 ////////////////////////////////
 
 private _militiaLoadoutData = _loadoutData call _fnc_copyLoadoutData; // touch and shit breaks
-_militiaLoadoutData setVariable ["uniforms", []];		//this line determines uniforms for militia loadouts -- Example: ["U_B_CombatUniform_mcam","U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
-_militiaLoadoutData setVariable ["vests", []];			//this line determines vests for militia loadouts -- Example: ["V_PlateCarrierSpec_mtp","V_PlateCarrierGL_mtp"] -- Array, can contain multiple assets
-_militiaLoadoutData setVariable ["backpacks", []];		//this line determines backpacks for militia loadouts -- Example: ["B_AssaultPack_mcamo","B_Kitbag_mcamo"] -- Array, can contain multiple assets
-_militiaLoadoutData setVariable ["helmets", []];		//this line determines helmets for police loadouts -- Example: ["H_HelmetB_camo","H_HelmetB_desert"] -- Array, can contain multiple assets
+_militiaLoadoutData setVariable ["uniforms", ["rhsgref_uniform_olive","rhsgref_uniform_og107"]];		//this line determines uniforms for militia loadouts -- Example: ["U_B_CombatUniform_mcam","U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
+_militiaLoadoutData setVariable ["vests", ["rhsgref_chicom","rhsgref_alice_webbing","rhsgref_chestrig","V_TacVest_khk","V_TacVest_oli"]];			//this line determines vests for militia loadouts -- Example: ["V_PlateCarrierSpec_mtp","V_PlateCarrierGL_mtp"] -- Array, can contain multiple assets
+_militiaLoadoutData setVariable ["backpacks", ["rhs_sidor"]];		//this line determines backpacks for militia loadouts -- Example: ["B_AssaultPack_mcamo","B_Kitbag_mcamo"] -- Array, can contain multiple assets
+_militiaLoadoutData setVariable ["helmets", ["rhsgref_hat_M1951","rhsgref_hat_m43cap_heer","rhsgref_M56"]];		//this line determines helmets for police loadouts -- Example: ["H_HelmetB_camo","H_HelmetB_desert"] -- Array, can contain multiple assets
+_militiaLoadoutData setVariable ["rifles", [
+["rhs_weap_akm", "rhs_acc_dtkakm", "", "", ["rhs_30Rnd_762x39mm"], [], ""],
+["rhs_weap_akms", "rhs_acc_dtkakm", "", "", ["rhs_30Rnd_762x39mm"], [], ""],
+["rhs_weap_pm63", "rhs_acc_dtkakm", "", "", ["rhs_30Rnd_762x39mm"], [], ""],
+["rhs_weap_ak74", "rhs_acc_dtk1983", "", "", ["rhs_30Rnd_545x39_7N6M_AK"], [], ""],
+["rhs_weap_aks74", "rhs_acc_dtk1983", "", "", ["rhs_30Rnd_545x39_7N6M_AK"], [], ""],
+["rhs_weap_savz58p", "", "", "", ["rhs_30Rnd_762x39mm_Savz58"], [], ""],
+["rhs_weap_savz58v", "", "", "", ["rhs_30Rnd_762x39mm_Savz58"], [], ""]
+]];
+_militiaLoadoutData setVariable ["grenadelaunchers", [
+["rhs_weap_akm_gp25", "rhs_acc_dtkakm", "", "", ["rhs_30Rnd_762x39mm"], ["rhs_VOG25"], ""],
+["rhs_weap_akms_gp25", "rhs_acc_dtkakm", "", "", ["rhs_30Rnd_762x39mm"], ["rhs_VOG25"], ""],
+["rhs_weap_ak74_gp25", "rhs_acc_dtk1983", "", "", ["rhs_30Rnd_545x39_7N6M_AK"], ["rhs_VOG25"], ""],
+["rhs_weap_aks74_gp25", "rhs_acc_dtk1983", "", "", ["rhs_30Rnd_545x39_7N6M_AK"], ["rhs_VOG25"], ""],
+]];
+_militiaLoadoutData setVariable ["smgs", [
+["rhs_weap_savz61", "", "", "", ["rhsgref_20rnd_765x17_vz61"], [], ""],
+["rhs_weap_m3a1", "", "", "", ["rhsgref_30rnd_1143x23_M1911B_SMG"], [], ""]
+]];
+_militiaLoadoutData setVariable ["carbines", [
+["rhs_weap_aks74u", "rhs_acc_pgs64_74u", "", "", ["rhs_30Rnd_545x39_7N6_AK"], [], ""],
+["rhs_weap_m92", "", "", "", ["rhs_30Rnd_762x39mm"], [], ""]
+]];
+_militiaLoadoutData setVariable ["machineGuns", [
+["rhs_weap_pkm", "", "", "", ["rhs_100Rnd_762x54mmR"], [], ""],
+["rhs_weap_fnmag", "", "", "", ["rhsusf_100Rnd_762x51"], [], ""],
+["rhs_weap_mg42", "", "", "", ["rhsgref_50Rnd_792x57_SmE_drum"], [], ""]
+]];
+_militiaLoadoutData setVariable ["marksmanRifles", [
+["rhs_weap_m76", "", "", "", ["rhsgref_10Rnd_792x57_m76"], [], ""],
+["rhs_weap_kar98k", "", "", "", ["rhsgref_5Rnd_792x57_kar98k"], [], ""]
+]];
+_militiaLoadoutData setVariable ["sniperRifles", [
+["rhs_weap_svdp", "", "", "rhs_acc_pso1m2", ["rhs_10Rnd_762x54mmR_7N1"], [], ""]
+];
+_militiaLoadoutData setVariable ["sidearms", [
+["rhs_weap_tt33", "", "", "", ["rhs_mag_762x25_8"], [], ""]
+]];
 
 //////////////////////////
 //    Misc Loadouts     //
 //////////////////////////
 //The following lines are determining the loadout of the vehicle crew
 private _crewLoadoutData = _militaryLoadoutData call _fnc_copyLoadoutData; // touch and shit breaks
-_crewLoadoutData setVariable ["uniforms", []];			//this line determines uniforms for vehicle crew loadouts -- Example: ["U_B_CombatUniform_mcam","U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
-_crewLoadoutData setVariable ["vests", []];				//this line determines vests for vehicle crew loadouts -- Example: ["V_PlateCarrierSpec_mtp","V_PlateCarrierGL_mtp"] -- Array, can contain multiple assets
-_crewLoadoutData setVariable ["helmets", []];			//this line determines backpacks for vehicle crew loadouts -- Example: ["B_AssaultPack_mcamo","B_Kitbag_mcamo"] -- Array, can contain multiple assets
+_crewLoadoutData setVariable ["uniforms", ["rhs_uniform_emr_des_patchless"]];			//this line determines uniforms for vehicle crew loadouts -- Example: ["U_B_CombatUniform_mcam","U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
+_crewLoadoutData setVariable ["vests", ["rhs_6sh92_digi","rhs_vest_pistol_holster","rhs_vest_commander","rhs_6b23_digi_crewofficer"]];				//this line determines vests for vehicle crew loadouts -- Example: ["V_PlateCarrierSpec_mtp","V_PlateCarrierGL_mtp"] -- Array, can contain multiple assets
+_crewLoadoutData setVariable ["helmets", ["rhs_tsh4","rhs_tsh4_ess"]];			//this line determines backpacks for vehicle crew loadouts -- Example: ["B_AssaultPack_mcamo","B_Kitbag_mcamo"] -- Array, can contain multiple assets
 
 //The following lines are determining the loadout of the pilots
 private _pilotLoadoutData = _militaryLoadoutData call _fnc_copyLoadoutData;
-_pilotLoadoutData setVariable ["uniforms", []];			//this line determines uniforms for pilot loadouts -- Example: ["U_B_CombatUniform_mcam","U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
-_pilotLoadoutData setVariable ["vests", []];			//this line determines vests for pilot loadouts -- Example: ["V_PlateCarrierSpec_mtp","V_PlateCarrierGL_mtp"] -- Array, can contain multiple assets
-_pilotLoadoutData setVariable ["helmets", []];			//this line determines backpacks for pilot loadouts -- Example: ["B_AssaultPack_mcamo","B_Kitbag_mcamo"] -- Array, can contain multiple assets
+_pilotLoadoutData setVariable ["uniforms", ["rhs_uniform_df15","rhs_uniform_df15_tan"]];			//this line determines uniforms for pilot loadouts -- Example: ["U_B_CombatUniform_mcam","U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
+_pilotLoadoutData setVariable ["vests", ["rhs_6sh46","rhs_vest_commander","rhs_vest_pistol_holster"]];			//this line determines vests for pilot loadouts -- Example: ["V_PlateCarrierSpec_mtp","V_PlateCarrierGL_mtp"] -- Array, can contain multiple assets
+_pilotLoadoutData setVariable ["helmets", ["rhs_zsh7a_mike_green_alt","rhs_zsh7a_mike","rhs_zsh7a_mike_green","rhs_zsh7a_mike_alt","rhs_zsh7a","rhs_zsh7a_alt"]];			//this line determines backpacks for pilot loadouts -- Example: ["B_AssaultPack_mcamo","B_Kitbag_mcamo"] -- Array, can contain multiple assets
 
 
 // ##################### DO NOT TOUCH ANYTHING BELOW THIS LINE #####################
@@ -219,7 +414,7 @@ _pilotLoadoutData setVariable ["helmets", []];			//this line determines backpack
 
 private _squadLeaderTemplate = {
 	["helmets"] call _fnc_addHelmet;
-	["vests"] call _fnc_addVest;
+	[["vestsSL","vests"] call _fnc_fallback] call _fnc_addVest;
 	["uniforms"] call _fnc_addUniform;
 	//TODO - Long range radios
 	[["longRangeRadios", "backpacks"] call _fnc_fallback] call _fnc_addBackpack;
@@ -276,7 +471,7 @@ private _riflemanTemplate = {
 
 private _medicTemplate = {
 	["helmets"] call _fnc_addHelmet;
-	["vests"] call _fnc_addVest;
+	[["vestsMedic","vests"] call _fnc_fallback] call _fnc_addVest;
 	["uniforms"] call _fnc_addUniform;
 	["backpacks"] call _fnc_addBackpack;
 
@@ -301,7 +496,7 @@ private _medicTemplate = {
 
 private _grenadierTemplate = {
 	["helmets"] call _fnc_addHelmet;
-	["vests"] call _fnc_addVest;
+	[["vestsGren","vests"] call _fnc_fallback] call _fnc_addVest;
 	["uniforms"] call _fnc_addUniform;
 	["backpacks"] call _fnc_addBackpack;
 
@@ -330,7 +525,7 @@ private _explosivesExpertTemplate = {
 	["helmets"] call _fnc_addHelmet;
 	["vests"] call _fnc_addVest;
 	["uniforms"] call _fnc_addUniform;
-	["backpacks"] call _fnc_addBackpack;
+	[["backpacksTools","backpacks"] call _fnc_fallback] call _fnc_addBackpack;
 
 	["rifles"] call _fnc_addPrimary;
 	["primary", 5] call _fnc_addMagazines;
@@ -362,7 +557,7 @@ private _engineerTemplate = {
 	["helmets"] call _fnc_addHelmet;
 	["vests"] call _fnc_addVest;
 	["uniforms"] call _fnc_addUniform;
-	["backpacks"] call _fnc_addBackpack;
+	[["backpacksTools","backpacks"] call _fnc_fallback] call _fnc_addBackpack;
 
 	["carbines"] call _fnc_addPrimary;
 	["primary", 5] call _fnc_addMagazines;
@@ -390,14 +585,14 @@ private _latTemplate = {
 	["helmets"] call _fnc_addHelmet;
 	["vests"] call _fnc_addVest;
 	["uniforms"] call _fnc_addUniform;
-	["backpacks"] call _fnc_addBackpack;
+	[["backpacksLaunchers","backpacks"] call _fnc_fallback] call _fnc_addBackpack;
 
 	["rifles"] call _fnc_addPrimary;
 	["primary", 8] call _fnc_addMagazines;
 
 	[["lightATLaunchers", "ATLaunchers"] call _fnc_fallback] call _fnc_addLauncher;
 	//TODO - Add a check if it's disposable.
-	["launcher", 1] call _fnc_addMagazines;
+	["launcher", 2] call _fnc_addMagazines;
 
 	["sidearms"] call _fnc_addHandgun;
 	["handgun", 2] call _fnc_addMagazines;
@@ -420,14 +615,14 @@ private _atTemplate = {
 	["helmets"] call _fnc_addHelmet;
 	["vests"] call _fnc_addVest;
 	["uniforms"] call _fnc_addUniform;
-	["backpacks"] call _fnc_addBackpack;
+	[["backpacksLaunchers","backpacks"] call _fnc_fallback] call _fnc_addBackpack;
 
 	["rifles"] call _fnc_addPrimary;
 	["primary", 5] call _fnc_addMagazines;
 
-	[selectRandom ["ATLaunchers", "missileATLaunchers"]] call _fnc_addLauncher;
+	[selectRandom ["lightATLaunchers", "heavyATLaunchers"]] call _fnc_addLauncher;
 	//TODO - Add a check if it's disposable.
-	["launcher", 2] call _fnc_addMagazines;
+	["launcher", 3] call _fnc_addMagazines;
 
 	["sidearms"] call _fnc_addHandgun;
 	["handgun", 2] call _fnc_addMagazines;
@@ -450,7 +645,7 @@ private _aaTemplate = {
 	["helmets"] call _fnc_addHelmet;
 	["vests"] call _fnc_addVest;
 	["uniforms"] call _fnc_addUniform;
-	["backpacks"] call _fnc_addBackpack;
+	[["backpacksLaunchers","backpacks"] call _fnc_fallback] call _fnc_addBackpack;
 
 	["rifles"] call _fnc_addPrimary;
 	["primary", 5] call _fnc_addMagazines;
@@ -477,7 +672,7 @@ private _aaTemplate = {
 
 private _machineGunnerTemplate = {
 	["helmets"] call _fnc_addHelmet;
-	["vests"] call _fnc_addVest;
+	[["vestsMG","vests"] call _fnc_fallback] call _fnc_addVest;
 	["uniforms"] call _fnc_addUniform;
 	["backpacks"] call _fnc_addBackpack;
 
@@ -502,7 +697,7 @@ private _machineGunnerTemplate = {
 
 private _marksmanTemplate = {
 	["helmets"] call _fnc_addHelmet;
-	["vests"] call _fnc_addVest;
+	[["vestsMarksman","vests"] call _fnc_fallback] call _fnc_addVest;
 	["uniforms"] call _fnc_addUniform;
 	["backpacks"] call _fnc_addBackpack;
 
@@ -527,8 +722,8 @@ private _marksmanTemplate = {
 
 private _sniperTemplate = {
 	["helmets"] call _fnc_addHelmet;
-	["vests"] call _fnc_addVest;
-	["uniforms"] call _fnc_addUniform;
+	[["vestsSni","vests"] call _fnc_fallback] call _fnc_addVest;
+	[["uniformsSni","uniforms"] call _fnc_fallback] call _fnc_addUniform;
 	["backpacks"] call _fnc_addBackpack;
 
 	["sniperRifles"] call _fnc_addPrimary;
