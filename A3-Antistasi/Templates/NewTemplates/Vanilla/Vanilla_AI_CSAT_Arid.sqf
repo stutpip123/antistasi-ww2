@@ -80,29 +80,29 @@
 //       Loadouts       //
 //////////////////////////
 private _loadoutData = call _fnc_createLoadoutData;
-_loadoutData setVariable ["rifles", []]; 					//this line determines rifles -- Example: ["arifle_MX_F","arifle_MX_pointer_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["carbines", []]; 					//this line determines carbines -- Example: ["arifle_MXC_F","arifle_MXC_Holo_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["grenadeLaunchers", []]; 			//this line determines grenade launchers -- Example: ["arifle_MX_GL_ACO_F","arifle_MX_GL_ACO_pointer_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["SMGs", []]; 						//this line determines SMGs -- Example: ["SMG_01_F","SMG_01_Holo_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["machineGuns", []]; 				//this line determines machine guns -- Example: ["arifle_MX_SW_F","arifle_MX_SW_Hamr_pointer_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["marksmanRifles", []]; 			//this line determines markman rifles -- Example: ["arifle_MXM_F","arifle_MXM_Hamr_pointer_F"] -- Array, can contain multiple assets
-_loadoutData setVariable ["sniperRifles", []]; 				//this line determines sniper rifles -- Example: ["srifle_LRR_camo_F","srifle_LRR_camo_SOS_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["rifles", []]; 					//this line determines rifles -- Example: ["arifle_MX_F", "arifle_MX_pointer_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["carbines", []]; 					//this line determines carbines -- Example: ["arifle_MXC_F", "arifle_MXC_Holo_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["grenadeLaunchers", []]; 			//this line determines grenade launchers -- Example: ["arifle_MX_GL_ACO_F", "arifle_MX_GL_ACO_pointer_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["SMGs", []]; 						//this line determines SMGs -- Example: ["SMG_01_F", "SMG_01_Holo_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["machineGuns", []]; 				//this line determines machine guns -- Example: ["arifle_MX_SW_F", "arifle_MX_SW_Hamr_pointer_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["marksmanRifles", []]; 			//this line determines markman rifles -- Example: ["arifle_MXM_F", "arifle_MXM_Hamr_pointer_F"] -- Array, can contain multiple assets
+_loadoutData setVariable ["sniperRifles", []]; 				//this line determines sniper rifles -- Example: ["srifle_LRR_camo_F", "srifle_LRR_camo_SOS_F"] -- Array, can contain multiple assets
 _loadoutData setVariable ["lightATLaunchers", [
 ["launch_RPG32_F", "", "", "", ["RPG32_HE_F"], [], ""],
 ["launch_RPG32_F", "", "", "", ["RPG32_F"], [], ""],
-["launch_MRAWS_sand_F", "", "acc_pointer_ir", "", ["MRAWS_HE_F"], [], ""],
-["launch_MRAWS_sand_F", "", "acc_pointer_ir", "", ["MRAWS_HEAT55_F"], [], ""],
-["launch_MRAWS_sand_F", "", "acc_pointer_ir", "", ["MRAWS_HEAT_F"], [], ""],
-["launch_MRAWS_sand_rail_F", "", "acc_pointer_ir", "", ["MRAWS_HE_F"], [], ""],
-["launch_MRAWS_sand_rail_F", "", "acc_pointer_ir", "", ["MRAWS_HEAT55_F"], [], ""],
-["launch_MRAWS_sand_rail_F", "", "acc_pointer_ir", "", ["MRAWS_HEAT_F"], [], ""]
+["launch_MRAWS_sand_F", "", "acc_pointer_IR", "", ["MRAWS_HE_F"], [], ""],
+["launch_MRAWS_sand_F", "", "acc_pointer_IR", "", ["MRAWS_HEAT55_F"], [], ""],
+["launch_MRAWS_sand_F", "", "acc_pointer_IR", "", ["MRAWS_HEAT_F"], [], ""],
+["launch_MRAWS_sand_rail_F", "", "acc_pointer_IR", "", ["MRAWS_HE_F"], [], ""],
+["launch_MRAWS_sand_rail_F", "", "acc_pointer_IR", "", ["MRAWS_HEAT55_F"], [], ""],
+["launch_MRAWS_sand_rail_F", "", "acc_pointer_IR", "", ["MRAWS_HEAT_F"], [], ""]
 ]];		//this line determines light AT launchers -- Example: ["launch_NLAW_F"] -- Array, can contain multiple assets
 _loadoutData setVariable ["ATLaunchers", []]; 				//this line determines light AT launchers -- Example: ["launch_NLAW_F"] -- Array, can contain multiple assets
 _loadoutData setVariable ["missileATLaunchers", [
-["launch_O_Titan_short_F", "", "acc_pointer_ir", "", ["Titan_AT"], [], ""]
+["launch_O_Titan_short_F", "", "acc_pointer_IR", "", ["Titan_AT"], [], ""]
 ]]; 		//this line determines missile AT launchers -- Example: ["launch_B_Titan_short_F"] -- Array, can contain multiple assets
 _loadoutData setVariable ["AALaunchers", [
-["launch_O_Titan_F", "", "acc_pointer_ir", "", ["Titan_AA"], [], ""]
+["launch_O_Titan_F", "", "acc_pointer_IR", "", ["Titan_AA"], [], ""]
 ]]; 				//this line determines AA launchers -- Example: ["launch_B_Titan_F"] -- Array, can contain multiple assets
 _loadoutData setVariable ["sidearms", []]; 					//this line determines handguns/sidearms -- Example: ["hgun_Pistol_heavy_01_F", "hgun_P07_F"] -- Array, can contain multiple assets
 
@@ -168,59 +168,59 @@ _sfLoadoutData setVariable ["backpacks", ["B_AssaultPack_ocamo", "B_TacticalPack
 _sfLoadoutData setVariable ["helmets", ["H_HelmetSpecO_blk", "H_HelmetSpecO_ocamo"]];				//this line determines helmets for special forces -- Example: ["H_HelmetB_camo", "H_HelmetB_desert"] -- Array, can contain multiple assets
 //SF Weapons
 _sfLoadoutData setVariable ["rifles", [
-["arifle_Katiba_F", "muzzle_snds_h", "acc_pointer_ir", "optic_holosight_blk_f", [], [], ""],
-["arifle_Katiba_F", "muzzle_snds_h", "acc_pointer_ir", "optic_arco_blk_f", [], [], ""],
-["arifle_Katiba_F", "muzzle_snds_h", "acc_pointer_ir", "optic_arco", [], [], ""],
-["arifle_Katiba_F", "muzzle_snds_h", "acc_pointer_ir", "optic_aco", [], [], ""],
-["arifle_Katiba_F", "muzzle_snds_h", "acc_pointer_ir", "optic_aco_grn", [], [], ""]
+["arifle_Katiba_F", "muzzle_snds_H", "acc_pointer_IR", "optic_Holosight_blk_F", [], [], ""],
+["arifle_Katiba_F", "muzzle_snds_H", "acc_pointer_IR", "optic_Arco_blk_F", [], [], ""],
+["arifle_Katiba_F", "muzzle_snds_H", "acc_pointer_IR", "optic_Arco", [], [], ""],
+["arifle_Katiba_F", "muzzle_snds_H", "acc_pointer_IR", "optic_Aco", [], [], ""],
+["arifle_Katiba_F", "muzzle_snds_H", "acc_pointer_IR", "optic_ACO_grn", [], [], ""]
 ]];			//this line determines rifles -- Example: ["arifle_MX_F", "arifle_MX_pointer_F"] -- Array, can contain multiple assets
 _sfLoadoutData setVariable ["carbines", [
-["arifle_Katiba_C_F", "muzzle_snds_h", "acc_pointer_ir", "optic_holosight_blk_f", [], [], ""],
-["arifle_Katiba_C_F", "muzzle_snds_h", "acc_pointer_ir", "optic_arco_blk_f", [], [], ""],
-["arifle_Katiba_C_F", "muzzle_snds_h", "acc_pointer_ir", "optic_arco", [], [], ""],
-["arifle_Katiba_C_F", "muzzle_snds_h", "acc_pointer_ir", "optic_aco", [], [], ""],
-["arifle_Katiba_C_F", "muzzle_snds_h", "acc_pointer_ir", "optic_aco_grn", [], [], ""]
+["arifle_Katiba_C_F", "muzzle_snds_H", "acc_pointer_IR", "optic_Holosight_blk_F", [], [], ""],
+["arifle_Katiba_C_F", "muzzle_snds_H", "acc_pointer_IR", "optic_Arco_blk_F", [], [], ""],
+["arifle_Katiba_C_F", "muzzle_snds_H", "acc_pointer_IR", "optic_Arco", [], [], ""],
+["arifle_Katiba_C_F", "muzzle_snds_H", "acc_pointer_IR", "optic_Aco", [], [], ""],
+["arifle_Katiba_C_F", "muzzle_snds_H", "acc_pointer_IR", "optic_ACO_grn", [], [], ""]
 ]]; 					//this line determines carbines -- Example: ["arifle_MXC_F", "arifle_MXC_Holo_F"] -- Array, can contain multiple assets
 _sfLoadoutData setVariable ["grenadeLaunchers", [
-["arifle_Katiba_GL_F", "muzzle_snds_h", "acc_pointer_ir", "optic_holosight_blk_f", [], [], ""],
-["arifle_Katiba_GL_F", "muzzle_snds_h", "acc_pointer_ir", "optic_arco_blk_f", [], [], ""],
-["arifle_Katiba_GL_F", "muzzle_snds_h", "acc_pointer_ir", "optic_arco", [], [], ""],
-["arifle_Katiba_GL_F", "muzzle_snds_h", "acc_pointer_ir", "optic_aco", [], [], ""],
-["arifle_Katiba_GL_F", "muzzle_snds_h", "acc_pointer_ir", "optic_aco_grn", [], [], ""]
+["arifle_Katiba_GL_F", "muzzle_snds_H", "acc_pointer_IR", "optic_Holosight_blk_F", [], [], ""],
+["arifle_Katiba_GL_F", "muzzle_snds_H", "acc_pointer_IR", "optic_Arco_blk_F", [], [], ""],
+["arifle_Katiba_GL_F", "muzzle_snds_H", "acc_pointer_IR", "optic_Arco", [], [], ""],
+["arifle_Katiba_GL_F", "muzzle_snds_H", "acc_pointer_IR", "optic_Aco", [], [], ""],
+["arifle_Katiba_GL_F", "muzzle_snds_H", "acc_pointer_IR", "optic_ACO_grn", [], [], ""]
 ]]; 			//this line determines grenade launchers -- Example: ["arifle_MX_GL_ACO_F", "arifle_MX_GL_ACO_pointer_F"] -- Array, can contain multiple assets
 _sfLoadoutData setVariable ["SMGs", [
-["SMG_01_F", "muzzle_snds_acp", "", "optic_holosight", [], [], ""],
-["SMG_01_F", "muzzle_snds_acp", "", "optic_yorris", [], [], ""],
-["SMG_01_F", "muzzle_snds_acp", "", "optic_aco_smg", [], [], ""],
-["SMG_03C_TR_camo", "muzzle_snds_570", "acc_pointer_ir", "optic_holosight_blk_f", [], [], ""],
-["SMG_03C_TR_camo", "muzzle_snds_570", "acc_pointer_ir", "optic_yorris", [], [], ""],
-["SMG_03C_TR_camo", "muzzle_snds_570", "acc_pointer_ir", "optic_aco_smg", [], [], ""],
-["SMG_02_F", "muzzle_snds_l", "acc_pointer_ir", "optic_holosight_blk_f", [], [], ""],
-["SMG_02_F", "muzzle_snds_l", "acc_pointer_ir", "optic_yorris", [], [], ""],
-["SMG_02_F", "muzzle_snds_l", "acc_pointer_ir", "optic_aco_smg", [], [], ""]
+["SMG_01_F", "muzzle_snds_acp", "", "optic_Holosight", [], [], ""],
+["SMG_01_F", "muzzle_snds_acp", "", "optic_Yorris", [], [], ""],
+["SMG_01_F", "muzzle_snds_acp", "", "optic_Aco_smg", [], [], ""],
+["SMG_03C_TR_camo", "muzzle_snds_570", "acc_pointer_IR", "optic_Holosight_blk_F", [], [], ""],
+["SMG_03C_TR_camo", "muzzle_snds_570", "acc_pointer_IR", "optic_Yorris", [], [], ""],
+["SMG_03C_TR_camo", "muzzle_snds_570", "acc_pointer_IR", "optic_Aco_smg", [], [], ""],
+["SMG_02_F", "muzzle_snds_L", "acc_pointer_IR", "optic_Holosight_blk_F", [], [], ""],
+["SMG_02_F", "muzzle_snds_L", "acc_pointer_IR", "optic_Yorris", [], [], ""],
+["SMG_02_F", "muzzle_snds_L", "acc_pointer_IR", "optic_Aco_smg", [], [], ""]
 ]];
 _sfLoadoutData setVariable ["machineGuns", [
-["LMG_Zafir_F", "", "acc_pointer_ir", "optic_holosight", [], [], ""],
-["LMG_Zafir_F", "", "acc_pointer_ir", "optic_holosight_blk_f", [], [], ""],
-["LMG_Zafir_F", "", "acc_pointer_ir", "optic_arco", [], [], ""],
-["LMG_Zafir_F", "", "acc_pointer_ir", "optic_mrco", [], [], ""],
-["LMG_Mk200_F", "muzzle_snds_h_mg", "acc_pointer_ir", "optic_mrco", [], [], "bipod_01_f_blk"],
-["LMG_Mk200_F", "muzzle_snds_h_mg", "acc_pointer_ir", "optic_holosight_blk_f", [], [], "bipod_01_f_blk"],
-["LMG_Mk200_F", "muzzle_snds_h_mg", "acc_pointer_ir", "optic_holosight", [], [], "bipod_01_f_blk"],
+["LMG_Zafir_F", "", "acc_pointer_IR", "optic_Holosight", [], [], ""],
+["LMG_Zafir_F", "", "acc_pointer_IR", "optic_Holosight_blk_F", [], [], ""],
+["LMG_Zafir_F", "", "acc_pointer_IR", "optic_Arco", [], [], ""],
+["LMG_Zafir_F", "", "acc_pointer_IR", "optic_MRCO", [], [], ""],
+["LMG_Mk200_F", "muzzle_snds_H_MG", "acc_pointer_IR", "optic_MRCO", [], [], "bipod_01_F_blk"],
+["LMG_Mk200_F", "muzzle_snds_H_MG", "acc_pointer_IR", "optic_Holosight_blk_F", [], [], "bipod_01_F_blk"],
+["LMG_Mk200_F", "muzzle_snds_H_MG", "acc_pointer_IR", "optic_Holosight", [], [], "bipod_01_F_blk"],
 ]]; 				//this line determines machine guns -- Example: ["arifle_MX_SW_F", "arifle_MX_SW_Hamr_pointer_F"] -- Array, can contain multiple assets
 _sfLoadoutData setVariable ["marksmanRifles", [
-["srifle_DMR_01_F", "muzzle_snds_b", "acc_pointer_ir", "optic_dms", [], [], "bipod_02_f_hex"],
-["srifle_DMR_01_F", "muzzle_snds_b", "acc_pointer_ir", "optic_arco", [], [], "bipod_02_f_hex"],
-["srifle_DMR_01_F", "muzzle_snds_b", "acc_pointer_ir", "optic_sos", [], [], "bipod_02_f_hex"]
+["srifle_DMR_01_F", "muzzle_snds_B", "acc_pointer_IR", "optic_dms", [], [], "bipod_02_F_hex"],
+["srifle_DMR_01_F", "muzzle_snds_B", "acc_pointer_IR", "optic_Arco", [], [], "bipod_02_F_hex"],
+["srifle_DMR_01_F", "muzzle_snds_B", "acc_pointer_IR", "optic_SOS", [], [], "bipod_02_F_hex"]
 ]]; 			//this line determines markman rifles -- Example: ["arifle_MXM_F", "arifle_MXM_Hamr_pointer_F"] -- Array, can contain multiple assets
 _sfLoadoutData setVariable ["sniperRifles", [
 ["srifle_GM6_camo_F", "", "optic_lrps", "", [], [], ""],
-["srifle_GM6_camo_F", "", "optic_sos", "", [], [], ""]
+["srifle_GM6_camo_F", "", "optic_SOS", "", [], [], ""]
 ]]; 				//this line determines sniper rifles -- Example: ["srifle_LRR_camo_F", "srifle_LRR_camo_SOS_F"] -- Array, can contain multiple assets
 _sfLoadoutData setVariable ["sidearms", [
-["hgun_Pistol_heavy_02_F", "", "acc_flashlight_pistol", "optic_yorris", [], [], ""],
-["hgun_Rook40_F", "muzzle_snds_l", "", "", [], [], ""],
-["hgun_Pistol_heavy_01_F", "muzzle_snds_acp", "acc_flashlight_pistol", "optic_mrd", [], [], ""]
+["hgun_Pistol_heavy_02_F", "", "acc_flashlight_pistol", "optic_Yorris", [], [], ""],
+["hgun_Rook40_F", "muzzle_snds_L", "", "", [], [], ""],
+["hgun_Pistol_heavy_01_F", "muzzle_snds_acp", "acc_flashlight_pistol", "optic_MRD", [], [], ""]
 ]]; 					//this line determines handguns/sidearms -- Example: ["hgun_Pistol_heavy_01_F", "hgun_P07_F"] -- Array, can contain multiple assets
 
 /////////////////////////////////
@@ -233,51 +233,51 @@ _militaryLoadoutData setVariable ["vests", ["V_HarnessO_brn", "V_TacVest_brn"]];
 _militaryLoadoutData setVariable ["backpacks", ["B_TacticalPack_ocamo", "B_Carryall_ocamo", "B_Bergen_hex_F"]];		//this line determines backpacks for military loadouts -- Example: ["B_AssaultPack_mcamo", "B_Kitbag_mcamo"] -- Array, can contain multiple assets
 _militaryLoadoutData setVariable ["helmets", ["H_HelmetO_ocamo", "H_HelmetLeaderO_ocamo"]];		//this line determines helmets for military loadouts -- Example: ["H_HelmetB_camo", "H_HelmetB_desert"] -- Array, can contain multiple assets
 _militaryLoadoutData setVariable ["rifles", [
-["arifle_Katiba_F", "", "acc_pointer_ir", "optic_holosight_blk_f", [], [], ""],
-["arifle_Katiba_F", "", "acc_pointer_ir", "optic_arco_blk_f", [], [], ""],
-["arifle_Katiba_F", "", "acc_pointer_ir", "optic_arco", [], [], ""],
-["arifle_Katiba_F", "", "acc_pointer_ir", "optic_aco", [], [], ""],
-["arifle_Katiba_F", "", "acc_pointer_ir", "optic_aco_grn", [], [], ""]
+["arifle_Katiba_F", "", "acc_pointer_IR", "optic_Holosight_blk_F", [], [], ""],
+["arifle_Katiba_F", "", "acc_pointer_IR", "optic_Arco_blk_F", [], [], ""],
+["arifle_Katiba_F", "", "acc_pointer_IR", "optic_Arco", [], [], ""],
+["arifle_Katiba_F", "", "acc_pointer_IR", "optic_Aco", [], [], ""],
+["arifle_Katiba_F", "", "acc_pointer_IR", "optic_ACO_grn", [], [], ""]
 ]];			//this line determines rifles -- Example: ["arifle_MX_F", "arifle_MX_pointer_F"] -- Array, can contain multiple assets
 _militaryLoadoutData setVariable ["carbines", [
-["arifle_Katiba_C_F", "", "acc_pointer_ir", "optic_holosight_blk_f", [], [], ""],
-["arifle_Katiba_C_F", "", "acc_pointer_ir", "optic_arco_blk_f", [], [], ""],
-["arifle_Katiba_C_F", "", "acc_pointer_ir", "optic_arco", [], [], ""],
-["arifle_Katiba_C_F", "muzzle_snds_h", "acc_pointer_ir", "optic_aco", [], [], ""],
-["arifle_Katiba_C_F", "muzzle_snds_h", "acc_pointer_ir", "optic_aco_grn", [], [], ""]
+["arifle_Katiba_C_F", "", "acc_pointer_IR", "optic_Holosight_blk_F", [], [], ""],
+["arifle_Katiba_C_F", "", "acc_pointer_IR", "optic_Arco_blk_F", [], [], ""],
+["arifle_Katiba_C_F", "", "acc_pointer_IR", "optic_Arco", [], [], ""],
+["arifle_Katiba_C_F", "muzzle_snds_H", "acc_pointer_IR", "optic_Aco", [], [], ""],
+["arifle_Katiba_C_F", "muzzle_snds_H", "acc_pointer_IR", "optic_ACO_grn", [], [], ""]
 ]]; 					//this line determines carbines -- Example: ["arifle_MXC_F", "arifle_MXC_Holo_F"] -- Array, can contain multiple assets
 _militaryLoadoutData setVariable ["grenadeLaunchers", [
-["arifle_Katiba_GL_F", "", "acc_pointer_ir", "optic_holosight_blk_f", [], [], ""],
-["arifle_Katiba_GL_F", "", "acc_pointer_ir", "optic_arco_blk_f", [], [], ""],
-["arifle_Katiba_GL_F", "", "acc_pointer_ir", "optic_arco", [], [], ""],
-["arifle_Katiba_GL_F", "", "acc_pointer_ir", "optic_aco", [], [], ""],
-["arifle_Katiba_GL_F", "", "acc_pointer_ir", "optic_aco_grn", [], [], ""]
+["arifle_Katiba_GL_F", "", "acc_pointer_IR", "optic_Holosight_blk_F", [], [], ""],
+["arifle_Katiba_GL_F", "", "acc_pointer_IR", "optic_Arco_blk_F", [], [], ""],
+["arifle_Katiba_GL_F", "", "acc_pointer_IR", "optic_Arco", [], [], ""],
+["arifle_Katiba_GL_F", "", "acc_pointer_IR", "optic_Aco", [], [], ""],
+["arifle_Katiba_GL_F", "", "acc_pointer_IR", "optic_ACO_grn", [], [], ""]
 ]]; 			//this line determines grenade launchers -- Example: ["arifle_MX_GL_ACO_F", "arifle_MX_GL_ACO_pointer_F"] -- Array, can contain multiple assets
 _militaryLoadoutData setVariable ["SMGs", [
-["SMG_01_F", "", "", "optic_holosight", [], [], ""],
-["SMG_01_F", "", "", "optic_yorris", [], [], ""],
-["SMG_01_F", "", "", "optic_aco_smg", [], [], ""],
-["SMG_03C_TR_camo", "", "acc_pointer_ir", "optic_holosight_blk_f", [], [], ""],
-["SMG_03C_TR_camo", "", "acc_pointer_ir", "optic_yorris", [], [], ""],
-["SMG_03C_TR_camo", "", "acc_pointer_ir", "optic_aco_smg", [], [], ""],
-["SMG_02_F", "", "acc_pointer_ir", "optic_holosight_blk_f", [], [], ""],
-["SMG_02_F", "", "acc_pointer_ir", "optic_yorris", [], [], ""],
-["SMG_02_F", "", "acc_pointer_ir", "optic_aco_smg", [], [], ""]
+["SMG_01_F", "", "", "optic_Holosight", [], [], ""],
+["SMG_01_F", "", "", "optic_Yorris", [], [], ""],
+["SMG_01_F", "", "", "optic_Aco_smg", [], [], ""],
+["SMG_03C_TR_camo", "", "acc_pointer_IR", "optic_Holosight_blk_F", [], [], ""],
+["SMG_03C_TR_camo", "", "acc_pointer_IR", "optic_Yorris", [], [], ""],
+["SMG_03C_TR_camo", "", "acc_pointer_IR", "optic_Aco_smg", [], [], ""],
+["SMG_02_F", "", "acc_pointer_IR", "optic_Holosight_blk_F", [], [], ""],
+["SMG_02_F", "", "acc_pointer_IR", "optic_Yorris", [], [], ""],
+["SMG_02_F", "", "acc_pointer_IR", "optic_Aco_smg", [], [], ""]
 ]];
 _militaryLoadoutData setVariable ["machineGuns", [
-["LMG_Zafir_F", "", "acc_pointer_ir", "optic_holosight", [], [], ""],
-["LMG_Zafir_F", "", "acc_pointer_ir", "optic_holosight_blk_f", [], [], ""],
-["LMG_Zafir_F", "", "acc_pointer_ir", "optic_arco", [], [], ""],
-["LMG_Zafir_F", "", "acc_pointer_ir", "optic_mrco", [], [], ""]
+["LMG_Zafir_F", "", "acc_pointer_IR", "optic_Holosight", [], [], ""],
+["LMG_Zafir_F", "", "acc_pointer_IR", "optic_Holosight_blk_F", [], [], ""],
+["LMG_Zafir_F", "", "acc_pointer_IR", "optic_Arco", [], [], ""],
+["LMG_Zafir_F", "", "acc_pointer_IR", "optic_MRCO", [], [], ""]
 ]]; 				//this line determines machine guns -- Example: ["arifle_MX_SW_F", "arifle_MX_SW_Hamr_pointer_F"] -- Array, can contain multiple assets
 _militaryLoadoutData setVariable ["marksmanRifles", [
-["srifle_DMR_01_F", "", "acc_pointer_ir", "optic_dms", [], [], "bipod_02_f_hex"],
-["srifle_DMR_01_F", "", "acc_pointer_ir", "optic_arco", [], [], "bipod_02_f_hex"],
-["srifle_DMR_01_F", "", "acc_pointer_ir", "optic_sos", [], [], "bipod_02_f_hex"]
+["srifle_DMR_01_F", "", "acc_pointer_IR", "optic_dms", [], [], "bipod_02_F_hex"],
+["srifle_DMR_01_F", "", "acc_pointer_IR", "optic_Arco", [], [], "bipod_02_F_hex"],
+["srifle_DMR_01_F", "", "acc_pointer_IR", "optic_SOS", [], [], "bipod_02_F_hex"]
 ]]; 			//this line determines markman rifles -- Example: ["arifle_MXM_F", "arifle_MXM_Hamr_pointer_F"] -- Array, can contain multiple assets
 _militaryLoadoutData setVariable ["sniperRifles", [
 ["srifle_GM6_camo_F", "", "optic_lrps", "", [], [], ""],
-["srifle_GM6_camo_F", "", "optic_sos", "", [], [], ""]
+["srifle_GM6_camo_F", "", "optic_SOS", "", [], [], ""]
 ]]; 				//this line determines sniper rifles -- Example: ["srifle_LRR_camo_F", "srifle_LRR_camo_SOS_F"] -- Array, can contain multiple assets
 _militaryLoadoutData setVariable ["sidearms", ["hgun_Rook40_F"]];
 ///////////////////////////////
@@ -320,12 +320,12 @@ _militiaLoadoutData setVariable ["machineGuns", [
 ["LMG_Zafir_F", "", "acc_flashlight", "", [], [], ""]
 ]]; 				//this line determines machine guns -- Example: ["arifle_MX_SW_F", "arifle_MX_SW_Hamr_pointer_F"] -- Array, can contain multiple assets
 _militiaLoadoutData setVariable ["marksmanRifles", [
-["srifle_DMR_01_F", "", "acc_flashlight", "optic_arco", [], [], "bipod_02_f_hex"],
-["srifle_DMR_01_F", "", "acc_flashlight", "optic_arco_blk_f", [], [], "bipod_02_f_hex"]
+["srifle_DMR_01_F", "", "acc_flashlight", "optic_Arco", [], [], "bipod_02_F_hex"],
+["srifle_DMR_01_F", "", "acc_flashlight", "optic_Arco_blk_F", [], [], "bipod_02_F_hex"]
 ]]; 			//this line determines markman rifles -- Example: ["arifle_MXM_F", "arifle_MXM_Hamr_pointer_F"] -- Array, can contain multiple assets
 _militiaLoadoutData setVariable ["sniperRifles", [
-["srifle_GM6_camo_F", "", "optic_arco", "", [], [], ""],
-["srifle_GM6_camo_F", "", "optic_arco_blk_f", "", [], [], ""]
+["srifle_GM6_camo_F", "", "optic_Arco", "", [], [], ""],
+["srifle_GM6_camo_F", "", "optic_Arco_blk_F", "", [], [], ""]
 ]]; 				//this line determines sniper rifles -- Example: ["srifle_LRR_camo_F", "srifle_LRR_camo_SOS_F"] -- Array, can contain multiple assets
 _militiaLoadoutData setVariable ["sidearms", ["hgun_Rook40_F"]];
 //////////////////////////
