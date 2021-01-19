@@ -1,18 +1,29 @@
-params ["_group", "_killer"];
+/*
+Author: Wurzel0701, Triada, jaj22, Spoffy, Barbolani
+    Defines and executes the behaviour of AI in case of a KIA in their group
 
-/*  Handles the reaction of a group when one of their members dies. Handles individual responces and the calls for support
+Arguments:
+    <GROUP> The group of which a unit has been killed
+    <OBJECT> The unit which has killed the group unit
 
-    Execution on: Server or HC
+Return Value:
+    <NIL>
 
-    Scope: Internal
+Scope: Server/HC
+Environment: Scheduled
+Public: Yes
+Dependencies:
+    <ARRAY> allMachineGuns
+    <BOOL> haveNV
+    <BOOL> hasIFA
+    <ARRAY> squadLeaders
 
-    Params:
-        _group: GROUP : The group of which a unit has been killed
-        _killer: OBJECT : The unit which has killed the unit
-
-    Returns:
-        Nothing
+Example:
+[_group, _killer] spawn A3A_fnc_AIreactOnKill;
 */
+
+
+params ["_group", "_killer"];
 
 private _enemy = objNull;
 private _aliveGroupMembers = (units _group) select {[_x] call A3A_fnc_canFight};

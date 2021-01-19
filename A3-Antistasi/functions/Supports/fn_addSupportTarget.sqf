@@ -1,19 +1,31 @@
-params ["_supportObject", "_targetParams", "_revealCall"];
+/*
+Author: Wurzel0701
+    Adds a given target to the given support
 
-/*  Adds the given target command to the given support unit
+Arguments:
+    <STRING> The name of the support
+    <ARRAY<OBJECT | POSITION, NUMBER>> The target object or position and the support precision (range 0 - 4)
+    <NUMBER> The reveal value of the call (range 0 - 1)
 
-    Execution on: Server
+Return Value:
+    <NIL>
 
-    Scope: Internal
+Scope: Server
+Environment: Scheduled
+Public: No
+Dependencies:
+    <BOOL> supportTargetsChanging
 
-    Params:
-        _supportObject: STRING : The identifier of the support object
-        _targetParams: ARRAY : The target parameter for the support
-        _revealCall: NUMBER : How much of the support call will be revealed
-
-    Returns:
-        Nothing
+Example:
+    ["CAS0", [_myCar, 3], 0.75] spawn A3A_fnc_addSupportTarget;
 */
+
+params
+[
+    ["_supportName", "", [""]],
+    ["_targetParams", [], [[]]],
+    ["_revealCall", 0, [0]]
+];
 
 private _fileName = "addSupportTarget";
 
@@ -25,7 +37,7 @@ if(supportTargetsChanging) then
 supportTargetsChanging = true;
 
 private _fileName = "addSupportTarget";
-private _targetList = server getVariable [format ["%1_targets", _supportObject], []];
+private _targetList = server getVariable [format ["%1_targets", _supportName], []];
 
 if((_targetParams select 0) isEqualType []) then
 {
@@ -34,8 +46,8 @@ if((_targetParams select 0) isEqualType []) then
     if(_index == -1) then
     {
         _targetList pushBack [_targetParams, _revealCall];
-        server setVariable [format ["%1_targets", _supportObject], _targetList, true];
-        [2, format ["Added fire order %1 to %2s target list", _targetParams, _supportObject], _fileName] call A3A_fnc_log;
+        server setVariable [format ["%1_targets", _supportName], _targetList, true];
+        [2, format ["Added fire order %1 to %2s target list", _targetParams, _supportName], _fileName] call A3A_fnc_log;
     }
     else
     {
@@ -54,8 +66,8 @@ else
     if !(_isInList) then
     {
         _targetList pushBack [_targetParams, _revealCall];
-        server setVariable [format ["%1_targets", _supportObject], _targetList, true];
-        [3, format ["Added fire order %1 to %2s target list", _targetParams, _supportObject], _fileName] call A3A_fnc_log;
+        server setVariable [format ["%1_targets", _supportName], _targetList, true];
+        [3, format ["Added fire order %1 to %2s target list", _targetParams, _supportName], _fileName] call A3A_fnc_log;
     }
     else
     {

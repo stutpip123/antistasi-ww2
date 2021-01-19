@@ -1,18 +1,31 @@
-params ["_pos", "_side"];
+/*
+Author: Wurzel0701
+    Calculates the reveal value for a support based on the given position
 
-/*  Calculates the reveal chance for the call from the given position and side
+Arguments:
+    <POSITION> The position from which the reveal value should be calculated
 
-    Execution on: Server
+Return Value:
+    <NUMBER> The calculated reveal value (range 0 - 1)
 
-    Scope: Internal
+Scope: Server
+Environment: Unscheduled
+Public: Yes
+Dependencies:
+    <ARRAY> airportsX
+    <NAMESPACE> sidesX
+    <SIDE> teamPlayer
+    <ARRAY> antennas
+    <ARRAY> outposts
 
-    Params:
-        _pos: POSITION : The position from where the call originates
-        _side: SIDE : The side which is doing the call
-
-    Returns:
-        _result: NUMBER : A number between 0 and 1
+Example:
+    [getPos player] call A3A_fnc_calculateSupportCallReveal;
 */
+
+params
+[
+    ["_position", [0,0,0], [[]]]
+];
 
 private _result = 0;
 
@@ -21,23 +34,23 @@ private _hardValue = 0;
 private _softValue = 20;
 
 //HQ really near, high chance to get something
-if(_pos distance2D (getMarkerPos "Synd_HQ") < 1000) then
+if(_position distance2D (getMarkerPos "Synd_HQ") < 1000) then
 {
     _hardValue = 20;
     _softValue = _softValue + 20;
 };
 //HQ near, light chance to get something
-if(_pos distance2D (getMarkerPos "Synd_HQ") < 2500) then
+if(_position distance2D (getMarkerPos "Synd_HQ") < 2500) then
 {
     _softValue = _softValue + 20;
 };
 
 //If nearest airport is owned by rebels increase chance, if near increase even more
-private _nearestAirport = [airportsX, _pos] call BIS_fnc_nearestPosition;
+private _nearestAirport = [airportsX, _position] call BIS_fnc_nearestPosition;
 if(sidesX getVariable [_nearestAirport, sideUnknown] == teamPlayer) then
 {
     _softValue = _softValue + 20;
-    if((getMarkerPos _nearestAirport) distance2D _pos < 1500) then
+    if((getMarkerPos _nearestAirport) distance2D _position < 1500) then
     {
         _hardValue = _hardValue + 10;
         _softValue = _softValue + 10;
@@ -45,20 +58,20 @@ if(sidesX getVariable [_nearestAirport, sideUnknown] == teamPlayer) then
 };
 
 //If nearest antenna is owned by rebels increase chance, if near increase even more
-private _nearestAntenna = [antennas, _pos] call BIS_fnc_nearestPosition;
-private _antennaMarker = [outposts + airportsX, _pos] call BIS_fnc_nearestPosition;
+private _nearestAntenna = [antennas, _position] call BIS_fnc_nearestPosition;
+private _antennaMarker = [outposts + airportsX, _position] call BIS_fnc_nearestPosition;
 if(sidesX getVariable [_antennaMarker, sideUnknown] == teamPlayer) then
 {
     _hardValue = _hardValue + 10;
     _softValue = _softValue + 20;
-    if((getMarkerPos _antennaMarker) distance2D _pos < 2000) then
+    if((getMarkerPos _antennaMarker) distance2D _position < 2000) then
     {
         _hardValue = _hardValue + 20;
         _softValue = _softValue + 10;
     };
 };
 
-//Calculate results 
+//Calculate results
 _result = _hardValue + (round (random _softValue));
 _result = (_result / 100) min 1;
 

@@ -1,18 +1,31 @@
-params ["_side", "_targetArea"];
+/*
+Author: Wurzel0701
+    Forces all units of the given side (and maybe civs) to move out of the given
+    area. As AI sucks, these are still most likely to be bombed/mortared/orbital
+    striked into the shadow realm
 
-/*  This function tells all friendly units to move out of the target area of an areal support
+Arguments:
+    <SIDE> The side that should flee, Occupants include civ
+    <MARKER> The area that should be cleared
 
-    Execution on: Server
+Return Value:
+    <NIL>
 
-    Scope: Internal
+Scope: Server
+Environment: Any
+Public: Yes/No
+Dependencies:
+    <SIDE> Occupants
 
-    Params:
-        _side: SIDE : The side of the support
-        _targetArea: MARKER : The target marker of the support
-        
-    Returns:
-        Nothing
+Example:
+    [Occupants, _myTargetMarker] call A3A_fnc_clearTargetArea
 */
+
+params
+[
+    ["_side", sideUnknown, [sideUnknown]],
+    ["_targetArea", "", [""]]
+];
 
 private _targetPoint = getMarkerPos _targetArea;
 private _targetSize = getMarkerSize _targetArea;
