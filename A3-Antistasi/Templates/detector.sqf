@@ -59,3 +59,7 @@ if (hasACEMedical && isClass (configFile >> "CfgPatches" >> "adv_aceCPR")) then 
 
 //D3S Car Pack Detection !!!--- Currently using vehicle classname check. Needs config viewer to work to find cfgPatches. ---!!!
 if (isClass (configfile >> "CfgVehicles" >> "d3s_baumaschinen")) then {A3A_hasD3S = true; [2,"D3S Detected.",_fileName] call A3A_fnc_log;};
+
+//No Mods found logging
+if (!A3A_hasRHS && !A3A_hasFFAA && !A3A_hasIFA && !A3A_has3CB) then {[2,"No Side Replacement Mods Detected.",_fileName] call A3A_fnc_log;};
+if (!A3A_hasIvory && !A3A_hasTCGM && !A3A_hasADV) then {[2,"No Addon Mods Detected.",_fileName] call A3A_fnc_log;};
