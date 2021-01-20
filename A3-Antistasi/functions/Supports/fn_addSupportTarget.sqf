@@ -4,7 +4,7 @@ Author: Wurzel0701
 
 Arguments:
     <STRING> The name of the support
-    <ARRAY<OBJECT | POSITION, NUMBER>> The target object or position and the support precision (range 0 - 4)
+    <ARRAY<OBJECT|POSITION, NUMBER>> The target object or position and the support precision (range 0 - 4)
     <NUMBER> The reveal value of the call (range 0 - 1)
 
 Return Value:

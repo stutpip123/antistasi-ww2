@@ -22,7 +22,6 @@ Example:
 [_group, _killer] spawn A3A_fnc_AIreactOnKill;
 */
 
-
 params ["_group", "_killer"];
 
 private _enemy = objNull;

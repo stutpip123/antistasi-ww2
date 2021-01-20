@@ -1,14 +1,21 @@
-/*  Initialize the timers for the supports, so players dont get hit full force on restart
+/*
+Author: Wurzel0701
+    Initiates initial cooldown times for supports
 
-    Execution on: Server
+Arguments:
+    <NIL>
 
-    Scope: Internal
+Return Value:
+    <NIL>
 
-    Params:
-        None
+Scope: Server
+Environment: Any
+Public: No
+Dependencies:
+    NONE
 
-    Returns:
-        Nothing
+Example:
+[] call A3A_fnc_initSupportCooldowns;
 */
 
 supportCallInProgress = false;

@@ -1,23 +1,34 @@
+/*
+Author: Wurzel0701
+    Ends the given support and deletes all the related data
+
+Arguments:
+    <STRING> The name of the support that should end
+    <SIDE> The side the support belongs to
+    <NUMBER> The amount of minutes to wait before deleting the support data (can be 0)
+
+Return Value:
+    <NIL>
+
+Scope: Server
+Environment: Any
+Public: No
+Dependencies:
+    <NAMESPACE> server
+    <SIDE> Occupants
+    <ARRAY> occupantsSupports
+    <ARRAY> invadersSupports
+
+Example:
+["MORTAR0", Occupants, 0] call A3A_fnc_endSupport;
+*/
+
 params
 [
     ["_supportName", "", [""]],
     ["_side", sideEnemy, [sideEnemy]],
     ["_timeTillExecution", 0, [0]]
 ];
-
-/*  Removes the data of the support from the arrays
-
-    Execution on: Server
-
-    Scope: Internal
-
-    Params:
-        _supportName: STRING : The callsign of the support
-        _side: SIDE : The side the support belongs too
-
-    Returns:
-        Nothing
-*/
 
 private _fileName = "endSupport";
 if(_supportName == "" || _side == sideEnemy) exitWith

@@ -1,21 +1,39 @@
-params ["_target", "_precision", "_supportTypes", "_side", "_revealCall"];
+/*
+Author: Wurzel0701
+    Sends the given support to the given position
 
-/*  Selects the support based on the needs and the availability (Is this even a word?)
+Arguments:
+    <OBJECT> The target object that should be supported against
+    <NUMBER> The precision that should be used against the target (range 0 - 4)
+    <ARRAY<STRING>> The list of possible supports (first available send)
+    <SIDE> The side which should send the support (cannot be teamPlayer)
+    <NUMBER> The reveal value for this support (range 0 - 1)
 
-    Execution on: Server
+Return Value:
+    <NIL>
 
-    Scope: Internal
+Scope: Server
+Environment: Scheduled
+Public: Yes
+Dependencies:
+    <SIDE> teamPlayer
+    <BOOL> supportCallInProgress
+    <SIDE> Occupants
+    <ARRAY> occupantsSupports
+    <ARRAY> invadersSupports
 
-    Parameters:
-        _target: OBJECT : The target object to attack
-        _precision: NUMBER : The precision on the target data in range 0 to 4
-        _supportTypes: ARRAY of STRINGs : The requested support types
-        _side: SIDE : The side of the support callers
-        _revealCall: NUMBER : How much of the call should be known to players 0 - nothing to 1 - full
-
-    Returns:
-        Nothing
+Example:
+[player, 2, ["QRF", "AIRSTRIKE"], Occupants, 0.75] call A3A_fnc_sendSupport;
 */
+
+params
+[
+    ["_target", objNull, [objNull]],
+    ["_precision", 0, [0]],
+    ["_supportTypes", [], [[]]],
+    ["_side", sideEnemy, [sideEnemy]],
+    ["_revealCall", 0, [0]]
+];
 
 private _fileName = "sendSupport";
 
@@ -25,6 +43,8 @@ if(!isServer) exitWith
     [1, format ["SendSupport tried to execute on %1, which is not the hosting server!", clientOwner], _fileName] call A3A_fnc_log;
     _this remoteExec ["A3A_fnc_sendSupport", 2];
 };
+
+if(_side == teamPlayer) exitWith {};
 
 waitUntil {sleep 0.1; !supportCallInProgress};
 supportCallInProgress = true;
