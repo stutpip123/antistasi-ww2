@@ -32,13 +32,13 @@ if ((count _pos) isEqualTo 2) then {
 
 private _lightPrimary = "#lightpoint" createVehicleLocal [ _pos#0, _pos#1, _pos#2 + 10];
 _lightPrimary setLightBrightness 21.4;
-_lightPrimary setLightAmbient[.3, .1, 0];
-_lightPrimary setLightColor[.3, .1, 0];
+_lightPrimary setLightAmbient[0.3, 0.1, 0];
+_lightPrimary setLightColor[0.3, 0.1, 0];
 
 private _lightAccent = "#lightpoint" createVehicleLocal [_pos#0, _pos#1, _pos#2 + 10];
 _lightAccent setLightBrightness 55.4;
 _lightAccent setLightAmbient[1, 1, 1];
-_lightAccent setLightColor[1, 1, .9];
+_lightAccent setLightColor[1, 1, 0.9];
 
 private _posAdj = [_pos#0, _pos#1, _pos#2 + 5];
 //--- Dust
@@ -49,22 +49,22 @@ private _colour = [1, 1, 1];
 private _alpha = 0.31;
 private _fireRed = "#particlesource" createVehicleLocal _posAdj;  // this is fire is red
 _fireRed setParticleParams [["a3\data_f\ParticleEffects\Universal\Universal.p3d", 16, 1, 12, 0], "", "Billboard", 1, 2 + random 3, [0, 0, 5], _velocity, 1, 1.1, 1, 0, [1 + (random 1.1)], [_colour + [0], _colour + [_alpha], _colour + [0]], [1000], 1, 0, "", "", 1];
-_fireRed setParticleRandom [3, [0, 0, 0], [random 4, random 4, 2], 14, 3, [0, 0, 0, .1], 1, 0];
+_fireRed setParticleRandom [3, [0, 0, 0], [random 4, random 4, 2], 14, 3, [0, 0, 0, 0.1], 1, 0];
 _fireRed setParticleCircle [20, [0, 0, 0]];
 _fireRed setDropInterval 0.004;
 
 _alpha = 0.35 ;
 private _fireYellow = "#particlesource" createVehicleLocal _posAdj;  //this is fire is yellow
 _fireYellow setParticleParams [["a3\data_f\ParticleEffects\Universal\Universal.p3d", 16, 3, 12, 0], "", "Billboard", 1, 1 + random 1, [5, 5, 4], _velocity, 1, 1.1, 1, 0, [1.8 + (random 1)], [_colour + [0], _colour + [_alpha], _colour + [0]], [1000], 1, 0, "", "", 1];
-_fireYellow setParticleRandom [3, [0, 0, 0], [random 5, random 2, 1], 14, 3, [0, 0, 0, .1], 1, 0];
+_fireYellow setParticleRandom [3, [0, 0, 0], [random 5, random 2, 1], 14, 3, [0, 0, 0, 0.1], 1, 0];
 _fireYellow setParticleCircle [20, [0, 0, 0]];
 _fireYellow setDropInterval 0.0012;
 
 _alpha = 0.1 ;
 _colour = [1, 1, 0.9];
 private _fireWhite = "#particlesource" createVehicleLocal _posAdj;
-_fireWhite setParticleParams [["a3\data_f\ParticleEffects\Universal\Universal.p3d", 16, 12, 5, 0], "", "Billboard", 1, 16, [0, 0, 1], _velocity, 1, 1.52,1, 0, [.007 + (random .02)], [_colour + [0], _colour + [_alpha], _colour + [0]], [1000], 1, 0, "", "", 1];
-_fireWhite setParticleRandom [0, [0, 0, 0], [.2, .2, 4], 14, 3, [0, 0, 0, 22], 1, 0];
+_fireWhite setParticleParams [["a3\data_f\ParticleEffects\Universal\Universal.p3d", 16, 12, 5, 0], "", "Billboard", 1, 16, [0, 0, 1], _velocity, 1, 1.52,1, 0, [.007 + (random 0.02)], [_colour + [0], _colour + [_alpha], _colour + [0]], [1000], 1, 0, "", "", 1];
+_fireWhite setParticleRandom [0, [0, 0, 0], [.2, 0.2, 4], 14, 3, [0, 0, 0, 22], 1, 0];
 _fireWhite setParticleCircle [20, [0, 0, 0]];
 _fireWhite setDropInterval 0.01;
 
@@ -86,7 +86,7 @@ _fireWhite setDropInterval 0.01;
 
     while {serverTime <= _dimEnd && !([_canTokUUID] call _fnc_cancelRequested)} do {
         _lightAccent setLightBrightness (55.4 * (_dimEnd-serverTime ) / _dimTime);
-        uiSleep .01;  // Update Every frame.
+        uiSleep 0.01;  // Update Every frame.
     };
     _lightAccent setLightBrightness 0.4;
 };
