@@ -7,6 +7,7 @@ Author: Caleb Serafin
 
 Arguments:
     <OBJECT> The targeted object. Is filtered within this function.
+    <ARRAY<BOOL>> CancellationToken; pass with element 0 = true; if element 0 is false effects stop as-soon as possible.
     <BOOL> If allowed to create particles and lights. Only set to true if this used on few objects at a time.
 
 Return Value:
@@ -23,6 +24,7 @@ Example:
 */
 params [
     ["_victim",objNull,[objNull]],
+    ["_cancellationTokenUUID","",[ "" ]],
     ["_particles",false,[false]]
 ];
 private _filename = "functions\AI\fn_napalmDamage.sqf";
@@ -98,17 +100,24 @@ switch (true) do {
     default {_invalidVictim = true;};  // Exclude everything else. Safest & least laggy option, gameplay comes before realism.
 };
 
-[_victim,_timeBetweenTicks,_totalTicks,compile _fnc_init,compile _fnc_onTick, compile _fnc_final] spawn {
-    params ["_victim", "_timeBetweenTicks" ,"_totalTicks","_fnc_init", "_fnc_onTick", "_fnc_final"];
+[_victim,_cancellationTokenUUID,_timeBetweenTicks,_totalTicks,compile _fnc_init,compile _fnc_onTick, compile _fnc_final] spawn {
+    params ["_victim", "_canTokUUID", "_timeBetweenTicks" ,"_totalTicks","_fnc_init", "_fnc_onTick", "_fnc_final"];
+
+    private _fnc_cancelRequested = { false; };// Future provisioning for implementation of cancellationTokens.
+    private _fnc_exit = {isNull _victim || [_canTokUUID] call _fnc_cancelRequested};
+
     uiSleep (random 2); // To ensure that damage and sound is not in-sync. Makes it more chaotic.
-    if (isNull _victim) exitWith {};
+
+    if (_fnc_exit) exitWith {};
     [_victim] call _fnc_init;
+
     for "_tickCount" from 1 to _totalTicks do {
-        if (isNull _victim) exitWith {};
+        if (_fnc_exit) exitWith {};
         [_victim, _tickCount] call _fnc_onTick;
         uiSleep _timeBetweenTicks;
     };
-    if (isNull _victim) exitWith {};
+
+    if (_fnc_exit) exitWith {};
     [_victim] call _fnc_final;
 };
 
