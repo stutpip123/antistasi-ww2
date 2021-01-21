@@ -90,24 +90,19 @@
     private _time = time;
 
     //Preprocessing phase, generate a simple nav grid out of the road data
-    private _mainRoadSegments = nearestTerrainObjects [[worldSize/2, worldSize/2], ["ROAD"], worldSize, false, true];
+    private _mainRoadSegments = nearestTerrainObjects [[worldSize/2, worldSize/2], ["MAIN ROAD", "ROAD", "TRACK"], worldSize, false, true];
+    private _segmentsCount = count _mainRoadSegments;
+    private _lastProcessed = 0;
+    private _timeDiff = _time;
+    //[Road segment, road type, connections]
     private _preGrid = [];
 
     {
         private _connections = [_x] call fnc_getRoadConnections;
         private _roadName = [_x] call fnc_getRoadString;
-        //[Road segment, position, road type, connections]
         _preGrid pushBack [_x, [_x] call fnc_getRoadType, _connections];
         private _connectionsCount = count _connections;
 
-        if(_connectionsCount == 2) then
-        {
-            private _roadmarker = createMarker [format ["Marker%1", _roadName], getPos _x];
-            _roadmarker setMarkerShape "ICON";
-            _roadmarker setMarkerType "mil_dot";
-            _roadmarker setMarkerAlpha 1;
-            _roadmarker setMarkerColor "ColorGrey";
-        };
         if(_connectionsCount < 2) then
         {
             private _roadmarker = createMarker [format ["Marker%1", _roadName], getPos _x];
@@ -124,7 +119,21 @@
             _roadmarker setMarkerAlpha 1;
             _roadmarker setMarkerColor "ColorOrange";
         };
-        sleep 0.001;
+        if(time - _timeDiff > 0.5) then
+        {
+            _timeDiff = time;
+            hintSilent format
+            [
+                "PREPROCESSING PHASE\n\nProgress: %1%2 (%3/%4)\nTime elapsed: %5 seconds\nEstimated time left: %6 seconds",
+                (_forEachIndex/_segmentsCount) * 100,
+                "%",
+                _forEachIndex,
+                _segmentsCount,
+                round (time - _time),
+                round ((_segmentsCount - _forEachIndex)/(_forEachIndex - _lastProcessed) * 0.5)
+            ];
+            _lastProcessed = _forEachIndex;
+        };
     } forEach _mainRoadSegments;
 
     hint format ["Preprocessing done after %1 seconds", time - _time];
@@ -228,7 +237,7 @@
                     };
                 };
             } forEach _connections;
-            sleep 0.001;
+            //sleep 0.001;
         };
 
         _gridNumber = _gridNumber + 1;
