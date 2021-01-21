@@ -1,13 +1,26 @@
 /*
-	Funtion name: classNameToModel
+    Author: [Håkon]
+    Description:
+        gets the model from a class
 
-	Autor: Håkon R. Rydland
+        exist soley to make it easier for inexperienced users to manually add entries to the logistics system
 
-	Function: converts a classname to model
+    Arguments:
+    0. <String> Classname
 
-	params: <String> className
+    Return Value:
+    <String> Model path
 
-	Return: <String> Model
+    Scope: Any
+    Environment: Any
+    Public: Yes
+    Dependencies:
+
+    Example:
+
+    License: MIT License
 */
-params ["_className"];
+
+params [["_className", "", [""]]];
+if !(isClass (configFile/"CfgVehicles"/_className)) exitWith { [1, "Invalid classname: " + _classname, "fn_classNameToModel.sqf"] call A3A_fnc_log; "N/A" };
 getText (configFile >> "CfgVehicles" >> _className >> "model");
