@@ -136,10 +136,19 @@
         };
     } forEach _mainRoadSegments;
 
-    hint format ["Preprocessing done after %1 seconds", time - _time];
+
+
+    private _preTime = time - _time;
+    hint format ["Preprocessing done after %1 seconds\nStarting main phase now!", _preTime];
+    sleep 3;
+    _preTime = _preTime + 3;
 
     private _gridNumber = 0;
     private _junctions = [];
+    private _startCount = count _preGrid;
+    private _estimate = 0;
+    _timeDiff = time;
+    _lastProcessed = 0;
     mainGrid = [];
     index = 0;
 
@@ -155,91 +164,153 @@
 
         if(_startSegment isEqualType objNull) exitWith {};
 
-        _startSegment pushBack 0;
-        _startSegment pushBack (_startSegment select 0);
-
+        //Start segment found, set all connections as open segments and node as nav connection
         [[_startSegment select 0] call fnc_getRoadString, getPos (_startSegment select 0), (_startSegment select 1), true, _gridNumber] call fnc_setNavPointData;
 
-        private _openSegments = [_startSegment];
+        private _openSegments = [];
+        {
+            private _connection = _x;
+            private _index = _preGrid findIf {_x select 0 == _connection};
+            if(_index != -1) then
+            {
+                private _connectedSegment = _preGrid deleteAt _index;
+                _connectedSegment pushBack 0;
+                _connectedSegment pushBack (_startSegment select 0);
+                _openSegments pushBack _connectedSegment;
+            };
+        } forEach (_startSegment select 2);
+
+        private _roadName = [(_startSegment select 0)] call fnc_getRoadString;
+        deleteMarker format ["Marker%1", _roadName];
+        private _roadmarker = createMarker [format ["MarkerStart%1", _roadName], getPos (_startSegment select 0)];
+        _roadmarker setMarkerShape "ICON";
+        _roadmarker setMarkerType "mil_dot";
+        _roadmarker setMarkerAlpha 1;
+        _roadmarker setMarkerColor "ColorBlue";
+        _roadmarker setMarkerText format ["Connections: %1", count (_startSegment select 2)];
 
         while {count _openSegments > 0} do
         {
             private _segment = _openSegments deleteAt 0;
-            //player globalChat str _segment;
-            _segment params ["_roadSegment", "_roadType", "_connections", "_counter" , "_lastConnection"];
-            private _roadName = [_roadSegment] call fnc_getRoadString;
-            deleteMarker format ["Marker%1", _roadName];
+            private _lastSegment = _segment select 4;
 
-            if(count _connections != 2) then
+            if(missionNamespace getVariable [format ["Index%1", [_segment select 0] call fnc_getRoadString], -1] <= 0) then
             {
-                //Either crossroad or dead end, mark detailed and as junction
-                _counter = 0;
-                private _roadmarker = createMarker [format ["Marker%1", _roadName], getPos _roadSegment];
-                _roadmarker setMarkerShape "ICON";
-                _roadmarker setMarkerAlpha 1;
-
-                //Save junctions for postprocessing
-                if(count _connections > 2) then
+                //Segment not already worked on
+                while {_segment isEqualType []} do
                 {
-                    _roadmarker setMarkerType "mil_box";
-                    _roadmarker setMarkerColor "ColorRed";
-                }
-                else
-                {
-                    _roadmarker setMarkerType "mil_triangle";
-                    _roadmarker setMarkerColor "ColorRed";
-                };
+                    _segment params ["_roadSegment", "_roadType", "_connections", "_counter" , "_lastConnection"];
+                    private _roadName = [_roadSegment] call fnc_getRoadString;
+                    deleteMarker format ["Marker%1", _roadName];
 
-                //Mark connection
-                [_roadName, getPos _roadSegment, _roadType, true, _gridNumber] call fnc_setNavPointData;
-                [_roadSegment, _lastConnection] call fnc_setConnection;
-
-                //Update connection data
-                _lastConnection = _roadSegment;
-            }
-            else
-            {
-                //Normal street
-                if(_counter >= 5) then
-                {
-                    //Reached limit, mark detailed without junction
-                    _counter = 0;
-                    private _roadmarker = createMarker [format ["Marker%1", _roadName], getPos _roadSegment];
-                    _roadmarker setMarkerShape "ICON";
-                    _roadmarker setMarkerType "mil_dot";
-                    _roadmarker setMarkerAlpha 1;
-                    _roadmarker setMarkerColor "ColorGrey";
-
-                    //Mark connection
-                    [_roadName, getPos _roadSegment, _roadType, false, _gridNumber] call fnc_setNavPointData;
-                    [_roadSegment, _lastConnection] call fnc_setConnection;
-
-                    //Update connection data
-                    _lastConnection = _roadSegment;
-                };
-            };
-
-            {
-                private _connection = _x;
-                private _index = _preGrid findIf {_x select 0 == _connection};
-                if(_index != -1) then
-                {
-                    private _connectedSegment = _preGrid deleteAt _index;
-                    _connectedSegment pushBack (_counter + 1);
-                    _connectedSegment pushBack _lastConnection;
-                    _openSegments pushBack _connectedSegment;
-                }
-                else
-                {
-                    if(missionNamespace getVariable [format ["Index%1", [_connection] call fnc_getRoadString], -1] != -1) then
+                    if(count _connections != 2) then
                     {
-                        [_roadSegment, _connection] call fnc_setConnection;
+                        //Either crossroad or dead end, mark detailed and as junction
+                        _counter = 0;
+                        //private _roadmarker = createMarker [format ["Marker%1", _roadName], getPos _roadSegment];
+                        //_roadmarker setMarkerShape "ICON";
+                        //_roadmarker setMarkerAlpha 1;
+
+                        //Save junctions for postprocessing
+                        //if(count _connections > 2) then
+                        //{
+                        //    _roadmarker setMarkerType "mil_box";
+                        //    _roadmarker setMarkerColor "ColorGreen";
+                        //}
+                        //else
+                        //{
+                        //    _roadmarker setMarkerType "mil_triangle";
+                        //    _roadmarker setMarkerColor "ColorGreen";
+                        //};
+
+                        //Mark connection
+                        [_roadName, getPos _roadSegment, _roadType, true, _gridNumber] call fnc_setNavPointData;
+                        [_roadSegment, _lastConnection] call fnc_setConnection;
+
+                        //Update connection data
+                        _lastConnection = _roadSegment;
+
+                        {
+                            private _connection = _x;
+                            private _index = _preGrid findIf {_x select 0 == _connection};
+                            if(_index != -1) then
+                            {
+                                private _connectedSegment = _preGrid deleteAt _index;
+                                _connectedSegment pushBack (_counter + 1);
+                                _connectedSegment pushBack _lastConnection;
+                                _openSegments pushBack _connectedSegment;
+                            }
+                            else
+                            {
+                                if(missionNamespace getVariable [format ["Index%1", [_connection] call fnc_getRoadString], -1] != -1) then
+                                {
+                                    [_roadSegment, _connection] call fnc_setConnection;
+                                };
+                            };
+                        } forEach _connections;
+
+                        _segment = objNull;
+                    }
+                    else
+                    {
+                        //Normal street
+                        if(_counter >= 5) then
+                        {
+                            //Reached limit, mark detailed without junction
+                            _counter = 0;
+                            //private _roadmarker = createMarker [format ["Marker%1", _roadName], getPos _roadSegment];
+                            //_roadmarker setMarkerShape "ICON";
+                            //_roadmarker setMarkerType "mil_dot";
+                            //_roadmarker setMarkerAlpha 1;
+                            //_roadmarker setMarkerColor "ColorGrey";
+
+                            //Mark connection
+                            [_roadName, getPos _roadSegment, _roadType, false, _gridNumber] call fnc_setNavPointData;
+                            [_roadSegment, _lastConnection] call fnc_setConnection;
+
+                            //Update connection data
+                            _lastConnection = _roadSegment;
+                        };
+
+                        private _nextConnection = _connections select 0;
+                        if(_nextConnection == _lastSegment) then
+                        {
+                            _nextConnection = _connections select 1;
+                        };
+
+                        _lastSegment = _roadSegment;
+                        private _index = _preGrid findIf {_x select 0 == _nextConnection};
+                        if(_index != -1) then
+                        {
+                            _segment = _preGrid deleteAt _index;
+                            _segment pushBack (_counter + 1);
+                            _segment pushBack _lastConnection;
+                        }
+                        else
+                        {
+                            _segment = objNull;
+                        };
+                    };
+                    if(time - _timeDiff > 0.5) then
+                    {
+                        _timeDiff = time;
+                        private _currentCount = count _preGrid;
+                        _estimate = round (0.95 * _estimate + 0.05 * round (_currentCount/((_lastProcessed - _currentCount) max 1) * 0.5));
+                        hintSilent format
+                        [
+                            "MAINPROCESSING PHASE\n\nProgress: %1%2 (%3/%4)\nTime elapsed: %5 seconds\nEstimated time left: %6 seconds",
+                            (1 - (_currentCount/_startCount)) * 100,
+                            "%",
+                            (_startCount - _currentCount),
+                            _startCount,
+                            round (time - _preTime),
+                            round (_estimate * (0.8 * (1 - (_currentCount/_startCount)) + 0.2))
+                        ];
+                        _lastProcessed = _currentCount;
                     };
                 };
-            } forEach _connections;
-            //sleep 0.001;
+            };
         };
-
         _gridNumber = _gridNumber + 1;
     };
 
