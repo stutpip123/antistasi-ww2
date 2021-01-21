@@ -1,5 +1,5 @@
 /*
-Author: Caleb Serafin (Everything else), Artimis Godfree (Particles)
+Author: Caleb Serafin (Everything else), ArtemisGodfrey (Particles)
     Creates napalm particle effect at target location.
     Depending n wind the particle effect size is proximity: 20m towards Wind, 50m windward, 30m to side.
     Only renders for players it is called on.
