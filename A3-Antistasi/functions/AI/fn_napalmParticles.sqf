@@ -8,7 +8,7 @@ Author: Caleb Serafin (Everything else), ArtemisGodfrey (Particles)
 Arguments:
     <POS3|POS2> AGL centre of effect.
     <SCALAR> Start time if called on a client after the effect has began, allows dynamic rendering. (Default = severTime)
-    <ARRAY<BOOL>> CancellationTokenUUID. Provisioning for implementation of cancellationTokens (Default = "");
+    <STRING> CancellationTokenUUID. Provisioning for implementation of cancellationTokens (Default = "");
 
 Return Value:
     <BOOL> true if normal operation. false if something is invalid.
@@ -65,21 +65,12 @@ _fireYellow setDropInterval 0.0012;
 _alpha = 0.1 ;
 _colour = [1, 1, 0.9];
 private _fireWhite = "#particlesource" createVehicleLocal _posAdj;
-_fireWhite setParticleParams [["a3\data_f\ParticleEffects\Universal\Universal.p3d", 16, 12, 5, 0], "", "Billboard", 1, 16, [0, 0, 1], _velocity, 1, 1.52,1, 0, [.007 + (random 0.02)], [_colour + [0], _colour + [_alpha], _colour + [0]], [1000], 1, 0, "", "", 1];
-_fireWhite setParticleRandom [0, [0, 0, 0], [.2, 0.2, 4], 14, 3, [0, 0, 0, 22], 1, 0];
+_fireWhite setParticleParams [["a3\data_f\ParticleEffects\Universal\Universal.p3d", 16, 12, 5, 0], "", "Billboard", 1, 16, [0, 0, 1], _velocity, 1, 1.52,1, 0, [0.007 + (random 0.02)], [_colour + [0], _colour + [_alpha], _colour + [0]], [1000], 1, 0, "", "", 1];
+_fireWhite setParticleRandom [0, [0, 0, 0], [0.2, 0.2, 4], 14, 3, [0, 0, 0, 22], 1, 0];
 _fireWhite setParticleCircle [20, [0, 0, 0]];
 _fireWhite setDropInterval 0.01;
 
 
-[_fireRed,_cancellationTokenUUID] spawn {
-    params ["_fireRed","_canTokUUID"];
-    private _fnc_cancelRequested = { false; };// Future provisioning for implementation of cancellationTokens.
-
-    while {alive _fireRed && !([_canTokUUID] call _fnc_cancelRequested)} do {
-        _fireRed say3D "fire";
-        uiSleep 13;
-    };
-};
 [_lightAccent,_startTime,_cancellationTokenUUID] spawn {
     params ["_lightAccent","_startTime","_canTokUUID"];
     private _dimTime = 75;

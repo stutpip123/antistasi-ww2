@@ -8,7 +8,7 @@ Author: Caleb Serafin
 Arguments:
     <OBJECT> The targeted object. Is filtered within this function.
     <BOOL> If allowed to create particles and lights. Only set to true if this used on few objects at a time.
-    <ARRAY<BOOL>> CancellationToken; pass with element 0 = true; if element 0 is false effects stop as-soon as possible.
+    <STRING> CancellationToken; pass with element 0 = true; if element 0 is false effects stop as-soon as possible.
 
 Return Value:
     <BOOL> true if normal operation. false if something is invalid.
@@ -24,7 +24,7 @@ Example:
 */
 params [
     ["_victim",objNull,[objNull]],
-    ["_particles",false,[false]].
+    ["_particles",false,[false]],
     ["_cancellationTokenUUID","",[ "" ]]
 ];
 private _filename = "functions\AI\fn_napalmDamage.sqf";
@@ -51,28 +51,31 @@ private _fnc_final = 'params ["_victim"];';                 // params ["_victim"
 private _invalidVictim = false;
 switch (true) do {
     case (_victim isKindOf "CAManBase"): {  // Man includes everything biological, even animals such as goats ect...
-        _fnc_onTick = _fnc_onTick +
-            'if (alive _victim && {((_timeBetweenTicks*_tickCount) mod 1) isEqualTo 0}) then {'+  // Once per second
-            '    playSound3D [selectRandom A3A_injuredSounds,vehicle _victim,nil, nil, 0.8, 0.75, 50];'+  // For `vehicle _victim` see https://community.bistudio.com/wiki/playSound3D Comment Posted on November 8, 2014 - 21:48 (UTC) By Killzone kid
-            '};';
         if (hasACEMedical) then {
-            _fnc_onTick = _fnc_onTick +'[ _victim, 1*' + str _damagePerTick + ' , "Body", "grenade"] call ace_medical_fnc_addDamageToUnit';  // Multiplier might need to be raised for ACE.
+            _fnc_onTick = _fnc_onTick +'[ _victim, 1*' + str _damagePerTick + ' , "Body", "grenade"] call ace_medical_fnc_addDamageToUnit;'+  // Multiplier might need to be raised for ACE.
+
+            'if (alive _victim && {!(_victim getVariable ["ACE_isUnconscious",false])} && {(('+ str _timeBetweenTicks + '*_tickCount) mod 2) isEqualTo 0}) then {'+  // Once every 2 seconds
+            '    playSound3D [selectRandom A3A_sounds_soundInjured_max,vehicle _victim, false, getPosASL vehicle _victim, 2, 0.65, 200];'+  // 0.65 pitch is nice zombie groan. // For `vehicle _victim` see https://community.bistudio.com/wiki/playSound3D Comment Posted on November 8, 2014 - 21:48 (UTC) By Killzone kid
+            '};';
         } else {
-            _fnc_onTick = _fnc_onTick +' _victim setDamage [(damage _victim + ' + str _damagePerTick + ') min 1, true];';
+            _fnc_onTick = _fnc_onTick +'_victim setDamage [(damage _victim + ' + str _damagePerTick + ') min 1, true];
+
+            if (alive _victim && {(('+ str _timeBetweenTicks + '* _tickCount) mod 2) isEqualTo 0}) then {'+  // Once every 2 seconds
+            '    playSound3D [selectRandom A3A_sounds_soundInjured_max,vehicle _victim, false, getPosASL vehicle _victim, 2, 0.65, 200];'+  // 0.65 pitch is nice zombie groan. // For `vehicle _victim` see https://community.bistudio.com/wiki/playSound3D Comment Posted on November 8, 2014 - 21:48 (UTC) By Killzone kid
+            '};';
         };
         if (_particles) then {
             // WIP
         };
     };
     case (_victim isKindOf "Man"): {_invalidVictim = true;};  // Goats, Sneks, butterflies, Rabbits can be blessed by Petros himself.
-    case (_victim isKindOf "AllVehicles" && {_victim isClass (configFile >> "cfgVehicles" >> typeOf _victim >> "HitPoints" >> "HitHull")}): {
+    case (_victim isKindOf "AllVehicles" && {isClass (configFile >> "cfgVehicles" >> typeOf _victim >> "HitPoints" >> "HitHull")}): {
         // Vehicles should be damaged as much as possible but salvageable. This would give napalm a unique tactic of clearing AI from vehicles allowing them to be repaired, refuelled and requestioned.
         _fnc_onTick = _fnc_onTick +
-            '_victim setDamage [((damage _victim + ' + str _damagePerTick + ') min 0.8) max (getDammage _victim), true];
-            _victim setHitPointDamage [HitHull,(((_victim getHitPointDamage HitHull) + ' + str _damagePerTick + ') min 0.8) max (_victim getHitPointDamage HitHull)];'+ // Limited to avoid vehicle being destroyed. Will not decrease vehicle damage if it was initially above 80%
+            '_victim setHitPointDamage ["HitHull",(((_victim getHitPointDamage "HitHull") + ' + str _damagePerTick + ') min 0.9) max (_victim getHitPointDamage "HitHull")];'+ // Limited to avoid vehicle being destroyed. Will not decrease vehicle damage if it was initially above 80%
             '{
                 _victim setHitPointDamage [_x,((_victim getHitPointDamage _x) + ' + str _damagePerTick + ') min 1];
-            } forEach ' + str ((getAllHitPointsDamage _victim) - ["hithull"]) + ';
+            } forEach ' + str ((getAllHitPointsDamage _victim)#0 - ["hithull"]) + ';
 
             clearMagazineCargoGlobal _victim;
             clearWeaponCargoGlobal _victim;
@@ -82,20 +85,27 @@ switch (true) do {
             private _thermalHeat = 0.75*(_tickCount/'+ str _totalTicks +') + 0.25;'+  // The vehicles shouldn't snap to cold when the napalm effect starts begin.
             '_victim setVehicleTIPars [_thermalHeat, _thermalHeat, _thermalHeat];';
 
-        if (_victim isKindOf "Car_F") then {
+        private _horn = getArray (configFile >> "cfgVehicles" >> typeOf _victim >> "weapons");
+        if !(_horn isEqualTo []) then {
+            private _soundArray = getArray (configFile >> "cfgWeapons" >> _horn#0 >> "drySound");
+            _soundArray params [["_sound",""],["_volume",1],["_pitch",1],["_range",250]];
+            if (_sound == "") exitWith {};  // When fileExists becomes available on stable, use `fileExists (_soundArray#0 + ".wss")`
+            _sound = _sound + ".wss";
+            _pitch = _pitch -0.05;
+
             _fnc_onTick = _fnc_onTick +
-            'if (alive _victim && {((' + str _timeBetweenTicks + '*_tickCount) mod 1) isEqualTo 0}) then {'+  // Once per second
-            '    playSound3D ["A3\Sounds_F\weapons\horns\MRAP_02_horn_2", _victim,nil, nil, 0.8, 1, 50];
+            'if (alive _victim && {((' + str _timeBetweenTicks + '* _tickCount) mod 2) isEqualTo 0}) then {'+  // Once every 2 seconds
+            '   playSound3D ['+ str _sound +', _victim, false, getPosASL _victim, '+ str _volume +' + random 1, '+ str _pitch +' + random 0.1, '+ str _range +'];
             };'
         };
     };
     case (_victim isKindOf "ReammoBox_F"): {
         _fnc_onTick = _fnc_onTick + '_victim setDamage [(damage _victim + ' + str _damagePerTick + ') min 1, true];';
-        _fnc_final = _fnc_final + 'deleteVehicle _victim';
+        _fnc_final = _fnc_final + 'deleteVehicle _victim;';
     };
     case (_victim isKindOf "WeaponHolder"): {
         _totalTicks = 0;
-        _fnc_final = _fnc_final + 'deleteVehicle _victim';  // Items would be burnt to ashes.
+        _fnc_final = _fnc_final + 'deleteVehicle _victim;';  // Items would be burnt to ashes.
     };
     default {_invalidVictim = true;};  // Exclude everything else. Safest & least laggy option, gameplay comes before realism.
 };
@@ -108,16 +118,16 @@ switch (true) do {
 
     uiSleep (random 2); // To ensure that damage and sound is not in-sync. Makes it more chaotic.
 
-    if (_fnc_exit) exitWith {};
+    if (call _fnc_exit) exitWith {};
     [_victim] call _fnc_init;
 
     for "_tickCount" from 1 to _totalTicks do {
-        if (_fnc_exit) exitWith {};
+        if (call _fnc_exit) exitWith {};
         [_victim, _tickCount] call _fnc_onTick;
         uiSleep _timeBetweenTicks;
     };
 
-    if (_fnc_exit) exitWith {};
+    if (call _fnc_exit) exitWith {};
     [_victim] call _fnc_final;
 };
 
