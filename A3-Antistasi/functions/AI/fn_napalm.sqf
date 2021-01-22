@@ -1,7 +1,6 @@
 /*
 Author: Caleb Serafin
     Spawns napalm fire and damage at target location.
-    Give seconds to `A3A_dev_napalmDynPrtclUpd` in debug console to set radius check time.
 
 Arguments:
     <POS3|POS2> AGL centre of effect.
@@ -16,11 +15,24 @@ Public: Yes.
 
 Example:
     [screenToWorld [0.5,0.5]] remoteExec  ["A3A_fnc_napalm",2];  // Spawn napalm fire and damage at the terrain position you are looking at.
-    [_this] spawn {
-        params ["_object"];
-        uiSleep 10;
-        [getPos _object] remoteExec ["A3A_fnc_napalm",2];
+
+    [screenToWorld [0.5,0.5]] spawn {   // 5 second delay
+        params ["_pos"];
+        uiSleep 5;
+        [_pos] remoteExec ["A3A_fnc_napalm",2];
     };
+
+    dev_napalmGo = 0;                   // Step 1: Init signal
+    [screenToWorld [0.5,0.5]] spawn {   // Step 2: Wait on signal, repeat as many times as you wish.
+        params ["_pos"];
+        waitUntil {
+            uiSleep 1;
+            ((dev_napalmGo +5) > serverTime)
+        };
+        uiSleep random 3;
+        [_pos] remoteExec ["A3A_fnc_napalm",2];
+    };
+    dev_napalmGo = serverTime;          // Step 3: Detonate and trigger signal
 */
 params [
     ["_pos",[],[ [] ], [2,3]],
@@ -35,11 +47,8 @@ private _startTime = serverTime;
 private _endTime = _startTime + 90;
 
 private _napalmID = str serverTime + str random 1e5;
+private _napalmRadius = 30;
 private _storageNamespace = [localNamespace,"A3A_NapalmRegister",_napalmID,"active",true] call A3A_fnc_setNestedObject;
-
-if (isNil {A3A_dev_napalmDynPrtclUpd}) then {   // After testing and seeing how different values affect performance, should be hard coded.
-    A3A_dev_napalmDynPrtclUpd = 5;
-};
 
 playSound3D ["a3\sounds_f\weapons\explosion\expl_big_3.wss",_pos, false, AGLToASL _pos, 5, 0.6, 3000];   // Isn't actually audible at 3km, by 500m it's competing with footsteps.
 [_pos,_endTime,_cancellationTokenUUID] spawn {
@@ -55,14 +64,14 @@ playSound3D ["a3\sounds_f\weapons\explosion\expl_big_3.wss",_pos, false, AGLToAS
     };
 };
 
-{ _x hideObjectGlobal true } foreach (nearestTerrainObjects [_pos,["tree","bush","small tree"],27.5])
+{ _x hideObjectGlobal true } foreach (nearestTerrainObjects [_pos,["tree","bush","small tree"],_napalmRadius]);
 
 private _fnc_cancelRequested = { false; };// Future provisioning for implementation of cancellationTokens.
 while {_endTime > serverTime && !([_cancellationTokenUUID] call _fnc_cancelRequested)} do {
 
     // Particles
     private _allRenderers = allPlayers;
-    //_allRenderers = _allRenderers select {(_x distance2D _pos) < 1500};  // (distance filtering allPlayers) will be far less than (player filtering nearEntities).
+    //_allRenderers = _allRenderers select {(_x distance2D _pos) < 1500};  (distance filtering allPlayers) will be far less than (player filtering nearEntities). // Turn on if optimisation is required (A good way to show progress without doing any work!)
     isNil {  // Run in unscheduled scope to prevent parallel filtering.
         _allRenderers = _allRenderers select {!isNull _x && { !(_storageNamespace getVariable [getPlayerUID _x, false]) }};    // Per napalm as every effect needs to be rendered.
         { _storageNamespace setVariable [getPlayerUID _x, true]; } forEach _allRenderers;
@@ -71,7 +80,9 @@ while {_endTime > serverTime && !([_cancellationTokenUUID] call _fnc_cancelReque
 
 
     // Damage
-    private _victims = _pos nearEntities 27.5;  // The particle system is hardcoded. Radius appears 20-40m depending on wind.
+    private _victims = _pos nearEntities _napalmRadius;  // The particle system is hardcoded. Radius appears 20-40m depending on wind. Better performance than nearObjects.
+    //_victims append (_pos nearObjects ["Building", _napalmRadius]);  // Also parent of groundWeaponHolder and ReammoBox
+    _victims append (_pos nearObjects ["All", _napalmRadius]);  // Also parent of groundWeaponHolder and ReammoBox
     private _crew = [];
     { _crew append crew _x; } forEach _victims;
     _victims append _crew;
@@ -79,10 +90,13 @@ while {_endTime > serverTime && !([_cancellationTokenUUID] call _fnc_cancelReque
         _victims = _victims select { !isNull _x && {(_x getVariable ["A3A_napalm_processing",0]) < serverTime}};    // Global to avoid double damage.
         { _x setVariable ["A3A_napalm_processing",serverTime + 30]; } forEach _victims;
     };
-    { [_x, true,_cancellationTokenUUID] remoteExecCall ["A3A_fnc_napalmDamage",_x]; } forEach _victims;
+    {
+        private _owner = owner _x;
+        if (_owner isEqualTo 0) then { _owner = 2; };
+        [_x, true,_cancellationTokenUUID] remoteExecCall ["A3A_fnc_napalmDamage",_owner];
+    } forEach _victims;
 
-
-    uiSleep A3A_dev_napalmDynPrtclUpd;
+    uiSleep 5;
 };
 
 _storageNamespace setVariable ["active",false];

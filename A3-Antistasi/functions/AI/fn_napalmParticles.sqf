@@ -38,7 +38,7 @@ _lightPrimary setLightAmbient[0.3, 0.1, 0];
 _lightPrimary setLightColor[0.3, 0.1, 0];
 
 private _lightAccent = "#lightpoint" createVehicleLocal [_pos#0, _pos#1, _pos#2 + 10];
-_lightAccent setLightBrightness 55.4;
+_lightAccent setLightBrightness 55;
 _lightAccent setLightAmbient[1, 1, 1];
 _lightAccent setLightColor[1, 1, 0.9];
 
@@ -76,12 +76,11 @@ _fireWhite setDropInterval 0.01;
     private _dimTime = 75;
     private _dimEnd = _startTime + _dimTime;
     private _fnc_cancelRequested = { false; };// Future provisioning for implementation of cancellationTokens.
-
     while {serverTime <= _dimEnd && !([_canTokUUID] call _fnc_cancelRequested)} do {
-        _lightAccent setLightBrightness (55.4 * (1- ((serverTime-_startTime)^0.5)/_dimTime) );
-        uiSleep 0.01;  // Update Every frame.
+        _lightAccent setLightBrightness ((55 * (1- sqrt( (serverTime-_startTime)/_dimTime ))) max 0.001);
+        uiSleep 5;
     };
-    _lightAccent setLightBrightness 0.4;
+    _lightAccent setLightBrightness 0.001;
 };
 
 private _effectLifetimes = [  // These are independent times from startTime
