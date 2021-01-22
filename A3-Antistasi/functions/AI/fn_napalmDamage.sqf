@@ -7,13 +7,13 @@ Author: Caleb Serafin
 
 Arguments:
     <OBJECT> The targeted object. Is filtered within this function.
-    <ARRAY<BOOL>> CancellationToken; pass with element 0 = true; if element 0 is false effects stop as-soon as possible.
     <BOOL> If allowed to create particles and lights. Only set to true if this used on few objects at a time.
+    <ARRAY<BOOL>> CancellationToken; pass with element 0 = true; if element 0 is false effects stop as-soon as possible.
 
 Return Value:
     <BOOL> true if normal operation. false if something is invalid.
 
-Scope: Where _victim is local, Local Arguments, Global Effect
+Scope: _victim, Local Arguments, Global Effect
 Environment: Any
 Public: Yes. Can be called on objects independently, might make for an "interesting" punishment.
 Dependencies:
@@ -24,16 +24,16 @@ Example:
 */
 params [
     ["_victim",objNull,[objNull]],
-    ["_cancellationTokenUUID","",[ "" ]],
-    ["_particles",false,[false]]
+    ["_particles",false,[false]].
+    ["_cancellationTokenUUID","",[ "" ]]
 ];
 private _filename = "functions\AI\fn_napalmDamage.sqf";
 
 if (isNull _victim) exitWith {false};  // Silent, likely for script to find some null objects somehow.
 
 if (isNil {
-    if (!alive _victim || {(_victim getVariable ["A3A_napalm_processed",0]) < serverTime} || {!isDamageAllowed _victim}) exitWith {nil};
-    _victim setVariable ["A3A_napalm_processed",serverTime + 60];    // For 60 seconds they will not be processed again. I doubt this exploit could do anything meaningful with _overKill elongating the punishment to 30 sec.
+    if (!alive _victim || {(_victim getVariable ["A3A_napalm_processing",0]) < serverTime} || {!isDamageAllowed _victim}) exitWith {nil};
+    _victim setVariable ["A3A_napalm_processing",serverTime + 30];    // For 60 seconds they will not be processed again. I doubt this exploit could do anything meaningful with _overKill elongating the punishment to 30 sec.
     1;
 }) exitWith {true};
 private _overKill = 5;  // In case the the unit starts getting healed.

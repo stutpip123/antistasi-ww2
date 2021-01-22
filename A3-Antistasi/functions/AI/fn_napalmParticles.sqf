@@ -7,13 +7,13 @@ Author: Caleb Serafin (Everything else), ArtemisGodfrey (Particles)
 
 Arguments:
     <POS3|POS2> AGL centre of effect.
-    <ARRAY<BOOL>> CancellationTokenUUID. Provisioning for implementation of cancellationTokens (Default = "");
     <SCALAR> Start time if called on a client after the effect has began, allows dynamic rendering. (Default = severTime)
+    <ARRAY<BOOL>> CancellationTokenUUID. Provisioning for implementation of cancellationTokens (Default = "");
 
 Return Value:
     <BOOL> true if normal operation. false if something is invalid.
 
-Scope: Clients, Global Arguments, Local Effect
+Scope: Client, Global Arguments, Local Effect
 Environment: Scheduled
 Public: Yes. Can be called on positions independently, will not trigger other effects or functions.
 
@@ -22,8 +22,8 @@ Example:
 */
 params [
     ["_pos",[],[ [] ], [2,3]],
-    ["_cancellationTokenUUID","",[ "" ]],
-    ["_startTime",serverTime,[ 0 ]]
+    ["_startTime",serverTime,[ 0 ]],
+    ["_cancellationTokenUUID","",[ "" ]]
 ];
 private _filename = "functions\AI\fn_napalmParticles.sqf";
 
@@ -93,7 +93,7 @@ _fireWhite setDropInterval 0.01;
     _lightAccent setLightBrightness 0.4;
 };
 
-private _effectLifetimes = [
+private _effectLifetimes = [  // These are independent times from startTime
     [10,_fireWhite],
     [75,_lightAccent],
     [75,_fireYellow],
@@ -103,7 +103,6 @@ private _effectLifetimes = [
 _effectLifetimes sort true;
 
 private _fnc_cancelRequested = { false; };// Future provisioning for implementation of cancellationTokens.
-
 while {count _effectLifetimes > 0 && !([_cancellationTokenUUID] call _fnc_cancelRequested)} do {
     uiSleep ((_startTime + _effectLifetimes#0#0 - serverTime) max 0.01);  // sleep until next one is due.
     deleteVehicle (_effectLifetimes#0#1);
