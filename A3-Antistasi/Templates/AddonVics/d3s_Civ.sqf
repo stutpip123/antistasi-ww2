@@ -615,7 +615,7 @@ civVehIndustrialData append [
 	,"d3s_peterbilt_579_dryvan", 0.5
 	,"d3s_peterbilt_579_dump", 0.5
 	,"d3s_scania_16_30", 0.5
-	,"d3s_scania_16_30reef", 0.5
+	,"d3s_scania_16_30reef", 0.5       */
 	/*Russian*/                        /*
 	,"d3s_zil_130_01", 0.5
 	,"d3s_zil_130_02", 0.5
