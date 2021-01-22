@@ -55,13 +55,13 @@ switch (true) do {
             _fnc_onTick = _fnc_onTick +'[ _victim, 1*' + str _damagePerTick + ' , "Body", "grenade"] call ace_medical_fnc_addDamageToUnit;'+  // Multiplier might need to be raised for ACE.
 
             'if (alive _victim && {!(_victim getVariable ["ACE_isUnconscious",false])} && {(('+ str _timeBetweenTicks + '*_tickCount) mod 2) isEqualTo 0}) then {'+  // Once every 2 seconds
-            '    playSound3D [selectRandom A3A_sounds_soundInjured_max,vehicle _victim, false, getPosASL vehicle _victim, 2, 0.65, 200];'+  // 0.65 pitch is nice zombie groan. // For `vehicle _victim` see https://community.bistudio.com/wiki/playSound3D Comment Posted on November 8, 2014 - 21:48 (UTC) By Killzone kid
+            '    playSound3D [selectRandom A3A_sounds_soundInjured_max,vehicle _victim, false, getPosASL vehicle _victim, 1.75, 1, 200];'+  // 0.65 pitch is nice zombie groan. // For `vehicle _victim` see https://community.bistudio.com/wiki/playSound3D Comment Posted on November 8, 2014 - 21:48 (UTC) By Killzone kid
             '};';
         } else {
             _fnc_onTick = _fnc_onTick +'_victim setDamage [(damage _victim + ' + str _damagePerTick + ') min 1, true];
 
             if (alive _victim && {(('+ str _timeBetweenTicks + '* _tickCount) mod 2) isEqualTo 0}) then {'+  // Once every 2 seconds
-            '    playSound3D [selectRandom A3A_sounds_soundInjured_max,vehicle _victim, false, getPosASL vehicle _victim, 2, 0.65, 200];'+  // 0.65 pitch is nice zombie groan. // For `vehicle _victim` see https://community.bistudio.com/wiki/playSound3D Comment Posted on November 8, 2014 - 21:48 (UTC) By Killzone kid
+            '    playSound3D [selectRandom A3A_sounds_soundInjured_max,vehicle _victim, false, getPosASL vehicle _victim, 1.75, 1, 200];'+  // 0.65 pitch is nice zombie groan. // For `vehicle _victim` see https://community.bistudio.com/wiki/playSound3D Comment Posted on November 8, 2014 - 21:48 (UTC) By Killzone kid
             '};';
         };
         if (_particles) then {
