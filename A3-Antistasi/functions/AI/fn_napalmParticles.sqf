@@ -78,7 +78,7 @@ _fireWhite setDropInterval 0.01;
     private _fnc_cancelRequested = { false; };// Future provisioning for implementation of cancellationTokens.
 
     while {serverTime <= _dimEnd && !([_canTokUUID] call _fnc_cancelRequested)} do {
-        _lightAccent setLightBrightness (55.4 * (_dimEnd-serverTime ) / _dimTime);
+        _lightAccent setLightBrightness (55.4 * (1- ((serverTime-_startTime)^0.5)/_dimTime) );
         uiSleep 0.01;  // Update Every frame.
     };
     _lightAccent setLightBrightness 0.4;
