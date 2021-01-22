@@ -8,6 +8,7 @@ Author: Caleb Serafin (Everything else), ArtemisGodfrey (Particles)
 Arguments:
     <POS3|POS2> AGL centre of effect.
     <ARRAY<BOOL>> CancellationTokenUUID. Provisioning for implementation of cancellationTokens (Default = "");
+    <SCALAR> Start time if called on a client after the effect has began, allows dynamic rendering. (Default = severTime)
 
 Return Value:
     <BOOL> true if normal operation. false if something is invalid.
@@ -17,11 +18,12 @@ Environment: Scheduled
 Public: Yes. Can be called on positions independently, will not trigger other effects or functions.
 
 Example:
-    [screenToWorld [0.5,0.5], true] call A3A_fnc_napalmDamage;  // Spawn napalm particles at the terrain position you are looking at.
+    [screenToWorld [0.5,0.5], true] call A3A_fnc_napalmParticles;  // Spawn napalm particles at the terrain position you are looking at.
 */
 params [
     ["_pos",[],[ [] ], [2,3]],
-    ["_cancellationTokenUUID","",[ "" ]]
+    ["_cancellationTokenUUID","",[ "" ]],
+    ["_startTime",serverTime,[ 0 ]]
 ];
 private _filename = "functions\AI\fn_napalmParticles.sqf";
 
@@ -70,18 +72,18 @@ _fireWhite setDropInterval 0.01;
 
 
 [_fireRed,_cancellationTokenUUID] spawn {
-    params ["_fire","_canTokUUID"];
+    params ["_fireRed","_canTokUUID"];
     private _fnc_cancelRequested = { false; };// Future provisioning for implementation of cancellationTokens.
 
-    while {alive _fire && !([_canTokUUID] call _fnc_cancelRequested)} do {
-        _fire say3D "fire";
+    while {alive _fireRed && !([_canTokUUID] call _fnc_cancelRequested)} do {
+        _fireRed say3D "fire";
         uiSleep 13;
     };
 };
-[_lightAccent,_cancellationTokenUUID] spawn {
-    params ["_lightAccent","_canTokUUID"];
-    private _dimTime = 2;
-    private _dimEnd = serverTime + _dimTime;
+[_lightAccent,_startTime,_cancellationTokenUUID] spawn {
+    params ["_lightAccent","_startTime","_canTokUUID"];
+    private _dimTime = 75;
+    private _dimEnd = _startTime + _dimTime;
     private _fnc_cancelRequested = { false; };// Future provisioning for implementation of cancellationTokens.
 
     while {serverTime <= _dimEnd && !([_canTokUUID] call _fnc_cancelRequested)} do {
@@ -91,13 +93,12 @@ _fireWhite setDropInterval 0.01;
     _lightAccent setLightBrightness 0.4;
 };
 
-private _startTime = serverTime;
 private _effectLifetimes = [
     [10,_fireWhite],
-    [15,_lightAccent],
-    [80,_fireYellow],
+    [75,_lightAccent],
+    [75,_fireYellow],
     [90,_fireRed],
-    [105,_lightPrimary]
+    [90,_lightPrimary]
 ];
 _effectLifetimes sort true;
 
