@@ -93,10 +93,8 @@ switch (true) do {
             _sound = _sound + ".wss";
             _pitch = _pitch -0.05;
 
-            _fnc_onTick = _fnc_onTick +
-            'if (alive _victim && {((' + str _timeBetweenTicks + '* _tickCount) mod 2) isEqualTo 0}) then {'+  // Once every 2 seconds
-            '   playSound3D ['+ str _sound +', _victim, false, getPosASL _victim, '+ str _volume +' + random 1, '+ str _pitch +' + random 0.1, '+ str _range +'];
-            };'
+            _fnc_init = _fnc_init +
+            'playSound3D ['+ str _sound +', _victim, false, getPosASL _victim, '+ str _volume +' + random 1, '+ str _pitch +' + random 0.1, '+ str _range +'];'
         };
     };
     case (_victim isKindOf "ReammoBox_F"): {
