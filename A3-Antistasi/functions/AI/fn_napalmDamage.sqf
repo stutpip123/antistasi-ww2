@@ -97,24 +97,30 @@ switch (true) do {
             'playSound3D ['+ str _sound +', _victim, false, getPosASL _victim, '+ str _volume +' + random 1, '+ str _pitch +' + random 0.1, '+ str _range +'];'
         };
     };
+    case (_victim isKindOf "Building"): {
+        _totalTicks = _totalTicks/_overKill;  // Undo overkill
+        _fnc_onTick = _fnc_onTick +'_victim setDamage [(damage _victim + ' + str _damagePerTick + ') min 1, true];';
+    };
     case (_victim isKindOf "ReammoBox_F"): {
+        _totalTicks = _totalTicks/_overKill;  // Undo overkill
         _fnc_onTick = _fnc_onTick + '_victim setDamage [(damage _victim + ' + str _damagePerTick + ') min 1, true];';
         _fnc_final = _fnc_final + 'deleteVehicle _victim;';
     };
-    case (_victim isKindOf "WeaponHolder"): {
-        _totalTicks = 0;
+    case (_victim isKindOf "GroundWeaponHolder"): {
+        _totalTicks = 1;
         _fnc_final = _fnc_final + 'deleteVehicle _victim;';  // Items would be burnt to ashes.
     };
     default {_invalidVictim = true;};  // Exclude everything else. Safest & least laggy option, gameplay comes before realism.
 };
 
+if (_invalidVictim) exitWith {true};
 [_victim,_cancellationTokenUUID,_timeBetweenTicks,_totalTicks,compile _fnc_init,compile _fnc_onTick, compile _fnc_final] spawn {
     params ["_victim", "_canTokUUID", "_timeBetweenTicks" ,"_totalTicks","_fnc_init", "_fnc_onTick", "_fnc_final"];
 
     private _fnc_cancelRequested = { false; };// Future provisioning for implementation of cancellationTokens.
     private _fnc_exit = {isNull _victim || [_canTokUUID] call _fnc_cancelRequested};
 
-    uiSleep (random 2); // To ensure that damage and sound is not in-sync. Makes it more chaotic.
+    uiSleep (random 3); // To ensure that damage and sound is not in-sync. Makes it more chaotic.
 
     if (call _fnc_exit) exitWith {};
     [_victim] call _fnc_init;

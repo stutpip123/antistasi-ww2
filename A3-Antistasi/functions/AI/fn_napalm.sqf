@@ -42,7 +42,6 @@ if (isNil {A3A_dev_napalmDynPrtclUpd}) then {   // After testing and seeing how 
 };
 
 playSound3D ["a3\sounds_f\weapons\explosion\expl_big_3.wss",_pos, false, AGLToASL _pos, 5, 0.6, 3000];   // Isn't actually audible at 3km, by 500m it's competing with footsteps.
-
 [_pos,_endTime,_cancellationTokenUUID] spawn {
     params ["_pos","_endTime","_canTokUUID"];
 
@@ -55,6 +54,8 @@ playSound3D ["a3\sounds_f\weapons\explosion\expl_big_3.wss",_pos, false, AGLToAS
         uiSleep _audioDuration;
     };
 };
+
+{ _x hideObjectGlobal true } foreach (nearestTerrainObjects [_pos,["tree","bush","small tree"],27.5])
 
 private _fnc_cancelRequested = { false; };// Future provisioning for implementation of cancellationTokens.
 while {_endTime > serverTime && !([_cancellationTokenUUID] call _fnc_cancelRequested)} do {
