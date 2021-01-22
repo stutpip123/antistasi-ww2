@@ -2,7 +2,7 @@
 Author: Caleb Serafin
     Decimates most objects.
     Vehicles should survive but be extremely damaged.
-    Plays relevant audio if applicable. (Hurt sounds, car horn)
+    Plays relevant audio if applicable. (Hurt sounds)
     Deletes items and cargo inventory.
 
 Arguments:

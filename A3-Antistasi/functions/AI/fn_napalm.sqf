@@ -71,7 +71,7 @@ while {_endTime > serverTime && !([_cancellationTokenUUID] call _fnc_cancelReque
 
     // Particles
     private _allRenderers = allPlayers;
-    //_allRenderers = _allRenderers select {(_x distance2D _pos) < 1500};  (distance filtering allPlayers) will be far less than (player filtering nearEntities). // Turn on if optimisation is required (A good way to show progress without doing any work!)
+    //_allRenderers = _allRenderers select {(_x distance2D _pos) < 1500};  // Turn on if optimisation is required (A good way to show progress to your boss without doing any work!)
     isNil {  // Run in unscheduled scope to prevent parallel filtering.
         _allRenderers = _allRenderers select {!isNull _x && { !(_storageNamespace getVariable [getPlayerUID _x, false]) }};    // Per napalm as every effect needs to be rendered.
         { _storageNamespace setVariable [getPlayerUID _x, true]; } forEach _allRenderers;
@@ -81,7 +81,6 @@ while {_endTime > serverTime && !([_cancellationTokenUUID] call _fnc_cancelReque
 
     // Damage
     private _victims = _pos nearEntities _napalmRadius;  // The particle system is hardcoded. Radius appears 20-40m depending on wind. Better performance than nearObjects.
-    //_victims append (_pos nearObjects ["Building", _napalmRadius]);  // Also parent of groundWeaponHolder and ReammoBox
     _victims append (_pos nearObjects ["All", _napalmRadius]);  // Also parent of groundWeaponHolder and ReammoBox
     private _crew = [];
     { _crew append crew _x; } forEach _victims;

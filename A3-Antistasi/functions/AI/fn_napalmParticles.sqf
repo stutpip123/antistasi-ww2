@@ -1,9 +1,9 @@
 /*
 Author: Caleb Serafin (Everything else), ArtemisGodfrey (Particles)
-    Creates napalm particle effect at target location.
-    Depending n wind the particle effect size is proximity: 20m towards Wind, 50m windward, 30m to side.
+    Creates a napalm particle effect at target location.
+    Depending on wind the particle effect size is proximity: 20m towards wind, 50m windward, 30m to side.
     Only renders for players it is called on.
-    Safe to eat. Does not cause cancer other side-effects.
+    Safe to eat. Does not cause cancer or other side-effects.
 
 Arguments:
     <POS3|POS2> AGL centre of effect.
