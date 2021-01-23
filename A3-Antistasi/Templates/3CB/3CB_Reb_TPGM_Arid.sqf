@@ -50,10 +50,10 @@ vehSDKLightArmed = "UK3CB_TKM_B_Hilux_Pkm";
 vehSDKAT = "UK3CB_TKM_I_LR_SPG9";
 vehSDKLightUnarmed = "UK3CB_TKM_B_Datsun_Pkm";//Otherwise it would be an exact match of the civ one. Dumb confusion is dumb.
 vehSDKTruck = "UK3CB_TKM_B_V3S_Open";
-//vehSDKHeli = "rhsgref_ins_g_Mi8amt";
 vehSDKPlane = "UK3CB_TKC_B_Antonov_AN2";
 vehSDKBoat = "UK3CB_TKA_B_RHIB_Gunboat";
 vehSDKRepair = "UK3CB_TKM_B_V3S_Repair";
+vehSDKAA = "UK3CB_TKM_B_Hilux_Zu23";
 
 //Civilian Vehicles
 civCar = "UK3CB_C_Hilux_Open";
