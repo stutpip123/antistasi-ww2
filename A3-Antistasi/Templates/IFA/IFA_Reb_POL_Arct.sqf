@@ -48,7 +48,6 @@ vehSDKLightArmed = "LIB_DAK_Kfz1_MG42";
 vehSDKAT = "not_supported";
 vehSDKLightUnarmed = "LIB_US_Willys_MB";
 vehSDKTruck = "LIB_US_GMC_Open";
-//vehSDKHeli = "I_C_Heli_Light_01_civil_F";
 vehSDKPlane = "LIB_US_NAC_P39";
 vehSDKBoat = "I_C_Boat_Transport_01_F";
 vehSDKRepair = "LIB_US_GMC_Parm";

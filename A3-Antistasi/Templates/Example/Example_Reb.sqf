@@ -41,7 +41,7 @@ sdkTier3 = SDKSL + SDKSniper;
 soldiersSDK = sdkTier1 + sdkTier2 + sdkTier3;
 
 ////////////////////////////////////
-//           VEHICLES            ///
+//           VEHICLES            ///  If there isn't an option in your mod for the asset, then you can put not_supported in place of a classname.
 ////////////////////////////////////
 //Military Vehicles
 vehSDKBike = "";//classname for quadbike or equivalent.
@@ -52,6 +52,7 @@ vehSDKTruck = "";//classname for troop transport truck
 vehSDKPlane = "";//classname for plane to be used for rebel airstrikes. *not buyable*
 vehSDKBoat = "";//classname for transport boat
 vehSDKRepair = "";//classname for repair vehicle *not buyable*
+vehSDKAA = "";//classname for the rebel AA truck.
 
 //Civilian Vehicles
 civCar = "";//classname for *civilian* car/pickup truck
