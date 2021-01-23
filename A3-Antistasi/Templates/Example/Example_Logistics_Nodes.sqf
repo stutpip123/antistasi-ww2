@@ -13,9 +13,9 @@ Always think of the next guy that may have to work on your code. Chances are it 
 
 /*The first section is for setting the nodes that weapons and boxes should attach to.
 
-    This has the model path for the vehicle, then 3 sections as follows; Node size (allways 1), Node location and locked seats.
+    This has the model path for the vehicle, then 3 sections as follows; Node size (always 1), Node location and locked seats.
 
-      The node location is a set of 3 coordinates in referance to the vehicle model, this defines where the node should be.
+      The node location is a set of 3 coordinates in reference to the vehicle model, this defines where the node should be.
 
       The locked seat list is the set of seats that should be made unusable when the node has something on it.
       This stops people being clipped into the crate/static when it is loaded. It is populated with the seat IDs for each one to be disabled.
@@ -41,7 +41,7 @@ A3A_logistics_vehicleHardpoints append [
   This is usually separated into 3 sections; Weapons, Crates and Other.
   The first 2 are self explanatory, the 3rd is for things like quadbikes, as they can be loaded onto vehicles if they are initialised properly.
   This is filled by listing the model path, the coordinate offset(for tweaking it so that its base is centered on the node), and any angle offset it needs (in case the weapon should be facing any other direction than forward by default.),
-  finally you list the node size that the entry should use from 1 to x, for reference a crate usualy is either 1 or 2, and a static is 2 or 4, but it can be any size you want EXCEPT 0 or negative numbers!!!!
+  finally you list the node size that the entry should use from 1 to x, for reference a crate usually is either 1 or 2, and a static is 2 or 4, but it can be any size you want EXCEPT 0 or negative numbers!!!!
   in addition if your defining offsets for weapons youd want to add in one more entry after size that of recoil, this is how much newtonian force is applied to the vehicle when you fire the static
 */
 A3A_logistics_attachmentOffset append [
@@ -59,10 +59,10 @@ A3A_logistics_coveredVehicles append [
 
 /*
     Finally you need to declair weapons that you have added here, this is done with arrays consisting of pairs of the model of the weapon, and an array of all vehicle models the weapon is not allowed on.
-    This blacklisted vehicles already include closed and covered vehicles so yuo dont have to add those
+    This blacklisted vehicles already include closed and covered vehicles so you don't have to add those
 */
 A3A_logistics_weapons append [
     ["weaponModelPath", []]
     ,["weaponModelPath", ["vehModelPath", "vehModelPath"]]
 ];
-//That covers everything, you should make you file by replacing values in an already complete file rather than using this as the active files will have the propper commenting there already. Using this one would leave a tonne of unnecessary comments in the file.
+//That covers everything, you should make you file by replacing values in an already complete file rather than using this as the active files will have the proper commenting there already. Using this one would leave a tonne of unnecessary comments in the file.

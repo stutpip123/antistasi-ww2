@@ -1,7 +1,7 @@
 /*
     Author: [Håkon]
     [Description]
-        handles finaliseing of the logistics nodes and distrubuting them to clients
+        handles finalising of the logistics nodes and distributing them to clients
 
     Arguments:
     0. <Nil>

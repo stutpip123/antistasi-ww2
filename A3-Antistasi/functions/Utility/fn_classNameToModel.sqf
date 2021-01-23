@@ -14,9 +14,8 @@
     Scope: Any
     Environment: Any
     Public: Yes
-    Dependencies:
 
-    Example:
+    Example: [typeOf _vehicle] call A3A_fnc_classNameToModel
 
     License: MIT License
 */
