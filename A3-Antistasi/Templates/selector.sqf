@@ -332,6 +332,10 @@ if (A3A_hasTCGM) then {
   call compile preProcessFileLineNumbers "Templates\AddonVics\tcgm_Civ.sqf";
   [2, "Using Addon TCGM_BikeBackPack Template", _filename] call A3A_fnc_log;
 };
+if (A3A_hasD3S) then {
+  call compile preProcessFileLineNumbers "Templates\AddonVics\d3s_Civ.sqf";
+  [2, "Using Addon D3S Cars Template", _filename] call A3A_fnc_log;
+};
 
 //Logistics node loading is done here
 [2,"Reading Logistics Node files.",_fileName] call A3A_fnc_log;
