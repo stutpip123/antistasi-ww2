@@ -51,6 +51,7 @@ private _storageNamespace = locationNull;
 isNil {
     _napalmID = [localNamespace,"A3A_NapalmRegister","IDCounter",-1] call A3A_fnc_getNestedObject;
     _napalmID = _napalmID + 1;
+    [localNamespace,"A3A_NapalmRegister","IDCounter",_napalmID] call A3A_fnc_setNestedObject;
     _storageNamespace = [localNamespace,"A3A_NapalmRegister","IDCounter",_napalmID,"active",true] call A3A_fnc_setNestedObject;
 };
 
