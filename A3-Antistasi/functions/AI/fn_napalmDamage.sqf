@@ -77,16 +77,17 @@ switch (true) do {
     case (_victim isKindOf "Man"): {_invalidVictim = true;};  // Goats, Sneks, butterflies, Rabbits can be blessed by Petros himself.
     case (_victim isKindOf "AllVehicles" && {isClass (configFile >> "cfgVehicles" >> typeOf _victim >> "HitPoints" >> "HitHull")}): {
         // Vehicles should be damaged as much as possible but salvageable. This would give napalm a unique tactic of clearing AI from vehicles allowing them to be repaired, refuelled and requestioned.
+        _fnc_init = _fnc_init +
+            'clearMagazineCargoGlobal _victim;
+            clearWeaponCargoGlobal _victim;
+            clearItemCargoGlobal _victim;
+            clearBackpackCargoGlobal _victim;';
+
         _fnc_onTick = _fnc_onTick +
             '_victim setHitPointDamage ["HitHull",(((_victim getHitPointDamage "HitHull") + ' + str _damagePerTick + ') min 0.8) max (_victim getHitPointDamage "HitHull")];'+ // Limited to avoid vehicle being destroyed. Will not decrease vehicle damage if it was initially above 80%
             '{
                 _victim setHitPointDamage [_x,((_victim getHitPointDamage _x) + ' + str _damagePerTick + ') min 1];
             } forEach ' + str ((getAllHitPointsDamage _victim)#0 - ["hithull"]) + ';
-
-            clearMagazineCargoGlobal _victim;
-            clearWeaponCargoGlobal _victim;
-            clearItemCargoGlobal _victim;
-            clearBackpackCargoGlobal _victim;
 
             private _thermalHeat = 0.75*(_tickCount/'+ str _totalTicks +') + 0.25;'+  // The vehicles shouldn't snap to cold when the napalm effect starts begin.
             '_victim setVehicleTIPars [_thermalHeat, _thermalHeat, _thermalHeat];';
