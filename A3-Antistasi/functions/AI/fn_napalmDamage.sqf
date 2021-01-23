@@ -104,8 +104,7 @@ switch (true) do {
     };
     case (_victim isKindOf "Building"): {
         _totalTicks = _totalTicks/_overKill;  // Undo overkill
-        _fnc_onTick = _fnc_onTick + '_victim setDamage [(damage _victim + ' + str _damagePerTick + ') min 0.9, true];';
-        _fnc_final = _fnc_final + '_victim setDamage 1;';    // rather then damaging each selection manually, we can brute force destruction.
+        _fnc_onTick = _fnc_onTick + '_victim setDamage [((damage _victim + ' + str _damagePerTick + ') min 0.5) max (damage _victim), true];';
     };
     case (_victim isKindOf "ReammoBox"): {
         _totalTicks = _totalTicks/_overKill;  // Undo overkill
