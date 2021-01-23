@@ -5,6 +5,7 @@
         params ["_road"];
 
         //Find all connections to the road and cross out pedestrian rodes
+        private _corrected = [];
         private _connections = roadsConnectedTo [_road, true];
         _connections = _connections select {(getRoadInfo _x) select 0 != "TRAIL"};
 
@@ -20,10 +21,11 @@
                 if(!(isNull _roadAt) && {_roadAt != _road}) exitWith
                 {
                     _connections pushBackUnique _roadAt;
+                    _corrected pushBackUnique _roadAt;
                 };
             };
         };
-        _connections;
+        [_connections, _corrected];
     };
 
     fnc_getRoadType =
@@ -96,16 +98,21 @@
     private _timeDiff = _time;
     //[Road segment, road type, connections]
     private _preGrid = [];
+    private _corrections = [];
 
     {
-        private _connections = [_x] call fnc_getRoadConnections;
-        private _roadName = [_x] call fnc_getRoadString;
-        _preGrid pushBack [_x, [_x] call fnc_getRoadType, _connections];
+        private _road = _x;
+        private _connections = [_road] call fnc_getRoadConnections;
+        {
+            _corrections pushBack [_x, _road];
+        } forEach (_connections select 1);
+        private _roadName = [_road] call fnc_getRoadString;
+        _preGrid pushBack [_road, [_road] call fnc_getRoadType, _connections];
         private _connectionsCount = count _connections;
 
         if(_connectionsCount < 2) then
         {
-            private _roadmarker = createMarker [format ["Marker%1", _roadName], getPos _x];
+            private _roadmarker = createMarker [format ["Marker%1", _roadName], getPos _road];
             _roadmarker setMarkerShape "ICON";
             _roadmarker setMarkerType "mil_triangle";
             _roadmarker setMarkerAlpha 1;
@@ -113,7 +120,7 @@
         };
         if(_connectionsCount > 2) then
         {
-            private _roadmarker = createMarker [format ["Marker%1", _roadName], getPos _x];
+            private _roadmarker = createMarker [format ["Marker%1", _roadName], getPos _road];
             _roadmarker setMarkerShape "ICON";
             _roadmarker setMarkerType "mil_box";
             _roadmarker setMarkerAlpha 1;
@@ -136,10 +143,21 @@
         };
     } forEach _mainRoadSegments;
 
+    hintSilent "PREPROCESSING PHASE\n\nCleanup and finalising";
+
+    {
+        private _data = _x;
+        private _index = _preGrid findIf {_x select 0 == _data select 0};
+        if(_index != -1) then
+        {
+            (_preGrid select _index select 2) pushBackUnique (_data select 1);
+        };
+    } forEach _corrections;
+
 
 
     private _preTime = time - _time;
-    hint format ["Preprocessing done after %1 seconds\nStarting main phase now!", _preTime];
+    hint format ["PREPROCESSING PHASE\n\nCompleted after %1 seconds\nStarting main phase now!", _preTime];
     sleep 3;
     _preTime = _preTime + 3;
 

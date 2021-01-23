@@ -1,10 +1,15 @@
-- Detailed grid for simulation purposes
-- Intersection grid for waypoint creation
+- [DONE] Detailed grid for simulation purposes
+- [DONE] Intersection grid for waypoint creation
 - Blocking of road segments
 - Direct access to data
 - Drop first segment if distance between 0 -> 2 is smaller than 0 -> 1 -> 2
-- Precalculation of distances
+- [DONE] Precalculation of distances
 - Caching of paths
 - Easy determination if two road segments are connected
 - Maximum search distance
 - Function that returns all nodes at X meters distance
+- Test function for convoys (defined vehicles, two clicks to define coordinates, show convoy path)
+- Draw path function
+
+TODO / BUG
+- [FIXED][BUG] Corrected connections are not written into the pregrid
