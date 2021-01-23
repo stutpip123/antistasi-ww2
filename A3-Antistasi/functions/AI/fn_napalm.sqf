@@ -80,8 +80,7 @@ while {_endTime > serverTime && !([_cancellationTokenUUID] call _fnc_cancelReque
 
 
     // Damage
-    private _victims = _pos nearEntities _napalmRadius;  // The particle system is hardcoded. Radius appears 20-40m depending on wind. Better performance than nearObjects.
-    _victims append (_pos nearObjects ["All", _napalmRadius]);  // Also parent of groundWeaponHolder and ReammoBox
+    private _victims = (_pos nearObjects ["All", _napalmRadius]);  // The particle system is hardcoded. Radius appears 20-40m depending on wind.
     private _crew = [];
     { _crew append crew _x; } forEach _victims;
     _victims append _crew;
