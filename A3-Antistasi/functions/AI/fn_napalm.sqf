@@ -45,6 +45,7 @@ if ((count _pos) isEqualTo 2) then {
 
 private _startTime = serverTime;
 private _endTime = _startTime + 90;
+private _napalmRadius = 30;
 
 private _napalmID = -2;
 private _storageNamespace = locationNull;
