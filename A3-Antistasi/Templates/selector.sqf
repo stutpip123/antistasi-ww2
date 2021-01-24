@@ -337,10 +337,10 @@ if (A3A_hasD3S) then {
   [2, "Using Addon D3S Cars Template", _filename] call A3A_fnc_log;
 };
 
-//JNL node loading is done here
-[2,"Reading JNL Node files.",_fileName] call A3A_fnc_log;
-call compile preProcessFileLineNumbers "Templates\Vanilla\Vanilla_JNL_Nodes.sqf";//Always call vanilla as it initialises the arrays.
-if (A3A_hasRHS) then {call compile preProcessFileLineNumbers "Templates\RHS\RHS_JNL_Nodes.sqf"};
-if (A3A_has3CB) then {call compile preProcessFileLineNumbers "Templates\3CB\3CB_JNL_Nodes.sqf"};
-if (A3A_hasIFA) then {call compile preProcessFileLineNumbers "Templates\IFA\IFA_JNL_Nodes.sqf"};
-if (A3A_hasFFAA) then {call compile preProcessFileLineNumbers "Templates\FFAA\FFAA_JNL_Nodes.sqf"};
+//Logistics node loading is done here
+[2,"Reading Logistics Node files.",_fileName] call A3A_fnc_log;
+call compile preProcessFileLineNumbers "Templates\Vanilla\Vanilla_Logistics_Nodes.sqf";//Always call vanilla as it initialises the arrays.
+if (A3A_hasRHS) then {call compile preProcessFileLineNumbers "Templates\RHS\RHS_Logistics_Nodes.sqf"};
+if (A3A_has3CB) then {call compile preProcessFileLineNumbers "Templates\3CB\3CB_Logistics_Nodes.sqf"};
+if (A3A_hasIFA) then {call compile preProcessFileLineNumbers "Templates\IFA\IFA_Logistics_Nodes.sqf"};
+if (A3A_hasFFAA) then {call compile preProcessFileLineNumbers "Templates\FFAA\FFAA_Logistics_Nodes.sqf"};
