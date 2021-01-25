@@ -334,6 +334,7 @@ if (A3A_hasTCGM) then {
 };
 if (A3A_hasD3S) then {
   call compile preProcessFileLineNumbers "Templates\AddonVics\d3s_Civ.sqf";
+  call compile preProcessFileLineNumbers "Templates\AddonVics\d3s_Logi_Nodes.sqf";
   [2, "Using Addon D3S Cars Template", _filename] call A3A_fnc_log;
 };
 
