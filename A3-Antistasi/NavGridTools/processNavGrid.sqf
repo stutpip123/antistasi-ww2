@@ -85,8 +85,8 @@
         private _roadConnectionType = (mainGrid select _indexOne select 2) min (mainGrid select _indexTwo select 2);
         private _distance = (mainGrid select _indexOne select 1) distance2D (mainGrid select _indexTwo select 1);
 
-        mainGrid select _indexOne select 5 pushBack [[_nodeOne] call fnc_getRoadString, _roadConnectionType, _distance];
-        mainGrid select _indexTwo select 5 pushBack [[_nodeTwo] call fnc_getRoadString, _roadConnectionType, _distance];
+        mainGrid select _indexOne select 5 pushBack [_indexTwo, _roadConnectionType, _distance];
+        mainGrid select _indexTwo select 5 pushBack [_indexOne, _roadConnectionType, _distance];
     };
 
     private _time = time;
@@ -107,8 +107,8 @@
             _corrections pushBack [_x, _road];
         } forEach (_connections select 1);
         private _roadName = [_road] call fnc_getRoadString;
-        _preGrid pushBack [_road, [_road] call fnc_getRoadType, _connections];
-        private _connectionsCount = count _connections;
+        _preGrid pushBack [_road, [_road] call fnc_getRoadType, (_connections select 0)];
+        private _connectionsCount = count (_connections select 0) + count (_connections select 1);
 
         if(_connectionsCount < 2) then
         {
@@ -205,7 +205,6 @@
         _roadmarker setMarkerType "mil_dot";
         _roadmarker setMarkerAlpha 1;
         _roadmarker setMarkerColor "ColorBlue";
-        _roadmarker setMarkerText format ["Connections: %1", count (_startSegment select 2)];
 
         while {count _openSegments > 0} do
         {
@@ -272,7 +271,7 @@
                     else
                     {
                         //Normal street
-                        if(_counter >= 5) then
+                        if(_counter >= 7) then
                         {
                             //Reached limit, mark detailed without junction
                             _counter = 0;
@@ -332,5 +331,163 @@
         _gridNumber = _gridNumber + 1;
     };
 
-    hint format ["Mainprocessing done after %1 seconds" , time - _time];
+    hint format ["MAINPROCESSING PHASE\n\nCompleted after %1 seconds\nStarting postprocessing phase now" , time - _time];
+
+    private _finalisedGrid = [];
+    private _removedIndexes = [];
+    private _finalIndex = 0;
+
+    {
+        //[_roadName, _roadPos, _roadType, _isJunction, _gridNumber, []]
+        //Connections as [roadName, roadType, distance]
+        _x params ["_roadName", "_roadPos", "_roadType", "_isJunction", "_gridNumber", "_connections"];
+        private _index = _forEachIndex;
+        if !(_index in _removedIndexes) then
+        {
+            if(count _connections <= 2) then
+            {
+                {
+                    private _conIndex = _x select 0;
+                    if(_conIndex != -1) then
+                    {
+                        if(_conIndex)
+                        //Find correct connection on other node
+                        private _subIndex = (mainGrid select _conIndex select 5) findIf {_x select 0 == _index};
+                        //Reset index on connection
+                        if(_subIndex != -1) then
+                        {
+                            (mainGrid select _conIndex select 5 select _subIndex) set [0, _finalIndex];
+                        };
+                    };
+                } forEach _connections;
+                _finalisedGrid pushBack [_roadPos, _isJunction, _gridNumber, _connections];
+                missionNamespace setVariable [format ["newIndex%1", _index], _finalIndex];
+                missionNamespace setVariable [format ["oldIndex%1", _finalIndex], _index];
+                _finalIndex = _finalIndex + 1;
+            }
+            else
+            {
+                //Multi way cross detected, remove unneeded nodes
+                private _allJunctionNodes = [];
+                private _allJunctionIndex = [];
+                private _openNodes = [_x];
+                private _closedNodes = [];
+                private _exitPoints = [];
+
+                //Find all junction nodes connected
+                while {count _openNodes > 0} do
+                {
+                    private _junctionNode = _openNodes deleteAt 0;
+                    _closedNodes pushBack (_junctionNode select 0);
+                    if(count (_junctionNode select 5) > 2) then
+                    {
+                        _allJunctionNodes pushBack _junctionNode;
+                        private _currentIndex = missionNamespace getVariable [format ["Index%1", _junctionNode select 0], -1];
+                        _allJunctionIndex pushBack _currentIndex;
+                        {
+
+                            private _junctionIndex = _x select 0;
+                            private _distance = _x select 2;
+                            if(_distance < 18) then
+                            {
+                                private _segment = (mainGrid select _junctionIndex);
+                                if !((_segment select 0) in _closedNodes) then
+                                {
+                                    _openNodes pushBack _segment;
+                                };
+                            };
+                        } forEach (_junctionNode select 5);
+                    }
+                    else
+                    {
+                        _exitPoints pushBack _junctionNode;
+                    };
+                };
+
+                //Mark all junction nodes and calculate the midpoint
+                private _midPoint = [0, 0, 0];
+                {
+                    _midPoint = _midPoint vectorAdd (_x select 1);
+                } forEach _allJunctionNodes;
+                _midPoint = _midPoint vectorMultiply (1/(count _allJunctionNodes));
+
+
+                private _newConnections = [];
+                {
+                    private _connections = (_x select 5);
+                    private _index = _connections findIf {_x select 0 in _allJunctionIndex};
+                    if(_index != -1) then
+                    {
+                        (_x select 5 select _index) set [0, _finalIndex];
+                        private _distance = (_x select 1) distance _midPoint;
+                        (_x select 5 select _index) set [2, (_x select 1) distance _midPoint];
+                        _newConnections pushBack [missionNamespace getVariable (format ["Index%1", _x select 0]), (_x select 5 select _index select 2), _distance];
+                    };
+                } forEach _exitPoints;
+
+                private _roadmarker = createMarker [format ["Corrected%1", _finalIndex], _midPoint];
+                _roadmarker setMarkerShape "ICON";
+                _roadmarker setMarkerType "mil_dot";
+                _roadmarker setMarkerAlpha 1;
+                _roadmarker setMarkerColor "ColorRed";
+                _finalisedGrid pushBack [_midPoint, true, _gridNumber, _newConnections, "FAKE"];
+                _finalIndex = _finalIndex + 1;
+
+                _removedIndexes append _allJunctionIndex;
+            };
+        };
+    } forEach mainGrid;
+
+    private _finalisedGridCount = count _finalisedGrid;
+    private _map = findDisplay 12 displayCtrl 51;
+    {
+        private _roadmarker = createMarker [format ["Marker%1", _forEachIndex], (_x select 0)];
+        _roadmarker setMarkerShape "ICON";
+        _roadmarker setMarkerAlpha 1;
+        if(_x select 1) then
+        {
+            _roadmarker setMarkerColor "ColorGreen";
+        }
+        else
+        {
+            _roadmarker setMarkerColor "ColorGrey";
+        };
+
+        if(count (_x select 3) > 2) then
+        {
+            _roadmarker setMarkerType "mil_box";
+        }
+        else
+        {
+            if(count (_x select 3) == 1) then
+            {
+                _roadmarker setMarkerType "mil_triangle";
+            }
+            else
+            {
+                _roadmarker setMarkerType "mil_dot";
+            };
+        };
+
+        private _thisNode = _x;
+        private _thisPos = _x select 0;
+        private _thisIndex = _forEachIndex;
+        {
+            private _conIndex = (_x select 0);
+
+            if(_conIndex > _thisIndex) then
+            {
+                if(_conIndex >= _finalisedGridCount) then
+                {
+                    player globalChat format ["Node was %1", _thisNode];
+                    sleep 3;
+                }
+                else
+                {
+                    private _conPos = _finalisedGrid select (_x select 0) select 0;
+                    _map drawLine [_thisPos, _conPos, [1,1,0,1]];
+                };
+            };
+        } forEach (_x select 3);
+    } forEach _finalisedGrid;
 };
