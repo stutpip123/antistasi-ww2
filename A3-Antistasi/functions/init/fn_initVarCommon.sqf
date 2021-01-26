@@ -112,6 +112,9 @@ lamptypes = ["Lamps_Base_F", "PowerLines_base_F","Land_LampDecor_F","Land_LampHa
 ////////////////////////////////////
 //     SOUNDS AND ANIMATIONS     ///
 ////////////////////////////////////
+private _missionRootPath_nodes = str missionConfigFile splitString "\";
+A3A_missionRootPath = (_missionRootPath_nodes select [0,count _missionRootPath_nodes -1] joinString "\") + "\";
+
 [2,"Compiling sounds and animations",_fileName] call A3A_fnc_log;
 ladridos = ["Music\dog_bark01.wss", "Music\dog_bark02.wss", "Music\dog_bark04.wss", "Music\dog_bark05.wss", "Music\dog_maul01.wss", "Music\dog_yelp02.wss"];
 injuredSounds =  // Todo: migrate functions to A3A_sounds_callMedic
@@ -150,27 +153,6 @@ if !(A3A_hasIFA) then {
 	arrayids = ["Anthis","Costa","Dimitirou","Elias","Gekas","Kouris","Leventis","Markos","Nikas","Nicolo","Panas","Rosi","Samaras","Thanos","Vega"];
 	if (isMultiplayer) then {arrayids = arrayids + ["protagonista"]};
 };
-
-////////////////////////////////////
-//     MISSION PATH WARNING      ///
-////////////////////////////////////
-[2,"Checking mission path",_fileName] call A3A_fnc_log;
-private _getMissionPath = [] spawn A3A_fnc_initGetMissionPath;
-waitUntil
-{
-	if (scriptDone _getMissionPath) exitWith {true};
-	if (hasInterface) then {
-		["ERROR", "Stuck on compiling missionPath, re-launch the mission."] call A3A_fnc_customHint;
-	};
-	[1,"Stuck on compiling missionPath, re-launch the mission.",_fileName] call A3A_fnc_log;
-	false;
-};
-
-if (hasInterface) then {
-	["Server Information", "Done compiling missionPath"] call A3A_fnc_customHint;
-};
-[2,"Done compiling missionPath",_fileName] call A3A_fnc_log;
-
 
 ////////////////////////////////////
 //   MAP SETTINGS AND MARKERS    ///
