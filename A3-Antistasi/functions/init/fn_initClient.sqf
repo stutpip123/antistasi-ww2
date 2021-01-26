@@ -494,11 +494,9 @@ if (isMultiplayer) then {
 }
 else
 {
-	if (loadLastSave) then {
-		// just do this directly, because playerHasSave doesn't work without moneyX
-		private _loadout = [getPlayerUID player, "loadoutPlayer"] call A3A_fnc_retrievePlayerStat;
-		if (!isNil "_loadout") then { player setUnitLoadout _loadout };
-	};
+	// just do this directly, because playerHasSave doesn't work without moneyX
+	private _loadout = [getPlayerUID player, "loadoutPlayer"] call A3A_fnc_retrievePlayerStat;
+	if (!isNil "_loadout") then { player setUnitLoadout _loadout };
 	player setVariable ["canSave", true];
 };
 
