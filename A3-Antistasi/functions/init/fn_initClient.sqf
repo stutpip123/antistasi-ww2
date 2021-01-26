@@ -381,20 +381,19 @@ if (isServer || player isEqualTo theBoss || (call BIS_fnc_admin) > 0) then {  //
 	private _modsAndLoadText = [
 		[hasTFAR,"TFAR","Players will use TFAR radios. Unconscious players' radios will be muted."],
 		[hasACRE,"ACRE","Players will use ACRE radios. Unconscious players' radios will be muted."],
-		[hasACE,"ACE 3","ACE items added to arsenal and ammo-boxes. Default AI control is disabled"],
-		[hasACEHearing,"ACE 3 Hearing","Default earplugs will be disabled."],
+		[hasACE,"ACE 3","ACE items added to arsenal and ammo-boxes."],
 		[hasACEMedical,"ACE 3 Medical","Default revive system will be disabled"],
-		[A3A_hasRHS,"RHS","All factions will be replaced by RHS (AFRF & USAF & GREF)."],
+		[A3A_hasRHS,"RHS","All factions will be replaced by RHS (AFRF &amp; USAF &amp; GREF)."],
 		[A3A_has3CB,"3CB","All factions will be replaced by 3CB and RHS."],
 		[A3A_hasFFAA,"FFAA","Occupant faction will be replaced by Spanish Armed Forces"],
 		[A3A_hasIvory,"Ivory Cars","Mod cars will be added to civilian car spawns."]
 	] select {_x#0};
 
-	private _loadedTemplateInfo = A3A_loadedTemplateInfo apply {[true,_x#0,_x#1]};	// Remove and simplify when the list above is empty and can be deleted.
-	_modsAndLoadText append _loadedTemplateInfo;
+	private _loadedTemplateInfoXML = A3A_loadedTemplateInfoXML apply {[true,_x#0,_x#1]};	// Remove and simplify when the list above is empty and can be deleted.
+	_modsAndLoadText append _loadedTemplateInfoXML;
 
 	if (count _modsAndLoadText isEqualTo 0) exitWith {};
-	private _textXML = (_modsAndLoadText apply { "<t color='#f0d498'>" + _x#1 + ":</t>" + _x#2 }) joinString "<br/>";
+	private _textXML = "<t align='left'>" + ((_modsAndLoadText apply { "<t color='#f0d498'>" + _x#1 + ":</t>" + _x#2 }) joinString "<br/>") + "</t>";
 	["Loaded Mods",_textXML] call A3A_fnc_customHint;
 };
 
