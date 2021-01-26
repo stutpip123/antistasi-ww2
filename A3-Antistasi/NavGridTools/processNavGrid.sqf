@@ -312,16 +312,17 @@
                     {
                         _timeDiff = time;
                         private _currentCount = count _preGrid;
-                        _estimate = round (0.95 * _estimate + 0.05 * round (_currentCount/((_lastProcessed - _currentCount) max 1) * 0.5));
+                        private _process = (1 - (_currentCount/_startCount));
+                        _estimate = ((time - _preTime)/_process * (1 - _process));
                         hintSilent format
                         [
                             "MAINPROCESSING PHASE\n\nProgress: %1%2 (%3/%4)\nTime elapsed: %5 seconds\nEstimated time left: %6 seconds",
-                            (1 - (_currentCount/_startCount)) * 100,
+                            _process * 100,
                             "%",
                             (_startCount - _currentCount),
                             _startCount,
                             round (time - _preTime),
-                            round (_estimate * (0.8 * (1 - (_currentCount/_startCount)) + 0.2))
+                            round (_estimate)
                         ];
                         _lastProcessed = _currentCount;
                     };
@@ -335,7 +336,7 @@
 
     private _finalisedGrid = [];
     private _removedIndexes = [];
-    private _finalIndex = 0;
+    private _finalIndex = count mainGrid;
 
     {
         //[_roadName, _roadPos, _roadType, _isJunction, _gridNumber, []]
@@ -344,28 +345,7 @@
         private _index = _forEachIndex;
         if !(_index in _removedIndexes) then
         {
-            if(count _connections <= 2) then
-            {
-                {
-                    private _conIndex = _x select 0;
-                    if(_conIndex != -1) then
-                    {
-                        if(_conIndex)
-                        //Find correct connection on other node
-                        private _subIndex = (mainGrid select _conIndex select 5) findIf {_x select 0 == _index};
-                        //Reset index on connection
-                        if(_subIndex != -1) then
-                        {
-                            (mainGrid select _conIndex select 5 select _subIndex) set [0, _finalIndex];
-                        };
-                    };
-                } forEach _connections;
-                _finalisedGrid pushBack [_roadPos, _isJunction, _gridNumber, _connections];
-                missionNamespace setVariable [format ["newIndex%1", _index], _finalIndex];
-                missionNamespace setVariable [format ["oldIndex%1", _finalIndex], _index];
-                _finalIndex = _finalIndex + 1;
-            }
-            else
+            if(count _connections > 2) then
             {
                 //Multi way cross detected, remove unneeded nodes
                 private _allJunctionNodes = [];
@@ -430,13 +410,40 @@
                 _roadmarker setMarkerType "mil_dot";
                 _roadmarker setMarkerAlpha 1;
                 _roadmarker setMarkerColor "ColorRed";
-                _finalisedGrid pushBack [_midPoint, true, _gridNumber, _newConnections, "FAKE"];
+                mainGrid pushBack ["", _midPoint, _roadType, true, _gridNumber, _newConnections];
                 _finalIndex = _finalIndex + 1;
 
                 _removedIndexes append _allJunctionIndex;
             };
         };
     } forEach mainGrid;
+
+    {
+        _x params ["_roadName", "_roadPos", "_roadType", "_isJunction", "_gridNumber", "_connections"];
+        private _index = _forEachIndex;
+        if !(_index in _removedIndexes) then
+        {
+            private _insertIndex = _finalisedGrid pushBack [_roadPos, _isJunction, _gridNumber, _connections];
+            missionNamespace setVariable [format ["Conversion%1", _forEachIndex], _insertIndex];
+        };
+    } forEach mainGrid;
+
+    {
+        private _connections = _x select 3;
+        {
+            private _connectionID = _x select 0;
+            private _newID = missionNamespace getVariable [format ["Conversion%1", _connectionID], -1];
+            if(_newID != -1) then
+            {
+                _x set [0, _newID];
+            }
+            else
+            {
+                hint format ["Bad Connection %1, check the code again", _connectionID];
+                sleep 5;
+            };
+        } forEach _connections;
+    } forEach _finalisedGrid;
 
     private _finalisedGridCount = count _finalisedGrid;
     private _map = findDisplay 12 displayCtrl 51;
