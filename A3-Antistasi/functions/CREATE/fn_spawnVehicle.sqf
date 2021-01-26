@@ -7,7 +7,6 @@ Arguments:
     <STRING> Desired classname of new vehicle. [Default=""]
     <POS3D> Leaves placement up to createUnit. | <POS3DTYPE> Places according to the specified coordinate system. | <<POS3D><TYPE>> Places according to the specified coordinate system. [Default=[0,0,0]]
     <SCALAR> Angles towards heading. | <VECTORDIR> Angles according to VectorDir. | <<VECTORDIR>,<VECTORUP>> Angles according to VectorDir And VectorUp. [Default=0]
-    <SIDE> Side of crew | <GROUP> Group and side of crew | <BOOLEAN> No crew. [Default=sideLogic]
     <SCALAR> If above zero, will look for an empty position nearby. [Default=0]
     <BOOLEAN> True to make aircraft spawn at minimum 100m and fly at 110% stall speed. | <<SCALAR>height,<SCALAR>Velocity> True and overrides minimum height and velocity (leave value nil for default). [Default=true]
     <BOOLEAN> True to enable vehicle BIS randomisation. [Default=true]
@@ -20,15 +19,17 @@ Environment: Any. Automatically creates Unscheduled scope when needed.
 Public: Yes.
 
 Example:
-["B_T_LSV_01_armed_F",getPos player, 0, resistance, 20] call A3A_fnc_spawnVehicle;
+[["B_T_LSV_01_armed_F",getPos player, 0, 20] call A3A_fnc_spawnVehicle, resistance] call A3A_fnc_spawnVehicleCrew;
 
 private _myPos = getPosWorld player;
 _myPos = [_myPos#0,_myPos#1,0,"AGLS"];  // Spawn 0m above highest roof above the player.
-["B_T_LSV_01_armed_F",_myPos, 0, resistance, 20] call A3A_fnc_spawnVehicle;
+private _vehicle = ["B_T_LSV_01_armed_F",_myPos, 0, 20] call A3A_fnc_spawnVehicle;
+[_vehicle, resistance] call A3A_fnc_spawnVehicleCrew;
 
 private _myPosW = getPosWorld player;
 private _vectorDirAndUp = [[0.676148,-0.736273,-0.0269321],[-0.571476,-0.547179,0.611565]];
-private _vehicle = ["B_Heli_Transport_01_F",[_myPosW,"WORLD"], _vectorDirAndUp, group player, nil, [10,40]] call A3A_fnc_spawnVehicle;
+private _vehicle = ["B_Heli_Transport_01_F",[_myPosW,"WORLD"], _vectorDirAndUp, nil, [10,40]] call A3A_fnc_spawnVehicle;
+[_vehicle,group player] call A3A_fnc_spawnVehicleCrew;
 _vehicle enableSimulation false; // For admiring the artwork
 // Release.
 cursorObject enableSimulation true;
@@ -37,7 +38,6 @@ params [
     ["_className","",[ "" ]],
     ["_positionRef",[0,0,0],[ [] ], [2,3,4]],
     ["_direction",0,[ 0,[] ], [ 3,2 ]],
-    ["_groupSide",sideLogic, [ sideLogic,grpNull,false ]],
     ["_emptyPositionRadius",0, [ 0 ]],
     ["_aircraftPhysics",[], [ true,[] ]],
     ["_enableRandomization",true, [ true ]]
@@ -97,15 +97,6 @@ if (isNil {
 
 if (false) then {   // New template system detection goes here.
     _vehicle forceFlagTexture "\A3\Data_F\Flags\Flag_red_CO.paa"; // New template system dress-up goes here.
-};
-
-private _group = switch (typeName _groupSide) do {
-    case "SIDE": { createGroup _groupSide };
-    case "GROUP" : { _groupSide };
-    default { grpNull };
-};
-if !(isNull _group) then {
-    [_vehicle,_group] call A3A_fnc_spawnVehicleCrew;
 };
 
 _vehicle;

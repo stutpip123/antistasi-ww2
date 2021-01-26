@@ -4,7 +4,7 @@ Author: Caleb Serafin
 
 Arguments:
     <OBJECT> Vehicle for crew to be added to.
-    <GROUP> Group of new crew members. Determines side.
+    <SIDE> Side of crew | <GROUP> Group and side of crew | <BOOLEAN> No crew. [Default=sideLogic]
 
 Return Value:
     <ARRAY<OBJECT>> Spawned crew members; empty if error/no seats.
@@ -18,12 +18,14 @@ Example:
 */
 params [
     ["_vehicle",objNull,[ objNull ]],
-    ["_group",grpNull,[ grpNull ]]
+    ["_group",grpNull,[ grpNull,sideLogic ]]
 ];
 private _filename = "fn_spawnVehicleCrew";
 private _crewPeople = [];
 
 if (isNull _vehicle) exitWith {[1, "ObjectNull | The passed vehicle does not exist.", _filename] remoteExecCall ["A3A_fnc_log",2,false]; _crewPeople;};
+
+if (_group isEqualType sideLogic) then { _group = createGroup _group; };
 if (isNull _group) exitWith {[1, "GroupNull | The passed crew group for """,typeOf _vehicle,""" is null.", _filename] remoteExecCall ["A3A_fnc_log",2,false]; _crewPeople;};
 
 private _isStaticWeapon = !(["StaticWeapon","StaticMGWeapon"] findIf {_vehicle isKindOf _x} isEqualTo -1);
