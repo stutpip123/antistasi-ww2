@@ -53,7 +53,6 @@ if (isMultiplayer) then {
 		player setVariable ["eligible",true,true];
 	};
 	musicON = false;
-	//waitUntil {scriptdone _introshot};
 	disableUserInput true;
 	cutText ["Waiting for Players and Server Init","BLACK",0];
 	[2,"Waiting for server...",_fileName] call A3A_fnc_log;
@@ -77,31 +76,10 @@ else {
 	player hcSetGroup [group player];		// why?
 	player setUnitTrait ["medic", true];
 	player setUnitTrait ["engineer", true];
-	waitUntil {/*(scriptdone _introshot) and */(!isNil "serverInitDone")};
+	waitUntil {!isNil "serverInitDone"};
 };
 
 [] spawn A3A_fnc_ambientCivs;
-private ["_colourTeamPlayer", "_colorInvaders"];
-_colourTeamPlayer = teamPlayer call BIS_fnc_sideColor;
-_colorInvaders = Invaders call BIS_fnc_sideColor;
-_positionX = if (side player isEqualTo teamPlayer) then {position petros} else {getMarkerPos "respawn_west"};
-
-{
-	_x set [3, 0.33]
-} forEach [_colourTeamPlayer, _colorInvaders];
-
-_introShot = [
-	_positionX, // Target position
-	format ["%1",worldName], // SITREP text
-	50, //  altitude
-	50, //  radius
-	90, //  degrees viewing angle
-	0, // clockwise movement
-	[
-		["\a3\ui_f\data\map\markers\Nato\o_inf.paa", _colourTeamPlayer, markerPos "insertMrk", 1, 1, 0, "Insertion Point", 0],
-		["\a3\ui_f\data\map\markers\Nato\o_inf.paa", _colorInvaders, markerPos "towerBaseMrk", 1, 1, 0, "Radio Towers", 0]
-	]
-] spawn BIS_fnc_establishingShot;
 
 //Initialise membershipEnabled so we can do isMember checks.
 membershipEnabled = if (isMultiplayer && "membership" call BIS_fnc_getParamValue == 1) then {true} else {false};
@@ -366,8 +344,6 @@ if !(isPlayer leader group player) then {
 };
 
 [] remoteExec ["A3A_fnc_assignBossIfNone", 2];
-
-waitUntil { scriptDone _introshot };
 
 if (_isJip) then {
 	[2,"Joining In Progress (JIP)",_filename] call A3A_fnc_log;
