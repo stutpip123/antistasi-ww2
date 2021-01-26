@@ -367,10 +367,10 @@
                         {
 
                             private _junctionIndex = _x select 0;
+                            private _segment = (mainGrid select _junctionIndex);
                             private _distance = _x select 2;
-                            if(_distance < 18) then
+                            if(_distance < 18 || count (_segment select 5) <= 2) then
                             {
-                                private _segment = (mainGrid select _junctionIndex);
                                 if !((_segment select 0) in _closedNodes) then
                                 {
                                     _openNodes pushBack _segment;
@@ -384,36 +384,42 @@
                     };
                 };
 
-                //Mark all junction nodes and calculate the midpoint
-                private _midPoint = [0, 0, 0];
+                if(count _allJunctionNodes > 1) then
                 {
-                    _midPoint = _midPoint vectorAdd (_x select 1);
-                } forEach _allJunctionNodes;
-                _midPoint = _midPoint vectorMultiply (1/(count _allJunctionNodes));
-
-
-                private _newConnections = [];
-                {
-                    private _connections = (_x select 5);
-                    private _index = _connections findIf {_x select 0 in _allJunctionIndex};
-                    if(_index != -1) then
+                    //Mark all junction nodes and calculate the midpoint
+                    private _midPoint = [0, 0, 0];
                     {
-                        (_x select 5 select _index) set [0, _finalIndex];
-                        private _distance = (_x select 1) distance _midPoint;
-                        (_x select 5 select _index) set [2, (_x select 1) distance _midPoint];
-                        _newConnections pushBack [missionNamespace getVariable (format ["Index%1", _x select 0]), (_x select 5 select _index select 2), _distance];
-                    };
-                } forEach _exitPoints;
+                        _midPoint = _midPoint vectorAdd (_x select 1);
+                    } forEach _allJunctionNodes;
+                    _midPoint = _midPoint vectorMultiply (1/(count _allJunctionNodes));
 
-                private _roadmarker = createMarker [format ["Corrected%1", _finalIndex], _midPoint];
-                _roadmarker setMarkerShape "ICON";
-                _roadmarker setMarkerType "mil_dot";
-                _roadmarker setMarkerAlpha 1;
-                _roadmarker setMarkerColor "ColorRed";
-                mainGrid pushBack ["", _midPoint, _roadType, true, _gridNumber, _newConnections];
-                _finalIndex = _finalIndex + 1;
 
-                _removedIndexes append _allJunctionIndex;
+                    private _newConnections = [];
+                    {
+                        private _connections = (_x select 5);
+                        private _index = _connections findIf {(_x select 0) in _allJunctionIndex};
+                        if (_index != -1) then
+                        {
+                            (_x select 5 select _index) set [0, _finalIndex];
+                            private _distance = (_x select 1) distance _midPoint;
+                            (_x select 5 select _index) set [2, (_x select 1) distance _midPoint];
+                            _newConnections pushBack [missionNamespace getVariable (format ["Index%1", _x select 0]), (_x select 5 select _index select 2), _distance];
+                        };
+                    } forEach _exitPoints;
+
+                    private _roadmarker = createMarker [format ["Corrected%1", _finalIndex], _midPoint];
+                    _roadmarker setMarkerShape "ICON";
+                    _roadmarker setMarkerType "mil_dot";
+                    _roadmarker setMarkerAlpha 1;
+                    _roadmarker setMarkerColor "ColorRed";
+                    mainGrid pushBack ["", _midPoint, _roadType, true, _gridNumber, _newConnections];
+                    _finalIndex = _finalIndex + 1;
+
+                    _removedIndexes append _allJunctionIndex;
+
+                    //hint format ["Junction Nodes %1\n\n\n ExitPoints %2", str _allJunctionIndex, str _exitPoints];
+                    //sleep 15;
+                };
             };
         };
     } forEach mainGrid;
@@ -430,6 +436,7 @@
 
     {
         private _connections = _x select 3;
+        private _pos = _x select 0;
         {
             private _connectionID = _x select 0;
             private _newID = missionNamespace getVariable [format ["Conversion%1", _connectionID], -1];
@@ -439,11 +446,19 @@
             }
             else
             {
-                hint format ["Bad Connection %1, check the code again", _connectionID];
-                sleep 5;
+                private _bug = mainGrid select _connectionID;
+                private _roadmarker = createMarker [format ["Bug%1", _forEachIndex], (_bug select 1)];
+                _roadmarker setMarkerShape "ICON";
+                _roadmarker setMarkerType "mil_dot";
+                _roadmarker setMarkerAlpha 1;
+                _roadmarker setMarkerColor "ColorGreen";
+                //hint format ["Bad Connection %1, check the code again", _connectionID];
+                //sleep 5;
             };
         } forEach _connections;
     } forEach _finalisedGrid;
+
+    sleep 100;
 
     private _finalisedGridCount = count _finalisedGrid;
     private _map = findDisplay 12 displayCtrl 51;
