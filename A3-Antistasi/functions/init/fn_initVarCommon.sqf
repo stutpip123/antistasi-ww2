@@ -114,8 +114,8 @@ lamptypes = ["Lamps_Base_F", "PowerLines_base_F","Land_LampDecor_F","Land_LampHa
 ////////////////////////////////////
 [2,"Compiling sounds and animations",_fileName] call A3A_fnc_log;
 
-private _missionRootPath_nodes = str missionConfigFile splitString "\";
-A3A_missionRootPath = (_missionRootPath_nodes select [0,count _missionRootPath_nodes -1] joinString "\") + "\";
+private _missionRootPathNodes = str missionConfigFile splitString "\";
+A3A_missionRootPath = (_missionRootPathNodes select [0,count _missionRootPathNodes -1] joinString "\") + "\";
 
 A3A_sounds_dogBark = ["Music\dog_bark01.wss", "Music\dog_bark02.wss", "Music\dog_bark04.wss", "Music\dog_bark05.wss", "Music\dog_maul01.wss", "Music\dog_yelp02.wss"] apply {A3A_missionRootPath + _x};
 injuredSounds =  // Todo: migrate functions to A3A_sounds_callMedic
