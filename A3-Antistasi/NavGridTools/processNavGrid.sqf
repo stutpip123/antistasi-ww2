@@ -14,7 +14,7 @@
         {
             private _connected = _connections select 0;
             private _dir = _connected getDir _road;
-            for "_distance" from 3 to 15 do
+            for "_distance" from 3 to 50 do
             {
                 private _pos = (getPos _road) getPos [_distance, _dir];
                 private _roadAt = roadAt _pos;
@@ -82,11 +82,33 @@
 
         if(_indexOne == -1 || _indexTwo == -1) exitWith {};
 
+        if(mainGrid select _indexOne select 5 findIf {_x select 0 == _indexTwo} != -1) exitWith
+        {
+            //hint "Connection already done, aborting";
+            //sleep 3;
+        };
+
         private _roadConnectionType = (mainGrid select _indexOne select 2) min (mainGrid select _indexTwo select 2);
         private _distance = (mainGrid select _indexOne select 1) distance2D (mainGrid select _indexTwo select 1);
 
         mainGrid select _indexOne select 5 pushBack [_indexTwo, _roadConnectionType, _distance];
         mainGrid select _indexTwo select 5 pushBack [_indexOne, _roadConnectionType, _distance];
+    };
+
+    _fnc_drawLine =
+    {
+        params ["_startPos", "_endPos"];
+
+        private _distance = _startPos distance2D _endPos;
+        private _angle = _startPos getDir _endPos;
+        private _mid = (_startPos vectorAdd _endPos) vectorMultiply 0.5;
+
+        private _lineMarker = createMarker [format ["%1line%2", str _startPos, str _endPos], _mid];
+        _lineMarker setMarkerShape "RECTANGLE";
+        _lineMarker setMarkerBrush "SOLID";
+        _lineMarker setMarkerColor "ColorRed";
+        _lineMarker setMarkerDir _angle;
+        _lineMarker setMarkerSize [3, _distance/2];
     };
 
     private _time = time;
@@ -108,7 +130,7 @@
         } forEach (_connections select 1);
         private _roadName = [_road] call fnc_getRoadString;
         _preGrid pushBack [_road, [_road] call fnc_getRoadType, (_connections select 0)];
-        private _connectionsCount = count (_connections select 0) + count (_connections select 1);
+        private _connectionsCount = count (_connections select 0);
 
         if(_connectionsCount < 2) then
         {
@@ -117,6 +139,7 @@
             _roadmarker setMarkerType "mil_triangle";
             _roadmarker setMarkerAlpha 1;
             _roadmarker setMarkerColor "ColorRed";
+            _roadmarker setMarkerText "1";
         };
         if(_connectionsCount > 2) then
         {
@@ -125,6 +148,7 @@
             _roadmarker setMarkerType "mil_box";
             _roadmarker setMarkerAlpha 1;
             _roadmarker setMarkerColor "ColorOrange";
+            _roadmarker setMarkerText (str (_connectionsCount));
         };
         if(time - _timeDiff > 0.5) then
         {
@@ -151,6 +175,22 @@
         if(_index != -1) then
         {
             (_preGrid select _index select 2) pushBackUnique (_data select 1);
+            private _roadName = [_preGrid select _index select 0] call fnc_getRoadString;
+            private _markerName = format ["Marker%1", _roadName];
+            if(markerColor _markerName != "") then
+            {
+                _markerName setMarkerText (str (count (_preGrid select _index select 2)));
+                _markerName setMarkerColor "ColorBlue";
+            }
+            else
+            {
+                private _roadmarker = createMarker [format ["Marker%1", _roadName], getPos (_preGrid select _index select 0)];
+                _roadmarker setMarkerShape "ICON";
+                _roadmarker setMarkerType "mil_box";
+                _roadmarker setMarkerAlpha 1;
+                _roadmarker setMarkerColor "ColorGreen";
+                _markerName setMarkerText (str (count (_preGrid select _index select 2)));
+            };
         };
     } forEach _corrections;
 
@@ -334,6 +374,62 @@
 
     hint format ["MAINPROCESSING PHASE\n\nCompleted after %1 seconds\nStarting postprocessing phase now" , time - _time];
 
+
+
+    {
+        private _roadmarker = createMarker [format ["Marker%1", _forEachIndex], (_x select 1)];
+        _roadmarker setMarkerShape "ICON";
+        _roadmarker setMarkerAlpha 1;
+        if(_x select 3) then
+        {
+            _roadmarker setMarkerColor "ColorGreen";
+        }
+        else
+        {
+            _roadmarker setMarkerColor "ColorGrey";
+        };
+
+        _roadmarker setMarkerText (str (count (_x select 5)));
+        if(count (_x select 5) > 2) then
+        {
+            _roadmarker setMarkerType "mil_box";
+        }
+        else
+        {
+            if(count (_x select 5) == 1) then
+            {
+                _roadmarker setMarkerType "mil_triangle";
+            }
+            else
+            {
+                _roadmarker setMarkerType "mil_dot";
+            };
+        };
+
+        private _thisNode = _x;
+        private _thisPos = _x select 1;
+        private _thisIndex = _forEachIndex;
+        {
+            private _conIndex = (_x select 0);
+
+            if(_conIndex > _thisIndex) then
+            {
+                if(_conIndex >= 10000000) then
+                {
+                    player globalChat format ["Node was %1", _thisNode];
+                    sleep 3;
+                }
+                else
+                {
+                    private _conPos = mainGrid select (_x select 0) select 1;
+                    [_thisPos, _conPos] call _fnc_drawLine;
+                };
+            };
+        } forEach (_x select 5);
+    } forEach mainGrid;
+
+    sleep 1000;
+
     private _finalisedGrid = [];
     private _removedIndexes = [];
     private _finalIndex = count mainGrid;
@@ -456,60 +552,5 @@
                 //sleep 5;
             };
         } forEach _connections;
-    } forEach _finalisedGrid;
-
-    sleep 100;
-
-    private _finalisedGridCount = count _finalisedGrid;
-    private _map = findDisplay 12 displayCtrl 51;
-    {
-        private _roadmarker = createMarker [format ["Marker%1", _forEachIndex], (_x select 0)];
-        _roadmarker setMarkerShape "ICON";
-        _roadmarker setMarkerAlpha 1;
-        if(_x select 1) then
-        {
-            _roadmarker setMarkerColor "ColorGreen";
-        }
-        else
-        {
-            _roadmarker setMarkerColor "ColorGrey";
-        };
-
-        if(count (_x select 3) > 2) then
-        {
-            _roadmarker setMarkerType "mil_box";
-        }
-        else
-        {
-            if(count (_x select 3) == 1) then
-            {
-                _roadmarker setMarkerType "mil_triangle";
-            }
-            else
-            {
-                _roadmarker setMarkerType "mil_dot";
-            };
-        };
-
-        private _thisNode = _x;
-        private _thisPos = _x select 0;
-        private _thisIndex = _forEachIndex;
-        {
-            private _conIndex = (_x select 0);
-
-            if(_conIndex > _thisIndex) then
-            {
-                if(_conIndex >= _finalisedGridCount) then
-                {
-                    player globalChat format ["Node was %1", _thisNode];
-                    sleep 3;
-                }
-                else
-                {
-                    private _conPos = _finalisedGrid select (_x select 0) select 0;
-                    _map drawLine [_thisPos, _conPos, [1,1,0,1]];
-                };
-            };
-        } forEach (_x select 3);
     } forEach _finalisedGrid;
 };
