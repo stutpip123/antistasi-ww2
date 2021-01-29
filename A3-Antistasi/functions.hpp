@@ -173,15 +173,15 @@ class A3A
         class vehicleMarkers {};
     };
 
-	class Collections
-	{
-		class getNestedObject {};
-		class remNestedObject {};
-		class setNestedObject {};
-	};
+    class Collections
+    {
+        class getNestedObject {};
+        class remNestedObject {};
+        class setNestedObject {};
+    };
 
-	class Convoy
-	{
+    class Convoy
+    {
         class cleanConvoyMarker {};
         class convoyDebug {};
         class convoyMovement {};
@@ -400,6 +400,15 @@ class A3A
         class getModOfConfigClass {};
         class initDisabledMods {};
         class isModNameVanilla {};
+    };
+
+    class NavGridPP {
+        class NG_draw_dotOnRoads {};
+        class NG_draw_lineBetweenTwoRoads {};
+        class NG_draw_linesBetweenRoads {};
+        class NG_registerAllRoads {};
+        class NG_simplify {};
+        class NG_start {};
     };
 
     class Ammunition
