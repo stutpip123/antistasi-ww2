@@ -7,7 +7,7 @@ params [
 
 private _diag_step_main = "[]";
 private _diag_step_sub = "";
-private _diag_step_competedIslands = []; // <Array<island,totalIslandSegments>>
+private _diag_step_sub_progress = []; // <Array<island,totalIslandSegments>>
 
 private _diag_totalSegments = -1;
 private _diag_islandCounter = -1;
@@ -19,7 +19,7 @@ private _fnc_diag_render = { // call _fnc_diag_render;
         "<t align='left'>" +
         _diag_step_main+"<br/>"+
         "Completed Islands: <br/>"+
-        ((_diag_step_competedIslands apply {"    " + (str (_x#0)) + " : " + (str (_x#1))}) joinString "<br/>") +"<br/>"+
+        ((_diag_step_sub_progress apply {"  " + (str (_x#0)) + " : " + (str (_x#1))}) joinString "<br/>") +"<br/>"+
         _diag_step_sub+"<br/>"+
         "</t>"
     ] remoteExec ["A3A_fnc_customHint",0];
@@ -68,7 +68,7 @@ private _navigationGrids = [];      //<ARRAY< island ARRAY<Road,connections ARRA
 [localNamespace,"A3A_NGPP","NavigationGrids",_navigationGrids] call A3A_fnc_setNestedObject;
 
 
-private _currentNavigationGrid = [];  // ARRAY<Road,connections ARRAY<Road>>
+private _currentNavigationGrid = [];  // ARRAY<Road,connections ARRAY<Road>,connections Indices ARRAY<scalar>>
 //private _currentNavigationStruct = []; // <Road,connections ARRAY<Road>>  // Implied when following is used  `_currentNavigationGrid pushBack [_currentSegment,_currentNavigationConnections];`
 // private _currentNavigationConnections = []; // <ARRAY<Road>>
 
@@ -122,37 +122,34 @@ while {true} do {   // is broken out after _fnc_tryDequeueUnprocessed
         };
     };
 
-
+    // Indexing all the connections
     private _count_currentNavigationGrid = count _currentNavigationGrid;
     _currentNavigationGridNS = [false] call A3A_fnc_createNamespace;
-    {
-        if (_diag_segmentCounter mod 100 == 0) then {
-            _diag_step_sub = "Loading island segments &lt;" + ((100 * _forEachIndex / _count_currentNavigationGrid) toFixed 1) + "%&gt; (Segment &lt;" + str _forEachIndex + " / " + str _count_currentNavigationGrid + "&gt;).";
-            call _fnc_diag_render;
-        };
-        _currentNavigationGridNS setVariable [str (_x#0),_forEachIndex];
-    } forEach _currentNavigationGrid;
+    _diag_step_sub = "Loading island segments ...;).";
+    call _fnc_diag_render;
+    { _currentNavigationGridNS setVariable [str (_x#0),_forEachIndex]; } forEach _currentNavigationGrid;
     {
         if (_diag_segmentCounter mod 100 == 0) then {
             _diag_step_sub = "Indexing island segments &lt;" + ((100 * _forEachIndex / _count_currentNavigationGrid) toFixed 1) + "%&gt; (Segment &lt;" + str _forEachIndex + " / " + str _count_currentNavigationGrid + "&gt;).";
             call _fnc_diag_render;
         };
-        private _connectionIndices = (_x#1) apply {_currentNavigationGridNS getVariable [str _x,-1]};
-
-        _x pushBack _connectionIndices;
+        _x pushBack ((_x#1) apply {_currentNavigationGridNS getVariable [str _x,-1]}); // indicies for ach connection
     } forEach _currentNavigationGrid;
-    deleteLocation _islandRoadIndices;
+    deleteLocation _currentNavigationGridNS;
 
+
+    // Adding to all islands navigation grids array.
     _navigationGrids pushBack _currentNavigationGrid;
-    if ((count _diag_step_competedIslands) > 9) then {
-        _diag_step_competedIslands resize 8;
-        _diag_step_competedIslands pushBack ["...","..."];
+    if ((count _diag_step_sub_progress) > 9) then {
+        _diag_step_sub_progress resize 8;
+        _diag_step_sub_progress pushBack ["...","..."];
     };
-    _diag_step_competedIslands pushBack [_diag_islandCounter,_diag_islandSegmentCounter];
+    _diag_step_sub_progress pushBack [_diag_islandCounter,_diag_islandSegmentCounter];
     call _fnc_diag_render;
 };
 
-//private _navGridsSimple = [_navigationGrids] call A3A_fnc_NG_simplify;
+private _navGridsSimple = [_navigationGrids,_diag_step_sub_progress] call A3A_fnc_NG_simplify;
+[localNamespace,"A3A_NGPP","NavigationGridsSimple",_navGridsSimple] call A3A_fnc_setNestedObject;
 
 _diag_step_main = "Drawing Markers";
 _diag_step_sub = "Drawing DotsOnRoads";
