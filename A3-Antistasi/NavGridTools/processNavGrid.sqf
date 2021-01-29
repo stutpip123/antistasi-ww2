@@ -80,12 +80,33 @@
         private _indexOne = missionNamespace getVariable [format ["Index%1", [_nodeOne] call fnc_getRoadString], -1];
         private _indexTwo = missionNamespace getVariable [format ["Index%1", [_nodeTwo] call fnc_getRoadString], -1];
 
-        if(_indexOne == -1 || _indexTwo == -1) exitWith {};
+        if(_indexOne == -1) exitWith
+        {
+            player globalChat "Undefined connection node 1";
+            private _roadmarker = createMarker [format ["Case%1", [_nodeOne] call fnc_getRoadString], getPos _nodeOne];
+            _roadmarker setMarkerShape "ICON";
+            _roadmarker setMarkerType "mil_triangle";
+            _roadmarker setMarkerAlpha 1;
+            _roadmarker setMarkerColor "ColorBrown";
+            _roadmarker setMarkerText "UNDEFINED 1";
+            sleep 5;
+        };
+
+        if(_indexTwo == -1) exitWith
+        {
+            player globalChat "Undefined connection node 2";
+            private _roadmarker = createMarker [format ["Case%1", [_nodeTwo] call fnc_getRoadString], getPos _nodeTwo];
+            _roadmarker setMarkerShape "ICON";
+            _roadmarker setMarkerType "mil_triangle";
+            _roadmarker setMarkerAlpha 1;
+            _roadmarker setMarkerColor "ColorBrown";
+            _roadmarker setMarkerText "UNDEFINED 2";
+            sleep 5;
+        };
 
         if(mainGrid select _indexOne select 5 findIf {_x select 0 == _indexTwo} != -1) exitWith
         {
-            //hint "Connection already done, aborting";
-            //sleep 3;
+            player globalChat "Connection already done, aborting";
         };
 
         private _roadConnectionType = (mainGrid select _indexOne select 2) min (mainGrid select _indexTwo select 2);
@@ -251,11 +272,12 @@
             private _segment = _openSegments deleteAt 0;
             private _lastSegment = _segment select 4;
 
-            if(missionNamespace getVariable [format ["Index%1", [_segment select 0] call fnc_getRoadString], -1] <= 0) then
-            {
+            //if(missionNamespace getVariable [format ["Index%1", [_segment select 0] call fnc_getRoadString], -1] <= 0) then
+            //{
                 //Segment not already worked on
                 while {_segment isEqualType []} do
                 {
+                    //sleep 0.1;
                     _segment params ["_roadSegment", "_roadType", "_connections", "_counter" , "_lastConnection"];
                     private _roadName = [_roadSegment] call fnc_getRoadString;
                     deleteMarker format ["Marker%1", _roadName];
@@ -264,48 +286,57 @@
                     {
                         //Either crossroad or dead end, mark detailed and as junction
                         _counter = 0;
-                        //private _roadmarker = createMarker [format ["Marker%1", _roadName], getPos _roadSegment];
-                        //_roadmarker setMarkerShape "ICON";
-                        //_roadmarker setMarkerAlpha 1;
-
-                        //Save junctions for postprocessing
-                        //if(count _connections > 2) then
-                        //{
-                        //    _roadmarker setMarkerType "mil_box";
-                        //    _roadmarker setMarkerColor "ColorGreen";
-                        //}
-                        //else
-                        //{
-                        //    _roadmarker setMarkerType "mil_triangle";
-                        //    _roadmarker setMarkerColor "ColorGreen";
-                        //};
 
                         //Mark connection
                         [_roadName, getPos _roadSegment, _roadType, true, _gridNumber] call fnc_setNavPointData;
+                        player globalChat "Junction connection";
                         [_roadSegment, _lastConnection] call fnc_setConnection;
 
                         //Update connection data
                         _lastConnection = _roadSegment;
 
-                        {
-                            private _connection = _x;
-                            private _index = _preGrid findIf {_x select 0 == _connection};
-                            if(_index != -1) then
+                        //Dont check dead ends
+                        //if(count _connections != 1) then
+                        //{
                             {
-                                private _connectedSegment = _preGrid deleteAt _index;
-                                _connectedSegment pushBack (_counter + 1);
-                                _connectedSegment pushBack _lastConnection;
-                                _openSegments pushBack _connectedSegment;
-                            }
-                            else
-                            {
-                                if(missionNamespace getVariable [format ["Index%1", [_connection] call fnc_getRoadString], -1] != -1) then
+                                private _connection = _x;
+                                if(_connection != _lastSegment) then
                                 {
-                                    [_roadSegment, _connection] call fnc_setConnection;
+                                    private _index = _preGrid findIf {_x select 0 == _connection};
+                                    if(_index != -1) then
+                                    {
+                                        private _connectedSegment = _preGrid deleteAt _index;
+                                        _connectedSegment pushBack (_counter + 1);
+                                        _connectedSegment pushBack _lastConnection;
+                                        _openSegments pushBack _connectedSegment;
+                                    }
+                                    else
+                                    {
+                                        //Checked, case is correct and not responsible for the bug
+                                        if(missionNamespace getVariable [format ["Index%1", [_connection] call fnc_getRoadString], -1] != -1) then
+                                        {
+                                            player globalChat "Connecting junctions";
+                                            [_lastConnection, _connection] call fnc_setConnection;
+                                        }
+                                        else
+                                        {
+                                            private _openConIndex = _openSegments findIf {(_x select 0) == _connection};
+                                            if(_openConIndex != -1) then
+                                            {
+                                                player globalChat "Connected junction to open node";
+                                                _openCon = _openSegments deleteAt _openConIndex;
+                                                [_lastConnection, _openCon select 4] call fnc_setConnection;
+                                            }
+                                            else
+                                            {
+                                                player globalChat "STRANGE ELSE CASE 1 HIT";
+                                                sleep 10;
+                                            };
+                                        };
+                                    };
                                 };
-                            };
-                        } forEach _connections;
-
+                            } forEach _connections;
+                        //};
                         _segment = objNull;
                     }
                     else
@@ -323,6 +354,7 @@
 
                             //Mark connection
                             [_roadName, getPos _roadSegment, _roadType, false, _gridNumber] call fnc_setNavPointData;
+                            player globalChat "Step connection";
                             [_roadSegment, _lastConnection] call fnc_setConnection;
 
                             //Update connection data
@@ -335,16 +367,36 @@
                             _nextConnection = _connections select 1;
                         };
 
-                        _lastSegment = _roadSegment;
+
                         private _index = _preGrid findIf {_x select 0 == _nextConnection};
                         if(_index != -1) then
                         {
+                            _lastSegment = _roadSegment;
                             _segment = _preGrid deleteAt _index;
                             _segment pushBack (_counter + 1);
                             _segment pushBack _lastConnection;
                         }
                         else
                         {
+                            player globalChat "Road connection";
+                            private _openConIndex = _openSegments findIf {(_x select 0) == _nextConnection};
+                            if(_openConIndex != -1) then
+                            {
+                                player globalChat "Connected to open node";
+                                _openCon = _openSegments deleteAt _openConIndex;
+                                [_lastConnection, _openCon select 4] call fnc_setConnection;
+                            }
+                            else
+                            {
+                                player globalChat "Connected to junction directly";
+                                [_lastConnection, _nextConnection] call fnc_setConnection;
+                                //private _roadmarker = createMarker [format ["Case%1", [_nextConnection] call fnc_getRoadString], getPos _nextConnection];
+                                //_roadmarker setMarkerShape "ICON";
+                                //_roadmarker setMarkerType "mil_triangle";
+                                //_roadmarker setMarkerAlpha 1;
+                                //_roadmarker setMarkerColor "ColorBrown";
+                                //_roadmarker setMarkerText "STRANGE";
+                            };
                             _segment = objNull;
                         };
                     };
@@ -367,14 +419,14 @@
                         _lastProcessed = _currentCount;
                     };
                 };
-            };
+            //};
         };
         _gridNumber = _gridNumber + 1;
     };
 
     hint format ["MAINPROCESSING PHASE\n\nCompleted after %1 seconds\nStarting postprocessing phase now" , time - _time];
 
-
+    sleep 1000;
 
     {
         private _roadmarker = createMarker [format ["Marker%1", _forEachIndex], (_x select 1)];
