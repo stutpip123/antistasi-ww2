@@ -43,7 +43,7 @@ private _fnc_isRoadConnected = {    // Assumes both will have connection, no one
 
     _currentNavGrid = _x;
     _diag_totalSegments = count _currentNavGrid;
-    private _orphanedNames = [];
+    private _orphanedIndices = [];
 
     private _registerNS = [false] call A3A_fnc_createNamespace;
     {
@@ -72,22 +72,15 @@ private _fnc_isRoadConnected = {    // Assumes both will have connection, no one
                 [_connectStruct0,_currentRoad,_connectRoad1] call _fnc_replaceRoadConnection;       // We connect our two neighbors together, replacing our own connection
                 [_connectStruct1,_currentRoad,_connectRoad0] call _fnc_replaceRoadConnection;
             };
-            _orphanedNames pushBack str _currentRoad;
+            _orphanedIndices pushBack _forEachIndex;
         };
     } forEach _currentNavGrid;
     deleteLocation _registerNS;
 
-    _diag_sub_counter = -1;
-    {
-        _diag_sub_counter = _diag_sub_counter +1;
-        if (_diag_sub_counter mod 100 == 0) then {
-            _diag_step_sub = "Cleaning orphans " + ((100*_forEachIndex /(count _orphanedNames -1)) toFixed 1) + "% &lt;" + (str _forEachIndex) + "/" + (str (count _orphanedNames -1)) + "&gt;";;
-            call _fnc_diag_render;
-        };
+    _diag_step_sub = "Cleaning orphans...";
+    call _fnc_diag_render;
+    [_currentNavGrid,_orphanedIndices] call remIndices;
 
-        private _name = _x;
-        _currentNavGrid deleteAt (_currentNavGrid findIf {_x#0 isEqualTo _name});
-    } forEach _orphanedNames // there is a better algorithm in CS-Collections branch, please implement that once merged.
 
 } forEach _simpleNavGrids;
 

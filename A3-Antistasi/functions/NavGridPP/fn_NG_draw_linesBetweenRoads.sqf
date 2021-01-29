@@ -1,7 +1,7 @@
 params [
     ["_navGrids",[],[ [] ]] //<ARRAY< island ARRAY<Road,connections ARRAY<Road>>  >>
 ];
-private _markers = [localNamespace,"A3A_NGPP","draw","LinesBetweenRoads",[]] call A3A_fnc_getNestedObject;
+private _markers = [localNamespace,"A3A_NGPP","draw","LinesBetweenRoads",[]] call Col_fnc_nestLoc_get;
 {
     deleteMarker _x;
 } forEach _markers;
@@ -33,4 +33,4 @@ private _roadColourClassification = [["MAIN ROAD", "ROAD", "TRACK"],["ColorGreen
     deleteLocation _roadsAndConnections;
 } forEach _navGrids; //<ARRAY< island ARRAY<Road,connections ARRAY<Road>>  >>// _x is <island ARRAY<Road,connections ARRAY<Road>>>
 
-[localNamespace,"A3A_NGPP","draw","LinesBetweenRoads",_markers] call A3A_fnc_setNestedObject;
+[localNamespace,"A3A_NGPP","draw","LinesBetweenRoads",_markers] call Col_fnc_nestLoc_set;

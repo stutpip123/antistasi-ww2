@@ -27,16 +27,8 @@ private _fnc_diag_render = { // call _fnc_diag_render;
 
 
 
-
-
-private _registerNS = [false] call A3A_fnc_createNamespace;
-private _unprocessedNS = [false] call A3A_fnc_createNamespace;
-//private _hasBeingProcessedNS = [false] call A3A_fnc_createNamespace;
-[localNamespace,"A3A_NGPP","Register",_registerNS] call A3A_fnc_setNestedObject;
-[localNamespace,"A3A_NGPP","Unprocessed",_unprocessedNS] call A3A_fnc_setNestedObject;
-//[localNamespace,"A3A_NGPP","HasBeingProcessed",_hasBeingProcessedNS] call A3A_fnc_setNestedObject;
-
-
+private _registerNS = [localNamespace,"A3A_NGPP","Register", nil, nil] call Col_fnc_nestLoc_set;
+private _unprocessedNS = [localNamespace,"A3A_NGPP","Unprocessed", nil, nil] call Col_fnc_nestLoc_set;
 
 private _allRoadSegments = [_registerNS] call A3A_fnc_NG_registerAllRoads;
 if (count _allRoadSegments == 0) exitWith {};
@@ -65,7 +57,7 @@ private _fnc_removeFromUnprocessed = {  // Pass in string, not array // str _cur
 
 
 private _navigationGrids = [];      //<ARRAY< island ARRAY<Road,connections ARRAY<Road>>  >>
-[localNamespace,"A3A_NGPP","NavigationGrids",_navigationGrids] call A3A_fnc_setNestedObject;
+[localNamespace,"A3A_NGPP","NavigationGrids",_navigationGrids] call Col_fnc_nestLoc_set;
 
 
 private _currentNavigationGrid = [];  // ARRAY<Road,connections ARRAY<Road>,connections Indices ARRAY<scalar>>
@@ -149,7 +141,7 @@ while {true} do {   // is broken out after _fnc_tryDequeueUnprocessed
 };
 
 private _navGridsSimple = [_navigationGrids,_diag_step_sub_progress] call A3A_fnc_NG_simplify;
-[localNamespace,"A3A_NGPP","NavigationGridsSimple",_navGridsSimple] call A3A_fnc_setNestedObject;
+[localNamespace,"A3A_NGPP","NavigationGridsSimple",_navGridsSimple] call Col_fnc_nestLoc_set;
 
 _diag_step_main = "Drawing Markers";
 _diag_step_sub = "Drawing DotsOnRoads";

@@ -2,7 +2,7 @@ params [
     ["_navGrids",[],[ [] ]] //<ARRAY< island ARRAY<Road,connections ARRAY<Road>>  >>
 ];
 
-private _markers = [localNamespace,"A3A_NGPP","draw","dotOnRoads",[]] call A3A_fnc_getNestedObject;
+private _markers = [localNamespace,"A3A_NGPP","draw","dotOnRoads",[]] call Col_fnc_nestLoc_get;
 {
     deleteMarker _x;
 } forEach _markers;
@@ -29,4 +29,4 @@ _markers resize 0;  // Preserves reference
     } forEach _x;   // island ARRAY<Road,connections ARRAY<Road>>  // _x is <Road,connections ARRAY<Road>>
 } forEach _navGrids; //<ARRAY< island ARRAY<Road,connections ARRAY<Road>>  >>// _x is <island ARRAY<Road,connections ARRAY<Road>>>
 
-[localNamespace,"A3A_NGPP","draw","dotOnRoads",_markers] call A3A_fnc_setNestedObject;
+[localNamespace,"A3A_NGPP","draw","dotOnRoads",_markers] call Col_fnc_nestLoc_set;
