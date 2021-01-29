@@ -173,13 +173,6 @@ class A3A
         class vehicleMarkers {};
     };
 
-    class Collections
-    {
-        class getNestedObject {};
-        class remNestedObject {};
-        class setNestedObject {};
-    };
-
     class Convoy
     {
         class cleanConvoyMarker {};
@@ -605,4 +598,96 @@ class A3A
         class vehicleWillCollideAtPosition {};
         class getRoadDirection {};
     };
+};
+
+class Collections
+{
+	tag = "Col";
+	class Collections_Array
+	{
+		file="Collections\Array";
+		class array_deleteAts {};
+		class array_displace {};
+		class array_remIndices {};
+	};
+	class Collections_ID
+	{
+		file="Collections\ID";
+		class ID_init { preInit = 1 };
+		class ID_LArray_isEqualTo {};
+		class ID_LArray {};
+	};
+	class Collections_Location
+	{
+		file="Collections\Location";
+		class location_init { preInit = 1 };
+		class location_new {};
+		class location_serialiseAddress {};
+	};
+	class Collections_Map
+	{
+		file="Collections\Map";
+		class map_get {};
+		class map_gets {};
+		class map_in {};
+		class map_inNot {};
+		class map_rem {};
+		class map_remGet {};
+		class map_rems {};
+		class map_remsGet {};
+	};
+	class Collections_NestLoc
+	{
+		file="Collections\NestLoc";
+		class nestLoc_get {};
+		class nestLoc_rem {};
+		class nestLoc_set {};
+	};
+	class Collections_Concurrent
+	{
+		file="Collections\Concurrent";
+		class Concurrent_init { preInit = 1 };
+	};
+	class Collections_Serialisation
+	{
+		file="Collections\Serialisation";
+		class deserialisation_builder {};
+		class deserialise {};
+		class serialisation_builder {};
+		class serialise {};
+	};
+	class Collections_Serialisation_Objects
+	{
+		file="Collections\Serialisation\Objects";
+		class deserialiseAll {};
+		class deserialiseAllVehicles {};
+		class serialiseAll {};
+		class serialiseAllVehicles {};
+	};
+	class Collections_Serialisation_Objects_Common
+	{
+		file="Collections\Serialisation\Objects\Common";
+		class getObjPhysX {};
+		class rotatePosRotVel {};
+		class setObjPhysX {};
+	};
+	class Collections_Serialisation_Primitives
+	{
+		file="Collections\Serialisation\Primitives";
+		class deserialise_array {};
+		class deserialise_code {};
+		class deserialise_namespace {};
+		class deserialise_side {};
+		class serialisation_primitive_defaults {};
+		class serialise_array {};
+		class serialise_code {};
+		class serialise_namespace {};
+		class serialise_scalar_max {};
+		class serialise_side {};
+	};
+	class Collections_String
+	{
+		file="Collections\String";
+		class string_toChunks {};
+	};
 };
