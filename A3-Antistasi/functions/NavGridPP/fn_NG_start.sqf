@@ -149,7 +149,7 @@ call _fnc_diag_render;
 [_navGridsSimple] call A3A_fnc_NG_draw_dotOnRoads;
 _diag_step_sub = "Drawing LinesBetweenRoads";
 call _fnc_diag_render;
-//[_navGridsSimple] call A3A_fnc_NG_draw_linesBetweenRoads; Really slow with unsimplified nodes
+[_navGridsSimple] call A3A_fnc_NG_draw_linesBetweenRoads;
 
 _diag_step_main = "Done";
 _diag_step_sub = "Done";

@@ -3,7 +3,7 @@ params [
 ];
 private _simpleNavGrids = +_navGrids;
 
-private _diag_step_main = "[]";
+private _diag_step_main = "";
 private _diag_step_sub = "";
 
 private _diag_islandCounter = -1;
@@ -14,7 +14,6 @@ private _fnc_diag_render = { // call _fnc_diag_render;
         "<t align='left'>" +
         "Simplifying segments<br/>"+
         _diag_step_main+"<br/>"+
-        "Completed Islands: <br/>"+
         _diag_step_sub+"<br/>"+
         "</t>"
     ] remoteExec ["A3A_fnc_customHint",0];
@@ -79,7 +78,8 @@ private _fnc_isRoadConnected = {    // Assumes both will have connection, no one
 
     _diag_step_sub = "Cleaning orphans...";
     call _fnc_diag_render;
-    [_currentNavGrid,_orphanedIndices] call remIndices;
+    reverse _orphanedIndices;
+    [_currentNavGrid,_orphanedIndices] call Col_fnc_array_remIndices;
 
 
 } forEach _simpleNavGrids;
