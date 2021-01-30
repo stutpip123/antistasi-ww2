@@ -24,10 +24,11 @@ private _fnc_getStruct = {
     _registerNS getVariable [_roadName,[]];
 };
 private _fnc_replaceRoadConnection = {
-    params ["_roadStruct","_oldRoadConnection","_newRoadConnection"];
+    params ["_roadStruct","_oldRoadConnection","_newRoadConnection","_newDistance"];
     private _connectionRoads = _roadStruct#1;
     private _conIndex = _connectionRoads find _oldRoadConnection;
     _connectionRoads set [_conIndex,_newRoadConnection];
+    (_roadStruct#2) set [_conIndex,_newDistance];
 };
 private _fnc_isRoadConnected = {    // Assumes both will have connection, no one-way.
     params ["_struct","_road"];
@@ -68,8 +69,11 @@ private _fnc_isRoadConnected = {    // Assumes both will have connection, no one
             private _currentRoad = _currentStruct#0;
 
             if !([_connectStruct0,_connectRoad1] call _fnc_isRoadConnected) then {  // If our neighbours are not already connected:
-                [_connectStruct0,_currentRoad,_connectRoad1] call _fnc_replaceRoadConnection;       // We connect our two neighbors together, replacing our own connection
-                [_connectStruct1,_currentRoad,_connectRoad0] call _fnc_replaceRoadConnection;
+                private _connectionDistances = _currentStruct#2;
+                private _newDistance = _connectionDistances#0 + _connectionDistances#1;
+
+                [_connectStruct0,_currentRoad,_connectRoad1,_newDistance] call _fnc_replaceRoadConnection;       // We connect our two neighbors together, replacing our own connection
+                [_connectStruct1,_currentRoad,_connectRoad0,_newDistance] call _fnc_replaceRoadConnection;
             };
             _orphanedIndices pushBack _forEachIndex;
         };

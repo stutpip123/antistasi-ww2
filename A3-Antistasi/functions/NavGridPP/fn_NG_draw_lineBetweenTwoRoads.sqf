@@ -1,4 +1,4 @@
-params ["_myRoad","_myName","_otherRoad","_otherName","_roadColourClassification"];
+params ["_myRoad","_myName","_otherRoad","_otherName","_roadColourClassification","_realDistance"];
 
 private _myPos = getPos _myRoad;
 private _otherPos = getPos _otherRoad;
@@ -11,6 +11,7 @@ private _name = "NGPP_line_" + _myName + _otherName;
 private _marker = createMarkerLocal [_name, _centre];
 _marker setMarkerDirLocal _azimuth;
 _marker setMarkerSizeLocal [10, 0.5*_length];
+_marker setMarkerTextLocal _realDistance;
 _marker setMarkerShapeLocal "RECTANGLE";
 _marker setMarkerBrushLocal "SOLID";
 

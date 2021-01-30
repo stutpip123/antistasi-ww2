@@ -55,8 +55,9 @@ private _roadColourClassification = [["MAIN ROAD", "ROAD", "TRACK"],["ColorGreen
                 private _otherConnections = _roadsAndConnections getVariable [_otherName,[]];
                 _otherConnections pushBack _myName;
                 _roadsAndConnections setVariable [_myName,_otherConnections];
+                private _realDistance = (str (_myRoad#2 #_forEachIndex)) + "m";
 
-                _markers pushBack ([_myRoad,_myName,_otherRoad,_otherName,_roadColourClassification] call A3A_fnc_NG_draw_lineBetweenTwoRoads);
+                _markers pushBack ([_myRoad,_myName,_otherRoad,_otherName,_roadColourClassification,_realDistance] call A3A_fnc_NG_draw_lineBetweenTwoRoads);
             };
 
         } forEach (_x#1); // connections ARRAY<Road>  // _x is Road

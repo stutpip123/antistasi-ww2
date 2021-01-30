@@ -2,7 +2,8 @@
 // [] spawn A3A_fnc_NG_start;
 
 params [
-    ["_useHCs",false,[false]]   // low-key multi-threading for chads 😎
+    ["_useHCs",false,[false]],      // low-key multi-threading for chads 😎
+    ["_autoFixing",false,[false]]   // Search after Cul de Sac for other roads.
 ];
 
 private _diag_step_main = "";
@@ -56,21 +57,15 @@ private _fnc_removeFromUnprocessed = {  // Pass in string, not array // str _cur
 };
 
 
-private _navigationGrids = [];      //<ARRAY< island ARRAY<Road,connections ARRAY<Road>>  >>
+private _navigationGrids = [];      // <ARRAY<singleNIslandNvGrid>>
 [localNamespace,"A3A_NGPP","NavigationGrids",_navigationGrids] call Col_fnc_nestLoc_set;
 
 
-private _currentNavigationGrid = [];  // ARRAY<Road,connections ARRAY<Road>,connections Indices ARRAY<scalar>>
 //private _currentNavigationStruct = []; // <Road,connections ARRAY<Road>>  // Implied when following is used  `_currentNavigationGrid pushBack [_currentSegment,_currentNavigationConnections];`
 // private _currentNavigationConnections = []; // <ARRAY<Road>>
 
 
-private _currentSegment = objNull;
-private _lastUnexploredJunctions = [];      // segment itself is explored, but it is connected to segments that are not explored.
-
-private _currentConnections = [];
-private _currentConnectionsCount = 0;
-
+      // segment itself is explored, but it is connected to segments that are not explored.
 
 _diag_step_main = "Starting main loop";
 call _fnc_diag_render;
@@ -78,12 +73,15 @@ while {true} do {   // is broken out after _fnc_tryDequeueUnprocessed
     _diag_islandCounter = _diag_islandCounter +1;
     private _diag_islandSegmentCounter = 0;
 
-    _currentNavigationGrid = [];
+    private _currentNavigationGrid = [];  // ARRAY<Road,connections ARRAY<Road>,connections distances ARRAY<scalar>>
+    private _lastUnexploredJunctions = [];  // ARRAY <road>
+    private _lastUnexploredJunctionsConnections = [];  // ARRAY <unexplored connections ARRAY<road>>
+    private _jumpedToJunction = false;
+    private _currentConnections = [];
 
-    _currentSegment = call _fnc_tryDequeueUnprocessed;
+    private _currentSegment = call _fnc_tryDequeueUnprocessed;
     if (isNull _currentSegment) exitWith {};
 
-    private _islandRoadIndices = [false] call A3A_fnc_createNamespace;
     while {!(isNil {_currentSegment} || {isNull _currentSegment})} do {
         _diag_segmentCounter = _diag_segmentCounter + 1;
         _diag_islandSegmentCounter = _diag_islandSegmentCounter + 1;
@@ -93,23 +91,31 @@ while {true} do {   // is broken out after _fnc_tryDequeueUnprocessed
             call _fnc_diag_render;
         };
 
-        str _currentSegment call _fnc_removeFromUnprocessed;
+        if (_jumpedToJunction) then {
+            _currentConnections = _lastUnexploredJunctionsConnections deleteAt 0;
+        } else { // Avoid adding twice If we are jumping back to a junction
+            str _currentSegment call _fnc_removeFromUnprocessed;    // Will not error if already removed, ie if it was a junction.
+            _currentConnections = roadsConnectedTo [_currentSegment,true] select {getRoadInfo _x #0 in _allowedRoadTypes};
+            _currentNavigationGrid pushBack [_currentSegment,_currentConnections,_currentConnections apply {_x distance2D _currentSegment}];  // _currentConnections Reference is disconnected on select line.
+        };
 
-        _currentConnections = roadsConnectedTo [_currentSegment,true] select {getRoadInfo _x #0 in _allowedRoadTypes};
-        _currentNavigationGrid pushBack [_currentSegment,_currentConnections];
-
-        //["NGPP Sub2","segment &lt;" + str _currentSegment + "&gt;allConnections &lt;" + str count _currentConnections + "&gt; isunprocessed &lt;" + str (_currentConnections apply {_unprocessedNS getVariable [str _x, false]}) + "&gt;"] remoteExec ["A3A_fnc_customHint",0];
         _currentConnections = _currentConnections select {_unprocessedNS getVariable [str _x, false]};   // Only unexplored connections.
-        _currentConnectionsCount = count _currentConnections;
 
-        switch (_currentConnectionsCount) do {
-            case (0): { _currentSegment = _lastUnexploredJunctions deleteAt 0};   // Put missing road finding code here.
+        _jumpedToJunction = false;
+        switch (count _currentConnections) do {
+            case (0): {
+                _currentSegment = _lastUnexploredJunctions deleteAt 0;
+                _jumpedToJunction = true;
+                _diag_segmentCounter = _diag_segmentCounter -1; // because we are jumping back, so no new segment will be processed next loop.
+                _diag_islandSegmentCounter = _diag_islandSegmentCounter -1;
+            };   // Put missing road finding code here.
             case (1): {
                 _currentSegment = _currentConnections#0;
             };
             default {
                 _lastUnexploredJunctions pushBack _currentSegment;
-                _currentSegment = _currentConnections#0;
+                _currentSegment =  _currentConnections deleteAt 0;
+                _lastUnexploredJunctionsConnections pushBack _currentConnections;
             };
         };
     };
