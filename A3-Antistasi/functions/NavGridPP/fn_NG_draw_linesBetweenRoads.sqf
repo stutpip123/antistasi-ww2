@@ -1,6 +1,10 @@
 params [
-    ["_navGrids",[],[ [] ]] //<ARRAY< island ARRAY<Road,connections ARRAY<Road>>  >>
+    ["_navGrids",[],[ [] ]], //<ARRAY< island ARRAY<Road,connections ARRAY<Road>>  >>
+    ["_drawLines",true,[true]],
+    ["_drawDistances",true,[true]]
 ];
+
+if !(_drawLines || _drawDistances) exitWith {};
 
 private _diag_step_main = "";
 private _diag_step_sub = "";
@@ -42,7 +46,8 @@ private _roadColourClassification = [["MAIN ROAD", "ROAD", "TRACK"],["ColorGreen
             call _fnc_diag_render;
         };
 
-        private _myRoad = _x#0;
+        private _segStruct = _x;
+        private _myRoad = _segStruct#0;
         private _myName = str _myRoad;
         {
             private _otherRoad = _x;
@@ -55,12 +60,17 @@ private _roadColourClassification = [["MAIN ROAD", "ROAD", "TRACK"],["ColorGreen
                 private _otherConnections = _roadsAndConnections getVariable [_otherName,[]];
                 _otherConnections pushBack _myName;
                 _roadsAndConnections setVariable [_myName,_otherConnections];
-                private _realDistance = (str (_myRoad#2 #_forEachIndex)) + "m";
+                private _realDistance = _segStruct #2 #_forEachIndex;
 
-                _markers pushBack ([_myRoad,_myName,_otherRoad,_otherName,_roadColourClassification,_realDistance] call A3A_fnc_NG_draw_lineBetweenTwoRoads);
+                if (_drawLines) then {
+                    _markers pushBack ([_myRoad,_otherRoad,_myName + _otherName,_roadColourClassification] call A3A_fnc_NG_draw_lineBetweenTwoRoads);
+                };
+                if (_drawDistances && (_realDistance > 20)) then {
+                    _markers pushBack ([_myRoad,_otherRoad,_myName + _otherName,_roadColourClassification,(_realDistance toFixed 0) + "m"] call A3A_fnc_NG_draw_distanceBetweenTwoRoads);
+                };
             };
 
-        } forEach (_x#1); // connections ARRAY<Road>  // _x is Road
+        } forEach (_segStruct#1); // connections ARRAY<Road>  // _x is Road
     } forEach _segments;   // island ARRAY<Road,connections ARRAY<Road>>  // _x is <Road,connections ARRAY<Road>>
     deleteLocation _roadsAndConnections;
 } forEach _navGrids; //<ARRAY< island ARRAY<Road,connections ARRAY<Road>>  >>// _x is <island ARRAY<Road,connections ARRAY<Road>>>

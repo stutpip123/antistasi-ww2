@@ -137,11 +137,11 @@ private _navGridsSimple = [_navigationGrids,_diag_step_sub_progress] call A3A_fn
 _diag_step_main = "Drawing Markers";
 _diag_step_sub = "Drawing DotsOnRoads";
 call _fnc_diag_render;
-[_navGridsSimple] call A3A_fnc_NG_draw_dotOnRoads;
+//[_navGridsSimple] call A3A_fnc_NG_draw_dotOnRoads;
 _diag_step_main = "Drawing Markers";
 _diag_step_sub = "Drawing LinesBetweenRoads";
 call _fnc_diag_render;
-[_navGridsSimple] call A3A_fnc_NG_draw_linesBetweenRoads;
+[_navGridsSimple,true,true] call A3A_fnc_NG_draw_linesBetweenRoads;
 
 _diag_step_main = "Done";
 _diag_step_sub = "Done";

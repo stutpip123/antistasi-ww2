@@ -397,6 +397,7 @@ class A3A
 
     class NavGridPP {
         class NG_checkDeadEnds {};
+        class NG_draw_distanceBetweenTwoRoads {};
         class NG_draw_dotOnRoads {};
         class NG_draw_lineBetweenTwoRoads {};
         class NG_draw_linesBetweenRoads {};
