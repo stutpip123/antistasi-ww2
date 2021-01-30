@@ -1,5 +1,5 @@
 params [
-    ["_navGrids",[],[ [] ]], //<ARRAY< island ARRAY<Road,connections ARRAY<Road>>  >>
+    ["_navIslands",[],[ [] ]], //<ARRAY< island ARRAY<Road,connections ARRAY<Road>>  >>
     ["_drawLines",true,[true]],
     ["_drawDistances",true,[true]]
 ];
@@ -32,7 +32,7 @@ private _roadColourClassification = [["MAIN ROAD", "ROAD", "TRACK"],["ColorGreen
 
 {
 
-    _diag_step_main = "Drawing Lines on island &lt;" + str _forEachIndex + " / " + str count _navGrids + "&gt;";
+    _diag_step_main = "Drawing Lines on island &lt;" + str _forEachIndex + " / " + str count _navIslands + "&gt;";
     call _fnc_diag_render;
     private _diag_sub_counter = -1;
     private _segments = _x;
@@ -73,6 +73,6 @@ private _roadColourClassification = [["MAIN ROAD", "ROAD", "TRACK"],["ColorGreen
         } forEach (_segStruct#1); // connections ARRAY<Road>  // _x is Road
     } forEach _segments;   // island ARRAY<Road,connections ARRAY<Road>>  // _x is <Road,connections ARRAY<Road>>
     deleteLocation _roadsAndConnections;
-} forEach _navGrids; //<ARRAY< island ARRAY<Road,connections ARRAY<Road>>  >>// _x is <island ARRAY<Road,connections ARRAY<Road>>>
+} forEach _navIslands; //<ARRAY< island ARRAY<Road,connections ARRAY<Road>>  >>// _x is <island ARRAY<Road,connections ARRAY<Road>>>
 
 [localNamespace,"A3A_NGPP","draw","LinesBetweenRoads",_markers] call Col_fnc_nestLoc_set;

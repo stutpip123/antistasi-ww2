@@ -1,5 +1,5 @@
 params [
-    ["_navGrids",[],[ [] ]],  // ARRAY<ARRAY<segmentStruct>>
+    ["_navIslands",[],[ [] ]],  // ARRAY<ARRAY<segmentStruct>>
     ["_deadEndIndices",[],[ [] ]]  // ARRAY<ARRAY<index>>  // islands must be in same order
 ];
 

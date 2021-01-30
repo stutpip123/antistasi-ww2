@@ -1,5 +1,5 @@
 params [
-    ["_navGrids",[],[ [] ]] //<ARRAY< island ARRAY<Road,connections ARRAY<Road>>  >>
+    ["_navIslands",[],[ [] ]] //<ARRAY< island ARRAY<Road,connections ARRAY<Road>>  >>
 ];
 
 private _markers = [localNamespace,"A3A_NGPP","draw","dotOnRoads",[]] call Col_fnc_nestLoc_get;
@@ -31,6 +31,6 @@ _markers resize 0;  // Preserves reference
     _name setMarkerTextLocal ("Island <" + str _forEachIndex +">");
     _name setMarkerColor "colorCivilian"; // Broadcasts here
 
-} forEach _navGrids; //<ARRAY< island ARRAY<Road,connections ARRAY<Road>>  >>// _x is <island ARRAY<Road,connections ARRAY<Road>>>
+} forEach _navIslands; //<ARRAY< island ARRAY<Road,connections ARRAY<Road>>  >>// _x is <island ARRAY<Road,connections ARRAY<Road>>>
 
 [localNamespace,"A3A_NGPP","draw","dotOnRoads",_markers] call Col_fnc_nestLoc_set;

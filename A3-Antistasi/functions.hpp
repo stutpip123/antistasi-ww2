@@ -402,7 +402,8 @@ class A3A
         class NG_draw_lineBetweenTwoRoads {};
         class NG_draw_linesBetweenRoads {};
         class NG_keysToIndex {};
-        class NG_registerAllRoads {};
+        class NG_mergeIslands {};
+        class NG_seperateIslands {};
         class NG_simplify {};
         class NG_start {};
     };
