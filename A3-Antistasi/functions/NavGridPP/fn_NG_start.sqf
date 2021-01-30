@@ -2,10 +2,10 @@
 // [] spawn A3A_fnc_NG_start;
 
 params [
-    ["_useHCs",false,[false]]
+    ["_useHCs",false,[false]]   // low-key multi-threading for chads 😎
 ];
 
-private _diag_step_main = "[]";
+private _diag_step_main = "";
 private _diag_step_sub = "";
 private _diag_step_sub_progress = []; // <Array<island,totalIslandSegments>>
 
@@ -114,27 +114,12 @@ while {true} do {   // is broken out after _fnc_tryDequeueUnprocessed
         };
     };
 
-    // Indexing all the connections
-    private _count_currentNavigationGrid = count _currentNavigationGrid;
-    _currentNavigationGridNS = [false] call A3A_fnc_createNamespace;
-    _diag_step_sub = "Loading island segments ...;).";
-    call _fnc_diag_render;
-    { _currentNavigationGridNS setVariable [str (_x#0),_forEachIndex]; } forEach _currentNavigationGrid;
-    {
-        if (_diag_segmentCounter mod 100 == 0) then {
-            _diag_step_sub = "Indexing island segments &lt;" + ((100 * _forEachIndex / _count_currentNavigationGrid) toFixed 1) + "%&gt; (Segment &lt;" + str _forEachIndex + " / " + str _count_currentNavigationGrid + "&gt;).";
-            call _fnc_diag_render;
-        };
-        _x pushBack ((_x#1) apply {_currentNavigationGridNS getVariable [str _x,-1]}); // indicies for ach connection
-    } forEach _currentNavigationGrid;
-    deleteLocation _currentNavigationGridNS;
-
-
     // Adding to all islands navigation grids array.
     _navigationGrids pushBack _currentNavigationGrid;
+
     if ((count _diag_step_sub_progress) > 9) then {
         _diag_step_sub_progress resize 8;
-        _diag_step_sub_progress pushBack ["...","..."];
+        _diag_step_sub_progress pushBack ["Many islands","..."];
     };
     _diag_step_sub_progress pushBack [_diag_islandCounter,_diag_islandSegmentCounter];
     call _fnc_diag_render;
@@ -147,6 +132,7 @@ _diag_step_main = "Drawing Markers";
 _diag_step_sub = "Drawing DotsOnRoads";
 call _fnc_diag_render;
 [_navGridsSimple] call A3A_fnc_NG_draw_dotOnRoads;
+_diag_step_main = "Drawing Markers";
 _diag_step_sub = "Drawing LinesBetweenRoads";
 call _fnc_diag_render;
 [_navGridsSimple] call A3A_fnc_NG_draw_linesBetweenRoads;

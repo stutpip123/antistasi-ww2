@@ -399,6 +399,7 @@ class A3A
         class NG_draw_dotOnRoads {};
         class NG_draw_lineBetweenTwoRoads {};
         class NG_draw_linesBetweenRoads {};
+        class NG_refsToIndex {};
         class NG_registerAllRoads {};
         class NG_simplify {};
         class NG_start {};
