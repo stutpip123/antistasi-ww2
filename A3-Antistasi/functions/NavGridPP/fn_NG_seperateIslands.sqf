@@ -26,7 +26,7 @@ private _fnc_nameToStruct = {
 private _fnc_markProcessed = {
     params ["_name"];
     _unprocessedNS setVariable [_name,false];
-    _unprocessed deleteAt (_unprocessed find _name);
+    _unprocessed deleteAt (_unprocessed find _name);    // Please save a group of indices at a time, then use Col_fnc_remIndices
 };
 
 private _fnc_expandCurrent = {

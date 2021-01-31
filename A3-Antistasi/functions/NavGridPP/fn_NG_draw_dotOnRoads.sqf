@@ -17,7 +17,7 @@ _markers resize 0;  // Preserves reference
         _name setMarkerColor (switch (count (_x#1)) do { // Broadcasts here
             case 0: { "ColorBlack" };
             case 1: { "ColorRed" };
-            //case 2: { "ColorOrange" };
+            case 2: { "ColorOrange" };
             case 3: { "ColorYellow" };
             case 4: { "ColorGreen" };
             default { "ColorBlue" };

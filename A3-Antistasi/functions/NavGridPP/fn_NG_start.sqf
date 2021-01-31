@@ -33,29 +33,31 @@ private _halfWorldSize = worldSize/2;
 private _worldCentre = [_halfWorldSize,_halfWorldSize];
 private _worldMaxRadius = sqrt(0.5 * (worldSize^2));
 
-private _allRoadObjects = nearestTerrainObjects [_worldCentre, ["ROAD", "MAIN ROAD", "TRACK"], _worldMaxRadius, false, true];
-private _allowedRoadTypes = ["ROAD", "MAIN ROAD", "TRACK"];
+private _const_allowedRoadTypes = ["ROAD", "MAIN ROAD", "TRACK"];
+private _allRoadObjects = nearestTerrainObjects [_worldCentre, _const_allowedRoadTypes, _worldMaxRadius, false, true];
 private _navGrid = _allRoadObjects apply {
     private _road = _x;
-    private _connected = roadsConnectedTo [_x,true] select {getRoadInfo _x #0 in _allowedRoadTypes};
+    private _connected = roadsConnectedTo [_x,true] select {getRoadInfo _x #0 in _const_allowedRoadTypes};
     [_road,_connected,_connected apply {_X distance2D _road}];
 };
 
-private _navGridSimple = [_navGrid,_diag_step_sub_progress] call A3A_fnc_NG_simplify;
+_navGrid = [_navGrid] call A3A_fnc_NG_missingRoadCheck;
+
+_navGrid = [_navGrid,_diag_step_sub_progress] call A3A_fnc_NG_simplify_flat;
 
 _diag_step_main = "Separating Island";
 call _fnc_diag_render;
-_navIslands = [_navGridSimple] call A3A_fnc_NG_seperateIslands;
+_navIslands = [_navGrid] call A3A_fnc_NG_seperateIslands;
 
 
 _diag_step_main = "Drawing Markers";
 _diag_step_sub = "Drawing DotsOnRoads";
 call _fnc_diag_render;
-//[_navIslands] call A3A_fnc_NG_draw_dotOnRoads;
+[_navIslands] call A3A_fnc_NG_draw_dotOnRoads;
 _diag_step_main = "Drawing Markers";
 _diag_step_sub = "Drawing LinesBetweenRoads";
 call _fnc_diag_render;
-[_navIslands,true,true] call A3A_fnc_NG_draw_linesBetweenRoads;
+//[_navIslands,true,true] call A3A_fnc_NG_draw_linesBetweenRoads;
 
 _diag_step_main = "Done";
 _diag_step_sub = "Done";
