@@ -44,6 +44,22 @@
 ["breachingExplosivesAPC", []] call _fnc_saveToTemplate;
 ["breachingExplosivesTank", []] call _fnc_saveToTemplate;
 
+///////////////////////////
+//  Rebel Starting Gear  //
+///////////////////////////
+
+private _initialRebelEquipment = [];
+if (hasTFAR) then {initialRebelEquipment append ["tf_microdagr","tf_anprc154"]};
+//if (hasTFAR && startWithLongRangeRadio) then {initialRebelEquipment pushBack "LONG_RANGE_RADIO"};
+
+["initialRebelEquipment", _initialRebelEquipment] call _fnc_saveToTemplate;
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+//     DO NOT GO PAST THIS LINE
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 //////////////////////////
 //       Loadouts       //
 //////////////////////////
@@ -109,16 +125,6 @@ _loadoutData setVariable ["items_sniper_extras", []];
 _loadoutData setVariable ["items_police_extras", []];
 _loadoutData setVariable ["items_crew_extras", []];
 _loadoutData setVariable ["items_unarmed_extras", []];
-
-///////////////////////////
-//  Rebel Starting Gear  //
-///////////////////////////
-
-private _initialRebelEquipment = [];
-if (hasTFAR) then {initialRebelEquipment append ["tf_microdagr","tf_anprc154"]};
-//if (hasTFAR && startWithLongRangeRadio) then {initialRebelEquipment pushBack "LONG_RANGE_RADIO"};
-
-["initialRebelEquipment", _initialRebelEquipment] call _fnc_saveToTemplate;
 
 ////////////////////////
 //  Rebel Unit Types  //
