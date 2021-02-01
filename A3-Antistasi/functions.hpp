@@ -396,11 +396,12 @@ class A3A
     };
 
     class NavGridPP {
+        class NG_convert_navIslands_navGridDB {};
+        class NG_convert_navGridDB_navIslands {};
         class NG_draw_distanceBetweenTwoRoads {};
         class NG_draw_dotOnRoads {};
         class NG_draw_lineBetweenTwoRoads {};
         class NG_draw_linesBetweenRoads {};
-        class NG_keysToIndex {};
         class NG_mergeIslands {};
         class NG_missingRoadCheck {};
         class NG_seperateIslands {};
