@@ -1,6 +1,5 @@
 params [
-    ["_navGrid",[],[ [] ]],  // ARRAY<ARRAY<segmentStruct>>
-    ["_deadEndIndices",[],[ [] ]]  // ARRAY<ARRAY<index>>  // islands must be in same order
+    ["_navGrid",[],[ [] ]]  // ARRAY<ARRAY<segmentStruct>>
 ];
 
 private _navGridNS = [false] call A3A_fnc_createNamespace;
@@ -71,6 +70,6 @@ private _deadEndStructs = [];
     };
 } forEach _deadEndStructs;
 
-private _navGridFixed = _navGrid apply {str (_x#0)} apply {_navGridNS getVariable [_x,nil]};
+private _navGridFixed = allVariables _navGridNS apply {_navGridNS getVariable [_x,nil]};
 deleteLocation _navGridNS;
 _navGridFixed;

@@ -49,15 +49,18 @@ _diag_step_main = "Separating Island";
 call _fnc_diag_render;
 _navIslands = [_navGrid] call A3A_fnc_NG_seperateIslands;
 
+private _navGridDB = [_navIslands] call A3A_fnc_NG_convert_navIslands_navGridDB;
+copyToClipboard str _navGridDB;
+_navIslands = [_navGridDB] call A3A_fnc_NG_convert_navGridDB_navIslands;
 
 _diag_step_main = "Drawing Markers";
 _diag_step_sub = "Drawing DotsOnRoads";
 call _fnc_diag_render;
-[_navIslands] call A3A_fnc_NG_draw_dotOnRoads;
+//[_navIslands] call A3A_fnc_NG_draw_dotOnRoads;
 _diag_step_main = "Drawing Markers";
 _diag_step_sub = "Drawing LinesBetweenRoads";
 call _fnc_diag_render;
-//[_navIslands,true,true] call A3A_fnc_NG_draw_linesBetweenRoads;
+[_navIslands,true,true] call A3A_fnc_NG_draw_linesBetweenRoads;
 
 _diag_step_main = "Done";
 _diag_step_sub = "Done";

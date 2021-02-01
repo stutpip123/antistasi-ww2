@@ -10,7 +10,7 @@ private _centre = (_myPos vectorAdd _otherPos) vectorMultiply 0.5;
 private _name = "NGPP_line_" + _markerID;
 private _marker = createMarkerLocal [_name, _centre];
 _marker setMarkerDirLocal _azimuth;
-_marker setMarkerSizeLocal [10, 0.5*_length];
+_marker setMarkerSizeLocal [8, 0.5*_length];
 _marker setMarkerShapeLocal "RECTANGLE";
 _marker setMarkerBrushLocal "SOLID";
 
