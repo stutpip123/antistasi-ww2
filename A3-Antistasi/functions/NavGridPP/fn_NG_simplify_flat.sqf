@@ -1,5 +1,6 @@
 params [
-    ["_navGrid",[],[ [] ]] //<ARRAY< island ARRAY<Road,connections ARRAY<Road>>,connection indices ARRAY<scalar>  >>
+    ["_navGrid",[],[ [] ]],  //ARRAY<  Road, ARRAY<connectedRoad>>, ARRAY<distance>  >
+    ["_degTolerance",35,[ 35 ]]  // if straight roads azimuth are within this tolerance, they are merged.
 ];
 private _navGridSimple = +_navGrid;
 
@@ -66,7 +67,7 @@ private _fnc_canSimplify = {
 
     private _myAzimuth = (_myInfo#6 getDir _myInfo#7) mod 180;
     private _otherAzimuth = (_otherInfo#6 getDir _otherInfo#7) mod 180;
-    abs (_myAzimuth - _otherAzimuth) < 45;
+    abs (_myAzimuth - _otherAzimuth) < _degTolerance;          // Edit the direction change here.
 };
 
 private _diag_sub_counter = -1;
@@ -78,7 +79,7 @@ private _diag_sub_counter = -1;
     };
 
     private _currentStruct = _x;
-    private _currentConnectionNames = _currentStruct#1;   // Only unexplored connections.
+    private _currentConnectionNames = _currentStruct#1;
     if ((count _currentConnectionNames) == 2) then {
 
         private _connectRoad0 = _currentConnectionNames#0;

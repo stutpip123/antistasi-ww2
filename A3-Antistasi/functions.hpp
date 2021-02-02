@@ -405,6 +405,7 @@ class A3A
         class NG_mergeIslands {};
         class NG_missingRoadCheck {};
         class NG_seperateIslands {};
+        class NG_simplify_conDupe {};
         class NG_simplify_flat {};
         class NG_simplify_junc {};
         class NG_start {};

@@ -59,15 +59,15 @@ private _roadColourClassification = [["MAIN ROAD", "ROAD", "TRACK"],["ColorGreen
 
                 private _otherConnections = _roadsAndConnections getVariable [_otherName,[]];
                 _otherConnections pushBack _myName;
-                _roadsAndConnections setVariable [_myName,_otherConnections];
+                _roadsAndConnections setVariable [_otherName,_otherConnections];
                 private _realDistance = _segStruct #2 #_forEachIndex;
 
                 if (_drawLines) then {
                     _markers pushBack ([_myRoad,_otherRoad,_myName + _otherName,_roadColourClassification] call A3A_fnc_NG_draw_lineBetweenTwoRoads);
                 };
-                if (_drawDistances && (_realDistance > 20)) then {
-                    _markers pushBack ([_myRoad,_otherRoad,_myName + _otherName,_roadColourClassification,(_realDistance toFixed 0) + "m"] call A3A_fnc_NG_draw_distanceBetweenTwoRoads);
-                };
+                //if (_drawDistances && (_realDistance > 20)) then { // disabled just for road clarity
+                //    _markers pushBack ([_myRoad,_otherRoad,_myName + _otherName,_roadColourClassification,(_realDistance toFixed 0) + "m"] call A3A_fnc_NG_draw_distanceBetweenTwoRoads);
+                //};
             };
 
         } forEach (_segStruct#1); // connections ARRAY<Road>  // _x is Road

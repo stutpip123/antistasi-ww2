@@ -43,7 +43,10 @@ private _navGrid = _allRoadObjects apply {
 
 _navGrid = [_navGrid] call A3A_fnc_NG_missingRoadCheck;
 
-_navGrid = [_navGrid,_diag_step_sub_progress] call A3A_fnc_NG_simplify_flat;
+_navGrid = [_navGrid,35] call A3A_fnc_NG_simplify_flat;    // Gives less markers for junc to work on. (junc is far more expensive)
+_navGrid = [_navGrid] call A3A_fnc_NG_simplify_junc;
+_navGrid = [_navGrid] call A3A_fnc_NG_simplify_conDupe;
+_navGrid = [_navGrid,15] call A3A_fnc_NG_simplify_flat;    // Clean up after junc
 
 _diag_step_main = "Separating Island";
 call _fnc_diag_render;
@@ -54,13 +57,13 @@ copyToClipboard str _navGridDB;
 _navIslands = [_navGridDB] call A3A_fnc_NG_convert_navGridDB_navIslands;
 
 _diag_step_main = "Drawing Markers";
-_diag_step_sub = "Drawing DotsOnRoads";
-call _fnc_diag_render;
-//[_navIslands] call A3A_fnc_NG_draw_dotOnRoads;
-_diag_step_main = "Drawing Markers";
 _diag_step_sub = "Drawing LinesBetweenRoads";
 call _fnc_diag_render;
 [_navIslands,true,true] call A3A_fnc_NG_draw_linesBetweenRoads;
+_diag_step_main = "Drawing Markers";
+_diag_step_sub = "Drawing DotsOnRoads";
+call _fnc_diag_render;
+[_navIslands] call A3A_fnc_NG_draw_dotOnRoads;
 
 _diag_step_main = "Done";
 _diag_step_sub = "Done";
