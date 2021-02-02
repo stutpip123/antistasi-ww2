@@ -1,9 +1,9 @@
 // Hope you like pointers and references, they are used widely in the following code to improve performance
-// [] spawn A3A_fnc_NG_start;
+// [35,15] spawn A3A_fnc_NG_start;
 
 params [
-    ["_useHCs",false,[false]],      // low-key multi-threading for chads 😎
-    ["_autoFixing",false,[false]]   // Search after Cul de Sac for other roads.
+    ["_degTolerance",35,[ 35 ]],  // if straight roads azimuth are within this tolerance, they are merged.
+    ["_maxDistance",15,[ 15 ]] // Junctions are only merged if within this distance.
 ];
 
 private _diag_step_main = "";
@@ -43,10 +43,10 @@ private _navGrid = _allRoadObjects apply {
 
 _navGrid = [_navGrid] call A3A_fnc_NG_missingRoadCheck;
 
-_navGrid = [_navGrid,35] call A3A_fnc_NG_simplify_flat;    // Gives less markers for junc to work on. (junc is far more expensive)
-_navGrid = [_navGrid,15] call A3A_fnc_NG_simplify_junc;
+_navGrid = [_navGrid,_degTolerance] call A3A_fnc_NG_simplify_flat;    // Gives less markers for junc to work on. (junc is far more expensive)
+_navGrid = [_navGrid,_maxDistance] call A3A_fnc_NG_simplify_junc;
 _navGrid = [_navGrid] call A3A_fnc_NG_simplify_conDupe;
-_navGrid = [_navGrid,15] call A3A_fnc_NG_simplify_flat;    // Clean up after junc
+_navGrid = [_navGrid,15] call A3A_fnc_NG_simplify_flat;    // Clean up after junc, much smaller tolerance
 
 _diag_step_main = "Separating Island";
 call _fnc_diag_render;
