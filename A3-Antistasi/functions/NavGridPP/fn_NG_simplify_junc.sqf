@@ -1,5 +1,6 @@
 params [
-    ["_navGrid",[],[ [] ]] //ARRAY<  Road, ARRAY<connectedRoad>>, ARRAY<distance>  >
+    ["_navGrid",[],[ [] ]], //ARRAY<  Road, ARRAY<connectedRoad>>, ARRAY<distance>  >
+    ["_maxDistance",15,[ 15 ]] // Junctions are only merged if within this distance.
 ];
 private _navGridSimple = +_navGrid;
 
@@ -141,7 +142,7 @@ private _diag_sub_counter = -1;
     private _connectedJuncStructs = [];
     if ((count _myConnections) > 2) then {
         _connectedJuncStructs = _myConnections
-            select {_myRoad distance2D _x < 15}                                 // Only within small junction proximity
+            select {_myRoad distance2D _x < _maxDistance}                       // Only within small junction proximity
             apply {_navGridSimple #(_roadIndexNS getVariable [str _x,nil])}     // Get their structs
             select {count (_x#1) > 2};                                          // Only structs that are junctions
     };

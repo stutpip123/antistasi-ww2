@@ -44,7 +44,7 @@ private _navGrid = _allRoadObjects apply {
 _navGrid = [_navGrid] call A3A_fnc_NG_missingRoadCheck;
 
 _navGrid = [_navGrid,35] call A3A_fnc_NG_simplify_flat;    // Gives less markers for junc to work on. (junc is far more expensive)
-_navGrid = [_navGrid] call A3A_fnc_NG_simplify_junc;
+_navGrid = [_navGrid,15] call A3A_fnc_NG_simplify_junc;
 _navGrid = [_navGrid] call A3A_fnc_NG_simplify_conDupe;
 _navGrid = [_navGrid,15] call A3A_fnc_NG_simplify_flat;    // Clean up after junc
 
