@@ -1,11 +1,11 @@
 params [
-    ["_navGrid",[],[ [] ]]  // ARRAY<ARRAY<segmentStruct>>
+    ["_navGrid",[],[ [] ]]  // ARRAY<segmentStruct>
 ];
 
 private _navGridNS = [false] call A3A_fnc_createNamespace;
 {
     _navGridNS setVariable [str (_x#0),_x];
-} forEach _navGrid; // _x is road struct <road,ARRAY<connections>,ARRAY<indices>>
+} forEach _navGrid; // _x is road struct <road,ARRAY<connections>,ARRAY<distances>>
 
 
 private _fnc_connectStructAndRoad = {
@@ -13,12 +13,12 @@ private _fnc_connectStructAndRoad = {
     private _myRoad = _myStruct#0;
     private _distance = _myRoad distance2D _otherRoad;
 
-    private _otherStruct = _navGridNS getVariable [str _otherRoad,nil];     // Original value is modified by reference
+    private _otherStruct = _navGridNS getVariable [str _otherRoad,nil];
 
-    _myStruct#1 pushBack _otherRoad;    // Original value is modified by reference
+    _myStruct#1 pushBack _otherRoad;    // Original values are modified by reference
     _myStruct#2 pushBack _distance;
 
-    _otherStruct#1 pushBack _myRoad;
+    _otherStruct#1 pushBack _myRoad;     // Original values are modified by reference
     _otherStruct#2 pushBack _distance;
 };
 
