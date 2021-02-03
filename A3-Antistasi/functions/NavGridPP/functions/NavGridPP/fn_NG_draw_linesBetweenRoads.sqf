@@ -23,7 +23,7 @@ private _fnc_diag_render = { // call _fnc_diag_render;
 
 _diag_step_main = "Deleting Old Markers";
 call _fnc_diag_render;
-private _markers = [localNamespace,"A3A_NGPP","draw","LinesBetweenRoads",[]] call Col_fnc_nestLoc_get;
+private _markers = [localNamespace,"NavGridPP","draw","LinesBetweenRoads",[]] call Col_fnc_nestLoc_get;
 {
     deleteMarker _x;
 } forEach _markers;
@@ -38,7 +38,7 @@ private _roadColourClassification = [["MAIN ROAD", "ROAD", "TRACK"],["ColorGreen
     private _segments = _x;
     _diag_totalSegments = count _segments;
 
-    private _roadsAndConnections = [false] call A3A_fnc_createNamespace;
+    private _roadsAndConnections = [localNamespace,"NavGridPP","draw","linesBetweenRoads_roadAndConnections", nil, nil] call Col_fnc_nestLoc_set;
     {
         _diag_sub_counter = _diag_sub_counter +1;
         if (_diag_sub_counter mod 100 == 0) then {
@@ -72,7 +72,8 @@ private _roadColourClassification = [["MAIN ROAD", "ROAD", "TRACK"],["ColorGreen
 
         } forEach (_segStruct#1); // connections ARRAY<Road>  // _x is Road
     } forEach _segments;   // island ARRAY<Road,connections ARRAY<Road>>  // _x is <Road,connections ARRAY<Road>>
-    deleteLocation _roadsAndConnections;
+    [_roadsAndConnections] call Col_fnc_nestLoc_rem;
+
 } forEach _navIslands; //<ARRAY< island ARRAY<Road,connections ARRAY<Road>>  >>// _x is <island ARRAY<Road,connections ARRAY<Road>>>
 
-[localNamespace,"A3A_NGPP","draw","LinesBetweenRoads",_markers] call Col_fnc_nestLoc_set;
+[localNamespace,"NavGridPP","draw","LinesBetweenRoads",_markers] call Col_fnc_nestLoc_set;

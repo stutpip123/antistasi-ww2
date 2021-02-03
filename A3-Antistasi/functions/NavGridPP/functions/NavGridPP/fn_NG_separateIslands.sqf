@@ -2,18 +2,32 @@ params [
     ["_navGridFlat",[],[ [] ]]  // ARRAY<aStruct>
 ];
 
+private _diag_step_sub = "";
+
+private _fnc_diag_render = { // call _fnc_diag_render;
+    [
+        "Nav Grid++",
+        "<t align='left'>" +
+        "Conversion<br/>"+
+        "Separating Islands<br/>"+
+        _diag_step_sub+"<br/>"+
+        "</t>"
+    ] remoteExec ["A3A_fnc_customHint",0];
+};
+
+
 private _navIslands = [];    // Array<island>
 
 private _currentNames = [];    // Array<struct>
 private _nextNames = [];    // Array<struct>
 
 private _unprocessed = _navGridFlat apply {str (_x#0)};    // Array<road>
-private _unprocessedNS = [false] call A3A_fnc_createNamespace;
+private _unprocessedNS = [localNamespace,"NavGridPP","separateIslands","unprocessed", nil, nil] call Col_fnc_nestLoc_set;
 {
     _unprocessedNS setVariable [_x,true];
 } forEach _unprocessed;
 
-private _structNS = [false] call A3A_fnc_createNamespace;
+private _structNS = [localNamespace,"NavGridPP","separateIslands","structs", nil, nil] call Col_fnc_nestLoc_set;
 {
     _structNS setVariable [str (_x#0),_x];
 } forEach _navGridFlat;
@@ -38,23 +52,32 @@ private _fnc_expandCurrent = {
     { [_x] call _fnc_markProcessed } forEach _connectedNames;
     _nextNames append _connectedNames;
 };
-
+private _diag_totalSegments = count _unprocessed;
+private _diag_sub_counter = 0;
 while {count _unprocessed != 0} do {
+
     private _currentNavGrid = [];    // Array<struct>
     private _newName =_unprocessed deleteAt 0;
     [_newName] call _fnc_markProcessed;
     _nextNames pushBack _newName;
 
     while {count _nextNames != 0} do {
+        if (_diag_sub_counter mod 100 == 0) then {
+            _diag_step_sub = "Completion &lt;" + ((100*_diag_sub_counter /_diag_totalSegments) toFixed 1) + "% &gt; Processing segment &lt;" + (str _diag_sub_counter) + " / " + (str _diag_totalSegments) + "&gt;";;
+            call _fnc_diag_render;
+        };
         _currentNames = _nextNames;
         _nextNames = [];
 
         {
+            _diag_sub_counter = _diag_sub_counter +1;
             [_x] call _fnc_expandCurrent
         } forEach _currentNames;
     };
     _navIslands pushBack _currentNavGrid;
 };
 deleteLocation _structNS;
+[_unprocessedNS] call Col_fnc_nestLoc_rem;
+[_structNS] call Col_fnc_nestLoc_rem;
 
 _navIslands;

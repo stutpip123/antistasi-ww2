@@ -4,59 +4,44 @@ params [
 ];
 private _navGridSimple = +_navGrid;
 
-private _roadIndexNS = [false] call A3A_fnc_createNamespace;
+private _roadIndexNS = [localNamespace,"NavGridPP","simplify_junc_roadIndex", nil, nil] call Col_fnc_nestLoc_set;
 {
     _roadIndexNS setVariable [str (_x#0),_forEachIndex];
 } forEach _navGridSimple; // _x is road struct <road,ARRAY<connections>,ARRAY<indices>>
 
-private _diag_step_main = "";
 private _diag_step_sub = "";
-
-private _diag_islandCounter = -1;
 
 private _fnc_diag_render = { // call _fnc_diag_render;
     [
         "Nav Grid++",
         "<t align='left'>" +
-        "Simplifying junctions<br/>"+
-        _diag_step_main+"<br/>"+
+        "Simplifying navGrid<br/>"+
+        "Simplifying Junctions<br/>"+
         _diag_step_sub+"<br/>"+
         "</t>"
     ] remoteExec ["A3A_fnc_customHint",0];
 };
 
-
-private _fnc_replaceRoadConnection = {
-    params ["_roadStruct","_oldRoadConnection","_newRoadConnection","_newDistance"];
-    private _connectionRoads = _roadStruct#1;
-    private _conIndex = _connectionRoads find _oldRoadConnection;
-    _connectionRoads set [_conIndex,_newRoadConnection];
-    (_roadStruct#2) set [_conIndex,_newDistance];
-};
-private _fnc_removeRoadConnection = {
-    params ["_roadStruct","_oldRoadConnection"];
-    private _connectionRoads = _roadStruct#1;
-    private _conIndex = _connectionRoads find _oldRoadConnection;
-    _connectionRoads deleteAt _conIndex;
-    (_roadStruct#2) deleteAt _conIndex;
-};
-private _fnc_addRoadConnection = {
-    params ["_roadStruct","_newRoadConnection","_newDistance"];
-    (_roadStruct#1) pushBack _newRoadConnection;
-    (_roadStruct#2) pushBack _newDistance;
-};
 private _fnc_disconnectStructs = {
     params ["_myStruct","_otherStruct"];
 
     private _myConnections = _myStruct#1;
-    private _otherInMy = _myConnections find (_otherStruct#0);
-    _myConnections deleteAt _otherInMy;
-    (_myStruct#2) deleteAt _otherInMy;
-
     private _otherConnections = _otherStruct#1;
-    private _myInOther = _otherConnections find (_myStruct#0);
-    _otherConnections deleteAt _myInOther;
-    (_otherStruct#2) deleteAt _myInOther;
+
+    while {(_myStruct#0) in _otherConnections || (_otherStruct#0) in _myConnections} do {  // sometimes due to simplification or map roads, nodes may be connected multiple times.
+        private _otherInMy = _myConnections find (_otherStruct#0);
+        _myConnections deleteAt _otherInMy;
+        (_myStruct#2) deleteAt _otherInMy;
+
+        private _myInOther = _otherConnections find (_myStruct#0);
+        _otherConnections deleteAt _myInOther;
+        (_otherStruct#2) deleteAt _myInOther;
+    };
+    if ((_myStruct#0) in _otherConnections || (_otherStruct#0) in _myConnections) then {
+        throw ["CouldNotDisconnectStructs","CouldNotDisconnectStructs " + str (getPos (_myStruct#0)) + ", " + str (getPos (_otherStruct#0)) + "."];
+        [1,"CouldNotDisconnectStructs " + str (getPos (_myStruct#0)) + ", " + str (getPos (_otherStruct#0)) + ".","fn_NG_simplify_junc"] call A3A_fnc_log;
+        ["fn_NG_simplify_junc Error","Please check RPT."] call A3A_fnc_customHint;
+    };
 };
 private _fnc_connectStructs = {
     params ["_myStruct","_otherStruct"];
@@ -72,11 +57,8 @@ private _fnc_connectStructs = {
     (_otherStruct#2) pushBack _distance;
 };
 
-_diag_islandCounter = _diag_islandCounter +1;
-_diag_step_main = "Simplifying navGrid";
 call _fnc_diag_render;
 
-_diag_totalSegments = count _navGridSimple;
 private _orphanedIndices = [];
 
 private _fnc_consumeStruct = {
@@ -93,7 +75,7 @@ private _fnc_consumeStruct = {
     {
         [_otherStruct,_x] call _fnc_disconnectStructs;
     } forEach _otherConnectedStructs;
-    _orphanedIndices pushBack (_roadIndexNS getVariable [_otherName,nil]);
+    _orphanedIndices pushBack (_roadIndexNS getVariable [_otherName,-1]);
 
     {
         private _otherConnectedStruct = _x;
@@ -128,10 +110,9 @@ private _fnc_selectCentreStruct = {
     _centreStruct;
 };
 
-private _diag_sub_counter = -1;
+private _diag_totalSegments = count _navGridSimple;
 {
-    _diag_sub_counter = _diag_sub_counter +1;
-    if (_diag_sub_counter mod 100 == 0) then {
+    if (_forEachIndex mod 100 == 0) then {
         _diag_step_sub = "Completion &lt;" + ((100*_forEachIndex /_diag_totalSegments) toFixed 1) + "% &gt; Processing segment &lt;" + (str _forEachIndex) + " / " + (str _diag_totalSegments) + "&gt;";;
         call _fnc_diag_render;
     };
@@ -158,15 +139,22 @@ private _diag_sub_counter = -1;
         } forEach _connectedJuncStructs;
     };
 } forEach _navGridSimple;
-deleteLocation _roadIndexNS;
+[_roadIndexNS] call Col_fnc_nestLoc_rem;
 
 _diag_step_sub = "Cleaning orphans...";
 call _fnc_diag_render;
-/*{
+//*
+{
+    if (_x == -1 || _x > count _navGridSimple) exitWith {
+        [1,"Tried to delete non-index -1.","fn_NG_simplify_junc"] call A3A_fnc_log;
+        ["fn_NG_simplify_junc Error","Tried to delete non-index -1. Please check RPT."] call A3A_fnc_customHint;
+        [];
+    };
     if (count (_navGridSimple#_x#1) > 0) then {
         [1,"Tried to delete non-orphan " + str (getPos (_navGridSimple#_x#0)) + ".","fn_NG_simplify_junc"] call A3A_fnc_log;
+        ["fn_NG_simplify_junc Error","Please check RPT."] call A3A_fnc_customHint;
     };
-} forEach _orphanedIndices;*/
+} forEach _orphanedIndices;//*/
 _orphanedIndices sort false; // The order of orphaned indices will be random.
 [_navGridSimple,_orphanedIndices] call Col_fnc_array_remIndices;
 

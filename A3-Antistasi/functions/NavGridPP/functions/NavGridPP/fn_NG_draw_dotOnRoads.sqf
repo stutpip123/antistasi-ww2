@@ -13,7 +13,7 @@ _markers resize 0;  // Preserves reference
         private _name = "NGPP_dot_" + str (_x#0);
         _markers pushBack createMarkerLocal [_name,getPosWorld (_x#0)];
         _name setMarkerTypeLocal "mil_dot";
-        _name setMarkerSizeLocal [0.8, 0.8];//[0.4, 0.4];
+        _name setMarkerSizeLocal [0.4, 0.4];// [0.8, 0.8]
         _name setMarkerColor (switch (count (_x#1)) do { // Broadcasts here
             case 0: { "ColorBlack" };
             case 1: { "ColorRed" };

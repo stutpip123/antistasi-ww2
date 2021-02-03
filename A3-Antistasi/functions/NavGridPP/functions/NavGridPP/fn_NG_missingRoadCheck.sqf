@@ -2,11 +2,23 @@ params [
     ["_navGrid",[],[ [] ]]  // ARRAY<segmentStruct>
 ];
 
-private _navGridNS = [false] call A3A_fnc_createNamespace;
+private _diag_step_sub = "";
+
+private _fnc_diag_render = { // call _fnc_diag_render;
+    [
+        "Nav Grid++",
+        "<t align='left'>" +
+        "Appling Fixes<br/>"+
+        "Missing Road Check<br/>"+
+        _diag_step_sub+"<br/>"+
+        "</t>"
+    ] remoteExec ["A3A_fnc_customHint",0];
+};
+
+private _navGridNS = [localNamespace,"NavGridPP","MissingRoadCheck_roadIndex", nil, nil] call Col_fnc_nestLoc_set;
 {
     _navGridNS setVariable [str (_x#0),_x];
 } forEach _navGrid; // _x is road struct <road,ARRAY<connections>,ARRAY<distances>>
-
 
 private _fnc_connectStructAndRoad = {
     params ["_myStruct","_otherRoad"];
@@ -39,7 +51,12 @@ private _fnc_searchAzimuth = {
 private _const_emptyArray = [];
 private _isolatedStructs = _navGrid select {count (_x#1) < 2};
 private _deadEndStructs = [];
+_diag_totalSegments = count _isolatedStructs;
 {
+    if (_forEachIndex mod 100 == 0) then {
+        _diag_step_sub = "Completion &lt;" + ((100*_forEachIndex /_diag_totalSegments) toFixed 1) + "% &gt; Processing isolated &lt;" + (str _forEachIndex) + " / " + (str _diag_totalSegments) + "&gt;";;
+        call _fnc_diag_render;
+    };
     if (_x#1 isEqualTo _const_emptyArray) then {
         private _road = _x#0;
         private _roadInfo = getRoadInfo _road;
@@ -60,7 +77,12 @@ private _deadEndStructs = [];
     };
 } forEach _isolatedStructs;
 
+_diag_totalSegments = count _deadEndStructs;
 {
+    if (_forEachIndex mod 100 == 0) then {
+        _diag_step_sub = "Completion &lt;" + ((100*_forEachIndex /_diag_totalSegments) toFixed 1) + "% &gt; Processing dead-end &lt;" + (str _forEachIndex) + " / " + (str _diag_totalSegments) + "&gt;";;
+        call _fnc_diag_render;
+    };
     if (count (_x#1) == 1) then {   // Skip if no-longer a dead end.
         private _road = _x#0;
         private _missingRoad = [_road,(_x#1#0) getDir (_road)] call _fnc_searchAzimuth;
@@ -71,5 +93,5 @@ private _deadEndStructs = [];
 } forEach _deadEndStructs;
 
 private _navGridFixed = allVariables _navGridNS apply {_navGridNS getVariable [_x,nil]};
-deleteLocation _navGridNS;
+[_navGridNS] call Col_fnc_nestLoc_rem;
 _navGridFixed;

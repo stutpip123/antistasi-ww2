@@ -396,19 +396,20 @@ class A3A
     };
 
     class NavGridPP {
+        file="functions\NavGridPP\functions\NavGridPP";
         class NG_convert_navIslands_navGridDB {};
         class NG_convert_navGridDB_navIslands {};
         class NG_draw_distanceBetweenTwoRoads {};
         class NG_draw_dotOnRoads {};
         class NG_draw_lineBetweenTwoRoads {};
         class NG_draw_linesBetweenRoads {};
+        class NG_main {};
         class NG_mergeIslands {};
         class NG_missingRoadCheck {};
-        class NG_seperateIslands {};
+        class NG_separateIslands {};
         class NG_simplify_conDupe {};
         class NG_simplify_flat {};
         class NG_simplify_junc {};
-        class NG_start {};
     };
 
     class Ammunition

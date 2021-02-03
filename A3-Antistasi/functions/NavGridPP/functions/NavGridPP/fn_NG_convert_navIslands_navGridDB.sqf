@@ -32,7 +32,7 @@ navGridDB
 } forEach _navIslands;
 
 private _navGrid = [_navIslands] call A3A_fnc_NG_mergeIslands;
-private _roadIndexNS = [false] call A3A_fnc_createNamespace;
+private _roadIndexNS = [localNamespace,"NavGridPP","convert_navIslands_navGrid_roadIndex", nil, nil] call Col_fnc_nestLoc_set;
 {
     _roadIndexNS setVariable [str (_x#0),_forEachIndex];
 } forEach _navGrid; // [road, [connectedRoad], [connectedDistances], islandID]
@@ -51,7 +51,7 @@ private _const_roadTypeEnum = ["TRACK","ROAD","MAIN ROAD"]; // Case sensitive
         ]];
     } forEach _connected;
 } forEach _navGrid; // [road, [[connectedRoadIndex,typeEnum,connectedDistance]], [connectedDistances], islandID]
-deleteLocation _roadIndexNS;
+[_roadIndexNS] call Col_fnc_nestLoc_rem;
 
 private _const_pos2DSelect = [0,2];
 private _const_posOffsetMatrix = [];    // Okay, not really constant, but you get the deal
@@ -81,7 +81,7 @@ _fnc_tryGetPos = { // This feature will unused for the time being,
 };
 
 private _navGridDB = _navGrid apply {[
-    getPos (_x#0) select _const_pos2DSelect,
+    (_x#0) call _fnc_tryGetPos,
     _x#3,
     count (_x#1) > 2,
     _x#1

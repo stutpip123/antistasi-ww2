@@ -4,17 +4,14 @@ params [
 ];
 private _navGridSimple = +_navGrid;
 
-private _diag_step_main = "";
 private _diag_step_sub = "";
-
-private _diag_islandCounter = -1;
 
 private _fnc_diag_render = { // call _fnc_diag_render;
     [
         "Nav Grid++",
         "<t align='left'>" +
-        "Simplifying segments<br/>"+
-        _diag_step_main+"<br/>"+
+        "Simplifying navGrid<br/>"+
+        "Simplifying Flat Segments<br/>"+
         _diag_step_sub+"<br/>"+
         "</t>"
     ] remoteExec ["A3A_fnc_customHint",0];
@@ -22,7 +19,7 @@ private _fnc_diag_render = { // call _fnc_diag_render;
 
 private _fnc_getStruct = {
     params ["_navGridSimple","_roadIndexNS","_roadName"];
-    _navGridSimple #(_roadIndexNS getVariable [_roadName,[]]);
+    _navGridSimple #(_roadIndexNS getVariable [_roadName,-1]);
 };
 private _fnc_replaceRoadConnection = {
     params ["_roadStruct","_oldRoadConnection","_newRoadConnection","_newDistance"];
@@ -44,14 +41,11 @@ private _fnc_isRoadConnected = {    // Assumes both will have connection, no one
     _road in (_struct#1);
 };
 
-_diag_islandCounter = _diag_islandCounter +1;
-_diag_step_main = "Simplifying navGrid";
 call _fnc_diag_render;
 
-_diag_totalSegments = count _navGridSimple;
 private _orphanedIndices = [];
 
-private _roadIndexNS = [false] call A3A_fnc_createNamespace;
+private _roadIndexNS = [localNamespace,"NavGridPP","simplify_flat_roadIndex", nil, nil] call Col_fnc_nestLoc_set;
 {
     _roadIndexNS setVariable [str (_x#0),_forEachIndex];
 } forEach _navGridSimple; // _x is road struct <road,ARRAY<connections>,ARRAY<indices>>
@@ -70,10 +64,9 @@ private _fnc_canSimplify = {
     abs (_myAzimuth - _otherAzimuth) < _degTolerance;          // Edit the direction change here.
 };
 
-private _diag_sub_counter = -1;
+private _diag_totalSegments = count _navGridSimple;
 {
-    _diag_sub_counter = _diag_sub_counter +1;
-    if (_diag_sub_counter mod 100 == 0) then {
+    if (_forEachIndex mod 100 == 0) then {
         _diag_step_sub = "Completion &lt;" + ((100*_forEachIndex /_diag_totalSegments) toFixed 1) + "% &gt; Processing segment &lt;" + (str _forEachIndex) + " / " + (str _diag_totalSegments) + "&gt;";;
         call _fnc_diag_render;
     };
@@ -102,7 +95,7 @@ private _diag_sub_counter = -1;
         _orphanedIndices pushBack _forEachIndex;
     };
 } forEach _navGridSimple;
-deleteLocation _roadIndexNS;
+[_roadIndexNS] call Col_fnc_nestLoc_rem;
 
 _diag_step_sub = "Cleaning orphans...";
 call _fnc_diag_render;
