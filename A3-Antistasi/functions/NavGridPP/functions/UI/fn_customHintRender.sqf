@@ -40,8 +40,8 @@ if (A3A_customHint_MSGs isEqualTo []) then {
     private _keyBind = (["<br/><t size='0.8' color='#",_alphaHex,"e5b348' shadow='1' shadowColor='#",_alphaHex,"000000' valign='top' >Press <t color='#",_alphaHex,"f0d498' >",[_dismissKey,"Use Action 12"] select (_dismissKey isEqualTo ""),"</t> to dismiss notification. +",str _topMSGIndex,"</t>"] joinString ""); // Needs to be added to string table.
     private _previousNotifications = ["<t color='#",_alphaHex,"e5b348' font='RobotoCondensed' align='center' valign='middle' underline='0' shadow='1' shadowColor='#",_alphaHex,"000000' shadowOffset='0.0625'>"];
     if (_topMSGIndex < 4) then {
-        private _size = (-20/(8-_topMSGIndex) +4.6);
-        _previousNotifications append ["<img size='",_size,"' color='#",_alphaHex,"ffffff' shadowOffset='",_size*0.03,"' image='functions\UI\images\logo.paa' /><br/>"];
+        private _size = (-40/(8-_topMSGIndex) +9.2);
+        _previousNotifications append ["<img size='",_size,"' color='#",_alphaHex,"ffffff' shadowOffset='",_size*0.03,"' image='a3\ui_f\data\Logos\arma3_shadow_ca.paa'/><br/>"];
     };
     for "_i" from 0 max (4-_topMSGIndex) to 3 do {
         _previousNotifications append ["<t size='",-10/(_i+5) +2.3,"'>",A3A_customHint_MSGs#(_topMSGIndex-4+_i)#0,"</t><br/>"];

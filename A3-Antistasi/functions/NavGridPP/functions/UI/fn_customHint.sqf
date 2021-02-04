@@ -59,9 +59,9 @@ if (_bodyText isEqualType parseText"") then {
     _structuredText = parseText ([
         "<t size='1' color='#ffffff' font='RobotoCondensed' align='center' valign='middle' underline='0' shadow='1' shadowColor='#000000' shadowOffset='0.0625' colorLink='#0099ff' ><t size='1.2' color='#e5b348' >",
         _headerText,
-        "</t><br/><img size='0.60' color='#e6b24a' image='functions\UI\images\img_line_ca.paa' /><br/><br/><t >",
+        "</t><br/><img size='0.60' color='#e6b24a' image='a3\ui_f\data\GUI\RscCommon\RscProgress\progressbar_ca.paa' /><br/><br/><t >",
         _bodyText,
-        "</t><br/><br/><img size='0.60' color='#e6b24a' image='functions\UI\images\img_line_ca.paa' /></t>"
+        "</t><br/><br/><img size='0.60' color='#e6b24a' image='a3\ui_f\data\GUI\RscCommon\RscProgress\progressbar_ca.paa' /></t>"
     ] joinString "");
 }; //
 
