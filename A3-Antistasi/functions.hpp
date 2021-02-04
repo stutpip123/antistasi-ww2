@@ -410,6 +410,7 @@ class A3A
         class NG_simplify_conDupe {};
         class NG_simplify_flat {};
         class NG_simplify_junc {};
+        class NG_simplify_oneWayCon {};
     };
 
     class Ammunition

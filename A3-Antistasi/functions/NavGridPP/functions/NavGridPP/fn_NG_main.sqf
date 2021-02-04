@@ -70,6 +70,17 @@ call _fnc_diag_render;
 [4,"A3A_fnc_NG_simplify_flat","fn_NG_main"] call A3A_fnc_log;
 _navGrid = [_navGrid,_degTolerance] call A3A_fnc_NG_simplify_flat;    // Gives less markers for junc to work on. (junc is far more expensive)
 
+_diag_step_sub = "Simplifing Connection Duplicates";
+call _fnc_diag_render;
+[4,"A3A_fnc_NG_simplify_conDupe","fn_NG_main"] call A3A_fnc_log;
+_navGrid = [_navGrid] call A3A_fnc_NG_simplify_conDupe;         // Some maps have duplicates before simplification
+
+_diag_step_main = "Simplification";
+_diag_step_sub = "One way check";
+call _fnc_diag_render;
+[4,"A3A_fnc_NG_simplify_oneWayCon","fn_NG_main"] call A3A_fnc_log;
+[_navGrid] call A3A_fnc_NG_simplify_oneWayCon;      // Just a test
+
 _diag_step_sub = "simplify_junc";
 call _fnc_diag_render;
 [4,"A3A_fnc_NG_simplify_junc","fn_NG_main"] call A3A_fnc_log;
@@ -78,7 +89,7 @@ _navGrid = [_navGrid,_maxDistance] call A3A_fnc_NG_simplify_junc;
 _diag_step_sub = "Simplifing Connection Duplicates";
 call _fnc_diag_render;
 [4,"A3A_fnc_NG_simplify_conDupe","fn_NG_main"] call A3A_fnc_log;
-_navGrid = [_navGrid] call A3A_fnc_NG_simplify_conDupe;
+_navGrid = [_navGrid] call A3A_fnc_NG_simplify_conDupe;         // Junc may cause duplicates
 
 _diag_step_sub = "simplify_flat";
 call _fnc_diag_render;
@@ -118,3 +129,5 @@ _diag_step_main = "Done";
 _diag_step_sub = "navGridDB copied to clipboard!";
 call _fnc_diag_render;
 copyToClipboard str _navGridDB;
+uiSleep 1;
+call _fnc_diag_render;
