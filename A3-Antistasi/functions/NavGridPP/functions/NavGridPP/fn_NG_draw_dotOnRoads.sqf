@@ -9,6 +9,7 @@ private _markers = [localNamespace,"A3A_NGPP","draw","dotOnRoads",[]] call Col_f
 _markers resize 0;  // Preserves reference
 
 {
+/*
     {
         private _name = "NGPP_dot_" + str (_x#0);
         _markers pushBack createMarkerLocal [_name,getPosWorld (_x#0)];
@@ -23,7 +24,7 @@ _markers resize 0;  // Preserves reference
             default { "ColorBlue" };
         });
     } forEach _x;   // island ARRAY<Road,connections ARRAY<Road>>  // _x is <Road,connections ARRAY<Road>>
-
+*/
     private _name = "NGPP_dotI_" + str _forEachIndex;
     _markers pushBack createMarkerLocal [_name,getPosWorld (_x#0#0)];
     _name setMarkerTypeLocal "mil_objective";

@@ -73,6 +73,8 @@ private _fnc_consumeStruct = {
     private _otherConnections = _otherStruct#1;
     private _otherConnectedStructs = _otherConnections apply {_navGridSimple #(_roadIndexNS getVariable [str _x,nil])};
 
+    private _oldOtherConnections = +_otherConnections;
+
     {
         [_otherStruct,_x] call _fnc_disconnectStructs;
     } forEach _otherConnectedStructs;
@@ -80,6 +82,10 @@ private _fnc_consumeStruct = {
         [1,"Tried to schedule deletion of non-orphan '"+_otherName+"' " + str (getPos _otherRoad) + ".","fn_NG_simplify_junc"] call A3A_fnc_log;
         ["fn_NG_simplify_junc Error","Please check RPT."] call A3A_fnc_customHint;
     };
+    //if (_oldOtherConnections findIf (_otherRoad in (_navGridSimple #(_roadIndexNS getVariable [str _x,-1]) #1)) != -1) then {
+    //    [1,"Tried to schedule deletion of non-orphan that is connected from other roads'"+_otherName+"' " + str (getPos _otherRoad) + ".","fn_NG_simplify_junc"] call A3A_fnc_log;
+    //    ["fn_NG_simplify_junc Error","Please check RPT."] call A3A_fnc_customHint;
+    //};
     _orphanedIndices pushBack (_roadIndexNS getVariable [_otherName,-1]);
 
     {
@@ -87,7 +93,7 @@ private _fnc_consumeStruct = {
         private _otherConnectedRoad = _otherConnectedStruct#0;
 
         if !(_otherConnectedRoad in _myConnections) then {
-            if ((_navGridSimple #(_roadIndexNS getVariable [str _otherConnectedRoad,nil]) #1) isEqualTo _const_emptyArray) then {
+            if (_roadIndexNS getVariable [str _otherConnectedRoad,-1] in _orphanedIndices) then {
                 [1,"Tried to connect to orphan '"+str _otherConnectedRoad+"' " + str (getPos _otherConnectedRoad) + ".","fn_NG_simplify_junc"] call A3A_fnc_log;
                 ["fn_NG_simplify_junc Error","Please check RPT."] call A3A_fnc_customHint;
             };

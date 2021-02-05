@@ -54,7 +54,7 @@ try {
     _diag_step_sub = "One ways";
     call _fnc_diag_render;
     [4,"A3A_fnc_NG_fix_oneWays","fn_NG_main"] call A3A_fnc_log;
-    [_navGrid] call A3A_fnc_NG_fix_oneWays;
+    _navGrid = [_navGrid] call A3A_fnc_NG_fix_oneWays;
 
     _diag_step_main = "Fixing";
     _diag_step_sub = "Dead Ends";
@@ -66,19 +66,36 @@ try {
     _diag_step_sub = "simplify_flat";
     call _fnc_diag_render;
     [4,"A3A_fnc_NG_simplify_flat","fn_NG_main"] call A3A_fnc_log;
+    [4,"A3A_fnc_NG_simplify_flat on "+str count _navGrid+" road segments.","fn_NG_main"] call A3A_fnc_log;
     _navGrid = [_navGrid,_degTolerance] call A3A_fnc_NG_simplify_flat;    // Gives less markers for junc to work on. (junc is far more expensive)
 
-    _diag_step_sub = "Simplifing Connection Duplicates";
+//*
+    _diag_step_sub = "Simplifying Connection Duplicates";
     call _fnc_diag_render;
     [4,"A3A_fnc_NG_simplify_conDupe","fn_NG_main"] call A3A_fnc_log;
     _navGrid = [_navGrid] call A3A_fnc_NG_simplify_conDupe;         // Some maps have duplicates even before simplification
-
+//*/
+//*
+    _diag_step_main = "Fixing";
+    _diag_step_sub = "One ways";
+    call _fnc_diag_render;
+    [4,"A3A_fnc_NG_fix_oneWays","fn_NG_main"] call A3A_fnc_log;
+    _navGrid = [_navGrid] call A3A_fnc_NG_fix_oneWays;
+//*/
+/*
     _diag_step_main = "Check";
     _diag_step_sub = "One way check";
     call _fnc_diag_render;
-    [4,"A3A_fnc_NG_fix_oneWays","fn_NG_main"] call A3A_fnc_log;
-    [_navGrid] call A3A_fnc_NG_fix_oneWays;
-
+    [4,"A3A_fnc_NG_check_oneWays","fn_NG_main"] call A3A_fnc_log;
+    _navGrid = [_navGrid] call A3A_fnc_NG_check_oneWays;
+//*/
+/*
+    _diag_step_main = "Check";
+    _diag_step_sub = "Connected Roads Existence";
+    call _fnc_diag_render;
+    [4,"A3A_fnc_NG_check_conExists","fn_NG_main"] call A3A_fnc_log;
+    _navGrid = [_navGrid] call A3A_fnc_NG_check_conExists;
+//*/
     _diag_step_sub = "simplify_junc";
     call _fnc_diag_render;
     [4,"A3A_fnc_NG_simplify_junc","fn_NG_main"] call A3A_fnc_log;
@@ -104,21 +121,24 @@ try {
     call _fnc_diag_render;
     [4,"A3A_fnc_NG_convert_navIslands_navGridDB","fn_NG_main"] call A3A_fnc_log;
     private _navGridDB = [_navIslands] call A3A_fnc_NG_convert_navIslands_navGridDB;
+    copyToClipboard str _navGridDB;
+/*
     _diag_step_sub = "navGridDB to navIsland";
     call _fnc_diag_render;
     [4,"A3A_fnc_NG_convert_navGridDB_navIslands","fn_NG_main"] call A3A_fnc_log;
     _navIslands = [_navGridDB] call A3A_fnc_NG_convert_navGridDB_navIslands;
-
+//*/
     _diag_step_main = "Drawing Markers";
     _diag_step_sub = "Drawing LinesBetweenRoads";
     call _fnc_diag_render;
     [4,"A3A_fnc_NG_draw_linesBetweenRoads","fn_NG_main"] call A3A_fnc_log;
     [_navIslands,true,true] call A3A_fnc_NG_draw_linesBetweenRoads;
+
     _diag_step_main = "Drawing Markers";
     _diag_step_sub = "Drawing DotsOnRoads";
     call _fnc_diag_render;
     [4,"A3A_fnc_NG_draw_dotOnRoads","fn_NG_main"] call A3A_fnc_log;
-    //[_navIslands] call A3A_fnc_NG_draw_dotOnRoads;
+    [_navIslands] call A3A_fnc_NG_draw_dotOnRoads;
 
     [4,"Col_fnc_nestLoc_rem","fn_NG_main"] call A3A_fnc_log;
     [localNamespace getVariable ["NavGridPP", localNamespace]] call Col_fnc_nestLoc_rem;
@@ -126,7 +146,7 @@ try {
     _diag_step_main = "Done";
     _diag_step_sub = "navGridDB copied to clipboard!";
     call _fnc_diag_render;
-    copyToClipboard str _navGridDB;
+    copyToClipboard str _navGridDB; // In case user cleared their clipboard
     uiSleep 1;
     call _fnc_diag_render;
 } catch {

@@ -1,5 +1,6 @@
 class A3A {
     class NavGridPP {
+        class NG_check_conExists {};
         class NG_check_oneWays {};
         class NG_convert_navIslands_navGridDB {};
         class NG_convert_navGridDB_navIslands {};

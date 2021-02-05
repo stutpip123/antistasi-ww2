@@ -1,13 +1,13 @@
 params [
-    ["_navGrid_IN",[],[ [] ]] //ARRAY<  Road, ARRAY<connectedRoad>>, ARRAY<distance>  >
+    ["_navGrid",[],[ [] ]] //ARRAY<  Road, ARRAY<connectedRoad>>, ARRAY<distance>  >
 ];
-private _navGrid = +_navGrid_IN;
 
 private _roadIndexNS = [localNamespace,"NavGridPP","simplify_junc_roadIndex", nil, nil] call Col_fnc_nestLoc_set;
 {
     _roadIndexNS setVariable [str (_x#0),_forEachIndex];
 } forEach _navGrid; // _x is road struct <road,ARRAY<connections>,ARRAY<indices>>
 
+private _throwAndCrash = false;
 private _const_emptyArray = [];
 {
     private _myStruct = _x;
@@ -16,16 +16,19 @@ private _const_emptyArray = [];
 
     if !(_myConnections isEqualTo _const_emptyArray) then {
         {
-            private _otherStruct = _navGrid#(_roadIndexNS getVariable [str _x,-1]);
-            if !(_myRoad in (_otherStruct#1)) then {
-                [4,"Connecting Road '"+str _x+"' " + str getPos _x + " to '"+str _myRoad+"' " + str getPos _myRoad + ".","fn_NG_fix_oneWays"] call A3A_fnc_log;
-
-                _otherStruct#1 pushBack _myRoad;
-                _otherStruct#2 pushBack (_myRoad distance2D _x);
+            if (_roadIndexNS getVariable [str _x,-1] == -1) then {
+                _throwAndCrash = true;
+                [1,"Road '"+str _x+"' " + str getPos _x + " is connected to non-indexed road '"+str _myRoad+"' " + str getPos _myRoad + ".","fn_NG_check_conExists"] call A3A_fnc_log;
+                ["fn_NG_check_conExists Error","Please check RPT."] call A3A_fnc_customHint;
             };
         } forEach _myConnections;
     };
 } forEach _navGrid;
 [_roadIndexNS] call Col_fnc_nestLoc_rem;
 
+if (_throwAndCrash) then {
+    throw ["fn_NG_check_conExists","Please check RPT."];
+};
+
 _navGrid;
+

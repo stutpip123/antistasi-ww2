@@ -30,7 +30,7 @@ if (!hasInterface || !A3A_customHintEnable) exitWith {false;}; // Disabled for s
 if (A3A_customHint_MSGs isEqualTo []) then {
     hintSilent "";
 } else{
-    private _autoDismiss = 15;  // Number of seconds for message lifetime  // Constant Value
+    private _autoDismiss = 120;  // Number of seconds for message lifetime  // Constant Value
     if (serverTime - A3A_customHint_UpdateTime > _autoDismiss) exitWith {
         [true] call A3A_fnc_customHintDismiss;
     };
