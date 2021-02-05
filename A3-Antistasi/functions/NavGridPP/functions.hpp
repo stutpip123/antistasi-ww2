@@ -1,5 +1,6 @@
 class A3A {
     class NavGridPP {
+        class NG_check_oneWays {};
         class NG_convert_navIslands_navGridDB {};
         class NG_convert_navGridDB_navIslands {};
         class NG_draw_distanceBetweenTwoRoads {};
@@ -8,12 +9,12 @@ class A3A {
         class NG_draw_linesBetweenRoads {};
         class NG_main {};
         class NG_mergeIslands {};
-        class NG_missingRoadCheck {};
+        class NG_fix_deadEnds {};
+        class NG_fix_oneWays {};
         class NG_separateIslands {};
         class NG_simplify_conDupe {};
         class NG_simplify_flat {};
         class NG_simplify_junc {};
-        class NG_simplify_oneWayCon {};
     };
     class UI {
         class customHint {};

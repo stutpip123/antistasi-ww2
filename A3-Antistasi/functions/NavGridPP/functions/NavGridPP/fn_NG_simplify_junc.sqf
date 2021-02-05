@@ -38,7 +38,7 @@ private _fnc_disconnectStructs = {
         (_otherStruct#2) deleteAt _myInOther;
     };
     if ((_myStruct#0) in _otherConnections || (_otherStruct#0) in _myConnections) then {
-        throw ["CouldNotDisconnectStructs","CouldNotDisconnectStructs " + str (getPos (_myStruct#0)) + ", " + str (getPos (_otherStruct#0)) + "."];
+        throw ["CouldNotDisconnectStructs","CouldNotDisconnectStructs."];
         [1,"CouldNotDisconnectStructs " + str (getPos (_myStruct#0)) + ", " + str (getPos (_otherStruct#0)) + ".","fn_NG_simplify_junc"] call A3A_fnc_log;
         ["fn_NG_simplify_junc Error","Please check RPT."] call A3A_fnc_customHint;
     };
@@ -61,6 +61,7 @@ call _fnc_diag_render;
 
 private _orphanedIndices = [];
 
+private _const_emptyArray = [];
 private _fnc_consumeStruct = {
     params ["_myStruct","_otherStruct"]; // _otherStruct is consumed & added to _orphanedIndices
 
@@ -75,6 +76,10 @@ private _fnc_consumeStruct = {
     {
         [_otherStruct,_x] call _fnc_disconnectStructs;
     } forEach _otherConnectedStructs;
+    if !((_navGridSimple #(_roadIndexNS getVariable [str _otherRoad,nil]) #1) isEqualTo _const_emptyArray) then {
+        [1,"Tried to schedule deletion of non-orphan '"+_otherName+"' " + str (getPos _otherRoad) + ".","fn_NG_simplify_junc"] call A3A_fnc_log;
+        ["fn_NG_simplify_junc Error","Please check RPT."] call A3A_fnc_customHint;
+    };
     _orphanedIndices pushBack (_roadIndexNS getVariable [_otherName,-1]);
 
     {
@@ -82,6 +87,11 @@ private _fnc_consumeStruct = {
         private _otherConnectedRoad = _otherConnectedStruct#0;
 
         if !(_otherConnectedRoad in _myConnections) then {
+            if ((_navGridSimple #(_roadIndexNS getVariable [str _otherConnectedRoad,nil]) #1) isEqualTo _const_emptyArray) then {
+                [1,"Tried to connect to orphan '"+str _otherConnectedRoad+"' " + str (getPos _otherConnectedRoad) + ".","fn_NG_simplify_junc"] call A3A_fnc_log;
+                ["fn_NG_simplify_junc Error","Please check RPT."] call A3A_fnc_customHint;
+            };
+
             [_myStruct,_otherConnectedStruct] call _fnc_connectStructs;
         };
     } forEach _otherConnectedStructs;
@@ -151,7 +161,7 @@ call _fnc_diag_render;
         [];
     };
     if (count (_navGridSimple#_x#1) > 0) then {
-        [1,"Tried to delete non-orphan " + str (getPos (_navGridSimple#_x#0)) + ".","fn_NG_simplify_junc"] call A3A_fnc_log;
+        [1,"Tried to delete non-orphan '"+str (_navGridSimple#_x#0)+"' " + str (getPos (_navGridSimple#_x#0)) + ".","fn_NG_simplify_junc"] call A3A_fnc_log;
         ["fn_NG_simplify_junc Error","Please check RPT."] call A3A_fnc_customHint;
     };
 } forEach _orphanedIndices;//*/
