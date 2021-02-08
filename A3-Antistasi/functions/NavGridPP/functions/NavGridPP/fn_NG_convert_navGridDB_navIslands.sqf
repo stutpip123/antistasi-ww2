@@ -27,7 +27,7 @@ navIslands
 */
 
 {
-    _x set [0, roadAt (_x#0)]
+    _x set [0, _x call A3A_fnc_NG_convert_DBStruct_road];
 } forEach _navGridDB;
 // [road, islandID, isJunction, [connectedRoadIndex, roadTypeEnum, distance]]
 

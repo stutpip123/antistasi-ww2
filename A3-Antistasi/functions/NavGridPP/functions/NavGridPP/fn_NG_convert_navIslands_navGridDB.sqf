@@ -55,15 +55,16 @@ private _const_roadTypeEnum = ["TRACK","ROAD","MAIN ROAD"]; // Case sensitive
 
 private _const_pos2DSelect = [0,2];
 private _const_posOffsetMatrix = [];    // Okay, not really constant, but you get the deal
-for "_axis_x" from -3 to 3 step 2 do {  // will skip zero and other useless numbers
-    for "_axis_y" from -3 to 3 step 2 do {
+for "_axis_x" from -3 to 3 step 1 do {
+    for "_axis_y" from -3 to 3 step 1 do {
         _const_posOffsetMatrix pushBack [_axis_x,_axis_y];
     };
 };
-_fnc_tryGetPos = { // This feature will unused for the time being,
+_fnc_NG_convert_road_DBPosName = {
     params ["_road"];
 
     private _pos = getPos _road;
+    private _name = 0;      // Type may change to string if name is required
     if (isNull roadAt _pos) then {
         _pos = _pos select _const_pos2DSelect;
     };
@@ -74,17 +75,20 @@ _fnc_tryGetPos = { // This feature will unused for the time being,
         } forEach _const_posOffsetMatrix;
     };
     if (isNull roadAt _pos) then {
-        [1,"Could not round-trip road position at " + str _pos + ".","fn_NG_convert_navIslands_navGrid"] call A3A_fnc_log;
-        ["convert_navIslands_navGrid Error","Please check RPT."] call A3A_fnc_customHint;
+        _name = str _road;
     };
-    _pos;
+    [_pos,_name];
 };
 
-private _navGridDB = _navGrid apply {[
-    (_x#0) call _fnc_tryGetPos,
-    _x#3,
-    count (_x#1) > 2,
-    _x#1
-]};
+private _navGridDB = _navGrid apply {
+    private _DBPosName = (_x#0) call _fnc_NG_convert_road_DBPosName;
+    [
+        _DBPosName#0,
+        _x#3,
+        count (_x#1) > 2,
+        _x#1,
+        _DBPosName#1
+    ]
+};
 
 _navGridDB;

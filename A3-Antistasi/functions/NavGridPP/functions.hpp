@@ -4,6 +4,9 @@ class A3A {
         class NG_check_oneWays {};
         class NG_convert_navIslands_navGridDB {};
         class NG_convert_navGridDB_navIslands {};
+        class NG_convert_road_DBPosName {};
+        class NG_convert_DBPosName_road {};
+        class NG_convert_DBStruct_road {};
         class NG_draw_distanceBetweenTwoRoads {};
         class NG_draw_dotOnRoads {};
         class NG_draw_lineBetweenTwoRoads {};

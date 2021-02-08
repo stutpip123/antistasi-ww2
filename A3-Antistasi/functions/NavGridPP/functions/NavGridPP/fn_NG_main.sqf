@@ -41,6 +41,12 @@ private _navGrid = _allRoadObjects apply {[
     roadsConnectedTo [_x,true] select {getRoadInfo _x #0 in _const_allowedRoadTypes}
 ]};
 
+{
+    if (isNil {_x#1}) then {
+        [1,"Could not find connections for road '"+str (_x#0)+"' " + str getPos (_x#0) + ".","fn_NG_main"] call A3A_fnc_log;
+    };
+} forEach _navGrid;
+
 private _diag_step_sub = "Applying distances<br/>No progress report available, due to being too relatively expensive.";
 call _fnc_diag_render;
 {
@@ -55,6 +61,12 @@ try {
     call _fnc_diag_render;
     [4,"A3A_fnc_NG_fix_oneWays","fn_NG_main"] call A3A_fnc_log;
     _navGrid = [_navGrid] call A3A_fnc_NG_fix_oneWays;
+//*
+    _diag_step_sub = "Simplifying Connection Duplicates";
+    call _fnc_diag_render;
+    [4,"A3A_fnc_NG_simplify_conDupe","fn_NG_main"] call A3A_fnc_log;
+    _navGrid = [_navGrid] call A3A_fnc_NG_simplify_conDupe;         // Some maps have duplicates even before simplification
+//*/
 
     _diag_step_main = "Fixing";
     _diag_step_sub = "Dead Ends";
@@ -122,8 +134,8 @@ try {
     [4,"A3A_fnc_NG_convert_navIslands_navGridDB","fn_NG_main"] call A3A_fnc_log;
     private _navGridDB = [_navIslands] call A3A_fnc_NG_convert_navIslands_navGridDB;
     copyToClipboard str _navGridDB;
-/*
-    _diag_step_sub = "navGridDB to navIsland";
+//*
+    _diag_step_sub = "navGridDB to navIsland";  // Serves as a self check
     call _fnc_diag_render;
     [4,"A3A_fnc_NG_convert_navGridDB_navIslands","fn_NG_main"] call A3A_fnc_log;
     _navIslands = [_navGridDB] call A3A_fnc_NG_convert_navGridDB_navIslands;
