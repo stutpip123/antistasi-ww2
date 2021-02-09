@@ -12,7 +12,7 @@ _tsk = "";
 _positionX = getMarkerPos _markerX;
 
 _timeLimit = if (_difficultX) then {30} else {60};
-if (hasIFA) then {_timeLimit = _timeLimit * 2};
+if (A3A_hasIFA) then {_timeLimit = _timeLimit * 2};
 _dateLimit = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _timeLimit];
 _dateLimitNum = dateToNumber _dateLimit;
 _dateLimit = numberToDate [date select 0, _dateLimitNum];//converts datenumber back to date array so that time formats correctly
@@ -30,7 +30,7 @@ _pos = (getMarkerPos respawnTeamPlayer) findEmptyPosition [1,50,"C_Van_01_box_F"
 _truckX = "Land_FoodSacks_01_cargo_brown_F" createVehicle _pos;
 _truckX enableRopeAttach true;
 _truckX allowDamage false;
-_truckX call jn_fnc_logistics_addAction;
+[_truckX] call A3A_fnc_logistics_addLoadAction;
 _truckX addAction ["Delivery infos",
 	{
 		_text = format ["Deliver this box to %1, unload it to start distributing to people",(_this select 0) getVariable "destinationX"]; //This need a rework

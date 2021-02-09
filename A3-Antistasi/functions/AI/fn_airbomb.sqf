@@ -58,14 +58,14 @@ for "_i" from 1 to _bombCount do
 		{
 			[_bomb] spawn
 			{
-				private _bomba = _this select 0;
-				private _pos = [];
-				while {!isNull _bomba} do
-				{
-					_pos = getPosASL _bomba;
-					sleep 0.1;
-				};
-				[_pos] remoteExec  ["A3A_fnc_napalm"];
+                private _bomba = _this select 0;
+                private _pos = [];
+                while {!isNull _bomba} do
+                {
+                    _pos = getPos _bomba;
+                    sleep 0.1;
+                };
+                [_pos] remoteExec ["A3A_fnc_napalm",2];
 			};
 		};
 	};
