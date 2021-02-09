@@ -623,18 +623,19 @@ class Collections
 		class array_deleteAts {};
 		class array_displace {};
 		class array_remIndices {};
+        class array_toChunks {};
 	};
 	class Collections_ID
 	{
 		file="Collections\ID";
-		class ID_init { preInit = 1 };
+		class ID_init { preInit = 1; };
 		class ID_LArray_isEqualTo {};
 		class ID_LArray {};
 	};
 	class Collections_Location
 	{
 		file="Collections\Location";
-		class location_init { preInit = 1 };
+		class location_init { preInit = 1; };
 		class location_new {};
 		class location_serialiseAddress {};
 	};
@@ -660,7 +661,7 @@ class Collections
 	class Collections_Concurrent
 	{
 		file="Collections\Concurrent";
-		class Concurrent_init { preInit = 1 };
+		class Concurrent_init { preInit = 1; };
 	};
 	class Collections_Serialisation
 	{
