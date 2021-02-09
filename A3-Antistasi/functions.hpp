@@ -119,7 +119,6 @@ class A3A
 
     class AI
     {
-        class occupantInvaderUnitKilledEH {};
         class airbomb {};
         class airdrop {};
         class AIreactOnKill {};
@@ -131,6 +130,7 @@ class A3A
         class autoHealFnc {};
         class autoLoot {};
         class autoRearm {};
+        class callForSupport {};
         class canConquer {};
         class canFight {};
         class captureX {};
@@ -161,6 +161,7 @@ class A3A
         class napalmDamage {};
         class napalmParticles {};
         class nearEnemy {};
+        class occupantInvaderUnitKilledEH {};
         class rearmCall {};
         class recallGroup {};
         class smokeCoverAuto {};
