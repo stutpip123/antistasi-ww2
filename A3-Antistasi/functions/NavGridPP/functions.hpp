@@ -2,8 +2,10 @@ class A3A {
     class NavGridPP {
         class NG_check_conExists {};
         class NG_check_oneWays {};
-        class NG_convert_navIslands_navGridDB {};
+        class NG_convert_navGrid_navIslands {};
         class NG_convert_navGridDB_navIslands {};
+        class NG_convert_navIslands_navGrid {};
+        class NG_convert_navIslands_navGridDB {};
         class NG_convert_road_DBPosName {};
         class NG_convert_DBPosName_road {};
         class NG_convert_DBStruct_road {};
@@ -15,8 +17,6 @@ class A3A {
         class NG_fix_oneWays {};
         class NG_format_navGridDB {};
         class NG_main {};
-        class NG_mergeIslands {};
-        class NG_separateIslands {};
         class NG_simplify_conDupe {};
         class NG_simplify_flat {};
         class NG_simplify_junc {};

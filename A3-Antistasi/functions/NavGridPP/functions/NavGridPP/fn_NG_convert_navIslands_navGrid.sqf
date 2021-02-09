@@ -24,7 +24,7 @@ Environment: Unscheduled
 Public: Yes
 
 Example:
-    private _navGrid = [_navIslands] call A3A_fnc_NG_mergeIslands;
+    private _navGrid = [_navIslands] call A3A_fnc_NG_convert_navIslands_navGrid;
 */
 params [
     ["_navIslands",[],[ [] ]]
