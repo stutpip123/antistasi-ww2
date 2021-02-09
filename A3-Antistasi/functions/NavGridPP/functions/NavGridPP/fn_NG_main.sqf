@@ -1,10 +1,55 @@
-// Hope you like pointers and references, they are used widely in the following code to improve performance
-// [35,15] spawn A3A_fnc_NG_main;
+/*
+Maintainer: Caleb Serafin
+
+
+
+    HEY YOU, LOOK HERE!   HEY, DU SIEHST HIER AUS!   ЭЙ, ВЫ СМОТРИТЕ ЗДЕСЬ!   嘿，你在这里看！
+    STEP  0:    Run arma.
+    STEP  1:    Make empty mp-mission with just one player.
+    STEP  2:    Save and close editor.
+    STEP  3:    Copy Everything in upper NavGridPP folder (includes: /Collections/; /function/; /description.ext; /functions.hpp)
+    STEP  4:    Paste into the folder of the mp mission you created. Usually in `C:\Users\User\Documents\Arma 3 - Other Profiles\YOUR_USER_NAME\mpmissions\MISSION_NAME.MAP\`
+    STEP  5:    Start host LAN multiplayer.
+    STEP  6:    Run and join mission.
+    STEP  7:    Press `Esc` on your keyboard to open debug console.
+    STEP  8:    Paste `[35,15] spawn A3A_fnc_NG_main` into big large debug window.
+    STEP  9:    Click the button `Local Exec`.
+    STEP 10:    Wait for hint to say `Done`&`navGridDB copied to clipboard!`
+    STEP 11:    Open a new file.
+    STEP 12:    Paste into the new file.
+    STEP 13:    Save (Please ask the A3-Antistasi Development Team for this step).
+
+
+
+    Technical Specifications:
+    Main process that organises the creation of the navGrid.
+    Calls many NavGridPP functions independently.
+    Output navGRid string includes creation time and config;
+    NavGridDB is copied to clipboard.
+
+Arguments:
+    <SCALAR> if straight roads azimuth are within this tolerance, they are merged.
+    <SCALAR> Junctions are only merged if within this distance.
+
+Return Value:
+    <ANY> Undefined
+
+Scope: Client, Global Arguments
+Environment: Unscheduled
+Public: Yes
+
+Example:
+    [35,15] spawn A3A_fnc_NG_main;
+*/
 
 params [
-    ["_flatMergeDeg",35,[ 35 ]],  // if straight roads azimuth are within this tolerance, they are merged.
-    ["_juncMergeDistance",15,[ 15 ]] // Junctions are only merged if within this distance.
+    ["_flatMergeDeg",35,[ 0 ]],
+    ["_juncMergeDistance",15,[ 0 ]]
 ];
+
+if (!canSuspend) exitWith {
+    throw ["NotScheduledEnvironment","Please execute NG_main in a scheduled environment as it is a long process: `[35,15] spawn A3A_fnc_NG_main;`."];
+};
 
 private _diag_step_main = "";
 private _diag_step_sub = "";
@@ -160,7 +205,7 @@ try {
     _diag_step_sub = "Drawing LinesBetweenRoads";
     call _fnc_diag_render;
     [4,"A3A_fnc_NG_draw_linesBetweenRoads","fn_NG_main"] call A3A_fnc_log;
-    [_navIslands,true,true] call A3A_fnc_NG_draw_linesBetweenRoads;
+    [_navIslands,true,false] call A3A_fnc_NG_draw_linesBetweenRoads;
 
     _diag_step_main = "Drawing Markers";
     _diag_step_sub = "Drawing DotsOnRoads";

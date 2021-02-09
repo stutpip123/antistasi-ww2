@@ -1,6 +1,29 @@
+/*
+Maintainer: Caleb Serafin
+    If a node is within the tolerance azimuth to its neighbours, and it is not a junction:
+    It's neighbours will be connected directly with the distance equal to the distance to each summed (maintaining true distance)
+
+Arguments:
+    <ARRAY<             navGrid:
+        <OBJECT>            Road
+        <ARRAY<OBJECT>>         Connected roads.
+        <ARRAY<SCALAR>>         True driving distance in meters to connected roads.
+    >>
+    <SCALAR> If straight roads azimuth are within this tolerance, they are merged. (Default = 35)
+
+Return Value:
+    <ARRAY> Simplified navGrid
+
+Scope: Any, Global Arguments
+Environment: Unscheduled
+Public: No
+
+Example:
+    _navGrid = [_navGrid,35] call A3A_fnc_NG_simplify_flat;
+*/
 params [
-    ["_navGrid",[],[ [] ]],  //ARRAY<  Road, ARRAY<connectedRoad>>, ARRAY<distance>  >
-    ["_flatMergeDeg",35,[ 35 ]]  // if straight roads azimuth are within this tolerance, they are merged.
+    ["_navGrid",[],[ [] ]],
+    ["_flatMergeDeg",35,[ 0 ]]
 ];
 private _navGridSimple = +_navGrid;
 

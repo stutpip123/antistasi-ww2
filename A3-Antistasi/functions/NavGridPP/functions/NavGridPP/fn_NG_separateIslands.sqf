@@ -1,5 +1,33 @@
+/*
+Maintainer: Caleb Serafin
+    Converts navGrid (The internal format) to navIslands.
+    navGrid is not divided into island s.
+
+Arguments:
+    <ARRAY<             navGrid:
+        <OBJECT>            Road
+        <ARRAY<OBJECT>>         Connected roads.
+        <ARRAY<SCALAR>>         True driving distance in meters to connected roads.
+    >>
+
+Return Value:
+    <ARRAY<             navIslands:
+        <ARRAY<             A single road network island:
+            <OBJECT>            Road
+            <ARRAY<OBJECT>>         Connected roads.
+            <ARRAY<SCALAR>>         True driving distance in meters to connected roads.
+        >>
+    >>
+
+Scope: Any, Global Arguments
+Environment: Unscheduled
+Public: Yes
+
+Example:
+    private _navGrid = [_navIslands] call A3A_fnc_NG_separateIslands;
+*/
 params [
-    ["_navGridFlat",[],[ [] ]]  // ARRAY<aStruct>
+    ["_navGridFlat",[],[ [] ]]
 ];
 
 private _diag_step_sub = "";

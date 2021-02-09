@@ -1,6 +1,28 @@
+/*
+Maintainer: Caleb Serafin
+    All nearby junctions will be merged into the most centred one.
+
+Arguments:
+    <ARRAY<             navGrid:
+        <OBJECT>            Road
+        <ARRAY<OBJECT>>         Connected roads.
+        <ARRAY<SCALAR>>         True driving distance in meters to connected roads.
+    >>
+    <SCALAR> Junctions are only merged if within this distance. (Default = 15)
+
+Return Value:
+    <ARRAY> Simplified navGrid
+
+Scope: Any, Global Arguments
+Environment: Unscheduled
+Public: No
+
+Example:
+    _navGrid = [_navGrid,35] call A3A_fnc_NG_simplify_junc;
+*/
 params [
     ["_navGrid",[],[ [] ]], //ARRAY<  Road, ARRAY<connectedRoad>>, ARRAY<distance>  >
-    ["_juncMergeDistance",15,[ 15 ]] // Junctions are only merged if within this distance.
+    ["_juncMergeDistance",15,[ 0 ]] // Junctions are only merged if within this distance.
 ];
 private _navGridSimple = +_navGrid;
 

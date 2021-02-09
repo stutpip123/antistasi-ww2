@@ -1,5 +1,28 @@
+/*
+Maintainer: Caleb Serafin
+    Input _navGrid is modified!
+    Removes duplicate connects between roads.
+    Road A has two connections to Road B.
+
+Arguments:
+    <ARRAY<             navGrid:
+        <OBJECT>            Road
+        <ARRAY<OBJECT>>         Connected roads.
+        <ARRAY<SCALAR>>         True driving distance in meters to connected roads.
+    >>
+
+Return Value:
+    <ARRAY> Same reference
+
+Scope: Any, Global Arguments
+Environment: Unscheduled
+Public: No
+
+Example:
+    _navGrid = [_navGrid] call A3A_fnc_NG_simplify_conDupe;
+*/
 params [
-    ["_navGrid",[],[ [] ]] //ARRAY<  Road, ARRAY<connectedRoad>>, ARRAY<distance>  >
+    ["_navGrid",[],[ [] ]]
 ];
 {
     private _myStruct = _x;

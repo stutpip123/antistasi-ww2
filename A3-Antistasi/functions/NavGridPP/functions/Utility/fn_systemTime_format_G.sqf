@@ -1,5 +1,5 @@
 /*
-Maintainer: Maria Martinez, James Johnson
+Maintainer: Caleb Serafin
     Converts systemTime or systemTimeUTC array into General date/time pattern (long time, descending order, without AM/PM).
     EG: [2009,15,6,13,45,30,420] -> "2009-15-06 13:45:30"
     https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings#table-of-format-specifiers

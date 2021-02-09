@@ -1,3 +1,34 @@
+/*
+Maintainer: Caleb Serafin
+    Places a map marker on roads.
+    Previous markers make by this function are deleted.
+    Colour depends on number of connections:
+        0  -> Black
+        1  -> Red
+        2  -> Orange
+        3  -> Yellow
+        4  -> Green
+        >4 -> Blue
+
+Arguments:
+    <ARRAY<             navIslands:
+        <ARRAY<             A single road network island:
+            <OBJECT>            Road
+            <ARRAY<OBJECT>>         Connected roads.
+            <ARRAY<SCALAR>>         True driving distance in meters to connected roads.
+        >>
+    >>
+
+Return Value:
+    <ANY> undefined.
+
+Scope: Server/Server&HC/Clients/Any, Local Arguments/Global Arguments, Local Effect/Global Effect
+Environment: Scheduled (Recommended) | Any (If small navGrid like Stratis, Malden)
+Public: Yes
+
+Example:
+    [_navIslands] call A3A_fnc_NG_draw_dotOnRoads;
+*/
 params [
     ["_navIslands",[],[ [] ]] //<ARRAY< island ARRAY<Road,connections ARRAY<Road>>  >>
 ];
@@ -9,7 +40,7 @@ private _markers = [localNamespace,"A3A_NGPP","draw","dotOnRoads",[]] call Col_f
 _markers resize 0;  // Preserves reference
 
 {
-/*
+/*  // Enable if you wish, disabled as not needed at time of making. Island markers are left on.
     {
         private _name = "NGPP_dot_" + str (_x#0);
         _markers pushBack createMarkerLocal [_name,getPosWorld (_x#0)];
@@ -24,7 +55,7 @@ _markers resize 0;  // Preserves reference
             default { "ColorBlue" };
         });
     } forEach _x;   // island ARRAY<Road,connections ARRAY<Road>>  // _x is <Road,connections ARRAY<Road>>
-*/
+//*/
     private _name = "NGPP_dotI_" + str _forEachIndex;
     _markers pushBack createMarkerLocal [_name,getPosWorld (_x#0#0)];
     _name setMarkerTypeLocal "mil_objective";

@@ -1,3 +1,26 @@
+/*
+Maintainer: Caleb Serafin
+    Tries to find roads after a dead-end or on both sides of an isolated road.
+
+Arguments:
+    <ARRAY<             navIslands:
+        <ARRAY<             A single road network island:
+            <OBJECT>            Road
+            <ARRAY<OBJECT>>         Connected roads.
+            <ARRAY<SCALAR>>         True driving distance in meters to connected roads.
+        >>
+    >>
+
+Return Value:
+    <ARRAY> Nav islands with fake dead-ends fixed.
+
+Scope: Any, Global Arguments
+Environment: Scheduled
+Public: No
+
+Example:
+    _navGrid = [_navGrid] call A3A_fnc_NG_fix_deadEnds;
+*/
 params [
     ["_navGrid",[],[ [] ]]  // ARRAY<segmentStruct>
 ];

@@ -1,3 +1,33 @@
+/*
+Maintainer: Caleb Serafin
+    Draws lines between nodes.
+    Previous markers make by this function are deleted.
+    Colour depends on road type:
+        MAIN ROAD  -> Green
+        ROAD  -> Yellow
+        TRACK  -> Orange
+
+Arguments:
+    <ARRAY<             navIslands:
+        <ARRAY<             A single road network island:
+            <OBJECT>            Road
+            <ARRAY<OBJECT>>         Connected roads.
+            <ARRAY<SCALAR>>         True driving distance in meters to connected roads.
+        >>
+    >>
+    <BOOL> Whether lines between roads are drawn            (Default = true)
+    <BOOL> Whether distance text between roads are drawn    (Default = true)
+
+Return Value:
+    <ANY> undefined.
+
+Scope: Any, Global Arguments, Global Effect
+Environment: Scheduled
+Public: Yes
+
+Example:
+    [_navIslands,true,false] call A3A_fnc_NG_draw_linesBetweenRoads;
+*/
 params [
     ["_navIslands",[],[ [] ]], //<ARRAY< island ARRAY<Road,connections ARRAY<Road>>  >>
     ["_drawLines",true,[true]],
@@ -65,9 +95,9 @@ private _roadColourClassification = [["MAIN ROAD", "ROAD", "TRACK"],["ColorGreen
                 if (_drawLines) then {
                     _markers pushBack ([_myRoad,_otherRoad,_myName + _otherName,_roadColourClassification] call A3A_fnc_NG_draw_lineBetweenTwoRoads);
                 };
-                //if (_drawDistances && (_realDistance > 20)) then { // disabled just for road clarity
-                //    _markers pushBack ([_myRoad,_otherRoad,_myName + _otherName,_roadColourClassification,(_realDistance toFixed 0) + "m"] call A3A_fnc_NG_draw_distanceBetweenTwoRoads);
-                //};
+                if (_drawDistances && (_realDistance > 20)) then { // disabled just for road clarity
+                    _markers pushBack ([_myRoad,_otherRoad,_myName + _otherName,_roadColourClassification,(_realDistance toFixed 0) + "m"] call A3A_fnc_NG_draw_distanceBetweenTwoRoads);
+                };
             };
 
         } forEach (_segStruct#1); // connections ARRAY<Road>  // _x is Road

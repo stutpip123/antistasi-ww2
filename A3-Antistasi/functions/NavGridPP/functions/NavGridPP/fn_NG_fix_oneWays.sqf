@@ -1,3 +1,27 @@
+/*
+Maintainer: Caleb Serafin
+    Fixes connections are one-way. Going from road A to road B, but not road B to road A.
+    They output connects will all have a return.
+
+Arguments:
+    <ARRAY<             navIslands:
+        <ARRAY<             A single road network island:
+            <OBJECT>            Road
+            <ARRAY<OBJECT>>         Connected roads.
+            <ARRAY<SCALAR>>         True driving distance in meters to connected roads.
+        >>
+    >>
+
+Return Value:
+    <ARRAY> Nav islands with one-ways fixed.
+
+Scope: Any, Global Arguments
+Environment: Scheduled
+Public: No
+
+Example:
+    _navGrid = [_navGrid] call A3A_fnc_NG_fix_oneWays;
+*/
 params [
     ["_navGrid_IN",[],[ [] ]] //ARRAY<  Road, ARRAY<connectedRoad>>, ARRAY<distance>  >
 ];

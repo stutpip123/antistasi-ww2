@@ -1,5 +1,26 @@
+/*
+Maintainer: Caleb Serafin
+    Checks that roads connections are not one-way. Going from road A to road B, but not road B to road A
+
+Arguments:
+    <ARRAY<
+        <OBJECT>        road
+        <ARRAY<OBJECT>> connected roads
+        <ARRAY<SCALAR>> distances to connected roads
+    >> _navGrid format
+
+Return Value:
+    <ARRAY> Same reference, no changes
+
+Scope: Any, Global Arguments
+Environment: Unscheduled
+Public: No
+
+Example:
+    [_navGrid] call A3A_fnc_NG_check_oneWays;
+*/
 params [
-    ["_navGrid",[],[ [] ]] //ARRAY<  Road, ARRAY<connectedRoad>>, ARRAY<distance>  >
+    ["_navGrid",[],[ [] ]]
 ];
 
 private _roadIndexNS = [localNamespace,"NavGridPP","simplify_junc_roadIndex", nil, nil] call Col_fnc_nestLoc_set;

@@ -1,3 +1,28 @@
+/*
+Maintainer: Caleb Serafin
+    Converts a save position into a road, this handles overlapping roads at that position.
+    Similar to NG_convert_DBStruct_road, except input format matches the road structs in navGridDB.
+
+Arguments:
+    <POS2D|POSAGL> DB position of road.
+    <ANY>
+    <ANY>
+    <ANY>
+    <STRING> Name of road | <SCALAR> No name provided
+
+Return Value:
+    <OBJECT> road, objNull if road cannot be found
+
+Scope: Any, Global Arguments
+Environment: Unscheduled
+Public: No
+
+Example:
+    private _road = nearestTerrainObjects [getPos player,["MAIN ROAD","ROAD","TRACK"],1000] #0;
+    private _roadPosName = _road call A3A_NG_convert_road_DBPosName;
+    [_roadPosName#0, _roadPosName#1] call A3A_fnc_NG_convert_DBStruct_road;   // original road
+*/
+
 private _pos = _this#0;
 private _name = _this#4;
 

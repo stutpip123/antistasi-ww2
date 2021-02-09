@@ -1,3 +1,28 @@
+/*
+Maintainer: Caleb Serafin
+    Draws a line between the roads
+    The colour depends on the maximum road type given in the road type specification.
+
+Arguments:
+    <ARRAY<
+    <OBJECT> Road 1
+    <OBJECT> Road 2
+    <STRING> Marker ID. Note: "NGPP_line_" is prefixed to the ID.
+    <ARRAY<             road colour classification
+        <ARRAY<STRING>>     Types of roads (Maximum takes preference)
+        <ARRAY<STRING>>     Marker Colours (corresponding to Types of roads)
+    >>
+
+Return Value:
+    <STRING> Full marker name (including the prefix).
+
+Scope:Any, Local Arguments, Global Effect
+Environment: Scheduled
+Public: No
+
+Example:
+    _markers pushBack ([_myRoad,_otherRoad,_myName + _otherName,_roadColourClassification] call A3A_fnc_NG_draw_lineBetweenTwoRoads);
+*/
 params ["_myRoad","_otherRoad","_markerID","_roadColourClassification"];
 
 private _myPos = getPos _myRoad;

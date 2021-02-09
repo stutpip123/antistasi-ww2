@@ -1,30 +1,43 @@
+/*
+Maintainer: Caleb Serafin
+    Converts navGridDB (format used in A3-Antistasi) to navIslands (Format used in navGridPP).
+    navGridDB is based on road positions.
+    navIslands is based on road object references.
+    Conversion is transparent (reversible).
+
+Arguments:
+    <ARRAY<             navGridDB:
+        <POS2D|POSAGL>      Road pos.
+        <SCALAR>            Island ID.
+        <ARRAY<             Connections:
+            <SCALAR>            Index in navGridDB of connected road.
+            <SCALAR>            Road type Enumeration. {TRACK = 0; ROAD = 1; MAIN ROAD = 2} at time of writing.
+            <SCALAR>            True driving distance to connection, includes distance of roads swallowed in simplification.
+        >>
+        <STRING|SCALAR>     Road name or 0 if name not needed for finding road (Ie. name is need if roadAt cannot find road).
+    >> _navGridDB format
+
+Return Value:
+    <ARRAY<             navIslands:
+        <ARRAY<             A single road network island:
+            <OBJECT>            Road
+            <ARRAY<OBJECT>>         Connected roads.
+            <ARRAY<SCALAR>>         True driving distance in meters to connected roads.
+        >>
+    >>
+
+Scope: Any, Global Arguments
+Environment: Unscheduled
+Public: Yes
+
+Example:
+    private _navIslands = [navGridDB] call A3A_fnc_NG_convert_navGridDB_navIslands;
+*/
+
 params [
     ["_navGridDB_IN",[],[ [] ]]
 ];
 private _navGridDB = +_navGridDB_IN;
-
-/*
-roadTypeEnum
-0: TRAIL
-1: ROAD
-2: MAIN ROAD
-
-navGridDB
-[
-    [pos3D, islandID, isJunction, [connectedRoadIndex, roadTypeEnum, distance]]
-    ...
-]
-
-
-navIslands
-[
-    [ // each island
-        [road, [connectedRoads],[connectedDistances]],
-        ...
-    ]
-    ...
-]
-*/
 
 {
     _x set [0, _x call A3A_fnc_NG_convert_DBStruct_road];

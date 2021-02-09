@@ -1,5 +1,26 @@
+/*
+Maintainer: Caleb Serafin
+    Checks that all listed connections exist.
+
+Arguments:
+    <ARRAY<
+        <OBJECT>        road
+        <ARRAY<OBJECT>> connected roads
+        <ARRAY<SCALAR>> distances to connected roads
+    >> _navGrid format
+
+Return Value:
+    <ARRAY> Same reference, no changes
+
+Scope: Any, Global Arguments
+Environment: Scheduled
+Public: No
+
+Example:
+    ["something", player, 2.718281828, 4, nil, ["Tom","Dick","Harry"], ["UID123Money",0], "hint ""Hello World!"""] call A3A_fnc_standardizedHeader; // false
+*/
 params [
-    ["_navGrid",[],[ [] ]] //ARRAY<  Road, ARRAY<connectedRoad>>, ARRAY<distance>  >
+    ["_navGrid",[],[ [] ]]
 ];
 
 private _roadIndexNS = [localNamespace,"NavGridPP","simplify_junc_roadIndex", nil, nil] call Col_fnc_nestLoc_set;
