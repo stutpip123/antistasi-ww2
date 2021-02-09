@@ -571,6 +571,7 @@ class Collections
 		class array_deleteAts {};
 		class array_displace {};
 		class array_remIndices {};
+        class array_toChunks {};
 	};
 	class Collections_ID
 	{
