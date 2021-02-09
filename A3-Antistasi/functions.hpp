@@ -408,10 +408,11 @@ class A3A
         class NG_draw_dotOnRoads {};
         class NG_draw_lineBetweenTwoRoads {};
         class NG_draw_linesBetweenRoads {};
-        class NG_main {};
-        class NG_mergeIslands {};
         class NG_fix_deadEnds {};
         class NG_fix_oneWays {};
+        class NG_format_navGridDB {};
+        class NG_main {};
+        class NG_mergeIslands {};
         class NG_separateIslands {};
         class NG_simplify_conDupe {};
         class NG_simplify_flat {};
@@ -609,6 +610,7 @@ class A3A
         class dateToTimeString {};
         class generateRoadsDB {};
         class log {};
+        class systemTime_format_G {};
         class vehicleWillCollideAtPosition {};
         class getRoadDirection {};
     };

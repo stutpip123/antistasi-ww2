@@ -2,8 +2,8 @@
 // [35,15] spawn A3A_fnc_NG_main;
 
 params [
-    ["_degTolerance",35,[ 35 ]],  // if straight roads azimuth are within this tolerance, they are merged.
-    ["_maxDistance",15,[ 15 ]] // Junctions are only merged if within this distance.
+    ["_flatMergeDeg",35,[ 35 ]],  // if straight roads azimuth are within this tolerance, they are merged.
+    ["_juncMergeDistance",15,[ 15 ]] // Junctions are only merged if within this distance.
 ];
 
 private _diag_step_main = "";
@@ -47,6 +47,19 @@ private _navGrid = _allRoadObjects apply {[
     };
 } forEach _navGrid;
 
+
+private _roadPosNS = [localNamespace,"NavGridPP","main_roadPos", nil, nil] call Col_fnc_nestLoc_set;
+private _const_select2 = [0,2];
+{
+    private _posStr = str (getPos (_x#0) select _const_select2);
+    if (_roadPosNS getVariable [_posStr, false]) then {
+        [1,"Multiple roads at " + _posStr + ".","fn_NG_main"] call A3A_fnc_log;
+    } else {
+        _roadPosNS setVariable [_posStr, true];
+    };
+} forEach _navGrid;
+[_roadPosNS] call Col_fnc_nestLoc_rem;
+
 private _diag_step_sub = "Applying distances<br/>No progress report available, due to being too relatively expensive.";
 call _fnc_diag_render;
 {
@@ -79,7 +92,7 @@ try {
     call _fnc_diag_render;
     [4,"A3A_fnc_NG_simplify_flat","fn_NG_main"] call A3A_fnc_log;
     [4,"A3A_fnc_NG_simplify_flat on "+str count _navGrid+" road segments.","fn_NG_main"] call A3A_fnc_log;
-    _navGrid = [_navGrid,_degTolerance] call A3A_fnc_NG_simplify_flat;    // Gives less markers for junc to work on. (junc is far more expensive)
+    _navGrid = [_navGrid,_flatMergeDeg] call A3A_fnc_NG_simplify_flat;    // Gives less markers for junc to work on. (junc is far more expensive)
 
 //*
     _diag_step_sub = "Simplifying Connection Duplicates";
@@ -111,7 +124,7 @@ try {
     _diag_step_sub = "simplify_junc";
     call _fnc_diag_render;
     [4,"A3A_fnc_NG_simplify_junc","fn_NG_main"] call A3A_fnc_log;
-    _navGrid = [_navGrid,_maxDistance] call A3A_fnc_NG_simplify_junc;
+    _navGrid = [_navGrid,_juncMergeDistance] call A3A_fnc_NG_simplify_junc;
 
     _diag_step_sub = "Simplifing Connection Duplicates";
     call _fnc_diag_render;
@@ -132,8 +145,11 @@ try {
     _diag_step_sub = "navIsland to navGridDB";
     call _fnc_diag_render;
     [4,"A3A_fnc_NG_convert_navIslands_navGridDB","fn_NG_main"] call A3A_fnc_log;
-    private _navGridDB = [_navIslands] call A3A_fnc_NG_convert_navIslands_navGridDB;
-    copyToClipboard str _navGridDB;
+    private _navGridDB = [_navIslands] call A3A_fnc_NG_convert_navIslands_navGridDB; // (systemTimeUTC call A3A_fnc_systemTime_format_G)
+    private _navGridDB_formatted = ("/*{""systemTimeUCT_G"":"""+(systemTimeUTC call A3A_fnc_systemTime_format_G)+""",""NavGridPP_Config"":{""_flatMergeDeg"":"+str _flatMergeDeg+",""_juncMergeDistance"":"+str _juncMergeDistance+"}}*/
+") + ([_navGridDB] call A3A_fnc_NG_format_navGridDB);
+
+    copyToClipboard str _navGridDB_formatted;
 //*
     _diag_step_sub = "navGridDB to navIsland";  // Serves as a self check
     call _fnc_diag_render;
@@ -155,10 +171,22 @@ try {
     [4,"Col_fnc_nestLoc_rem","fn_NG_main"] call A3A_fnc_log;
     [localNamespace getVariable ["NavGridPP", localNamespace]] call Col_fnc_nestLoc_rem;
 
+    private _roadPosNS = [localNamespace,"NavGridPP","main_roadPos", nil, nil] call Col_fnc_nestLoc_set;
+    private _const_select2 = [0,2];
+    {
+        private _posStr = str (getPos (_x#0) select _const_select2);
+        if (_roadPosNS getVariable [_posStr, false]) then {
+            [1,"Multiple roads at " + _posStr + ".","fn_NG_main"] call A3A_fnc_log;
+        } else {
+            _roadPosNS setVariable [_posStr, true];
+        };
+    } forEach _navGrid;
+    [_roadPosNS] call Col_fnc_nestLoc_rem;
+
     _diag_step_main = "Done";
     _diag_step_sub = "navGridDB copied to clipboard!";
     call _fnc_diag_render;
-    copyToClipboard str _navGridDB; // In case user cleared their clipboard
+    copyToClipboard _navGridDB_formatted; // In case user cleared their clipboard
     uiSleep 1;
     call _fnc_diag_render;
 } catch {

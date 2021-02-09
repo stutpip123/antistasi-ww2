@@ -1,10 +1,8 @@
 params [
     ["_navGrid",[],[ [] ]],  //ARRAY<  Road, ARRAY<connectedRoad>>, ARRAY<distance>  >
-    ["_degTolerance",35,[ 35 ]]  // if straight roads azimuth are within this tolerance, they are merged.
+    ["_flatMergeDeg",35,[ 35 ]]  // if straight roads azimuth are within this tolerance, they are merged.
 ];
 private _navGridSimple = +_navGrid;
-
-copyToClipboard str _navGrid;
 
 private _diag_step_sub = "";
 
@@ -67,7 +65,7 @@ private _fnc_canSimplify = {
 
     private _myAzimuth = (_myInfo#6 getDir _myInfo#7) mod 180;
     private _otherAzimuth = (_otherInfo#6 getDir _otherInfo#7) mod 180;
-    abs (_myAzimuth - _otherAzimuth) < _degTolerance;          // Edit the direction change here.
+    abs (_myAzimuth - _otherAzimuth) < _flatMergeDeg;          // Edit the direction change here.
 };
 
 private _diag_totalSegments = count _navGridSimple;

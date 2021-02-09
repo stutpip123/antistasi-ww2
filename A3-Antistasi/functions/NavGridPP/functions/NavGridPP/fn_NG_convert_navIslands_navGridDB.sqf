@@ -65,17 +65,18 @@ _fnc_NG_convert_road_DBPosName = {
 
     private _pos = getPos _road;
     private _name = 0;      // Type may change to string if name is required
-    if (isNull roadAt _pos) then {
+    if (isNull roadAt _pos && !(roadAt _pos isEqualTo _road)) then {
         _pos = _pos select _const_pos2DSelect;
     };
-    if (isNull roadAt _pos) then {    // Now we go all out and try a bunch of values from an offset matrix.
+    if (isNull roadAt _pos && !(roadAt _pos isEqualTo _road)) then {    // Now we go all out and try a bunch of values from an offset matrix.
         {
             private _newPos = _pos vectorAdd _x select _const_pos2DSelect;  // vectorAdd puts the z back
             if (roadAt _newPos isEqualTo _road) exitWith { _pos = _newPos };   // isEqual check in case a different road was found.
         } forEach _const_posOffsetMatrix;
     };
-    if (isNull roadAt _pos) then {
+    if (isNull roadAt _pos && !(roadAt _pos isEqualTo _road)) then {
         _name = str _road;
+        [1,"Could not use pos alone to find road '"+_name+"' " + str getPos _road + ".","fn_NG_main"] call A3A_fnc_log;
     };
     [_pos,_name];
 };
