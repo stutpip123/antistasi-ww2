@@ -123,7 +123,6 @@ class A3A
         class airbomb {};
         class airdrop {};
         class AIreactOnKill {};
-        class airstrike {};
         class artillery {};
         class artySupport {};
         class askHelp {};
@@ -136,6 +135,7 @@ class A3A
         class canFight {};
         class captureX {};
         class chargeWithSmoke {};
+        class chooseSupport {};
         class coverage {};
         class destroyBuilding {};
         class doFlank {};
@@ -593,14 +593,6 @@ class A3A
         class SUP_SAMRoutine {};
         class supportAvailable {};
     };
-
-	class Templates
-	{
-		class aceModCompat {};
-		class getLoadout {};
-		class ifaModCompat {};
-		class rhsModCompat {};
-	};
 
     class SalvageRope
     {
