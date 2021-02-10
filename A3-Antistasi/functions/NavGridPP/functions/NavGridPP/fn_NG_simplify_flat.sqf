@@ -9,7 +9,7 @@ Arguments:
         <ARRAY<OBJECT>>         Connected roads.
         <ARRAY<SCALAR>>         True driving distance in meters to connected roads.
     >>
-    <SCALAR> If straight roads azimuth are within this tolerance, they are merged. (Default = 35)
+    <SCALAR> Max drift the simplified line segment can stray from the road in metres. (Default = XX)
 
 Return Value:
     <ARRAY> Simplified navGrid
@@ -23,9 +23,10 @@ Example:
 */
 params [
     ["_navGrid",[],[ [] ]],
-    ["_flatMergeDeg",35,[ 0 ]]
+    ["_maxDrift",40,[ 0 ]]
 ];
 private _navGridSimple = +_navGrid;
+private _maxDriftSqr = _maxDrift^2;
 
 private _diag_step_sub = "";
 
@@ -80,15 +81,14 @@ private _roadIndexNS = [localNamespace,"NavGridPP","simplify_flat_roadIndex", ni
 
 
 private _fnc_canSimplify = {
-    params ["_myRoad","_otherRoad"];
-    private _myInfo = getRoadInfo _myRoad;
-    private _otherInfo = getRoadInfo _otherRoad;
+    params ["_myRoad","_otherRoad","_realDistance"];
 
-    if !(_myInfo#0 isEqualTo _otherInfo#0) exitWith {false;};
+    if !(getRoadInfo _myRoad#0 isEqualTo getRoadInfo _otherRoad#0) exitWith {false;};   // Must be same type
 
-    private _myAzimuth = (_myInfo#6 getDir _myInfo#7) mod 180;
-    private _otherAzimuth = (_otherInfo#6 getDir _otherInfo#7) mod 180;
-    abs (_myAzimuth - _otherAzimuth) < _flatMergeDeg;          // Edit the direction change here.
+    private _baseSqr = 0.25 * (_myRoad distanceSqr _otherRoad);  //  The hypotenuse is half, as the worst real road can do is climb to a point, then come back down. // 0.25 is 0.5^2
+    private _hypotenuse = 0.5 * _realDistance;
+
+    (_hypotenuse^2 - _baseSqr) < _maxDriftSqr;
 };
 
 private _diag_totalSegments = count _navGridSimple;
@@ -104,14 +104,16 @@ private _diag_totalSegments = count _navGridSimple;
 
         private _connectRoad0 = _currentConnectionNames#0;
         private _connectRoad1 = _currentConnectionNames#1;
-        if !([_connectRoad0,_connectRoad1] call _fnc_canSimplify) exitWith {};  // Only merge same types of roads and similar azimuth, this will preserve road types and corners
+
+        private _connectionDistances = _currentStruct#2;
+        private _newDistance = _connectionDistances#0 + _connectionDistances#1;
+
+        if !([_connectRoad0,_connectRoad1,_newDistance] call _fnc_canSimplify) exitWith {};  // Only merge same types of roads and similar azimuth, this will preserve road types and corners
         private _connectStruct0 = [_navGridSimple,_roadIndexNS,str _connectRoad0] call _fnc_getStruct;
         private _connectStruct1 = [_navGridSimple,_roadIndexNS,str _connectRoad1] call _fnc_getStruct;
         private _currentRoad = _currentStruct#0;
 
         if !([_connectStruct0,_connectRoad1] call _fnc_isRoadConnected) then {  // If our neighbours are not already connected:
-            private _connectionDistances = _currentStruct#2;
-            private _newDistance = _connectionDistances#0 + _connectionDistances#1;
 
             [_connectStruct0,_currentRoad,_connectRoad1,_newDistance] call _fnc_replaceRoadConnection;       // We connect our two neighbors together, replacing our own connection
             [_connectStruct1,_currentRoad,_connectRoad0,_newDistance] call _fnc_replaceRoadConnection;

@@ -40,7 +40,7 @@ private _markers = [localNamespace,"A3A_NGPP","draw","dotOnRoads",[]] call Col_f
 _markers resize 0;  // Preserves reference
 
 {
-/*  // Enable if you wish, disabled as not needed at time of making. Island markers are left on.
+//*  // Enable if you wish, disabled as not needed at time of making. Island markers are left on.
     {
         private _name = "NGPP_dot_" + str (_x#0);
         _markers pushBack createMarkerLocal [_name,getPosWorld (_x#0)];

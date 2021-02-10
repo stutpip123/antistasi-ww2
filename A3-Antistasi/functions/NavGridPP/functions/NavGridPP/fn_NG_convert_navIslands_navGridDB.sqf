@@ -45,7 +45,7 @@ private _navIslands = +_navIslands_IN;
     } forEach _x;   // forEach island, inner _x will be a road struct
 } forEach _navIslands;
 
-private _navGrid = [_navIslands] call A3A_fnc_NG_mergeIslands;
+private _navGrid = [_navIslands] call A3A_fnc_NG_convert_navIslands_navGrid;
 private _roadIndexNS = [localNamespace,"NavGridPP","convert_navIslands_navGrid_roadIndex", nil, nil] call Col_fnc_nestLoc_set;
 {
     _roadIndexNS setVariable [str (_x#0),_forEachIndex];

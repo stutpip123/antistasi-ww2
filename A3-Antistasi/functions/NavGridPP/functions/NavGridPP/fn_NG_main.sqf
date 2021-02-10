@@ -28,7 +28,7 @@ Maintainer: Caleb Serafin
     NavGridDB is copied to clipboard.
 
 Arguments:
-    <SCALAR> if straight roads azimuth are within this tolerance, they are merged.
+    <SCALAR> Max drift the simplified line segment can stray from the road in metres. (Default = XX)
     <SCALAR> Junctions are only merged if within this distance.
 
 Return Value:
@@ -43,7 +43,7 @@ Example:
 */
 
 params [
-    ["_flatMergeDeg",35,[ 0 ]],
+    ["_flatMaxDrift",40,[ 0 ]],
     ["_juncMergeDistance",15,[ 0 ]]
 ];
 
@@ -137,7 +137,7 @@ try {
     call _fnc_diag_render;
     [4,"A3A_fnc_NG_simplify_flat","fn_NG_main"] call A3A_fnc_log;
     [4,"A3A_fnc_NG_simplify_flat on "+str count _navGrid+" road segments.","fn_NG_main"] call A3A_fnc_log;
-    _navGrid = [_navGrid,_flatMergeDeg] call A3A_fnc_NG_simplify_flat;    // Gives less markers for junc to work on. (junc is far more expensive)
+    _navGrid = [_navGrid,_flatMaxDrift] call A3A_fnc_NG_simplify_flat;    // Gives less markers for junc to work on. (junc is far more expensive)
 
 //*
     _diag_step_sub = "Simplifying Connection Duplicates";
@@ -185,13 +185,13 @@ try {
     _diag_step_sub = "Separating Island";
     call _fnc_diag_render;
     [4,"A3A_fnc_NG_separateIslands","fn_NG_main"] call A3A_fnc_log;
-    _navIslands = [_navGrid] call A3A_fnc_NG_separateIslands;
+    _navIslands = [_navGrid] call A3A_fnc_NG_convert_navGrid_navIslands;
 
     _diag_step_sub = "navIsland to navGridDB";
     call _fnc_diag_render;
     [4,"A3A_fnc_NG_convert_navIslands_navGridDB","fn_NG_main"] call A3A_fnc_log;
     private _navGridDB = [_navIslands] call A3A_fnc_NG_convert_navIslands_navGridDB; // (systemTimeUTC call A3A_fnc_systemTime_format_G)
-    private _navGridDB_formatted = ("/*{""systemTimeUCT_G"":"""+(systemTimeUTC call A3A_fnc_systemTime_format_G)+""",""NavGridPP_Config"":{""_flatMergeDeg"":"+str _flatMergeDeg+",""_juncMergeDistance"":"+str _juncMergeDistance+"}}*/
+    private _navGridDB_formatted = ("/*{""systemTimeUCT_G"":"""+(systemTimeUTC call A3A_fnc_systemTime_format_G)+""",""NavGridPP_Config"":{""_flatMaxDrift"":"+str _flatMaxDrift+",""_juncMergeDistance"":"+str _juncMergeDistance+"}}*/
 ") + ([_navGridDB] call A3A_fnc_NG_format_navGridDB);
 
     copyToClipboard str _navGridDB_formatted;
