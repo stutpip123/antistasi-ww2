@@ -35,7 +35,7 @@ private _centre = (_myPos vectorAdd _otherPos) vectorMultiply 0.5;
 private _name = "NGPP_line_" + _markerID;
 private _marker = createMarkerLocal [_name, _centre];
 _marker setMarkerDirLocal _azimuth;
-_marker setMarkerSizeLocal [4, 0.5*_length]; // 1-high density, 4-normal, 8-Stratis world view, 16-Seattle world view
+_marker setMarkerSizeLocal [1, 0.5*_length]; // 1-high density, 2-normal, 8-Stratis world view, 16-Seattle world view
 _marker setMarkerShapeLocal "RECTANGLE";
 //_marker setMarkerBrushLocal "Solid";
 _marker setMarkerBrushLocal "SolidFull";
