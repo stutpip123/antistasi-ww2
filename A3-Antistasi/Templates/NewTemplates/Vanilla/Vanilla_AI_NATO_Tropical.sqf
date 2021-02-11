@@ -60,10 +60,10 @@
 ["mortarMagazineSmoke", "8Rnd_82mm_Mo_Smoke_white"] call _fnc_saveToTemplate;
 
 //Bagged weapon definitions
-["baggedMGs", ["I_G_HMG_02_high_weapon_F", "I_G_HMG_02_support_high_F"]] call _fnc_saveToTemplate;
-["baggedAT", ["B_AT_01_weapon_F", "B_HMG_01_support_F"]] call _fnc_saveToTemplate;
-["baggedAA", ["I_E_AA_01_weapon_F", "B_HMG_01_support_F"]] call _fnc_saveToTemplate;
-["baggedMortars", ["I_E_Mortar_01_Weapon_F", "B_Mortar_01_support_F"]] call _fnc_saveToTemplate;
+["baggedMGs", [["I_G_HMG_02_high_weapon_F", "I_G_HMG_02_support_high_F"]]] call _fnc_saveToTemplate;
+["baggedAT", [["B_AT_01_weapon_F", "B_HMG_01_support_F"]]] call _fnc_saveToTemplate;
+["baggedAA", [["I_E_AA_01_weapon_F", "B_HMG_01_support_F"]]] call _fnc_saveToTemplate;
+["baggedMortars", [["I_E_Mortar_01_Weapon_F", "B_Mortar_01_support_F"]]] call _fnc_saveToTemplate;
 
 //Minefield definition
 //Not Magazine type would be: ["APERSBoundingMine", "APERSMine", "ATMine"]
