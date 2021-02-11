@@ -73,6 +73,8 @@ call _fnc_diag_render;
 
 private _orphanedIndices = [];
 
+private _orphanedRoadsNS = [localNamespace,"NavGridPP","simplify_flat_orphanedRoads", nil, nil] call Col_fnc_nestLoc_set;
+
 private _roadIndexNS = [localNamespace,"NavGridPP","simplify_flat_roadIndex", nil, nil] call Col_fnc_nestLoc_set;
 {
     _roadIndexNS setVariable [str (_x#0),_forEachIndex];
@@ -94,7 +96,7 @@ private _fnc_canSimplify = {
 
     private _midPoint2D = getPos _myRoad vectorAdd getPos _otherRoad vectorMultiply 0.5 select _const_pos2DSelect;
     private _nearRoads = (nearestTerrainObjects [_midPoint2D, _const_allowedRoadTypes, _base, false, true]) - [_myRoad,_otherRoad,_currentRoad];
-    _nearRoads = _nearRoads select {!((_roadIndexNS getVariable [str _x,-1]) in _orphanedIndices)};
+    _nearRoads = _nearRoads select {!(_orphanedRoadsNS getVariable [str _x,false])};
 
     _nearRoads isEqualTo _const_emptyArray;
 };
@@ -107,6 +109,7 @@ private _diag_totalSegments = count _navGridSimple;
     };
 
     private _currentStruct = _x;
+    private _currentRoad = _currentStruct#0;
     private _currentConnectionNames = _currentStruct#1;
     if ((count _currentConnectionNames) == 2) then {
 
@@ -115,7 +118,6 @@ private _diag_totalSegments = count _navGridSimple;
 
         private _connectionDistances = _currentStruct#2;
         private _newDistance = _connectionDistances#0 + _connectionDistances#1;
-        private _currentRoad = _currentStruct#0;
 
         if !([_connectRoad0,_connectRoad1,_newDistance,_currentRoad] call _fnc_canSimplify) exitWith {};  // Only merge same types of roads and similar azimuth, this will preserve road types and corners
         private _connectStruct0 = [_navGridSimple,_roadIndexNS,str _connectRoad0] call _fnc_getStruct;
@@ -130,9 +132,11 @@ private _diag_totalSegments = count _navGridSimple;
             [_connectStruct1,_currentRoad] call _fnc_removeRoadConnection;
         };
         _orphanedIndices pushBack _forEachIndex;
+        _orphanedRoadsNS setVariable [str _currentRoad,true];
     };
 } forEach _navGridSimple;
 [_roadIndexNS] call Col_fnc_nestLoc_rem;
+[_orphanedRoadsNS] call Col_fnc_nestLoc_rem;
 
 _diag_step_sub = "Cleaning orphans...";
 call _fnc_diag_render;
