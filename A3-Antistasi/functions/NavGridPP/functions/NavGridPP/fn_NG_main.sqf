@@ -191,7 +191,7 @@ try {
     call _fnc_diag_render;
     [4,"A3A_fnc_NG_convert_navIslands_navGridDB","fn_NG_main"] call A3A_fnc_log;
     private _navGridDB = [_navIslands] call A3A_fnc_NG_convert_navIslands_navGridDB; // (systemTimeUTC call A3A_fnc_systemTime_format_G)
-    private _navGridDB_formatted = ("/*{""systemTimeUCT_G"":"""+(systemTimeUTC call A3A_fnc_systemTime_format_G)+""",""NavGridPP_Config"":{""_flatMaxDrift"":"+str _flatMaxDrift+",""_juncMergeDistance"":"+str _juncMergeDistance+"}}*/
+    private _navGridDB_formatted = ("/*{""systemTimeUCT_G"":"""+(systemTimeUTC call A3A_fnc_systemTime_format_G)+""",""worldName"":"""+worldName+""",""NavGridPP_Config"":{""_flatMaxDrift"":"+str _flatMaxDrift+",""_juncMergeDistance"":"+str _juncMergeDistance+"}}*/
 ") + ([_navGridDB] call A3A_fnc_NG_format_navGridDB);
 
     copyToClipboard str _navGridDB_formatted;
