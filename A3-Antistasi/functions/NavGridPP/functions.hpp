@@ -17,6 +17,7 @@ class A3A {
         class NG_fix_deadEnds {};
         class NG_fix_oneWays {};
         class NG_format_navGridDB {};
+        class NG_import {};
         class NG_main {};
         class NG_main_draw {};
         class NG_simplify_conDupe {};

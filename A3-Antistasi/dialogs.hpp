@@ -1,3 +1,5 @@
+#include "functions\NavGridPP\NG_importGUI.hpp"
+
 //Game start
 class set_params {
 	idd=-1;

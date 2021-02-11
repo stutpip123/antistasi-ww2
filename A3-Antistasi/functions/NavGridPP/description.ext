@@ -1,3 +1,6 @@
 class CfgFunctions {
     #include "functions.hpp"
 };
+
+#include "NG_GUI_defines.hpp"
+#include "NG_importGUI.hpp"
