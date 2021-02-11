@@ -86,25 +86,6 @@ private _navGrid = _allRoadObjects apply {[
     roadsConnectedTo [_x,true] select {getRoadInfo _x #0 in _const_allowedRoadTypes}
 ]};
 
-{
-    if (isNil {_x#1}) then {
-        [1,"Could not find connections for road '"+str (_x#0)+"' " + str getPos (_x#0) + ".","fn_NG_main"] call A3A_fnc_log;
-    };
-} forEach _navGrid;
-
-
-private _roadPosNS = [localNamespace,"NavGridPP","main_roadPos", nil, nil] call Col_fnc_nestLoc_set;
-private _const_select2 = [0,2];
-{
-    private _posStr = str (getPos (_x#0) select _const_select2);
-    if (_roadPosNS getVariable [_posStr, false]) then {
-        [1,"Multiple roads at " + _posStr + ".","fn_NG_main"] call A3A_fnc_log;
-    } else {
-        _roadPosNS setVariable [_posStr, true];
-    };
-} forEach _navGrid;
-[_roadPosNS] call Col_fnc_nestLoc_rem;
-
 private _diag_step_sub = "Applying distances<br/>No progress report available, due to being too relatively expensive.";
 call _fnc_diag_render;
 {
@@ -196,7 +177,7 @@ try {
 
     copyToClipboard str _navGridDB_formatted;
 //*
-    _diag_step_sub = "navGridDB to navIsland";  // Serves as a self check
+    _diag_step_sub = "Unit Test Running<br/>navGridDB to navIsland";  // Serves as a self check
     call _fnc_diag_render;
     [4,"A3A_fnc_NG_convert_navGridDB_navIslands","fn_NG_main"] call A3A_fnc_log;
     _navIslands = [_navGridDB] call A3A_fnc_NG_convert_navGridDB_navIslands;
@@ -215,18 +196,6 @@ try {
 
     [4,"Col_fnc_nestLoc_rem","fn_NG_main"] call A3A_fnc_log;
     [localNamespace getVariable ["NavGridPP", localNamespace]] call Col_fnc_nestLoc_rem;
-
-    private _roadPosNS = [localNamespace,"NavGridPP","main_roadPos", nil, nil] call Col_fnc_nestLoc_set;
-    private _const_select2 = [0,2];
-    {
-        private _posStr = str (getPos (_x#0) select _const_select2);
-        if (_roadPosNS getVariable [_posStr, false]) then {
-            [1,"Multiple roads at " + _posStr + ".","fn_NG_main"] call A3A_fnc_log;
-        } else {
-            _roadPosNS setVariable [_posStr, true];
-        };
-    } forEach _navGrid;
-    [_roadPosNS] call Col_fnc_nestLoc_rem;
 
     _diag_step_main = "Done";
     _diag_step_sub = "navGridDB copied to clipboard!";
