@@ -12,7 +12,7 @@ Maintainer: Caleb Serafin
     STEP  5:    Start host LAN multiplayer.
     STEP  6:    Run and join mission.
     STEP  7:    Press `Esc` on your keyboard to open debug console.
-    STEP  8:    Paste `[35,15] spawn A3A_fnc_NG_main` into big large debug window.
+    STEP  8:    Paste `[50,15] spawn A3A_fnc_NG_main` into big large debug window.
     STEP  9:    Click the button `Local Exec`.
     STEP 10:    Wait for hint to say `Done`&`navGridDB copied to clipboard!`
     STEP 11:    Open a new file.
@@ -39,11 +39,11 @@ Environment: Unscheduled
 Public: Yes
 
 Example:
-    [35,15] spawn A3A_fnc_NG_main;
+    [50,15] spawn A3A_fnc_NG_main;
 */
 
 params [
-    ["_flatMaxDrift",40,[ 0 ]],
+    ["_flatMaxDrift",50,[ 0 ]],
     ["_juncMergeDistance",15,[ 0 ]]
 ];
 

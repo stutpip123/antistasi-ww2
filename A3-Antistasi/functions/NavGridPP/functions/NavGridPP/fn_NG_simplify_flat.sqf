@@ -9,7 +9,7 @@ Arguments:
         <ARRAY<OBJECT>>         Connected roads.
         <ARRAY<SCALAR>>         True driving distance in meters to connected roads.
     >>
-    <SCALAR> Max drift the simplified line segment can stray from the road in metres. (Default = XX)
+    <SCALAR> Max drift the simplified line segment can stray from the road in metres. (Default = 50)
 
 Return Value:
     <ARRAY> Simplified navGrid
@@ -19,11 +19,11 @@ Environment: Unscheduled
 Public: No
 
 Example:
-    _navGrid = [_navGrid,35] call A3A_fnc_NG_simplify_flat;
+    _navGrid = [_navGrid,50] call A3A_fnc_NG_simplify_flat;
 */
 params [
     ["_navGrid",[],[ [] ]],
-    ["_maxDrift",40,[ 0 ]]
+    ["_maxDrift",50,[ 0 ]]
 ];
 private _navGridSimple = +_navGrid;
 private _maxDriftSqr = _maxDrift^2;
