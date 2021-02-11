@@ -9,6 +9,7 @@ class A3A {
         class NG_convert_road_DBPosName {};
         class NG_convert_DBPosName_road {};
         class NG_convert_DBStruct_road {};
+        class NG_draw_deleteAll {};
         class NG_draw_distanceBetweenTwoRoads {};
         class NG_draw_dotOnRoads {};
         class NG_draw_lineBetweenTwoRoads {};
@@ -17,6 +18,7 @@ class A3A {
         class NG_fix_oneWays {};
         class NG_format_navGridDB {};
         class NG_main {};
+        class NG_main_draw {};
         class NG_simplify_conDupe {};
         class NG_simplify_flat {};
         class NG_simplify_junc {};

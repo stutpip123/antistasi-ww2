@@ -12,7 +12,7 @@ Maintainer: Caleb Serafin
     STEP  5:    Start host LAN multiplayer.
     STEP  6:    Run and join mission.
     STEP  7:    Press `Esc` on your keyboard to open debug console.
-    STEP  8:    Paste `[50,15] spawn A3A_fnc_NG_main` into big large debug window.
+    STEP  8:    Paste `[] spawn A3A_fnc_NG_main` into big large debug window.
     STEP  9:    Click the button `Local Exec`.
     STEP 10:    Wait for hint to say `Done`&`navGridDB copied to clipboard!`
     STEP 11:    Open a new file.
@@ -39,33 +39,43 @@ Environment: Unscheduled
 Public: Yes
 
 Example:
-    [50,15] spawn A3A_fnc_NG_main;
+[] spawn A3A_fnc_NG_main;
+
+    Or draw when finished and tweak parameters:
+[] spawn {
+    [50,15] call A3A_fnc_NG_main;
+    [1,false,false,0.8,1.5] call A3A_fnc_NG_main_draw;
+};
+
+    To avoid regenerating the nev grid for drawing, you can omit A3A_fnc_NG_main after running it once. Or import from clipboard if this is a new map load.
+    [] spawn A3A_fnc_NG_import_clipboard;
 */
 
 params [
     ["_flatMaxDrift",50,[ 0 ]],
-    ["_juncMergeDistance",15,[ 0 ]]
+    ["_juncMergeDistance",15,[ 0 ]],
+    ["_line_size",15,[ 0 ]],
+    ["_line_opaque",15,[ 0 ]],
+    ["_lineLength_size",15,[ 0 ]],
+    ["_dot_size",15,[ 0 ]],
+    ["_islandDot_size",15,[ 0 ]]
 ];
 
 if (!canSuspend) exitWith {
-    throw ["NotScheduledEnvironment","Please execute NG_main in a scheduled environment as it is a long process: `[35,15] spawn A3A_fnc_NG_main;`."];
+    throw ["NotScheduledEnvironment","Please execute NG_main in a scheduled environment as it is a long process: `[] spawn A3A_fnc_NG_main;`."];
 };
+[localNamespace,"A3A_NGPP","activeProcesses","NG_main",true] call Col_fnc_nestLoc_set;
 
 private _diag_step_main = "";
 private _diag_step_sub = "";
-private _diag_step_sub_progress = []; // <Array<island,totalIslandSegments>>
-
-private _diag_totalSegments = -1;
-private _diag_islandCounter = -1;
-private _diag_segmentCounter = 0;
-
 private _fnc_diag_render = { // call _fnc_diag_render;
     [
         "Nav Grid++",
         "<t align='left'>" +
         _diag_step_main+"<br/>"+
         _diag_step_sub+"<br/>"+
-        "</t>"
+        "</t>",
+        true
     ] remoteExec ["A3A_fnc_customHint",0];
 };
 
@@ -171,38 +181,30 @@ try {
     _diag_step_sub = "navIsland to navGridDB";
     call _fnc_diag_render;
     [4,"A3A_fnc_NG_convert_navIslands_navGridDB","fn_NG_main"] call A3A_fnc_log;
-    private _navGridDB = [_navIslands] call A3A_fnc_NG_convert_navIslands_navGridDB; // (systemTimeUTC call A3A_fnc_systemTime_format_G)
-    private _navGridDB_formatted = ("/*{""systemTimeUCT_G"":"""+(systemTimeUTC call A3A_fnc_systemTime_format_G)+""",""worldName"":"""+worldName+""",""NavGridPP_Config"":{""_flatMaxDrift"":"+str _flatMaxDrift+",""_juncMergeDistance"":"+str _juncMergeDistance+"}}*/
-") + ([_navGridDB] call A3A_fnc_NG_format_navGridDB);
+    private _navGridDB = [_navIslands] call A3A_fnc_NG_convert_navIslands_navGridDB;
 
-    copyToClipboard str _navGridDB_formatted;
 //*
     _diag_step_sub = "Unit Test Running<br/>navGridDB to navIsland";  // Serves as a self check
     call _fnc_diag_render;
     [4,"A3A_fnc_NG_convert_navGridDB_navIslands","fn_NG_main"] call A3A_fnc_log;
     _navIslands = [_navGridDB] call A3A_fnc_NG_convert_navGridDB_navIslands;
 //*/
-    _diag_step_main = "Drawing Markers";
-    _diag_step_sub = "Drawing LinesBetweenRoads";
-    call _fnc_diag_render;
-    [4,"A3A_fnc_NG_draw_linesBetweenRoads","fn_NG_main"] call A3A_fnc_log;
-    [_navIslands,true,false] call A3A_fnc_NG_draw_linesBetweenRoads;
 
-    _diag_step_main = "Drawing Markers";
-    _diag_step_sub = "Drawing DotsOnRoads";
-    call _fnc_diag_render;
-    [4,"A3A_fnc_NG_draw_dotOnRoads","fn_NG_main"] call A3A_fnc_log;
-    [_navIslands] call A3A_fnc_NG_draw_dotOnRoads;
+    private _navGridDB_formatted = ("/*{""systemTimeUCT_G"":"""+(systemTimeUTC call A3A_fnc_systemTime_format_G)+""",""worldName"":"""+worldName+""",""NavGridPP_Config"":{""_flatMaxDrift"":"+str _flatMaxDrift+",""_juncMergeDistance"":"+str _juncMergeDistance+"}}*/
+") + ([_navGridDB] call A3A_fnc_NG_format_navGridDB);
 
-    [4,"Col_fnc_nestLoc_rem","fn_NG_main"] call A3A_fnc_log;
-    [localNamespace getVariable ["NavGridPP", localNamespace]] call Col_fnc_nestLoc_rem;
+    [localNamespace,"A3A_NGPP","navIslands",_navIslands] call Col_fnc_nestLoc_set;
+    [localNamespace,"A3A_NGPP","navGridDB_formatted",_navGridDB_formatted] call Col_fnc_nestLoc_set;
 
     _diag_step_main = "Done";
-    _diag_step_sub = "navGridDB copied to clipboard!";
+    _diag_step_sub = "navGridDB copied to clipboard!<br/><br/>If you have lost your clipboard, you can grab the navGridDB_formatted with<br/>`copyToClipboard ([localNamespace,'A3A_NGPP','navGridDB_formatted',''] call Col_fnc_nestLoc_get)`";
     call _fnc_diag_render;
+    forceUnicode 0;
     copyToClipboard _navGridDB_formatted; // In case user cleared their clipboard
+    [localNamespace,"A3A_NGPP","activeProcesses","NG_main",false] call Col_fnc_nestLoc_set;
     uiSleep 1;
     call _fnc_diag_render;
 } catch {
     ["NavGrid Error",str _exception] call A3A_fnc_customHint;
-}
+    [localNamespace,"A3A_NGPP","activeProcesses","NG_main",false] call Col_fnc_nestLoc_set;
+};

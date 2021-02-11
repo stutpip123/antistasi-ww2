@@ -12,6 +12,8 @@ Arguments:
         <ARRAY<STRING>>     Types of roads (Maximum takes preference)
         <ARRAY<STRING>>     Marker Colours (corresponding to Types of roads)
     >>
+    <SCALAR> Thickness of line, 1-high density, 2-normal, 8-Stratis world view, 16-Seattle world view. (Set to 0 to disable) (Default = 2)
+    <BOOLEAN> False if line partially transparent, true if solid and opaque. (Default = false)
 
 Return Value:
     <STRING> Full marker name (including the prefix).
@@ -23,22 +25,21 @@ Public: No
 Example:
     _markers pushBack ([_myRoad,_otherRoad,_myName + _otherName,_roadColourClassification] call A3A_fnc_NG_draw_lineBetweenTwoRoads);
 */
-params ["_myRoad","_otherRoad","_markerID","_roadColourClassification"];
+params ["_myRoad","_otherRoad","_markerID","_roadColourClassification","_line_size","_line_opaque"];
 
 private _myPos = getPos _myRoad;
 private _otherPos = getPos _otherRoad;
 
-private _length = _myPos distance2D _otherPos;
+private _radius = 0.5 * (_myPos distance2D _otherPos);
 private _azimuth = _myPos getDir _otherPos;
 private _centre = (_myPos vectorAdd _otherPos) vectorMultiply 0.5;
 
 private _name = "NGPP_line_" + _markerID;
 private _marker = createMarkerLocal [_name, _centre];
 _marker setMarkerDirLocal _azimuth;
-_marker setMarkerSizeLocal [1, 0.5*_length]; // 1-high density, 2-normal, 8-Stratis world view, 16-Seattle world view
+_marker setMarkerSizeLocal [_line_size, _radius];
 _marker setMarkerShapeLocal "RECTANGLE";
-//_marker setMarkerBrushLocal "Solid";
-_marker setMarkerBrushLocal "SolidFull";
+_marker setMarkerBrushLocal (["Solid","SolidFull"] select _line_opaque);
 
 private _types = _roadColourClassification#0;
 private _colourScore = (_types find (getRoadInfo _myRoad #0)) max (_types find (getRoadInfo _otherRoad #0));
