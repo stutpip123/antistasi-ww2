@@ -3,7 +3,7 @@ Maintainer: Caleb Serafin
 
 
 
-    HEY YOU, LOOK HERE!   HEY, DU SIEHST HIER AUS!   ЭЙ, ВЫ СМОТРИТЕ ЗДЕСЬ!   嘿，你在这里看！
+    HEY YOU, READ THIS!   HEY DU, LIES DAS!
     STEP  0:    Run arma.
     STEP  1:    Make empty mp-mission with just one player.
     STEP  2:    Save and close editor.

@@ -1,4 +1,4 @@
-# ❗❗ HEY YOU, LOOK HERE! &nbsp;&nbsp; HEY, DU SIEHST HIER AUS! &nbsp;&nbsp; ЭЙ, ВЫ СМОТРИТЕ ЗДЕСЬ! &nbsp;&nbsp; 嘿，你在这里看！❗❗
+# ❗❗ HEY YOU, READ THIS! &nbsp;&nbsp; HEY DU, LIES DAS! ❗❗
 ### 👉 BASIC AND QUICK START 👈
 0.  Run arma.
 1.  Make empty mp-mission on any map (community or offical) with just one player.
