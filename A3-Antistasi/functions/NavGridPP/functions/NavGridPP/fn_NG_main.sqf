@@ -28,8 +28,8 @@ Maintainer: Caleb Serafin
     NavGridDB is copied to clipboard.
 
 Arguments:
-    <SCALAR> Max drift the simplified line segment can stray from the road in metres. (Default = XX)
-    <SCALAR> Junctions are only merged if within this distance.
+    <SCALAR> Max drift is how far the simplified line segment can stray from the road in metres. (Default = 50)
+    <SCALAR> Junctions are only merged if within this distance from each other. (Default = 15)
 
 Return Value:
     <ANY> Undefined
@@ -53,12 +53,7 @@ Example:
 
 params [
     ["_flatMaxDrift",50,[ 0 ]],
-    ["_juncMergeDistance",15,[ 0 ]],
-    ["_line_size",15,[ 0 ]],
-    ["_line_opaque",15,[ 0 ]],
-    ["_lineLength_size",15,[ 0 ]],
-    ["_dot_size",15,[ 0 ]],
-    ["_islandDot_size",15,[ 0 ]]
+    ["_juncMergeDistance",15,[ 0 ]]
 ];
 
 if (!canSuspend) exitWith {
