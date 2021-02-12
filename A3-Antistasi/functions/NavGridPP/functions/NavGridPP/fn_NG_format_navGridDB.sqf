@@ -36,4 +36,4 @@ private _trimOuterBrackets = {
 private _const_lineBrake = "
 ";
 private _const_comma_lineBrake = ","+_const_lineBrake;
-"navGrid = [" + _const_lineBrake + (_chunks apply {[str _x] call _trimOuterBrackets} joinString _const_comma_lineBrake) + _const_lineBrake + "];";
+"navGrid = [" + _const_lineBrake + (_chunks apply {[str _x] call _trimOuterBrackets}) joinString _const_comma_lineBrake + _const_lineBrake + "];";
