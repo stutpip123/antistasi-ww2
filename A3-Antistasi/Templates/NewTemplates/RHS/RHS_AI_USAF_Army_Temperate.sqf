@@ -928,10 +928,10 @@ private _unitTypes = [
 //////////////////////
 
 //The following lines are determining the loadout of vehicle crew
-["loadouts_", ["Crew", _crewTemplate], _crewLoadoutData] call _saveUnitLoadoutsToTemplate;
+["other", ["Crew", _crewTemplate], _crewLoadoutData] call _saveUnitLoadoutsToTemplate;
 //The following lines are determining the loadout of the pilots
-["loadouts_", ["Pilot", _crewTemplate], _pilotLoadoutData] call _saveUnitLoadoutsToTemplate;
+["other", ["Pilot", _crewTemplate], _pilotLoadoutData] call _saveUnitLoadoutsToTemplate;
 //The following lines are determining the loadout for the unit used in the "kill the official" mission
-["loadouts_", ["Official", _policeTemplate], _militaryLoadoutData] call _saveUnitLoadoutsToTemplate;
+["other", ["Official", _policeTemplate], _militaryLoadoutData] call _saveUnitLoadoutsToTemplate;
 //The following lines are determining the loadout for the AI used in the "kill the traitor" mission
-["loadouts_", ["Traitor", _unarmedTemplate], _militaryLoadoutData] call _saveUnitLoadoutsToTemplate;
+["other", ["Traitor", _unarmedTemplate], _militaryLoadoutData] call _saveUnitLoadoutsToTemplate;
