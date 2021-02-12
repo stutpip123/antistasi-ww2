@@ -215,10 +215,13 @@ private _magazineItems = [];
 {
 	_x params ["_weaponSlot", "_quantity"];
 	private _weaponIndex = [0,1,2] select (["primary", "launcher", "handgun"] find (toLower _weaponSlot));
-	private _weaponClass = _finalLoadout select _weaponIndex select 0;
-	private _magInfo = [_weaponClass] call A3A_fnc_loadout_defaultWeaponMag;
-	if !(_magInfo isEqualTo []) then {
-		_magazineItems pushBack [_magInfo select 0, _quantity, _magInfo select 1];
+	private _weaponData = _finalLoadout select _weaponIndex;
+	if !(_weaponData isEqualTo []) then {
+		private _weaponClass = _weaponData select 0;
+		private _magInfo = [_weaponClass] call A3A_fnc_loadout_defaultWeaponMag;
+		if !(_magInfo isEqualTo []) then {
+			_magazineItems pushBack [_magInfo select 0, _quantity, _magInfo select 1];
+		};
 	};
 } forEach _magazinesToAdd;
 
