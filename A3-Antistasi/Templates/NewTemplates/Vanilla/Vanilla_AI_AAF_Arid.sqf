@@ -797,10 +797,10 @@ private _unitTypes = [
 //////////////////////
 
 //The following lines are determining the loadout of vehicle crew
-["other", ["Crew", _crewTemplate], _crewLoadoutData] call _fnc_saveUnitLoadoutsToTemplate;
+["other", [["Crew", _crewTemplate]], _crewLoadoutData] call _fnc_saveUnitLoadoutsToTemplate;
 //The following lines are determining the loadout of the pilots
-["other", ["Pilot", _crewTemplate], _pilotLoadoutData] call _fnc_saveUnitLoadoutsToTemplate;
+["other", [["Pilot", _crewTemplate]], _pilotLoadoutData] call _fnc_saveUnitLoadoutsToTemplate;
 //The following lines are determining the loadout for the unit used in the "kill the official" mission
-["other", ["Official", _policeTemplate], _militaryLoadoutData] call _fnc_saveUnitLoadoutsToTemplate;
+["other", [["Official", _policeTemplate]], _militaryLoadoutData] call _fnc_saveUnitLoadoutsToTemplate;
 //The following lines are determining the loadout for the AI used in the "kill the traitor" mission
-["other", ["Traitor", _unarmedTemplate], _militaryLoadoutData] call _fnc_saveUnitLoadoutsToTemplate;
+["other", [["Traitor", _unarmedTemplate]], _militaryLoadoutData] call _fnc_saveUnitLoadoutsToTemplate;
