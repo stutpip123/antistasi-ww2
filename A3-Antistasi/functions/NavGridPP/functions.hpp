@@ -1,4 +1,9 @@
 class A3A {
+    class StreetArtist {
+        class NGSA_navRegions_add {};
+        class NGSA_navRegions_generate {};
+        class NGSA_navRegions_rem {};
+    };
     class NavGridPP {
         class NG_check_conExists {};
         class NG_check_oneWays {};

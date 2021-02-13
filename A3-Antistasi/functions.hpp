@@ -581,6 +581,13 @@ class A3A
         class saveLoop {};
     };
 
+    class StreetArtist {
+        file="functions\NavGridPP\functions\StreetArtist";
+        class NGSA_navRegions_add {};
+        class NGSA_navRegions_generate {};
+        class NGSA_navRegions_rem {};
+    };
+
     class Templates
     {
         class aceModCompat {};
