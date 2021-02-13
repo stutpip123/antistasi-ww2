@@ -28,7 +28,7 @@ if !(_loadout isEqualTo []) exitWith {
 		case civilian: { "C_Man_1" };
 	};
 	private _unit = _group createUnit  [_unitClass, _position, _markers, _placement, _special];
-	_unit setUnitLoadout _loadout;
+	_unit setUnitLoadout selectRandom _loadout;
 	_unit setVariable ["unitType", _type, true];
 	_unit
 };

@@ -25,6 +25,20 @@ private _factionPrefix =
 
 missionNamespace setVariable ["faction_" + _factionPrefix, _faction, true];
 
+//Register loadouts globally.
+private _loadoutsPrefix = format ["loadouts_%1_", _factionPrefix];
+private _allLoadouts = _faction getVariable "loadouts";
+{
+	private _loadoutName = _x;
+	private _loadouts = _allLoadouts getVariable _loadoutName;
+	[_loadoutsPrefix + _loadoutName, _loadouts] call A3A_fnc_registerUnitType;
+} forEach allVariables _allLoadouts;
+
+//Placeholders until they can be removed.
+factionGEN = "";
+factionMaleInvaders = "";
+factionMaleOccupants = "";
+
 if (_side isEqualTo east) then {
 	nameInvaders = _faction getVariable "name";
 
@@ -42,83 +56,83 @@ if (_side isEqualTo east) then {
 	CSATPlayerLoadouts = _faction getVariable "pvpLoadouts";
 	vehCSATPVP = _faction getVariable "pvpVehicles";
 
-	CSATGrunt = "loadouts_military_SquadLeader";
-	CSATOfficer = "loadouts_Official";
-	CSATBodyG = "loadouts_military_Rifleman";
-	CSATCrew = "loadouts_Crew";
-	CSATMarksman = "loadouts_military_Marksman";
-	staticCrewInvaders = "loadouts_military_Rifleman";
-	CSATPilot = "loadouts_Pilot";
+	CSATGrunt = "loadouts_inv_military_SquadLeader";
+	CSATOfficer = "loadouts_inv_other_Official";
+	CSATBodyG = "loadouts_inv_military_Rifleman";
+	CSATCrew = "loadouts_inv_other_Crew";
+	CSATMarksman = "loadouts_inv_military_Marksman";
+	staticCrewInvaders = "loadouts_inv_military_Rifleman";
+	CSATPilot = "loadouts_inv_other_Pilot";
 
 	if (gameMode == 4) then {
-		FIARifleman = "loadouts_militia_Rifleman";
-		FIAMarksman = "loadouts_militia_Marksman";
+		FIARifleman = "loadouts_inv_militia_Rifleman";
+		FIAMarksman = "loadouts_inv_militia_Marksman";
 	};
 
-	groupsCSATSentry = ["loadouts_military_Grenadier", "loadouts_military_Rifleman"];
+	groupsCSATSentry = ["loadouts_inv_military_Grenadier", "loadouts_inv_military_Rifleman"];
 	//TODO Change Rifleman to spotter.
-	groupsCSATSniper = ["loadouts_military_Sniper", "loadouts_military_Rifleman"];
+	groupsCSATSniper = ["loadouts_inv_military_Sniper", "loadouts_inv_military_Rifleman"];
 	//TODO Create lighter Recon loadouts, and add a group of them to here.
 	groupsCSATSmall = [groupsCSATSentry, groupsCSATSniper];
 	//TODO Add ammobearers
 	groupsCSATAA = [
-		"loadouts_military_SquadLeader",
-		"loadouts_military_AA",
-		"loadouts_military_AA"
+		"loadouts_inv_military_SquadLeader",
+		"loadouts_inv_military_AA",
+		"loadouts_inv_military_AA"
 	];
 	groupsCSATAT = [
-		"loadouts_military_SquadLeader",
-		"loadouts_military_AT",
-		"loadouts_military_AT"
+		"loadouts_inv_military_SquadLeader",
+		"loadouts_inv_military_AT",
+		"loadouts_inv_military_AT"
 	];
 	private _groupsCSATMediumSquad = [
-		"loadouts_military_SquadLeader",
-		"loadouts_military_MachineGunner",
-		"loadouts_military_Grenadier",
-		"loadouts_military_LAT"
+		"loadouts_inv_military_SquadLeader",
+		"loadouts_inv_military_MachineGunner",
+		"loadouts_inv_military_Grenadier",
+		"loadouts_inv_military_LAT"
 	];
 	groupsCSATmid = [_groupsCSATMediumSquad, groupsCSATAA, groupsCSATAT];
 
 	groupsCSATSquad = [];
 	for "_i" from 1 to 5 do {
 		groupsCSATSquad pushBack [
-			"loadouts_military_SquadLeader",
-			selectRandomWeighted ["loadouts_military_LAT", 2, "loadouts_military_MachineGunner", 1],
-			selectRandomWeighted ["loadouts_military_Rifleman", 2, "loadouts_military_Grenadier", 1],
-			selectRandomWeighted ["loadouts_military_MachineGunner", 2, "loadouts_military_Marksman", 1],
-			selectRandomWeighted ["loadouts_military_Rifleman", 4, "loadouts_military_AT", 1],
-			selectRandomWeighted ["loadouts_military_AA", 1, "loadouts_military_Engineer", 4],
-			"loadouts_military_Rifleman",
-			"loadouts_military_Medic"
+			"loadouts_inv_military_SquadLeader",
+			selectRandomWeighted ["loadouts_inv_military_LAT", 2, "loadouts_inv_military_MachineGunner", 1],
+			selectRandomWeighted ["loadouts_inv_military_Rifleman", 2, "loadouts_inv_military_Grenadier", 1],
+			selectRandomWeighted ["loadouts_inv_military_MachineGunner", 2, "loadouts_inv_military_Marksman", 1],
+			selectRandomWeighted ["loadouts_inv_military_Rifleman", 4, "loadouts_inv_military_AT", 1],
+			selectRandomWeighted ["loadouts_inv_military_AA", 1, "loadouts_inv_military_Engineer", 4],
+			"loadouts_inv_military_Rifleman",
+			"loadouts_inv_military_Medic"
 		];
 	};
 
 	CSATSquad = groupsCSATSquad select 0;
 	CSATSpecOp = [
-		"loadouts_SF_SquadLeader",
-		"loadouts_SF_Rifleman",
-		"loadouts_SF_MachineGunner",
-		"loadouts_SF_ExplosivesExpert",
-		"loadouts_SF_LAT",
-		"loadouts_SF_Medic"
+		"loadouts_inv_SF_SquadLeader",
+		"loadouts_inv_SF_Rifleman",
+		"loadouts_inv_SF_MachineGunner",
+		"loadouts_inv_SF_ExplosivesExpert",
+		"loadouts_inv_SF_LAT",
+		"loadouts_inv_SF_Medic"
 	];
 
 	if (gamemode == 4) then {
 		groupsFIASmall = [
-			["loadouts_military_Grenadier", "loadouts_militia_Rifleman"],
-			["loadouts_militia_Marksman", "loadouts_militia_Rifleman"],
-			["loadouts_militia_Marksman", "loadouts_military_Grenadier"]
+			["loadouts_inv_military_Grenadier", "loadouts_inv_militia_Rifleman"],
+			["loadouts_inv_militia_Marksman", "loadouts_inv_militia_Rifleman"],
+			["loadouts_inv_militia_Marksman", "loadouts_inv_military_Grenadier"]
 		];
 		groupsFIAMid = [];
 		for "_i" from 1 to 6 do {
 			groupsFIAMid pushBack [
-				"loadouts_military_SquadLeader",
-				"loadouts_military_Grenadier",
-				"loadouts_military_MachineGunner",
+				"loadouts_inv_military_SquadLeader",
+				"loadouts_inv_military_Grenadier",
+				"loadouts_inv_military_MachineGunner",
 				selectRandomWeighted [
-					"loadouts_military_LAT", 1,
-					"loadouts_militia_Marksman", 1,
-					"loadouts_military_Engineer", 1
+					"loadouts_inv_military_LAT", 1,
+					"loadouts_inv_militia_Marksman", 1,
+					"loadouts_inv_military_Engineer", 1
 				]
 			];
 		};
@@ -126,15 +140,15 @@ if (_side isEqualTo east) then {
 		groupsFIASquad = [];
 		for "_i" from 1 to 5 do {
 			groupsFIASquad pushBack [
-				"loadouts_military_SquadLeader",
-				"loadouts_military_MachineGunner",
-				"loadouts_military_Grenadier",
-				"loadouts_militia_Rifleman",
-				selectRandomWeighted ["loadouts_militia_Rifleman", 1, "loadouts_militia_Marksman", 1],
-				selectRandomWeighted ["loadouts_militia_Rifleman", 2, "loadouts_militia_Marksman", 1],
-				selectRandomWeighted ["loadouts_militia_Rifleman", 1, "loadouts_military_ExplosivesExpert", 1],
-				"loadouts_military_LAT",
-				"loadouts_military_Medic"
+				"loadouts_inv_military_SquadLeader",
+				"loadouts_inv_military_MachineGunner",
+				"loadouts_inv_military_Grenadier",
+				"loadouts_inv_militia_Rifleman",
+				selectRandomWeighted ["loadouts_inv_militia_Rifleman", 1, "loadouts_inv_militia_Marksman", 1],
+				selectRandomWeighted ["loadouts_inv_militia_Rifleman", 2, "loadouts_inv_militia_Marksman", 1],
+				selectRandomWeighted ["loadouts_inv_militia_Rifleman", 1, "loadouts_inv_military_ExplosivesExpert", 1],
+				"loadouts_inv_military_LAT",
+				"loadouts_inv_military_Medic"
 			];
 		};
 
@@ -229,89 +243,89 @@ if (_side isEqualTo west) then {
 	NATOPlayerLoadouts = _faction getVariable "pvpLoadouts";
 	vehNATOPVP = _faction getVariable "pvpVehicles";
 
-	NATOGrunt = "loadouts_military_Rifleman";
-	NATOOfficer = "loadouts_Official";
-	NATOOfficer2 = "loadouts_Traitor";
-	NATOBodyG = "loadouts_military_Rifleman";
-	NATOCrew = "loadouts_Crew";
-	NATOUnarmed = "loadouts_Unarmed";
-	NATOMarksman = "loadouts_military_Marksman";
-	staticCrewOccupants = "loadouts_military_Rifleman";
-	NATOPilot = "loadouts_Pilot";
+	NATOGrunt = "loadouts_occ_military_Rifleman";
+	NATOOfficer = "loadouts_occ_other_Official";
+	NATOOfficer2 = "loadouts_occ_other_Traitor";
+	NATOBodyG = "loadouts_occ_military_Rifleman";
+	NATOCrew = "loadouts_occ_other_Crew";
+	NATOUnarmed = "loadouts_occ_Unarmed";
+	NATOMarksman = "loadouts_occ_military_Marksman";
+	staticCrewOccupants = "loadouts_occ_military_Rifleman";
+	NATOPilot = "loadouts_occ_other_Pilot";
 
 	if ((gameMode != 4) and (!hasFFAA)) then {
-		FIARifleman = "loadouts_militia_Rifleman";
-		FIAMarksman = "loadouts_militia_Marksman";
+		FIARifleman = "loadouts_occ_militia_Rifleman";
+		FIAMarksman = "loadouts_occ_militia_Marksman";
 	};
 
-	policeOfficer = "loadouts_police_SquadLeader";
-	policeGrunt = "loadouts_police_Standard";
+	policeOfficer = "loadouts_occ_police_SquadLeader";
+	policeGrunt = "loadouts_occ_police_Standard";
 	groupsNATOGen = [policeOfficer, policeGrunt];
 
-	groupsNATOSentry = ["loadouts_military_Grenadier", "loadouts_military_Rifleman"];
+	groupsNATOSentry = ["loadouts_occ_military_Grenadier", "loadouts_occ_military_Rifleman"];
 	//TODO Change Rifleman to spotter.
-	groupsNATOSniper = ["loadouts_military_Sniper", "loadouts_military_Rifleman"];
+	groupsNATOSniper = ["loadouts_occ_military_Sniper", "loadouts_occ_military_Rifleman"];
 	//TODO Create lighter Recon loadouts, and add a group of them to here.
 	groupsNATOSmall = [groupsNATOSentry, groupsNATOSniper];
 	//TODO Add ammobearers
 	groupsNATOAA = [
-		"loadouts_military_SquadLeader",
-		"loadouts_military_AA",
-		"loadouts_military_AA"
+		"loadouts_occ_military_SquadLeader",
+		"loadouts_occ_military_AA",
+		"loadouts_occ_military_AA"
 	];
 	groupsNATOAT = [
-		"loadouts_military_SquadLeader",
-		"loadouts_military_AT",
-		"loadouts_military_AT"
+		"loadouts_occ_military_SquadLeader",
+		"loadouts_occ_military_AT",
+		"loadouts_occ_military_AT"
 	];
 	private _groupsNATOMediumSquad = [
-		"loadouts_military_SquadLeader",
-		"loadouts_military_MachineGunner",
-		"loadouts_military_Grenadier",
-		"loadouts_military_LAT"
+		"loadouts_occ_military_SquadLeader",
+		"loadouts_occ_military_MachineGunner",
+		"loadouts_occ_military_Grenadier",
+		"loadouts_occ_military_LAT"
 	];
 	groupsNATOmid = [_groupsNATOMediumSquad, groupsNATOAA, groupsNATOAT];
 
 	groupsNATOSquad = [];
 	for "_i" from 1 to 5 do {
 		groupsNATOSquad pushBack [
-			"loadouts_military_SquadLeader",
-			selectRandomWeighted ["loadouts_military_LAT", 2, "loadouts_military_MachineGunner", 1],
-			selectRandomWeighted ["loadouts_military_Rifleman", 2, "loadouts_military_Grenadier", 1],
-			selectRandomWeighted ["loadouts_military_MachineGunner", 2, "loadouts_military_Marksman", 1],
-			selectRandomWeighted ["loadouts_military_Rifleman", 4, "loadouts_military_AT", 1],
-			selectRandomWeighted ["loadouts_military_AA", 1, "loadouts_military_Engineer", 4],
-			"loadouts_military_Rifleman",
-			"loadouts_military_Medic"
+			"loadouts_occ_military_SquadLeader",
+			selectRandomWeighted ["loadouts_occ_military_LAT", 2, "loadouts_occ_military_MachineGunner", 1],
+			selectRandomWeighted ["loadouts_occ_military_Rifleman", 2, "loadouts_occ_military_Grenadier", 1],
+			selectRandomWeighted ["loadouts_occ_military_MachineGunner", 2, "loadouts_occ_military_Marksman", 1],
+			selectRandomWeighted ["loadouts_occ_military_Rifleman", 4, "loadouts_occ_military_AT", 1],
+			selectRandomWeighted ["loadouts_occ_military_AA", 1, "loadouts_occ_military_Engineer", 4],
+			"loadouts_occ_military_Rifleman",
+			"loadouts_occ_military_Medic"
 		];
 	};
 
 	NATOSquad = groupsNATOSquad select 0;
 	NATOSpecOp = [
-		"loadouts_SF_SquadLeader",
-		"loadouts_SF_Rifleman",
-		"loadouts_SF_MachineGunner",
-		"loadouts_SF_ExplosivesExpert",
-		"loadouts_SF_LAT",
-		"loadouts_SF_Medic"
+		"loadouts_occ_SF_SquadLeader",
+		"loadouts_occ_SF_Rifleman",
+		"loadouts_occ_SF_MachineGunner",
+		"loadouts_occ_SF_ExplosivesExpert",
+		"loadouts_occ_SF_LAT",
+		"loadouts_occ_SF_Medic"
 	];
 
 	if ((gameMode != 4) and (!hasFFAA)) then {
 		groupsFIASmall = [
-			["loadouts_military_Grenadier", "loadouts_militia_Rifleman"],
-			["loadouts_militia_Marksman", "loadouts_militia_Rifleman"],
-			["loadouts_militia_Marksman", "loadouts_military_Grenadier"]
+			["loadouts_occ_military_Grenadier", "loadouts_occ_militia_Rifleman"],
+			["loadouts_occ_militia_Marksman", "loadouts_occ_militia_Rifleman"],
+			["loadouts_occ_militia_Marksman", "loadouts_occ_military_Grenadier"]
 		];
 		groupsFIAMid = [];
 		for "_i" from 1 to 6 do {
 			groupsFIAMid pushBack [
-				"loadouts_military_SquadLeader",
-				"loadouts_military_Grenadier",
-				"loadouts_military_MachineGunner",
+				"loadouts_occ_military_SquadLeader",
+				"loadouts_occ_military_Grenadier",
+				"loadouts_occ_military_MachineGunner",
 				selectRandomWeighted [
-					"loadouts_military_LAT", 1,
-					"loadouts_militia_Marksman", 1,
-					"loadouts_military_Engineer", 1
+					"loadouts_occ_military_LAT", 1,
+					"loadouts_occ_militia_Marksman", 1,
+					"loadouts_occ_military_Engineer", 1
 				]
 			];
 		};
@@ -319,15 +333,15 @@ if (_side isEqualTo west) then {
 		groupsFIASquad = [];
 		for "_i" from 1 to 5 do {
 			groupsFIASquad pushBack [
-				"loadouts_military_SquadLeader",
-				"loadouts_military_MachineGunner",
-				"loadouts_military_Grenadier",
-				"loadouts_militia_Rifleman",
-				selectRandomWeighted ["loadouts_militia_Rifleman", 1, "loadouts_militia_Marksman", 1],
-				selectRandomWeighted ["loadouts_militia_Rifleman", 2, "loadouts_militia_Marksman", 1],
-				selectRandomWeighted ["loadouts_militia_Rifleman", 1, "loadouts_military_ExplosivesExpert", 1],
-				"loadouts_military_LAT",
-				"loadouts_military_Medic"
+				"loadouts_occ_military_SquadLeader",
+				"loadouts_occ_military_MachineGunner",
+				"loadouts_occ_military_Grenadier",
+				"loadouts_occ_militia_Rifleman",
+				selectRandomWeighted ["loadouts_occ_militia_Rifleman", 1, "loadouts_occ_militia_Marksman", 1],
+				selectRandomWeighted ["loadouts_occ_militia_Rifleman", 2, "loadouts_occ_militia_Marksman", 1],
+				selectRandomWeighted ["loadouts_occ_militia_Rifleman", 1, "loadouts_occ_military_ExplosivesExpert", 1],
+				"loadouts_occ_military_LAT",
+				"loadouts_occ_military_Medic"
 			];
 		};
 
@@ -409,19 +423,19 @@ if (_side isEqualTo independent) then {
 	//Flag images
 	SDKFlag = _faction getVariable "flag";
 	SDKFlagTexture = _faction getVariable "flagTexture";
-	typePetros = "loadouts_rebel_Petros";
+	typePetros = "loadouts_rebel_militia_Petros";
 
-	staticCrewTeamPlayer = "loadouts_rebel_Rifleman";
-	SDKUnarmed = "loadouts_rebel_Unarmed";
-	SDKSniper = ["loadouts_rebel_Unarmed", "loadouts_rebel_unarmed"];
-	SDKATman = ["loadouts_rebel_lat", "loadouts_rebel_lat"];
-	SDKMedic = ["loadouts_rebel_medic", "loadouts_rebel_medic"];
-	SDKMG = ["loadouts_rebel_MachineGunner", "loadouts_rebel_MachineGunner"];
-	SDKExp = ["loadouts_rebel_ExplosivesExpert", "loadouts_rebel_ExplosivesExpert"];
-	SDKGL = ["loadouts_rebel_Grenadier", "loadouts_rebel_Grenadier"];
-	SDKMil = ["loadouts_rebel_Rifleman", "loadouts_rebel_Rifleman"];
-	SDKSL = ["loadouts_rebel_SquadLeader", "loadouts_rebel_SquadLeader"];
-	SDKEng = ["loadouts_rebel_Engineer", "loadouts_rebel_Engineer"];
+	staticCrewTeamPlayer = "loadouts_rebel_militia_Rifleman";
+	SDKUnarmed = "loadouts_rebel_militia_Unarmed";
+	SDKSniper = ["loadouts_rebel_militia_Unarmed", "loadouts_rebel_militia_unarmed"];
+	SDKATman = ["loadouts_rebel_militia_lat", "loadouts_rebel_militia_lat"];
+	SDKMedic = ["loadouts_rebel_militia_medic", "loadouts_rebel_militia_medic"];
+	SDKMG = ["loadouts_rebel_militia_MachineGunner", "loadouts_rebel_militia_MachineGunner"];
+	SDKExp = ["loadouts_rebel_militia_ExplosivesExpert", "loadouts_rebel_militia_ExplosivesExpert"];
+	SDKGL = ["loadouts_rebel_militia_Grenadier", "loadouts_rebel_militia_Grenadier"];
+	SDKMil = ["loadouts_rebel_militia_Rifleman", "loadouts_rebel_militia_Rifleman"];
+	SDKSL = ["loadouts_rebel_militia_SquadLeader", "loadouts_rebel_militia_SquadLeader"];
+	SDKEng = ["loadouts_rebel_militia_Engineer", "loadouts_rebel_militia_Engineer"];
 
 	groupsSDKmid = [SDKSL,SDKGL,SDKMG,SDKMil];
 	groupsSDKAT = [SDKSL,SDKMG,SDKATman,SDKATman,SDKATman];

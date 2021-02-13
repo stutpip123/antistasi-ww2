@@ -556,6 +556,7 @@ class A3A
 	class Templates
 	{
 		class aceModCompat {};
+		class compatabilityLoadFaction {};
 		class getLoadout {};
 		class loadFaction {};
 		class ifaModCompat {};

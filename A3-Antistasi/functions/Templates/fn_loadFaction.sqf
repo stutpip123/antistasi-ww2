@@ -44,6 +44,19 @@ private _fnc_copyLoadoutData = {
 	_newNamespace
 };
 
+private _loadouts = true call A3A_fnc_createNamespace;
+_dataStore setVariable ["loadouts", _loadouts];
+
+private _fnc_saveUnitLoadoutsToTemplate = {
+	params ["_prefix", "_loadoutTemplates", "_loadoutData"];
+	{
+		_x params ["_name", "_template"];
+		private _finalName = format ["%1_%2", _prefix, _name];
+		private _loadout = [_template, _loadoutData] call A3A_fnc_loadout_builder;
+		_loadouts setVariable [_finalName, [_loadout]];
+	} forEach _loadoutTemplates;
+};
+
 call compile preprocessFileLineNumbers _file;
 
 //Clear up used loadout namespaces.
