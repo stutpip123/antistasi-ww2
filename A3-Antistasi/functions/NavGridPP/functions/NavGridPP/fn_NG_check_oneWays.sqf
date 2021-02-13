@@ -13,7 +13,7 @@ Return Value:
     <ARRAY> Same reference, no changes
 
 Scope: Any, Global Arguments
-Environment: Unscheduled
+Environment: Scheduled
 Public: No
 
 Example:

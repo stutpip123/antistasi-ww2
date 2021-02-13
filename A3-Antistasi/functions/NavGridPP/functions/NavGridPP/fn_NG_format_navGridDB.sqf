@@ -19,7 +19,7 @@ Return Value:
     <STRING> 5 per line version of navGridDB that assigns an array to navGrid
 
 Scope: Any, Global Arguments
-Environment: Unscheduled
+Environment: Any
 Public: Yes
 Dependants:
     <ARRAY> navGrid

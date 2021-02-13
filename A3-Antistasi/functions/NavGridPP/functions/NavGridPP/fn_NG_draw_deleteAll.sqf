@@ -6,7 +6,7 @@ Return Value:
     <ANY> Undefined
 
 Scope: Client, Global Arguments
-Environment: Unscheduled
+Environment: Scheduled
 Public: Yes
 
 Example:

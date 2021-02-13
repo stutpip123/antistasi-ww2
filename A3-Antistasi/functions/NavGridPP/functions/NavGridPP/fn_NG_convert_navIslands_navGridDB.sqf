@@ -27,7 +27,7 @@ Return Value:
     >> _navGridDB format
 
 Scope: Any, Global Arguments
-Environment: Unscheduled
+Environment: Scheduled
 Public: Yes
 
 Example:

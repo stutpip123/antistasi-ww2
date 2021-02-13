@@ -15,7 +15,7 @@ Return Value:
     <ARRAY> Same reference
 
 Scope: Any, Global Arguments
-Environment: Unscheduled
+Environment: Scheduled
 Public: No
 
 Example:

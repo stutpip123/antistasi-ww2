@@ -10,7 +10,7 @@ Return Value:
     <STRING> Name of road | <SCALAR> 0, No name needed
 
 Scope: Any, Global Arguments
-Environment: Unscheduled
+Environment: Any
 Public: No
 
 Example:

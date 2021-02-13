@@ -7,7 +7,7 @@ Return Value:
     <BOOLEAN> True if success, false if error.
 
 Scope: Any, Global Arguments
-Environment: Unscheduled
+Environment: Scheduled
 Public: Yes
 
 Example:

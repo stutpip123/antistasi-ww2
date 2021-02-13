@@ -14,7 +14,7 @@ Return Value:
     <ARRAY> Simplified navGrid
 
 Scope: Any, Global Arguments
-Environment: Unscheduled
+Environment: Scheduled
 Public: No
 
 Example:

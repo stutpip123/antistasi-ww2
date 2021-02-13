@@ -14,7 +14,7 @@ Return Value:
     <OBJECT> road, objNull if road cannot be found
 
 Scope: Any, Global Arguments
-Environment: Unscheduled
+Environment: Any
 Public: No
 
 Example:
