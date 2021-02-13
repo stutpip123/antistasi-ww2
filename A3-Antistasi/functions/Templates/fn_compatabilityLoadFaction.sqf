@@ -10,10 +10,20 @@
  *    Namespace containing faction information
  * Example Usage:
  */
+private _fileName = "fn_compatabilityLoadFaction";
 
 params ["_file", "_side"];
 
+[2, format ["Compatibility loading template: '%1' as side %2", _file, _side], _fileName] call A3A_fnc_log;
+
 private _faction = [_file] call A3A_fnc_loadFaction;
+
+private _factionPrefix = 
+	["occ", "inv", "rebel", "civ"] 
+	select 
+	([west, east, independent, civilian] find _side);
+
+missionNamespace setVariable ["faction_" + _factionPrefix, _faction, true];
 
 if (_side isEqualTo east) then {
 	nameInvaders = _faction getVariable "name";
@@ -463,4 +473,13 @@ if (_side isEqualTo independent) then {
 	breachingExplosivesTank = _faction getVariable "breachingExplosivesTank";
 
 	initialRebelEquipment = _faction getVariable "initialRebelEquipment";
+};
+
+if (_side isEqualTo civilian) then {
+	civVehCommonData = _faction getVariable "vehiclesCivCar";
+	civVehRepairData = _faction getVariable "vehiclesCivRepair";
+	civVehMedicalData = _faction getVariable "vehiclesCivMedical";
+	civVehRefuelData = _faction getVariable "vehiclesCivFuel";
+	civBoatData = _faction getVariable "vehiclesCivBoat";
+	civVehIndustrialData = _faction getVariable "vehiclesCivIndustrial";
 };
