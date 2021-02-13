@@ -220,6 +220,7 @@ class A3A
 		class createSDKGarrisons {};
 		class createSDKgarrisonsTemp {};
 		class createUnit {};
+		class createVehicleCrew {};
 		class cycleSpawn {};
 		class FIAinitBases {};
 		class findSpawnPosition {};
@@ -241,6 +242,7 @@ class A3A
 		class removeVehFromPool {};
 		class safeVehicleSpawn {};
 		class spawnGroup {};
+		class spawnVehicle {};
 		class updateCAMark {};
 		class vehAvailable {};
 		class VEHdespawner {};

@@ -89,7 +89,7 @@ else
 	};
 
 if (_exit) exitWith {};
-_planefn = [_origpos, _ang, _typePlane, _sideX] call bis_fnc_spawnvehicle;
+_planefn = [_origpos, _ang, _typePlane, _sideX] call A3A_fnc_spawnVehicle;
 _plane = _planefn select 0;
 _planeCrew = _planefn select 1;
 _groupPlane = _planefn select 2;

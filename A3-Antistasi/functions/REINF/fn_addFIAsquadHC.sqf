@@ -147,7 +147,7 @@ if (_esinf) then {
 		};
 	}
 	else {
-		private _veh = [_pos, _roadDirection,_typeGroup, teamPlayer] call bis_fnc_spawnvehicle;
+		private _veh = [_pos, _roadDirection,_typeGroup, teamPlayer] call A3A_fnc_spawnVehicle;
 		_truckX = _veh select 0;
 		_groupX = _veh select 2;
 	};
