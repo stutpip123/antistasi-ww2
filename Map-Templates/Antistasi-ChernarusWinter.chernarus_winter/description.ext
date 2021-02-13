@@ -15,10 +15,6 @@ class CfgNotifications
     #include "MissionDescription\CfgNotificationsContents.hpp"
 };
 
-#include "MissionDescription\params.hpp"
-
-#include "MissionDescription\CfgIdentities.hpp"
-
 class CfgDebriefing {
     #include "MissionDescription\CfgDebriefingContents.hpp"
 	class End1
