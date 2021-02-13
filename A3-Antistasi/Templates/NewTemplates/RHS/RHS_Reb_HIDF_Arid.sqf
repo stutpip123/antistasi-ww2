@@ -524,7 +524,7 @@ private _unarmedTemplate = {
 	["radios"] call _fnc_addRadio;
 };
 
-private _prefix = "rebel";
+private _prefix = "militia";
 private _unitTypes = [
 	["Petros", _squadLeaderTemplate],
 	["SquadLeader", _squadLeaderTemplate],
