@@ -307,7 +307,7 @@ _militaryLoadoutData setVariable ["SLvests", ["rhsusf_spc_squadleader", "rhsusf_
 _militaryLoadoutData setVariable ["SNIvests", ["rhsusf_spc_sniper", "rhsusf_spc_marksman"]];
 _militaryLoadoutData setVariable ["GLvests", ["rhsusf_spc_teamleader"]];
 _militaryLoadoutData setVariable ["backpacks", ["B_Kitbag_rgr", "B_Carryall_green_F", "rhsusf_falconii"]];		//this line determines backpacks for military loadouts -- Example: ["B_AssaultPack_mcamo", "B_Kitbag_mcamo"] -- Array, can contain multiple assets
-_militaryLoadoutData setVariable ["helmets", ["rhsusf_ach_helmet_ocp", "rhsusf_ach_helmet_ocp_alt", "rhsusf_ach_helmet_headset_ocp", "rhsusf_ach_helmet_headset_ocp_alt", "rhsusf_ach_helmet_camo_ocp"]];		//this line determines helmets for military loadouts -- Example: ["H_HelmetB_camo", "H_HelmetB_desert"] -- Array, can contain multiple assets
+_militaryLoadoutData setVariable ["helmets", ["rhsusf_lwh_helmet_marpatwd", "rhsusf_lwh_helmet_marpatwd_blk_ess", "rhsusf_lwh_helmet_marpatwd_headset_blk2", "rhsusf_lwh_helmet_marpatwd_headset_blk", "rhsusf_mich_helmet_marpatwd", "rhsusf_mich_helmet_marpatwd_alt_headset", "rhsusf_mich_helmet_marpatwd_norotos_headset", "rhsusf_mich_helmet_marpatwd_headset"]];		//this line determines helmets for military loadouts -- Example: ["H_HelmetB_camo", "H_HelmetB_desert"] -- Array, can contain multiple assets
 _militaryLoadoutData setVariable ["rifles", [
 ["rhs_weap_m16a4_carryhandle", "rhsusf_acc_SF3P556", "rhsusf_acc_anpeq16a", "rhsusf_acc_ACOG", [], [], "rhsusf_acc_grip3"],
 ["rhs_weap_m16a4_carryhandle", "rhsusf_acc_SF3P556", "rhsusf_acc_anpeq16a", "rhsusf_acc_ACOG_RMR", [], [], "rhsusf_acc_grip3"],
@@ -432,19 +432,19 @@ _militiaLoadoutData setVariable ["sidearms", ["rhsusf_weap_m1911a1"]]; 					//th
 //////////////////////////
 //The following lines are determining the loadout of the vehicle crew
 private _crewLoadoutData = _militaryLoadoutData call _fnc_copyLoadoutData; // touch and shit breaks
-_crewLoadoutData setVariable ["uniforms", ["rhs_uniform_cu_ocp_1stcav"]];			//this line determines uniforms for vehicle crew loadouts -- Example: ["U_B_CombatUniform_mcam", "U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
-_crewLoadoutData setVariable ["vests", ["rhsusf_spcs_ocp_crewman"]];				//this line determines vests for vehicle crew loadouts -- Example: ["V_PlateCarrierSpec_mtp", "V_PlateCarrierGL_mtp"] -- Array, can contain multiple assets
+_crewLoadoutData setVariable ["uniforms", ["rhs_uniform_FROG01_wd"]];			//this line determines uniforms for vehicle crew loadouts -- Example: ["U_B_CombatUniform_mcam", "U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
+_crewLoadoutData setVariable ["vests", ["rhsusf_spc_crewman"]];				//this line determines vests for vehicle crew loadouts -- Example: ["V_PlateCarrierSpec_mtp", "V_PlateCarrierGL_mtp"] -- Array, can contain multiple assets
 _crewLoadoutData setVariable ["helmets", ["rhsusf_cvc_green_helmet", "rhsusf_cvc_green_alt_helmet", "rhsusf_cvc_helmet", "rhsusf_cvc_alt_helmet"]];			//this line determines backpacks for vehicle crew loadouts -- Example: ["B_AssaultPack_mcamo", "B_Kitbag_mcamo"] -- Array, can contain multiple assets
 _crewLoadoutData setVariable ["carbines", [
-["rhs_weap_m16a4_carryhandle", "rhsusf_acc_SF3P556", "rhsusf_acc_anpeq16a", "rhsusf_acc_eotech_552", [], [], "rhsusf_acc_rvg_blk"],
-["rhs_weap_m16a4_carryhandle", "rhsusf_acc_SF3P556", "rhsusf_acc_anpeq16a", "rhsusf_acc_compm4", [], [], "rhsusf_acc_rvg_blk"],
-["rhs_weap_m16a4_carryhandle", "rhsusf_acc_SF3P556", "rhsusf_acc_anpeq16a", "rhsusf_acc_T1_high", [], [], "rhsusf_acc_rvg_blk"],
-["rhs_weap_m16a4_carryhandle", "rhsusf_acc_SF3P556", "rhsusf_acc_anpeq16a", "rhsusf_acc_eotech_xps3", [], [], "rhsusf_acc_rvg_blk"]
+["rhs_weap_m4_carryhandle", "rhsusf_acc_SF3P556", "rhsusf_acc_anpeq16a", "rhsusf_acc_eotech_552", [], [], "rhsusf_acc_rvg_blk"],
+["rhs_weap_m4_carryhandle", "rhsusf_acc_SF3P556", "rhsusf_acc_anpeq16a", "rhsusf_acc_compm4", [], [], "rhsusf_acc_rvg_blk"],
+["rhs_weap_m4_carryhandle", "rhsusf_acc_SF3P556", "rhsusf_acc_anpeq16a", "rhsusf_acc_T1_high", [], [], "rhsusf_acc_rvg_blk"],
+["rhs_weap_m4_carryhandle", "rhsusf_acc_SF3P556", "rhsusf_acc_anpeq16a", "rhsusf_acc_eotech_xps3", [], [], "rhsusf_acc_rvg_blk"]
 ]];
 //The following lines are determining the loadout of the pilots
 private _pilotLoadoutData = _militaryLoadoutData call _fnc_copyLoadoutData;
-_pilotLoadoutData setVariable ["uniforms", ["rhs_uniform_acu_oefcp"]];			//this line determines uniforms for pilot loadouts -- Example: ["U_B_CombatUniform_mcam", "U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
-_pilotLoadoutData setVariable ["vests", ["rhsusf_spcs_ocp"]];			//this line determines vests for pilot loadouts -- Example: ["V_PlateCarrierSpec_mtp", "V_PlateCarrierGL_mtp"] -- Array, can contain multiple assets
+_pilotLoadoutData setVariable ["uniforms", ["rhs_uniform_FROG01_wd"]];			//this line determines uniforms for pilot loadouts -- Example: ["U_B_CombatUniform_mcam", "U_B_CombatUniform_mcam_tshirt"] -- Array, can contain multiple assets
+_pilotLoadoutData setVariable ["vests", ["rhsusf_spc_crewman"]];			//this line determines vests for pilot loadouts -- Example: ["V_PlateCarrierSpec_mtp", "V_PlateCarrierGL_mtp"] -- Array, can contain multiple assets
 _pilotLoadoutData setVariable ["helmets", ["rhsusf_hgu56p_black", "rhsusf_hgu56p_mask_black", "rhsusf_hgu56p_visor_black", "rhsusf_hgu56p_visor_mask_black"]];			//this line determines backpacks for pilot loadouts -- Example: ["B_AssaultPack_mcamo", "B_Kitbag_mcamo"] -- Array, can contain multiple assets
 _pilotLoadoutData setVariable ["SMGs", [
 ["rhsusf_weap_MP7A2", "", "rhsusf_acc_anpeq15side_bk", "rhsusf_acc_compm4", [], [], "rhs_acc_grip_ffg2"],
