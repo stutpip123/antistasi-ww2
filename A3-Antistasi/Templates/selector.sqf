@@ -3,6 +3,13 @@
     When porting new mods/maps be sure to add them to their respective sections!
 */
 
+if (true) exitWith {
+  ["Templates\NewTemplates\Vanilla\Vanilla_Reb_FIA_Arid.sqf", independent] call A3A_fnc_compatabilityLoadFaction;
+  ["Templates\NewTemplates\Vanilla\Vanilla_AI_NATO_Arid.sqf", west] call A3A_fnc_compatabilityLoadFaction;
+  ["Templates\NewTemplates\Vanilla\Vanilla_AI_CSAT_Arid.sqf", east] call A3A_fnc_compatabilityLoadFaction;
+  ["Templates\NewTemplates\Vanilla\Vanilla_Civ.sqf", civilian] call A3A_fnc_compatabilityLoadFaction;
+};
+
 //Map checker
 aridmaps = ["Altis","Kunduz","Malden","tem_anizay","takistan"];
 tropicalmaps = ["Tanoa"];
